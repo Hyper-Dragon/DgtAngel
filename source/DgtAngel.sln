@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessDotNet", "ChessDotNet\ChessDotNet.csproj", "{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgtAngelLib", "DgtAngelLib\DgtAngelLib.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
