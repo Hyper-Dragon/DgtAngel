@@ -14,4 +14,8 @@
     <None Include="wwwroot\**\*" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChessDotNet\ChessDotNet.csproj" />
+  </ItemGroup>
+
 </Project>
