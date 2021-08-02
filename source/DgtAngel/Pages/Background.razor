@@ -1,16 +1,34 @@
 ﻿@page "/background.html"
 @inherits BackgroundPage
+@inject IJSRuntime JS
+@inject Services.AppData AppData
 @using WebExtensions.Net.Tabs
+
+
 
 @code {
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
         // this opens index.html in the extension as a new tab when the background page is loaded
-        var extensionUrl = await WebExtensions.Runtime.GetURL("index.html");
-        await WebExtensions.Tabs.Create(new CreateProperties
+        //var extensionUrl = await WebExtensions.Runtime.GetURL("index.html");
+        //await WebExtensions.Tabs.Create(new CreateProperties
+        //{
+        //    Url = extensionUrl
+        //});
+
+        var helpers = new DgtAngelLib.ChessDotComHelpers();
+
+        for( ; ; )
         {
-            Url = extensionUrl
-        });
+            var interopResult = await JS.InvokeAsync<string>("getPiecesHtml");            
+            //string test = helpers.ConvertHtmlToFen("[div.piece.bk.square-66, div.piece.br.square-36, div.piece.bp.square-84, div.piece.bp.square-45, div.piece.bp.square-26, div.piece.wp.square-72, div.piece.wp.square-44, div.piece.wp.square-33, div.piece.wp.square-12, div.piece.wk.square-62, div.piece.wr.square-86]");
+            AppData.Age += 1;
+
+            await Task.Delay(2000);
+        }
+        
+
     }
 }

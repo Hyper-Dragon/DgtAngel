@@ -16,6 +16,7 @@ namespace DgtAngel
             // workaround to use JavaScript fetch to bypass url validation
             // see: https://github.com/dotnet/runtime/issues/52836
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddSingleton<Services.AppData>();
 
             builder.Services.AddBrowserExtensionServices(options =>
             {

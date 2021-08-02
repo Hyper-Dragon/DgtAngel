@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
-  "name": "DgtAngel Extension",
-  "description": "My browser extension built with Blazor WebAssembly",
+  "name": "DgtAngel",
+  "description": "Keep the screen in sync with your board",
   "version": "0.1",
   "background": {
     "page": "background.html",
@@ -14,8 +14,7 @@
     "WebExtensionsScripts/*"
   ],
   "permissions": [
-    "activeTab",
-    "chess.com"
+    "https://www.chess.com/"
   ],
   "options_ui": {
     "page": "options.html",
