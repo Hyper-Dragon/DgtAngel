@@ -3,6 +3,7 @@
 @inject IJSRuntime JS
 @inject Services.AppData AppData
 @using WebExtensions.Net.Tabs
+@using DgtAngelLib
 
 
 
@@ -18,17 +19,33 @@
         //    Url = extensionUrl
         //});
 
-        var helpers = new DgtAngelLib.ChessDotComHelpers();
+        var helpers = new ChessDotComHelpers();
 
         for( ; ; )
         {
+            await JS.InvokeVoidAsync("writeToConsole",$"Background running {AppData.Age}");
+
             var interopResult = await JS.InvokeAsync<string>("getPiecesHtml");            
-            //string test = helpers.ConvertHtmlToFen("[div.piece.bk.square-66, div.piece.br.square-36, div.piece.bp.square-84, div.piece.bp.square-45, div.piece.bp.square-26, div.piece.wp.square-72, div.piece.wp.square-44, div.piece.wp.square-33, div.piece.wp.square-12, div.piece.wk.square-62, div.piece.wr.square-86]");
-            AppData.Age += 1;
+            await JS.InvokeVoidAsync("writeToConsole",$"Result is {interopResult}");
+
+
+            //0:05.8|0:07.8|bk35,wb56,wk77
+            if (interopResult != "-")
+            {
+                try
+                {
+                    string fen = helpers.ConvertHtmlToFenT2(interopResult);
+                    await JS.InvokeVoidAsync("writeToConsole", $"Fen is {fen}");
+                }
+                catch(Exception ex)
+                {
+                     await JS.InvokeVoidAsync("writeToConsole", $"Fen is unavailable [{ex.Message}]");
+                }
+            }
 
             await Task.Delay(2000);
+            
+            AppData.Age += 1;
         }
-        
-
     }
 }
