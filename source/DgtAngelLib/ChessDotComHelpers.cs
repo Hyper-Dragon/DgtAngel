@@ -43,7 +43,7 @@ namespace DgtAngelLib
             {
                 WhoseTurn = ChessDotNet.Player.White,
                 Board = board,
-            }).GetFen();
+            }).GetFen().Split(" ")[0];
         }
 
 

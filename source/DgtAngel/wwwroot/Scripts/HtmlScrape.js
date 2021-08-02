@@ -18,7 +18,7 @@ function piecesFromLiveBoardDOM() {
 
     retVal = whiteClock + '|' + blackClock + '|' + piecesStringOut;
 
-    console.log('Returning: ' + retVal);
+    //console.log('Returning: ' + retVal);
 
     return retVal;
 }
