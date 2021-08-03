@@ -22,6 +22,9 @@
     <None Remove="wwwroot\Icons\icon-128.png" />
     <None Remove="wwwroot\Icons\icon-16.png" />
     <None Remove="wwwroot\Icons\icon-48.png" />
+    <None Remove="wwwroot\Icons\icon-connected-48.png" />
+    <None Remove="wwwroot\Icons\icon-error-48.png" />
+    <None Remove="wwwroot\Icons\icon-mismatch-48.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,13 +32,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\Icons\icon-128.png">
+    <Content Update="wwwroot\Icons\Default\icon-128.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Icons\icon-16.png">
+    <Content Update="wwwroot\Icons\Default\icon-16.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Icons\icon-48.png">
+    <Content Update="wwwroot\Icons\Default\icon-48.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Icons\Connected\icon-48.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Icons\Error\icon-48.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Icons\Mismatch\icon-48.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -17,9 +17,9 @@
     "https://www.chess.com/"
   ],
   "icons": {
-    "16": "Icons/icon-16.png",
-    "48": "Icons/icon-48.png",
-    "128": "Icons/icon-128.png"
+    "16": "Icons/Default/icon-16.png",
+    "48": "Icons/Default/icon-48.png",
+    "128": "Icons/Default/icon-128.png"
   },
   "options_ui": {
     "page": "options.html",
