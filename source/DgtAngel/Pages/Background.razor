@@ -8,6 +8,13 @@
 
 
 @code {
+
+    async void c_MessageRecieved(Object sender, MessageRecievedEventArgs e)
+    {
+        await JS.InvokeVoidAsync("writeToConsole", $"DGT {e.ResponseOut}");
+    }
+
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -20,12 +27,18 @@
         //});
 
         var helpers = new ChessDotComHelpers();
+        var dgtLiveChess = new DgtLiveChess();
 
-        for( ; ; )
+        dgtLiveChess.ResponseRecieved += c_MessageRecieved;
+
+        dgtLiveChess.Connect();
+
+
+        for (; ; )
         {
-            await JS.InvokeVoidAsync("writeToConsole",$"Background loop {AppData.Age}");
+            await JS.InvokeVoidAsync("writeToConsole", $"Background loop {AppData.Age}");
 
-            var interopResult = await JS.InvokeAsync<string>("getPiecesHtml");            
+            var interopResult = await JS.InvokeAsync<string>("getPiecesHtml");
             //await JS.InvokeVoidAsync("writeToConsole",$"Result is {interopResult}");
 
 
@@ -37,14 +50,14 @@
                     string fen = helpers.ConvertHtmlToFenT2(interopResult);
                     await JS.InvokeVoidAsync("writeToConsole", $"Fen is {fen}");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                     await JS.InvokeVoidAsync("writeToConsole", $"Fen is unavailable [{ex.Message}]");
+                    await JS.InvokeVoidAsync("writeToConsole", $"Fen is unavailable [{ex.Message}]");
                 }
             }
 
             await Task.Delay(2000);
-            
+
             AppData.Age += 1;
         }
     }
