@@ -7,7 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessDotNet", "ChessDotNet\ChessDotNet.csproj", "{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgtAngelLib", "DgtAngelLib\DgtAngelLib.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngelLib", "DgtAngelLib\DgtAngelLib.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC5E410E-067B-48BA-8C57-F231E35A8790}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\Icons.svg = Assets\Icons.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{9BEF4676-8089-4C82-B85F-B694610D431E}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\Icons.svg = Assets\Icons.svg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +40,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9BEF4676-8089-4C82-B85F-B694610D431E} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A4E0476-968F-47C5-A7F0-E73B416E345A}

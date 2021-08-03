@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "DgtAngel",
-  "description": "Keep the screen in sync with your board",
+  "description": "Make sure your board is in sync with the screen",
   "version": "0.1",
   "background": {
     "page": "background.html",
@@ -16,6 +16,11 @@
   "permissions": [
     "https://www.chess.com/"
   ],
+  "icons": {
+    "16": "Icons/icon-16.png",
+    "48": "Icons/icon-48.png",
+    "128": "Icons/icon-128.png"
+  },
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true

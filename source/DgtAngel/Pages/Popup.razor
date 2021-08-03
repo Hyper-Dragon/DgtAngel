@@ -1,6 +1,24 @@
 ﻿@page "/popup.html"
 @inherits BasePage
+@inject IJSRuntime JS
 @inject Services.AppData AppData
 
 <h1>DGT Angel</h1>
-<p>Loop Count is @(AppData.Age)</p>
+<p>Loop Count is @(loopCount)</p>
+
+
+
+@code {
+    int loopCount = -1;
+
+    protected override void OnInitialized()
+    {
+        AppData.OnChange += MyEventHandler;
+    }
+
+    private async void MyEventHandler()
+    {
+        loopCount = AppData.Age;
+        await JS.InvokeVoidAsync("writeToConsole", $"Handle Fired");
+    }
+}

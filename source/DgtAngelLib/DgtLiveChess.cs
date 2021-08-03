@@ -22,7 +22,7 @@ namespace DgtAngelLib
         {
             // http://localhost:1982/doc/api/feeds/eboardevent/index.html
 
-            Console.WriteLine("Hello World!");
+            // NEED A RECONNECTION LOOP
 
             using var socket = new ClientWebSocket();
             try
@@ -52,7 +52,7 @@ namespace DgtAngelLib
             }
         }
 
-        async Task Send(ClientWebSocket socket, string data) =>
+        static async Task Send(ClientWebSocket socket, string data) =>
                                await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None);
 
         async Task Receive(ClientWebSocket socket)

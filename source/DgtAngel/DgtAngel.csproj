@@ -19,7 +19,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="wwwroot\Icons\icon-128.png" />
+    <None Remove="wwwroot\Icons\icon-16.png" />
+    <None Remove="wwwroot\Icons\icon-48.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DgtAngelLib\DgtAngelLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Icons\icon-128.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Icons\icon-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Icons\icon-48.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

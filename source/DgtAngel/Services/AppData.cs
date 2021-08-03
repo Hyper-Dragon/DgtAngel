@@ -7,35 +7,22 @@ namespace DgtAngel.Services
 {
     public class AppData
     {
-        public int Age { get; set; }
 
-        private int _number;
-        public int Number
+
+        private int _age;
+        public int Age
         {
             get
             {
-                return _number;
+                return _age;
             }
             set
             {
-                _number = value;
+                _age = value;
                 NotifyDataChanged();
             }
         }
 
-        private string _color;
-        public string Color
-        {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                _color = value;
-                NotifyDataChanged();
-            }
-        }
 
         public event Action OnChange;
 

@@ -14,6 +14,10 @@
         await JS.InvokeVoidAsync("writeToConsole", $"DGT {e.ResponseOut}");
     }
 
+    async void c_AppDataOnChanged()
+    {
+        await JS.InvokeVoidAsync("writeToConsole", $"AppData Changed: {AppData.Age}");
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,9 +34,13 @@
         var dgtLiveChess = new DgtLiveChess();
 
         dgtLiveChess.ResponseRecieved += c_MessageRecieved;
+        AppData.OnChange += c_AppDataOnChanged;
 
+        //never await this
         dgtLiveChess.Connect();
 
+
+        await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icon/icon-48.png" });
 
         for (; ; )
         {
