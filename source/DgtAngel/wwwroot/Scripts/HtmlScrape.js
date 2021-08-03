@@ -1,6 +1,12 @@
 ﻿//document.getElementById("test").addEventListener('click', () => {
 //    console.log("Popup DOM fully loaded and parsed");
 
+
+function playAudioFromBkg(audioId) {
+    document.getElementById(audioId).play();
+}
+
+
 function modifyDOM() {
     //You can play with your DOM here or check URL against your regex
     console.log('Tab script:');

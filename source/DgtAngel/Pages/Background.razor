@@ -5,6 +5,7 @@
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
 
+<audio id="audio-mismatch" src="Audio/Mismatch.wav" autostart="false" ></audio>
 
 
 @code {
@@ -38,6 +39,8 @@
 
         //never await this
         dgtLiveChess.Connect();
+
+        await JS.InvokeVoidAsync("playAudioFromBkg", $"audio-mismatch");
 
 
         await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
