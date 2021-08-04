@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DgtAngelLib
 {
-    public class ChessDotComHelpers
+    public interface IChessDotComHelpers
+    {
+        string ConvertHtmlToFenT1(string htmlIn);
+        string ConvertHtmlToFenT2(string htmlIn);
+    }
+
+    public class ChessDotComHelpers : IChessDotComHelpers
     {
         //public string ConvertClockToTimespan(string htmlIn)
         //{
@@ -27,7 +33,7 @@ namespace DgtAngelLib
 
             foreach (string sqr in gameString[2].Split(','))
             {
-                board[7 - (int.Parse(sqr[3].ToString())-1)][int.Parse(sqr[2].ToString())-1] = sqr[1] switch
+                board[7 - (int.Parse(sqr[3].ToString()) - 1)][int.Parse(sqr[2].ToString()) - 1] = sqr[1] switch
                 {
                     'p' => new ChessDotNet.Pieces.Pawn(((sqr[0] == 'w') ? ChessDotNet.Player.White : ChessDotNet.Player.Black)),
                     'n' => new ChessDotNet.Pieces.Knight(((sqr[0] == 'w') ? ChessDotNet.Player.White : ChessDotNet.Player.Black)),

@@ -5,7 +5,14 @@ using System.Threading.Tasks;
 
 namespace DgtAngel.Services
 {
-    public class AppData
+    public interface IAppData
+    {
+        int Age { get; set; }
+
+        event Action OnChange;
+    }
+
+    public class AppData : IAppData
     {
 
 

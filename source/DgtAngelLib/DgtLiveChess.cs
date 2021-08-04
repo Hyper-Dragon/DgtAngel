@@ -13,7 +13,19 @@ namespace DgtAngelLib
         public string ResponseOut { get; set; }
     }
 
-    public class DgtLiveChess
+    public interface IDgtLiveChess
+    {
+        event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
+        event EventHandler<MessageRecievedEventArgs> OnConnected;
+        event EventHandler<MessageRecievedEventArgs> OnDisconnected;
+        event EventHandler<MessageRecievedEventArgs> OnError;
+        event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
+
+        Task ConnectAndWatch();
+        Task PollDgtBoard();
+    }
+
+    public class DgtLiveChess : IDgtLiveChess
     {
         // API Docs - Live Chess bust be installed and running
         // http://localhost:1982/doc/api/feeds/eboardevent/index.html

@@ -54,41 +54,9 @@
                             };
 
 
-        await ChessDotComWatcher.Testonlydelme();
-
-
-#pragma warning disable CS4014 // This function does not return - NEVER AWAIT
+#pragma warning disable CS4014 // These functions do not return - NEVER AWAIT
         DgtLiveChess.PollDgtBoard();
+        ChessDotComWatcher.PollChessDotComBoard();
 #pragma warning restore CS4014
-
-
-        for (; ; )
-        {
-            await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "Background", $"Background loop {AppData.Age}");
-
-            var chessDotComBoardString = await Scripts.GetChessDotComBoardString();
-            await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "Background", $"Background loop Result is {chessDotComBoardString}");
-            
-            
-
-            //0:05.8|0:07.8|bk35,wb56,wk77
-            if (chessDotComBoardString != "-")
-            {
-                try
-                {
-                    string fen = ChessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
-                    await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
-                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "Background", $"ChessDotCom Fen is {fen}");
-                }
-                catch (Exception ex)
-                {
-                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.ERR, "Background", $"ChessDotCom Fen is unavailable [{ex.Message}]");
-                }
-            }
-
-            await Task.Delay(2000);
-
-            AppData.Age += 1;
-        }
     }
 }

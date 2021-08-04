@@ -20,9 +20,9 @@ namespace DgtAngel
             // see: https://github.com/dotnet/runtime/issues/52836
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton<Services.AppData>();
+            builder.Services.AddSingleton(sp => new ChessDotComHelpers());
             builder.Services.AddTransient(sp => new ScriptWrapper(sp.GetService<IJSRuntime>()));
-            builder.Services.AddTransient(sp => new ChessDotComWatcher(sp.GetService<ScriptWrapper>()));
-            builder.Services.AddTransient(sp => new ChessDotComHelpers());
+            builder.Services.AddTransient(sp => new ChessDotComWatcher(sp.GetService<ScriptWrapper>(), sp.GetService<Services.AppData>(), sp.GetService<IChessDotComHelpers>()));            
             builder.Services.AddTransient(sp => new DgtLiveChess());
 
             builder.Services.AddBrowserExtensionServices(options =>
