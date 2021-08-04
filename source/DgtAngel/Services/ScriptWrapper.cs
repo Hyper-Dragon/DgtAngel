@@ -16,12 +16,14 @@ namespace DgtAngel.Services
     public class ScriptWrapper : IScriptWrapper
     {
         public enum LogLevel { DEBUG, INFO, WARN, ERR };
-        public enum AudioClip { MISMATCH = 0, MATCH, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
+        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
         private enum AudioFileIdx { ID = 0, FILENAME };
 
         private const string AUDIO_BASE = "Audio/Speech-en-01/";
         private readonly string[,] AudioFiles = { { "audio-mismatch", "Mismatch.wav" },
                                                   { "audio-match","Match.wav" },
+                                                  { "audio-lcconnected","DgtLcConnected.wav" },
+                                                  { "audio-lcdisconnected","DgtLcDisconnected.wav" },
                                                   { "audio-dgtconnected","DgtConnected.wav" },
                                                   { "audio-dgtdisconnected","DgtDisconnected.wav" },
                                                   { "audio-cdcwatching","CdcWatching.wav" },

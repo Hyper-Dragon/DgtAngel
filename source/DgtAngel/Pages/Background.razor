@@ -11,6 +11,8 @@
 
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.MISMATCH))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.MISMATCH))" autostart="false"></audio>
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.MATCH))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.MATCH))" autostart="false"></audio>
+<audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_LC_CONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_LC_CONNECTED))" autostart="false"></audio>
+<audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED))" autostart="false"></audio>
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_CONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_CONNECTED))" autostart="false"></audio>
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_DISCONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_DISCONNECTED))" autostart="false"></audio>
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.CDC_WATCHING))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.CDC_WATCHING))" autostart="false"></audio>
@@ -31,14 +33,26 @@
 
 
 
-        DgtLiveChess.OnConnected += async (obj, eventArgs) =>
+        DgtLiveChess.OnLiveChessConnected += async (obj, eventArgs) =>
+                            {
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_CONNECTED);
+                            };
+
+        DgtLiveChess.OnLiveChessDisconnected += async (obj, eventArgs) =>
+                            {
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED);
+                            };
+
+        DgtLiveChess.OnBoardConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_CONNECTED);
                             };
 
-        DgtLiveChess.OnDisconnected += async (obj, eventArgs) =>
+        DgtLiveChess.OnBoardDisconnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Default/icon-48.png" });

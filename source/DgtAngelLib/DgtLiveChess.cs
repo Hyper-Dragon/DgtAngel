@@ -16,8 +16,10 @@ namespace DgtAngelLib
     public interface IDgtLiveChess
     {
         event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
-        event EventHandler<MessageRecievedEventArgs> OnConnected;
-        event EventHandler<MessageRecievedEventArgs> OnDisconnected;
+        event EventHandler<MessageRecievedEventArgs> OnLiveChessConnected;
+        event EventHandler<MessageRecievedEventArgs> OnLiveChessDisconnected;
+        event EventHandler<MessageRecievedEventArgs> OnBoardConnected;
+        event EventHandler<MessageRecievedEventArgs> OnBoardDisconnected;
         event EventHandler<MessageRecievedEventArgs> OnError;
         event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
 
@@ -40,8 +42,10 @@ namespace DgtAngelLib
         private const string CALL_EBAORDS = "{{\"call\": \"eboards\",\"id\": {0},\"param\": null}}";
         private const string CALL_SUBSCRIBE = "{{ \"call\": \"subscribe\", \"id\": {0}, \"param\": {{ \"feed\": \"eboardevent\",\"id\": {1},\"param\": {{\"serialnr\": \"{2}\"}}}}}}";
 
-        public event EventHandler<MessageRecievedEventArgs> OnConnected;
-        public event EventHandler<MessageRecievedEventArgs> OnDisconnected;
+        public event EventHandler<MessageRecievedEventArgs> OnLiveChessConnected;
+        public event EventHandler<MessageRecievedEventArgs> OnLiveChessDisconnected;
+        public event EventHandler<MessageRecievedEventArgs> OnBoardConnected;
+        public event EventHandler<MessageRecievedEventArgs> OnBoardDisconnected;
         public event EventHandler<MessageRecievedEventArgs> OnError;
         public event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
         public event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
@@ -60,7 +64,9 @@ namespace DgtAngelLib
                 }
                 catch (BoardDisconnectedException)
                 {
-                    OnDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connection to DGT Board Cloesd" });
+                    OnBoardDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to DGT Board Cloesd" });
+                    OnLiveChessDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to Live Chess Closed" });
+                    
                 }
                 catch (Exception ex)
                 {
@@ -84,7 +90,8 @@ namespace DgtAngelLib
             //Open a websocket to DGT LiveChess (running on the local machine)
             using var socket = new ClientWebSocket();
             await socket.ConnectAsync(new Uri(LIVE_CHESS_URL), CancellationToken.None);
-            OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
+
+            OnLiveChessConnected.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
 
             // Loop until we have a board to watch
             for (; ; )
@@ -106,7 +113,7 @@ namespace DgtAngelLib
                 {
                     //...if we have a board to watch break out and start watching...
                     watchdSerialNumber = activeBoard.SerialNumber;
-                    OnConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to {watchdSerialNumber}:{activeBoard.ConnectionState}" });
+                    OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to {watchdSerialNumber}:{activeBoard.ConnectionState}" });
                     break;
                 }
             }

@@ -10,6 +10,8 @@ Wav File           | Text in Audio Folder 'Speech-en-01'
 -------------------+------------------------------------------------------------------
 Mismatch           | The DGT Board position does not match the screen.
 Match		       | The DGT Board position now matches the screen.
+DgtLcConnected     | Connected to the Live Chess Software.
+DgtLcDisconnected  | Disconnected from the Live Chess Software.
 DgtConnected       | The DGT Board is connected.
 DgtDisconnected    | The DGT Board is disconnected.
 CdcWatching        | We are watching Chess Dot COM.
