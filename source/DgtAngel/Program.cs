@@ -24,7 +24,9 @@ namespace DgtAngel
             builder.Services.AddSingleton<IChessDotComHelpers,ChessDotComHelpers>();
             
             builder.Services.AddTransient<IScriptWrapper, ScriptWrapper>(sp => new ScriptWrapper(sp.GetService<IJSRuntime>()));
-            builder.Services.AddTransient<IChessDotComWatcher, ChessDotComWatcher>(sp => new ChessDotComWatcher(sp.GetService<IScriptWrapper>(), sp.GetService<IAppData>(), sp.GetService<IChessDotComHelpers>()));            
+            builder.Services.AddTransient<IChessDotComWatcher, ChessDotComWatcher>(sp => new ChessDotComWatcher(sp.GetService<IScriptWrapper>(), 
+                                                                                   sp.GetService<IAppData>(), 
+                                                                                   sp.GetService<IChessDotComHelpers>()));            
             builder.Services.AddTransient<IDgtLiveChess, DgtLiveChess>(sp => new DgtLiveChess());
 
             builder.Services.AddBrowserExtensionServices(options =>

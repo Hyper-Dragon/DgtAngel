@@ -29,6 +29,8 @@
         //    Url = extensionUrl
         //});
 
+
+
         DgtLiveChess.OnConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
@@ -51,6 +53,23 @@
         AppData.OnChange += async () =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "AppData", $"{AppData.Age}");
+                            };
+
+        ChessDotComWatcher.OnWatchStarted += async (obj, eventArgs) =>
+                            {
+                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "CDC BOARD", $"Chess.com Watch Started");
+                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
+                            };
+
+        ChessDotComWatcher.OnWatchStopped += async (obj, eventArgs) =>
+                            {
+                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "CDC BOARD", $"Chess.com Watch Stopped");
+                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
+                            };
+
+        ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
+                            {
+                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "CDC BOARD", $"{eventArgs.FenString}");
                             };
 
 
