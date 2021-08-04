@@ -16,6 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{9BEF46
 		Assets\Icons.svg = Assets\Icons.svg
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Script.txt = Docs\Script.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +45,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9BEF4676-8089-4C82-B85F-B694610D431E} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
+		{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A4E0476-968F-47C5-A7F0-E73B416E345A}

@@ -1,7 +1,5 @@
 ﻿using Microsoft.JSInterop;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DgtAngel.Services
@@ -9,10 +7,17 @@ namespace DgtAngel.Services
     public class ScriptWrapper
     {
         public enum LogLevel { DEBUG,INFO,WARN,ERR };
-        public enum AudioClip { MISMATCH=0 };
+        public enum AudioClip { MISMATCH=0, MATCH, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
         private enum AudioFileIdx { ID = 0, FILENAME };
 
-        private readonly string[,] AudioFiles = { { "audio-mismatch", "Audio/Mismatch.wav" } };
+        private const string AUDIO_BASE = "Audio/Speech-en-01/";
+        private readonly string[,] AudioFiles = { { "audio-mismatch", "Mismatch.wav" },
+                                                  { "audio-match","Match.wav" },
+                                                  { "audio-dgtconnected","DgtConnected.wav" },
+                                                  { "audio-dgtdisconnected","DgtDisconnected.wav" },
+                                                  { "audio-cdcwatching","CdcWatching.wav" },
+                                                  { "audio-cdcnotwatching","CdcStoppedWatching.wav" },
+                                                };
 
 
         private readonly IJSRuntime jSRuntime;
@@ -21,7 +26,6 @@ namespace DgtAngel.Services
         {
             this.jSRuntime = jSRuntime;
         }
-
 
         async public Task<string> GetChessDotComBoardString()
         {
@@ -41,7 +45,7 @@ namespace DgtAngel.Services
 
         public string GetAudioFileSrc(AudioClip audioClip)
         {
-            return AudioFiles[(int)audioClip, (int)AudioFileIdx.FILENAME];
+            return $"{AUDIO_BASE}{AudioFiles[(int)audioClip, (int)AudioFileIdx.FILENAME]}";
         }
 
         async public Task WriteToConsole(LogLevel logLevel, String source, String message)

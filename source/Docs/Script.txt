@@ -1,0 +1,29 @@
+____   ____        .__                    _________                .__           __   
+\   \ /   /  ____  |__|  ____    ____    /   _____/  ____  _______ |__|______  _/  |_ 
+ \   Y   /  /  _ \ |  |_/ ___\ _/ __ \   \_____  \ _/ ___\ \_  __ \|  |\____ \ \   __\
+  \     /  (  <_> )|  |\  \___ \  ___/   /        \\  \___  |  | \/|  ||  |_> > |  |  
+   \___/    \____/ |__| \___  > \___  > /_______  / \___  > |__|   |__||   __/  |__|  
+                            \/      \/          \/      \/             |__|           
+
+
+Wav File           | Text in Audio Folder 'Speech-en-01'
+-------------------+------------------------------------------------------------------
+Mismatch           | The DGT Board position does not match the screen.
+Match		       | The DGT Board position now matches the screen.
+DgtConnected       | The DGT Board is connected.
+DgtDisconnected    | The DGT Board is disconnected.
+CdcWatching        | We are watching Chess Dot COM.
+CdcStoppedWatching | We have stopped watching Chess Dot COM.
+                   |
+                   |
+                   |
+                   |
+-------------------+------------------------------------------------------------------
+                   | Text (???)
+-------------------+------------------------------------------------------------------
+Mismatch           | 
+Match		       | 
+DgtConnected       | 
+DgtDisconnected    | 
+CdcWatching        | 
+CdcStoppedWatching | 
