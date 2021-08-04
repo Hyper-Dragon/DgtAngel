@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using DgtAngel.Services;
+using DgtAngelLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -21,6 +22,8 @@ namespace DgtAngel
             builder.Services.AddSingleton<Services.AppData>();
             builder.Services.AddTransient(sp => new ScriptWrapper(sp.GetService<IJSRuntime>()));
             builder.Services.AddTransient(sp => new ChessDotComWatcher(sp.GetService<ScriptWrapper>()));
+            builder.Services.AddTransient(sp => new ChessDotComHelpers());
+            builder.Services.AddTransient(sp => new DgtLiveChess());
 
             builder.Services.AddBrowserExtensionServices(options =>
             {

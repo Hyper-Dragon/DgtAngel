@@ -1,8 +1,10 @@
 ﻿@page "/background.html"
 @inherits BackgroundPage
 @inject ScriptWrapper Scripts
-@inject Services.AppData AppData
-@inject Services.ChessDotComWatcher ChessDotComWatcher
+@inject AppData AppData
+@inject ChessDotComWatcher ChessDotComWatcher
+@inject ChessDotComHelpers ChessDotComHelpers
+@inject DgtLiveChess DgtLiveChess
 @using DgtAngel.Services
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
@@ -23,24 +25,21 @@
         //    Url = extensionUrl
         //});
 
-        var helpers = new ChessDotComHelpers();
-        var dgtLiveChess = new DgtLiveChess();
-
-        dgtLiveChess.OnConnected += async (obj, eventArgs) =>
+        DgtLiveChess.OnConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
                             };
 
-        dgtLiveChess.OnDisconnected += async (obj, eventArgs) =>
+        DgtLiveChess.OnDisconnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Default/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
                             };
 
-        dgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
+        DgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "DGT BOARD", $"{eventArgs.ResponseOut}");
                             };
@@ -54,7 +53,7 @@
         await ChessDotComWatcher.Testonlydelme();
 
 #pragma warning disable CS4014 // This function does not return - NEVER AWAIT
-        dgtLiveChess.PollDgtBoard();
+        DgtLiveChess.PollDgtBoard();
 #pragma warning restore CS4014
 
 
@@ -70,7 +69,7 @@
             {
                 try
                 {
-                    string fen = helpers.ConvertHtmlToFenT2(chessDotComBoardString);
+                    string fen = ChessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
                     await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "Background", $"ChessDotCom Fen is {fen}");
                 }
                 catch (Exception ex)
