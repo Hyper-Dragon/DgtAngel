@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Scripts\Helpers.js" />
     <Content Remove="wwwroot\Scripts\HtmlScrape.js" />
   </ItemGroup>
 

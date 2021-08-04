@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "DgtAngel",
   "description": "Make sure your board is in sync with the screen",
-  "version": "0.1",
+  "version": "0.0.1",
   "background": {
     "page": "background.html",
     "persistent": true
