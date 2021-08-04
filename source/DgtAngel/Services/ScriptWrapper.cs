@@ -9,7 +9,12 @@ namespace DgtAngel.Services
     public class ScriptWrapper
     {
         public enum LogLevel { DEBUG,INFO,WARN,ERR };
-        public enum AudioClip { MISMATCH };
+        public enum AudioClip { MISMATCH=0 };
+        private enum AudioFileIdx { ID = 0, FILENAME };
+
+        private readonly string[,] AudioFiles = { { "audio-mismatch", "Audio/Mismatch.wav" } };
+
+
         private readonly IJSRuntime jSRuntime;
 
         public ScriptWrapper(IJSRuntime jSRuntime)
@@ -25,14 +30,18 @@ namespace DgtAngel.Services
 
 
         async public Task PlayAudioFile(AudioClip audioClip)
-        {
-            string clipname = audioClip switch
-            {
-                AudioClip.MISMATCH => "audio-mismatch",
-                _ => throw new Exception("Unknown Audio File")
-            };
+        {            
+            await jSRuntime.InvokeVoidAsync("playAudioFromBkg", AudioFiles[(int)audioClip, (int)ScriptWrapper.AudioFileIdx.ID]);
+        }
 
-            await jSRuntime.InvokeVoidAsync("playAudioFromBkg", clipname);
+        public string GetAudioFileId(AudioClip audioClip)
+        {
+            return AudioFiles[(int)audioClip, (int)AudioFileIdx.ID];
+        }
+
+        public string GetAudioFileSrc(AudioClip audioClip)
+        {
+            return AudioFiles[(int)audioClip, (int)AudioFileIdx.FILENAME];
         }
 
         async public Task WriteToConsole(LogLevel logLevel, String source, String message)

@@ -48,7 +48,7 @@ namespace DgtAngelLib
                 }
                 catch (BoardDisconnectedException)
                 {
-                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connection to DGT Board Cloesd" });
+                    OnDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connection to DGT Board Cloesd" });
                 }
                 catch (Exception ex)
                 {
