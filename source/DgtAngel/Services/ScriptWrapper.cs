@@ -6,6 +6,7 @@ namespace DgtAngel.Services
 {
     public interface IScriptWrapper
     {
+        Task AddIndexToContextMenu();
         string GetAudioFileId(ScriptWrapper.AudioClip audioClip);
         string GetAudioFileSrc(ScriptWrapper.AudioClip audioClip);
         Task<string> GetChessDotComBoardString();
@@ -35,6 +36,11 @@ namespace DgtAngel.Services
         public ScriptWrapper(IJSRuntime jSRuntime)
         {
             this.jSRuntime = jSRuntime;
+        }
+
+        async public Task AddIndexToContextMenu()
+        {
+            await jSRuntime.InvokeVoidAsync("addIndexToContextMenu");
         }
 
         async public Task<string> GetChessDotComBoardString()

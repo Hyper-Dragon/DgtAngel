@@ -1,24 +1,23 @@
 ﻿@page "/popup.html"
+@using DgtAngel.Services
 @inherits BasePage
-@inject IJSRuntime JS
-@inject Services.AppData AppData
+@inject IAppData AppDataService
+@inject IScriptWrapper Scripts
 
 <h1>DGT Angel</h1>
 <p>Loop Count is @(loopCount)</p>
-
-
 
 @code {
     int loopCount = -1;
 
     protected override void OnInitialized()
     {
-        AppData.OnChange += MyEventHandler;
+        AppDataService.OnChange += MyEventHandler;
     }
 
     private async void MyEventHandler()
     {
-        loopCount = AppData.Age;
-        await JS.InvokeVoidAsync("writeToConsole", $"Handle Fired");
+        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG,"POPUP", $"Handle Fired");
+        loopCount = AppDataService.Age;
     }
 }

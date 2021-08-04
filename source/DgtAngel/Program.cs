@@ -20,7 +20,7 @@ namespace DgtAngel
             // see: https://github.com/dotnet/runtime/issues/52836
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             
-            builder.Services.AddSingleton<IAppData, AppData>();
+            builder.Services.AddSingleton<IAppData,AppData>();
             builder.Services.AddSingleton<IChessDotComHelpers,ChessDotComHelpers>();
             
             builder.Services.AddTransient<IScriptWrapper, ScriptWrapper>(sp => new ScriptWrapper(sp.GetService<IJSRuntime>()));

@@ -2,6 +2,17 @@
 //    console.log("Popup DOM fully loaded and parsed");
 
 
+function addIndexToContextMenu() {
+    chrome.contextMenus.removeAll();
+    chrome.contextMenus.create({
+        title: "About DgtAngel",
+        contexts: ["browser_action"],
+        onclick: function () {
+            window.open("index.html", "dgtangelidx");
+        }
+    });
+}
+
 function playAudioFromBkg(audioId) {
     document.getElementById(audioId).play();
 }

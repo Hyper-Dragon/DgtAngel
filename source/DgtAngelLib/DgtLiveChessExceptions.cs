@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 
 namespace DgtAngelLib
 {
+    public class LiveChessDisconnectedException : Exception
+    {
+        public LiveChessDisconnectedException()
+        {
+        }
+
+        public LiveChessDisconnectedException(string message)
+            : base(message)
+        {
+        }
+
+        public LiveChessDisconnectedException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
     public class BoardDisconnectedException : Exception
     {
         public BoardDisconnectedException()
@@ -22,6 +39,4 @@ namespace DgtAngelLib
         {
         }
     }
-
-
 }
