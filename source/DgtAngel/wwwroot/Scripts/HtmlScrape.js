@@ -61,7 +61,7 @@ async function getPiecesHtml() {
         return 'ERROR:'+ex;
     }
 
-    console.log('Outside: ' + retVal);
+    //console.log('Outside: ' + retVal);
     return retVal;
 }
 

@@ -94,7 +94,7 @@ namespace DgtAngelLib
                 {
                     //...if we have a board to watch break out and start watching...
                     watchdSerialNumber = activeBoard.SerialNumber;
-                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"{watchdSerialNumber}:{activeBoard.ConnectionState}" });
+                    OnConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to {watchdSerialNumber}:{activeBoard.ConnectionState}" });
                     break;
                 }
             }

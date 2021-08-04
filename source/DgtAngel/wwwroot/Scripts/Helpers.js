@@ -13,5 +13,21 @@ function sleep(ms) {
 }
 
 function writeToConsole(msg) {
-    console.log('Blazor:' + msg)
+    console.log('changeme:'+msg)
+}
+
+function writeDebugToConsole(msg) {
+    console.log(msg)
+}
+
+function writeInfoToConsole(msg) {
+    console.info(msg)
+}
+
+function writeWarningToConsole(msg) {
+    console.warn(msg)
+}
+
+function writeErrorToConsole(msg) {
+    console.error(msg)
 }

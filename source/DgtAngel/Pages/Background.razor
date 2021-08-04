@@ -1,24 +1,15 @@
 ﻿@page "/background.html"
 @inherits BackgroundPage
-@inject IJSRuntime JS
+@inject ScriptWrapper Scripts
 @inject Services.AppData AppData
+@using DgtAngel.Services
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
 
-<audio id="audio-mismatch" src="Audio/Mismatch.wav" autostart="false" ></audio>
+<audio id="audio-mismatch" src="Audio/Mismatch.wav" autostart="false"></audio>
 
 
 @code {
-
-    async void c_MessageRecieved(Object sender, MessageRecievedEventArgs e)
-    {
-        await JS.InvokeVoidAsync("writeToConsole", $"DGT {e.ResponseOut}");
-    }
-
-    async void c_AppDataOnChanged()
-    {
-        await JS.InvokeVoidAsync("writeToConsole", $"AppData Changed: {AppData.Age}");
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,24 +25,36 @@
         var helpers = new ChessDotComHelpers();
         var dgtLiveChess = new DgtLiveChess();
 
-        dgtLiveChess.OnResponseRecieved += c_MessageRecieved;
-        AppData.OnChange += c_AppDataOnChanged;
+        dgtLiveChess.OnConnected += async (obj, eventArgs) =>
+                                    {
+                                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                        await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
+                                        await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
+                                    };
 
-        #pragma warning disable CS4014 // This function does not return - NEVER AWAIT
+        dgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
+                                    {
+                                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                    };
+
+        AppData.OnChange += async () =>
+                                    {
+                                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "AppData", $"{AppData.Age}");
+                                    };
+
+#pragma warning disable CS4014 // This function does not return - NEVER AWAIT
         dgtLiveChess.PollDgtBoard();
-        #pragma warning restore CS4014
-
-        await JS.InvokeVoidAsync("playAudioFromBkg", $"audio-mismatch");
+#pragma warning restore CS4014
 
 
-        await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
 
         for (; ; )
         {
-            await JS.InvokeVoidAsync("writeToConsole", $"Background loop {AppData.Age}");
+            await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "Background", $"Background loop {AppData.Age}");
 
-            var interopResult = await JS.InvokeAsync<string>("getPiecesHtml");
-            //await JS.InvokeVoidAsync("writeToConsole",$"Result is {interopResult}");
+            var interopResult = await Scripts.GetChessDotComBoardString();
+            await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "Background", $"Background loop Result is {interopResult}");
+
 
 
             //0:05.8|0:07.8|bk35,wb56,wk77
@@ -60,11 +63,11 @@
                 try
                 {
                     string fen = helpers.ConvertHtmlToFenT2(interopResult);
-                    await JS.InvokeVoidAsync("writeToConsole", $"Fen is {fen}");
+                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "Background", $"ChessDotCom Fen is {fen}");
                 }
                 catch (Exception ex)
                 {
-                    await JS.InvokeVoidAsync("writeToConsole", $"Fen is unavailable [{ex.Message}]");
+                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "Background", $"ChessDotCom Fen is unavailable [{ex.Message}]");
                 }
             }
 
