@@ -2,6 +2,7 @@
 @inherits BackgroundPage
 @inject ScriptWrapper Scripts
 @inject Services.AppData AppData
+@inject Services.ChessDotComWatcher ChessDotComWatcher
 @using DgtAngel.Services
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
@@ -49,10 +50,12 @@
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "AppData", $"{AppData.Age}");
                             };
 
+
+        await ChessDotComWatcher.Testonlydelme();
+
 #pragma warning disable CS4014 // This function does not return - NEVER AWAIT
         dgtLiveChess.PollDgtBoard();
 #pragma warning restore CS4014
-
 
 
         for (; ; )

@@ -20,6 +20,7 @@ namespace DgtAngel
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton<Services.AppData>();
             builder.Services.AddTransient(sp => new ScriptWrapper(sp.GetService<IJSRuntime>()));
+            builder.Services.AddTransient(sp => new ChessDotComWatcher(sp.GetService<ScriptWrapper>()));
 
             builder.Services.AddBrowserExtensionServices(options =>
             {
