@@ -11,14 +11,10 @@
 @using System.Threading
 
 <div>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.MISMATCH))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.MISMATCH))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.MATCH))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.MATCH))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_LC_CONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_LC_CONNECTED))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_CONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_CONNECTED))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.DGT_DISCONNECTED))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.DGT_DISCONNECTED))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.CDC_WATCHING))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.CDC_WATCHING))" autostart="false"></audio>
-    <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.CDC_NOTWATCHING))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.CDC_NOTWATCHING))" autostart="false"></audio>
+@foreach(var item in Enum.GetValues(typeof(ScriptWrapper.AudioClip)))
+    {
+        <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId((ScriptWrapper.AudioClip)item))" src="@(Scripts.GetAudioFileSrc((ScriptWrapper.AudioClip)item))" autostart="false"></audio>
+    }
 </div>
 
 @code {
