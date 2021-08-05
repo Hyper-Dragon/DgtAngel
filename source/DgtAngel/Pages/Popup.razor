@@ -10,14 +10,15 @@
 @code {
     int loopCount = -1;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        AppDataService.OnChange += MyEventHandler;
-    }
-
-    private async void MyEventHandler()
-    {
-        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG,"POPUP", $"Handle Fired");
+        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "POPUP", "Popup...popped up!");
         loopCount = AppDataService.Age;
+
+        AppDataService.OnChange += async () =>
+                    {
+                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "POPUP", $"{AppDataService.Age}");
+                        loopCount = AppDataService.Age;
+                    };
     }
 }

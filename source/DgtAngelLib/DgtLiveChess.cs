@@ -88,6 +88,7 @@ namespace DgtAngelLib
         {
             int idCount = 0;
             string watchdSerialNumber;
+            bool reportNoActiveBoards = true;
 
             //Open a websocket to DGT LiveChess (running on the local machine)
             using var socket = new ClientWebSocket();
@@ -108,13 +109,18 @@ namespace DgtAngelLib
                 if (activeBoard == null)
                 {
                     //...if no active boards are available wait and try again...
-                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected but no active boards found!" });
+                    if (reportNoActiveBoards)
+                    {
+                        OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected but no active boards found!" });
+                        reportNoActiveBoards = false;
+                    }
                     await Task.Delay(BOARD_POLL_RETRY_DELAY);
                 }
                 else
                 {
                     //...if we have a board to watch break out and start watching...
                     watchdSerialNumber = activeBoard.SerialNumber;
+                    reportNoActiveBoards = true;
                     OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to {watchdSerialNumber}:{activeBoard.ConnectionState}" });
                     break;
                 }

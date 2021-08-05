@@ -41,11 +41,29 @@ async function getPiecesHtml() {
     retVal = '-';
 
     try {
+
+
+        //chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+        //
+        //    if (lastErr || tabs[0].url != "https://www.chess.com/live") {
+        //        return "UNDEFINED";
+        //    }
+        //
+        //    console.log(tabs[0].url);
+        //});
+
+
         //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
         await chrome.tabs.executeScript({ code: '(' + piecesFromLiveBoardDOM + ')();' },
             (results) => {
-                retVal = results[0];
-                //console.log('Inside: ' + retVal);
+                const lastErr = chrome.runtime.lastError;
+
+                if (lastErr || results === undefined) {
+                    // Just ignore - we dont have access to the tab
+                    retVal = "UNDEFINED";
+                } else {
+                    retVal = results[0];
+                }
             });
 
 
@@ -57,8 +75,8 @@ async function getPiecesHtml() {
             //Need to wait for the script result 
             await sleep(500);
         }
-    } catch(ex) {
-        return 'ERROR:'+ex;
+    } catch (ex) {
+        return 'ERROR:' + ex;
     }
 
     //console.log('Outside: ' + retVal);

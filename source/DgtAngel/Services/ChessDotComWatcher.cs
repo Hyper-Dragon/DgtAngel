@@ -40,42 +40,56 @@ namespace DgtAngel.Services
         public async Task PollChessDotComBoard()
         {
             bool isWatchtNotified = false;
+            string lastFen = "";
 
             for (; ; )
             {
-                await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "Background", $"Loop number {appData.Age}");
+                try
+                {
+                    var chessDotComBoardString = await scriptWrapper.GetChessDotComBoardString();
 
-                var chessDotComBoardString = await scriptWrapper.GetChessDotComBoardString();
-
-                //0:05.8|0:07.8|bk35,wb56,wk77
-                //if (chessDotComBoardString != "-")
-                //{
-                    try
+                    if (chessDotComBoardString != "UNDEFINED")
                     {
-                        await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "Background", $"Returned board is {chessDotComBoardString}");
+                        //await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "CDC_WATCH", $"Returned board is {chessDotComBoardString}");
                         string fen = chessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
-                        
+
                         if (!isWatchtNotified)
                         {
                             OnWatchStarted?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "Watch Started", FenString = "" });
+                            lastFen = "";
                             isWatchtNotified = true;
                         }
 
-                        OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "FEN Recieved", FenString = fen });
-                    }
-                    catch (Exception ex)
-                    {
-                        await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.ERR, "Background", $"ChessDotCom Fen is unavailable [{ex.Message}]");
+                        if (lastFen != fen)
+                        {
+                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "New FEN Recieved", FenString = fen });
+                            lastFen = fen;
+                        }
 
+                        await Task.Delay(200);
+                    }
+                    else
+                    {
                         if (isWatchtNotified)
                         {
                             OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "Watch Stopped", FenString = "" });
                             isWatchtNotified = false;
                         }
+                        await Task.Delay(2000);
                     }
-                //}
+                }
+                catch (Exception)
+                {
+                    lastFen = "";
 
-                await Task.Delay(2000);
+                    if (isWatchtNotified)
+                    {
+                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "Watch Stopped", FenString = "" });
+                        isWatchtNotified = false;
+                    }
+                        await Task.Delay(5000);
+                    
+                }
 
                 appData.Age += 1;
             }

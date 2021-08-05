@@ -1,7 +1,7 @@
 ﻿@page "/background.html"
 @inherits BackgroundPage
 @inject IScriptWrapper Scripts
-@inject IAppData AppData
+@inject IAppData AppDataService
 @inject IChessDotComWatcher ChessDotComWatcher
 @inject IChessDotComHelpers ChessDotComHelpers
 @inject IDgtLiveChess DgtLiveChess
@@ -31,7 +31,11 @@
         //    Url = extensionUrl
         //});
 
+        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Starting....");
         await Scripts.AddIndexToContextMenu();
+        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Context Menu Item Added");
+
+        //await WebExtensions.Runtime.OnMessage.AddListener(delegate{SwitchButtonHandler(0);}); //.AddListener((obj,sender,action,swi) => { });     // += async (obj,sender,action,switch) => { };
         
 
 
@@ -63,29 +67,29 @@
 
         DgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
                             };
 
-        AppData.OnChange += async () =>
+        AppDataService.OnChange += async () =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "AppData", $"{AppData.Age}");
+                                //await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "AppData", $"{AppDataService.Age}");
                             };
 
         ChessDotComWatcher.OnWatchStarted += async (obj, eventArgs) =>
                             {
-                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "CDC BOARD", $"Chess.com Watch Started");
+                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "CDC BOARD", $"Chess.com Watch Started");
                                  await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
                             };
 
         ChessDotComWatcher.OnWatchStopped += async (obj, eventArgs) =>
                             {
-                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "CDC BOARD", $"Chess.com Watch Stopped");
+                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "CDC BOARD", $"Chess.com Watch Stopped");
                                  await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
                             };
 
         ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
                             {
-                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.WARN, "CDC BOARD", $"{eventArgs.FenString}");
+                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "CDC BOARD", $"{eventArgs.FenString}");
                             };
 
 

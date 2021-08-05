@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Scripts\BrowserExtensionSettings.js" />
+    <Content Remove="wwwroot\Scripts\ContentScriptStartup.js" />
     <Content Remove="wwwroot\Scripts\Helpers.js" />
     <Content Remove="wwwroot\Scripts\HtmlScrape.js" />
   </ItemGroup>
