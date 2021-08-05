@@ -35,7 +35,7 @@ namespace DgtAngelLib
         private const string LIVE_CHESS_URL = "ws://127.0.0.1:1982/api/v1.0";
 
         private const int CONNECTION_RETRY_DELAY = 10000;
-        private const int BOARD_POLL_RETRY_DELAY = 10000;
+        private const int BOARD_POLL_RETRY_DELAY = 5000;
 
         private const string BOARD_CONECTED_STATUS = "ACTIVE";
 
@@ -62,9 +62,17 @@ namespace DgtAngelLib
                 {
                     await this.ConnectAndWatch();
                 }
+                catch (WebSocketException ex)
+                {
+                    OnLiveChessDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to Live Chess Unavailable ({ex.WebSocketErrorCode})" });
+                }
+                catch (InvalidOperationException)
+                {
+                    OnLiveChessDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to Live Chess Unavailable (Terminated by Invalid Opperation)" });
+                }
                 catch (LiveChessDisconnectedException)
                 {
-                    OnLiveChessDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to Live Chess Closed" });
+                    OnLiveChessDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to Live Chess Closed (Terminated by Disconnection)" });
                 }
                 catch (BoardDisconnectedException)
                 {
@@ -72,7 +80,7 @@ namespace DgtAngelLib
                 }
                 catch (Exception ex)
                 {
-                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"ERROR: {ex.GetType()}{ex.Message}" });
+                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $" ERROR: {ex.GetType()}{ex.Message}" });
                 }
 
                 //Wait and then try again
@@ -92,7 +100,7 @@ namespace DgtAngelLib
 
             //Open a websocket to DGT LiveChess (running on the local machine)
             using var socket = new ClientWebSocket();
-            await socket.ConnectAsync(new Uri(LIVE_CHESS_URL), CancellationToken.None);
+            await socket.ConnectAsync(new Uri(LIVE_CHESS_URL), CancellationToken.None).ConfigureAwait(false);
 
             OnLiveChessConnected.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
 
@@ -134,8 +142,8 @@ namespace DgtAngelLib
             //...and keep picking up board changes until the connection is closed
             for (; ; )
             {
-                var (feedMsgJsonString, feedMsgResponse) = DgtAngelLib.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
-                OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Board Fen {feedMsgResponse.Param.Board}" });
+                    var (feedMsgJsonString, feedMsgResponse) = DgtAngelLib.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
+                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Board Fen {feedMsgResponse.Param.Board}" });
             }
         }
 
@@ -146,7 +154,7 @@ namespace DgtAngelLib
         /// <param name="data"></param>
         /// <returns></returns>
         private static async Task Send(ClientWebSocket socket, string data) =>
-                               await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None);
+                               await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None).ConfigureAwait(false);
 
         /// <summary>
         /// Recieve data 
@@ -162,7 +170,7 @@ namespace DgtAngelLib
             using var ms = new MemoryStream();
             do
             {
-                result = await socket.ReceiveAsync(buffer, CancellationToken.None);
+                result = await socket.ReceiveAsync(buffer, CancellationToken.None).ConfigureAwait(false);
                 ms.Write(buffer.Array, buffer.Offset, result.Count);
             } while (!result.EndOfMessage);
 

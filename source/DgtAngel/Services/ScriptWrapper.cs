@@ -16,6 +16,10 @@ namespace DgtAngel.Services
 
     public class ScriptWrapper : IScriptWrapper
     {
+        //Switch to true for full console trace
+        //TODO:Move to parameter
+        private readonly bool isConsoleDebugEnabled = false;
+
         public enum LogLevel { DEBUG, INFO, WARN, ERR };
         public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
         private enum AudioFileIdx { ID = 0, FILENAME };
@@ -65,16 +69,19 @@ namespace DgtAngel.Services
 
         async public Task WriteToConsole(LogLevel logLevel, String source, String message)
         {
-            string logMethod = logLevel switch
+            if (isConsoleDebugEnabled || logLevel != LogLevel.DEBUG)
             {
-                LogLevel.DEBUG => "writeDebugToConsole",
-                LogLevel.INFO => "writeInfoToConsole",
-                LogLevel.WARN => "writeWarningToConsole",
-                LogLevel.ERR => "writeErrorToConsole",
-                _ => throw new Exception("Unknown Log Type")
-            };
+                string logMethod = logLevel switch
+                {
+                    LogLevel.DEBUG => "writeDebugToConsole",
+                    LogLevel.INFO => "writeInfoToConsole",
+                    LogLevel.WARN => "writeWarningToConsole",
+                    LogLevel.ERR => "writeErrorToConsole",
+                    _ => throw new Exception("Unknown Log Type")
+                };
 
-            await jSRuntime.InvokeVoidAsync(logMethod, $"{source,10}:{message}");
+                await jSRuntime.InvokeVoidAsync(logMethod, $"{source,10}-->{message}");
+            }
         }
     }
 }

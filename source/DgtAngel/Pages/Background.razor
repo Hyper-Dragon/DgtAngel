@@ -8,6 +8,7 @@
 @using DgtAngel.Services
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
+@using System.Threading
 
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.MISMATCH))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.MISMATCH))" autostart="false"></audio>
 <audio id="@(Scripts.GetAudioFileId(ScriptWrapper.AudioClip.MATCH))" src="@(Scripts.GetAudioFileSrc(ScriptWrapper.AudioClip.MATCH))" autostart="false"></audio>
@@ -24,50 +25,58 @@
     {
         await base.OnInitializedAsync();
 
-        // this opens index.html in the extension as a new tab when the background page is loaded
-        //var extensionUrl = await WebExtensions.Runtime.GetURL("index.html");
-        //await WebExtensions.Tabs.Create(new CreateProperties
-        //{
-        //    Url = extensionUrl
-        //});
-
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Starting....");
         await Scripts.AddIndexToContextMenu();
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Context Menu Item Added");
 
-        //await WebExtensions.Runtime.OnMessage.AddListener(delegate{SwitchButtonHandler(0);}); //.AddListener((obj,sender,action,swi) => { });     // += async (obj,sender,action,switch) => { };
-        
+        Task pollChessDotComBoardTask = null;
+        CancellationTokenSource canxSrcChessDotComBoardPoll = null;
+        bool hasOnLiveChessConnectedPlayedSinceLastConnection = true; //Set to true so audio does not play on startup
 
 
         DgtLiveChess.OnLiveChessConnected += async (obj, eventArgs) =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_CONNECTED);
+
+#pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT
+                                canxSrcChessDotComBoardPoll = new CancellationTokenSource();
+                                pollChessDotComBoardTask = ChessDotComWatcher.PollChessDotComBoard(canxSrcChessDotComBoardPoll.Token);
+                                hasOnLiveChessConnectedPlayedSinceLastConnection = false;
+#pragma warning restore CS4014
                             };
 
         DgtLiveChess.OnLiveChessDisconnected += async (obj, eventArgs) =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
-                                await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED);
+                                //Only play/log if we were previously connected
+                                if (!hasOnLiveChessConnectedPlayedSinceLastConnection)
+                                {
+                                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
+                                    await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED);
+                                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess");
+                                    hasOnLiveChessConnectedPlayedSinceLastConnection = true;
+                                }
+
+                                    canxSrcChessDotComBoardPoll?.Cancel();
                             };
 
         DgtLiveChess.OnBoardConnected += async (obj, eventArgs) =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_CONNECTED);
                             };
 
         DgtLiveChess.OnBoardDisconnected += async (obj, eventArgs) =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Default/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_DISCONNECTED);
                             };
 
         DgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "DGT BOARD", $"{eventArgs.ResponseOut}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                             };
 
         AppDataService.OnChange += async () =>
@@ -77,25 +86,25 @@
 
         ChessDotComWatcher.OnWatchStarted += async (obj, eventArgs) =>
                             {
-                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "CDC BOARD", $"Chess.com Watch Started");
-                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Watching the https://www.chess.com/live tab has started");
+                                await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
                             };
 
         ChessDotComWatcher.OnWatchStopped += async (obj, eventArgs) =>
                             {
-                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "CDC BOARD", $"Chess.com Watch Stopped");
-                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Watching the https://www.chess.com/live tab has stopped");
+                                await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
                             };
 
         ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
                             {
-                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "CDC BOARD", $"{eventArgs.FenString}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"{eventArgs.FenString}");
                             };
 
 
 #pragma warning disable CS4014 // These functions do not return - NEVER AWAIT
+        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess (Startup)");
         DgtLiveChess.PollDgtBoard();
-        ChessDotComWatcher.PollChessDotComBoard();
 #pragma warning restore CS4014
 
     }

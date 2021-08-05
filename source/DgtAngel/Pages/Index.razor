@@ -7,12 +7,17 @@
 <p>Some Text</p>
 <a href="https://github.com/Hyper-Dragon/DgtAngel" target="_blank">This Project</a>
 <h2>Usage</h2>
-<p>Some Text</p>
+<p>Designed to complement the Chess.com voice plugin <a href="https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk?hl=en" >available here</a>.</p>
 <h2>Dependencies</h2>
 <ul>
     <li>DGT Live Chess v2.2.5</li>
     <li>Chess.com 'Live' as of August, 2021</li>
     <li>A Physical DGT Board <i>available at all good Chess Shops</i></li>
+</ul>
+<h2>Known Issues</h2>
+<ul>
+    <li>Only works in 'Live Chess' not 'Play'.  This is because the voice plugin only works in Live</li>
+    <li><ul><li>Live Chess does not always exit properly. End the task in Task Manager or open powershell and run...</li><li>Get-Process | Where-Object { $_.Name -eq "DGT LiveChess" } | Select-Object -First 1 | Stop-Process -Force</li></ul></li>
 </ul>
 <h2>Acknowledgements</h2>
 <ul>

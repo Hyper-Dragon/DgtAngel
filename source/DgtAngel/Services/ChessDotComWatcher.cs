@@ -1,5 +1,6 @@
 ﻿using DgtAngelLib;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DgtAngel.Services
@@ -16,7 +17,7 @@ namespace DgtAngel.Services
         event EventHandler<ChessDotComWatcherEventArgs> OnWatchStarted;
         event EventHandler<ChessDotComWatcherEventArgs> OnWatchStopped;
 
-        Task PollChessDotComBoard();
+        Task PollChessDotComBoard(CancellationToken token);
     }
 
     public class ChessDotComWatcher : IChessDotComWatcher
@@ -29,6 +30,12 @@ namespace DgtAngel.Services
         public event EventHandler<ChessDotComWatcherEventArgs> OnWatchStopped;
         public event EventHandler<ChessDotComWatcherEventArgs> OnFenRecieved;
 
+        private const int SLEEP_RUNNING_DELAY = 100;
+        private const int SLEEP_REOPEN_TAB_DELAY = 1000;
+        private const int SLEEP_EXCEPTION_DELAY = 5000;
+
+        private const string MSG_SRC = "CDC_WATCH";
+
         public ChessDotComWatcher(IScriptWrapper scriptWrapper, IAppData appData, IChessDotComHelpers chessDotComHelpers)
         {
             this.scriptWrapper = scriptWrapper;
@@ -36,63 +43,87 @@ namespace DgtAngel.Services
             this.chessDotComHelpers = chessDotComHelpers;
         }
 
-
-        public async Task PollChessDotComBoard()
+        public async Task PollChessDotComBoard(CancellationToken token)
         {
-            bool isWatchtNotified = false;
-            string lastFen = "";
+            await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.INFO, MSG_SRC, $"Started watching for tab activation (https://www.chess.com/live)");
+
+            bool hasWatchStartedBeenEventFired = false;
+            string chessDotComBoardString = "";
+            string lastFEN = "";
 
             for (; ; )
             {
                 try
                 {
-                    var chessDotComBoardString = await scriptWrapper.GetChessDotComBoardString();
+                    token.ThrowIfCancellationRequested();
+
+                    chessDotComBoardString = await scriptWrapper.GetChessDotComBoardString();
+                    await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Returned board string is {chessDotComBoardString}");
 
                     if (chessDotComBoardString != "UNDEFINED")
                     {
-                        //await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "CDC_WATCH", $"Returned board is {chessDotComBoardString}");
+                        await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Trying to calculate the FEN from the board string.");
                         string fen = chessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
 
-                        if (!isWatchtNotified)
+                        if (!hasWatchStartedBeenEventFired)
                         {
-                            OnWatchStarted?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "Watch Started", FenString = "" });
-                            lastFen = "";
-                            isWatchtNotified = true;
+                            await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"This is the first FEN found so raising the OnWatchStarted Event.");
+                            OnWatchStarted?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Started", FenString = "" });
+                            lastFEN = "";
+                            hasWatchStartedBeenEventFired = true;
                         }
 
-                        if (lastFen != fen)
+                        if (lastFEN != fen)
                         {
-                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "New FEN Recieved", FenString = fen });
-                            lastFen = fen;
+                            await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"The FEN has changed from {lastFEN} to {fen}");
+                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:New FEN Recieved", FenString = fen });
+                            lastFEN = fen;
                         }
 
-                        await Task.Delay(200);
+                        await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Sleeping with Running Delay of {SLEEP_RUNNING_DELAY}ms");
+                        await Task.Delay(SLEEP_RUNNING_DELAY,token);
                     }
                     else
                     {
-                        if (isWatchtNotified)
+                        if (hasWatchStartedBeenEventFired)
                         {
-                            OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "Watch Stopped", FenString = "" });
-                            isWatchtNotified = false;
+                            OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (No FEN)", FenString = "" });
+                            hasWatchStartedBeenEventFired = false;
                         }
-                        await Task.Delay(2000);
+
+                        await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Sleeping with Reopen Tab Delay of {SLEEP_REOPEN_TAB_DELAY}ms");
+                        await Task.Delay(SLEEP_REOPEN_TAB_DELAY,token);
                     }
                 }
-                catch (Exception)
+                catch (OperationCanceledException)
                 {
-                    lastFen = "";
-
-                    if (isWatchtNotified)
+                    //Handle termination by cancelation token
+                    await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Terminate watch requested.");
+                    if (hasWatchStartedBeenEventFired)
                     {
-                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = "Watch Stopped", FenString = "" });
-                        isWatchtNotified = false;
+                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (Requested)", FenString = "" });
+                        hasWatchStartedBeenEventFired = false;
                     }
-                        await Task.Delay(5000);
-                    
-                }
 
-                appData.Age += 1;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Watching Tab Stopped (Exception) - {ex.Message}");
+                    lastFEN = "";
+
+                    if (hasWatchStartedBeenEventFired)
+                    {
+                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (Exception) - {ex.Message}", FenString = "" });
+                        hasWatchStartedBeenEventFired = false;
+                    }
+
+                    await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Sleeping with Exception Tab Delay of {SLEEP_EXCEPTION_DELAY}ms");
+                    await Task.Delay(SLEEP_EXCEPTION_DELAY, token);                   
+                }
             }
+
+            await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.INFO, MSG_SRC, $"Stopped watching for tab activation (https://www.chess.com/live)");
         }
     }
 }
