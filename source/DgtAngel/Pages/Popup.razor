@@ -5,20 +5,11 @@
 @inject IScriptWrapper Scripts
 
 <h1>DGT Angel</h1>
-<p>Loop Count is @(loopCount)</p>
 
 @code {
-    int loopCount = -1;
 
     protected override async Task OnInitializedAsync()
     {
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "POPUP", "Popup...popped up!");
-        loopCount = AppDataService.Age;
-
-        AppDataService.OnChange += async () =>
-                    {
-                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "POPUP", $"{AppDataService.Age}");
-                        loopCount = AppDataService.Age;
-                    };
     }
 }

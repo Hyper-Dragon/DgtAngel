@@ -137,7 +137,6 @@ namespace DgtAngelLib
             //...so set up a feed...
             await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
             var (feedSetupJsonString, feedSetupResponse) = DgtAngelLib.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, true));
-            OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = feedSetupJsonString });
 
             //...and keep picking up board changes until the connection is closed
             for (; ; )

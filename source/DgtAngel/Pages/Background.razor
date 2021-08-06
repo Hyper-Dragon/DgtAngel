@@ -36,12 +36,6 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_CONNECTED);
-
-#pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT
-                                canxSrcChessDotComBoardPoll = new CancellationTokenSource();
-                                pollChessDotComBoardTask = ChessDotComWatcher.PollChessDotComBoard(canxSrcChessDotComBoardPoll.Token);
-                                hasOnLiveChessConnectedPlayedSinceLastConnection = false;
-#pragma warning restore CS4014
                             };
 
         DgtLiveChess.OnLiveChessDisconnected += async (obj, eventArgs) =>
@@ -53,9 +47,7 @@
                                     await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED);
                                     await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess");
                                     hasOnLiveChessConnectedPlayedSinceLastConnection = true;
-                                }
-
-                                    canxSrcChessDotComBoardPoll?.Cancel();
+                                }                                    
                             };
 
         DgtLiveChess.OnBoardConnected += async (obj, eventArgs) =>
@@ -63,6 +55,13 @@
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_CONNECTED);
+
+                                //Run the Chess.Com Watcher
+                                #pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT
+                                canxSrcChessDotComBoardPoll = new CancellationTokenSource();
+                                pollChessDotComBoardTask = ChessDotComWatcher.PollChessDotComBoard(canxSrcChessDotComBoardPoll.Token);
+                                hasOnLiveChessConnectedPlayedSinceLastConnection = false;
+                                #pragma warning restore CS4014
                             };
 
         DgtLiveChess.OnBoardDisconnected += async (obj, eventArgs) =>
@@ -70,16 +69,22 @@
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Default/icon-48.png" });
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_DISCONNECTED);
+
+                                //Stop the Chess.Com Watcher (if running) 
+                                canxSrcChessDotComBoardPoll?.Cancel();
                             };
 
         DgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
+                                AppDataService.BoardFEN = eventArgs.ResponseOut;
                             };
 
-        AppDataService.OnChange += async () =>
+        ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
                             {
-                                //await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "AppData", $"{AppDataService.Age}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"CDC_WATCH:{eventArgs.FenString}");
+                                AppDataService.ChessDotComFEN = eventArgs.FenString;
+                                AppDataService.SetClocks(eventArgs.WhiteClock, eventArgs.BlackClock);
                             };
 
         ChessDotComWatcher.OnWatchStarted += async (obj, eventArgs) =>
@@ -92,13 +97,33 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Watching the https://www.chess.com/live tab has stopped");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
+
+                                AppDataService.ResetChessDotComBoardState();
                             };
 
-        ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
+        AppDataService.OnFenChange += async () =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"{eventArgs.FenString}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"APP_DATA: Matching {AppDataService.ChessDotComFEN} {AppDataService.BoardFEN}");
+
+                                if (AppDataService.IsChessDotComBoardStateActive && AppDataService.ChessDotComFEN != AppDataService.BoardFEN)
+                                {
+                                    //Give time to move the pieces in sync...
+                                    await Task.Delay(1000);
+
+                                    //...then test again
+                                    if (AppDataService.IsChessDotComBoardStateActive && AppDataService.ChessDotComFEN != AppDataService.BoardFEN)
+                                    {
+                                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: Mismatch detected...Boards are not in sync");
+                                        await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
+                                    }
+                                }
+
                             };
 
+        AppDataService.OnClockChange += async () =>
+                            {
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: White Clock {AppDataService.WhiteClock} Black Clock {AppDataService.BlackClock}");
+                            };
 
 #pragma warning disable CS4014 // These functions do not return - NEVER AWAIT
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess (Startup)");

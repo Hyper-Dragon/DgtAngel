@@ -8,7 +8,9 @@ namespace DgtAngel.Services
     public class ChessDotComWatcherEventArgs : EventArgs
     {
         public string Message { get; set; }
-        public string FenString { get; set; }
+        public string FenString { get; set; } = "";
+        public string WhiteClock { get; set; } = "00:00";
+        public string BlackClock { get; set; } = "00:00";
     }
 
     public interface IChessDotComWatcher
@@ -23,7 +25,6 @@ namespace DgtAngel.Services
     public class ChessDotComWatcher : IChessDotComWatcher
     {
         private readonly IScriptWrapper scriptWrapper;
-        private readonly IAppData appData;
         private readonly IChessDotComHelpers chessDotComHelpers;
 
         public event EventHandler<ChessDotComWatcherEventArgs> OnWatchStarted;
@@ -36,10 +37,9 @@ namespace DgtAngel.Services
 
         private const string MSG_SRC = "CDC_WATCH";
 
-        public ChessDotComWatcher(IScriptWrapper scriptWrapper, IAppData appData, IChessDotComHelpers chessDotComHelpers)
+        public ChessDotComWatcher(IScriptWrapper scriptWrapper, IChessDotComHelpers chessDotComHelpers)
         {
             this.scriptWrapper = scriptWrapper;
-            this.appData = appData;
             this.chessDotComHelpers = chessDotComHelpers;
         }
 
@@ -49,7 +49,7 @@ namespace DgtAngel.Services
 
             bool hasWatchStartedBeenEventFired = false;
             string chessDotComBoardString = "";
-            string lastFEN = "";
+            string lastChessDotComBoardString = "";
 
             for (; ; )
             {
@@ -63,21 +63,21 @@ namespace DgtAngel.Services
                     if (chessDotComBoardString != "UNDEFINED")
                     {
                         await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Trying to calculate the FEN from the board string.");
-                        string fen = chessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
+                        (string fen, string whiteClock, string blackClock) = chessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
 
                         if (!hasWatchStartedBeenEventFired)
                         {
                             await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"This is the first FEN found so raising the OnWatchStarted Event.");
-                            OnWatchStarted?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Started", FenString = "" });
-                            lastFEN = "";
+                            OnWatchStarted?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Started" });
+                            lastChessDotComBoardString = "";
                             hasWatchStartedBeenEventFired = true;
                         }
 
-                        if (lastFEN != fen)
+                        if (lastChessDotComBoardString != chessDotComBoardString)
                         {
-                            await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"The FEN has changed from {lastFEN} to {fen}");
-                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:New FEN Recieved", FenString = fen });
-                            lastFEN = fen;
+                            await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"The FEN has changed from {lastChessDotComBoardString} to {chessDotComBoardString}");
+                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:New FEN Recieved", FenString = fen, WhiteClock=whiteClock, BlackClock=blackClock });
+                            lastChessDotComBoardString = chessDotComBoardString;
                         }
 
                         await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Sleeping with Running Delay of {SLEEP_RUNNING_DELAY}ms");
@@ -87,7 +87,7 @@ namespace DgtAngel.Services
                     {
                         if (hasWatchStartedBeenEventFired)
                         {
-                            OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (No FEN)", FenString = "" });
+                            OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (No FEN)" });
                             hasWatchStartedBeenEventFired = false;
                         }
 
@@ -101,7 +101,7 @@ namespace DgtAngel.Services
                     await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Terminate watch requested.");
                     if (hasWatchStartedBeenEventFired)
                     {
-                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (Requested)", FenString = "" });
+                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (Requested)" });
                         hasWatchStartedBeenEventFired = false;
                     }
 
@@ -110,11 +110,11 @@ namespace DgtAngel.Services
                 catch (Exception ex)
                 {
                     await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Watching Tab Stopped (Exception) - {ex.Message}");
-                    lastFEN = "";
+                    lastChessDotComBoardString = "";
 
                     if (hasWatchStartedBeenEventFired)
                     {
-                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (Exception) - {ex.Message}", FenString = "" });
+                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:Watching Tab Stopped (Exception) - {ex.Message}" });
                         hasWatchStartedBeenEventFired = false;
                     }
 
