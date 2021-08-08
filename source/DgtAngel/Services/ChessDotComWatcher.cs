@@ -9,6 +9,7 @@ namespace DgtAngel.Services
     {
         public string Message { get; set; }
         public string FenString { get; set; } = "";
+        public string ToMove { get; set; } = "-";
         public string WhiteClock { get; set; } = "00:00";
         public string BlackClock { get; set; } = "00:00";
     }
@@ -63,7 +64,7 @@ namespace DgtAngel.Services
                     if (chessDotComBoardString != "UNDEFINED")
                     {
                         await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"Trying to calculate the FEN from the board string.");
-                        (string fen, string whiteClock, string blackClock) = chessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
+                        (string fen, string whiteClock, string blackClock, string toPlay) = chessDotComHelpers.ConvertHtmlToFenT2(chessDotComBoardString);
 
                         if (!hasWatchStartedBeenEventFired)
                         {
@@ -76,7 +77,7 @@ namespace DgtAngel.Services
                         if (lastChessDotComBoardString != chessDotComBoardString)
                         {
                             await scriptWrapper.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, MSG_SRC, $"The FEN has changed from {lastChessDotComBoardString} to {chessDotComBoardString}");
-                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:New FEN Recieved", FenString = fen, WhiteClock=whiteClock, BlackClock=blackClock });
+                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherEventArgs() { Message = $"{MSG_SRC}:New FEN Recieved", FenString = fen, WhiteClock=whiteClock, BlackClock=blackClock, ToMove=toPlay });
                             lastChessDotComBoardString = chessDotComBoardString;
                         }
 

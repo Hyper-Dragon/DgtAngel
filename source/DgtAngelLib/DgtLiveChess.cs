@@ -142,7 +142,11 @@ namespace DgtAngelLib
             for (; ; )
             {
                     var (feedMsgJsonString, feedMsgResponse) = DgtAngelLib.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
+
+                if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
+                {
                     OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Board Fen {feedMsgResponse.Param.Board}" });
+                }
             }
         }
 

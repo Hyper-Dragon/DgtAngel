@@ -9,7 +9,7 @@ namespace DgtAngelLib
     public interface IChessDotComHelpers
     {
         string ConvertHtmlToFenT1(string htmlIn);
-        (string fen, string whiteClock, string blackClock) ConvertHtmlToFenT2(string htmlIn);
+        (string fen, string whiteClock, string blackClock, string toPlay) ConvertHtmlToFenT2(string htmlIn);
     }
 
     public class ChessDotComHelpers : IChessDotComHelpers
@@ -20,7 +20,7 @@ namespace DgtAngelLib
         //}
 
         // 2:58|2:57|br88,bn78,bb68,bk58,bq48,bb38,bn36,br18,bp87,bp77,bp67,bp57,bp47,bp35,bp27,bp17,wp82,wp72,wp62,wp54,wp42,wp32,wp22,wp12,wr81,wn63,wb61,wk51,wq41,wb31,wn21,wr11
-        public (string fen, string whiteClock, string blackClock) ConvertHtmlToFenT2(string htmlIn)
+        public (string fen, string whiteClock, string blackClock, string toPlay) ConvertHtmlToFenT2(string htmlIn)
         {
             ChessDotNet.Piece[][] board = new ChessDotNet.Piece[8][];
             for (int loop = 0; loop < 8; loop++)
@@ -31,7 +31,7 @@ namespace DgtAngelLib
             string[] gameString = htmlIn.ToLowerInvariant().Split('|');
 
 
-            foreach (string sqr in gameString[2].Split(','))
+            foreach (string sqr in gameString[3].Split(','))
             {
                 board[7 - (int.Parse(sqr[3].ToString()) - 1)][int.Parse(sqr[2].ToString()) - 1] = sqr[1] switch
                 {
@@ -49,7 +49,7 @@ namespace DgtAngelLib
             {
                 WhoseTurn = ChessDotNet.Player.White,
                 Board = board,
-            }).GetFen().Split(" ")[0], gameString[0], gameString[1]);
+            }).GetFen().Split(" ")[0], gameString[1], gameString[2], gameString[0]);
         }
 
 
