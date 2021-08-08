@@ -157,16 +157,10 @@
                             };
 
 
-
-                                
-
 #pragma warning disable CS4014 // This function does not return - NEVER AWAIT
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess (Startup)");
         DgtLiveChess.PollDgtBoard();
 #pragma warning restore CS4014
-
-
-
 
     }
 }
