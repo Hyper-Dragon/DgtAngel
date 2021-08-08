@@ -13,11 +13,13 @@ namespace DgtAngel.Services
         bool IsChessDotComBoardStateActive { get; }
         string WhiteClock { get; }
 
+        string ToMove { get; }
+
         event Action OnClockChange;
         event Action OnFenChange;
 
         void ResetChessDotComBoardState();
-        void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock);
+        void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string toMove);
     }
 
     public class AppData : IAppData
@@ -27,11 +29,13 @@ namespace DgtAngel.Services
 
         private string _boardFen = "";
         private string _chessDotComFEN = "";
+        private string _toMove = "-";
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
 
         public string BoardFEN { get { return _boardFen; } set { if (_boardFen != value) { _boardFen = value; OnFenChange?.Invoke(); } } }
         public string ChessDotComFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnFenChange?.Invoke(); } } }
+        public string ToMove { get { return _toMove; } }
         public string WhiteClock { get { return _chessDotComWhiteClock; } }
         public string BlackClock { get { return _chessDotComBlackClock; } }
         public bool IsChessDotComBoardStateActive { get { return (_chessDotComFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00"); } }
@@ -43,12 +47,14 @@ namespace DgtAngel.Services
             _chessDotComBlackClock = "00:00";
         }
 
-        public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock)
+        public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string toMove)
         {
             if (chessDotComWhiteClock != _chessDotComWhiteClock || chessDotComBlackClock != _chessDotComBlackClock)
             {
                 _chessDotComWhiteClock = chessDotComWhiteClock;
                 _chessDotComBlackClock = chessDotComBlackClock;
+                _toMove = toMove;
+
                 OnClockChange?.Invoke();
             }
         }

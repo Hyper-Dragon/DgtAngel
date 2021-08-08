@@ -5,6 +5,7 @@
 @inject IChessDotComWatcher ChessDotComWatcher
 @inject IChessDotComHelpers ChessDotComHelpers
 @inject IDgtLiveChess DgtLiveChess
+@inject HttpClient WebClient
 @using DgtAngel.Services
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
@@ -84,7 +85,7 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"CDC_WATCH:{eventArgs.FenString}");
                                 AppDataService.ChessDotComFEN = eventArgs.FenString;
-                                AppDataService.SetClocks(eventArgs.WhiteClock, eventArgs.BlackClock);
+                                AppDataService.SetClocks(eventArgs.WhiteClock, eventArgs.BlackClock, eventArgs.ToMove);
                             };
 
         ChessDotComWatcher.OnWatchStarted += async (obj, eventArgs) =>
@@ -98,9 +99,11 @@
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Watching the https://www.chess.com/live tab has stopped");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
 
+                                await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/ClockApi/SetAuthors/0:00:00/0:00:00/9") });
+
                                 AppDataService.ResetChessDotComBoardState();
                             };
-
+/*
         AppDataService.OnFenChange += async () =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"APP_DATA: Matching {AppDataService.ChessDotComFEN} {AppDataService.BoardFEN}");
@@ -108,7 +111,7 @@
                                 if (AppDataService.IsChessDotComBoardStateActive && AppDataService.ChessDotComFEN != AppDataService.BoardFEN)
                                 {
                                     //Give time to move the pieces in sync...
-                                    await Task.Delay(1000);
+                                    await Task.Delay(2000);
 
                                     //...then test again
                                     if (AppDataService.IsChessDotComBoardStateActive && AppDataService.ChessDotComFEN != AppDataService.BoardFEN)
@@ -116,19 +119,54 @@
                                         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: Mismatch detected...Boards are not in sync");
                                         await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
                                     }
+                                    else
+                                    {
+                                        await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: The boards are in sync");
+                                        await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MATCH);
+                                    }
                                 }
-
+                                else
+                                {
+                                    await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: The boards are in sync");
+                                    await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MATCH);
+                                }
                             };
+
+                            */
 
         AppDataService.OnClockChange += async () =>
                             {
-                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: White Clock {AppDataService.WhiteClock} Black Clock {AppDataService.BlackClock}");
+                                await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: White Clock {AppDataService.WhiteClock} Black Clock {AppDataService.BlackClock} To Move {AppDataService.ToMove}");
+
+                                var ws = AppDataService.WhiteClock.Split(".")[0].Split(":");
+                                var bc = AppDataService.BlackClock.Split(".")[0].Split(":");
+
+                                string wcout = $"0:{ws[0].PadLeft(2,'0')}:{ws[1].PadLeft(2,'0')}";
+                                string bcout = $"0:{bc[0].PadLeft(2,'0')}:{bc[1].PadLeft(2,'0')}";
+                                string toMove = ((AppDataService.ToMove.ToUpper() == "W") ? "1" : ((AppDataService.ToMove.ToUpper() == "B")?"2":"0"));
+
+                                await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/ClockApi/SetAuthors/{wcout}/{bcout}/{toMove}")});
+                                /*
+                                using var client = new System.Net.Sockets.TcpClient("localhost", 13000);
+                                var netStream = client.GetStream();
+                                var txtstream = new System.IO.StreamWriter(netStream);
+                                await txtstream.WriteLineAsync($"TXT,{AppDataService.WhiteClock}");
+                                await txtstream.WriteLineAsync($"QUIT");
+                                */
+
                             };
+
+
+
+                                
 
 #pragma warning disable CS4014 // These functions do not return - NEVER AWAIT
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess (Startup)");
         DgtLiveChess.PollDgtBoard();
 #pragma warning restore CS4014
+
+
+
 
     }
 }

@@ -11,10 +11,21 @@ function piecesFromLiveBoardDOM() {
     myPiecesArray = Array.from(pieces);
     piecesStringOut = myPiecesArray.map(o => o.style.backgroundImage.split('/').pop().substring(0, 2) + o.className.replace("piece square-", "").replaceAll("0", "")).join(',');
 
-    whiteClock = document.getElementsByClassName("clock-white")[0].innerText;
-    blackClock = document.getElementsByClassName("clock-black")[0].innerText;
+    whiteClock = document.getElementsByClassName("clock-white")[0];
+    blackClock = document.getElementsByClassName("clock-black")[0];
+    turn = "?";
 
-    retVal = whiteClock + '|' + blackClock + '|' + piecesStringOut;
+    if (whiteClock.outerHTML.includes("clock-playerTurn")) {
+        turn = "W";
+    }
+    else if (blackClock.outerHTML.includes("clock-playerTurn")) {
+        turn = "B";
+    }
+
+    //document.getElementsByClassName("clock-white")[0].outerHTML.includes("clock-playerTurn")
+    //document.getElementsByClassName("clock-playerTurn")[0].outerHTML.includes("clock-black")
+
+    retVal = turn + '|' + whiteClock.innerText + '|' + blackClock.innerText + '|' + piecesStringOut;
 
     //console.log('Returning: ' + retVal);
 
