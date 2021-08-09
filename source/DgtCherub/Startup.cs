@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DgtEbDllWrapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +30,8 @@ namespace DgtCherub
             });
             services.AddControllers();
             services.AddLogging();
-            //services.AddSingleton(typeof(IAppDataService), typeof(AppDataService));
+            services.AddSingleton(typeof(IAppDataService), typeof(AppDataService));
+            services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             services.AddScoped<Form1>();
         }
 
