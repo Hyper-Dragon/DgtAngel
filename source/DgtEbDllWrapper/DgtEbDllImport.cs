@@ -16,12 +16,14 @@ namespace DgtEbDllWrapper
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_HideDialog",
                    ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         internal static extern int HideDialog(int dummy);
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_ShowDialog",
                    ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         internal static extern int ShowDialog(int dummy);
 
@@ -48,7 +50,7 @@ namespace DgtEbDllWrapper
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_SetNRun",
                    ExactSpelling = true,
-                   CharSet = CharSet.Unicode,
+                   CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
         internal static extern int SetNRun(StringBuilder wclock, StringBuilder bclock, int runwho);
 
