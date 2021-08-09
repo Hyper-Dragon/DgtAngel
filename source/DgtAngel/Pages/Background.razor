@@ -10,6 +10,7 @@
 @using WebExtensions.Net.Tabs
 @using DgtAngelLib
 @using System.Threading
+@using System.Web
 
 <div>
 @foreach(var item in Enum.GetValues(typeof(ScriptWrapper.AudioClip)))
@@ -36,6 +37,7 @@
         DgtLiveChess.OnLiveChessConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
+                                await WebClient.SendAsync(new HttpRequestMessage() {  RequestUri = new Uri($"http://localhost:37964/api/DgtBoard/MessageUser/ANGEL/?message={HttpUtility.UrlEncode("Connected to Live Chess Software")}")});
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_CONNECTED);
                             };
 
@@ -146,7 +148,9 @@
                                 string toMove = ((AppDataService.ToMove.ToUpper() == "W") ? "1" : ((AppDataService.ToMove.ToUpper() == "B")?"2":"0"));
 
                                 await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/api/DgtBoard/SetClock/{wcout}/{bcout}/{toMove}")});
-                                /*
+                                
+                                
+                               /*
                                 using var client = new System.Net.Sockets.TcpClient("localhost", 13000);
                                 var netStream = client.GetStream();
                                 var txtstream = new System.IO.StreamWriter(netStream);

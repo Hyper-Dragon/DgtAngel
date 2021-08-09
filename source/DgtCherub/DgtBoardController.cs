@@ -32,10 +32,20 @@ namespace DgtCherub
         public object SetClock(string whiteClock = "0:00:00", string blackClock = "0:00:00", int runwho = 0)
         {
             //curl http://localhost:37964/api/DgtBoard/SetClock/0:30:00/0:30:00/1
-            _appDataService.SetClocks(whiteClock,blackClock);
-            _dgtEbDllFacade.SetClock(whiteClock,blackClock,runwho);
+            _appDataService.SetClocks(whiteClock, blackClock);
+            _dgtEbDllFacade.SetClock(whiteClock, blackClock, runwho);
 
             return new { White = whiteClock, Black = blackClock, Time = System.DateTime.Now };
+        }
+
+        [HttpGet]
+        [Route("{action}/{source}")]
+        public object MessageUser(string source= "Unknown", string message = "Message Empty")
+        {
+            // curl -G 'http://localhost:37964/api/DgtBoard/MessageUser/CLI/' --data-urlencode 'message=Just wanted to say hi by GET'
+            _appDataService.UserMessageArrived(source, message);
+
+            return new { isSuccess=true };
         }
 
     }

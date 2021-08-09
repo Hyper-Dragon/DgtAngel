@@ -78,6 +78,12 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"[{System.DateTime.Now.ToLongTimeString()}] Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock})", TEXTBOX_MAX_LINES);
             };
 
+            
+            _appDataService.OnUserMessageArrived += (source,message) =>
+            {
+                TextBoxConsole.AddLine($"[{System.DateTime.Now.ToLongTimeString()}] From {source}::{message}", TEXTBOX_MAX_LINES);
+            };
+  
         }
     }
 }

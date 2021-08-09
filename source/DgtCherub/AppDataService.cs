@@ -12,17 +12,21 @@ namespace DgtCherub
         string ChessDotComFEN { get; set; }
         bool IsChessDotComBoardStateActive { get; }
         string WhiteClock { get; }
+
         event Action OnClockChange;
         event Action OnFenChange;
+        event Action<string, string> OnUserMessageArrived;
 
         void ResetChessDotComBoardState();
         void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock);
+        void UserMessageArrived(string source, string message);
     }
 
     public class AppDataService : IAppDataService
     {
         public event Action OnFenChange;
         public event Action OnClockChange;
+        public event Action<string, string> OnUserMessageArrived;
 
         private string _boardFen = "";
         private string _chessDotComFEN = "";
@@ -49,6 +53,11 @@ namespace DgtCherub
             _chessDotComBlackClock = chessDotComBlackClock;
             OnClockChange?.Invoke();
 
+        }
+
+        public void UserMessageArrived(string source, string message)
+        {
+            OnUserMessageArrived?.Invoke(source, message);
         }
     }
 }
