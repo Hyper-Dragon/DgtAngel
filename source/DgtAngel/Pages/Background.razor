@@ -20,6 +20,27 @@
 </div>
 
 @code {
+    const string CHERUB_API_HOST = "http://localhost:37964";
+    const string CHERUB_API_PATH = "api/DgtBoard";
+    const string CHERUB_SEND_USER_MESSAGE = "MessageUser";
+    const string CHERUB_SEND_CLOCK_MESSAGE = "MessageUser";
+    const string CHERUB_SENDER_NAME = "ANGEL";
+
+    protected async Task SendMessageToCherubClient(string message)
+    {
+        // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
+        //await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri(HttpUtility.UrlEncode($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={message}")) });
+        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={HttpUtility.UrlEncode(message)}") }); 
+    
+    }
+
+    protected async Task SendMessageToClock(string message)
+    {
+        // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
+        //await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri(HttpUtility.UrlEncode($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{CHERUB_SENDER_NAME}/?message={message}")) });
+    }
+
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,7 +58,7 @@
         DgtLiveChess.OnLiveChessConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
-                                await WebClient.SendAsync(new HttpRequestMessage() {  RequestUri = new Uri($"http://localhost:37964/api/DgtBoard/MessageUser/ANGEL/?message={HttpUtility.UrlEncode("Connected to Live Chess Software")}")});
+                                await SendMessageToCherubClient("DGT Angel is CONNECTED to the Live Chess Software");   
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_CONNECTED);
                             };
 
@@ -47,6 +68,7 @@
                                 if (!hasOnLiveChessConnectedPlayedSinceLastConnection)
                                 {
                                     await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
+                                    await SendMessageToCherubClient("DGT Angel is DISCONNECTED from the Live Chess Software...trying to reconnect");  
                                     await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED);
                                     await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess");
                                     hasOnLiveChessConnectedPlayedSinceLastConnection = true;
@@ -57,6 +79,9 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
+                                
+                                await SendMessageToCherubClient($"DGT Angel has CONNECTED to the board"); 
+                                
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_CONNECTED);
 
                                 //Run the Chess.Com Watcher
@@ -71,6 +96,8 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Default/icon-48.png" });
+                               
+                                await SendMessageToCherubClient($"DGT Angel has DISCONNECTED from the board"); 
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_DISCONNECTED);
 
                                 //Stop the Chess.Com Watcher (if running) 
@@ -80,6 +107,9 @@
         DgtLiveChess.OnResponseRecieved += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
+
+                                await SendMessageToCherubClient($"DGT_BOARD:{eventArgs.ResponseOut}"); 
+
                                 AppDataService.BoardFEN = eventArgs.ResponseOut;
                             };
 
