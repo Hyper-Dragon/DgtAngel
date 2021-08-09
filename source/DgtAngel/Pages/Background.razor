@@ -145,7 +145,7 @@
                                 string bcout = $"0:{bc[0].PadLeft(2,'0')}:{bc[1].PadLeft(2,'0')}";
                                 string toMove = ((AppDataService.ToMove.ToUpper() == "W") ? "1" : ((AppDataService.ToMove.ToUpper() == "B")?"2":"0"));
 
-                                await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/ClockApi/SetAuthors/{wcout}/{bcout}/{toMove}")});
+                                await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/api/DgtBoard/SetClock/{wcout}/{bcout}/{toMove}")});
                                 /*
                                 using var client = new System.Net.Sockets.TcpClient("localhost", 13000);
                                 var netStream = client.GetStream();
