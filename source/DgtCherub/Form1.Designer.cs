@@ -34,15 +34,16 @@ namespace DgtCherub
             System.Windows.Forms.GroupBox groupBox1;
             this.ButtonSendTestMsg2 = new System.Windows.Forms.Button();
             this.ButtonSendTestMsg1 = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.TextBoxConsole = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.CheckBoxShowRabbit = new System.Windows.Forms.CheckBox();
             toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
             groupBox1 = new System.Windows.Forms.GroupBox();
             groupBox1.SuspendLayout();
@@ -80,13 +81,6 @@ namespace DgtCherub
             this.ButtonSendTestMsg1.UseVisualStyleBackColor = true;
             this.ButtonSendTestMsg1.Click += new System.EventHandler(this.ButtonSendTestMsg1_Click);
             // 
-            // radioButton1
-            // 
-            resources.ApplyResources(this.radioButton1, "radioButton1");
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.TabStop = true;
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
             // tabControl1
             // 
             resources.ApplyResources(this.tabControl1, "tabControl1");
@@ -98,10 +92,20 @@ namespace DgtCherub
             // tabPage1
             // 
             resources.ApplyResources(this.tabPage1, "tabPage1");
+            this.tabPage1.Controls.Add(this.CheckBoxShowRabbit);
+            this.tabPage1.Controls.Add(this.CheckBoxOnTop);
             this.tabPage1.Controls.Add(groupBox1);
-            this.tabPage1.Controls.Add(this.radioButton1);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxOnTop
+            // 
+            resources.ApplyResources(this.CheckBoxOnTop, "CheckBoxOnTop");
+            this.CheckBoxOnTop.Checked = true;
+            this.CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxOnTop.Name = "CheckBoxOnTop";
+            this.CheckBoxOnTop.UseVisualStyleBackColor = true;
+            this.CheckBoxOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxOnTop_CheckedChanged);
             // 
             // tabPage2
             // 
@@ -144,6 +148,13 @@ namespace DgtCherub
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
+            // CheckBoxShowRabbit
+            // 
+            resources.ApplyResources(this.CheckBoxShowRabbit, "CheckBoxShowRabbit");
+            this.CheckBoxShowRabbit.Name = "CheckBoxShowRabbit";
+            this.CheckBoxShowRabbit.UseVisualStyleBackColor = true;
+            this.CheckBoxShowRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxShowRabbit_CheckedChanged);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -154,6 +165,7 @@ namespace DgtCherub
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.TopMost = true;
             this.Shown += new System.EventHandler(this.Form1_Shown);
             groupBox1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -171,7 +183,6 @@ namespace DgtCherub
         #endregion
 
         private System.Windows.Forms.Button ButtonSendTestMsg1;
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -182,6 +193,8 @@ namespace DgtCherub
 
         private System.Windows.Forms.Button ButtonSendTestMsg2;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelVersion;
+        private System.Windows.Forms.CheckBox CheckBoxOnTop;
+        private System.Windows.Forms.CheckBox CheckBoxShowRabbit;
     }
 }
 

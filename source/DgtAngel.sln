@@ -22,9 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{46BFB6AB-7
 		Docs\Script.txt = Docs\Script.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgtCherub", "DgtCherub\DgtCherub.csproj", "{A67E1775-FCF0-479D-B2D2-AB6146786F43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtCherub", "DgtCherub\DgtCherub.csproj", "{A67E1775-FCF0-479D-B2D2-AB6146786F43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgtEbDllWrapper", "DgtEbDllWrapper\DgtEbDllWrapper.csproj", "{B9F97188-1996-4F0F-BD67-734EA3F672D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtEbDllWrapper", "DgtEbDllWrapper\DgtEbDllWrapper.csproj", "{B9F97188-1996-4F0F-BD67-734EA3F672D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

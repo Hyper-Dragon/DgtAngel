@@ -71,8 +71,6 @@ namespace DgtCherub
             TextBoxConsole.AddLine($">> Using Rabbit Version {_dgtEbDllFacade.GetRabbitVersionString()}", TEXTBOX_MAX_LINES);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES);
 
-
-
             _appDataService.OnClockChange += () =>
             {
                 TextBoxConsole.AddLine($"[{System.DateTime.Now.ToLongTimeString()}] Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock})", TEXTBOX_MAX_LINES);
@@ -84,6 +82,23 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"[{System.DateTime.Now.ToLongTimeString()}] From {source}::{message}", TEXTBOX_MAX_LINES);
             };
   
+        }
+
+        private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
+        {
+            ((Form)TopLevelControl).TopMost = CheckBoxOnTop.Checked;
+        }
+
+        private void CheckBoxShowRabbit_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckBoxShowRabbit.Checked)
+            {
+                _dgtEbDllFacade.ShowCongigDialog();
+            }
+            else
+            {
+                _dgtEbDllFacade.HideCongigDialog();
+            }
         }
     }
 }
