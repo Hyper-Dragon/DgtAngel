@@ -61,6 +61,13 @@
   <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 55</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ButtonSendTestMsg2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="ButtonSendTestMsg1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
   <data name="GroupBoxClockTest.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 91</value>
   </data>
@@ -221,6 +228,9 @@
   <data name="ButtonRabbitConf2.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 26</value>
   </data>
+  <data name="ButtonRabbitConf2.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="ButtonRabbitConf2.Text" xml:space="preserve">
     <value>Rabbit Config...</value>
   </data>
@@ -252,6 +262,9 @@
   <data name="ButtonClearConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 26</value>
   </data>
+  <data name="ButtonClearConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
   <data name="ButtonClearConsole.Text" xml:space="preserve">
     <value>Clear Console</value>
   </data>
@@ -264,6 +277,9 @@
   <data name="CheckBoxShowInbound.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 25</value>
   </data>
+  <data name="CheckBoxShowInbound.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
   <data name="CheckBoxShowInbound.Text" xml:space="preserve">
     <value>Show Inbound</value>
   </data>
@@ -272,6 +288,9 @@
   </data>
   <data name="ButtonRabbitConfig1.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 26</value>
+  </data>
+  <data name="ButtonRabbitConfig1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="ButtonRabbitConfig1.Text" xml:space="preserve">
     <value>Rabbit Config...</value>
@@ -284,6 +303,9 @@
   </data>
   <data name="CheckBoxOnTop.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 25</value>
+  </data>
+  <data name="CheckBoxOnTop.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="CheckBoxOnTop.Text" xml:space="preserve">
     <value>Always On Top</value>
@@ -312,7 +334,6 @@
   <data name="CheckBoxShowConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 25</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CheckBoxShowConsole.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
@@ -879,6 +900,9 @@
   </data>
   <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>689, 365</value>
+  </data>
+  <data name="ToolStripStatusLabelLastUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>624, 17</value>
   </data>
   <data name="ToolStripStatusLabelLastUpdate.Text" xml:space="preserve">
     <value>[Last Update]</value>
