@@ -7,6 +7,7 @@ namespace DgtCherub
 {
     public interface IAppDataService
     {
+        bool EchoExternalMessagesToConsole { get; set; }
         string BlackClock { get; }
         string BoardFEN { get; set; }
         string ChessDotComFEN { get; set; }
@@ -33,6 +34,7 @@ namespace DgtCherub
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
 
+        public bool EchoExternalMessagesToConsole { get; set; } = true;
         public string BoardFEN { get { return _boardFen; } set { if (_boardFen != value) { _boardFen = value; OnFenChange?.Invoke(); } } }
         public string ChessDotComFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnFenChange?.Invoke(); } } }
         public string WhiteClock { get { return _chessDotComWhiteClock; } }
@@ -57,7 +59,10 @@ namespace DgtCherub
 
         public void UserMessageArrived(string source, string message)
         {
-            OnUserMessageArrived?.Invoke(source, message);
+            if (EchoExternalMessagesToConsole)
+            {
+                OnUserMessageArrived?.Invoke(source, message);
+            }
         }
     }
 }

@@ -32,25 +32,36 @@ namespace DgtCherub
             System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpacer;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.GroupBox groupBox1;
+            System.Windows.Forms.TabPage TabPageAbout;
+            System.Windows.Forms.PictureBox pictureBox1;
+            System.Windows.Forms.TabPage TabPageHttp;
+            System.Windows.Forms.Panel panel1;
             this.ButtonSendTestMsg2 = new System.Windows.Forms.Button();
             this.ButtonSendTestMsg1 = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
+            this.TabControlSidePanel = new System.Windows.Forms.TabControl();
+            this.TabPageConfig = new System.Windows.Forms.TabPage();
+            this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
+            this.ButtonRabbitConfig = new System.Windows.Forms.Button();
             this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TabPageBoards = new System.Windows.Forms.TabPage();
             this.TextBoxConsole = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.CheckBoxShowRabbit = new System.Windows.Forms.CheckBox();
             toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
             groupBox1 = new System.Windows.Forms.GroupBox();
+            TabPageAbout = new System.Windows.Forms.TabPage();
+            pictureBox1 = new System.Windows.Forms.PictureBox();
+            TabPageHttp = new System.Windows.Forms.TabPage();
+            panel1 = new System.Windows.Forms.Panel();
             groupBox1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            TabPageAbout.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
+            panel1.SuspendLayout();
+            this.TabControlSidePanel.SuspendLayout();
+            this.TabPageConfig.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripStatusLabelSpacer
@@ -81,22 +92,79 @@ namespace DgtCherub
             this.ButtonSendTestMsg1.UseVisualStyleBackColor = true;
             this.ButtonSendTestMsg1.Click += new System.EventHandler(this.ButtonSendTestMsg1_Click);
             // 
-            // tabControl1
+            // TabPageAbout
             // 
-            resources.ApplyResources(this.tabControl1, "tabControl1");
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
+            resources.ApplyResources(TabPageAbout, "TabPageAbout");
+            TabPageAbout.Controls.Add(this.LinkLabelAbout1);
+            TabPageAbout.Controls.Add(pictureBox1);
+            TabPageAbout.Name = "TabPageAbout";
+            TabPageAbout.UseVisualStyleBackColor = true;
             // 
-            // tabPage1
+            // LinkLabelAbout1
             // 
-            resources.ApplyResources(this.tabPage1, "tabPage1");
-            this.tabPage1.Controls.Add(this.CheckBoxShowRabbit);
-            this.tabPage1.Controls.Add(this.CheckBoxOnTop);
-            this.tabPage1.Controls.Add(groupBox1);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.LinkLabelAbout1, "LinkLabelAbout1");
+            this.LinkLabelAbout1.AutoEllipsis = true;
+            this.LinkLabelAbout1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.LinkLabelAbout1.Name = "LinkLabelAbout1";
+            this.LinkLabelAbout1.TabStop = true;
+            // 
+            // pictureBox1
+            // 
+            resources.ApplyResources(pictureBox1, "pictureBox1");
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.TabStop = false;
+            // 
+            // TabPageHttp
+            // 
+            resources.ApplyResources(TabPageHttp, "TabPageHttp");
+            TabPageHttp.Name = "TabPageHttp";
+            TabPageHttp.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(panel1, "panel1");
+            panel1.Controls.Add(this.TabControlSidePanel);
+            panel1.Controls.Add(this.TextBoxConsole);
+            panel1.Name = "panel1";
+            // 
+            // TabControlSidePanel
+            // 
+            resources.ApplyResources(this.TabControlSidePanel, "TabControlSidePanel");
+            this.TabControlSidePanel.CausesValidation = false;
+            this.TabControlSidePanel.Controls.Add(TabPageAbout);
+            this.TabControlSidePanel.Controls.Add(this.TabPageConfig);
+            this.TabControlSidePanel.Controls.Add(TabPageHttp);
+            this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
+            this.TabControlSidePanel.HotTrack = true;
+            this.TabControlSidePanel.Multiline = true;
+            this.TabControlSidePanel.Name = "TabControlSidePanel";
+            this.TabControlSidePanel.SelectedIndex = 0;
+            // 
+            // TabPageConfig
+            // 
+            resources.ApplyResources(this.TabPageConfig, "TabPageConfig");
+            this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
+            this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig);
+            this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
+            this.TabPageConfig.Controls.Add(groupBox1);
+            this.TabPageConfig.Name = "TabPageConfig";
+            this.TabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxShowInbound
+            // 
+            resources.ApplyResources(this.CheckBoxShowInbound, "CheckBoxShowInbound");
+            this.CheckBoxShowInbound.Checked = true;
+            this.CheckBoxShowInbound.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxShowInbound.Name = "CheckBoxShowInbound";
+            this.CheckBoxShowInbound.UseVisualStyleBackColor = true;
+            this.CheckBoxShowInbound.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
+            // 
+            // ButtonRabbitConfig
+            // 
+            resources.ApplyResources(this.ButtonRabbitConfig, "ButtonRabbitConfig");
+            this.ButtonRabbitConfig.Name = "ButtonRabbitConfig";
+            this.ButtonRabbitConfig.UseVisualStyleBackColor = true;
+            this.ButtonRabbitConfig.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
             // 
             // CheckBoxOnTop
             // 
@@ -107,11 +175,11 @@ namespace DgtCherub
             this.CheckBoxOnTop.UseVisualStyleBackColor = true;
             this.CheckBoxOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxOnTop_CheckedChanged);
             // 
-            // tabPage2
+            // TabPageBoards
             // 
-            resources.ApplyResources(this.tabPage2, "tabPage2");
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.TabPageBoards, "TabPageBoards");
+            this.TabPageBoards.Name = "TabPageBoards";
+            this.TabPageBoards.UseVisualStyleBackColor = true;
             // 
             // TextBoxConsole
             // 
@@ -136,45 +204,33 @@ namespace DgtCherub
             this.ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
             // 
-            // panel1
-            // 
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Controls.Add(this.tabControl1);
-            this.panel1.Controls.Add(this.TextBoxConsole);
-            this.panel1.Name = "panel1";
-            // 
             // menuStrip1
             // 
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
-            // CheckBoxShowRabbit
-            // 
-            resources.ApplyResources(this.CheckBoxShowRabbit, "CheckBoxShowRabbit");
-            this.CheckBoxShowRabbit.Name = "CheckBoxShowRabbit";
-            this.CheckBoxShowRabbit.UseVisualStyleBackColor = true;
-            this.CheckBoxShowRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxShowRabbit_CheckedChanged);
-            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(panel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             groupBox1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            TabPageAbout.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            this.TabControlSidePanel.ResumeLayout(false);
+            this.TabPageConfig.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -183,9 +239,9 @@ namespace DgtCherub
         #endregion
 
         private System.Windows.Forms.Button ButtonSendTestMsg1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl TabControlSidePanel;
+        private System.Windows.Forms.TabPage TabPageConfig;
+        private System.Windows.Forms.TabPage TabPageHttp;
         private System.Windows.Forms.TextBox TextBoxConsole;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel1;
@@ -194,7 +250,10 @@ namespace DgtCherub
         private System.Windows.Forms.Button ButtonSendTestMsg2;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelVersion;
         private System.Windows.Forms.CheckBox CheckBoxOnTop;
-        private System.Windows.Forms.CheckBox CheckBoxShowRabbit;
+        private System.Windows.Forms.Button ButtonRabbitConfig;
+        private System.Windows.Forms.CheckBox CheckBoxShowInbound;
+        private System.Windows.Forms.LinkLabel LinkLabelAbout1;
+        private System.Windows.Forms.TabPage TabPageBoards;
     }
 }
 
