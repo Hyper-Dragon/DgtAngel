@@ -34,11 +34,12 @@ namespace DgtCherub
             System.Windows.Forms.GroupBox groupBox1;
             System.Windows.Forms.TabPage TabPageAbout;
             System.Windows.Forms.PictureBox pictureBox1;
-            System.Windows.Forms.TabPage TabPageHttp;
+            System.Windows.Forms.TabPage TabPageTest;
             System.Windows.Forms.Panel panel1;
             this.ButtonSendTestMsg2 = new System.Windows.Forms.Button();
             this.ButtonSendTestMsg1 = new System.Windows.Forms.Button();
             this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
+            this.button1 = new System.Windows.Forms.Button();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
             this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
@@ -57,11 +58,12 @@ namespace DgtCherub
             groupBox1 = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             pictureBox1 = new System.Windows.Forms.PictureBox();
-            TabPageHttp = new System.Windows.Forms.TabPage();
+            TabPageTest = new System.Windows.Forms.TabPage();
             panel1 = new System.Windows.Forms.Panel();
             groupBox1.SuspendLayout();
             TabPageAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
+            TabPageTest.SuspendLayout();
             panel1.SuspendLayout();
             this.TabControlSidePanel.SuspendLayout();
             this.TabPageConfig.SuspendLayout();
@@ -121,11 +123,19 @@ namespace DgtCherub
             pictureBox1.Name = "pictureBox1";
             pictureBox1.TabStop = false;
             // 
-            // TabPageHttp
+            // TabPageTest
             // 
-            resources.ApplyResources(TabPageHttp, "TabPageHttp");
-            TabPageHttp.Name = "TabPageHttp";
-            TabPageHttp.UseVisualStyleBackColor = true;
+            resources.ApplyResources(TabPageTest, "TabPageTest");
+            TabPageTest.Controls.Add(this.button1);
+            TabPageTest.Name = "TabPageTest";
+            TabPageTest.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
             // 
             // panel1
             // 
@@ -140,12 +150,13 @@ namespace DgtCherub
             this.TabControlSidePanel.CausesValidation = false;
             this.TabControlSidePanel.Controls.Add(TabPageAbout);
             this.TabControlSidePanel.Controls.Add(this.TabPageConfig);
-            this.TabControlSidePanel.Controls.Add(TabPageHttp);
+            this.TabControlSidePanel.Controls.Add(TabPageTest);
             this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
             this.TabControlSidePanel.HotTrack = true;
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
+            this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             // 
             // TabPageConfig
             // 
@@ -260,6 +271,7 @@ namespace DgtCherub
             groupBox1.ResumeLayout(false);
             TabPageAbout.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
+            TabPageTest.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             this.TabControlSidePanel.ResumeLayout(false);
@@ -279,7 +291,7 @@ namespace DgtCherub
         private System.Windows.Forms.Button ButtonSendTestMsg1;
         private System.Windows.Forms.TabControl TabControlSidePanel;
         private System.Windows.Forms.TabPage TabPageConfig;
-        private System.Windows.Forms.TabPage TabPageHttp;
+        private System.Windows.Forms.TabPage TabPageTest;
         private System.Windows.Forms.TextBox TextBoxConsole;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Panel panel1;
@@ -296,6 +308,7 @@ namespace DgtCherub
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox PictureBoxRemote;
         private System.Windows.Forms.PictureBox PictureBoxLocal;
+        private System.Windows.Forms.Button button1;
     }
 }
 
