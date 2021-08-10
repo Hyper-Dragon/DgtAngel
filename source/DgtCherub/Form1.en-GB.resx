@@ -58,22 +58,38 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ToolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
     <value>639, 17</value>
+  </data>
+  <data name="GroupBoxClockTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 53</value>
+  </data>
+  <data name="GroupBoxClockTest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>135, 91</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="GroupBoxClockTest.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="GroupBoxClockTest.Text" xml:space="preserve">
+    <value>Clock Test Messages</value>
   </data>
   <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 55</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 53</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 91</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Clock Test Messages</value>
+  <data name="TabPageAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 4</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TabPageAbout.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="TabPageAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 327</value>
+  </data>
+  <data name="TabPageAbout.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="LinkLabelAbout1.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>0, 15</value>
   </data>
@@ -86,7 +102,7 @@
   <data name="LinkLabelAbout1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopCenter</value>
   </data>
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="PictureBoxLogo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
         ugAAAboB6KsBBgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
@@ -197,38 +213,17 @@
         mj1w3Bh8XsO/9oJxxkycyJla959SSimllFJKKXUeMfZfqEk/J1oR0vgAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="PictureBoxLogo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="PictureBoxLogo.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 133</value>
   </data>
-  <data name="pictureBox1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+  <data name="PictureBoxLogo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
   </data>
-  <data name="TabPageAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 4</value>
-  </data>
-  <data name="TabPageAbout.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
-  </data>
-  <data name="TabPageAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
-  </data>
-  <data name="TabPageAbout.Text" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="button1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="button1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 26</value>
-  </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>Rabbit Config...</value>
+  <data name="PictureBoxLogo.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="TabPageTest.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 4</value>
@@ -238,13 +233,64 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 427</value>
+    <value>146, 327</value>
   </data>
   <data name="TabPageTest.Text" xml:space="preserve">
     <value>Test Con.</value>
   </data>
+  <data name="ButtonRabbitConf2.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="ButtonRabbitConf2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonRabbitConf2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="ButtonRabbitConf2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 26</value>
+  </data>
+  <data name="ButtonRabbitConf2.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ButtonRabbitConf2.Text" xml:space="preserve">
+    <value>Rabbit Config...</value>
+  </data>
+  <data name="Panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="Panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>704, 335</value>
+  </data>
+  <data name="Panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
   <data name="TabControlSidePanel.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Left</value>
+  </data>
+  <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>82, 25</value>
+  </data>
+  <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 335</value>
+  </data>
+  <data name="TabPageConfig.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 4</value>
+  </data>
+  <data name="TabPageConfig.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 327</value>
+  </data>
+  <data name="TabPageConfig.Text" xml:space="preserve">
+    <value>Config</value>
   </data>
   <data name="CheckBoxShowInbound.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -258,16 +304,19 @@
   <data name="CheckBoxShowInbound.Text" xml:space="preserve">
     <value>Show Inbound</value>
   </data>
-  <data name="ButtonRabbitConfig.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="ButtonRabbitConfig1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
   </data>
-  <data name="ButtonRabbitConfig.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ButtonRabbitConfig1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 12</value>
   </data>
-  <data name="ButtonRabbitConfig.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ButtonRabbitConfig1.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 26</value>
   </data>
-  <data name="ButtonRabbitConfig.Text" xml:space="preserve">
+  <data name="ButtonRabbitConfig1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="ButtonRabbitConfig1.Text" xml:space="preserve">
     <value>Rabbit Config...</value>
   </data>
   <data name="CheckBoxOnTop.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
@@ -282,43 +331,46 @@
   <data name="CheckBoxOnTop.Text" xml:space="preserve">
     <value>Always On Top</value>
   </data>
-  <data name="TabPageConfig.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 4</value>
   </data>
-  <data name="TabPageConfig.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 327</value>
   </data>
-  <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 427</value>
+  <data name="TabPageBoards.Text" xml:space="preserve">
+    <value>Boards</value>
   </data>
-  <data name="TabPageConfig.Text" xml:space="preserve">
-    <value>Config</value>
-  </data>
-  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="LabelRemoteBoard.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt, style=Bold</value>
   </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="LabelRemoteBoard.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LabelRemoteBoard.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 164</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LabelRemoteBoard.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 16</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="LabelRemoteBoard.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LabelRemoteBoard.Text" xml:space="preserve">
     <value>Chess.com Board</value>
   </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="LabelLocalDgt.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt, style=Bold</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LabelLocalDgt.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 2</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LabelLocalDgt.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 15</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
+  <data name="LabelLocalDgt.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="LabelLocalDgt.Text" xml:space="preserve">
     <value>Local DGT Board</value>
   </data>
   <data name="PictureBoxRemote.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
@@ -786,24 +838,6 @@
   <data name="PictureBoxLocal.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
-  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 4</value>
-  </data>
-  <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 427</value>
-  </data>
-  <data name="TabPageBoards.Text" xml:space="preserve">
-    <value>Boards</value>
-  </data>
-  <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>82, 25</value>
-  </data>
-  <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 335</value>
-  </data>
   <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
     <value>Consolas, 8.25pt</value>
   </data>
@@ -813,8 +847,17 @@
   <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>520, 335</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>704, 335</value>
+  <data name="StatusStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 359</value>
+  </data>
+  <data name="StatusStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>704, 22</value>
+  </data>
+  <data name="StatusStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="StatusStrip.Text" xml:space="preserve">
+    <value>statusStrip1</value>
   </data>
   <data name="ToolStripStatusLabelVersion.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt, style=Italic</value>
@@ -822,14 +865,17 @@
   <data name="ToolStripStatusLabelVersion.Text" xml:space="preserve">
     <value>Ver. 0.0.0</value>
   </data>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 359</value>
+  <data name="MenuStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>704, 22</value>
-  </data>
-  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>704, 24</value>
+  </data>
+  <data name="MenuStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="MenuStrip.Text" xml:space="preserve">
+    <value>menuStrip1</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>704, 381</value>

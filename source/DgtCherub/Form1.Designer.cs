@@ -29,63 +29,63 @@ namespace DgtCherub
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelSpacer;
+            System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelSpacer;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.GroupBox groupBox1;
+            System.Windows.Forms.GroupBox GroupBoxClockTest;
             System.Windows.Forms.TabPage TabPageAbout;
-            System.Windows.Forms.PictureBox pictureBox1;
+            System.Windows.Forms.PictureBox PictureBoxLogo;
             System.Windows.Forms.TabPage TabPageTest;
-            System.Windows.Forms.Panel panel1;
+            System.Windows.Forms.Panel Panel1;
             this.ButtonSendTestMsg2 = new System.Windows.Forms.Button();
             this.ButtonSendTestMsg1 = new System.Windows.Forms.Button();
             this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ButtonRabbitConf2 = new System.Windows.Forms.Button();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
             this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
-            this.ButtonRabbitConfig = new System.Windows.Forms.Button();
+            this.ButtonRabbitConfig1 = new System.Windows.Forms.Button();
             this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             this.TabPageBoards = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LabelRemoteBoard = new System.Windows.Forms.Label();
+            this.LabelLocalDgt = new System.Windows.Forms.Label();
             this.PictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.PictureBoxLocal = new System.Windows.Forms.PictureBox();
             this.TextBoxConsole = new System.Windows.Forms.TextBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            toolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
-            groupBox1 = new System.Windows.Forms.GroupBox();
+            this.MenuStrip = new System.Windows.Forms.MenuStrip();
+            ToolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
+            GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
-            pictureBox1 = new System.Windows.Forms.PictureBox();
+            PictureBoxLogo = new System.Windows.Forms.PictureBox();
             TabPageTest = new System.Windows.Forms.TabPage();
-            panel1 = new System.Windows.Forms.Panel();
-            groupBox1.SuspendLayout();
+            Panel1 = new System.Windows.Forms.Panel();
+            GroupBoxClockTest.SuspendLayout();
             TabPageAbout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(PictureBoxLogo)).BeginInit();
             TabPageTest.SuspendLayout();
-            panel1.SuspendLayout();
+            Panel1.SuspendLayout();
             this.TabControlSidePanel.SuspendLayout();
             this.TabPageConfig.SuspendLayout();
             this.TabPageBoards.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).BeginInit();
-            this.statusStrip1.SuspendLayout();
+            this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStripStatusLabelSpacer
+            // ToolStripStatusLabelSpacer
             // 
-            resources.ApplyResources(toolStripStatusLabelSpacer, "toolStripStatusLabelSpacer");
-            toolStripStatusLabelSpacer.Name = "toolStripStatusLabelSpacer";
-            toolStripStatusLabelSpacer.Spring = true;
+            resources.ApplyResources(ToolStripStatusLabelSpacer, "ToolStripStatusLabelSpacer");
+            ToolStripStatusLabelSpacer.Name = "ToolStripStatusLabelSpacer";
+            ToolStripStatusLabelSpacer.Spring = true;
             // 
-            // groupBox1
+            // GroupBoxClockTest
             // 
-            resources.ApplyResources(groupBox1, "groupBox1");
-            groupBox1.Controls.Add(this.ButtonSendTestMsg2);
-            groupBox1.Controls.Add(this.ButtonSendTestMsg1);
-            groupBox1.Name = "groupBox1";
-            groupBox1.TabStop = false;
+            resources.ApplyResources(GroupBoxClockTest, "GroupBoxClockTest");
+            GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg2);
+            GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg1);
+            GroupBoxClockTest.Name = "GroupBoxClockTest";
+            GroupBoxClockTest.TabStop = false;
             // 
             // ButtonSendTestMsg2
             // 
@@ -105,7 +105,7 @@ namespace DgtCherub
             // 
             resources.ApplyResources(TabPageAbout, "TabPageAbout");
             TabPageAbout.Controls.Add(this.LinkLabelAbout1);
-            TabPageAbout.Controls.Add(pictureBox1);
+            TabPageAbout.Controls.Add(PictureBoxLogo);
             TabPageAbout.Name = "TabPageAbout";
             TabPageAbout.UseVisualStyleBackColor = true;
             // 
@@ -117,33 +117,33 @@ namespace DgtCherub
             this.LinkLabelAbout1.Name = "LinkLabelAbout1";
             this.LinkLabelAbout1.TabStop = true;
             // 
-            // pictureBox1
+            // PictureBoxLogo
             // 
-            resources.ApplyResources(pictureBox1, "pictureBox1");
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.TabStop = false;
+            resources.ApplyResources(PictureBoxLogo, "PictureBoxLogo");
+            PictureBoxLogo.Name = "PictureBoxLogo";
+            PictureBoxLogo.TabStop = false;
             // 
             // TabPageTest
             // 
             resources.ApplyResources(TabPageTest, "TabPageTest");
-            TabPageTest.Controls.Add(groupBox1);
-            TabPageTest.Controls.Add(this.button1);
+            TabPageTest.Controls.Add(GroupBoxClockTest);
+            TabPageTest.Controls.Add(this.ButtonRabbitConf2);
             TabPageTest.Name = "TabPageTest";
             TabPageTest.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // ButtonRabbitConf2
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
+            resources.ApplyResources(this.ButtonRabbitConf2, "ButtonRabbitConf2");
+            this.ButtonRabbitConf2.Name = "ButtonRabbitConf2";
+            this.ButtonRabbitConf2.UseVisualStyleBackColor = true;
+            this.ButtonRabbitConf2.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
             // 
-            // panel1
+            // Panel1
             // 
-            resources.ApplyResources(panel1, "panel1");
-            panel1.Controls.Add(this.TabControlSidePanel);
-            panel1.Controls.Add(this.TextBoxConsole);
-            panel1.Name = "panel1";
+            resources.ApplyResources(Panel1, "Panel1");
+            Panel1.Controls.Add(this.TabControlSidePanel);
+            Panel1.Controls.Add(this.TextBoxConsole);
+            Panel1.Name = "Panel1";
             // 
             // TabControlSidePanel
             // 
@@ -163,7 +163,7 @@ namespace DgtCherub
             // 
             resources.ApplyResources(this.TabPageConfig, "TabPageConfig");
             this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
-            this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig);
+            this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig1);
             this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -177,12 +177,12 @@ namespace DgtCherub
             this.CheckBoxShowInbound.UseVisualStyleBackColor = true;
             this.CheckBoxShowInbound.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
             // 
-            // ButtonRabbitConfig
+            // ButtonRabbitConfig1
             // 
-            resources.ApplyResources(this.ButtonRabbitConfig, "ButtonRabbitConfig");
-            this.ButtonRabbitConfig.Name = "ButtonRabbitConfig";
-            this.ButtonRabbitConfig.UseVisualStyleBackColor = true;
-            this.ButtonRabbitConfig.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
+            resources.ApplyResources(this.ButtonRabbitConfig1, "ButtonRabbitConfig1");
+            this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
+            this.ButtonRabbitConfig1.UseVisualStyleBackColor = true;
+            this.ButtonRabbitConfig1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
             // 
             // CheckBoxOnTop
             // 
@@ -196,24 +196,24 @@ namespace DgtCherub
             // TabPageBoards
             // 
             resources.ApplyResources(this.TabPageBoards, "TabPageBoards");
-            this.TabPageBoards.Controls.Add(this.label2);
-            this.TabPageBoards.Controls.Add(this.label1);
+            this.TabPageBoards.Controls.Add(this.LabelRemoteBoard);
+            this.TabPageBoards.Controls.Add(this.LabelLocalDgt);
             this.TabPageBoards.Controls.Add(this.PictureBoxRemote);
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Name = "TabPageBoards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // LabelRemoteBoard
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.BackColor = System.Drawing.Color.Silver;
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.LabelRemoteBoard, "LabelRemoteBoard");
+            this.LabelRemoteBoard.BackColor = System.Drawing.Color.Silver;
+            this.LabelRemoteBoard.Name = "LabelRemoteBoard";
             // 
-            // label1
+            // LabelLocalDgt
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.BackColor = System.Drawing.Color.Silver;
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.LabelLocalDgt, "LabelLocalDgt");
+            this.LabelLocalDgt.BackColor = System.Drawing.Color.Silver;
+            this.LabelLocalDgt.Name = "LabelLocalDgt";
             // 
             // PictureBoxRemote
             // 
@@ -235,14 +235,14 @@ namespace DgtCherub
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.TabStop = false;
             // 
-            // statusStrip1
+            // StatusStrip
             // 
-            resources.ApplyResources(this.statusStrip1, "statusStrip1");
-            this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            toolStripStatusLabelSpacer,
+            resources.ApplyResources(this.StatusStrip, "StatusStrip");
+            this.StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            ToolStripStatusLabelSpacer,
             this.ToolStripStatusLabelVersion});
-            this.statusStrip1.Name = "statusStrip1";
+            this.StatusStrip.Name = "StatusStrip";
             // 
             // ToolStripStatusLabelVersion
             // 
@@ -250,37 +250,37 @@ namespace DgtCherub
             this.ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
             // 
-            // menuStrip1
+            // MenuStrip
             // 
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
-            this.menuStrip1.Name = "menuStrip1";
+            resources.ApplyResources(this.MenuStrip, "MenuStrip");
+            this.MenuStrip.Name = "MenuStrip";
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(panel1);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(Panel1);
+            this.Controls.Add(this.StatusStrip);
+            this.Controls.Add(this.MenuStrip);
             this.DoubleBuffered = true;
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.MenuStrip;
             this.Name = "Form1";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
-            groupBox1.ResumeLayout(false);
+            GroupBoxClockTest.ResumeLayout(false);
             TabPageAbout.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(PictureBoxLogo)).EndInit();
             TabPageTest.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            Panel1.ResumeLayout(false);
+            Panel1.PerformLayout();
             this.TabControlSidePanel.ResumeLayout(false);
             this.TabPageConfig.ResumeLayout(false);
             this.TabPageBoards.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.StatusStrip.ResumeLayout(false);
+            this.StatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -293,22 +293,22 @@ namespace DgtCherub
         private System.Windows.Forms.TabPage TabPageConfig;
         private System.Windows.Forms.TabPage TabPageTest;
         private System.Windows.Forms.TextBox TextBoxConsole;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.StatusStrip StatusStrip;
+        private System.Windows.Forms.Panel Panel1;
+        private System.Windows.Forms.MenuStrip MenuStrip;
 
         private System.Windows.Forms.Button ButtonSendTestMsg2;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelVersion;
         private System.Windows.Forms.CheckBox CheckBoxOnTop;
-        private System.Windows.Forms.Button ButtonRabbitConfig;
+        private System.Windows.Forms.Button ButtonRabbitConfig1;
         private System.Windows.Forms.CheckBox CheckBoxShowInbound;
         private System.Windows.Forms.LinkLabel LinkLabelAbout1;
         private System.Windows.Forms.TabPage TabPageBoards;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LabelRemoteBoard;
+        private System.Windows.Forms.Label LabelLocalDgt;
         private System.Windows.Forms.PictureBox PictureBoxRemote;
         private System.Windows.Forms.PictureBox PictureBoxLocal;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ButtonRabbitConf2;
     }
 }
 
