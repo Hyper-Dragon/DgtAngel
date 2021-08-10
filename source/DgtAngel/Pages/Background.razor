@@ -23,21 +23,27 @@
     const string CHERUB_API_HOST = "http://localhost:37964";
     const string CHERUB_API_PATH = "api/DgtBoard";
     const string CHERUB_SEND_USER_MESSAGE = "MessageUser";
-    const string CHERUB_SEND_CLOCK_MESSAGE = "MessageUser";
+    const string CHERUB_SEND_CLOCK_MESSAGE = "SetClock";
+    const string CHERUB_SEND_LOCAL_BOARD_FEN = "SetLocalBoardFenString";
+    const string CHERUB_SEND_CDC_FEN = "SetChessDotComFenString";
     const string CHERUB_SENDER_NAME = "ANGEL";
 
     protected async Task SendMessageToCherubClient(string message)
     {
         // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
-        //await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri(HttpUtility.UrlEncode($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={message}")) });
         await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={HttpUtility.UrlEncode(message)}") }); 
-    
     }
 
-    protected async Task SendMessageToClock(string message)
+    protected async Task SendUpdatedFenToCherubClient(string fen, bool isForLocalBoard)
     {
         // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
-        //await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri(HttpUtility.UrlEncode($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{CHERUB_SENDER_NAME}/?message={message}")) });
+        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard)?CHERUB_SEND_LOCAL_BOARD_FEN:CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}/?fen={HttpUtility.UrlEncode(fen)}") }); 
+    }
+
+    protected async Task SendMessageToClock(string whiteTime, string blackTime, int runWho)
+    {
+        // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
+        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{whiteTime}/{blackTime}/{runWho.ToString()}") });
     }
 
 
@@ -108,7 +114,7 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
 
-                                await SendMessageToCherubClient($"DGT_BOARD:{eventArgs.ResponseOut}"); 
+                                await SendUpdatedFenToCherubClient($"{eventArgs.ResponseOut}",true); 
 
                                 AppDataService.BoardFEN = eventArgs.ResponseOut;
                             };
@@ -117,6 +123,7 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"CDC_WATCH:{eventArgs.FenString}");
                                 AppDataService.ChessDotComFEN = eventArgs.FenString;
+                                await SendUpdatedFenToCherubClient($"{eventArgs.FenString}",false);
                                 AppDataService.SetClocks(eventArgs.WhiteClock, eventArgs.BlackClock, eventArgs.ToMove);
                             };
 
@@ -131,11 +138,11 @@
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Watching the https://www.chess.com/live tab has stopped");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
 
-                                await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/ClockApi/SetAuthors/0:00:00/0:00:00/9") });
+                                await SendMessageToClock("0:00:00","0:00:00",0); 
 
                                 AppDataService.ResetChessDotComBoardState();
                             };
-/*
+
         AppDataService.OnFenChange += async () =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"APP_DATA: Matching {AppDataService.ChessDotComFEN} {AppDataService.BoardFEN}");
@@ -164,7 +171,7 @@
                                 }
                             };
 
-                            */
+                            
 
         AppDataService.OnClockChange += async () =>
                             {
