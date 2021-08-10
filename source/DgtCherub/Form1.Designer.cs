@@ -126,6 +126,7 @@ namespace DgtCherub
             // TabPageTest
             // 
             resources.ApplyResources(TabPageTest, "TabPageTest");
+            TabPageTest.Controls.Add(groupBox1);
             TabPageTest.Controls.Add(this.button1);
             TabPageTest.Name = "TabPageTest";
             TabPageTest.UseVisualStyleBackColor = true;
@@ -164,7 +165,6 @@ namespace DgtCherub
             this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
             this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig);
             this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
-            this.TabPageConfig.Controls.Add(groupBox1);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.UseVisualStyleBackColor = true;
             // 

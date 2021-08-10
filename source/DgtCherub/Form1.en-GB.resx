@@ -61,17 +61,17 @@
   <data name="toolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
     <value>639, 17</value>
   </data>
+  <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 55</value>
+  </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 136</value>
+    <value>6, 53</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 91</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Clock Test Messages</value>
-  </data>
-  <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 55</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="LinkLabelAbout1.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
@@ -238,10 +238,10 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
+    <value>146, 427</value>
   </data>
   <data name="TabPageTest.Text" xml:space="preserve">
-    <value>Test Con</value>
+    <value>Test Con.</value>
   </data>
   <data name="TabControlSidePanel.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Left</value>
@@ -289,40 +289,10 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
+    <value>146, 427</value>
   </data>
   <data name="TabPageConfig.Text" xml:space="preserve">
     <value>Config</value>
-  </data>
-  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 4</value>
-  </data>
-  <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
-  </data>
-  <data name="TabPageBoards.Text" xml:space="preserve">
-    <value>Boards</value>
-  </data>
-  <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>82, 25</value>
-  </data>
-  <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 335</value>
-  </data>
-  <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Consolas, 8.25pt</value>
-  </data>
-  <data name="TextBoxConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>181, 0</value>
-  </data>
-  <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>520, 335</value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>704, 335</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt, style=Bold</value>
@@ -354,7 +324,7 @@
   <data name="PictureBoxRemote.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
-        vAAAAbwBaKhFnQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
+        ugAAAboB6KsBBgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
         fFTV9cevqFVrW+3/X4tL69J/bf/VqiRjZibJzCQoiiF5b5ZkkrAlgYQsFCgIZAYQDQrIGsjCElxBrIp1
         L+IGWEQQBRcEhIqyKLRWq2gFKUtez3m5g7OcNzNv5r1hEub3+Xw/aObdd++557z37r3v3vtYSimllFJK
         KaWUUhfTT0WRpY0dy3KmTGG9W1qYY8kSNvDPf2a1Tz3FhgXz5JPsD/j7vfey0rlzmThpEruppoZlms3s
@@ -471,7 +441,7 @@
   <data name="PictureBoxRemote.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
-        vAAAAbwBaKhFnQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
+        ugAAAboB6KsBBgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
         fFTV9cevqFVrW+3/X4tL69J/bf/VqiRjZibJzCQoiiF5b5ZkkrAlgYQsFCgIZAYQDQrIGsjCElxBrIp1
         L+IGWEQQBRcEhIqyKLRWq2gFKUtez3m5g7OcNzNv5r1hEub3+Xw/aObdd++557z37r3v3vtYSimllFJK
         KaWUUhfTT0WRpY0dy3KmTGG9W1qYY8kSNvDPf2a1Tz3FhgXz5JPsD/j7vfey0rlzmThpEruppoZlms3s
@@ -588,7 +558,7 @@
   <data name="PictureBoxLocal.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
-        vAAAAbwBaKhFnQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
+        ugAAAboB6KsBBgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
         fFTV9cevqFVrW+3/X4tL69J/bf/VqiRjZibJzCQoiiF5b5ZkkrAlgYQsFCgIZAYQDQrIGsjCElxBrIp1
         L+IGWEQQBRcEhIqyKLRWq2gFKUtez3m5g7OcNzNv5r1hEub3+Xw/aObdd++557z37r3v3vtYSimllFJK
         KaWUUhfTT0WRpY0dy3KmTGG9W1qYY8kSNvDPf2a1Tz3FhgXz5JPsD/j7vfey0rlzmThpEruppoZlms3s
@@ -702,7 +672,7 @@
   <data name="PictureBoxLocal.InitialImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAB
-        vAAAAbwBaKhFnQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
+        ugAAAboB6KsBBgAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABiKSURBVHhe7Z0J
         fFTV9cevqFVrW+3/X4tL69J/bf/VqiRjZibJzCQoiiF5b5ZkkrAlgYQsFCgIZAYQDQrIGsjCElxBrIp1
         L+IGWEQQBRcEhIqyKLRWq2gFKUtez3m5g7OcNzNv5r1hEub3+Xw/aObdd++557z37r3v3vtYSimllFJK
         KaWUUhfTT0WRpY0dy3KmTGG9W1qYY8kSNvDPf2a1Tz3FhgXz5JPsD/j7vfey0rlzmThpEruppoZlms3s
@@ -816,17 +786,47 @@
   <data name="PictureBoxLocal.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 359</value>
+  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 4</value>
   </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>704, 22</value>
+  <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 427</value>
+  </data>
+  <data name="TabPageBoards.Text" xml:space="preserve">
+    <value>Boards</value>
+  </data>
+  <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>82, 25</value>
+  </data>
+  <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 335</value>
+  </data>
+  <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Consolas, 8.25pt</value>
+  </data>
+  <data name="TextBoxConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>181, 0</value>
+  </data>
+  <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>520, 335</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>704, 335</value>
   </data>
   <data name="ToolStripStatusLabelVersion.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt, style=Italic</value>
   </data>
   <data name="ToolStripStatusLabelVersion.Text" xml:space="preserve">
     <value>Ver. 0.0.0</value>
+  </data>
+  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 359</value>
+  </data>
+  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>704, 22</value>
   </data>
   <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>704, 24</value>
@@ -3176,6 +3176,6 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>330, 420</value>
+    <value>420, 420</value>
   </data>
 </root>
