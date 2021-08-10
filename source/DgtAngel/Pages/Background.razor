@@ -171,8 +171,8 @@
                                 }
                             };
 
+        string blah = "x";                    
                             
-
         AppDataService.OnClockChange += async () =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: White Clock {AppDataService.WhiteClock} Black Clock {AppDataService.BlackClock} To Move {AppDataService.ToMove}");
@@ -184,19 +184,14 @@
                                 string bcout = $"0:{bc[0].PadLeft(2,'0')}:{bc[1].PadLeft(2,'0')}";
                                 string toMove = ((AppDataService.ToMove.ToUpper() == "W") ? "1" : ((AppDataService.ToMove.ToUpper() == "B")?"2":"0"));
 
-                                await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"http://localhost:37964/api/DgtBoard/SetClock/{wcout}/{bcout}/{toMove}")});
-                                
-                                
-                               /*
-                                using var client = new System.Net.Sockets.TcpClient("localhost", 13000);
-                                var netStream = client.GetStream();
-                                var txtstream = new System.IO.StreamWriter(netStream);
-                                await txtstream.WriteLineAsync($"TXT,{AppDataService.WhiteClock}");
-                                await txtstream.WriteLineAsync($"QUIT");
-                                */
-
+                                if (toMove != blah)
+                                {
+                                    await SendMessageToClock(wcout, bcout,Int32.Parse(toMove));
+                                    blah = toMove;
+                                }
                             };
 
+        
 
 #pragma warning disable CS4014 // This function does not return - NEVER AWAIT
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess (Startup)");
