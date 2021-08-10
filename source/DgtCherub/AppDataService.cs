@@ -13,6 +13,7 @@ namespace DgtCherub
         bool IsChessDotComBoardStateActive { get; }
         string LocalBoardFEN { get; set; }
         string WhiteClock { get; }
+        string RunWhoString { get; }
 
         event Action OnChessDotComFenChange;
         event Action OnClockChange;
@@ -20,7 +21,7 @@ namespace DgtCherub
         event Action<string, string> OnUserMessageArrived;
 
         void ResetChessDotComBoardState();
-        void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock);
+        void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString);
         void UserMessageArrived(string source, string message);
     }
 
@@ -35,12 +36,14 @@ namespace DgtCherub
         private string _chessDotComFEN = "8/8/8/8/8/8/8/8";
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
+        private string _chessDotComRunWhoString = "0";
 
         public bool EchoExternalMessagesToConsole { get; set; } = true;
         public string LocalBoardFEN { get { return _localBoardFEN; } set { if (_localBoardFEN != value) { _localBoardFEN = value; OnLocalFenChange?.Invoke(); } } }
         public string ChessDotComBoardFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnChessDotComFenChange?.Invoke(); } } }
         public string WhiteClock { get { return _chessDotComWhiteClock; } }
         public string BlackClock { get { return _chessDotComBlackClock; } }
+        public string RunWhoString { get { return _chessDotComRunWhoString; } }
         public bool IsChessDotComBoardStateActive { get { return (_chessDotComFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00"); } }
 
         public void ResetChessDotComBoardState()
@@ -48,13 +51,14 @@ namespace DgtCherub
             _chessDotComFEN = "";
             _chessDotComWhiteClock = "00:00";
             _chessDotComBlackClock = "00:00";
+            _chessDotComRunWhoString = "0";
         }
 
-        public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock)
+        public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString)
         {
-
             _chessDotComWhiteClock = chessDotComWhiteClock;
             _chessDotComBlackClock = chessDotComBlackClock;
+            _chessDotComRunWhoString = chessDotComRunWhoString;
             OnClockChange?.Invoke();
 
         }

@@ -207,7 +207,7 @@
     <value>No</value>
   </data>
   <data name="TabPageAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
+    <value>146, 356</value>
   </data>
   <data name="TabPageAbout.Text" xml:space="preserve">
     <value>About</value>
@@ -232,7 +232,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
+    <value>146, 356</value>
   </data>
   <data name="TabPageTest.Text" xml:space="preserve">
     <value>Test Con.</value>
@@ -240,21 +240,26 @@
   <data name="TabControlSidePanel.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Left</value>
   </data>
+  <data name="ButtonClearConsole.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="ButtonClearConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ButtonClearConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 26</value>
+  </data>
+  <data name="ButtonClearConsole.Text" xml:space="preserve">
+    <value>Clear Console</value>
+  </data>
   <data name="CheckBoxShowConsole.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
   </data>
   <data name="CheckBoxShowConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CheckBoxShowConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 296</value>
-  </data>
   <data name="CheckBoxShowConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 25</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CheckBoxShowConsole.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
   </data>
   <data name="CheckBoxShowConsole.Text" xml:space="preserve">
     <value>Show Console</value>
@@ -299,10 +304,40 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
+    <value>146, 356</value>
   </data>
   <data name="TabPageConfig.Text" xml:space="preserve">
     <value>Config</value>
+  </data>
+  <data name="LabelWhiteClock.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI Semibold, 9pt, style=Bold, Italic</value>
+  </data>
+  <data name="LabelWhiteClock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LabelWhiteClock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="LabelWhiteClock.Text" xml:space="preserve">
+    <value>0:00:00</value>
+  </data>
+  <data name="LabelWhiteClock.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="LabelBlackClock.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI Semibold, 9pt, style=Bold, Italic</value>
+  </data>
+  <data name="LabelBlackClock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LabelBlackClock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 16</value>
+  </data>
+  <data name="LabelBlackClock.Text" xml:space="preserve">
+    <value>0:00:00</value>
+  </data>
+  <data name="LabelBlackClock.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
   </data>
   <data name="LabelRemoteBoard.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt, style=Bold</value>
@@ -311,19 +346,19 @@
     <value>NoControl</value>
   </data>
   <data name="LabelRemoteBoard.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 16</value>
+    <value>65, 16</value>
   </data>
   <data name="LabelRemoteBoard.Text" xml:space="preserve">
-    <value>Chess.com Board</value>
+    <value>Chess.com</value>
   </data>
   <data name="LabelLocalDgt.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt, style=Bold</value>
   </data>
   <data name="LabelLocalDgt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>141, 15</value>
+    <value>65, 16</value>
   </data>
   <data name="LabelLocalDgt.Text" xml:space="preserve">
-    <value>Local DGT Board</value>
+    <value>Local DGT</value>
   </data>
   <data name="PictureBoxRemote.ErrorImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -794,7 +829,7 @@
     <value>29, 4</value>
   </data>
   <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 327</value>
+    <value>146, 357</value>
   </data>
   <data name="TabPageBoards.Text" xml:space="preserve">
     <value>Boards</value>
@@ -806,7 +841,7 @@
     <value>82, 25</value>
   </data>
   <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>179, 335</value>
+    <value>179, 365</value>
   </data>
   <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
     <value>Consolas, 8.25pt</value>
@@ -815,19 +850,22 @@
     <value>181, 0</value>
   </data>
   <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>505, 335</value>
+    <value>505, 365</value>
   </data>
   <data name="Panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>689, 335</value>
+    <value>689, 365</value>
   </data>
   <data name="ToolStripStatusLabelVersion.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt, style=Italic</value>
   </data>
   <data name="ToolStripStatusLabelVersion.Text" xml:space="preserve">
     <value>Ver. 0.0.0</value>
+  </data>
+  <data name="StatusStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 389</value>
   </data>
   <data name="StatusStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>689, 22</value>
@@ -842,7 +880,7 @@
     <value>menuStrip1</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>689, 381</value>
+    <value>689, 411</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3186,6 +3224,6 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>420, 420</value>
+    <value>420, 450</value>
   </data>
 </root>

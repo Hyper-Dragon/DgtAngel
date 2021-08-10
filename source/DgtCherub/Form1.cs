@@ -52,8 +52,12 @@ namespace DgtCherub
             _dgtEbDllFacade.DisplayMessageSeries("ABCDEFGH", "12345678");
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
+
+        private void ClearConsole()
         {
+            TextBoxConsole.Text = "";
+            TextBoxConsole.Update();
+
             TextBoxConsole.AddLine($"Welcome to...                                                                  ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗ ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗", TEXTBOX_MAX_LINES, false);
@@ -73,7 +77,12 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Using {_dgtEbDllFacade.GetRabbitVersionString()}", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+        }
 
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            ClearConsole();
 
             _appDataService.OnLocalFenChange += () =>
             {
@@ -97,10 +106,14 @@ namespace DgtCherub
                 PictureBoxRemote.BeginInvoke(updateAction);
             };
 
-
             _appDataService.OnClockChange += () =>
             {
-                TextBoxConsole.AddLine($" Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock})", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLine($" Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
+
+                this.Invoke((Action)(() => {
+                    LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString=="1")?"*":" ")}{_appDataService.WhiteClock}";
+                    LabelBlackClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "2") ? "*" : " ")}{_appDataService.BlackClock}";
+                }));
             };
 
             _appDataService.OnUserMessageArrived += (source, message) =>
@@ -177,7 +190,7 @@ namespace DgtCherub
                 this.WindowState = FormWindowState.Normal;
                 LastFormWidth = this.Width;
                 TextBoxConsole.Visible = false;
-                this.MinimumSize = new Size(198,420);
+                this.MinimumSize = new Size(198, this.MinimumSize.Height);
                 this.MaximumSize = new Size(198, Screen.PrimaryScreen.Bounds.Height);
                 this.Width =  198;
                 this.MaximizeBox = false;
@@ -185,6 +198,11 @@ namespace DgtCherub
             }
 
             this.ResumeLayout();
+        }
+
+        private void ButtonClearConsole_Click(object sender, EventArgs e)
+        {
+            ClearConsole();
         }
     }
 }

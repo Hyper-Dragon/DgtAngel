@@ -32,7 +32,7 @@ namespace DgtCherub
         public object SetClock(string whiteClock = "0:00:00", string blackClock = "0:00:00", int runwho = 0)
         {
             //curl http://localhost:37964/api/DgtBoard/SetClock/0:30:00/0:30:00/1
-            _appDataService.SetClocks(whiteClock, blackClock);
+            _appDataService.SetClocks(whiteClock, blackClock, runwho.ToString());
             _dgtEbDllFacade.SetClock(whiteClock, blackClock, runwho);
 
             return new { White = whiteClock, Black = blackClock, Time = System.DateTime.Now };
