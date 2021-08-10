@@ -48,5 +48,43 @@ namespace DgtCherub
             return new { isSuccess=true };
         }
 
+        [HttpGet]
+        [Route("{action}/{source}")]
+        public object SetLocalBoardFenString(string source = "Unknown", string fen = "8/8/8/8/8/8/8/8")
+        {
+            // curl -G 'http://localhost:37964/api/DgtBoard/SetLocalBoardFenString/CLI/' --data-urlencode 'fen=8/5k2/8/3B4/8/8/7K/8'
+            
+            if(_appDataService.LocalBoardFEN == fen)
+            {
+                _appDataService.UserMessageArrived(source, $"Local DGT board FEN is a DUPLICATE");
+            }
+            else
+            {
+                _appDataService.UserMessageArrived(source, $"Local DGT board FEN is {fen}");
+                _appDataService.LocalBoardFEN = fen;
+            }
+            
+            return new { isSuccess = true };
+        }
+
+        [HttpGet]
+        [Route("{action}/{source}")]
+        public object SetChessDotComFenString(string source = "Unknown", string fen = "8/8/8/8/8/8/8/8")
+        {
+            // curl -G 'http://localhost:37964/api/DgtBoard/SetChessDotComFenString/CLI/' --data-urlencode 'fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
+
+            if (_appDataService.ChessDotComBoardFEN == fen)
+            {
+                _appDataService.UserMessageArrived(source, $"Chess.com board FEN is a DUPLICATE");
+            }
+            else
+            {
+                _appDataService.ChessDotComBoardFEN = fen;
+                _appDataService.UserMessageArrived(source, $"Chess.com board FEN is {fen}");
+            }
+
+            return new { isSuccess = true };
+        }
+
     }
 }

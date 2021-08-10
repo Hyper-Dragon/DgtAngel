@@ -9,14 +9,18 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Forms;
 
 namespace DgtCherub
 {
     public partial class Form1 : Form
     {
-        const int TEXTBOX_MAX_LINES = 100;
+        const int TEXTBOX_MAX_LINES = 250;
         const string VERSION_NUMBER = "0.0.1";
+        const string CHESS_DOT_COM_DYN_BOARD_URL = "https://www.chess.com/dynboard?board=green&fen=";
+        const string EMPTY_BOARD_FEN = "8/8/8/8/8/8/8/8";
+        const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
 
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
@@ -58,7 +62,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: https://github.com/Hyper-Dragon/DgtAngel   ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"-------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: This is an Alpha version.  The best I can say is that it works on my", TEXTBOX_MAX_LINES, false);
@@ -70,6 +74,30 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Using {_dgtEbDllFacade.GetRabbitVersionString()}", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+
+
+            _appDataService.OnLocalFenChange += () =>
+            {
+                Action updateAction = new(() =>
+                {
+                    PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.LocalBoardFEN)}";
+                    PictureBoxLocal.Load();
+                });
+
+                PictureBoxRemote.BeginInvoke(updateAction);
+            };
+
+            _appDataService.OnChessDotComFenChange += () =>
+            {
+                Action updateAction = new(() =>
+                {
+                    PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.ChessDotComBoardFEN)}";
+                    PictureBoxRemote.Load();
+                });
+
+                PictureBoxRemote.BeginInvoke(updateAction);
+            };
+
 
             _appDataService.OnClockChange += () =>
             {
@@ -105,6 +133,8 @@ namespace DgtCherub
         {
             this.SuspendLayout();
 
+            PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
+            PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
             PictureBoxLocal.Load();
             PictureBoxRemote.Load();
 
@@ -118,7 +148,7 @@ namespace DgtCherub
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "http://github.com/Hyper-Dragon/DgtAngel",
+                    FileName = $"{PROJECT_URL}",
                     UseShellExecute = true //required on .Net Core 
                 });
             };

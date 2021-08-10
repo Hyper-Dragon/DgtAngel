@@ -7,15 +7,16 @@ namespace DgtCherub
 {
     public interface IAppDataService
     {
-        bool EchoExternalMessagesToConsole { get; set; }
         string BlackClock { get; }
-        string BoardFEN { get; set; }
-        string ChessDotComFEN { get; set; }
+        string ChessDotComBoardFEN { get; set; }
+        bool EchoExternalMessagesToConsole { get; set; }
         bool IsChessDotComBoardStateActive { get; }
+        string LocalBoardFEN { get; set; }
         string WhiteClock { get; }
 
+        event Action OnChessDotComFenChange;
         event Action OnClockChange;
-        event Action OnFenChange;
+        event Action OnLocalFenChange;
         event Action<string, string> OnUserMessageArrived;
 
         void ResetChessDotComBoardState();
@@ -25,18 +26,19 @@ namespace DgtCherub
 
     public class AppDataService : IAppDataService
     {
-        public event Action OnFenChange;
+        public event Action OnLocalFenChange;
+        public event Action OnChessDotComFenChange;
         public event Action OnClockChange;
         public event Action<string, string> OnUserMessageArrived;
 
-        private string _boardFen = "";
-        private string _chessDotComFEN = "";
+        private string _localBoardFEN = "8/8/8/8/8/8/8/8";
+        private string _chessDotComFEN = "8/8/8/8/8/8/8/8";
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
 
         public bool EchoExternalMessagesToConsole { get; set; } = true;
-        public string BoardFEN { get { return _boardFen; } set { if (_boardFen != value) { _boardFen = value; OnFenChange?.Invoke(); } } }
-        public string ChessDotComFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnFenChange?.Invoke(); } } }
+        public string LocalBoardFEN { get { return _localBoardFEN; } set { if (_localBoardFEN != value) { _localBoardFEN = value; OnLocalFenChange?.Invoke(); } } }
+        public string ChessDotComBoardFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnChessDotComFenChange?.Invoke(); } } }
         public string WhiteClock { get { return _chessDotComWhiteClock; } }
         public string BlackClock { get { return _chessDotComBlackClock; } }
         public bool IsChessDotComBoardStateActive { get { return (_chessDotComFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00"); } }
