@@ -242,12 +242,14 @@ namespace DgtCherub
             // 
             resources.ApplyResources(this.LabelRemoteBoard, "LabelRemoteBoard");
             this.LabelRemoteBoard.BackColor = System.Drawing.Color.Silver;
+            this.LabelRemoteBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LabelRemoteBoard.Name = "LabelRemoteBoard";
             // 
             // LabelLocalDgt
             // 
             resources.ApplyResources(this.LabelLocalDgt, "LabelLocalDgt");
             this.LabelLocalDgt.BackColor = System.Drawing.Color.Silver;
+            this.LabelLocalDgt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LabelLocalDgt.Name = "LabelLocalDgt";
             // 
             // PictureBoxRemote

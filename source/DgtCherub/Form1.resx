@@ -57,480 +57,461 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;ButtonSendTestMsg2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>73, 204</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tabPageStatus.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+  <data name="GroupBoxClockTest.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="PictureBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 183</value>
-  </data>
-  <data name="&gt;&gt;StatusStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;linkLabel4.Name" xml:space="preserve">
-    <value>linkLabel4</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout1.Name" xml:space="preserve">
-    <value>LinkLabelAbout1</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.Name" xml:space="preserve">
-    <value>pictureBox3</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelLocalDgt.Name" xml:space="preserve">
-    <value>LabelLocalDgt</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="toolStripStatusLabel1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt, style=Italic</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxLogo.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TabControlSidePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="TextBoxConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>192, 0</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxOnTop.Parent" xml:space="preserve">
-    <value>TabPageConfig</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxRemote.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;ButtonSendTestMsg2.Parent" xml:space="preserve">
-    <value>GroupBoxClockTest</value>
-  </data>
-  <data name="&gt;&gt;LabelWhiteClock.Name" xml:space="preserve">
-    <value>LabelWhiteClock</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
-    <value>TabControl1</value>
-  </data>
-  <data name="LinkLabelAbout2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 161</value>
-  </data>
-  <data name="&gt;&gt;radioButton1.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="&gt;&gt;TabControlSidePanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TabPageBoards.Type" xml:space="preserve">
+  <data name="&gt;&gt;TabPageConfig.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="LabelLocalDgt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 2</value>
+  <data name="&gt;&gt;RadioButtonOnTop.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 8.25pt</value>
   </data>
-  <data name="PictureBoxRemote.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;LabelWhiteClock.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="ButtonRabbitConfig1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowInbound.Parent" xml:space="preserve">
+    <value>TabPageConfig</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="GroupBoxClockTest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 53</value>
+  <data name="ToolStripStatusLabelVersion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;linkLabel3.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxLogo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CheckBoxShowInbound.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 77</value>
-  </data>
-  <data name="pictureBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 183</value>
-  </data>
-  <data name="linkLabel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 162</value>
-  </data>
-  <data name="&gt;&gt;tabPageStatus.Parent" xml:space="preserve">
-    <value>TabControl1</value>
-  </data>
-  <data name="statusStrip1.Text" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="&gt;&gt;TabControlSidePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+  <data name="pictureBox2.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;CheckBoxShowRabbit.Parent" xml:space="preserve">
-    <value>tabPage1</value>
+  <data name="CheckBoxOnTop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>28, 188</value>
   </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
-    <value>TabPageTest</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;TabPageHttp.Name" xml:space="preserve">
-    <value>TabPageHttp</value>
-  </data>
-  <data name="TextBoxConsole.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout4.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;tabPageStatus.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ButtonRabbitConfig.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="RadioButtonOnTop.Location" type="System.Drawing.Point, System.Drawing">
     <value>28, 32</value>
   </data>
-  <data name="LabelBlackClock.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="MenuStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="ButtonSendTestMsg1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 22</value>
-  </data>
-  <data name="&gt;&gt;TabPageTest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioButtonOnTop.Name" xml:space="preserve">
-    <value>RadioButtonOnTop</value>
-  </data>
-  <data name="ButtonClearConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 264</value>
-  </data>
-  <data name="linkLabel2.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;TabPageHttp.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPageStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelWhiteClock.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxLocal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;ButtonSendTestMsg1.Parent" xml:space="preserve">
-    <value>GroupBoxClockTest</value>
-  </data>
-  <data name="TabPageConfig.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;RadioButtonOnTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelRemoteBoard.ZOrder" xml:space="preserve">
+  <data name="RadioButtonOnTop.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;TabPageStatus.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CheckBoxShowConsole.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="pictureBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 183</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 81</value>
-  </data>
-  <data name="&gt;&gt;TabPageHttp.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;Panel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;linkLabel4.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="&gt;&gt;ButtonSendTestMsg1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelRemoteBoard.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Test Messages</value>
-  </data>
-  <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxLogo.Name" xml:space="preserve">
-    <value>PictureBoxLogo</value>
-  </data>
-  <data name="&gt;&gt;TabControlSidePanel.Name" xml:space="preserve">
-    <value>TabControlSidePanel</value>
-  </data>
-  <data name="CheckBoxOnTop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 188</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxOnTop.Name" xml:space="preserve">
-    <value>CheckBoxOnTop</value>
-  </data>
-  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxOnTop.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxOnTop.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StatusStrip.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;LabelLocalDgt.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowRabbit.Name" xml:space="preserve">
-    <value>CheckBoxShowRabbit</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConf2.Name" xml:space="preserve">
-    <value>ButtonRabbitConf2</value>
-  </data>
-  <data name="&gt;&gt;linkLabel2.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="ButtonRabbitConf2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConf2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowConsole.Name" xml:space="preserve">
-    <value>CheckBoxShowConsole</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabelSpacer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig.Parent" xml:space="preserve">
-    <value>TabPageConfig</value>
-  </data>
-  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 239</value>
-  </data>
-  <data name="&gt;&gt;RadioButtonOnTop.Parent" xml:space="preserve">
-    <value>tabPage1</value>
-  </data>
-  <data name="radioButton1.Text" xml:space="preserve">
-    <value>Open Rabbit</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabelVersion.Name" xml:space="preserve">
-    <value>ToolStripStatusLabelVersion</value>
-  </data>
-  <data name="&gt;&gt;ButtonSendTestMsg1.Name" xml:space="preserve">
-    <value>ButtonSendTestMsg1</value>
-  </data>
-  <data name="CheckBoxShowRabbit.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="TextBoxConsole.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Both</value>
-  </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>Status</value>
-  </data>
-  <data name="PictureBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 20</value>
-  </data>
-  <data name="toolStripStatusLabel1.Text" xml:space="preserve">
-    <value>Ver. 0.0.1</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>667, 261</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 215</value>
   </data>
   <data name="&gt;&gt;ToolStripStatusLabelLastUpdate.Name" xml:space="preserve">
     <value>ToolStripStatusLabelLastUpdate</value>
   </data>
-  <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;LabelRemoteBoard.Name" xml:space="preserve">
-    <value>LabelRemoteBoard</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.Name" xml:space="preserve">
-    <value>MenuStrip</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
-    <value>tabPage2</value>
+  <data name="&gt;&gt;radioButton1.Parent" xml:space="preserve">
+    <value>tabPage1</value>
   </data>
   <data name="&gt;&gt;TabPageBoards.Parent" xml:space="preserve">
     <value>TabControlSidePanel</value>
   </data>
-  <data name="pictureBox3.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;menuStrip1.Name" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel1.Name" xml:space="preserve">
+    <value>toolStripStatusLabel1</value>
+  </data>
+  <data name="&gt;&gt;pictureBox3.Name" xml:space="preserve">
+    <value>pictureBox3</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;pictureBox2.Name" xml:space="preserve">
-    <value>pictureBox2</value>
+  <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
   </data>
-  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
-    <value>linkLabel1</value>
+  <data name="&gt;&gt;LabelRemoteBoard.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
   </data>
-  <data name="LabelRemoteBoard.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 164</value>
+  <data name="&gt;&gt;Panel1.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
-  <data name="&gt;&gt;LinkLabelAbout4.Name" xml:space="preserve">
-    <value>LinkLabelAbout4</value>
+  <data name="GroupBoxClockTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 53</value>
   </data>
-  <data name="ToolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>639, 17</value>
+  <data name="CheckBoxShowConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 164</value>
+  <data name="&gt;&gt;pictureBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TextBoxConsole.Name" xml:space="preserve">
-    <value>TextBoxConsole</value>
+  <data name="&gt;&gt;linkLabel2.Name" xml:space="preserve">
+    <value>linkLabel2</value>
   </data>
-  <data name="toolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>602, 17</value>
+  <data name="TabPageBoards.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="StatusStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="ButtonClearConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelBlackClock.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;tabPageStatus.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout2.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;TabPageConfig.Name" xml:space="preserve">
+    <value>TabPageConfig</value>
+  </data>
+  <data name="linkLabel3.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg1.Parent" xml:space="preserve">
+    <value>GroupBoxClockTest</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TextBoxConsole.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Both</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;TabControl1.Name" xml:space="preserve">
     <value>TabControl1</value>
   </data>
-  <data name="&gt;&gt;ButtonSendTestMsg2.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="ButtonSendTestMsg1.Text" xml:space="preserve">
+    <value>Send Test Msg 1</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Form1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="TabPageStatus.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;radioButton1.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="toolStripStatusLabel1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 8.25pt, style=Italic</value>
   </data>
-  <data name="&gt;&gt;LinkLabelAbout2.Name" xml:space="preserve">
-    <value>LinkLabelAbout2</value>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 4</value>
+  <data name="&gt;&gt;TabPageAbout.Name" xml:space="preserve">
+    <value>TabPageAbout</value>
   </data>
-  <data name="&gt;&gt;Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
   </data>
-  <data name="&gt;&gt;TabPageStatus.Parent" xml:space="preserve">
-    <value>TabControlSidePanel</value>
-  </data>
-  <data name="TabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="TabPageStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 4</value>
-  </data>
-  <data name="LabelBlackClock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>74, 164</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 3</value>
-  </data>
-  <data name="&gt;&gt;TabPageTest.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
-    <value>pictureBox1</value>
-  </data>
-  <data name="LinkLabelAbout3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 184</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabelLastUpdate.Type" xml:space="preserve">
+  <data name="&gt;&gt;ToolStripStatusLabelVersion.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TabControlSidePanel.Parent" xml:space="preserve">
     <value>Panel1</value>
   </data>
-  <data name="&gt;&gt;CheckBoxShowRabbit.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;LinkLabelAbout4.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;ToolStripStatusLabelVersion.Name" xml:space="preserve">
+    <value>ToolStripStatusLabelVersion</value>
+  </data>
+  <data name="TabPageConfig.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 4</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="PictureBoxLogo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="&gt;&gt;linkLabel4.Name" xml:space="preserve">
+    <value>linkLabel4</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 164</value>
+  </data>
+  <data name="&gt;&gt;Panel1.Name" xml:space="preserve">
+    <value>Panel1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripStatusLabelSpacer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+    <value>TabPageTest</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout3.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TabPageHttp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 4</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CheckBoxShowRabbit.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LinkLabelAbout4.Parent" xml:space="preserve">
+  <data name="linkLabel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 181</value>
+  </data>
+  <data name="TabPageConfig.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Test Messages</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowConsole.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;TextBoxConsole.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CheckBoxShowRabbit.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxClockTest.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;LabelLocalDgt.Name" xml:space="preserve">
+    <value>LabelLocalDgt</value>
+  </data>
+  <data name="&gt;&gt;linkLabel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxRemote.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxOnTop.Name" xml:space="preserve">
+    <value>CheckBoxOnTop</value>
+  </data>
+  <data name="&gt;&gt;TabPageTest.Parent" xml:space="preserve">
+    <value>TabControlSidePanel</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
     <value>TabPageAbout</value>
   </data>
-  <data name="ButtonRabbitConfig1.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="LabelBlackClock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>74, 164</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg2.Parent" xml:space="preserve">
+    <value>GroupBoxClockTest</value>
+  </data>
+  <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;linkLabel3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;ToolStripStatusLabelSpacer.Name" xml:space="preserve">
+    <value>ToolStripStatusLabelSpacer</value>
+  </data>
+  <data name="pictureBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;RadioButtonOnTop.Name" xml:space="preserve">
+    <value>RadioButtonOnTop</value>
+  </data>
+  <data name="TabControlSidePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TextBoxConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowInbound.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 143</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLogo.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TabPageTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="linkLabel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 200</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConfig1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowInbound.Name" xml:space="preserve">
+    <value>CheckBoxShowInbound</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ButtonSendTestMsg2.Text" xml:space="preserve">
+    <value>Send Test Msg 2</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TabPageBoards.Name" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;TabPageStatus.Parent" xml:space="preserve">
+    <value>TabControlSidePanel</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg2.Name" xml:space="preserve">
+    <value>ButtonSendTestMsg2</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;button1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageTest.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 187</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ButtonClearConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 264</value>
+  </data>
+  <data name="PictureBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 20</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxOnTop.Parent" xml:space="preserve">
+    <value>TabPageConfig</value>
+  </data>
+  <data name="radioButton1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLocal.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="TabPageTest.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>600, 300</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabelSpacer.Name" xml:space="preserve">
+    <value>toolStripStatusLabelSpacer</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 19</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConf2.Name" xml:space="preserve">
+    <value>ButtonRabbitConf2</value>
+  </data>
+  <data name="linkLabel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 162</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxRemote.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="linkLabel2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLocal.Name" xml:space="preserve">
+    <value>PictureBoxLocal</value>
+  </data>
+  <data name="&gt;&gt;LabelBlackClock.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowRabbit.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="LabelBlackClock.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxOnTop.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="LabelWhiteClock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>73, 2</value>
+  </data>
+  <data name="ButtonSendTestMsg2.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="&gt;&gt;ButtonRabbitConf2.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -538,419 +519,483 @@
   <data name="LabelLocalDgt.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;LabelBlackClock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel3.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;TextBoxConsole.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="linkLabel4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 200</value>
-  </data>
-  <data name="TabPageBoards.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="ButtonSendTestMsg2.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="menuStrip1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="ButtonRabbitConf2.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="&gt;&gt;ButtonSendTestMsg1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="CheckBoxShowRabbit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 214</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxConsole.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;menuStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
-    <value>statusStrip1</value>
-  </data>
-  <data name="pictureBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="RadioButtonOnTop.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabelVersion.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowInbound.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelSpacer.Name" xml:space="preserve">
-    <value>toolStripStatusLabelSpacer</value>
-  </data>
-  <data name="pictureBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="LabelWhiteClock.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;TabPageHttp.Parent" xml:space="preserve">
-    <value>TabControlSidePanel</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TabPageHttp.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;TextBoxConsole.Parent" xml:space="preserve">
-    <value>Panel1</value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>667, 215</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxRemote.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConf2.Parent" xml:space="preserve">
-    <value>TabPageTest</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowInbound.Name" xml:space="preserve">
-    <value>CheckBoxShowInbound</value>
-  </data>
-  <data name="ButtonSendTestMsg1.Text" xml:space="preserve">
-    <value>Send Test Msg 1</value>
-  </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="ToolStripStatusLabelVersion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
-  </data>
-  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>667, 22</value>
-  </data>
-  <data name="PictureBoxLogo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout3.Name" xml:space="preserve">
-    <value>LinkLabelAbout3</value>
-  </data>
-  <data name="&gt;&gt;TabPageAbout.Name" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="&gt;&gt;TabPageConfig.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 143</value>
-  </data>
-  <data name="radioButton1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowConsole.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="ButtonRabbitConfig.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 6</value>
-  </data>
-  <data name="LinkLabelAbout4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 207</value>
-  </data>
-  <data name="CheckBoxShowConsole.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 296</value>
-  </data>
-  <data name="&gt;&gt;LabelBlackClock.Name" xml:space="preserve">
-    <value>LabelBlackClock</value>
-  </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>600, 300</value>
-  </data>
-  <data name="&gt;&gt;linkLabel4.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout3.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt</value>
-  </data>
-  <data name="&gt;&gt;TabPageAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonSendTestMsg2.Name" xml:space="preserve">
-    <value>ButtonSendTestMsg2</value>
-  </data>
-  <data name="TabPageConfig.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 4</value>
-  </data>
-  <data name="&gt;&gt;TabPageAbout.Parent" xml:space="preserve">
-    <value>TabControlSidePanel</value>
-  </data>
-  <data name="CheckBoxShowConsole.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxRemote.Name" xml:space="preserve">
-    <value>PictureBoxRemote</value>
-  </data>
-  <data name="TabPageTest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 4</value>
-  </data>
-  <data name="linkLabel3.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="TabPageTest.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;TabPageBoards.Name" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;linkLabel2.Name" xml:space="preserve">
-    <value>linkLabel2</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabelSpacer.Name" xml:space="preserve">
-    <value>ToolStripStatusLabelSpacer</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowInbound.Parent" xml:space="preserve">
-    <value>TabPageConfig</value>
-  </data>
-  <data name="MenuStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;ButtonClearConsole.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="LinkLabelAbout3.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="TabPageHttp.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>TabPageTest</value>
-  </data>
-  <data name="TabPageAbout.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowInbound.Type" xml:space="preserve">
+  <data name="&gt;&gt;CheckBoxOnTop.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPageStatus.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>73, 204</value>
-  </data>
-  <data name="&gt;&gt;LabelWhiteClock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;linkLabel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TabPageTest.Parent" xml:space="preserve">
-    <value>TabControlSidePanel</value>
-  </data>
-  <data name="tabPageStatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 4</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout3.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;ButtonClearConsole.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CheckBoxOnTop.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig1.Name" xml:space="preserve">
-    <value>ButtonRabbitConfig1</value>
-  </data>
-  <data name="TabPageHttp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 4</value>
-  </data>
-  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>667, 24</value>
-  </data>
-  <data name="&gt;&gt;GroupBoxClockTest.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;ButtonClearConsole.Parent" xml:space="preserve">
-    <value>TabPageConfig</value>
+  <data name="&gt;&gt;LabelBlackClock.Name" xml:space="preserve">
+    <value>LabelBlackClock</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
+  <data name="&gt;&gt;TabPageHttp.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TabPageAbout.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;ButtonRabbitConfig.Name" xml:space="preserve">
+    <value>ButtonRabbitConfig</value>
   </data>
-  <data name="&gt;&gt;ButtonRabbitConfig1.Parent" xml:space="preserve">
-    <value>TabPageConfig</value>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
   </data>
-  <data name="&gt;&gt;GroupBoxClockTest.Parent" xml:space="preserve">
-    <value>TabPageTest</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="ToolStripStatusLabelLastUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>593, 17</value>
-  </data>
-  <data name="&gt;&gt;GroupBoxClockTest.Name" xml:space="preserve">
-    <value>GroupBoxClockTest</value>
-  </data>
-  <data name="&gt;&gt;TabPageStatus.Name" xml:space="preserve">
-    <value>TabPageStatus</value>
-  </data>
-  <data name="&gt;&gt;toolStripStatusLabelSpacer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
   </data>
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;radioButton1.Name" xml:space="preserve">
-    <value>radioButton1</value>
+  <data name="CheckBoxShowRabbit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>28, 214</value>
   </data>
-  <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;TextBoxConsole.Parent" xml:space="preserve">
+    <value>Panel1</value>
   </data>
-  <data name="&gt;&gt;PictureBoxLogo.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
+  <data name="PictureBoxLocal.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="ButtonRabbitConfig1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
+  <data name="&gt;&gt;TabControlSidePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LinkLabelAbout1.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout4.Name" xml:space="preserve">
+    <value>LinkLabelAbout4</value>
+  </data>
+  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TabPageAbout.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="&gt;&gt;MenuStrip.Name" xml:space="preserve">
+    <value>MenuStrip</value>
+  </data>
+  <data name="&gt;&gt;LabelRemoteBoard.Name" xml:space="preserve">
+    <value>LabelRemoteBoard</value>
+  </data>
+  <data name="&gt;&gt;TabControlSidePanel.Name" xml:space="preserve">
+    <value>TabControlSidePanel</value>
   </data>
   <data name="CheckBoxShowInbound.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;PictureBoxLocal.Name" xml:space="preserve">
-    <value>PictureBoxLocal</value>
+  <data name="TextBoxConsole.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="ButtonRabbitConfig.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+  <data name="&gt;&gt;TabPageTest.Name" xml:space="preserve">
+    <value>TabPageTest</value>
+  </data>
+  <data name="ButtonSendTestMsg2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 20</value>
   </data>
-  <data name="ButtonSendTestMsg1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelBlackClock.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 24</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxLocal.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
-  </data>
-  <data name="&gt;&gt;linkLabel2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;Panel1.Name" xml:space="preserve">
-    <value>Panel1</value>
+  <data name="&gt;&gt;LinkLabelAbout1.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
   </data>
   <data name="&gt;&gt;TabPageConfig.Parent" xml:space="preserve">
     <value>TabControlSidePanel</value>
   </data>
-  <data name="&gt;&gt;tabPage1.Name" xml:space="preserve">
-    <value>tabPage1</value>
+  <data name="&gt;&gt;ButtonRabbitConfig.Parent" xml:space="preserve">
+    <value>TabPageConfig</value>
   </data>
-  <data name="&gt;&gt;radioButton1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;TabControlSidePanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabPageStatus.Name" xml:space="preserve">
+    <value>TabPageStatus</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLogo.Name" xml:space="preserve">
+    <value>PictureBoxLogo</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxClockTest.Parent" xml:space="preserve">
+    <value>TabPageTest</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="LinkLabelAbout1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="PictureBoxLogo.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;TabPageConfig.Name" xml:space="preserve">
+  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;linkLabel4.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 4</value>
+  </data>
+  <data name="MenuStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConfig1.Parent" xml:space="preserve">
     <value>TabPageConfig</value>
+  </data>
+  <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="toolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 17</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConfig1.Name" xml:space="preserve">
+    <value>ButtonRabbitConfig1</value>
+  </data>
+  <data name="statusStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="linkLabel4.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="TabPageStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 4</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabelSpacer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="radioButton1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ButtonRabbitConf2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowRabbit.Name" xml:space="preserve">
+    <value>CheckBoxShowRabbit</value>
+  </data>
+  <data name="TabPageTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>24, 4</value>
+  </data>
+  <data name="statusStrip1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 239</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxRemote.Name" xml:space="preserve">
+    <value>PictureBoxRemote</value>
+  </data>
+  <data name="ButtonSendTestMsg2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 27</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowConsole.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TabPageAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 4</value>
+  </data>
+  <data name="LabelWhiteClock.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;pictureBox2.Name" xml:space="preserve">
+    <value>pictureBox2</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>667, 215</value>
+  </data>
+  <data name="tabPageStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 4</value>
+  </data>
+  <data name="ToolStripStatusLabelLastUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>593, 17</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="statusStrip1.Text" xml:space="preserve">
+    <value>statusStrip1</value>
+  </data>
+  <data name="&gt;&gt;ButtonClearConsole.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 68</value>
+  </data>
+  <data name="TextBoxConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 0</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="PictureBoxRemote.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;RadioButtonOnTop.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowConsole.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ButtonSendTestMsg1.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="&gt;&gt;linkLabel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLogo.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;RadioButtonOnTop.Parent" xml:space="preserve">
+    <value>tabPage1</value>
+  </data>
+  <data name="&gt;&gt;linkLabel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelBlackClock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="statusStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>667, 22</value>
+  </data>
+  <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConf2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="StatusStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 359</value>
+  </data>
+  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 24</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConf2.Parent" xml:space="preserve">
+    <value>TabPageTest</value>
+  </data>
+  <data name="&gt;&gt;tabPage1.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="tabPage1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConfig1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>DGT Cherub</value>
+  <data name="ToolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>639, 17</value>
   </data>
-  <data name="LabelRemoteBoard.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;LinkLabelAbout2.Name" xml:space="preserve">
+    <value>LinkLabelAbout2</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 3</value>
+  </data>
+  <data name="&gt;&gt;menuStrip1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip.Name" xml:space="preserve">
+    <value>StatusStrip</value>
+  </data>
+  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;TabPageAbout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="StatusStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;LabelLocalDgt.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ButtonSendTestMsg1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TextBoxConsole.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LinkLabelAbout1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 138</value>
+  </data>
+  <data name="&gt;&gt;LabelLocalDgt.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;ButtonClearConsole.Name" xml:space="preserve">
+    <value>ButtonClearConsole</value>
+  </data>
+  <data name="ButtonRabbitConfig.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;ButtonClearConsole.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLogo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;radioButton1.Name" xml:space="preserve">
+    <value>radioButton1</value>
+  </data>
+  <data name="&gt;&gt;LabelRemoteBoard.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 187</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>667, 261</value>
+  </data>
+  <data name="&gt;&gt;ToolStripStatusLabelLastUpdate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CheckBoxOnTop.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
+    <value>tabPage2</value>
+  </data>
+  <data name="&gt;&gt;TextBoxConsole.Name" xml:space="preserve">
+    <value>TextBoxConsole</value>
+  </data>
+  <data name="&gt;&gt;LabelLocalDgt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="radioButton1.Text" xml:space="preserve">
+    <value>Open Rabbit</value>
+  </data>
+  <data name="&gt;&gt;LabelWhiteClock.Name" xml:space="preserve">
+    <value>LabelWhiteClock</value>
+  </data>
+  <data name="ButtonRabbitConfig1.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowInbound.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="toolStripStatusLabel1.Text" xml:space="preserve">
+    <value>Ver. 0.0.1</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowConsole.Name" xml:space="preserve">
+    <value>CheckBoxShowConsole</value>
+  </data>
+  <data name="&gt;&gt;TabPageConfig.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tabPageStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPageStatus.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout1.Name" xml:space="preserve">
+    <value>LinkLabelAbout1</value>
+  </data>
+  <data name="&gt;&gt;LabelWhiteClock.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;pictureBox3.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 100</value>
+  </data>
+  <data name="LinkLabelAbout2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 161</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;tabPageStatus.Name" xml:space="preserve">
+    <value>tabPageStatus</value>
+  </data>
+  <data name="&gt;&gt;LabelWhiteClock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 24</value>
+  </data>
+  <data name="LinkLabelAbout3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="TextBoxConsole.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLocal.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxClockTest.Name" xml:space="preserve">
+    <value>GroupBoxClockTest</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg1.Name" xml:space="preserve">
+    <value>ButtonSendTestMsg1</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3293,253 +3338,211 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 </value>
   </data>
-  <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>472, 215</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig.Name" xml:space="preserve">
-    <value>ButtonRabbitConfig</value>
-  </data>
-  <data name="LinkLabelAbout2.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;linkLabel3.Name" xml:space="preserve">
-    <value>linkLabel3</value>
-  </data>
-  <data name="ButtonSendTestMsg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 27</value>
-  </data>
-  <data name="&gt;&gt;RadioButtonOnTop.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TabControlSidePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;StatusStrip.Name" xml:space="preserve">
-    <value>StatusStrip</value>
-  </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>Config</value>
-  </data>
-  <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 68</value>
-  </data>
-  <data name="LabelWhiteClock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>73, 2</value>
-  </data>
-  <data name="ButtonSendTestMsg1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="PictureBoxLocal.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="radioButton1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 19</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;MenuStrip.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;PictureBoxLocal.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="ButtonClearConsole.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 187</value>
-  </data>
-  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 215</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout2.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;StatusStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LinkLabelAbout4.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
-    <value>TabControl1</value>
-  </data>
-  <data name="menuStrip1.Text" xml:space="preserve">
-    <value>menuStrip1</value>
-  </data>
-  <data name="&gt;&gt;tabPageStatus.Name" xml:space="preserve">
-    <value>tabPageStatus</value>
-  </data>
-  <data name="&gt;&gt;CheckBoxShowConsole.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;LabelRemoteBoard.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonRabbitConfig.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
-    <value>tabControl1</value>
-  </data>
-  <data name="GroupBoxClockTest.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="TextBoxConsole.WordWrap" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;GroupBoxClockTest.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Form1</value>
-  </data>
-  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 187</value>
-  </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="menuStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="StatusStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 359</value>
-  </data>
-  <data name="TextBoxConsole.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;ButtonClearConsole.Name" xml:space="preserve">
-    <value>ButtonClearConsole</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
-    <value>TabPageAbout</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 100</value>
-  </data>
-  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;LabelBlackClock.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ButtonSendTestMsg2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="LinkLabelAbout1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 138</value>
-  </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+  <data name="TabPageHttp.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="ButtonSendTestMsg2.Text" xml:space="preserve">
-    <value>Send Test Msg 2</value>
+  <data name="&gt;&gt;statusStrip1.Name" xml:space="preserve">
+    <value>statusStrip1</value>
   </data>
-  <data name="&gt;&gt;LabelWhiteClock.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>TabPageTest</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LabelRemoteBoard.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TabPageBoards.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBoxConsole.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="linkLabel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 181</value>
+  <data name="&gt;&gt;LinkLabelAbout2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="linkLabel4.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="LinkLabelAbout3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 184</value>
   </data>
-  <data name="LinkLabelAbout1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>667, 24</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Name" xml:space="preserve">
-    <value>toolStripStatusLabel1</value>
+  <data name="&gt;&gt;tabPageStatus.Parent" xml:space="preserve">
+    <value>TabControl1</value>
   </data>
-  <data name="ButtonSendTestMsg2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 27</value>
-  </data>
-  <data name="TabPageStatus.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="&gt;&gt;button1.Name" xml:space="preserve">
+    <value>button1</value>
   </data>
   <data name="&gt;&gt;LinkLabelAbout2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="tabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="&gt;&gt;TabPageTest.Name" xml:space="preserve">
-    <value>TabPageTest</value>
-  </data>
-  <data name="tabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 24</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelAbout1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;LabelLocalDgt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MenuStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="TabPageAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>27, 4</value>
+  <data name="&gt;&gt;linkLabel3.Name" xml:space="preserve">
+    <value>linkLabel3</value>
   </data>
   <data name="radioButton1.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 6</value>
   </data>
-  <data name="&gt;&gt;LinkLabelAbout4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>472, 215</value>
   </data>
-  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+  <data name="LinkLabelAbout2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxLocal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageHttp.Name" xml:space="preserve">
+    <value>TabPageHttp</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LabelLocalDgt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 2</value>
+  </data>
+  <data name="ButtonRabbitConfig.Location" type="System.Drawing.Point, System.Drawing">
+    <value>28, 6</value>
+  </data>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="&gt;&gt;LabelRemoteBoard.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;TabPageHttp.Parent" xml:space="preserve">
+    <value>TabControlSidePanel</value>
+  </data>
+  <data name="PictureBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 183</value>
+  </data>
+  <data name="&gt;&gt;StatusStrip.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CheckBoxShowInbound.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 77</value>
+  </data>
+  <data name="LinkLabelAbout4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 207</value>
+  </data>
+  <data name="&gt;&gt;GroupBoxClockTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;TabPageAbout.Parent" xml:space="preserve">
+    <value>TabControlSidePanel</value>
+  </data>
+  <data name="&gt;&gt;LinkLabelAbout4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;PictureBoxRemote.ZOrder" xml:space="preserve">
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>DGT Cherub</value>
+  </data>
+  <data name="Panel1.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;LabelLocalDgt.Parent" xml:space="preserve">
-    <value>TabPageBoards</value>
+  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
+    <value>pictureBox1</value>
   </data>
-  <data name="ButtonRabbitConf2.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="&gt;&gt;LinkLabelAbout3.Name" xml:space="preserve">
+    <value>LinkLabelAbout3</value>
   </data>
-  <data name="&gt;&gt;TabPageConfig.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="LinkLabelAbout4.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="&gt;&gt;TabPageBoards.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <metadata name="TabPageTest.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CheckBoxShowConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>21, 296</value>
+  </data>
+  <data name="LabelRemoteBoard.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 164</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 81</value>
+  </data>
+  <data name="&gt;&gt;ButtonSendTestMsg2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="TabControlSidePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="&gt;&gt;statusStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckBoxShowRabbit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;linkLabel3.Parent" xml:space="preserve">
+    <value>TabPageAbout</value>
+  </data>
+  <data name="&gt;&gt;linkLabel4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ButtonSendTestMsg1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="&gt;&gt;ButtonClearConsole.Parent" xml:space="preserve">
+    <value>TabPageConfig</value>
+  </data>
+  <data name="TextBoxConsole.WordWrap" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;PictureBoxRemote.Parent" xml:space="preserve">
+    <value>TabPageBoards</value>
+  </data>
+  <data name="&gt;&gt;ButtonRabbitConfig.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageStatus.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="ButtonSendTestMsg1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 27</value>
+  </data>
+  <data name="&gt;&gt;pictureBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabPageAbout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="StatusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="TabPageStatus.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <metadata name="tabPageStatus.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -3548,58 +3551,55 @@
   <metadata name="TabPageHttp.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>133, 17</value>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
-  <metadata name="pictureBox1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
+  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
-  <metadata name="toolStripStatusLabelSpacer.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="TabControl1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="GroupBoxClockTest.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <metadata name="Panel1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
-    <value>en-GB</value>
-  </metadata>
-  <metadata name="MenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>133, 17</value>
-  </metadata>
   <metadata name="ToolStripStatusLabelSpacer.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="groupBox1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="TabPageStatus.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="panel1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="TabPageAbout.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>False</value>
-  </metadata>
-  <metadata name="GroupBoxClockTest.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>42</value>
   </metadata>
+  <metadata name="MenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>133, 17</value>
+  </metadata>
+  <metadata name="TabPageAbout.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
   <metadata name="PictureBoxLogo.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
+  <metadata name="toolStripStatusLabelSpacer.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </metadata>
-  <metadata name="StatusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="panel1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="groupBox1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>133, 17</value>
+  </metadata>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, System.Private.CoreLib, Culture=neutral, PublicKeyToken=7cec85d7bea7798e">
+    <value>en-GB</value>
+  </metadata>
+  <metadata name="pictureBox1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="TabPageTest.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
+  <metadata name="TabControl1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </metadata>
 </root>

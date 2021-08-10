@@ -22,8 +22,8 @@ namespace DgtCherub
 
         private int LastFormWidth = 705;
         private int CollapsedWidth = 705;
-        private Size InitialMinSize = new Size(420, 420);
-        private Size InitialMaxSize = new Size(0, 0);
+        private Size InitialMinSize = new(420, 420);
+        private Size InitialMaxSize = new(0, 0);
         private Color BoredLabelsInitialColor = Color.Silver;
 
 
