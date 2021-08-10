@@ -150,8 +150,8 @@ namespace DgtCherub
             this.TabControlSidePanel.CausesValidation = false;
             this.TabControlSidePanel.Controls.Add(TabPageAbout);
             this.TabControlSidePanel.Controls.Add(this.TabPageConfig);
-            this.TabControlSidePanel.Controls.Add(TabPageTest);
             this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
+            this.TabControlSidePanel.Controls.Add(TabPageTest);
             this.TabControlSidePanel.HotTrack = true;
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";

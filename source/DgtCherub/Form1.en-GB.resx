@@ -245,7 +245,7 @@
     <value>146, 357</value>
   </data>
   <data name="TabPageTest.Text" xml:space="preserve">
-    <value>Test Con.</value>
+    <value>Testers</value>
   </data>
   <data name="TabControlSidePanel.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Left</value>
