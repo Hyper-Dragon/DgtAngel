@@ -13,7 +13,7 @@
 @using System.Web
 
 <div>
-@foreach(var item in Enum.GetValues(typeof(ScriptWrapper.AudioClip)))
+    @foreach (var item in Enum.GetValues(typeof(ScriptWrapper.AudioClip)))
     {
         <audio preload="auto" type="audio/wav" id="@(Scripts.GetAudioFileId((ScriptWrapper.AudioClip)item))" src="@(Scripts.GetAudioFileSrc((ScriptWrapper.AudioClip)item))" autostart="false"></audio>
     }
@@ -28,21 +28,20 @@
     const string CHERUB_SEND_CDC_FEN = "SetChessDotComFenString";
     const string CHERUB_SENDER_NAME = "ANGEL";
 
+
+    // These method are fire and forget - if Cherub isn't there that's fine
     protected async Task SendMessageToCherubClient(string message)
     {
-        // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
-        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={HttpUtility.UrlEncode(message)}") }); 
+        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={HttpUtility.UrlEncode(message)}") });
     }
 
     protected async Task SendUpdatedFenToCherubClient(string fen, bool isForLocalBoard)
     {
-        // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
-        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard)?CHERUB_SEND_LOCAL_BOARD_FEN:CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}/?fen={HttpUtility.UrlEncode(fen)}") }); 
+        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}/?fen={HttpUtility.UrlEncode(fen)}") });
     }
 
     protected async Task SendMessageToClock(string whiteTime, string blackTime, int runWho)
     {
-        // This is fire and forget - if cherub isn't there that's fine (no outbound dependency)
         await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{whiteTime}/{blackTime}/{runWho.ToString()}") });
     }
 
@@ -60,11 +59,10 @@
         CancellationTokenSource canxSrcChessDotComBoardPoll = null;
         bool hasOnLiveChessConnectedPlayedSinceLastConnection = true; //Set to true so audio does not play on startup
 
-
         DgtLiveChess.OnLiveChessConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
-                                await SendMessageToCherubClient("DGT Angel is CONNECTED to the Live Chess Software");   
+                                await SendMessageToCherubClient("DGT Angel is CONNECTED to the Live Chess Software");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_CONNECTED);
                             };
 
@@ -74,39 +72,39 @@
                                 if (!hasOnLiveChessConnectedPlayedSinceLastConnection)
                                 {
                                     await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
-                                    await SendMessageToCherubClient("DGT Angel is DISCONNECTED from the Live Chess Software...trying to reconnect");  
+                                    await SendMessageToCherubClient("DGT Angel is DISCONNECTED from the Live Chess Software...trying to reconnect");
                                     await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_LC_DISCONNECTED);
                                     await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess");
                                     hasOnLiveChessConnectedPlayedSinceLastConnection = true;
-                                }                                    
+                                }
                             };
 
         DgtLiveChess.OnBoardConnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Connected/icon-48.png" });
-                                
-                                await SendMessageToCherubClient($"DGT Angel has CONNECTED to the board"); 
-                                
+
+                                await SendMessageToCherubClient($"DGT Angel has CONNECTED to the board");
+
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_CONNECTED);
 
                                 //Run the Chess.Com Watcher
-                                #pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT
+#pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT
                                 canxSrcChessDotComBoardPoll = new CancellationTokenSource();
                                 pollChessDotComBoardTask = ChessDotComWatcher.PollChessDotComBoard(canxSrcChessDotComBoardPoll.Token);
                                 hasOnLiveChessConnectedPlayedSinceLastConnection = false;
-                                #pragma warning restore CS4014
+#pragma warning restore CS4014
                             };
 
         DgtLiveChess.OnBoardDisconnected += async (obj, eventArgs) =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
                                 await WebExtensions.BrowserAction.SetIcon(new WebExtensions.Net.BrowserAction.SetIconDetails() { Path = "Icons/Default/icon-48.png" });
-                               
-                                await SendMessageToCherubClient($"DGT Angel has DISCONNECTED from the board"); 
+
+                                await SendMessageToCherubClient($"DGT Angel has DISCONNECTED from the board");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.DGT_DISCONNECTED);
 
-                                //Stop the Chess.Com Watcher (if running) 
+                                //Stop the Chess.Com Watcher (if running)
                                 canxSrcChessDotComBoardPoll?.Cancel();
                             };
 
@@ -114,7 +112,7 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"DGT_BOARD:{eventArgs.ResponseOut}");
 
-                                await SendUpdatedFenToCherubClient($"{eventArgs.ResponseOut}",true); 
+                                await SendUpdatedFenToCherubClient($"{eventArgs.ResponseOut}", true);
 
                                 AppDataService.BoardFEN = eventArgs.ResponseOut;
                             };
@@ -123,7 +121,7 @@
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.DEBUG, "BACKGROUND", $"CDC_WATCH:{eventArgs.FenString}");
                                 AppDataService.ChessDotComFEN = eventArgs.FenString;
-                                await SendUpdatedFenToCherubClient($"{eventArgs.FenString}",false);
+                                await SendUpdatedFenToCherubClient($"{eventArgs.FenString}", false);
                                 AppDataService.SetClocks(eventArgs.WhiteClock, eventArgs.BlackClock, eventArgs.ToMove);
                             };
 
@@ -138,7 +136,7 @@
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Watching the https://www.chess.com/live tab has stopped");
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
 
-                                await SendMessageToClock("0:00:00","0:00:00",0); 
+                                await SendMessageToClock("0:00:00", "0:00:00", 0);
 
                                 AppDataService.ResetChessDotComBoardState();
                             };
@@ -156,7 +154,7 @@
                                     if (AppDataService.IsChessDotComBoardStateActive && AppDataService.ChessDotComFEN != AppDataService.BoardFEN)
                                     {
                                         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: Mismatch detected...Boards are not in sync");
-                                        await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
+                                        //await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.MISMATCH);
                                     }
                                     else
                                     {
@@ -171,8 +169,8 @@
                                 }
                             };
 
-        string blah = "x";                    
-                            
+        string blah = "x";
+
         AppDataService.OnClockChange += async () =>
                             {
                                 await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"APP_DATA: White Clock {AppDataService.WhiteClock} Black Clock {AppDataService.BlackClock} To Move {AppDataService.ToMove}");
@@ -180,18 +178,18 @@
                                 var ws = AppDataService.WhiteClock.Split(".")[0].Split(":");
                                 var bc = AppDataService.BlackClock.Split(".")[0].Split(":");
 
-                                string wcout = $"0:{ws[0].PadLeft(2,'0')}:{ws[1].PadLeft(2,'0')}";
-                                string bcout = $"0:{bc[0].PadLeft(2,'0')}:{bc[1].PadLeft(2,'0')}";
-                                string toMove = ((AppDataService.ToMove.ToUpper() == "W") ? "1" : ((AppDataService.ToMove.ToUpper() == "B")?"2":"0"));
+                                string wcout = $"0:{ws[0].PadLeft(2, '0')}:{ws[1].PadLeft(2, '0')}";
+                                string bcout = $"0:{bc[0].PadLeft(2, '0')}:{bc[1].PadLeft(2, '0')}";
+                                string toMove = ((AppDataService.ToMove.ToUpper() == "W") ? "1" : ((AppDataService.ToMove.ToUpper() == "B") ? "2" : "0"));
 
                                 if (toMove != blah)
                                 {
-                                    await SendMessageToClock(wcout, bcout,Int32.Parse(toMove));
+                                    await SendMessageToClock(wcout, bcout, Int32.Parse(toMove));
                                     blah = toMove;
                                 }
                             };
 
-        
+
 
 #pragma warning disable CS4014 // This function does not return - NEVER AWAIT
         await Scripts.WriteToConsole(ScriptWrapper.LogLevel.INFO, "BACKGROUND", $"Trying to connect to Live Chess (Startup)");

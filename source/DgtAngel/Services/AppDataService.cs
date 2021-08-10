@@ -12,7 +12,6 @@ namespace DgtAngel.Services
         string ChessDotComFEN { get; set; }
         bool IsChessDotComBoardStateActive { get; }
         string WhiteClock { get; }
-
         string ToMove { get; }
 
         event Action OnClockChange;
@@ -22,20 +21,20 @@ namespace DgtAngel.Services
         void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string toMove);
     }
 
-    public class AppData : IAppData
+    public class AppDataService : IAppData
     {
         public event Action OnFenChange;
         public event Action OnClockChange;
 
         private string _boardFen = "";
         private string _chessDotComFEN = "";
-        private string _toMove = "-";
+        private string _chessDotComToMove = "-";
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
 
         public string BoardFEN { get { return _boardFen; } set { if (_boardFen != value) { _boardFen = value; OnFenChange?.Invoke(); } } }
         public string ChessDotComFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnFenChange?.Invoke(); } } }
-        public string ToMove { get { return _toMove; } }
+        public string ToMove { get { return _chessDotComToMove; } }
         public string WhiteClock { get { return _chessDotComWhiteClock; } }
         public string BlackClock { get { return _chessDotComBlackClock; } }
         public bool IsChessDotComBoardStateActive { get { return (_chessDotComFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00"); } }
@@ -45,6 +44,7 @@ namespace DgtAngel.Services
             _chessDotComFEN = "";
             _chessDotComWhiteClock = "00:00";
             _chessDotComBlackClock = "00:00";
+            _chessDotComToMove = "00:00";
         }
 
         public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string toMove)
@@ -53,7 +53,7 @@ namespace DgtAngel.Services
             {
                 _chessDotComWhiteClock = chessDotComWhiteClock;
                 _chessDotComBlackClock = chessDotComBlackClock;
-                _toMove = toMove;
+                _chessDotComToMove = toMove;
 
                 OnClockChange?.Invoke();
             }
