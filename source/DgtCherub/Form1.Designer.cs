@@ -54,6 +54,7 @@ namespace DgtCherub
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
+            this.CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
             ToolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
@@ -162,6 +163,7 @@ namespace DgtCherub
             // TabPageConfig
             // 
             resources.ApplyResources(this.TabPageConfig, "TabPageConfig");
+            this.TabPageConfig.Controls.Add(this.CheckBoxShowConsole);
             this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
             this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig1);
             this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
@@ -255,6 +257,15 @@ namespace DgtCherub
             resources.ApplyResources(this.MenuStrip, "MenuStrip");
             this.MenuStrip.Name = "MenuStrip";
             // 
+            // CheckBoxShowConsole
+            // 
+            resources.ApplyResources(this.CheckBoxShowConsole, "CheckBoxShowConsole");
+            this.CheckBoxShowConsole.Checked = true;
+            this.CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxShowConsole.Name = "CheckBoxShowConsole";
+            this.CheckBoxShowConsole.UseVisualStyleBackColor = true;
+            this.CheckBoxShowConsole.CheckedChanged += new System.EventHandler(this.CheckBoxShowConsole_CheckedChanged);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -309,6 +320,7 @@ namespace DgtCherub
         private System.Windows.Forms.PictureBox PictureBoxRemote;
         private System.Windows.Forms.PictureBox PictureBoxLocal;
         private System.Windows.Forms.Button ButtonRabbitConf2;
+        private System.Windows.Forms.CheckBox CheckBoxShowConsole;
     }
 }
 
