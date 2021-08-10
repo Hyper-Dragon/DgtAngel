@@ -45,6 +45,10 @@ namespace DgtCherub
             this.ButtonRabbitConfig = new System.Windows.Forms.Button();
             this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             this.TabPageBoards = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.PictureBoxRemote = new System.Windows.Forms.PictureBox();
+            this.PictureBoxLocal = new System.Windows.Forms.PictureBox();
             this.TextBoxConsole = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
@@ -61,6 +65,9 @@ namespace DgtCherub
             panel1.SuspendLayout();
             this.TabControlSidePanel.SuspendLayout();
             this.TabPageConfig.SuspendLayout();
+            this.TabPageBoards.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -178,8 +185,36 @@ namespace DgtCherub
             // TabPageBoards
             // 
             resources.ApplyResources(this.TabPageBoards, "TabPageBoards");
+            this.TabPageBoards.Controls.Add(this.label2);
+            this.TabPageBoards.Controls.Add(this.label1);
+            this.TabPageBoards.Controls.Add(this.PictureBoxRemote);
+            this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Name = "TabPageBoards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.BackColor = System.Drawing.Color.Silver;
+            this.label2.Name = "label2";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.BackColor = System.Drawing.Color.Silver;
+            this.label1.Name = "label1";
+            // 
+            // PictureBoxRemote
+            // 
+            resources.ApplyResources(this.PictureBoxRemote, "PictureBoxRemote");
+            this.PictureBoxRemote.Name = "PictureBoxRemote";
+            this.PictureBoxRemote.TabStop = false;
+            // 
+            // PictureBoxLocal
+            // 
+            resources.ApplyResources(this.PictureBoxLocal, "PictureBoxLocal");
+            this.PictureBoxLocal.Name = "PictureBoxLocal";
+            this.PictureBoxLocal.TabStop = false;
             // 
             // TextBoxConsole
             // 
@@ -229,6 +264,9 @@ namespace DgtCherub
             panel1.PerformLayout();
             this.TabControlSidePanel.ResumeLayout(false);
             this.TabPageConfig.ResumeLayout(false);
+            this.TabPageBoards.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -254,6 +292,10 @@ namespace DgtCherub
         private System.Windows.Forms.CheckBox CheckBoxShowInbound;
         private System.Windows.Forms.LinkLabel LinkLabelAbout1;
         private System.Windows.Forms.TabPage TabPageBoards;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox PictureBoxRemote;
+        private System.Windows.Forms.PictureBox PictureBoxLocal;
     }
 }
 

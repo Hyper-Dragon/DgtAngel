@@ -105,17 +105,22 @@ namespace DgtCherub
         {
             this.SuspendLayout();
 
+            PictureBoxLocal.Load();
+            PictureBoxRemote.Load();
+
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
-            this.LinkLabelAbout1.Text = "Register Online.  Visit Microsoft.  Visit MSN.";
-
-
-            //LinkLabelAbout1.Text = "GitHub Project";
+            LinkLabelAbout1.Text = "GitHub Project Page";
+            LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
             LinkLabelAbout1.Visible = true;
             LinkLabelAbout1.Click += (object sender, EventArgs e) =>
             {
-                Process.Start(@"github.com/Hyper-Dragon/DgtAngel");
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "http://github.com/Hyper-Dragon/DgtAngel",
+                    UseShellExecute = true //required on .Net Core 
+                });
             };
 
             this.ResumeLayout();
