@@ -29,9 +29,8 @@ namespace DgtCherub
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelSpacer;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.GroupBox GroupBoxClockTest;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.TabPage TabPageAbout;
             System.Windows.Forms.PictureBox PictureBoxLogo;
             System.Windows.Forms.TabPage TabPageTest;
@@ -55,10 +54,10 @@ namespace DgtCherub
             this.PictureBoxRemote = new System.Windows.Forms.PictureBox();
             this.PictureBoxLocal = new System.Windows.Forms.PictureBox();
             this.TextBoxConsole = new System.Windows.Forms.TextBox();
+            this.ToolStripStatusLabelLastUpdate = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            ToolStripStatusLabelSpacer = new System.Windows.Forms.ToolStripStatusLabel();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             PictureBoxLogo = new System.Windows.Forms.PictureBox();
@@ -76,12 +75,6 @@ namespace DgtCherub
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).BeginInit();
             this.StatusStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // ToolStripStatusLabelSpacer
-            // 
-            resources.ApplyResources(ToolStripStatusLabelSpacer, "ToolStripStatusLabelSpacer");
-            ToolStripStatusLabelSpacer.Name = "ToolStripStatusLabelSpacer";
-            ToolStripStatusLabelSpacer.Spring = true;
             // 
             // GroupBoxClockTest
             // 
@@ -277,12 +270,18 @@ namespace DgtCherub
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.TabStop = false;
             // 
+            // ToolStripStatusLabelLastUpdate
+            // 
+            resources.ApplyResources(this.ToolStripStatusLabelLastUpdate, "ToolStripStatusLabelLastUpdate");
+            this.ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
+            this.ToolStripStatusLabelLastUpdate.Spring = true;
+            // 
             // StatusStrip
             // 
             resources.ApplyResources(this.StatusStrip, "StatusStrip");
             this.StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            ToolStripStatusLabelSpacer,
+            this.ToolStripStatusLabelLastUpdate,
             this.ToolStripStatusLabelVersion});
             this.StatusStrip.Name = "StatusStrip";
             // 
@@ -355,6 +354,7 @@ namespace DgtCherub
         private System.Windows.Forms.Label LabelWhiteClock;
         private System.Windows.Forms.Label LabelBlackClock;
         private System.Windows.Forms.CheckBox CheckBoxShowConsole;
+        private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelLastUpdate;
     }
 }
 

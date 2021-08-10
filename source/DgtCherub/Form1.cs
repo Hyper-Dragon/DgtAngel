@@ -24,6 +24,7 @@ namespace DgtCherub
         private int CollapsedWidth = 705;
         private Size InitialMinSize = new Size(420, 420);
         private Size InitialMaxSize = new Size(0, 0);
+        private Color BoredLabelsInitialColor = Color.Silver;
 
 
         public Form1(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade)
@@ -89,8 +90,16 @@ namespace DgtCherub
             {
                 Action updateAction = new(() =>
                 {
+                    LabelLocalDgt.BackColor = Color.Yellow;
+                    LabelRemoteBoard.BackColor = Color.Yellow;
+                    this.Update();
+
+                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.LocalBoardFEN)}";
                     PictureBoxLocal.Load();
+
+                    LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                    LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);
@@ -100,8 +109,16 @@ namespace DgtCherub
             {
                 Action updateAction = new(() =>
                 {
+                    LabelLocalDgt.BackColor = Color.Yellow;
+                    LabelRemoteBoard.BackColor = Color.Yellow;
+                    this.Update();
+
+                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.ChessDotComBoardFEN)}";
                     PictureBoxRemote.Load();
+                    
+                    LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                    LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);
@@ -114,6 +131,7 @@ namespace DgtCherub
                 this.Invoke((Action)(() => {
                     LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString=="1")?"*":" ")}{_appDataService.WhiteClock}";
                     LabelBlackClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "2") ? "*" : " ")}{_appDataService.BlackClock}";
+                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                 }));
             };
 
@@ -168,11 +186,12 @@ namespace DgtCherub
 
             this.ResumeLayout();
 
-            // Dynamically Calculate Size of Collapsed Form 
+            // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
+            BoredLabelsInitialColor = LabelLocalDgt.BackColor;
             LastFormWidth = this.Width;
             InitialMinSize = this.MinimumSize;
             InitialMaxSize = this.MaximumSize;
-            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
+            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X; //TabControlSidePanel.ItemSize.Height is correct!
         }
 
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -187,6 +206,7 @@ namespace DgtCherub
                 this.Width = LastFormWidth;
                 this.MaximizeBox = true;
                 this.ControlBox = true;
+                this.ToolStripStatusLabelVersion.Visible = true;
             }
             else
             {
@@ -198,6 +218,7 @@ namespace DgtCherub
                 this.Width = CollapsedWidth;
                 this.MaximizeBox = false;
                 this.ControlBox = false;
+                this.ToolStripStatusLabelVersion.Visible = false;
             }
 
             this.ResumeLayout();

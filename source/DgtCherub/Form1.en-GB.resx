@@ -58,9 +58,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="ToolStripStatusLabelSpacer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>624, 17</value>
-  </data>
   <data name="ButtonSendTestMsg2.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 55</value>
   </data>
@@ -883,11 +880,20 @@
   <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>689, 365</value>
   </data>
+  <data name="ToolStripStatusLabelLastUpdate.Text" xml:space="preserve">
+    <value>[Last Update]</value>
+  </data>
+  <data name="ToolStripStatusLabelLastUpdate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomLeft</value>
+  </data>
   <data name="ToolStripStatusLabelVersion.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 8.25pt, style=Italic</value>
   </data>
   <data name="ToolStripStatusLabelVersion.Text" xml:space="preserve">
     <value>Ver. 0.0.0</value>
+  </data>
+  <data name="ToolStripStatusLabelVersion.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
   </data>
   <data name="StatusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 389</value>
