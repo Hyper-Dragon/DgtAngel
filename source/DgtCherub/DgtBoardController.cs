@@ -19,13 +19,16 @@ namespace DgtCherub
             _dgtEbDllFacade = dgtEbDllFacade;
         }
 
+#pragma warning disable CA1822 // DO NOT Mark members as static - it's part of the API!
         [HttpGet]
-        [Route("{action}/{string1}/{string2}/{int1:int}")]
+        [Route("{action}/{string1}/{string2}/{int1:int}")] 
         public object TestResponse(string string1 = "none", string string2 = "none", int int1 = -1)
+ 
         {
             //  curl http://localhost:37964/api/DgtBoard/TestResponse/st1a/st2a/3 ; echo
             return new { TestString1 = string1, TestString2 = string2, TestInt1 = int1, CalledAt = System.DateTime.Now };
         }
+#pragma warning restore CA1822
 
         [HttpGet]
         [Route("{action}/{whiteClock}/{blackClock}/{runwho:int}")]

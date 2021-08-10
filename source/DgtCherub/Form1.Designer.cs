@@ -334,10 +334,8 @@ namespace DgtCherub
         private System.Windows.Forms.Button ButtonSendTestMsg1;
         private System.Windows.Forms.TabControl TabControlSidePanel;
         private System.Windows.Forms.TabPage TabPageConfig;
-        private System.Windows.Forms.TabPage TabPageTest;
         private System.Windows.Forms.TextBox TextBoxConsole;
         private System.Windows.Forms.StatusStrip StatusStrip;
-        private System.Windows.Forms.Panel Panel1;
         private System.Windows.Forms.MenuStrip MenuStrip;
 
         private System.Windows.Forms.Button ButtonSendTestMsg2;
