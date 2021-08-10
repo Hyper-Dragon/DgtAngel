@@ -194,6 +194,9 @@
         mj1w3Bh8XsO/9oJxxkycyJla959SSimllFJKKXUeMfZfqEk/J1oR0vgAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="PictureBoxLogo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 3</value>
+  </data>
   <data name="PictureBoxLogo.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 133</value>
   </data>
@@ -207,7 +210,7 @@
     <value>No</value>
   </data>
   <data name="TabPageAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 356</value>
+    <value>146, 357</value>
   </data>
   <data name="TabPageAbout.Text" xml:space="preserve">
     <value>About</value>
@@ -232,7 +235,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 356</value>
+    <value>146, 357</value>
   </data>
   <data name="TabPageTest.Text" xml:space="preserve">
     <value>Test Con.</value>
@@ -246,23 +249,14 @@
   <data name="ButtonClearConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="ButtonClearConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 326</value>
+  </data>
   <data name="ButtonClearConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 26</value>
   </data>
   <data name="ButtonClearConsole.Text" xml:space="preserve">
     <value>Clear Console</value>
-  </data>
-  <data name="CheckBoxShowConsole.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="CheckBoxShowConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckBoxShowConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 25</value>
-  </data>
-  <data name="CheckBoxShowConsole.Text" xml:space="preserve">
-    <value>Show Console</value>
   </data>
   <data name="CheckBoxShowInbound.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -304,16 +298,38 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 356</value>
+    <value>146, 357</value>
   </data>
   <data name="TabPageConfig.Text" xml:space="preserve">
     <value>Config</value>
+  </data>
+  <data name="CheckBoxShowConsole.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="CheckBoxShowConsole.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckBoxShowConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>22, 328</value>
+  </data>
+  <data name="CheckBoxShowConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 25</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CheckBoxShowConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CheckBoxShowConsole.Text" xml:space="preserve">
+    <value>Show Console</value>
   </data>
   <data name="LabelWhiteClock.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI Semibold, 9pt, style=Bold, Italic</value>
   </data>
   <data name="LabelWhiteClock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="LabelWhiteClock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 2</value>
   </data>
   <data name="LabelWhiteClock.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 16</value>
@@ -329,6 +345,9 @@
   </data>
   <data name="LabelBlackClock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="LabelBlackClock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>73, 164</value>
   </data>
   <data name="LabelBlackClock.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 16</value>
@@ -588,6 +607,9 @@
         mj1w3Bh8XsO/9oJxxkycyJla959SSimllFJKKXUeMfZfqEk/J1oR0vgAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="PictureBoxRemote.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 183</value>
+  </data>
   <data name="PictureBoxRemote.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 141</value>
   </data>
@@ -818,6 +840,9 @@
         MeZDcFTg2LlYb5qIQ6hCvakNu1HAMnDC4wUe08vhMb4Ox20Ep63H/4fb8gpMC+f5k3wur2ke/G2a3Ij1
         mj1w3Bh8XsO/9oJxxkycyJla959SSimllFJKKXUeMfZfqEk/J1oR0vgAAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="PictureBoxLocal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 20</value>
   </data>
   <data name="PictureBoxLocal.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 141</value>

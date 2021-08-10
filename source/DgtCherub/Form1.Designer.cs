@@ -43,11 +43,11 @@ namespace DgtCherub
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
             this.ButtonClearConsole = new System.Windows.Forms.Button();
-            this.CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
             this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
             this.ButtonRabbitConfig1 = new System.Windows.Forms.Button();
             this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             this.TabPageBoards = new System.Windows.Forms.TabPage();
+            this.CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
             this.LabelWhiteClock = new System.Windows.Forms.Label();
             this.LabelBlackClock = new System.Windows.Forms.Label();
             this.LabelRemoteBoard = new System.Windows.Forms.Label();
@@ -108,6 +108,7 @@ namespace DgtCherub
             // TabPageAbout
             // 
             resources.ApplyResources(TabPageAbout, "TabPageAbout");
+            TabPageAbout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TabPageAbout.Controls.Add(this.LinkLabelAbout1);
             TabPageAbout.Controls.Add(PictureBoxLogo);
             TabPageAbout.Name = "TabPageAbout";
@@ -130,6 +131,7 @@ namespace DgtCherub
             // TabPageTest
             // 
             resources.ApplyResources(TabPageTest, "TabPageTest");
+            TabPageTest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             TabPageTest.Controls.Add(GroupBoxClockTest);
             TabPageTest.Controls.Add(this.ButtonRabbitConf2);
             TabPageTest.Name = "TabPageTest";
@@ -166,8 +168,8 @@ namespace DgtCherub
             // TabPageConfig
             // 
             resources.ApplyResources(this.TabPageConfig, "TabPageConfig");
+            this.TabPageConfig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TabPageConfig.Controls.Add(this.ButtonClearConsole);
-            this.TabPageConfig.Controls.Add(this.CheckBoxShowConsole);
             this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
             this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig1);
             this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
@@ -180,15 +182,6 @@ namespace DgtCherub
             this.ButtonClearConsole.Name = "ButtonClearConsole";
             this.ButtonClearConsole.UseVisualStyleBackColor = true;
             this.ButtonClearConsole.Click += new System.EventHandler(this.ButtonClearConsole_Click);
-            // 
-            // CheckBoxShowConsole
-            // 
-            resources.ApplyResources(this.CheckBoxShowConsole, "CheckBoxShowConsole");
-            this.CheckBoxShowConsole.Checked = true;
-            this.CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxShowConsole.Name = "CheckBoxShowConsole";
-            this.CheckBoxShowConsole.UseVisualStyleBackColor = true;
-            this.CheckBoxShowConsole.CheckedChanged += new System.EventHandler(this.CheckBoxShowConsole_CheckedChanged);
             // 
             // CheckBoxShowInbound
             // 
@@ -218,6 +211,8 @@ namespace DgtCherub
             // TabPageBoards
             // 
             resources.ApplyResources(this.TabPageBoards, "TabPageBoards");
+            this.TabPageBoards.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageBoards.Controls.Add(this.CheckBoxShowConsole);
             this.TabPageBoards.Controls.Add(this.LabelWhiteClock);
             this.TabPageBoards.Controls.Add(this.LabelBlackClock);
             this.TabPageBoards.Controls.Add(this.LabelRemoteBoard);
@@ -226,6 +221,15 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Name = "TabPageBoards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxShowConsole
+            // 
+            resources.ApplyResources(this.CheckBoxShowConsole, "CheckBoxShowConsole");
+            this.CheckBoxShowConsole.Checked = true;
+            this.CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxShowConsole.Name = "CheckBoxShowConsole";
+            this.CheckBoxShowConsole.UseVisualStyleBackColor = true;
+            this.CheckBoxShowConsole.CheckedChanged += new System.EventHandler(this.CheckBoxShowConsole_CheckedChanged);
             // 
             // LabelWhiteClock
             // 
@@ -347,10 +351,10 @@ namespace DgtCherub
         private System.Windows.Forms.PictureBox PictureBoxRemote;
         private System.Windows.Forms.PictureBox PictureBoxLocal;
         private System.Windows.Forms.Button ButtonRabbitConf2;
-        private System.Windows.Forms.CheckBox CheckBoxShowConsole;
         private System.Windows.Forms.Button ButtonClearConsole;
         private System.Windows.Forms.Label LabelWhiteClock;
         private System.Windows.Forms.Label LabelBlackClock;
+        private System.Windows.Forms.CheckBox CheckBoxShowConsole;
     }
 }
 

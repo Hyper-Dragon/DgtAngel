@@ -21,6 +21,7 @@ namespace DgtCherub
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private int LastFormWidth = 705;
+        private int CollapsedWidth = 705;
         private Size InitialMinSize = new Size(420, 420);
         private Size InitialMaxSize = new Size(0, 0);
 
@@ -167,9 +168,11 @@ namespace DgtCherub
 
             this.ResumeLayout();
 
+            // Dynamically Calculate Size of Collapsed Form 
             LastFormWidth = this.Width;
             InitialMinSize = this.MinimumSize;
             InitialMaxSize = this.MaximumSize;
+            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
         }
 
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -190,9 +193,9 @@ namespace DgtCherub
                 this.WindowState = FormWindowState.Normal;
                 LastFormWidth = this.Width;
                 TextBoxConsole.Visible = false;
-                this.MinimumSize = new Size(198, this.MinimumSize.Height);
-                this.MaximumSize = new Size(198, Screen.PrimaryScreen.Bounds.Height);
-                this.Width =  198;
+                this.MinimumSize = new Size(CollapsedWidth, this.MinimumSize.Height);
+                this.MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
+                this.Width = CollapsedWidth;
                 this.MaximizeBox = false;
                 this.ControlBox = false;
             }
