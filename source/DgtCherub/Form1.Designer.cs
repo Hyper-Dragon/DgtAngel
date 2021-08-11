@@ -267,7 +267,7 @@ namespace DgtCherub
             // TextBoxConsole
             // 
             resources.ApplyResources(this.TextBoxConsole, "TextBoxConsole");
-            this.TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.TabStop = false;
