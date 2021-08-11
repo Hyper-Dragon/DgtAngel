@@ -7,6 +7,14 @@ namespace DgtCherub
 {
     public static class ControlHelper
     {
+        public static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)
+        {
+            foreach(var line in text)
+            {
+                box.AddLine($">> {line}", maxLine, timeStamp);
+            }
+        }
+
         public static void AddLine(this TextBox box, string text, int? maxLine = null, bool timeStamp = true)
         {
             Action updateAction = new(() =>

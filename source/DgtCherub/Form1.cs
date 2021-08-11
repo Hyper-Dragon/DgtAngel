@@ -132,6 +132,7 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
+            TextBoxConsole.AddLine($"  -------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"  Welcome to...                                                                  ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"  ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗ ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"  ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗", TEXTBOX_MAX_LINES, false);
@@ -250,11 +251,7 @@ namespace DgtCherub
             _dgtLiveChess.PollDgtBoard();
         }
 
-        private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
-        {
-            TextBoxConsole.AddLine($"DGT Cherub {((CheckBoxOnTop.Checked)?"will always be on top.":"will no longer be on top.")}", TEXTBOX_MAX_LINES);
-            ((Form)TopLevelControl).TopMost = CheckBoxOnTop.Checked;
-        }
+
 
         private void ButtonRabbitConfig_Click(object sender, EventArgs e)
         {
@@ -305,7 +302,7 @@ namespace DgtCherub
 
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
         {
-            this.SuspendLayout();
+            this.TopLevelControl.SuspendLayout();
 
             if (CheckBoxShowConsole.Checked)
             {
@@ -314,7 +311,7 @@ namespace DgtCherub
                 this.MaximumSize = InitialMaxSize;
                 this.Width = LastFormWidth;
                 this.MaximizeBox = true;
-                this.ControlBox = true;
+                this.MinimizeBox = true;
                 this.ToolStripStatusLabelVersion.Visible = true;
             }
             else
@@ -326,16 +323,34 @@ namespace DgtCherub
                 this.MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
                 this.Width = CollapsedWidth;
                 this.MaximizeBox = false;
-                this.ControlBox = false;
+                this.MinimizeBox = false;
                 this.ToolStripStatusLabelVersion.Visible = false;
             }
 
-            this.ResumeLayout();
+            this.TopLevelControl.ResumeLayout();
         }
 
         private void ButtonClearConsole_Click(object sender, EventArgs e)
         {
             ClearConsole();
+        }
+
+        private void TabPageBoards_Enter(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Selected the Board Tab...you {((CheckBoxOnTop.Checked) ? "will always be on top." : "will not be on top.")}", TEXTBOX_MAX_LINES);
+            ((Form)TopLevelControl).TopMost = CheckBoxOnTop.Checked;
+        }
+
+        private void TabPageBoards_Leave(object sender, EventArgs e)
+        {
+            ((Form)TopLevelControl).TopMost = false;
+        }
+
+        private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
+        {           
+            TextBoxConsole.AddLine($"The Board tab {((CheckBoxOnTop.Checked) ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
+            if (!CheckBoxOnTop.Checked) { TextBoxConsole.AddLines( new string[] { $"Keeping the board tab on top is handy when playing since you are able", 
+                                                                                  $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES); }
         }
     }
 }

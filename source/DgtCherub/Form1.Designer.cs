@@ -214,6 +214,8 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Name = "TabPageBoards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
+            this.TabPageBoards.Enter += new System.EventHandler(this.TabPageBoards_Enter);
+            this.TabPageBoards.Leave += new System.EventHandler(this.TabPageBoards_Leave);
             // 
             // CheckBoxShowConsole
             // 
@@ -310,7 +312,6 @@ namespace DgtCherub
             this.DoubleBuffered = true;
             this.MainMenuStrip = this.MenuStrip;
             this.Name = "Form1";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             GroupBoxClockTest.ResumeLayout(false);
