@@ -3,6 +3,7 @@ using DgtLiveChessWrapper;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -202,7 +203,7 @@ namespace DgtCherub
 
             _appDataService.OnClockChange += () =>
             {
-                TextBoxConsole.AddLine($" Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
 
                 this.Invoke((Action)(() =>
                 {
@@ -351,6 +352,50 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"The Board tab {((CheckBoxOnTop.Checked) ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
             if (!CheckBoxOnTop.Checked) { TextBoxConsole.AddLines( new string[] { $"Keeping the board tab on top is handy when playing since you are able", 
                                                                                   $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES); }
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to exit?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+
+            
+        }
+
+        private void PlayChessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+
+            ProcessStartInfo chromeStart = new()
+            {
+                UseShellExecute = true,
+                FileName = "chrome",
+                Arguments = @"http://chess.com/live"
+            };
+
+            Process p = new Process();
+            p.StartInfo = chromeStart;
+
+            try
+            {
+                TextBoxConsole.AddLine($"Trying to open Chess.com in chrome....", TEXTBOX_MAX_LINES, true);
+                p.Start();
+                TextBoxConsole.AddLine($"...Chess.com openend.", TEXTBOX_MAX_LINES, true);
+            }
+            catch (Win32Exception ex)
+            {
+                TextBoxConsole.AddLine($"...but an error occured. [{ex.Message}]", TEXTBOX_MAX_LINES, true);
+            }
+            catch(Exception ex)
+            {
+                TextBoxConsole.AddLine($"...but we have an unexpected error: {ex.Message} {ex.GetType()}", TEXTBOX_MAX_LINES, true);
+                
+                TextBoxConsole.AddLines(ex.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None), TEXTBOX_MAX_LINES, true);
+                TextBoxConsole.AddLine($">>If the problem persists then try the Chess.com forums or report it as an issue on GitHub.", TEXTBOX_MAX_LINES, true);
+            }
+
         }
     }
 }

@@ -77,7 +77,19 @@
   <data name="GroupBoxClockTest.Text" xml:space="preserve">
     <value>Clock Test Messages</value>
   </data>
+  <data name="TabPageAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 4</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TabPageAbout.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="TabPageAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 357</value>
+  </data>
+  <data name="TabPageAbout.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="LinkLabelAbout1.LinkArea" type="System.Windows.Forms.LinkArea, System.Windows.Forms">
     <value>0, 15</value>
   </data>
@@ -213,17 +225,18 @@
   <data name="PictureBoxLogo.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
   </data>
-  <data name="TabPageAbout.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TabPageTest.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 4</value>
   </data>
-  <data name="TabPageAbout.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TabPageTest.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
   </data>
-  <data name="TabPageAbout.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TabPageTest.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 357</value>
   </data>
-  <data name="TabPageAbout.Text" xml:space="preserve">
-    <value>About</value>
+  <data name="TabPageTest.Text" xml:space="preserve">
+    <value>Testers</value>
   </data>
   <data name="ButtonRabbitConf2.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -243,21 +256,38 @@
   <data name="ButtonRabbitConf2.Text" xml:space="preserve">
     <value>Rabbit Config...</value>
   </data>
-  <data name="TabPageTest.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 4</value>
+  <data name="Panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TabPageTest.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="TabPageTest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 357</value>
-  </data>
-  <data name="TabPageTest.Text" xml:space="preserve">
-    <value>Testers</value>
+  <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>719, 365</value>
   </data>
   <data name="TabControlSidePanel.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Left</value>
+  </data>
+  <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="TabControlSidePanel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
+  <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>82, 25</value>
+  </data>
+  <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 365</value>
+  </data>
+  <data name="TabPageConfig.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 4</value>
+  </data>
+  <data name="TabPageConfig.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 357</value>
+  </data>
+  <data name="TabPageConfig.Text" xml:space="preserve">
+    <value>Config</value>
   </data>
   <data name="ButtonClearConsole.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -325,17 +355,14 @@
   <data name="CheckBoxOnTop.Text" xml:space="preserve">
     <value>Always On Top</value>
   </data>
-  <data name="TabPageConfig.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
     <value>29, 4</value>
   </data>
-  <data name="TabPageConfig.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="TabPageConfig.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 357</value>
   </data>
-  <data name="TabPageConfig.Text" xml:space="preserve">
-    <value>Config</value>
+  <data name="TabPageBoards.Text" xml:space="preserve">
+    <value>Boards</value>
   </data>
   <data name="CheckBoxShowConsole.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -889,27 +916,6 @@
   <data name="PictureBoxLocal.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
   </data>
-  <data name="TabPageBoards.Location" type="System.Drawing.Point, System.Drawing">
-    <value>29, 4</value>
-  </data>
-  <data name="TabPageBoards.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 357</value>
-  </data>
-  <data name="TabPageBoards.Text" xml:space="preserve">
-    <value>Boards</value>
-  </data>
-  <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="TabControlSidePanel.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9pt</value>
-  </data>
-  <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>82, 25</value>
-  </data>
-  <data name="TabControlSidePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>192, 365</value>
-  </data>
   <data name="TextBoxConsole.Font" type="System.Drawing.Font, System.Drawing">
     <value>Consolas, 8.25pt</value>
   </data>
@@ -918,12 +924,6 @@
   </data>
   <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
     <value>525, 365</value>
-  </data>
-  <data name="Panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>719, 365</value>
   </data>
   <data name="ToolStripStatusLabelLastUpdate.Size" type="System.Drawing.Size, System.Drawing">
     <value>654, 17</value>
@@ -934,15 +934,6 @@
   <data name="ToolStripStatusLabelLastUpdate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
   </data>
-  <data name="ToolStripStatusLabelVersion.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 8.25pt, style=Italic</value>
-  </data>
-  <data name="ToolStripStatusLabelVersion.Text" xml:space="preserve">
-    <value>Ver. 0.0.0</value>
-  </data>
-  <data name="ToolStripStatusLabelVersion.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomRight</value>
-  </data>
   <data name="StatusStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 389</value>
   </data>
@@ -952,11 +943,62 @@
   <data name="StatusStrip.Text" xml:space="preserve">
     <value>statusStrip1</value>
   </data>
+  <data name="ToolStripStatusLabelVersion.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 8.25pt, style=Italic</value>
+  </data>
+  <data name="ToolStripStatusLabelVersion.Text" xml:space="preserve">
+    <value>Ver. 0.0.0</value>
+  </data>
+  <data name="ToolStripStatusLabelVersion.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomRight</value>
+  </data>
+  <data name="startLiveChessToolStripMenuItem.Text" xml:space="preserve">
+    <value>DGT Live Chess</value>
+  </data>
+  <data name="PlayChessToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 22</value>
+  </data>
+  <data name="PlayChessToolStripMenuItem.Text" xml:space="preserve">
+    <value>Play on Chess.Com</value>
+  </data>
+  <data name="ExitToolStripMenuItem.Text" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="tasksToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="linksToolStripMenuItem.Text" xml:space="preserve">
+    <value>Links</value>
+  </data>
   <data name="MenuStrip.Size" type="System.Drawing.Size, System.Drawing">
     <value>719, 24</value>
   </data>
   <data name="MenuStrip.Text" xml:space="preserve">
-    <value>menuStrip1</value>
+    <value>MenuStrip</value>
+  </data>
+  <data name="startToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 22</value>
+  </data>
+  <data name="startToolStripMenuItem.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="killProcessToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 22</value>
+  </data>
+  <data name="killProcessToolStripMenuItem.Text" xml:space="preserve">
+    <value>Kill Process</value>
+  </data>
+  <data name="dGTAngelToolStripMenuItem.Text" xml:space="preserve">
+    <value>DGT Angel</value>
+  </data>
+  <data name="projectPageToolStripMenuItem.Text" xml:space="preserve">
+    <value>Project Page (GitHub)</value>
+  </data>
+  <data name="reportIssuesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Report Issues</value>
+  </data>
+  <data name="chesscomDGTForumsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Chess.com DGT Forums</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>719, 411</value>

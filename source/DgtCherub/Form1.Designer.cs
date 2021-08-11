@@ -58,6 +58,18 @@ namespace DgtCherub
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
+            this.tasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startLiveChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.linksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reportIssuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chesscomDGTForumsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             PictureBoxLogo = new System.Windows.Forms.PictureBox();
@@ -74,6 +86,7 @@ namespace DgtCherub
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).BeginInit();
             this.StatusStrip.SuspendLayout();
+            this.MenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // GroupBoxClockTest
@@ -300,7 +313,86 @@ namespace DgtCherub
             // MenuStrip
             // 
             resources.ApplyResources(this.MenuStrip, "MenuStrip");
+            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tasksToolStripMenuItem,
+            this.linksToolStripMenuItem});
             this.MenuStrip.Name = "MenuStrip";
+            // 
+            // tasksToolStripMenuItem
+            // 
+            resources.ApplyResources(this.tasksToolStripMenuItem, "tasksToolStripMenuItem");
+            this.tasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startLiveChessToolStripMenuItem,
+            this.PlayChessToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.ExitToolStripMenuItem});
+            this.tasksToolStripMenuItem.Name = "tasksToolStripMenuItem";
+            // 
+            // startLiveChessToolStripMenuItem
+            // 
+            resources.ApplyResources(this.startLiveChessToolStripMenuItem, "startLiveChessToolStripMenuItem");
+            this.startLiveChessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.killProcessToolStripMenuItem});
+            this.startLiveChessToolStripMenuItem.Name = "startLiveChessToolStripMenuItem";
+            // 
+            // startToolStripMenuItem
+            // 
+            resources.ApplyResources(this.startToolStripMenuItem, "startToolStripMenuItem");
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            // 
+            // killProcessToolStripMenuItem
+            // 
+            resources.ApplyResources(this.killProcessToolStripMenuItem, "killProcessToolStripMenuItem");
+            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
+            // 
+            // PlayChessToolStripMenuItem
+            // 
+            resources.ApplyResources(this.PlayChessToolStripMenuItem, "PlayChessToolStripMenuItem");
+            this.PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
+            this.PlayChessToolStripMenuItem.Click += new System.EventHandler(this.PlayChessToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            // 
+            // ExitToolStripMenuItem
+            // 
+            resources.ApplyResources(this.ExitToolStripMenuItem, "ExitToolStripMenuItem");
+            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            // 
+            // linksToolStripMenuItem
+            // 
+            resources.ApplyResources(this.linksToolStripMenuItem, "linksToolStripMenuItem");
+            this.linksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dGTAngelToolStripMenuItem,
+            this.chesscomDGTForumsToolStripMenuItem});
+            this.linksToolStripMenuItem.Name = "linksToolStripMenuItem";
+            // 
+            // dGTAngelToolStripMenuItem
+            // 
+            resources.ApplyResources(this.dGTAngelToolStripMenuItem, "dGTAngelToolStripMenuItem");
+            this.dGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.projectPageToolStripMenuItem,
+            this.reportIssuesToolStripMenuItem});
+            this.dGTAngelToolStripMenuItem.Name = "dGTAngelToolStripMenuItem";
+            // 
+            // projectPageToolStripMenuItem
+            // 
+            resources.ApplyResources(this.projectPageToolStripMenuItem, "projectPageToolStripMenuItem");
+            this.projectPageToolStripMenuItem.Name = "projectPageToolStripMenuItem";
+            // 
+            // reportIssuesToolStripMenuItem
+            // 
+            resources.ApplyResources(this.reportIssuesToolStripMenuItem, "reportIssuesToolStripMenuItem");
+            this.reportIssuesToolStripMenuItem.Name = "reportIssuesToolStripMenuItem";
+            // 
+            // chesscomDGTForumsToolStripMenuItem
+            // 
+            resources.ApplyResources(this.chesscomDGTForumsToolStripMenuItem, "chesscomDGTForumsToolStripMenuItem");
+            this.chesscomDGTForumsToolStripMenuItem.Name = "chesscomDGTForumsToolStripMenuItem";
             // 
             // Form1
             // 
@@ -327,6 +419,8 @@ namespace DgtCherub
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).EndInit();
             this.StatusStrip.ResumeLayout(false);
             this.StatusStrip.PerformLayout();
+            this.MenuStrip.ResumeLayout(false);
+            this.MenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -358,6 +452,18 @@ namespace DgtCherub
         private System.Windows.Forms.Label LabelBlackClock;
         private System.Windows.Forms.CheckBox CheckBoxShowConsole;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelLastUpdate;
+        private System.Windows.Forms.ToolStripMenuItem tasksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startLiveChessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PlayChessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem linksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dGTAngelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem projectPageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem reportIssuesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem chesscomDGTForumsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
     }
 }
 
