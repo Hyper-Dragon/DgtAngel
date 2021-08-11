@@ -16,11 +16,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\CdcWatching.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtConnected.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtLcConnected.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtLcDisconnected.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\Match.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\Mismatch.wav" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtConnected.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcConnected.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcDisconnected.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,8 +2,13 @@
 using DgtLiveChessWrapper;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Media;
+using System.Reflection;
+using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 
@@ -17,10 +22,29 @@ namespace DgtCherub
         const string EMPTY_BOARD_FEN = "8/8/8/8/8/8/8/8";
         const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
 
+
+        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
+
+        private const string RESOURCE_VOICE_ROOT = "DgtCherub.Assets.Audio";
+        private const string RESOURCE_VOICE_NAME = "Speech_en_01";
+
+        private readonly string[] AudioFiles = { "Mismatch.wav" ,
+                                                 "Match.wav" ,
+                                                 "DgtLcConnected.wav" ,
+                                                 "DgtLcDisconnected.wav" ,
+                                                 "DgtConnected.wav" ,
+                                                 "DgtDisconnected.wav" ,
+                                                 "CdcWatching.wav" ,
+                                                 "CdcStoppedWatching.wav" ,
+                                                };
+
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
         private readonly IDgtLiveChess _dgtLiveChess;
+        private readonly SoundPlayer _soundPlayer;
+
+        private readonly ConcurrentQueue<AudioClip> playList = new();
 
         private int LastFormWidth = 705;
         private int CollapsedWidth = 705;
@@ -28,11 +52,27 @@ namespace DgtCherub
         private Size InitialMaxSize = new(0, 0);
         private Color BoredLabelsInitialColor = Color.Silver;
 
+        //TODO: Finish the testers tab
+        //TODO: option to kill voice
+        //TODO: Sync all speech
+        //TODO: Mismatch to clock
+        //TODO:check if live chess is running
+        //TODO:check if rabbit connected
+        //TODO:mutex not really working only on second try!
+        //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
+        //TODO:check if chrome is installes
+        //TODO:add kill/restart live chess exe
+        //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
+        //TODO:Angel...Icon changes
+        //TODO:Angel sending lots of duplicate boards
+        //TODO:Logging
+        //TODO: stop saying disconnected from the live chess
 
-        public Form1(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade, IDgtLiveChess dgtLiveChess)
+        public Form1(ILogger<Form1> logger, SoundPlayer soundPlayer, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade, IDgtLiveChess dgtLiveChess)
         {
             //TODO: Sort out the logging in here
             _logger = logger;
+            _soundPlayer = soundPlayer;
             _appDataService = appData;
             _dgtEbDllFacade = dgtEbDllFacade;
             _dgtLiveChess = dgtLiveChess;
@@ -59,7 +99,34 @@ namespace DgtCherub
             _dgtEbDllFacade.DisplayMessageSeries("ABCDEFGH", "12345678");
         }
 
+               
+        private void Speak(AudioClip clipName)
+        {
+            if (playList.IsEmpty)
+            {
+                playList.Enqueue(clipName);
 
+                Thread playListPlayer = new(() => { while (!playList.IsEmpty)
+                                                    {
+                                                        if (playList.TryDequeue(out AudioClip result))
+                                                        {
+                                                            using var audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
+                                                            _soundPlayer.Stream = audioStream;
+                                                            _soundPlayer.PlaySync();
+                                                            _soundPlayer.Stream = null;
+                                                        }
+                                                    }
+                                                  });
+
+                playListPlayer.Start();
+            }
+            else
+            {
+                playList.Enqueue(clipName);
+            }
+        }
+
+        
         private void ClearConsole()
         {
             TextBoxConsole.Text = "";
@@ -86,7 +153,6 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
         }
 
-
         private void Form1_Shown(object sender, EventArgs e)
         {
             ClearConsole();
@@ -101,8 +167,11 @@ namespace DgtCherub
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.LocalBoardFEN)}";
+                    
+                    //TODO: catch failure;
                     PictureBoxLocal.Load();
 
+                    //TODO: Add mismatch speach
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
@@ -122,6 +191,7 @@ namespace DgtCherub
                     PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.ChessDotComBoardFEN)}";
                     PictureBoxRemote.Load();
 
+                    //TODO: Add mismatch speach
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
@@ -148,21 +218,25 @@ namespace DgtCherub
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
+                Speak(AudioClip.DGT_LC_CONNECTED);
                 TextBoxConsole.AddLine($"Live Chess running [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
             {
+                Speak(AudioClip.DGT_LC_DISCONNECTED);
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
+                Speak(AudioClip.DGT_CONNECTED);
                 TextBoxConsole.AddLine($"Board found [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
+                Speak(AudioClip.DGT_DISCONNECTED);
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 

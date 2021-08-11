@@ -63,6 +63,7 @@ namespace DgtCherub
 
         }
 
+        //TODO: Track state transitions.... Send mismatch to clock option
         public void UserMessageArrived(string source, string message)
         {
             if (EchoExternalMessagesToConsole)
