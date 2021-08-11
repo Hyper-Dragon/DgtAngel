@@ -1,4 +1,5 @@
 ﻿using DgtEbDllWrapper;
+using DgtLiveChessWrapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,16 +23,17 @@ namespace DgtCherub
             {
                 options.AddPolicy("DevCorsPolicy", builder =>
                 {
-                    builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
                 });
             });
+
             services.AddControllers();
             services.AddLogging();
             services.AddSingleton(typeof(IAppDataService), typeof(AppDataService));
             services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
+            services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
             services.AddScoped<Form1>();
         }
 

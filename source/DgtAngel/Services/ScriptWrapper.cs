@@ -1,5 +1,7 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace DgtAngel.Services
@@ -34,28 +36,23 @@ namespace DgtAngel.Services
                                                   { "audio-cdcwatching","CdcWatching.wav" },
                                                   { "audio-cdcnotwatching","CdcStoppedWatching.wav" },
                                                 };
+        
+        private readonly ILogger _logger;
+        private readonly IJSRuntime _jSRuntime;
 
-        private readonly IJSRuntime jSRuntime;
-
-        public ScriptWrapper(IJSRuntime jSRuntime)
+        public ScriptWrapper(ILogger<ScriptWrapper> logger, IJSRuntime jSRuntime)
         {
-            this.jSRuntime = jSRuntime;
+            this._logger = logger;
+            this._jSRuntime = jSRuntime;
         }
 
         async public Task AddIndexToContextMenu()
         {
-            await jSRuntime.InvokeVoidAsync("addIndexToContextMenu");
+            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+            await _jSRuntime.InvokeVoidAsync("addIndexToContextMenu");
         }
 
-        async public Task<string> GetChessDotComBoardString()
-        {
-            return await jSRuntime.InvokeAsync<string>("getPiecesHtml");
-        }
-
-        async public Task PlayAudioFile(AudioClip audioClip)
-        {
-            await jSRuntime.InvokeVoidAsync("playAudioFromBkg", AudioFiles[(int)audioClip, (int)ScriptWrapper.AudioFileIdx.ID]);
-        }
+        // HELPER METHODS
 
         public string GetAudioFileId(AudioClip audioClip)
         {
@@ -67,8 +64,23 @@ namespace DgtAngel.Services
             return $"{AUDIO_BASE}{AudioFiles[(int)audioClip, (int)AudioFileIdx.FILENAME]}";
         }
 
+        // JAVASCRIPT CALLS BELOW HERE >>>>>>
+        async public Task<string> GetChessDotComBoardString()
+        {
+            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+            return await _jSRuntime.InvokeAsync<string>("getPiecesHtml");
+        }
+
+        async public Task PlayAudioFile(AudioClip audioClip)
+        {
+            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+            await _jSRuntime.InvokeVoidAsync("playAudioFromBkg", AudioFiles[(int)audioClip, (int)ScriptWrapper.AudioFileIdx.ID]);
+        }
+
         async public Task WriteToConsole(LogLevel logLevel, String source, String message)
         {
+            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+
             if (isConsoleDebugEnabled || logLevel != LogLevel.DEBUG)
             {
                 string logMethod = logLevel switch
@@ -80,7 +92,7 @@ namespace DgtAngel.Services
                     _ => throw new Exception("Unknown Log Type")
                 };
 
-                await jSRuntime.InvokeVoidAsync(logMethod, $"{source,10}-->{message}");
+                await _jSRuntime.InvokeVoidAsync(logMethod, $"{source,10}-->{message}");
             }
         }
     }

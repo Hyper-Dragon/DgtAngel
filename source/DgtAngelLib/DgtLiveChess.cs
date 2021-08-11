@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DgtAngelLib
+namespace DgtLiveChessWrapper
 {
     public class MessageRecievedEventArgs : EventArgs
     {
@@ -102,14 +102,14 @@ namespace DgtAngelLib
             using var socket = new ClientWebSocket();
             await socket.ConnectAsync(new Uri(LIVE_CHESS_URL), CancellationToken.None).ConfigureAwait(false);
 
-            OnLiveChessConnected.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
+            OnLiveChessConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
 
             // Loop until we have a board to watch
             for (; ; )
             {
                 //First get a list of eBoards...
                 await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
-                var (eboardsJsonString, eboardsResponse) = DgtAngelLib.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket,false));
+                var (eboardsJsonString, eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket,false));
 
                 //...then find the first active board if we have one...
                 var activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
@@ -136,12 +136,12 @@ namespace DgtAngelLib
 
             //...so set up a feed...
             await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
-            var (feedSetupJsonString, feedSetupResponse) = DgtAngelLib.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, true));
+            var (feedSetupJsonString, feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
             for (; ; )
             {
-                    var (feedMsgJsonString, feedMsgResponse) = DgtAngelLib.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
+                    var (feedMsgJsonString, feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
 
                 if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
                 {
@@ -163,7 +163,7 @@ namespace DgtAngelLib
         /// Recieve data 
         /// </summary>
         /// <param name="socket"></param>
-        /// <exception cref="DgtAngelLib.BoardDisconnectedException">Thrown is the socket is closed</exception>
+        /// <exception cref="DgtLiveChessWrapper.BoardDisconnectedException">Thrown is the socket is closed</exception>
         /// <returns>JSON Response String</returns>
         private static async Task<string> Receive(ClientWebSocket socket, bool isBoardConnected)
         {

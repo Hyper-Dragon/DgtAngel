@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using DgtAngel.Services;
-using DgtAngelLib;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,18 +14,15 @@ namespace DgtAngel
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.Logging.SetMinimumLevel(LogLevel.None);
+            builder.Logging.SetMinimumLevel(LogLevel.Trace); //TODO: Fix this -> level does not work!
             builder.RootComponents.Add<App>("#app");
 
             // workaround to use JavaScript fetch to bypass url validation
             // see: https://github.com/dotnet/runtime/issues/52836
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
-                            .AddSingleton<IAppData,AppDataService>()
-                            .AddSingleton<IChessDotComHelpers,ChessDotComHelpers>()
-                            .AddTransient<IScriptWrapper, ScriptWrapper>(sp => new ScriptWrapper(sp.GetService<IJSRuntime>()))
-                            .AddTransient<IChessDotComWatcher, ChessDotComWatcher>(sp => new ChessDotComWatcher(sp.GetService<IScriptWrapper>(),  
-                                                                                   sp.GetService<IChessDotComHelpers>()))
-                            .AddTransient<IDgtLiveChess, DgtLiveChess>(sp => new DgtLiveChess())
+                            .AddSingleton<IChessDotComHelperService,ChessDotComHelperService>()
+                            .AddSingleton<IScriptWrapper, ScriptWrapper>()
+                            .AddSingleton<IChessDotComWatcher, ChessDotComWatcher>()
                             .AddBrowserExtensionServices(options =>{ options.ProjectNamespace = typeof(Program).Namespace; });
 
             await builder.Build().RunAsync();

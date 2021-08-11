@@ -8,6 +8,8 @@ namespace DgtCherub
     [ApiController]
     public class DgtBoardController : ControllerBase
     {
+        //TODO: Hartbeat for disconnect???
+
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;

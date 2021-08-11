@@ -1,3 +1,4 @@
+using DgtLiveChessWrapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,6 +36,7 @@ namespace DgtCherub
         [STAThread]
         static void Main()
         {
+            //TODO: Checks for chrome and livechess and rabbit install
             if (Process.GetProcesses().Any(name => name.ProcessName.ToLowerInvariant().Contains("rabbitconnect")))
             {
                 ShowCantStartDialog("The DGT RabbitConnect software is already running.  Please close it and retry.");

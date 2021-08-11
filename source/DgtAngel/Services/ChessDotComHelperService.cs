@@ -1,27 +1,44 @@
 ﻿using ChessDotNet.Pieces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
-namespace DgtAngelLib
+namespace DgtAngel.Services
 {
-    public interface IChessDotComHelpers
+    public interface IChessDotComHelperService
     {
-        string ConvertHtmlToFenT1(string htmlIn);
-        (string fen, string whiteClock, string blackClock, string toPlay) ConvertHtmlToFenT2(string htmlIn);
+        string FormatClockStringToDGT(string cdcClockString);
+        string ConvertPlayBoardFenToHtml(string htmlIn);
+        (string fen, string whiteClock, string blackClock, string toPlay) ConvertLiveBoardHtmlToFen(string htmlIn);
     }
 
-    public class ChessDotComHelpers : IChessDotComHelpers
+    public class ChessDotComHelperService : IChessDotComHelperService
     {
-        //public string ConvertClockToTimespan(string htmlIn)
-        //{
-        //
-        //}
+        private readonly ILogger _logger;
+
+        public ChessDotComHelperService(ILogger<ChessDotComHelperService> logger)
+        {
+            this._logger = logger;
+        }
+
+        public string FormatClockStringToDGT(string cdcClockString)
+        {
+            _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Reformatting {cdcClockString}");
+
+            //TODO: Need to handle from zero - need example
+            var clockParts = cdcClockString.Split(".")[0].Split(":");
+
+            return $"0:{clockParts[0].PadLeft(2, '0')}:{clockParts[1].PadLeft(2, '0')}";
+        }
 
         // 2:58|2:57|br88,bn78,bb68,bk58,bq48,bb38,bn36,br18,bp87,bp77,bp67,bp57,bp47,bp35,bp27,bp17,wp82,wp72,wp62,wp54,wp42,wp32,wp22,wp12,wr81,wn63,wb61,wk51,wq41,wb31,wn21,wr11
-        public (string fen, string whiteClock, string blackClock, string toPlay) ConvertHtmlToFenT2(string htmlIn)
+        public (string fen, string whiteClock, string blackClock, string toPlay) ConvertLiveBoardHtmlToFen(string htmlIn)
         {
+            _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Parsing {htmlIn}");
+
             ChessDotNet.Piece[][] board = new ChessDotNet.Piece[8][];
             for (int loop = 0; loop < 8; loop++)
             {
@@ -65,8 +82,10 @@ namespace DgtAngelLib
         ///div.piece.wk.square-62, div.piece.wr.square-86] 
         /// </param>
         /// <returns>Fen String</returns>
-        public string ConvertHtmlToFenT1(string htmlIn)
+        public string ConvertPlayBoardFenToHtml(string htmlIn)
         {
+            _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Parsing {htmlIn}");
+
             ChessDotNet.Piece[][] board = new ChessDotNet.Piece[8][];
             for (int loop = 0; loop < 8; loop++)
             {

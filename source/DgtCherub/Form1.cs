@@ -1,4 +1,5 @@
 ﻿using DgtEbDllWrapper;
+using DgtLiveChessWrapper;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ namespace DgtCherub
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
+        private readonly IDgtLiveChess _dgtLiveChess;
 
         private int LastFormWidth = 705;
         private int CollapsedWidth = 705;
@@ -27,11 +29,14 @@ namespace DgtCherub
         private Color BoredLabelsInitialColor = Color.Silver;
 
 
-        public Form1(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade)
+        public Form1(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade, IDgtLiveChess dgtLiveChess)
         {
+            //TODO: Sort out the logging in here
             _logger = logger;
             _appDataService = appData;
             _dgtEbDllFacade = dgtEbDllFacade;
+            _dgtLiveChess = dgtLiveChess;
+
             InitializeComponent();
 
             // Start the Rabbit Plugin
@@ -116,7 +121,7 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.ChessDotComBoardFEN)}";
                     PictureBoxRemote.Load();
-                    
+
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
@@ -128,17 +133,47 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($" Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
 
-                this.Invoke((Action)(() => {
-                    LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString=="1")?"*":" ")}{_appDataService.WhiteClock}";
+                this.Invoke((Action)(() =>
+                {
+                    LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "1") ? "*" : " ")}{_appDataService.WhiteClock}";
                     LabelBlackClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "2") ? "*" : " ")}{_appDataService.BlackClock}";
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                 }));
             };
-
+     
             _appDataService.OnUserMessageArrived += (source, message) =>
             {
-                TextBoxConsole.AddLine($" From {source}::{message}", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
             };
+
+            _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
+            {
+                TextBoxConsole.AddLine($"Live Chess running [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            };
+
+            _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
+            {
+                TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            };
+
+            _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
+            {
+                TextBoxConsole.AddLine($"Board found [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            };
+
+            _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
+            {
+                TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            };
+
+            _dgtLiveChess.OnResponseRecieved += (obj, eventArgs) =>
+            {
+                TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+                _appDataService.LocalBoardFEN = eventArgs.ResponseOut;
+            };
+
+            //All the Events are set up so we can start watching the local board
+            _dgtLiveChess.PollDgtBoard();
         }
 
         private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)

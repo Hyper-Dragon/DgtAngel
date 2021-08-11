@@ -13,19 +13,16 @@ function piecesFromLiveBoardDOM() {
 
     whiteClock = document.getElementsByClassName("clock-white")[0];
     blackClock = document.getElementsByClassName("clock-black")[0];
-    turn = "?";
+    turn = "NONE";
 
     if (whiteClock.outerHTML.includes("clock-playerTurn")) {
-        turn = "W";
+        turn = "WHITE";
     }
     else if (blackClock.outerHTML.includes("clock-playerTurn")) {
-        turn = "B";
+        turn = "BLACK";
     }
 
-    //document.getElementsByClassName("clock-white")[0].outerHTML.includes("clock-playerTurn")
-    //document.getElementsByClassName("clock-playerTurn")[0].outerHTML.includes("clock-black")
-
-    retVal = turn + '|' + whiteClock.innerText + '|' + blackClock.innerText + '|' + piecesStringOut;
+    retVal = turn + '|' + whiteClock.innerText + '|' + blackClock.innerText + '|' + piecesStringOut + '|FALSE';
 
     //console.log('Returning: ' + retVal);
 

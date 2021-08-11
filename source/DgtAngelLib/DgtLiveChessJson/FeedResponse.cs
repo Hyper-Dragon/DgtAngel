@@ -1,13 +1,13 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DgtAngelLib.DgtLiveChessJson.FeedResponse
+namespace DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse
 {
     public class Rootobject
     {
         public static (string JsonString, Rootobject Response) Deserialize(string jsonString)
         {
-            return (jsonString, JsonSerializer.Deserialize<DgtAngelLib.DgtLiveChessJson.FeedResponse.Rootobject>(jsonString));
+            return (jsonString, JsonSerializer.Deserialize<DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject>(jsonString));
         }
 
         [JsonPropertyName("response")]

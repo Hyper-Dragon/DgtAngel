@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessDotNet", "ChessDotNet\ChessDotNet.csproj", "{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngelLib", "DgtAngelLib\DgtAngelLib.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtAngelLib\DgtLiveChessWrapper.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC5E410E-067B-48BA-8C57-F231E35A8790}"
 EndProject

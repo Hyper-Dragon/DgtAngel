@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace DgtAngelLib.DgtLiveChessJson.CallResponse
+namespace DgtLiveChessWrapper.DgtLiveChessJson.CallResponse
 {
     public class Rootobject
     {
