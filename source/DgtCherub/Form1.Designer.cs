@@ -267,7 +267,9 @@ namespace DgtCherub
             // TextBoxConsole
             // 
             resources.ApplyResources(this.TextBoxConsole, "TextBoxConsole");
+            this.TextBoxConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TextBoxConsole.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(255)))), ((int)(((byte)(102)))));
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.TabStop = false;

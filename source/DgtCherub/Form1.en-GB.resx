@@ -901,6 +901,9 @@
   <data name="TabControlSidePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>
   </data>
+  <data name="TabControlSidePanel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="TabControlSidePanel.ItemSize" type="System.Drawing.Size, System.Drawing">
     <value>82, 25</value>
   </data>
@@ -914,16 +917,16 @@
     <value>194, 0</value>
   </data>
   <data name="TextBoxConsole.Size" type="System.Drawing.Size, System.Drawing">
-    <value>500, 365</value>
+    <value>525, 365</value>
   </data>
   <data name="Panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>694, 365</value>
+    <value>719, 365</value>
   </data>
   <data name="ToolStripStatusLabelLastUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>629, 17</value>
+    <value>654, 17</value>
   </data>
   <data name="ToolStripStatusLabelLastUpdate.Text" xml:space="preserve">
     <value>[Last Update]</value>
@@ -944,19 +947,19 @@
     <value>0, 389</value>
   </data>
   <data name="StatusStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>694, 22</value>
+    <value>719, 22</value>
   </data>
   <data name="StatusStrip.Text" xml:space="preserve">
     <value>statusStrip1</value>
   </data>
   <data name="MenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>694, 24</value>
+    <value>719, 24</value>
   </data>
   <data name="MenuStrip.Text" xml:space="preserve">
     <value>menuStrip1</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>694, 411</value>
+    <value>719, 411</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
