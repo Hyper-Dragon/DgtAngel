@@ -31,7 +31,7 @@ namespace DgtCherub
         const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
 
 
-        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
+        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND };
 
         private const string RESOURCE_VOICE_ROOT = "DgtCherub.Assets.Audio";
         private const string RESOURCE_VOICE_NAME = "Speech_en_01";
@@ -44,6 +44,7 @@ namespace DgtCherub
                                                  "DgtDisconnected.wav" ,
                                                  "CdcWatching.wav" ,
                                                  "CdcStoppedWatching.wav" ,
+                                                 "DgtCantFindBoard.wav"
                                                 };
 
         private readonly ILogger _logger;
@@ -122,27 +123,36 @@ namespace DgtCherub
         {
             if (playList.IsEmpty)
             {
-                playList.Enqueue(clipName);
-
-                Thread playListPlayer = new(() =>
+                if (_appDataService.PlayAudio)
                 {
-                    while (!playList.IsEmpty)
-                    {
-                        if (playList.TryDequeue(out AudioClip result))
-                        {
-                            using var audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
-                            _soundPlayer.Stream = audioStream;
-                            _soundPlayer.PlaySync();
-                            _soundPlayer.Stream = null;
-                        }
-                    }
-                });
+                    playList.Enqueue(clipName);
 
-                playListPlayer.Start();
+                    Thread playListPlayer = new(() =>
+                    {
+                        while (!playList.IsEmpty)
+                        {
+                            if (playList.TryDequeue(out AudioClip result))
+                            {
+                                if (_appDataService.PlayAudio)
+                                {
+                                    using var audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
+                                    _soundPlayer.Stream = audioStream;
+                                    _soundPlayer.PlaySync();
+                                    _soundPlayer.Stream = null;
+                                }
+                            }
+                        }
+                    });
+
+                    playListPlayer.Start();
+                }
             }
             else
             {
-                playList.Enqueue(clipName);
+                if (_appDataService.PlayAudio)
+                {
+                    playList.Enqueue(clipName);
+                }
             }
         }
 
@@ -188,12 +198,12 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width);
 
-                    //TODO: Add mismatch speach
+                    //TODO: Add mismatch speech
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
 
-                PictureBoxRemote.BeginInvoke(updateAction);
+                PictureBoxLocal.BeginInvoke(updateAction);
             };
 
             _appDataService.OnChessDotComFenChange += () =>
@@ -205,9 +215,9 @@ namespace DgtCherub
                     this.Update();
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width);
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxRemote.Width);
 
-                    //TODO: Add mismatch speach
+                    //TODO: Add mismatch speech
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
@@ -244,11 +254,13 @@ namespace DgtCherub
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 Speak(AudioClip.DGT_LC_DISCONNECTED);
+                _appDataService.ResetChessDotComLocalBoardState();
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
+                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 Speak(AudioClip.DGT_CONNECTED);
                 TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Board found [{eventArgs.ResponseOut}]",
@@ -259,10 +271,22 @@ namespace DgtCherub
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 Speak(AudioClip.DGT_DISCONNECTED);
+                _appDataService.ResetChessDotComLocalBoardState();
+                TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            };
+
+            _dgtLiveChess.OnCantFindBoard += (source, eventArgs) =>
+            {
+                Speak(AudioClip.DGT_CANT_FIND);
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnResponseRecieved += (obj, eventArgs) =>
+            {
+                TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
+            };
+
+            _dgtLiveChess.OnFenRecieved += (obj, eventArgs) =>
             {
                 TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
                 _appDataService.LocalBoardFEN = eventArgs.ResponseOut;
@@ -281,13 +305,18 @@ namespace DgtCherub
 
         private void CheckBoxShowInbound_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"DGT Cherub {((CheckBoxShowInbound.Checked) ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxShowInbound.Checked ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
             _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             this.SuspendLayout();
+
+            //Set Appsettings from the designer values...
+            _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
+            _appDataService.PlayAudio = CheckBoxPlayAudio.Checked;
+
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -304,21 +333,18 @@ namespace DgtCherub
                 });
             };
 
-            this.ResumeLayout();
-
             // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
             BoredLabelsInitialColor = LabelLocalDgt.BackColor;
             LastFormWidth = this.Width;
             InitialMinSize = this.MinimumSize;
             InitialMaxSize = this.MaximumSize;
-            // ItemSize.Height is correct - the tabs are on the side!
-            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X; 
-            //PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
-            //PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
-            //PictureBoxLocal.Load();
-            //PictureBoxRemote.Load();
             PictureBoxLocalInitialImage = PictureBoxLocal.Image;
             PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
+
+            // ItemSize.Height is correct - the tabs are on the side!
+            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
+
+            this.ResumeLayout();
         }
 
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -376,6 +402,11 @@ namespace DgtCherub
                                                        $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
             }
         }
+        private void CheckBoxPlayAudio_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayAudio.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
+            _appDataService.PlayAudio = CheckBoxPlayAudio.Checked;
+        }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -385,6 +416,7 @@ namespace DgtCherub
             }
         }
 
+        //MENU LINKS REGION (Nothing Exciting) >>>>>>
         #region Menu Links Region
         private void PlayChessToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -475,6 +507,8 @@ namespace DgtCherub
                                                   $"...the releases page is opened.",
                                                   TEXTBOX_MAX_LINES);
         }
-        #endregion 
+        #endregion
+
+
     }
 }

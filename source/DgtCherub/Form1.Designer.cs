@@ -74,6 +74,7 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CheckBoxPlayAudio = new System.Windows.Forms.CheckBox();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             PictureBoxLogo = new System.Windows.Forms.PictureBox();
@@ -179,6 +180,7 @@ namespace DgtCherub
             // 
             resources.ApplyResources(this.TabPageConfig, "TabPageConfig");
             this.TabPageConfig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageConfig.Controls.Add(this.CheckBoxPlayAudio);
             this.TabPageConfig.Controls.Add(this.ButtonClearConsole);
             this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
             this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig1);
@@ -431,6 +433,15 @@ namespace DgtCherub
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
+            // CheckBoxPlayAudio
+            // 
+            resources.ApplyResources(this.CheckBoxPlayAudio, "CheckBoxPlayAudio");
+            this.CheckBoxPlayAudio.Checked = true;
+            this.CheckBoxPlayAudio.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxPlayAudio.Name = "CheckBoxPlayAudio";
+            this.CheckBoxPlayAudio.UseVisualStyleBackColor = true;
+            this.CheckBoxPlayAudio.CheckedChanged += new System.EventHandler(this.CheckBoxPlayAudio_CheckedChanged);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -505,6 +516,7 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem CdcChromeExtensionVoiceComentaryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtLiveChessSoftwareMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
+        private System.Windows.Forms.CheckBox CheckBoxPlayAudio;
     }
 }
 

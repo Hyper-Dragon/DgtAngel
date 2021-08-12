@@ -10,6 +10,7 @@ namespace DgtCherub
         string BlackClock { get; }
         string ChessDotComBoardFEN { get; set; }
         bool EchoExternalMessagesToConsole { get; set; }
+        bool PlayAudio { get; set; }
         bool IsChessDotComBoardStateActive { get; }
         string LocalBoardFEN { get; set; }
         string WhiteClock { get; }
@@ -20,7 +21,7 @@ namespace DgtCherub
         event Action OnLocalFenChange;
         event Action<string, string> OnUserMessageArrived;
 
-        void ResetChessDotComBoardState();
+        void ResetChessDotComLocalBoardState();
         void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString);
         void UserMessageArrived(string source, string message);
     }
@@ -32,26 +33,31 @@ namespace DgtCherub
         public event Action OnClockChange;
         public event Action<string, string> OnUserMessageArrived;
 
-        private string _localBoardFEN = "8/8/8/8/8/8/8/8";
-        private string _chessDotComFEN = "8/8/8/8/8/8/8/8";
+        private string _localBoardFEN = "";
+        private string _chessDotComFEN = "";
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
         private string _chessDotComRunWhoString = "0";
 
+
         public bool EchoExternalMessagesToConsole { get; set; } = true;
-        public string LocalBoardFEN { get { return _localBoardFEN; } set { if (_localBoardFEN != value) { _localBoardFEN = value; OnLocalFenChange?.Invoke(); } } }
-        public string ChessDotComBoardFEN { get { return _chessDotComFEN; } set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnChessDotComFenChange?.Invoke(); } } }
+        public string LocalBoardFEN { get { return _localBoardFEN; } 
+                                      set { if (_localBoardFEN != value) { _localBoardFEN = value; OnLocalFenChange?.Invoke(); } } }
+        public string ChessDotComBoardFEN { get { return _chessDotComFEN; } 
+                                            set { if (_chessDotComFEN != value) { _chessDotComFEN = value; OnChessDotComFenChange?.Invoke(); } } }
         public string WhiteClock { get { return _chessDotComWhiteClock; } }
         public string BlackClock { get { return _chessDotComBlackClock; } }
         public string RunWhoString { get { return _chessDotComRunWhoString; } }
         public bool IsChessDotComBoardStateActive { get { return (_chessDotComFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00"); } }
+        public bool PlayAudio { get; set; }
 
-        public void ResetChessDotComBoardState()
+        public void ResetChessDotComLocalBoardState()
         {
-            _chessDotComFEN = "";
-            _chessDotComWhiteClock = "00:00";
-            _chessDotComBlackClock = "00:00";
-            _chessDotComRunWhoString = "0";
+            _localBoardFEN = "";
+            //_chessDotComFEN = "";
+            //_chessDotComWhiteClock = "00:00";
+            //_chessDotComBlackClock = "00:00";
+            //_chessDotComRunWhoString = "0";
         }
 
         public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString)

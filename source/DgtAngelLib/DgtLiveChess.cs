@@ -22,6 +22,8 @@ namespace DgtLiveChessWrapper
         event EventHandler<MessageRecievedEventArgs> OnBoardDisconnected;
         event EventHandler<MessageRecievedEventArgs> OnError;
         event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
+        event EventHandler<MessageRecievedEventArgs> OnFenRecieved;
+        event EventHandler<MessageRecievedEventArgs> OnCantFindBoard;
 
         Task ConnectAndWatch();
         Task PollDgtBoard();
@@ -49,6 +51,8 @@ namespace DgtLiveChessWrapper
         public event EventHandler<MessageRecievedEventArgs> OnError;
         public event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
         public event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
+        public event EventHandler<MessageRecievedEventArgs> OnFenRecieved;
+        public event EventHandler<MessageRecievedEventArgs> OnCantFindBoard;
 
         /// <summary>
         /// Establish and maintain a connection to a DGT Board via Live Chess
@@ -76,7 +80,7 @@ namespace DgtLiveChessWrapper
                 }
                 catch (BoardDisconnectedException)
                 {
-                    OnBoardDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to DGT Board Lost" });                    
+                    OnBoardDisconnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connection to DGT Board Lost" });
                 }
                 catch (Exception ex)
                 {
@@ -109,7 +113,7 @@ namespace DgtLiveChessWrapper
             {
                 //First get a list of eBoards...
                 await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
-                var (eboardsJsonString, eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket,false));
+                var (eboardsJsonString, eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, false));
 
                 //...then find the first active board if we have one...
                 var activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
@@ -119,7 +123,7 @@ namespace DgtLiveChessWrapper
                     //...if no active boards are available wait and try again...
                     if (reportNoActiveBoards)
                     {
-                        OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected but no active boards found!" });
+                        OnCantFindBoard?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "No Board found - is it switched on?" });
                         reportNoActiveBoards = false;
                     }
                     await Task.Delay(BOARD_POLL_RETRY_DELAY);
@@ -129,7 +133,7 @@ namespace DgtLiveChessWrapper
                     //...if we have a board to watch break out and start watching...
                     watchdSerialNumber = activeBoard.SerialNumber;
                     reportNoActiveBoards = true;
-                    OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to {watchdSerialNumber}:{activeBoard.ConnectionState}" });
+                    OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to Board {watchdSerialNumber} [State={activeBoard.ConnectionState}]" });
                     break;
                 }
             }
@@ -141,11 +145,11 @@ namespace DgtLiveChessWrapper
             //...and keep picking up board changes until the connection is closed
             for (; ; )
             {
-                    var (feedMsgJsonString, feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
+                var (feedMsgJsonString, feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
 
                 if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
                 {
-                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"{feedMsgResponse.Param.Board}" });
+                    OnFenRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"{feedMsgResponse.Param.Board}" });
                 }
             }
         }

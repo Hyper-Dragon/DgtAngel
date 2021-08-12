@@ -18,6 +18,7 @@
   <ItemGroup>
     <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcWatching.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtCantFindBoard.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtConnected.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtLcConnected.wav" />
@@ -29,6 +30,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtCantFindBoard.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtConnected.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcConnected.wav" />
