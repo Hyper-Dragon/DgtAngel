@@ -25,31 +25,67 @@
     const string CHERUB_SEND_CLOCK_MESSAGE = "SetClock";
     const string CHERUB_SEND_LOCAL_BOARD_FEN = "SetLocalBoardFenString";
     const string CHERUB_SEND_CDC_FEN = "SetChessDotComFenString";
+    const string CHERUB_SEND_STOPED_WATCH = "DgtAngelDisconnected";
     const string CHERUB_SENDER_NAME = "ANGEL";
 
     Task pollChessDotComBoardTask = null;
     CancellationTokenSource canxSrcChessDotComBoardPoll = null;
 
 
-    // These method are fire and forget - if Cherub isn't there that's fine
+    // These method are fire and forget - if Cherub isn't there that's fine - just log
     protected async Task SendMessageToCherubClient(string message)
     {
-        Logging.LogInformation($"Sending message {message} to Cherub");
-        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={HttpUtility.UrlEncode(message)}") });
+        Logging?.LogInformation($"Sending message {message} to Cherub");
+
+        try
+        {
+            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_USER_MESSAGE}/{CHERUB_SENDER_NAME}/?message={HttpUtility.UrlEncode(message)}") });
+        }
+        catch (Exception ex)
+        {
+            Logging?.LogInformation($"{ex.Message}");
+        }
     }
 
     protected async Task SendUpdatedFenToCherubClient(string fen, bool isForLocalBoard)
     {
         Logging.LogInformation($"Sending FEN {fen} to Cherub");
-        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}/?fen={HttpUtility.UrlEncode(fen)}") });
+
+        try
+        {
+            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}/?fen={HttpUtility.UrlEncode(fen)}") });
+        }
+        catch (Exception ex)
+        {
+            Logging?.LogInformation($"{ex.Message}");
+        }
     }
 
     protected async Task SendUpdatedClockToCherubClient(string whiteTime, string blackTime, int runWho)
     {
         Logging.LogInformation($"Sending clock {whiteTime} {blackTime} {runWho} to Chetub");
-        await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{whiteTime}/{blackTime}/{runWho.ToString()}") });
+        try
+        {
+            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{whiteTime}/{blackTime}/{runWho.ToString()}") });
+        }
+        catch (Exception ex)
+        {
+            Logging?.LogInformation($"{ex.Message}");
+        }
     }
 
+    protected async Task SendDgtAngelDisconnectedToCherubClient()
+    {
+        Logging.LogInformation($"Sending DGT Angel disconnect to Cherub");
+        try
+        {
+            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_STOPED_WATCH}/{CHERUB_SENDER_NAME}") });
+        }
+        catch (Exception ex)
+        {
+            Logging?.LogInformation($"{ex.Message}");
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,11 +112,11 @@
 
                                 Logging.LogInformation($"Stopped watching a board on Chess.com");
                                 await SendMessageToCherubClient($"Angel has stopped watching a board on Chess.com");
-
-                                await SendUpdatedClockToCherubClient("0:00:00", "0:00:00", 0);
-                                await SendUpdatedFenToCherubClient("8/8/8/8/8/8/8/8", false);
+                                                    
+                                //await SendUpdatedClockToCherubClient("0:00:00", "0:00:00", 0);
+                                //await SendUpdatedFenToCherubClient("8/8/8/8/8/8/8/8", false);
+                                await SendDgtAngelDisconnectedToCherubClient();
                             };
-
 
         ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
                             {
@@ -96,7 +132,6 @@
                                 await SendUpdatedClockToCherubClient(eventArgs.WhiteClock, eventArgs.BlackClock, toMoveInt);
                                 await SendUpdatedFenToCherubClient($"{eventArgs.FenString}", false);
                             };
-
 
         //Run the Chess.Com Watcher
 #pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT IT!

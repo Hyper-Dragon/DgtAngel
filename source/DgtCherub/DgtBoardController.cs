@@ -78,6 +78,12 @@ namespace DgtCherub
         {
             // curl -G 'http://localhost:37964/api/DgtBoard/SetChessDotComFenString/CLI/' --data-urlencode 'fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
 
+            //if ( string.IsNullOrWhiteSpace(fen) )
+            //{
+            //    _appDataService.UserMessageArrived(source, $"WARNING: Chess.com board FEN is BLANK");
+            //}
+            //else 
+            
             if (_appDataService.ChessDotComBoardFEN == fen)
             {
                 _appDataService.UserMessageArrived(source, $"Chess.com board FEN is a DUPLICATE");
@@ -87,6 +93,18 @@ namespace DgtCherub
                 _appDataService.ChessDotComBoardFEN = fen;
                 _appDataService.UserMessageArrived(source, $"Chess.com board FEN is {fen}");
             }
+
+            return new { isSuccess = true };
+        }
+
+        [HttpGet]
+        [Route("{action}/{source}")]
+        public object DgtAngelDisconnected(string source = "Unknown")
+        {
+            // curl -G 'http://localhost:37964/api/DgtBoard/DgtAngelDisconnected/CLI/'
+
+            _appDataService.ResetChessDotComRemoteBoardState();
+            _appDataService.UserMessageArrived(source, $"Chess.com board disconnected.");
 
             return new { isSuccess = true };
         }

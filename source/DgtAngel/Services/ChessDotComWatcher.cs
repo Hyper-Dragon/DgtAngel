@@ -38,7 +38,9 @@ namespace DgtAngel.Services
         private const int SLEEP_REOPEN_TAB_DELAY = 1000;
         private const int SLEEP_EXCEPTION_DELAY = 5000;
 
-        public ChessDotComWatcher(ILogger<ChessDotComWatcher> logger, IScriptWrapper scriptWrapper, IChessDotComHelperService chessDotComHelpers)
+        public ChessDotComWatcher(ILogger<ChessDotComWatcher> logger,
+                                  IScriptWrapper scriptWrapper,
+                                  IChessDotComHelperService chessDotComHelpers)
         {
             this._logger = logger;
             this._scriptWrapper = scriptWrapper;

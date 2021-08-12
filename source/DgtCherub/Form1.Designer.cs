@@ -41,6 +41,7 @@ namespace DgtCherub
             this.ButtonRabbitConf2 = new System.Windows.Forms.Button();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
+            this.CheckBoxPlayAudio = new System.Windows.Forms.CheckBox();
             this.ButtonClearConsole = new System.Windows.Forms.Button();
             this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
             this.ButtonRabbitConfig1 = new System.Windows.Forms.Button();
@@ -74,7 +75,6 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CheckBoxPlayAudio = new System.Windows.Forms.CheckBox();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             PictureBoxLogo = new System.Windows.Forms.PictureBox();
@@ -187,6 +187,15 @@ namespace DgtCherub
             this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxPlayAudio
+            // 
+            resources.ApplyResources(this.CheckBoxPlayAudio, "CheckBoxPlayAudio");
+            this.CheckBoxPlayAudio.Checked = true;
+            this.CheckBoxPlayAudio.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxPlayAudio.Name = "CheckBoxPlayAudio";
+            this.CheckBoxPlayAudio.UseVisualStyleBackColor = true;
+            this.CheckBoxPlayAudio.CheckedChanged += new System.EventHandler(this.CheckBoxPlayAudio_CheckedChanged);
             // 
             // ButtonClearConsole
             // 
@@ -432,15 +441,6 @@ namespace DgtCherub
             resources.ApplyResources(this.ChesscomDgtForumsMenuItem, "ChesscomDgtForumsMenuItem");
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
-            // 
-            // CheckBoxPlayAudio
-            // 
-            resources.ApplyResources(this.CheckBoxPlayAudio, "CheckBoxPlayAudio");
-            this.CheckBoxPlayAudio.Checked = true;
-            this.CheckBoxPlayAudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxPlayAudio.Name = "CheckBoxPlayAudio";
-            this.CheckBoxPlayAudio.UseVisualStyleBackColor = true;
-            this.CheckBoxPlayAudio.CheckedChanged += new System.EventHandler(this.CheckBoxPlayAudio_CheckedChanged);
             // 
             // Form1
             // 

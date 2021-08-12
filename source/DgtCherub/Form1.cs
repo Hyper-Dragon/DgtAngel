@@ -206,6 +206,11 @@ namespace DgtCherub
                 PictureBoxLocal.BeginInvoke(updateAction);
             };
 
+            _appDataService.OnChessDotComDisconnect += () =>
+            {
+                PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+            };
+
             _appDataService.OnChessDotComFenChange += () =>
             {
                 Action updateAction = new(async () =>
@@ -215,7 +220,7 @@ namespace DgtCherub
                     this.Update();
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxRemote.Width);
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width);
 
                     //TODO: Add mismatch speech
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
@@ -316,7 +321,6 @@ namespace DgtCherub
             //Set Appsettings from the designer values...
             _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
             _appDataService.PlayAudio = CheckBoxPlayAudio.Checked;
-
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -508,7 +512,6 @@ namespace DgtCherub
                                                   TEXTBOX_MAX_LINES);
         }
         #endregion
-
 
     }
 }
