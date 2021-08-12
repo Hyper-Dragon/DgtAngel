@@ -3,10 +3,8 @@ using DgtLiveChessWrapper;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Media;
 using System.Reflection;
 using System.Threading;
@@ -62,19 +60,21 @@ namespace DgtCherub
         private Size InitialMinSize = new(420, 420);
         private Size InitialMaxSize = new(0, 0);
         private Color BoredLabelsInitialColor = Color.Silver;
+        private Image PictureBoxLocalInitialImage;
+        private Image PictureBoxRemoteInitialImage;
 
         //TODO: Finish the testers tab
         //TODO: option to kill voice
-        //TODO: Sync all speech
+
         //TODO: Mismatch to clock
         //TODO:check if live chess is running
         //TODO:check if rabbit connected
         //TODO:mutex not really working only on second try!
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-        //TODO:check if chrome is installes
-        //TODO:add kill/restart live chess exe
+
+
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
-        //TODO:Angel...Icon changes
+
         //TODO:Angel sending lots of duplicate boards
         //TODO:Logging
         //TODO: stop saying disconnected from the live chess
@@ -239,6 +239,7 @@ namespace DgtCherub
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
             {
+                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 Speak(AudioClip.DGT_LC_DISCONNECTED);
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
@@ -253,6 +254,7 @@ namespace DgtCherub
 
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
+                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 Speak(AudioClip.DGT_DISCONNECTED);
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
@@ -284,11 +286,6 @@ namespace DgtCherub
         {
             this.SuspendLayout();
 
-            PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
-            PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
-            PictureBoxLocal.Load();
-            PictureBoxRemote.Load();
-
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
@@ -311,7 +308,14 @@ namespace DgtCherub
             LastFormWidth = this.Width;
             InitialMinSize = this.MinimumSize;
             InitialMaxSize = this.MaximumSize;
-            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X; //TabControlSidePanel.ItemSize.Height is correct!
+            // ItemSize.Height is correct - the tabs are on the side!
+            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X; 
+            //PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
+            //PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{EMPTY_BOARD_FEN}";
+            //PictureBoxLocal.Load();
+            //PictureBoxRemote.Load();
+            PictureBoxLocalInitialImage = PictureBoxLocal.Image;
+            PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
         }
 
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
