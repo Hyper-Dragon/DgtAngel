@@ -22,6 +22,16 @@ namespace DgtCherub
         const string CHESS_DOT_COM_DYN_BOARD_URL = "https://www.chess.com/dynboard?board=green&fen=";
         const string EMPTY_BOARD_FEN = "8/8/8/8/8/8/8/8";
         const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
+        const string CHESS_DOT_COM_PLAY_LINK = @"http://chess.com/live";
+        const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
+
+        const string PROJECT_LINK = @"https://github.com/Hyper-Dragon/DgtAngel";
+        const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues";
+        const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
+
+        const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
+        const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
+        const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
 
 
         public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
@@ -87,37 +97,39 @@ namespace DgtCherub
         private void ButtonSendTestMsg1_Click(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Sending a test message to the clock. You should see '{"  *DGT*  "}' ", TEXTBOX_MAX_LINES);
-            TextBoxConsole.AddLine($"{" ",11}and '{" *ANGEL*"}'.  If not then check your settings.", TEXTBOX_MAX_LINES,false);
+            TextBoxConsole.AddLine($"{" ",11}and '{" *ANGEL*"}'.  If not then check your settings.", TEXTBOX_MAX_LINES, false);
 
-            _dgtEbDllFacade.DisplayMessageSeries("  *DGT*  "," *ANGEL*");
+            _dgtEbDllFacade.DisplayMessageSeries("  *DGT*  ", " *ANGEL*");
         }
 
         private void ButtonSendTestMsg2_Click(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Sending a test message to the clock. You should see '{"ABCDEFGH"}'", TEXTBOX_MAX_LINES);
-            TextBoxConsole.AddLine($"{" ",11}and '{"12345678"}'.  If not then check your settings.", TEXTBOX_MAX_LINES,false);
+            TextBoxConsole.AddLine($"{" ",11}and '{"12345678"}'.  If not then check your settings.", TEXTBOX_MAX_LINES, false);
 
             _dgtEbDllFacade.DisplayMessageSeries("ABCDEFGH", "12345678");
         }
 
-               
+
         private void Speak(AudioClip clipName)
         {
             if (playList.IsEmpty)
             {
                 playList.Enqueue(clipName);
 
-                Thread playListPlayer = new(() => { while (!playList.IsEmpty)
-                                                    {
-                                                        if (playList.TryDequeue(out AudioClip result))
-                                                        {
-                                                            using var audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
-                                                            _soundPlayer.Stream = audioStream;
-                                                            _soundPlayer.PlaySync();
-                                                            _soundPlayer.Stream = null;
-                                                        }
-                                                    }
-                                                  });
+                Thread playListPlayer = new(() =>
+                {
+                    while (!playList.IsEmpty)
+                    {
+                        if (playList.TryDequeue(out AudioClip result))
+                        {
+                            using var audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
+                            _soundPlayer.Stream = audioStream;
+                            _soundPlayer.PlaySync();
+                            _soundPlayer.Stream = null;
+                        }
+                    }
+                });
 
                 playListPlayer.Start();
             }
@@ -127,7 +139,6 @@ namespace DgtCherub
             }
         }
 
-        
         private void ClearConsole()
         {
             TextBoxConsole.Text = "";
@@ -169,7 +180,7 @@ namespace DgtCherub
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.LocalBoardFEN)}";
-                    
+
                     //TODO: catch failure;
                     PictureBoxLocal.Load();
 
@@ -212,7 +223,7 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                 }));
             };
-     
+
             _appDataService.OnUserMessageArrived += (source, message) =>
             {
                 TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
@@ -221,7 +232,9 @@ namespace DgtCherub
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
                 Speak(AudioClip.DGT_LC_CONNECTED);
-                TextBoxConsole.AddLine($"Live Chess running [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                                                     $"Live Chess running [{eventArgs.ResponseOut}]",
+                                                     $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
@@ -233,7 +246,9 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
                 Speak(AudioClip.DGT_CONNECTED);
-                TextBoxConsole.AddLine($"Board found [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                                                     $"Board found [{eventArgs.ResponseOut}]",
+                                                     $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
@@ -251,8 +266,6 @@ namespace DgtCherub
             //All the Events are set up so we can start watching the local board
             _dgtLiveChess.PollDgtBoard();
         }
-
-
 
         private void ButtonRabbitConfig_Click(object sender, EventArgs e)
         {
@@ -348,10 +361,13 @@ namespace DgtCherub
         }
 
         private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
-        {           
+        {
             TextBoxConsole.AddLine($"The Board tab {((CheckBoxOnTop.Checked) ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
-            if (!CheckBoxOnTop.Checked) { TextBoxConsole.AddLines( new string[] { $"Keeping the board tab on top is handy when playing since you are able", 
-                                                                                  $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES); }
+            if (!CheckBoxOnTop.Checked)
+            {
+                TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
+                                                       $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
+            }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -360,42 +376,98 @@ namespace DgtCherub
             {
                 Application.Exit();
             }
-
-            
         }
 
+        #region Menu Links Region
         private void PlayChessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-
-            ProcessStartInfo chromeStart = new()
-            {
-                UseShellExecute = true,
-                FileName = "chrome",
-                Arguments = @"http://chess.com/live"
-            };
-
-            Process p = new Process();
-            p.StartInfo = chromeStart;
-
-            try
-            {
-                TextBoxConsole.AddLine($"Trying to open Chess.com in chrome....", TEXTBOX_MAX_LINES, true);
-                p.Start();
-                TextBoxConsole.AddLine($"...Chess.com openend.", TEXTBOX_MAX_LINES, true);
-            }
-            catch (Win32Exception ex)
-            {
-                TextBoxConsole.AddLine($"...but an error occured. [{ex.Message}]", TEXTBOX_MAX_LINES, true);
-            }
-            catch(Exception ex)
-            {
-                TextBoxConsole.AddLine($"...but we have an unexpected error: {ex.Message} {ex.GetType()}", TEXTBOX_MAX_LINES, true);
-                
-                TextBoxConsole.AddLines(ex.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None), TEXTBOX_MAX_LINES, true);
-                TextBoxConsole.AddLine($">>If the problem persists then try the Chess.com forums or report it as an issue on GitHub.", TEXTBOX_MAX_LINES, true);
-            }
-
+            TextBoxConsole.RunProcessWithComments("chrome",
+                                                   CHESS_DOT_COM_PLAY_LINK,
+                                                   $"Trying to open Chess.com in Chrome....",
+                                                   $"...Chess.com openend.",
+                                                   TEXTBOX_MAX_LINES);
         }
+
+        private void ChesscomDgtForumsMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_DGT_FORUM,
+                                                   "",
+                                                   $"Trying to open the Chess.com DGT forum....",
+                                                   $"...the Chess.com DGT forum opened.",
+                                                   TEXTBOX_MAX_LINES);
+        }
+
+        private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                TextBoxConsole.RunProcessWithComments(@"Taskkill",
+                                                      "/IM \"DGT LiveChess.exe\" /F",
+                                                      $"Trying to kill 'DGT LiveChess.exe'....",
+                                                      $"...done. 'DGT LiveChess.exe' is no longer running",
+                                                      TEXTBOX_MAX_LINES);
+            }
+        }
+
+        private void DgtAngelChromeExtensionMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLines(new string[] { $"DGT Angel is currently only available as a developer release.  Go to", 
+                                                   $"the project release page and follow the instructions."},TEXTBOX_MAX_LINES);
+        }
+
+        private void CdcChromeExtensionVoiceComentaryMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments("chrome",
+                                                   DL_VOICE_EXT,
+                                                   $"Trying to open the Google Chrome Web Store....",
+                                                   $"...the Google Chrome Web Store is open.",
+                                                   TEXTBOX_MAX_LINES);
+        }
+
+        private void DgtLiveChessSoftwareMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(DL_LIVE_CHESS,
+                                                   "",
+                                                   $"Trying to open the download page for the Live Chess Software....",
+                                                   $"...the download page opened.",
+                                                   TEXTBOX_MAX_LINES);
+        }
+
+        private void DgtDriversRabbitPluginMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(DL_RABBIT,
+                                                   "",
+                                                   $"Trying to open the download page for the DGT drivers....",
+                                                   $"...the download page is opened.",
+                                                   TEXTBOX_MAX_LINES);
+        }
+
+        private void ProjectPageMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(PROJECT_LINK,
+                                                  "",
+                                                  $"Trying to open DGT Angel project page....",
+                                                  $"...the project page is opened.",
+                                                  TEXTBOX_MAX_LINES);
+        }
+
+        private void ReportIssuesMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(PROJECT_ISSUES,
+                                                  "",
+                                                  $"Trying to open DGT Angel issues page....",
+                                                  $"...the issues page is opened.",
+                                                  TEXTBOX_MAX_LINES);
+        }
+
+        private void ReleasesMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(PROJECT_RELEASES,
+                                                  "",
+                                                  $"Trying to open DGT Anget releases page....",
+                                                  $"...the releases page is opened.",
+                                                  TEXTBOX_MAX_LINES);
+        }
+        #endregion 
     }
 }

@@ -59,17 +59,21 @@ namespace DgtCherub
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.tasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startLiveChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.killProcessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.KillLiveChessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.linksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reportIssuesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chesscomDGTForumsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DownloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CdcChromeExtensionVoiceComentaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DgtLiveChessSoftwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DgtDriversRabbitPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProjectPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             PictureBoxLogo = new System.Windows.Forms.PictureBox();
@@ -322,29 +326,17 @@ namespace DgtCherub
             // 
             resources.ApplyResources(this.tasksToolStripMenuItem, "tasksToolStripMenuItem");
             this.tasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startLiveChessToolStripMenuItem,
+            this.KillLiveChessMenuItem,
             this.PlayChessToolStripMenuItem,
             this.toolStripSeparator1,
             this.ExitToolStripMenuItem});
             this.tasksToolStripMenuItem.Name = "tasksToolStripMenuItem";
             // 
-            // startLiveChessToolStripMenuItem
+            // KillLiveChessMenuItem
             // 
-            resources.ApplyResources(this.startLiveChessToolStripMenuItem, "startLiveChessToolStripMenuItem");
-            this.startLiveChessToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startToolStripMenuItem,
-            this.killProcessToolStripMenuItem});
-            this.startLiveChessToolStripMenuItem.Name = "startLiveChessToolStripMenuItem";
-            // 
-            // startToolStripMenuItem
-            // 
-            resources.ApplyResources(this.startToolStripMenuItem, "startToolStripMenuItem");
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            // 
-            // killProcessToolStripMenuItem
-            // 
-            resources.ApplyResources(this.killProcessToolStripMenuItem, "killProcessToolStripMenuItem");
-            this.killProcessToolStripMenuItem.Name = "killProcessToolStripMenuItem";
+            resources.ApplyResources(this.KillLiveChessMenuItem, "KillLiveChessMenuItem");
+            this.KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
+            this.KillLiveChessMenuItem.Click += new System.EventHandler(this.KillLiveChessMenuItem_Click);
             // 
             // PlayChessToolStripMenuItem
             // 
@@ -367,32 +359,77 @@ namespace DgtCherub
             // 
             resources.ApplyResources(this.linksToolStripMenuItem, "linksToolStripMenuItem");
             this.linksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dGTAngelToolStripMenuItem,
-            this.chesscomDGTForumsToolStripMenuItem});
+            this.DownloadsToolStripMenuItem,
+            this.DGTAngelToolStripMenuItem,
+            this.ChesscomDgtForumsMenuItem});
             this.linksToolStripMenuItem.Name = "linksToolStripMenuItem";
             // 
-            // dGTAngelToolStripMenuItem
+            // DownloadsToolStripMenuItem
             // 
-            resources.ApplyResources(this.dGTAngelToolStripMenuItem, "dGTAngelToolStripMenuItem");
-            this.dGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.projectPageToolStripMenuItem,
-            this.reportIssuesToolStripMenuItem});
-            this.dGTAngelToolStripMenuItem.Name = "dGTAngelToolStripMenuItem";
+            resources.ApplyResources(this.DownloadsToolStripMenuItem, "DownloadsToolStripMenuItem");
+            this.DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.DgtAngelChromeExtensionMenuItem,
+            this.CdcChromeExtensionVoiceComentaryMenuItem,
+            this.DgtLiveChessSoftwareMenuItem,
+            this.DgtDriversRabbitPluginMenuItem});
+            this.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
             // 
-            // projectPageToolStripMenuItem
+            // DgtAngelChromeExtensionMenuItem
             // 
-            resources.ApplyResources(this.projectPageToolStripMenuItem, "projectPageToolStripMenuItem");
-            this.projectPageToolStripMenuItem.Name = "projectPageToolStripMenuItem";
+            resources.ApplyResources(this.DgtAngelChromeExtensionMenuItem, "DgtAngelChromeExtensionMenuItem");
+            this.DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
+            this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
             // 
-            // reportIssuesToolStripMenuItem
+            // CdcChromeExtensionVoiceComentaryMenuItem
             // 
-            resources.ApplyResources(this.reportIssuesToolStripMenuItem, "reportIssuesToolStripMenuItem");
-            this.reportIssuesToolStripMenuItem.Name = "reportIssuesToolStripMenuItem";
+            resources.ApplyResources(this.CdcChromeExtensionVoiceComentaryMenuItem, "CdcChromeExtensionVoiceComentaryMenuItem");
+            this.CdcChromeExtensionVoiceComentaryMenuItem.Name = "CdcChromeExtensionVoiceComentaryMenuItem";
+            this.CdcChromeExtensionVoiceComentaryMenuItem.Click += new System.EventHandler(this.CdcChromeExtensionVoiceComentaryMenuItem_Click);
             // 
-            // chesscomDGTForumsToolStripMenuItem
+            // DgtLiveChessSoftwareMenuItem
             // 
-            resources.ApplyResources(this.chesscomDGTForumsToolStripMenuItem, "chesscomDGTForumsToolStripMenuItem");
-            this.chesscomDGTForumsToolStripMenuItem.Name = "chesscomDGTForumsToolStripMenuItem";
+            resources.ApplyResources(this.DgtLiveChessSoftwareMenuItem, "DgtLiveChessSoftwareMenuItem");
+            this.DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
+            this.DgtLiveChessSoftwareMenuItem.Click += new System.EventHandler(this.DgtLiveChessSoftwareMenuItem_Click);
+            // 
+            // DgtDriversRabbitPluginMenuItem
+            // 
+            resources.ApplyResources(this.DgtDriversRabbitPluginMenuItem, "DgtDriversRabbitPluginMenuItem");
+            this.DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
+            this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
+            // 
+            // DGTAngelToolStripMenuItem
+            // 
+            resources.ApplyResources(this.DGTAngelToolStripMenuItem, "DGTAngelToolStripMenuItem");
+            this.DGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ProjectPageMenuItem,
+            this.ReportIssuesMenuItem,
+            this.ReleasesMenuItem});
+            this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
+            // 
+            // ProjectPageMenuItem
+            // 
+            resources.ApplyResources(this.ProjectPageMenuItem, "ProjectPageMenuItem");
+            this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
+            this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
+            // 
+            // ReportIssuesMenuItem
+            // 
+            resources.ApplyResources(this.ReportIssuesMenuItem, "ReportIssuesMenuItem");
+            this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
+            this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
+            // 
+            // ReleasesMenuItem
+            // 
+            resources.ApplyResources(this.ReleasesMenuItem, "ReleasesMenuItem");
+            this.ReleasesMenuItem.Name = "ReleasesMenuItem";
+            this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
+            // 
+            // ChesscomDgtForumsMenuItem
+            // 
+            resources.ApplyResources(this.ChesscomDgtForumsMenuItem, "ChesscomDgtForumsMenuItem");
+            this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
+            this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
             // Form1
             // 
@@ -453,17 +490,21 @@ namespace DgtCherub
         private System.Windows.Forms.CheckBox CheckBoxShowConsole;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelLastUpdate;
         private System.Windows.Forms.ToolStripMenuItem tasksToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem startLiveChessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem killProcessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem KillLiveChessMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PlayChessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem linksToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dGTAngelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem projectPageToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reportIssuesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem chesscomDGTForumsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DGTAngelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProjectPageMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReportIssuesMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ChesscomDgtForumsMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReleasesMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DownloadsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DgtAngelChromeExtensionMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CdcChromeExtensionVoiceComentaryMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DgtLiveChessSoftwareMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
     }
 }
 
