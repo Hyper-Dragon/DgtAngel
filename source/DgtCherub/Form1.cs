@@ -1,5 +1,6 @@
 ﻿using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
+using DynamicBoard;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
@@ -17,8 +18,6 @@ namespace DgtCherub
     {
         const int TEXTBOX_MAX_LINES = 250;
         const string VERSION_NUMBER = "0.0.1";
-        const string CHESS_DOT_COM_DYN_BOARD_URL = "https://www.chess.com/dynboard?board=green&fen=";
-        const string EMPTY_BOARD_FEN = "8/8/8/8/8/8/8/8";
         const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
         const string CHESS_DOT_COM_PLAY_LINK = @"http://chess.com/live";
         const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
@@ -51,6 +50,7 @@ namespace DgtCherub
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
         private readonly IDgtLiveChess _dgtLiveChess;
+        private readonly IBoardRenderer _boardRenderer;
         private readonly SoundPlayer _soundPlayer;
 
         private readonly ConcurrentQueue<AudioClip> playList = new();
@@ -79,18 +79,25 @@ namespace DgtCherub
         //TODO:Logging
         //TODO: stop saying disconnected from the live chess
 
-        public Form1(ILogger<Form1> logger, SoundPlayer soundPlayer, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade, IDgtLiveChess dgtLiveChess)
-        {
+        public Form1(ILogger<Form1> logger,
+                     SoundPlayer soundPlayer,
+                     IAppDataService appData,
+                     IDgtEbDllFacade dgtEbDllFacade,
+                     IDgtLiveChess dgtLiveChess,
+                     IBoardRenderer boardRenderer){
+
             //TODO: Sort out the logging in here
             _logger = logger;
             _soundPlayer = soundPlayer;
             _appDataService = appData;
             _dgtEbDllFacade = dgtEbDllFacade;
             _dgtLiveChess = dgtLiveChess;
+            _boardRenderer = boardRenderer;
 
             InitializeComponent();
 
             // Start the Rabbit Plugin
+            // TODO: or maybe not....test
             _dgtEbDllFacade.Init();
         }
 
@@ -172,17 +179,14 @@ namespace DgtCherub
 
             _appDataService.OnLocalFenChange += () =>
             {
-                Action updateAction = new(() =>
+                Action updateAction = new(async () =>
                 {
                     LabelLocalDgt.BackColor = Color.Yellow;
                     LabelRemoteBoard.BackColor = Color.Yellow;
                     this.Update();
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxLocal.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.LocalBoardFEN)}";
-
-                    //TODO: catch failure;
-                    PictureBoxLocal.Load();
+                    PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width);
 
                     //TODO: Add mismatch speach
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
@@ -194,15 +198,14 @@ namespace DgtCherub
 
             _appDataService.OnChessDotComFenChange += () =>
             {
-                Action updateAction = new(() =>
+                Action updateAction = new(async () =>
                 {
                     LabelLocalDgt.BackColor = Color.Yellow;
                     LabelRemoteBoard.BackColor = Color.Yellow;
                     this.Update();
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxRemote.ImageLocation = $"{CHESS_DOT_COM_DYN_BOARD_URL}{HttpUtility.UrlEncode(_appDataService.ChessDotComBoardFEN)}";
-                    PictureBoxRemote.Load();
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width);
 
                     //TODO: Add mismatch speach
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;

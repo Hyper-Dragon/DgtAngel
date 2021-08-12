@@ -1,5 +1,6 @@
 ﻿using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
+using DynamicBoard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,8 +33,10 @@ namespace DgtCherub
                 });
             });
 
+            services.AddHttpClient();
             services.AddControllers();
             services.AddLogging();
+            services.AddTransient(typeof(IBoardRenderer), typeof(ChessDotComBoardRenderer));
             services.AddSingleton(typeof(IAppDataService), typeof(AppDataService));
             services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
@@ -43,9 +46,7 @@ namespace DgtCherub
 
 
 #pragma warning disable CA1822  // DO NOT Mark members as static OR  Remove unused parameter
-#pragma warning disable IDE0060 //This method gets called by the runtime to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#pragma warning restore IDE0060 
 #pragma warning restore CA1822 
         {
             app.UseDeveloperExceptionPage()

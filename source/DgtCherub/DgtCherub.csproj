@@ -44,6 +44,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DgtAngelLib\DgtLiveChessWrapper.csproj" />
     <ProjectReference Include="..\DgtEbDllWrapper\DgtEbDllWrapper.csproj" />
+    <ProjectReference Include="..\DynamicBoard\DynamicBoard.csproj" />
   </ItemGroup>
 
   <ItemGroup>
