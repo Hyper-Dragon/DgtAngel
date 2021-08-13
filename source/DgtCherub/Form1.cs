@@ -9,13 +9,15 @@ using System.Drawing;
 using System.Media;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DgtCherub
 {
     public partial class Form1 : Form
     {
-        private const int TEXTBOX_MAX_LINES = 250;
+        
+        private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.0.1";
         private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
         private const string CHESS_DOT_COM_PLAY_LINK = @"http://chess.com/live";
@@ -26,7 +28,8 @@ namespace DgtCherub
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
         private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
-
+        
+        private const int MISMATCH_DELAY = 1500;
 
         public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND };
 
@@ -61,11 +64,10 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
 
+        private bool IsRabbitInstalled=false;
+
         //TODO: Finish the testers tab
-        //TODO: Mismatch to clock -
         //hours not done in time????
-        //TODO:check if rabbit connected
-        //TODO:mutex not really working only on second try!
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
         //TODO:Remove Chessdotnet
@@ -89,9 +91,17 @@ namespace DgtCherub
 
             InitializeComponent();
 
-            // Start the Rabbit Plugin
-            // TODO: or maybe not....test
-            _dgtEbDllFacade.Init();
+            // Start the Rabbit Plugin if we can...
+            try
+            {
+                _dgtEbDllFacade.Init();
+                IsRabbitInstalled = true;
+            }
+            catch (DllNotFoundException)
+            {
+                _dgtEbDllFacade = null;
+                IsRabbitInstalled = false;
+            }
         }
 
         private void ButtonSendTestMsg1_Click(object sender, EventArgs e)
@@ -99,7 +109,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"Sending a test message to the clock. You should see '{"  *DGT*  "}' ", TEXTBOX_MAX_LINES);
             TextBoxConsole.AddLine($"{" ",11}and '{" *ANGEL*"}'.  If not then check your settings.", TEXTBOX_MAX_LINES, false);
 
-            _dgtEbDllFacade.DisplayMessageSeries("  *DGT*  ", " *ANGEL*");
+            _dgtEbDllFacade?.DisplayMessageSeries("  *DGT*  ", " *ANGEL*");
         }
 
         private void ButtonSendTestMsg2_Click(object sender, EventArgs e)
@@ -107,7 +117,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"Sending a test message to the clock. You should see '{"ABCDEFGH"}'", TEXTBOX_MAX_LINES);
             TextBoxConsole.AddLine($"{" ",11}and '{"12345678"}'.  If not then check your settings.", TEXTBOX_MAX_LINES, false);
 
-            _dgtEbDllFacade.DisplayMessageSeries("ABCDEFGH", "12345678");
+            _dgtEbDllFacade?.DisplayMessageSeries("ABCDEFGH", "12345678");
         }
 
 
@@ -171,8 +181,44 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"              the Live Chess Software, DGT Drivers and DGT Angel (see link)", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"              installed on this machine.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Using {_dgtEbDllFacade.GetRabbitVersionString()}", TEXTBOX_MAX_LINES, true);
+            TextBoxConsole.AddLine($"Using { ((IsRabbitInstalled)? _dgtEbDllFacade.GetRabbitVersionString():"DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+        }
+
+
+        private async Task FenChangedMatchTest()
+        {
+            //TODO: prob should be canceled if fen changes while we wait
+            if (!_appDataService.IsMismatchDetected)
+            {
+                //if we have no mismatch delay before test
+                await Task.Delay(MISMATCH_DELAY);
+            }
+
+            //TODO: Add mismatch speech - clocks must be running
+            if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
+            {
+                 _dgtEbDllFacade?.DisplayForeverMessage("SYNC ERR");
+
+                if (!_appDataService.IsMismatchDetected)
+                {
+                    Speak(AudioClip.MISMATCH);
+                    _appDataService.IsMismatchDetected = true;
+                }
+            }
+            else
+            {
+                if (_appDataService.IsMismatchDetected)
+                {
+                    _dgtEbDllFacade?.StopForeverMessage();
+                    _dgtEbDllFacade?.DisplayMessage(" MATCH ", 2000);
+                    _appDataService.IsMismatchDetected = false;
+                    Speak(AudioClip.MATCH);
+                }
+            }
+
+            LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+            LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -190,30 +236,7 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
 
-                    //TODO: Add mismatch speech - clocks must be running
-                    if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
-                    {
-                        _dgtEbDllFacade.DisplayForeverMessage("SYNC ERR");
-                        
-                        if (!_appDataService.IsMismatchDetected)
-                        {
-                            Speak(AudioClip.MISMATCH);
-                            _appDataService.IsMismatchDetected = true;
-                        }
-                    }
-                    else
-                    {
-                        if (_appDataService.IsMismatchDetected)
-                        {
-                            _dgtEbDllFacade.StopForeverMessage();
-                            _dgtEbDllFacade.DisplayMessage(" MATCH ", 2000);
-                            _appDataService.IsMismatchDetected = false;                           
-                            Speak(AudioClip.MATCH);
-                        }
-                    }
-
-                    LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-                    LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                    FenChangedMatchTest();
                 });
 
                 PictureBoxLocal.BeginInvoke(updateAction);
@@ -235,30 +258,7 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
 
-                    //TODO: Add mismatch speech - clocks must be running
-                    if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
-                    {
-                        _dgtEbDllFacade.DisplayForeverMessage("SYNC ERR");                       
-
-                        if (!_appDataService.IsMismatchDetected)
-                        {
-                            Speak(AudioClip.MISMATCH);
-                            _appDataService.IsMismatchDetected = true;
-                        }
-                    }
-                    else
-                    {
-                        if (_appDataService.IsMismatchDetected)
-                        {
-                            _dgtEbDllFacade.StopForeverMessage();
-                            _dgtEbDllFacade.DisplayMessage(" MATCH ", 2000);
-                            _appDataService.IsMismatchDetected = false;
-                            Speak(AudioClip.MATCH);
-                        }
-                    }
-
-                    LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-                    LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                    FenChangedMatchTest();
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);
@@ -337,9 +337,9 @@ namespace DgtCherub
 
         private void ButtonRabbitConfig_Click(object sender, EventArgs e)
         {
-            _dgtEbDllFacade.HideCongigDialog();
+            _dgtEbDllFacade?.HideCongigDialog();
             TextBoxConsole.AddLine($"Showing Rabbit Configuration", TEXTBOX_MAX_LINES);
-            _dgtEbDllFacade.ShowCongigDialog();
+            _dgtEbDllFacade?.ShowCongigDialog();
         }
 
         private void CheckBoxShowInbound_CheckedChanged(object sender, EventArgs e)
@@ -381,6 +381,12 @@ namespace DgtCherub
 
             // ItemSize.Height is correct - the tabs are on the side!
             CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
+
+            //If no rabbit disable rabbit things..
+            ButtonSendTestMsg1.Enabled = false;
+            ButtonSendTestMsg2.Enabled = false;
+            ButtonRabbitConfig1.Enabled = false;
+            ButtonRabbitConf2.Enabled = false;
 
             ResumeLayout();
         }
