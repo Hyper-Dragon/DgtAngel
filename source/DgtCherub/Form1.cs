@@ -547,5 +547,13 @@ namespace DgtCherub
         }
         #endregion
 
+        private void PlayWindowlessMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments("chrome",
+                                                  $"--app={CHESS_DOT_COM_PLAY_LINK}",
+                                                  $"Trying to open Chess.com in Chrome....",
+                                                  $"...Chess.com openend.",
+                                                  TEXTBOX_MAX_LINES);
+        }
     }
 }

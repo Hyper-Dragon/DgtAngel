@@ -59,7 +59,7 @@ namespace DgtCherub
             this.StatusStrip = new System.Windows.Forms.StatusStrip();
             this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.tasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.KillLiveChessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -75,6 +75,8 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.PlayWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             GroupBoxClockTest = new System.Windows.Forms.GroupBox();
             TabPageAbout = new System.Windows.Forms.TabPage();
             PictureBoxLogo = new System.Windows.Forms.PictureBox();
@@ -329,19 +331,21 @@ namespace DgtCherub
             // 
             resources.ApplyResources(this.MenuStrip, "MenuStrip");
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tasksToolStripMenuItem,
+            this.TasksToolStripMenuItem,
             this.linksToolStripMenuItem});
             this.MenuStrip.Name = "MenuStrip";
             // 
-            // tasksToolStripMenuItem
+            // TasksToolStripMenuItem
             // 
-            resources.ApplyResources(this.tasksToolStripMenuItem, "tasksToolStripMenuItem");
-            this.tasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            resources.ApplyResources(this.TasksToolStripMenuItem, "TasksToolStripMenuItem");
+            this.TasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.KillLiveChessMenuItem,
+            this.toolStripSeparator2,
             this.PlayChessToolStripMenuItem,
+            this.PlayWindowlessMenuItem,
             this.toolStripSeparator1,
             this.ExitToolStripMenuItem});
-            this.tasksToolStripMenuItem.Name = "tasksToolStripMenuItem";
+            this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
             // 
             // KillLiveChessMenuItem
             // 
@@ -442,6 +446,17 @@ namespace DgtCherub
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            // 
+            // PlayWindowlessMenuItem
+            // 
+            resources.ApplyResources(this.PlayWindowlessMenuItem, "PlayWindowlessMenuItem");
+            this.PlayWindowlessMenuItem.Name = "PlayWindowlessMenuItem";
+            this.PlayWindowlessMenuItem.Click += new System.EventHandler(this.PlayWindowlessMenuItem_Click);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -500,7 +515,7 @@ namespace DgtCherub
         private System.Windows.Forms.Label LabelBlackClock;
         private System.Windows.Forms.CheckBox CheckBoxShowConsole;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelLastUpdate;
-        private System.Windows.Forms.ToolStripMenuItem tasksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TasksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem KillLiveChessMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PlayChessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem linksToolStripMenuItem;
@@ -517,6 +532,8 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem DgtLiveChessSoftwareMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
         private System.Windows.Forms.CheckBox CheckBoxPlayAudio;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem PlayWindowlessMenuItem;
     }
 }
 
