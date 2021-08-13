@@ -629,7 +629,6 @@ namespace DgtCherub
             this.MinimumSize = new System.Drawing.Size(420, 450);
             this.Name = "Form1";
             this.Text = "DGT Cherub";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.GroupBoxClockTest.ResumeLayout(false);
