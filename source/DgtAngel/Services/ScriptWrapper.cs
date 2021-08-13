@@ -36,17 +36,17 @@ namespace DgtAngel.Services
                                                   { "audio-cdcwatching","CdcWatching.wav" },
                                                   { "audio-cdcnotwatching","CdcStoppedWatching.wav" },
                                                 };
-        
+
         private readonly ILogger _logger;
         private readonly IJSRuntime _jSRuntime;
 
         public ScriptWrapper(ILogger<ScriptWrapper> logger, IJSRuntime jSRuntime)
         {
-            this._logger = logger;
-            this._jSRuntime = jSRuntime;
+            _logger = logger;
+            _jSRuntime = jSRuntime;
         }
 
-        async public Task AddIndexToContextMenu()
+        public async Task AddIndexToContextMenu()
         {
             _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
             await _jSRuntime.InvokeVoidAsync("addIndexToContextMenu");
@@ -65,19 +65,19 @@ namespace DgtAngel.Services
         }
 
         // JAVASCRIPT CALLS BELOW HERE >>>>>>
-        async public Task<string> GetChessDotComBoardString()
+        public async Task<string> GetChessDotComBoardString()
         {
             _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
             return await _jSRuntime.InvokeAsync<string>("getPiecesHtml");
         }
 
-        async public Task PlayAudioFile(AudioClip audioClip)
+        public async Task PlayAudioFile(AudioClip audioClip)
         {
             _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
             await _jSRuntime.InvokeVoidAsync("playAudioFromBkg", AudioFiles[(int)audioClip, (int)ScriptWrapper.AudioFileIdx.ID]);
         }
 
-        async public Task WriteToConsole(LogLevel logLevel, String source, String message)
+        public async Task WriteToConsole(LogLevel logLevel, string source, string message)
         {
             _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
 

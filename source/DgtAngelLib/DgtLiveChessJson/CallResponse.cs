@@ -5,9 +5,9 @@ namespace DgtLiveChessWrapper.DgtLiveChessJson.CallResponse
 {
     public class Rootobject
     {
-        public static (string JsonString,Rootobject Response) Deserialize(string jsonString)
+        public static (string JsonString, Rootobject Response) Deserialize(string jsonString)
         {
-            return (jsonString,JsonSerializer.Deserialize<DgtLiveChessJson.CallResponse.Rootobject>(jsonString));
+            return (jsonString, JsonSerializer.Deserialize<DgtLiveChessJson.CallResponse.Rootobject>(jsonString));
         }
 
         [JsonPropertyName("response")]

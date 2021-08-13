@@ -18,7 +18,7 @@ namespace ChessDotNet.Pieces
             set;
         }
 
-        public Bishop() : this(Player.None) {}
+        public Bishop() : this(Player.None) { }
 
         public Bishop(Player owner)
         {
@@ -28,8 +28,10 @@ namespace ChessDotNet.Pieces
 
         public override Piece AsPromotion()
         {
-            var copy = new Bishop(Owner);
-            copy.IsPromotionResult = true;
+            Bishop copy = new Bishop(Owner)
+            {
+                IsPromotionResult = true
+            };
             return copy;
         }
 
@@ -50,9 +52,12 @@ namespace ChessDotNet.Pieces
             Position origin = move.OriginalPosition;
             Position destination = move.NewPosition;
 
-            var posDelta = new PositionDistance(origin, destination);
+            PositionDistance posDelta = new PositionDistance(origin, destination);
             if (posDelta.DistanceX != posDelta.DistanceY)
+            {
                 return false;
+            }
+
             bool increasingRank = destination.Rank > origin.Rank;
             bool increasingFile = (int)destination.File > (int)origin.File;
             for (int f = (int)origin.File + (increasingFile ? 1 : -1), r = origin.Rank + (increasingRank ? 1 : -1);
@@ -69,34 +74,41 @@ namespace ChessDotNet.Pieces
 
         public override ReadOnlyCollection<Move> GetValidMoves(Position from, bool returnIfAny, ChessGame game, Func<Move, bool> gameMoveValidator)
         {
-            var validMoves = new List<Move>();
+            List<Move> validMoves = new List<Move>();
             Piece piece = game.GetPieceAt(from);
             int l0 = game.BoardHeight;
             int l1 = game.BoardWidth;
             for (int i = -7; i < 8; i++)
             {
                 if (i == 0)
+                {
                     continue;
+                }
+
                 if (from.Rank + i > 0 && from.Rank + i <= l0
                     && (int)from.File + i > -1 && (int)from.File + i < l1)
                 {
-                    var move = new Move(from, new Position(from.File + i, from.Rank + i), piece.Owner);
+                    Move move = new Move(from, new Position(from.File + i, from.Rank + i), piece.Owner);
                     if (gameMoveValidator(move))
                     {
                         validMoves.Add(move);
                         if (returnIfAny)
+                        {
                             return new ReadOnlyCollection<Move>(validMoves);
+                        }
                     }
                 }
                 if (from.Rank - i > 0 && from.Rank - i <= l0
                     && (int)from.File + i > -1 && (int)from.File + i < l1)
                 {
-                    var move = new Move(from, new Position(from.File + i, from.Rank - i), piece.Owner);
+                    Move move = new Move(from, new Position(from.File + i, from.Rank - i), piece.Owner);
                     if (gameMoveValidator(move))
                     {
                         validMoves.Add(move);
                         if (returnIfAny)
+                        {
                             return new ReadOnlyCollection<Move>(validMoves);
+                        }
                     }
                 }
             }

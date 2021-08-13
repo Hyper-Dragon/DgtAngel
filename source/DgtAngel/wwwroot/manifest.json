@@ -23,7 +23,7 @@
   "permissions": [
     "tabs",
     "contextMenus",
-    "https://*.chess.com/*"
+    "https://*.chess.com/live/*"
   ],
   "icons": {
     "16": "Icons/Default/icon-16.png",

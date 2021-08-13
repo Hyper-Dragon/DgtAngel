@@ -12,11 +12,10 @@ namespace DynamicBoard
     {
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-
-        const string BOARD_DOWNLOAD_SIZE = "2";
-        const string BOARD_URL_START = @"https://www.chess.com/dynboard?board=green&fen=";
-        const string BOARD_URL_OPT = @"&piece=space&size=" + BOARD_DOWNLOAD_SIZE;
-        const int DL_TIMEOUT = 3000;
+        private const string BOARD_DOWNLOAD_SIZE = "2";
+        private const string BOARD_URL_START = @"https://www.chess.com/dynboard?board=green&fen=";
+        private const string BOARD_URL_OPT = @"&piece=space&size=" + BOARD_DOWNLOAD_SIZE;
+        private const int DL_TIMEOUT = 3000;
 
         public ChessDotComBoardRenderer(ILogger<ChessDotComBoardRenderer> logger,
                                         IHttpClientFactory httpClientFactory) : base(logger)
@@ -39,10 +38,10 @@ namespace DynamicBoard
                 string boardUrl = $"{BOARD_URL_START}{HttpUtility.UrlEncode(fenString)}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip=true")}";
 
                 _logger?.LogDebug($"Downloading board image from [{boardUrl}]");
-                var responseTask = httpClient.GetStreamAsync(new Uri(boardUrl), canxToken);
+                Task<System.IO.Stream> responseTask = httpClient.GetStreamAsync(new Uri(boardUrl), canxToken);
                 responseTask.Wait(DL_TIMEOUT);
 
-                using var bmp = Bitmap.FromStream(responseTask.Result);
+                using Image bmp = Bitmap.FromStream(responseTask.Result);
                 resizedBmpOut = new Bitmap(bmp, new Size(imageSize, imageSize));
             }
             catch (OperationCanceledException)
@@ -55,13 +54,13 @@ namespace DynamicBoard
                 g.Flush();
                 resizedBmpOut = bmp;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger?.LogDebug($"Download from Chess.com error [{fenString}] [{ex.Message}]");
 
                 Bitmap bmp = new(imageSize, imageSize);
                 using Graphics g = Graphics.FromImage(bmp);
-                g.DrawString($"ERROR GETTING IMAGE{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}", new Font("Segoe UI", 8), Brushes.Black, new PointF(5,20));
+                g.DrawString($"ERROR GETTING IMAGE{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}", new Font("Segoe UI", 8), Brushes.Black, new PointF(5, 20));
                 g.Flush();
                 resizedBmpOut = bmp;
             }

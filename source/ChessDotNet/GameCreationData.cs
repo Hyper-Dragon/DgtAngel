@@ -12,7 +12,7 @@
         {
             get;
             set;
-        } = new DetailedMove[] {};
+        } = new DetailedMove[] { };
 
         public bool DrawClaimed
         {

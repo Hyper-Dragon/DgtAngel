@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ChessDotNet.Pieces
 {
@@ -18,7 +18,7 @@ namespace ChessDotNet.Pieces
             set;
         }
 
-        public Queen() : this(Player.None) {}
+        public Queen() : this(Player.None) { }
 
         public Queen(Player owner)
         {
@@ -28,8 +28,10 @@ namespace ChessDotNet.Pieces
 
         public override Piece AsPromotion()
         {
-            var copy = new Queen(Owner);
-            copy.IsPromotionResult = true;
+            Queen copy = new Queen(Owner)
+            {
+                IsPromotionResult = true
+            };
             return copy;
         }
 
@@ -55,7 +57,10 @@ namespace ChessDotNet.Pieces
             ChessUtilities.ThrowIfNull(from, nameof(from));
             ReadOnlyCollection<Move> horizontalVerticalMoves = new Rook(Owner).GetValidMoves(from, returnIfAny, game, gameMoveValidator);
             if (returnIfAny && horizontalVerticalMoves.Count > 0)
+            {
                 return horizontalVerticalMoves;
+            }
+
             ReadOnlyCollection<Move> diagonalMoves = new Bishop(Owner).GetValidMoves(from, returnIfAny, game, gameMoveValidator);
             return new ReadOnlyCollection<Move>(horizontalVerticalMoves.Concat(diagonalMoves).ToList());
         }

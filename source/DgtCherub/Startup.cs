@@ -9,7 +9,7 @@ using System.Media;
 
 namespace DgtCherub
 {
-    class Startup
+    internal class Startup
     {
         public Startup(IConfiguration configuration)
         {

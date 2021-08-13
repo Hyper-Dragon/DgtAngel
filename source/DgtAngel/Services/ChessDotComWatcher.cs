@@ -43,15 +43,15 @@ namespace DgtAngel.Services
                                   IScriptWrapper scriptWrapper,
                                   IChessDotComHelperService chessDotComHelpers)
         {
-            this._logger = logger;
-            this._scriptWrapper = scriptWrapper;
-            this._chessDotComHelpers = chessDotComHelpers;
+            _logger = logger;
+            _scriptWrapper = scriptWrapper;
+            _chessDotComHelpers = chessDotComHelpers;
         }
 
         public async Task PollChessDotComBoard(CancellationToken token)
         {
             bool hasOnWatchStartedEventBeenFired = false;
-            string lastChessDotComFenString = "", lastToPlay ="";
+            string lastChessDotComFenString = "", lastToPlay = "";
 
             _logger?.LogInformation($"Started watching for tab activation (https://www.chess.com/live)");
 
@@ -102,7 +102,7 @@ namespace DgtAngel.Services
 
                             OnFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString, IsWhiteBottom = isWhiteBottom });
                         }
-                       
+
                         lastChessDotComFenString = newFenString;
                         lastToPlay = toPlayString;
 

@@ -18,7 +18,7 @@ namespace ChessDotNet.Pieces
             set;
         }
 
-        public Knight() : this(Player.None) {}
+        public Knight() : this(Player.None) { }
 
         public Knight(Player owner)
         {
@@ -28,8 +28,10 @@ namespace ChessDotNet.Pieces
 
         public override Piece AsPromotion()
         {
-            var copy = new Knight(Owner);
-            copy.IsPromotionResult = true;
+            Knight copy = new Knight(Owner)
+            {
+                IsPromotionResult = true
+            };
             return copy;
         }
 
@@ -50,31 +52,39 @@ namespace ChessDotNet.Pieces
             Position origin = move.OriginalPosition;
             Position destination = move.NewPosition;
 
-            var posDelta = new PositionDistance(origin, destination);
+            PositionDistance posDelta = new PositionDistance(origin, destination);
             if ((posDelta.DistanceX != 2 || posDelta.DistanceY != 1) && (posDelta.DistanceX != 1 || posDelta.DistanceY != 2))
+            {
                 return false;
+            }
+
             return true;
         }
 
         public override ReadOnlyCollection<Move> GetValidMoves(Position from, bool returnIfAny, ChessGame game, Func<Move, bool> gameMoveValidator)
         {
-            var validMoves = new List<Move>();
+            List<Move> validMoves = new List<Move>();
             Piece piece = game.GetPieceAt(from);
             int l0 = game.BoardHeight;
             int l1 = game.BoardWidth;
-            var directions = new int[][] { new int[] { 2, 1 }, new int[] { -2, -1 }, new int[] { 1, 2 }, new int[] { -1, -2 },
+            int[][] directions = new int[][] { new int[] { 2, 1 }, new int[] { -2, -1 }, new int[] { 1, 2 }, new int[] { -1, -2 },
                         new int[] { 1, -2 }, new int[] { -1, 2 }, new int[] { 2, -1 }, new int[] { -2, 1 } };
             foreach (int[] dir in directions)
             {
                 if ((int)from.File + dir[0] < 0 || (int)from.File + dir[0] >= l1
                     || from.Rank + dir[1] < 1 || from.Rank + dir[1] > l0)
+                {
                     continue;
-                var move = new Move(from, new Position(from.File + dir[0], from.Rank + dir[1]), piece.Owner);
+                }
+
+                Move move = new Move(from, new Position(from.File + dir[0], from.Rank + dir[1]), piece.Owner);
                 if (gameMoveValidator(move))
                 {
                     validMoves.Add(move);
                     if (returnIfAny)
+                    {
                         return new ReadOnlyCollection<Move>(validMoves);
+                    }
                 }
             }
             return new ReadOnlyCollection<Move>(validMoves);

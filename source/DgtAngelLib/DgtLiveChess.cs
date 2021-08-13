@@ -64,7 +64,7 @@ namespace DgtLiveChessWrapper
             {
                 try
                 {
-                    await this.ConnectAndWatch();
+                    await ConnectAndWatch();
                 }
                 catch (WebSocketException ex)
                 {
@@ -103,7 +103,7 @@ namespace DgtLiveChessWrapper
             bool reportNoActiveBoards = true;
 
             //Open a websocket to DGT LiveChess (running on the local machine)
-            using var socket = new ClientWebSocket();
+            using ClientWebSocket socket = new ClientWebSocket();
             await socket.ConnectAsync(new Uri(LIVE_CHESS_URL), CancellationToken.None).ConfigureAwait(false);
 
             OnLiveChessConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
@@ -113,10 +113,10 @@ namespace DgtLiveChessWrapper
             {
                 //First get a list of eBoards...
                 await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
-                var (eboardsJsonString, eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, false));
+                (string eboardsJsonString, DgtLiveChessJson.CallResponse.Rootobject eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, false));
 
                 //...then find the first active board if we have one...
-                var activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
+                DgtLiveChessJson.CallResponse.Param activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
 
                 if (activeBoard == null)
                 {
@@ -140,12 +140,12 @@ namespace DgtLiveChessWrapper
 
             //...so set up a feed...
             await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
-            var (feedSetupJsonString, feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, true));
+            (string feedSetupJsonString, DgtLiveChessJson.CallResponse.Rootobject feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
             for (; ; )
             {
-                var (feedMsgJsonString, feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
+                (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.Rootobject feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
 
                 if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
                 {
@@ -160,8 +160,10 @@ namespace DgtLiveChessWrapper
         /// <param name="socket"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        private static async Task Send(ClientWebSocket socket, string data) =>
-                               await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None).ConfigureAwait(false);
+        private static async Task Send(ClientWebSocket socket, string data)
+        {
+            await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None).ConfigureAwait(false);
+        }
 
         /// <summary>
         /// Recieve data 
@@ -171,10 +173,10 @@ namespace DgtLiveChessWrapper
         /// <returns>JSON Response String</returns>
         private static async Task<string> Receive(ClientWebSocket socket, bool isBoardConnected)
         {
-            var buffer = new ArraySegment<byte>(new byte[2048]);
+            ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[2048]);
 
             WebSocketReceiveResult result;
-            using var ms = new MemoryStream();
+            using MemoryStream ms = new MemoryStream();
             do
             {
                 result = await socket.ReceiveAsync(buffer, CancellationToken.None).ConfigureAwait(false);
@@ -195,7 +197,7 @@ namespace DgtLiveChessWrapper
             else
             {
                 ms.Seek(0, SeekOrigin.Begin);
-                using var reader = new StreamReader(ms, Encoding.UTF8);
+                using StreamReader reader = new StreamReader(ms, Encoding.UTF8);
                 string response = await reader.ReadToEndAsync();
 
                 return response;

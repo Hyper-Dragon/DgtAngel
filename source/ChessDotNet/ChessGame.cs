@@ -9,49 +9,19 @@ namespace ChessDotNet
 {
     public class ChessGame
     {
-        bool _drawn = false;
-        string _drawReason = null;
-        Player _resigned = Player.None;
+        private bool _drawn = false;
+        private string _drawReason = null;
+        private Player _resigned = Player.None;
 
-        public bool DrawClaimed
-        {
-            get
-            {
-                return _drawn;
-            }
-        }
+        public bool DrawClaimed => _drawn;
 
-        public string DrawReason
-        {
-            get
-            {
-                return _drawReason;
-            }
-        }
+        public string DrawReason => _drawReason;
 
-        public Player Resigned
-        {
-            get
-            {
-                return _resigned;
-            }
-        }
+        public Player Resigned => _resigned;
 
-        protected virtual int[] AllowedFenPartsLength
-        {
-            get
-            {
-                return new int[1] { 6 };
-            }
-        }
+        protected virtual int[] AllowedFenPartsLength => new int[1] { 6 };
 
-        protected virtual bool UseTildesInFenGeneration
-        {
-            get
-            {
-                return false;
-            }
-        }
+        protected virtual bool UseTildesInFenGeneration => false;
 
         public File InitialWhiteRookFileKingsideCastling { get; protected set; }
         public File InitialWhiteRookFileQueensideCastling { get; protected set; }
@@ -60,7 +30,7 @@ namespace ChessDotNet
         public File InitialWhiteKingFile { get; protected set; }
         public File InitialBlackKingFile { get; protected set; }
 
-        private Dictionary<char, Piece> fenMappings = new()
+        private readonly Dictionary<char, Piece> fenMappings = new()
         {
             { 'K', new King(Player.White) },
             { 'k', new King(Player.Black) },
@@ -75,13 +45,7 @@ namespace ChessDotNet
             { 'P', new Pawn(Player.White) },
             { 'p', new Pawn(Player.Black) },
         };
-        protected virtual Dictionary<char, Piece> FenMappings
-        {
-            get
-            {
-                return fenMappings;
-            }
-        }
+        protected virtual Dictionary<char, Piece> FenMappings => fenMappings;
 
         public virtual Piece MapPgnCharToPiece(char c, Player owner)
         {
@@ -112,15 +76,9 @@ namespace ChessDotNet
         public virtual bool HandleSpecialPgnMove(string move, Player player) { return false; }
 
         protected bool fiftyMoves = false;
-        protected virtual bool FiftyMovesAndThisCanResultInDraw { get { return fiftyMoves; } }
+        protected virtual bool FiftyMovesAndThisCanResultInDraw => fiftyMoves;
 
-        public virtual bool DrawCanBeClaimed
-        {
-            get
-            {
-                return FiftyMovesAndThisCanResultInDraw && !IsCheckmated(WhoseTurn) && !IsStalemated(WhoseTurn);
-            }
-        }
+        public virtual bool DrawCanBeClaimed => FiftyMovesAndThisCanResultInDraw && !IsCheckmated(WhoseTurn) && !IsStalemated(WhoseTurn);
 
         public Player WhoseTurn
         {
@@ -129,46 +87,16 @@ namespace ChessDotNet
         }
 
         protected int i_halfMoveClock = 0;
-        public int HalfMoveClock
-        {
-            get
-            {
-                return i_halfMoveClock;
-            }
-        }
+        public int HalfMoveClock => i_halfMoveClock;
 
         protected int i_fullMoveNumber = 1;
-        public int FullMoveNumber
-        {
-            get
-            {
-                return i_fullMoveNumber;
-            }
-        }
+        public int FullMoveNumber => i_fullMoveNumber;
 
-        public ReadOnlyCollection<Piece> PiecesOnBoard
-        {
-            get
-            {
-                return new ReadOnlyCollection<Piece>(Board.SelectMany(x => x).Where(x => x != null).ToList());
-            }
-        }
+        public ReadOnlyCollection<Piece> PiecesOnBoard => new ReadOnlyCollection<Piece>(Board.SelectMany(x => x).Where(x => x != null).ToList());
 
-        public virtual int BoardWidth
-        {
-            get
-            {
-                return 8;
-            }
-        }
+        public virtual int BoardWidth => 8;
 
-        public virtual int BoardHeight
-        {
-            get
-            {
-                return 8;
-            }
-        }
+        public virtual int BoardHeight => 8;
 
         protected Piece[][] Board;
         public Piece[][] GetBoard()
@@ -176,17 +104,11 @@ namespace ChessDotNet
             return CloneBoard(Board);
         }
 
-        List<DetailedMove> _moves = new();
+        private List<DetailedMove> _moves = new();
         public ReadOnlyCollection<DetailedMove> Moves
         {
-            get
-            {
-                return new ReadOnlyCollection<DetailedMove>(_moves);
-            }
-            protected set
-            {
-                _moves = value.ToList();
-            }
+            get => new ReadOnlyCollection<DetailedMove>(_moves);
+            protected set => _moves = value.ToList();
         }
 
         public bool CanBlackCastleKingSide
@@ -213,18 +135,12 @@ namespace ChessDotNet
             protected set;
         }
 
-        protected virtual bool CastlingCanBeLegal
-        {
-            get
-            {
-                return true;
-            }
-        }
+        protected virtual bool CastlingCanBeLegal => true;
 
         protected static Piece[][] CloneBoard(Piece[][] originalBoard)
         {
             ChessUtilities.ThrowIfNull(originalBoard, nameof(originalBoard));
-            var newBoard = new Piece[originalBoard.Length][];
+            Piece[][] newBoard = new Piece[originalBoard.Length][];
             for (int i = 0; i < originalBoard.Length; i++)
             {
                 newBoard[i] = new Piece[originalBoard[i].Length];
@@ -271,7 +187,10 @@ namespace ChessDotNet
         public ChessGame(IEnumerable<Move> moves, bool movesAreValidated) : this()
         {
             if (moves == null)
+            {
                 throw new ArgumentNullException(nameof(moves));
+            }
+
             foreach (Move m in moves)
             {
                 if (ApplyMove(m, movesAreValidated) == MoveType.Invalid)
@@ -311,17 +230,34 @@ namespace ChessDotNet
             if (CastlingCanBeLegal)
             {
                 if (!(e1 is King) || e1.Owner != Player.White)
+                {
                     CanWhiteCastleKingSide = CanWhiteCastleQueenSide = false;
+                }
+
                 if (!(e8 is King) || e8.Owner != Player.Black)
+                {
                     CanBlackCastleKingSide = CanBlackCastleQueenSide = false;
+                }
+
                 if (!(a1 is Rook) || a1.Owner != Player.White)
+                {
                     CanWhiteCastleQueenSide = false;
+                }
+
                 if (!(h1 is Rook) || h1.Owner != Player.White)
+                {
                     CanWhiteCastleKingSide = false;
+                }
+
                 if (!(a8 is Rook) || a8.Owner != Player.Black)
+                {
                     CanBlackCastleQueenSide = false;
+                }
+
                 if (!(h8 is Rook) || h8.Owner != Player.Black)
+                {
                     CanBlackCastleKingSide = false;
+                }
             }
         }
 
@@ -348,15 +284,30 @@ namespace ChessDotNet
             InitialWhiteRookFileQueensideCastling = CanWhiteCastleQueenSide ? (File)Array.IndexOf(firstRank, FenMappings['R']) : File.None;
             InitialWhiteRookFileKingsideCastling = CanWhiteCastleKingSide ? (File)Array.LastIndexOf(firstRank, FenMappings['R']) : File.None;
 
-            if (InitialBlackRookFileQueensideCastling == File.None) CanBlackCastleQueenSide = false;
-            if (InitialBlackRookFileKingsideCastling == File.None) CanBlackCastleKingSide = false;
-            if (InitialWhiteRookFileKingsideCastling == File.None) CanWhiteCastleKingSide = false;
-            if (InitialWhiteRookFileQueensideCastling == File.None) CanWhiteCastleQueenSide = false;
+            if (InitialBlackRookFileQueensideCastling == File.None)
+            {
+                CanBlackCastleQueenSide = false;
+            }
+
+            if (InitialBlackRookFileKingsideCastling == File.None)
+            {
+                CanBlackCastleKingSide = false;
+            }
+
+            if (InitialWhiteRookFileKingsideCastling == File.None)
+            {
+                CanWhiteCastleKingSide = false;
+            }
+
+            if (InitialWhiteRookFileQueensideCastling == File.None)
+            {
+                CanWhiteCastleQueenSide = false;
+            }
 
             if (!data.Moves.Any() && data.EnPassant != null)
             {
-                var dest = new Position(data.EnPassant.File, data.WhoseTurn == Player.White ? 5 : 4);
-                var latestMove = new DetailedMove(new Move(new Position(data.EnPassant.File, data.WhoseTurn == Player.White ? 7 : 2),
+                Position dest = new Position(data.EnPassant.File, data.WhoseTurn == Player.White ? 5 : 4);
+                DetailedMove latestMove = new DetailedMove(new Move(new Position(data.EnPassant.File, data.WhoseTurn == Player.White ? 7 : 2),
                         dest,
                         ChessUtilities.GetOpponentOf(data.WhoseTurn)),
                     new Pawn(ChessUtilities.GetOpponentOf(data.WhoseTurn)),
@@ -381,7 +332,7 @@ namespace ChessDotNet
 
         public virtual string GetFen()
         {
-            var fenBuilder = new StringBuilder();
+            StringBuilder fenBuilder = new StringBuilder();
             Piece[][] board = GetBoard();
             for (int i = 0; i < board.Length; i++)
             {
@@ -477,19 +428,28 @@ namespace ChessDotNet
             return fenBuilder.ToString();
         }
 
-        protected virtual int[] ValidFenBoardRows { get { return new int[1] { 8 }; } }
+        protected virtual int[] ValidFenBoardRows => new int[1] { 8 };
 
         protected virtual GameCreationData FenStringToGameCreationData(string fen)
         {
             Dictionary<char, Piece> fenMappings = FenMappings;
             string[] parts = fen.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (!AllowedFenPartsLength.Contains(parts.Length)) throw new ArgumentException("The FEN string has too much, or too few, parts.");
-            var board = new Piece[8][];
-            string[] rows = parts[0].Split('/');
-            if (!ValidFenBoardRows.Contains(rows.Length)) throw new ArgumentException("The board in the FEN string has an invalid number of rows.");
-            var data = new GameCreationData();
+            if (!AllowedFenPartsLength.Contains(parts.Length))
+            {
+                throw new ArgumentException("The FEN string has too much, or too few, parts.");
+            }
 
-            data.Board = InterpretBoardOfFen(parts[0]);
+            Piece[][] board = new Piece[8][];
+            string[] rows = parts[0].Split('/');
+            if (!ValidFenBoardRows.Contains(rows.Length))
+            {
+                throw new ArgumentException("The board in the FEN string has an invalid number of rows.");
+            }
+
+            GameCreationData data = new GameCreationData
+            {
+                Board = InterpretBoardOfFen(parts[0])
+            };
 
             if (parts[1] == "w")
             {
@@ -504,22 +464,49 @@ namespace ChessDotNet
                 throw new ArgumentException("Expected `w` or `b` for the active player in the FEN string.");
             }
 
-            if (parts[2].Contains("K")) data.CanWhiteCastleKingSide = true;
-            else data.CanWhiteCastleKingSide = false;
-
-            if (parts[2].Contains("Q")) data.CanWhiteCastleQueenSide = true;
-            else data.CanWhiteCastleQueenSide = false;
-
-            if (parts[2].Contains("k")) data.CanBlackCastleKingSide = true;
-            else data.CanBlackCastleKingSide = false;
-
-            if (parts[2].Contains("q")) data.CanBlackCastleQueenSide = true;
-            else data.CanBlackCastleQueenSide = false;
-
-            if (parts[3] == "-") data.EnPassant = null;
+            if (parts[2].Contains("K"))
+            {
+                data.CanWhiteCastleKingSide = true;
+            }
             else
             {
-                var ep = new Position(parts[3]);
+                data.CanWhiteCastleKingSide = false;
+            }
+
+            if (parts[2].Contains("Q"))
+            {
+                data.CanWhiteCastleQueenSide = true;
+            }
+            else
+            {
+                data.CanWhiteCastleQueenSide = false;
+            }
+
+            if (parts[2].Contains("k"))
+            {
+                data.CanBlackCastleKingSide = true;
+            }
+            else
+            {
+                data.CanBlackCastleKingSide = false;
+            }
+
+            if (parts[2].Contains("q"))
+            {
+                data.CanBlackCastleQueenSide = true;
+            }
+            else
+            {
+                data.CanBlackCastleQueenSide = false;
+            }
+
+            if (parts[3] == "-")
+            {
+                data.EnPassant = null;
+            }
+            else
+            {
+                Position ep = new Position(parts[3]);
                 if ((data.WhoseTurn == Player.White && (ep.Rank != 6 || !(data.Board[3][(int)ep.File] is Pawn))) ||
                     (data.WhoseTurn == Player.Black && (ep.Rank != 3 || !(data.Board[4][(int)ep.File] is Pawn))))
                 {
@@ -528,8 +515,7 @@ namespace ChessDotNet
                 data.EnPassant = ep;
             }
 
-            int halfmoveClock;
-            if (int.TryParse(parts[4], out halfmoveClock))
+            if (int.TryParse(parts[4], out int halfmoveClock))
             {
                 data.HalfMoveClock = halfmoveClock;
             }
@@ -538,8 +524,7 @@ namespace ChessDotNet
                 throw new ArgumentException("Halfmove clock in FEN is invalid.");
             }
 
-            int fullMoveNumber;
-            if (int.TryParse(parts[5], out fullMoveNumber))
+            if (int.TryParse(parts[5], out int fullMoveNumber))
             {
                 data.FullMoveNumber = fullMoveNumber;
             }
@@ -553,12 +538,12 @@ namespace ChessDotNet
 
         protected virtual Piece[][] InterpretBoardOfFen(string board)
         {
-            var pieceArr = new Piece[8][];
+            Piece[][] pieceArr = new Piece[8][];
             string[] rows = board.Split('/');
             for (int i = 0; i < 8; i++)
             {
                 string row = rows[i];
-                var currentRow = new Piece[8] { null, null, null, null, null, null, null, null };
+                Piece[] currentRow = new Piece[8] { null, null, null, null, null, null, null, null };
                 int j = 0;
                 foreach (char c in row)
                 {
@@ -580,7 +565,11 @@ namespace ChessDotNet
                         currentRow[j - 1] = currentRow[j - 1].AsPromotion();
                         continue;
                     }
-                    if (!FenMappings.ContainsKey(c)) throw new ArgumentException("The FEN string contains an unknown piece.");
+                    if (!FenMappings.ContainsKey(c))
+                    {
+                        throw new ArgumentException("The FEN string contains an unknown piece.");
+                    }
+
                     currentRow[j] = FenMappings[c];
                     j++;
                 }
@@ -625,10 +614,21 @@ namespace ChessDotNet
         {
             ChessUtilities.ThrowIfNull(move, nameof(move));
             if (move.OriginalPosition.Equals(move.NewPosition))
+            {
                 return false;
+            }
+
             Piece piece = GetPieceAt(move.OriginalPosition.File, move.OriginalPosition.Rank);
-            if (careAboutWhoseTurnItIs && move.Player != WhoseTurn) return false;
-            if (piece == null || piece.Owner != move.Player) return false;
+            if (careAboutWhoseTurnItIs && move.Player != WhoseTurn)
+            {
+                return false;
+            }
+
+            if (piece == null || piece.Owner != move.Player)
+            {
+                return false;
+            }
+
             Piece pieceAtDestination = GetPieceAt(move.NewPosition);
             bool isCastle = pieceAtDestination is Rook && piece is King && pieceAtDestination.Owner == piece.Owner;
             if (pieceAtDestination != null && pieceAtDestination.Owner == move.Player && !isCastle)
@@ -701,17 +701,15 @@ namespace ChessDotNet
 
         public virtual MoveType MakeMove(Move move, bool alreadyValidated)
         {
-            Piece captured;
-            return MakeMove(move, alreadyValidated, out captured);
+            return MakeMove(move, alreadyValidated, out Piece captured);
         }
 
         public virtual MoveType MakeMove(Move move, bool alreadyValidated, out Piece captured)
         {
             Piece movingPiece = GetPieceAt(move.OriginalPosition);
             List<Position> ambiguities = GetAmbiguities(move, movingPiece);
-            CastlingType castle;
             int lastHalfMoveClock = i_halfMoveClock;
-            MoveType mt = ApplyMove(move, alreadyValidated, out captured, out castle);
+            MoveType mt = ApplyMove(move, alreadyValidated, out captured, out CastlingType castle);
             if (mt == MoveType.Invalid)
             {
                 return mt;
@@ -723,9 +721,7 @@ namespace ChessDotNet
 
         protected MoveType ApplyMove(Move move, bool alreadyValidated)
         {
-            Piece captured;
-            CastlingType castleType;
-            return ApplyMove(move, alreadyValidated, out captured, out castleType);
+            return ApplyMove(move, alreadyValidated, out Piece captured, out CastlingType castleType);
         }
 
         protected virtual MoveType ApplyMove(Move move, bool alreadyValidated, out Piece captured, out CastlingType castleType)
@@ -737,23 +733,23 @@ namespace ChessDotNet
                 castleType = CastlingType.None;
                 return MoveType.Invalid;
             }
-            var type = MoveType.Move;
+            MoveType type = MoveType.Move;
             Piece movingPiece = GetPieceAt(move.OriginalPosition.File, move.OriginalPosition.Rank);
 
             if (movingPiece == null)
             {
                 throw new InvalidOperationException("Source piece does not exist.");
             }
- 
+
             Piece capturedPiece = GetPieceAt(move.NewPosition.File, move.NewPosition.Rank);
             captured = capturedPiece;
             Piece newPiece = movingPiece;
             bool isCapture = capturedPiece != null;
-            var castle = CastlingType.None;
+            CastlingType castle = CastlingType.None;
             if (movingPiece is Pawn)
             {
                 i_halfMoveClock = 0;
-                var pd = new PositionDistance(move.OriginalPosition, move.NewPosition);
+                PositionDistance pd = new PositionDistance(move.OriginalPosition, move.NewPosition);
                 if (pd.DistanceX == 1 && pd.DistanceY == 1 && GetPieceAt(move.NewPosition) == null)
                 {
                     type |= MoveType.EnPassant;
@@ -770,9 +766,13 @@ namespace ChessDotNet
             else if (movingPiece is King)
             {
                 if (movingPiece.Owner == Player.White)
+                {
                     CanWhiteCastleKingSide = CanWhiteCastleQueenSide = false;
+                }
                 else
+                {
                     CanBlackCastleKingSide = CanBlackCastleQueenSide = false;
+                }
 
                 if (CastlingCanBeLegal &&
                     ((GetPieceAt(move.NewPosition) is Rook && GetPieceAt(move.NewPosition).Owner == move.Player) ||
@@ -790,16 +790,24 @@ namespace ChessDotNet
                 if (move.Player == Player.White)
                 {
                     if (move.OriginalPosition.File == File.A && move.OriginalPosition.Rank == 1)
+                    {
                         CanWhiteCastleQueenSide = false;
+                    }
                     else if (move.OriginalPosition.File == File.H && move.OriginalPosition.Rank == 1)
+                    {
                         CanWhiteCastleKingSide = false;
+                    }
                 }
                 else
                 {
                     if (move.OriginalPosition.File == File.A && move.OriginalPosition.Rank == 8)
+                    {
                         CanBlackCastleQueenSide = false;
+                    }
                     else if (move.OriginalPosition.File == File.H && move.OriginalPosition.Rank == 8)
+                    {
                         CanBlackCastleKingSide = false;
+                    }
                 }
             }
             if (isCapture)
@@ -807,13 +815,21 @@ namespace ChessDotNet
                 type |= MoveType.Capture;
                 i_halfMoveClock = 0;
                 if (move.NewPosition.File == File.A && move.NewPosition.Rank == 1)
+                {
                     CanWhiteCastleQueenSide = false;
+                }
                 else if (move.NewPosition.File == File.H && move.NewPosition.Rank == 1)
+                {
                     CanWhiteCastleKingSide = false;
+                }
                 else if (move.NewPosition.File == File.A && move.NewPosition.Rank == 8)
+                {
                     CanBlackCastleQueenSide = false;
+                }
                 else if (move.NewPosition.File == File.H && move.NewPosition.Rank == 8)
+                {
                     CanBlackCastleKingSide = false;
+                }
             }
             if (!isCapture && !(movingPiece is Pawn))
             {
@@ -844,11 +860,13 @@ namespace ChessDotNet
         public virtual bool Undo()
         {
             if (_moves.Count == 0)
+            {
                 return false;
+            }
 
-            var lastMove = _moves.Last();
+            DetailedMove lastMove = _moves.Last();
 
-            var movedPiece = lastMove.Piece;
+            Piece movedPiece = lastMove.Piece;
             SetPieceAt(lastMove.NewPosition.File, lastMove.NewPosition.Rank, null);
             SetPieceAt(lastMove.OriginalPosition.File, lastMove.OriginalPosition.Rank, movedPiece);
 
@@ -858,9 +876,13 @@ namespace ChessDotNet
                 if (lastMove.EnPassant)
                 {
                     if (lastMove.Player == Player.White)
+                    {
                         rank--;
+                    }
                     else if (lastMove.Player == Player.Black)
+                    {
                         rank++;
+                    }
                 }
 
                 SetPieceAt(lastMove.NewPosition.File, rank, lastMove.CapturedPiece);
@@ -868,7 +890,7 @@ namespace ChessDotNet
 
             if (lastMove.Castling != CastlingType.None)
             {
-                var anyRookMoves = _moves
+                bool anyRookMoves = _moves
                     .Where(m => m.Player == lastMove.Player)
                     .Where(m => char.ToUpper(m.Piece.GetFenCharacter()) == 'R')
                     .Any();
@@ -877,7 +899,10 @@ namespace ChessDotNet
 
             WhoseTurn = lastMove.Player;
             i_halfMoveClock = lastMove.LastHalfMoveClock.Value;
-            if (lastMove.Player == Player.Black) i_fullMoveNumber--;
+            if (lastMove.Player == Player.Black)
+            {
+                i_fullMoveNumber--;
+            }
 
             _moves.Remove(lastMove);
 
@@ -901,9 +926,13 @@ namespace ChessDotNet
                 else
                 {
                     if (move.Castling == CastlingType.KingSide)
+                    {
                         CanWhiteCastleKingSide = true;
+                    }
                     else
+                    {
                         CanWhiteCastleQueenSide = true;
+                    }
                 }
             }
             else
@@ -917,9 +946,13 @@ namespace ChessDotNet
                 else
                 {
                     if (move.Castling == CastlingType.KingSide)
+                    {
                         CanBlackCastleKingSide = true;
+                    }
                     else
+                    {
                         CanBlackCastleQueenSide = true;
+                    }
                 }
             }
 
@@ -934,7 +967,7 @@ namespace ChessDotNet
                 originalRookFile = File.A;
             }
 
-            var rook = GetPieceAt(newRookFile, rookRank);
+            Piece rook = GetPieceAt(newRookFile, rookRank);
             SetPieceAt(newRookFile, rookRank, null);
             SetPieceAt(originalRookFile, rookRank, rook);
         }
@@ -959,13 +992,17 @@ namespace ChessDotNet
             {
                 return new List<Position>();
             }
-            var ambiguities = new List<Position>();
+            List<Position> ambiguities = new List<Position>();
             foreach (File f in Enum.GetValues(typeof(File)))
             {
-                if (f == File.None) continue;
+                if (f == File.None)
+                {
+                    continue;
+                }
+
                 for (int r = 1; r <= 8; r++)
                 {
-                    var pos = new Position(f, r);
+                    Position pos = new Position(f, r);
                     if (!move.OriginalPosition.Equals(pos))
                     {
                         Piece p = GetPieceAt(f, r);
@@ -981,8 +1018,15 @@ namespace ChessDotNet
 
         protected virtual string GetSanForMove(Move move, Piece movingPiece, bool isCapture, CastlingType castle, List<Position> ambiguities)
         {
-            if (castle == CastlingType.KingSide) return "O-O";
-            if (castle == CastlingType.QueenSide) return "O-O-O";
+            if (castle == CastlingType.KingSide)
+            {
+                return "O-O";
+            }
+
+            if (castle == CastlingType.QueenSide)
+            {
+                return "O-O-O";
+            }
 
             bool needsUnambigFile = false;
             bool needsUnambigRank = false;
@@ -1005,7 +1049,7 @@ namespace ChessDotNet
                 }
             }
 
-            var sanBuilder = new StringBuilder();
+            StringBuilder sanBuilder = new StringBuilder();
 
             if (!(movingPiece is Pawn))
             {
@@ -1048,7 +1092,7 @@ namespace ChessDotNet
 
         public virtual string GetPGN()
         {
-            var pgnBuilder = new StringBuilder();
+            StringBuilder pgnBuilder = new StringBuilder();
             int counter = 1;
             foreach (DetailedMove dm in _moves)
             {
@@ -1100,7 +1144,11 @@ namespace ChessDotNet
         {
             ChessUtilities.ThrowIfNull(from, nameof(from));
             Piece piece = GetPieceAt(from);
-            if (piece == null || piece.Owner != WhoseTurn) return new ReadOnlyCollection<Move>(new List<Move>());
+            if (piece == null || piece.Owner != WhoseTurn)
+            {
+                return new ReadOnlyCollection<Move>(new List<Move>());
+            }
+
             return piece.GetValidMoves(from, returnIfAny, this, IsValidMove);
         }
 
@@ -1111,8 +1159,12 @@ namespace ChessDotNet
 
         protected virtual ReadOnlyCollection<Move> GetValidMoves(Player player, bool returnIfAny)
         {
-            if (player != WhoseTurn) return new ReadOnlyCollection<Move>(new List<Move>());
-            var validMoves = new List<Move>();
+            if (player != WhoseTurn)
+            {
+                return new ReadOnlyCollection<Move>(new List<Move>());
+            }
+
+            List<Move> validMoves = new List<Move>();
             for (int r = 1; r <= Board.Length; r++)
             {
                 for (int f = 0; f < Board[8 - r].Length; f++)
@@ -1151,7 +1203,7 @@ namespace ChessDotNet
                 throw new ArgumentException("IsInCheck: Player.None is an invalid argument.");
             }
 
-            var kingPos = new Position(File.None, -1);
+            Position kingPos = new Position(File.None, -1);
 
             for (int r = 1; r <= Board.Length; r++)
             {
@@ -1171,17 +1223,23 @@ namespace ChessDotNet
             }
 
             if (kingPos.File == File.None)
+            {
                 return false;
+            }
 
             for (int r = 1; r <= Board.Length; r++)
             {
                 for (int f = 0; f < Board[8 - r].Length; f++)
                 {
                     Piece curr = GetPieceAt((File)f, r);
-                    if (curr == null) continue;
+                    if (curr == null)
+                    {
+                        continue;
+                    }
+
                     Player p = curr.Owner;
-                    var move = new Move(new Position((File)f, r), kingPos, p);
-                    var moves = new List<Move>();
+                    Move move = new Move(new Position((File)f, r), kingPos, p);
+                    List<Move> moves = new List<Move>();
                     if (curr is Pawn && ((move.NewPosition.Rank == 8 && move.Player == Player.White) || (move.NewPosition.Rank == 1 && move.Player == Player.Black)))
                     {
                         moves.Add(new Move(move.OriginalPosition, move.NewPosition, move.Player, 'Q'));
@@ -1218,21 +1276,46 @@ namespace ChessDotNet
 
         public virtual bool IsInsufficientMaterial()
         {
-            var whitePieces = PiecesOnBoard.Where(p => p.Owner == Player.White);
-            var blackPieces = PiecesOnBoard.Where(p => p.Owner == Player.Black);
+            IEnumerable<Piece> whitePieces = PiecesOnBoard.Where(p => p.Owner == Player.White);
+            IEnumerable<Piece> blackPieces = PiecesOnBoard.Where(p => p.Owner == Player.Black);
 
-            if (whitePieces.Count() > 2 || blackPieces.Count() > 2) return false;
+            if (whitePieces.Count() > 2 || blackPieces.Count() > 2)
+            {
+                return false;
+            }
 
-            var lastWhitePiece = whitePieces.FirstOrDefault(p => !(p is King));
-            var lastBlackPiece = blackPieces.FirstOrDefault(p => !(p is King));
+            Piece lastWhitePiece = whitePieces.FirstOrDefault(p => !(p is King));
+            Piece lastBlackPiece = blackPieces.FirstOrDefault(p => !(p is King));
 
-            if (lastWhitePiece == null && lastBlackPiece == null) return true;
-            if (lastWhitePiece == null && lastBlackPiece is Bishop) return true;
-            if (lastWhitePiece == null && lastBlackPiece is Knight) return true;
-            if (lastWhitePiece is Bishop && lastBlackPiece == null) return true;
-            if (lastWhitePiece is Knight && lastBlackPiece == null) return true;
+            if (lastWhitePiece == null && lastBlackPiece == null)
+            {
+                return true;
+            }
 
-            if (lastWhitePiece is Bishop && lastBlackPiece is Bishop && OnSameSquareColor(lastWhitePiece, lastBlackPiece)) return true;
+            if (lastWhitePiece == null && lastBlackPiece is Bishop)
+            {
+                return true;
+            }
+
+            if (lastWhitePiece == null && lastBlackPiece is Knight)
+            {
+                return true;
+            }
+
+            if (lastWhitePiece is Bishop && lastBlackPiece == null)
+            {
+                return true;
+            }
+
+            if (lastWhitePiece is Knight && lastBlackPiece == null)
+            {
+                return true;
+            }
+
+            if (lastWhitePiece is Bishop && lastBlackPiece is Bishop && OnSameSquareColor(lastWhitePiece, lastBlackPiece))
+            {
+                return true;
+            }
 
             return false;
         }
@@ -1246,19 +1329,28 @@ namespace ChessDotNet
             {
                 for (int y = 1; y <= 8; y++)
                 {
-                    var piece = Board[x - 1][y - 1];
-                    if (piece == null) continue;
+                    Piece piece = Board[x - 1][y - 1];
+                    if (piece == null)
+                    {
+                        continue;
+                    }
 
                     if (piece.Owner == Player.White)
                     {
-                        if (piece.GetType() != whitePiece.GetType()) continue;
+                        if (piece.GetType() != whitePiece.GetType())
+                        {
+                            continue;
+                        }
 
                         whitesSquareColor = (x + y) % 2; // 0 means dark, 1 means light
                     }
 
                     if (piece.Owner == Player.Black)
                     {
-                        if (piece.GetType() != blackPiece.GetType()) continue;
+                        if (piece.GetType() != blackPiece.GetType())
+                        {
+                            continue;
+                        }
 
                         blacksSquareColor = (x + y) % 2; // 0 means dark, 1 means light
                     }
@@ -1281,16 +1373,18 @@ namespace ChessDotNet
         public virtual bool WouldBeInCheckAfter(Move move, Player player)
         {
             ChessUtilities.ThrowIfNull(move, nameof(move));
-            var gcd = new GameCreationData();
-            gcd.Board = Board;
-            gcd.CanWhiteCastleKingSide = CanWhiteCastleKingSide;
-            gcd.CanWhiteCastleQueenSide = CanWhiteCastleQueenSide;
-            gcd.CanBlackCastleKingSide = CanBlackCastleKingSide;
-            gcd.CanBlackCastleQueenSide = CanBlackCastleQueenSide;
-            gcd.EnPassant = null;
-            gcd.HalfMoveClock = i_halfMoveClock;
-            gcd.FullMoveNumber = i_fullMoveNumber;
-            var copy = new ChessGame(gcd);
+            GameCreationData gcd = new GameCreationData
+            {
+                Board = Board,
+                CanWhiteCastleKingSide = CanWhiteCastleKingSide,
+                CanWhiteCastleQueenSide = CanWhiteCastleQueenSide,
+                CanBlackCastleKingSide = CanBlackCastleKingSide,
+                CanBlackCastleQueenSide = CanBlackCastleQueenSide,
+                EnPassant = null,
+                HalfMoveClock = i_halfMoveClock,
+                FullMoveNumber = i_fullMoveNumber
+            };
+            ChessGame copy = new ChessGame(gcd);
             if (GetPieceAt(move.OriginalPosition) is Pawn)
             {
                 copy.ApplyMove(move, true);

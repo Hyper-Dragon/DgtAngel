@@ -9,26 +9,23 @@ using System.Drawing;
 using System.Media;
 using System.Reflection;
 using System.Threading;
-using System.Web;
 using System.Windows.Forms;
 
 namespace DgtCherub
 {
     public partial class Form1 : Form
     {
-        const int TEXTBOX_MAX_LINES = 250;
-        const string VERSION_NUMBER = "0.0.1";
-        const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
-        const string CHESS_DOT_COM_PLAY_LINK = @"http://chess.com/live";
-        const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
-
-        const string PROJECT_LINK = @"https://github.com/Hyper-Dragon/DgtAngel";
-        const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues";
-        const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
-
-        const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
-        const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
-        const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
+        private const int TEXTBOX_MAX_LINES = 250;
+        private const string VERSION_NUMBER = "0.0.1";
+        private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
+        private const string CHESS_DOT_COM_PLAY_LINK = @"http://chess.com/live";
+        private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
+        private const string PROJECT_LINK = @"https://github.com/Hyper-Dragon/DgtAngel";
+        private const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues";
+        private const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
+        private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
+        private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
+        private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
 
 
         public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND };
@@ -85,7 +82,8 @@ namespace DgtCherub
                      IAppDataService appData,
                      IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess,
-                     IBoardRenderer boardRenderer){
+                     IBoardRenderer boardRenderer)
+        {
 
             //TODO: Sort out the logging in here
             _logger = logger;
@@ -135,7 +133,7 @@ namespace DgtCherub
                             {
                                 if (_appDataService.PlayAudio)
                                 {
-                                    using var audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
+                                    using System.IO.Stream audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
                                     _soundPlayer.Stream = audioStream;
                                     _soundPlayer.PlaySync();
                                     _soundPlayer.Stream = null;
@@ -193,7 +191,7 @@ namespace DgtCherub
                 {
                     LabelLocalDgt.BackColor = Color.Yellow;
                     LabelRemoteBoard.BackColor = Color.Yellow;
-                    this.Update();
+                    Update();
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
@@ -217,7 +215,7 @@ namespace DgtCherub
                 {
                     LabelLocalDgt.BackColor = Color.Yellow;
                     LabelRemoteBoard.BackColor = Color.Yellow;
-                    this.Update();
+                    Update();
 
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
@@ -234,7 +232,7 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
 
-                this.Invoke((Action)(() =>
+                Invoke((Action)(() =>
                 {
                     LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "1") ? "*" : " ")}{_appDataService.WhiteClock}";
                     LabelBlackClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "2") ? "*" : " ")}{_appDataService.BlackClock}";
@@ -316,7 +314,7 @@ namespace DgtCherub
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.SuspendLayout();
+            SuspendLayout();
 
             //Set Appsettings from the designer values...
             _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
@@ -339,46 +337,46 @@ namespace DgtCherub
 
             // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
             BoredLabelsInitialColor = LabelLocalDgt.BackColor;
-            LastFormWidth = this.Width;
-            InitialMinSize = this.MinimumSize;
-            InitialMaxSize = this.MaximumSize;
+            LastFormWidth = Width;
+            InitialMinSize = MinimumSize;
+            InitialMaxSize = MaximumSize;
             PictureBoxLocalInitialImage = PictureBoxLocal.Image;
             PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
 
             // ItemSize.Height is correct - the tabs are on the side!
             CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
 
-            this.ResumeLayout();
+            ResumeLayout();
         }
 
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
         {
-            this.TopLevelControl.SuspendLayout();
+            TopLevelControl.SuspendLayout();
 
             if (CheckBoxShowConsole.Checked)
             {
                 TextBoxConsole.Visible = true;
-                this.MinimumSize = InitialMinSize;
-                this.MaximumSize = InitialMaxSize;
-                this.Width = LastFormWidth;
-                this.MaximizeBox = true;
-                this.MinimizeBox = true;
-                this.ToolStripStatusLabelVersion.Visible = true;
+                MinimumSize = InitialMinSize;
+                MaximumSize = InitialMaxSize;
+                Width = LastFormWidth;
+                MaximizeBox = true;
+                MinimizeBox = true;
+                ToolStripStatusLabelVersion.Visible = true;
             }
             else
             {
-                this.WindowState = FormWindowState.Normal;
-                LastFormWidth = this.Width;
+                WindowState = FormWindowState.Normal;
+                LastFormWidth = Width;
                 TextBoxConsole.Visible = false;
-                this.MinimumSize = new Size(CollapsedWidth, this.MinimumSize.Height);
-                this.MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
-                this.Width = CollapsedWidth;
-                this.MaximizeBox = false;
-                this.MinimizeBox = false;
-                this.ToolStripStatusLabelVersion.Visible = false;
+                MinimumSize = new Size(CollapsedWidth, MinimumSize.Height);
+                MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
+                Width = CollapsedWidth;
+                MaximizeBox = false;
+                MinimizeBox = false;
+                ToolStripStatusLabelVersion.Visible = false;
             }
 
-            this.TopLevelControl.ResumeLayout();
+            TopLevelControl.ResumeLayout();
         }
 
         private void ButtonClearConsole_Click(object sender, EventArgs e)
@@ -454,8 +452,8 @@ namespace DgtCherub
 
         private void DgtAngelChromeExtensionMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLines(new string[] { $"DGT Angel is currently only available as a developer release.  Go to", 
-                                                   $"the project release page and follow the instructions."},TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLines(new string[] { $"DGT Angel is currently only available as a developer release.  Go to",
+                                                   $"the project release page and follow the instructions."}, TEXTBOX_MAX_LINES);
         }
 
         private void CdcChromeExtensionVoiceComentaryMenuItem_Click(object sender, EventArgs e)

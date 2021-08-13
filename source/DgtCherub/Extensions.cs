@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
 namespace DgtCherub
@@ -44,7 +43,7 @@ namespace DgtCherub
 
         public static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)
         {
-            foreach (var line in text)
+            foreach (string line in text)
             {
                 box.AddLine($">> {line}", maxLine, timeStamp);
             }

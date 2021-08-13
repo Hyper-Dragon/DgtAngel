@@ -53,7 +53,7 @@ namespace DgtEbDllWrapper
                 DgtEbDllAdapter.EndDisplay();
                 Thread.Sleep(1000);
 
-                foreach (var message in messages)
+                foreach (string message in messages)
                 {
                     DgtEbDllAdapter.DisplayClockMessage(message, int.MaxValue);
                     Thread.Sleep(2000);

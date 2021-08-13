@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace DgtCherub
 {
-    static class Program
+    internal static class Program
     {
         private static void ShowCantStartDialog(string message)
         {
@@ -33,7 +33,7 @@ namespace DgtCherub
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             //TODO: Checks for chrome and livechess and rabbit install
             if (Process.GetProcesses().Any(name => name.ProcessName.ToLowerInvariant().Contains("rabbitconnect")))
@@ -56,18 +56,20 @@ namespace DgtCherub
                     Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
                     // Add the event handler for handling non-UI thread exceptions to the event.
-                    AppDomain.CurrentDomain.UnhandledException += (sender,exception) => {
+                    AppDomain.CurrentDomain.UnhandledException += (sender, exception) =>
+                    {
                         ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.ExceptionObject?.ToString()}");
                         Application.Exit();
                     };
 
                     // Add the event handler for handling UI thread exceptions to the event.
-                    Application.ThreadException += (sender, exception) => {
+                    Application.ThreadException += (sender, exception) =>
+                    {
                         ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.Exception.Message}{Environment.NewLine}{exception.Exception.StackTrace}");
                         Application.Exit();
                     };
 
-                    var host = Host.CreateDefaultBuilder(Array.Empty<string>())
+                    IHost host = Host.CreateDefaultBuilder(Array.Empty<string>())
                        .ConfigureWebHostDefaults(webBuilder =>
                        {
                            webBuilder.UseStartup<Startup>()

@@ -17,7 +17,7 @@ namespace DgtAngel.Services
 
         public ChessDotComHelperService(ILogger<ChessDotComHelperService> logger)
         {
-            this._logger = logger;
+            _logger = logger;
         }
 
         public string FormatClockStringToDGT(string cdcClockString)
@@ -25,7 +25,7 @@ namespace DgtAngel.Services
             _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Reformatting {cdcClockString}");
 
             //TODO: Need to handle from zero - need example
-            var clockParts = cdcClockString.Split(".")[0].Split(":");
+            string[] clockParts = cdcClockString.Split(".")[0].Split(":");
 
             return $"0:{clockParts[0].PadLeft(2, '0')}:{clockParts[1].PadLeft(2, '0')}";
         }

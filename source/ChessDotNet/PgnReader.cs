@@ -22,14 +22,13 @@ namespace ChessDotNet
         public void ReadPgnFromString(string pgn)
         {
             string pgnWithoutComments = Regex.Replace(pgn, @"\{[^}]*\}", "");
-            int t;
             List<string> moves = pgnWithoutComments.Split(new char[] { '.', ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                                           .Where(x => !(int.TryParse(x, out t) || x[0] == '$')).ToList();
+                                           .Where(x => !(int.TryParse(x, out int t) || x[0] == '$')).ToList();
             if (new string[] { "*", "1-0", "0-1", "1/2-1/2" }.Contains(moves[moves.Count - 1]))
             {
                 moves.RemoveAt(moves.Count - 1);
             }
-            var game = new TGame();
+            TGame game = new TGame();
             int ply = 0;
             foreach (string _ in moves)
             {
@@ -48,7 +47,10 @@ namespace ChessDotNet
                     continueNormalExecution = game.HandleSpecialPgnMove(move, player);
                 }
 
-                if (!continueNormalExecution) continue;
+                if (!continueNormalExecution)
+                {
+                    continue;
+                }
 
                 if (move.Length > 2)
                 {
@@ -72,7 +74,7 @@ namespace ChessDotNet
                     int r = player == Player.White ? 1 : 8;
                     origin = new Position(File.E, r);
                     destination = new Position(File.C, r);
-                    piece = new King(player);                
+                    piece = new King(player);
                 }
 
                 if (piece == null)
@@ -130,7 +132,7 @@ namespace ChessDotNet
 
                 if (origin != null)
                 {
-                    var m = new Move(origin, destination, player, promotion);
+                    Move m = new Move(origin, destination, player, promotion);
                     if (game.IsValidMove(m))
                     {
                         game.MakeMove(m, true);
@@ -143,23 +145,43 @@ namespace ChessDotNet
                 else
                 {
                     Piece[][] board = game.GetBoard();
-                    var validMoves = new List<Move>();
+                    List<Move> validMoves = new List<Move>();
                     for (int r = 0; r < game.BoardHeight; r++)
                     {
-                        if (rankRestriction != -1 && r != 8 - rankRestriction) continue;
+                        if (rankRestriction != -1 && r != 8 - rankRestriction)
+                        {
+                            continue;
+                        }
+
                         for (int f = 0; f < game.BoardWidth; f++)
                         {
-                            if (fileRestriction != File.None && f != (int)fileRestriction) continue;
-                            if (board[r][f] != piece) continue;
-                            var m = new Move(new Position((File)f, 8 - r), destination, player, promotion);
+                            if (fileRestriction != File.None && f != (int)fileRestriction)
+                            {
+                                continue;
+                            }
+
+                            if (board[r][f] != piece)
+                            {
+                                continue;
+                            }
+
+                            Move m = new Move(new Position((File)f, 8 - r), destination, player, promotion);
                             if (game.IsValidMove(m))
                             {
                                 validMoves.Add(m);
                             }
                         }
                     }
-                    if (validMoves.Count == 0) throw new PgnException("Invalid PGN: contains invalid moves.");
-                    if (validMoves.Count > 1) throw new PgnException("Invalid PGN: contains ambiguous moves.");
+                    if (validMoves.Count == 0)
+                    {
+                        throw new PgnException("Invalid PGN: contains invalid moves.");
+                    }
+
+                    if (validMoves.Count > 1)
+                    {
+                        throw new PgnException("Invalid PGN: contains ambiguous moves.");
+                    }
+
                     game.MakeMove(validMoves[0], true);
                 }
             }

@@ -19,7 +19,7 @@ namespace ChessDotNet.Pieces
             set;
         }
 
-        public Pawn() : this(Player.None) {}
+        public Pawn() : this(Player.None) { }
 
         public Pawn(Player owner)
         {
@@ -41,13 +41,7 @@ namespace ChessDotNet.Pieces
             return Owner == Player.White ? 'P' : 'p';
         }
 
-        protected virtual char[] ValidPromotionPieces
-        {
-            get
-            {
-                return new char[] { 'Q', 'q', 'R', 'r', 'B', 'b', 'N', 'n' };
-            }
-        }
+        protected virtual char[] ValidPromotionPieces => new char[] { 'Q', 'q', 'R', 'r', 'B', 'b', 'N', 'n' };
 
         public override bool IsValidMove(Move move, ChessGame game)
         {
@@ -61,36 +55,61 @@ namespace ChessDotNet.Pieces
             {
                 promotion = game.MapPgnCharToPiece(char.ToUpper(move.Promotion.Value), move.Player);
             }
-            var posDelta = new PositionDistance(origin, destination);
+            PositionDistance posDelta = new PositionDistance(origin, destination);
             if ((posDelta.DistanceX != 0 || posDelta.DistanceY != 1) && (posDelta.DistanceX != 1 || posDelta.DistanceY != 1)
                         && (posDelta.DistanceX != 0 || posDelta.DistanceY != 2))
+            {
                 return false;
+            }
+
             if (Owner == Player.White)
             {
                 if (origin.Rank > destination.Rank)
+                {
                     return false;
+                }
+
                 if (destination.Rank == 8)
                 {
                     if (promotion == null)
+                    {
                         return false;
+                    }
+
                     if (promotion.Owner != Player.White)
+                    {
                         return false;
+                    }
+
                     if (!ValidPromotionPieces.Contains(promotion.GetFenCharacter()))
+                    {
                         return false;
+                    }
                 }
             }
             if (Owner == Player.Black)
             {
                 if (origin.Rank < destination.Rank)
+                {
                     return false;
+                }
+
                 if (destination.Rank == 1)
                 {
                     if (promotion == null)
+                    {
                         return false;
+                    }
+
                     if (promotion.Owner != Player.Black)
+                    {
                         return false;
+                    }
+
                     if (!ValidPromotionPieces.Contains(promotion.GetFenCharacter()))
+                    {
                         return false;
+                    }
                 }
             }
             bool checkEnPassant = false;
@@ -98,24 +117,38 @@ namespace ChessDotNet.Pieces
             {
                 if ((origin.Rank != 2 && Owner == Player.White)
                     || (origin.Rank != 7 && Owner == Player.Black))
+                {
                     return false;
+                }
+
                 if (origin.Rank == 2 && game.GetPieceAt(origin.File, 3) != null)
+                {
                     return false;
+                }
+
                 if (origin.Rank == 7 && game.GetPieceAt(origin.File, 6) != null)
+                {
                     return false;
+                }
             }
             Piece pieceAtDestination = game.GetPieceAt(destination);
             if (posDelta.DistanceX == 0 && (posDelta.DistanceY == 1 || posDelta.DistanceY == 2))
             {
                 if (pieceAtDestination != null)
+                {
                     return false;
+                }
             }
             else
             {
                 if (pieceAtDestination == null)
+                {
                     checkEnPassant = true;
+                }
                 else if (pieceAtDestination.Owner == Owner)
+                {
                     return false;
+                }
             }
             if (checkEnPassant)
             {
@@ -126,28 +159,49 @@ namespace ChessDotNet.Pieces
                 }
                 if ((origin.Rank != 5 && Owner == Player.White)
                     || (origin.Rank != 4 && Owner == Player.Black))
+                {
                     return false;
+                }
+
                 Move latestMove = _moves[_moves.Count - 1];
                 if (latestMove.NewPosition == null)
+                {
                     return false;
+                }
+
                 if (latestMove.Player != ChessUtilities.GetOpponentOf(Owner))
+                {
                     return false;
+                }
+
                 if (!(game.GetPieceAt(latestMove.NewPosition) is Pawn))
+                {
                     return false;
+                }
+
                 if (game.GetPieceAt(latestMove.NewPosition).Owner == Owner)
+                {
                     return false;
+                }
+
                 if (Owner == Player.White)
                 {
                     if (latestMove.OriginalPosition.Rank != 7 || latestMove.NewPosition.Rank != 5)
+                    {
                         return false;
+                    }
                 }
                 else // (m.Player == Players.Black)
                 {
                     if (latestMove.OriginalPosition.Rank != 2 || latestMove.NewPosition.Rank != 4)
+                    {
                         return false;
+                    }
                 }
                 if (destination.File != latestMove.NewPosition.File)
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -155,7 +209,7 @@ namespace ChessDotNet.Pieces
         public override ReadOnlyCollection<Move> GetValidMoves(Position from, bool returnIfAny, ChessGame game, Func<Move, bool> gameMoveValidator)
         {
             ChessUtilities.ThrowIfNull(from, nameof(from));
-            var validMoves = new List<Move>();
+            List<Move> validMoves = new List<Move>();
             Piece piece = game.GetPieceAt(from);
             int l0 = game.BoardHeight;
             int l1 = game.BoardWidth;
@@ -172,9 +226,12 @@ namespace ChessDotNet.Pieces
             {
                 if ((int)from.File + dir[0] < 0 || (int)from.File + dir[0] >= l1
                     || from.Rank + dir[1] < 1 || from.Rank + dir[1] > l0)
+                {
                     continue;
-                var move = new Move(from, new Position(from.File + dir[0], from.Rank + dir[1]), piece.Owner);
-                var moves = new List<Move>();
+                }
+
+                Move move = new Move(from, new Position(from.File + dir[0], from.Rank + dir[1]), piece.Owner);
+                List<Move> moves = new List<Move>();
                 if ((move.NewPosition.Rank == 8 && move.Player == Player.White) || (move.NewPosition.Rank == 1 && move.Player == Player.Black))
                 {
                     foreach (char pieceChar in ValidPromotionPieces.Where(x => char.IsUpper(x)))
@@ -192,7 +249,9 @@ namespace ChessDotNet.Pieces
                     {
                         validMoves.Add(m);
                         if (returnIfAny)
+                        {
                             return new ReadOnlyCollection<Move>(validMoves);
+                        }
                     }
                 }
             }

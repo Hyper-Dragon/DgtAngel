@@ -18,32 +18,20 @@ namespace ChessDotNet
 
     public class Position
     {
-        File _file;
+        private File _file;
         public File File
         {
-            get
-            {
-                return _file;
-            }
-            set
-            {
-                _file = value;
-            }
+            get => _file;
+            set => _file = value;
         }
 
-        int _rank;
+        private int _rank;
         public int Rank
         {
-            get
-            {
-                return _rank;
-            }
-            set
-            {
-                _rank = value;
-            }
+            get => _rank;
+            set => _rank = value;
         }
-        public Position() {}
+        public Position() { }
 
         public Position(File file, int rank)
         {
@@ -111,9 +99,15 @@ namespace ChessDotNet
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))
+            {
                 return true;
+            }
+
             if (obj == null || GetType() != obj.GetType())
+            {
                 return false;
+            }
+
             Position pos2 = (Position)obj;
             return File == pos2.File && Rank == pos2.Rank;
         }
@@ -126,18 +120,30 @@ namespace ChessDotNet
         public static bool operator ==(Position position1, Position position2)
         {
             if (ReferenceEquals(position1, position2))
+            {
                 return true;
+            }
+
             if ((object)position1 == null || (object)position2 == null)
+            {
                 return false;
+            }
+
             return position1.Equals(position2);
         }
 
         public static bool operator !=(Position position1, Position position2)
         {
             if (ReferenceEquals(position1, position2))
+            {
                 return false;
+            }
+
             if ((object)position1 == null || (object)position2 == null)
+            {
                 return true;
+            }
+
             return !position1.Equals(position2);
         }
 
