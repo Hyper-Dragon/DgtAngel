@@ -1,10 +1,6 @@
-﻿using ChessDotNet.Pieces;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace DgtAngel.Services
 {
@@ -12,7 +8,7 @@ namespace DgtAngel.Services
     {
         string FormatClockStringToDGT(string cdcClockString);
         string ConvertPlayBoardFenToHtml(string htmlIn);
-        (string fen, string whiteClock, string blackClock, string toPlay) ConvertLiveBoardHtmlToFen(string htmlIn);
+        (string fen, string whiteClock, string blackClock, string toPlay, string isWhiteBottom) ConvertLiveBoardHtmlToFen(string htmlIn);
     }
 
     public class ChessDotComHelperService : IChessDotComHelperService
@@ -35,7 +31,7 @@ namespace DgtAngel.Services
         }
 
         // 2:58|2:57|br88,bn78,bb68,bk58,bq48,bb38,bn36,br18,bp87,bp77,bp67,bp57,bp47,bp35,bp27,bp17,wp82,wp72,wp62,wp54,wp42,wp32,wp22,wp12,wr81,wn63,wb61,wk51,wq41,wb31,wn21,wr11
-        public (string fen, string whiteClock, string blackClock, string toPlay) ConvertLiveBoardHtmlToFen(string htmlIn)
+        public (string fen, string whiteClock, string blackClock, string toPlay, string isWhiteBottom) ConvertLiveBoardHtmlToFen(string htmlIn)
         {
             _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Parsing {htmlIn}");
 
@@ -66,7 +62,7 @@ namespace DgtAngel.Services
             {
                 WhoseTurn = ChessDotNet.Player.White,
                 Board = board,
-            }).GetFen().Split(" ")[0], gameString[1], gameString[2], gameString[0]);
+            }).GetFen().Split(" ")[0], gameString[1], gameString[2], gameString[0], gameString[4]);
         }
 
 

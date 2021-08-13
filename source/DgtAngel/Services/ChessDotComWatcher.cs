@@ -11,6 +11,7 @@ namespace DgtAngel.Services
         public string ToMove { get; set; }
         public string WhiteClock { get; set; }
         public string BlackClock { get; set; }
+        public string IsWhiteBottom { get; set; }
     }
 
     public interface IChessDotComWatcher
@@ -67,7 +68,7 @@ namespace DgtAngel.Services
                     while (!string.IsNullOrWhiteSpace(chessDotComBoardString) && chessDotComBoardString != "UNDEFINED")
                     {
                         _logger?.LogDebug($"We probably have a valid board string so lets parse it...");
-                        (string newFenString, string whiteClock, string blackClock, string toPlayString) = _chessDotComHelpers.ConvertLiveBoardHtmlToFen(chessDotComBoardString);
+                        (string newFenString, string whiteClock, string blackClock, string toPlayString, string isWhiteBottom) = _chessDotComHelpers.ConvertLiveBoardHtmlToFen(chessDotComBoardString);
 
                         _logger?.LogDebug($"...and the result is {newFenString} {whiteClock} {blackClock} {toPlayString}");
 
@@ -92,14 +93,14 @@ namespace DgtAngel.Services
                             _logger?.LogDebug($"This FEN and the Last FEN Match so raise the duplicateFen event.");
                             _logger?.LogDebug($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
 
-                            OnDuplicateFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString });
+                            OnDuplicateFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString, IsWhiteBottom = isWhiteBottom });
                         }
                         else
                         {
                             _logger?.LogInformation($"The FEN has changed from [{lastChessDotComFenString}] to [{newFenString}]");
                             _logger?.LogInformation($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
 
-                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString });
+                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString, IsWhiteBottom = isWhiteBottom });
                         }
                        
                         lastChessDotComFenString = newFenString;

@@ -13,6 +13,7 @@ function piecesFromLiveBoardDOM() {
 
     whiteClock = document.getElementsByClassName("clock-white")[0];
     blackClock = document.getElementsByClassName("clock-black")[0];
+    isWhiteBottom = Array.from(document.getElementById('main-clock-top').parentElement.classList).includes('clock-black');
     turn = "NONE";
 
     if (whiteClock.outerHTML.includes("clock-playerTurn")) {
@@ -22,7 +23,7 @@ function piecesFromLiveBoardDOM() {
         turn = "BLACK";
     }
 
-    retVal = turn + '|' + whiteClock.innerText + '|' + blackClock.innerText + '|' + piecesStringOut + '|FALSE';
+    retVal = turn + '|' + whiteClock.innerText + '|' + blackClock.innerText + '|' + piecesStringOut + '|' + isWhiteBottom;
 
     //console.log('Returning: ' + retVal);
 

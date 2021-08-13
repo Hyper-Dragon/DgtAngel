@@ -47,13 +47,13 @@
         }
     }
 
-    protected async Task SendUpdatedFenToCherubClient(string fen, bool isForLocalBoard)
+    protected async Task SendUpdatedFenToCherubClient(string fen, bool isForLocalBoard, string isWhiteBottom)
     {
         Logging.LogInformation($"Sending FEN {fen} to Cherub");
 
         try
         {
-            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}/?fen={HttpUtility.UrlEncode(fen)}") });
+            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}?isWhiteBottom={isWhiteBottom}&fen={HttpUtility.UrlEncode(fen)}") });
         }
         catch (Exception ex)
         {
@@ -130,7 +130,7 @@
                                 };
 
                                 await SendUpdatedClockToCherubClient(eventArgs.WhiteClock, eventArgs.BlackClock, toMoveInt);
-                                await SendUpdatedFenToCherubClient($"{eventArgs.FenString}", false);
+                                await SendUpdatedFenToCherubClient($"{eventArgs.FenString}", false, eventArgs.IsWhiteBottom);
                             };
 
         //Run the Chess.Com Watcher

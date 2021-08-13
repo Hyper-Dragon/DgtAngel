@@ -60,7 +60,7 @@ namespace ChessDotNet
         public File InitialWhiteKingFile { get; protected set; }
         public File InitialBlackKingFile { get; protected set; }
 
-        private Dictionary<char, Piece> fenMappings = new Dictionary<char, Piece>()
+        private Dictionary<char, Piece> fenMappings = new()
         {
             { 'K', new King(Player.White) },
             { 'k', new King(Player.Black) },
@@ -176,7 +176,7 @@ namespace ChessDotNet
             return CloneBoard(Board);
         }
 
-        List<DetailedMove> _moves = new List<DetailedMove>();
+        List<DetailedMove> _moves = new();
         public ReadOnlyCollection<DetailedMove> Moves
         {
             get

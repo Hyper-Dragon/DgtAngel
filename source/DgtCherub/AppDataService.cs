@@ -7,6 +7,7 @@ namespace DgtCherub
 {
     public interface IAppDataService
     {
+        bool IsWhiteOnBottom { get; set; }
         string BlackClock { get; }
         string ChessDotComBoardFEN { get; set; }
         bool EchoExternalMessagesToConsole { get; set; }
@@ -42,7 +43,7 @@ namespace DgtCherub
         private string _chessDotComBlackClock = "00:00";
         private string _chessDotComRunWhoString = "0";
 
-
+        public bool IsWhiteOnBottom { get; set; } = true;
         public bool EchoExternalMessagesToConsole { get; set; } = true;
         public string LocalBoardFEN { get { return _localBoardFEN; } 
                                       set { if (string.IsNullOrEmpty(_localBoardFEN) || _localBoardFEN != value) { _localBoardFEN = value; OnLocalFenChange?.Invoke(); } } }

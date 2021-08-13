@@ -74,7 +74,7 @@ namespace DgtCherub
 
         [HttpGet]
         [Route("{action}/{source}")]
-        public object SetChessDotComFenString(string source = "Unknown", string fen = "8/8/8/8/8/8/8/8")
+        public object SetChessDotComFenString(string source = "Unknown", string fen = "8/8/8/8/8/8/8/8", string isWhiteBottom = "true")
         {
             // curl -G 'http://localhost:37964/api/DgtBoard/SetChessDotComFenString/CLI/' --data-urlencode 'fen=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
 
@@ -90,8 +90,9 @@ namespace DgtCherub
             }
             else
             {
+                _appDataService.IsWhiteOnBottom = bool.Parse(isWhiteBottom);
                 _appDataService.ChessDotComBoardFEN = fen;
-                _appDataService.UserMessageArrived(source, $"Chess.com board FEN is {fen}");
+                _appDataService.UserMessageArrived(source, $"Chess.com board FEN is {fen}.");
             }
 
             return new { isSuccess = true };
