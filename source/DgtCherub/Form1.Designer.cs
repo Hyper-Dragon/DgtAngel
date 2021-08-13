@@ -193,7 +193,7 @@ namespace DgtCherub
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel1.Location = new System.Drawing.Point(0, 24);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(719, 365);
+            this.Panel1.Size = new System.Drawing.Size(716, 365);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -418,7 +418,8 @@ namespace DgtCherub
             this.TextBoxConsole.Multiline = true;
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
-            this.TextBoxConsole.Size = new System.Drawing.Size(525, 365);
+            this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TextBoxConsole.Size = new System.Drawing.Size(519, 365);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -426,7 +427,7 @@ namespace DgtCherub
             // ToolStripStatusLabelLastUpdate
             // 
             this.ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            this.ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(654, 17);
+            this.ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(651, 17);
             this.ToolStripStatusLabelLastUpdate.Spring = true;
             this.ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             this.ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -439,7 +440,7 @@ namespace DgtCherub
             this.ToolStripStatusLabelVersion});
             this.StatusStrip.Location = new System.Drawing.Point(0, 389);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(719, 22);
+            this.StatusStrip.Size = new System.Drawing.Size(716, 22);
             this.StatusStrip.TabIndex = 1;
             this.StatusStrip.Text = "statusStrip1";
             // 
@@ -459,7 +460,7 @@ namespace DgtCherub
             this.linksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(719, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(716, 24);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -618,7 +619,7 @@ namespace DgtCherub
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(719, 411);
+            this.ClientSize = new System.Drawing.Size(716, 411);
             this.Controls.Add(this.Panel1);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.MenuStrip);
