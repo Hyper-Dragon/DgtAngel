@@ -45,8 +45,10 @@ namespace DgtCherub
         }
 
 
-#pragma warning disable CA1822  // DO NOT Mark members as static OR  Remove unused parameter
+#pragma warning disable CA1822  // This method gets called by the runtime. Use this method to add services to the container
+#pragma warning disable IDE0060 // DO NOT Mark members as static OR Remove unused parameter
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+#pragma warning restore IDE0060 
 #pragma warning restore CA1822 
         {
             app.UseDeveloperExceptionPage()

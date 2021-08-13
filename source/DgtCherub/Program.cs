@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -35,58 +36,59 @@ namespace DgtCherub
         [STAThread]
         private static void Main()
         {
-            //TODO: Checks for chrome and livechess and rabbit install
-            if (Process.GetProcesses().Any(name => name.ProcessName.ToLowerInvariant().Contains("rabbitconnect")))
+            const string APP_GUID = "9fba0717-36d6-470b-a7c7-5e7b2491b91d"; //This is not a secret...Just used for the mutex
+            const int CHERUB_API_LISTEN_PORT = 37964;
+
+            // Make sure we only have one instance running...
+            using Mutex mutex = new(false, "Global\\" + APP_GUID);
+            if (!mutex.WaitOne(0, false))
             {
-                ShowCantStartDialog("The DGT RabbitConnect software is already running.  Please close it and retry.");
+                ShowCantStartDialog("DGT Cherub is already running on this machine, you must close it first.");
+                mutex.Close();
+            }
+            //...and that we can listen on the correct socket
+            else if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == CHERUB_API_LISTEN_PORT) )
+            {
+                ShowCantStartDialog($"Another service is listening on port {CHERUB_API_LISTEN_PORT}.  Please stop it and retry.");
             }
             else
             {
-                // Make sure we only have one instance running...
-                Mutex mutex = new(true, @"Local\DgtCherub.exe", out bool isMutexCreated);
+                // ...and if there is only one instance continue as normal
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-                if (isMutexCreated)
+                // All unhandled exceptions are forced to the custom handler
+                Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+
+                // Add an event handler for handling non-UI thread exceptions to the event.
+                AppDomain.CurrentDomain.UnhandledException += (sender, exception) =>
                 {
-                    // ...and if there is only one instance continue as normal
-                    Application.SetHighDpiMode(HighDpiMode.SystemAware);
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
+                    ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.ExceptionObject}");
+                    Environment.Exit(0); // Fatal error - using Env vs Application to quit immediately
+                };
 
-                    // All unhandled exceptions are forced to the custom handler
-                    Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-
-                    // Add the event handler for handling non-UI thread exceptions to the event.
-                    AppDomain.CurrentDomain.UnhandledException += (sender, exception) =>
-                    {
-                        ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.ExceptionObject?.ToString()}");
-                        Application.Exit();
-                    };
-
-                    // Add the event handler for handling UI thread exceptions to the event.
-                    Application.ThreadException += (sender, exception) =>
-                    {
-                        ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.Exception.Message}{Environment.NewLine}{exception.Exception.StackTrace}");
-                        Application.Exit();
-                    };
-
-                    IHost host = Host.CreateDefaultBuilder(Array.Empty<string>())
-                       .ConfigureWebHostDefaults(webBuilder =>
-                       {
-                           webBuilder.UseStartup<Startup>()
-                                     .UseUrls("http://localhost:37964");
-                       }).Build();
-
-
-                    //Start everything
-                    _ = host.RunAsync();
-                    Application.Run(host.Services.GetRequiredService<Form1>());
-                }
-                else
+                // Add an event handler for handling UI thread exceptions to the event.
+                Application.ThreadException += (sender, exception) =>
                 {
-                    ShowCantStartDialog("DGT Cherub is already running on this machine, you must close it first.");
-                    mutex.Close();
-                }
+                    ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.Exception.Message}{Environment.NewLine}{exception.Exception.StackTrace}");
+                    Environment.Exit(0); // Fatal error - using Env vs Application to quit immediately
+                };
+
+                //Set up DI
+                IHost host = Host.CreateDefaultBuilder(Array.Empty<string>())
+                   .ConfigureWebHostDefaults(webBuilder =>
+                   {
+                       webBuilder.UseStartup<Startup>()
+                                 .UseUrls($"http://localhost:{CHERUB_API_LISTEN_PORT}");
+                   }).Build();
+
+
+                //Start everything
+                _ = host.RunAsync();
+                Application.Run(host.Services.GetRequiredService<Form1>());
             }
         }
     }
 }
+
