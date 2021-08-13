@@ -5,6 +5,7 @@ namespace DgtCherub
     public interface IAppDataService
     {
         bool IsWhiteOnBottom { get; set; }
+        bool IsMismatchDetected { get; set; }
         string BlackClock { get; }
         string ChessDotComBoardFEN { get; set; }
         bool EchoExternalMessagesToConsole { get; set; }
@@ -41,6 +42,7 @@ namespace DgtCherub
         private string _chessDotComRunWhoString = "0";
 
         public bool IsWhiteOnBottom { get; set; } = true;
+        public bool IsMismatchDetected { get; set; } = false;
         public bool EchoExternalMessagesToConsole { get; set; } = true;
         public string LocalBoardFEN
         {
@@ -68,6 +70,7 @@ namespace DgtCherub
         public void ResetChessDotComLocalBoardState()
         {
             _localBoardFEN = "";
+            IsMismatchDetected = false;
         }
 
         public void ResetChessDotComRemoteBoardState()
@@ -77,6 +80,7 @@ namespace DgtCherub
             _chessDotComBlackClock = "00:00";
             _chessDotComRunWhoString = "0";
             OnChessDotComDisconnect?.Invoke();
+            IsMismatchDetected = false;
         }
 
         public void SetClocks(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString)

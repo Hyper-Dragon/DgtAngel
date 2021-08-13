@@ -62,20 +62,14 @@ namespace DgtCherub
         private Image PictureBoxRemoteInitialImage;
 
         //TODO: Finish the testers tab
-        //TODO: option to kill voice
-
-        //TODO: Mismatch to clock
-        //TODO:check if live chess is running
+        //TODO: Mismatch to clock -
+        //hours not done in time????
         //TODO:check if rabbit connected
         //TODO:mutex not really working only on second try!
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-
-
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
-
-        //TODO:Angel sending lots of duplicate boards
-        //TODO:Logging
-        //TODO: stop saying disconnected from the live chess
+        //TODO:Remove Chessdotnet
+        //TODO:Own board maker
 
         public Form1(ILogger<Form1> logger,
                      SoundPlayer soundPlayer,
@@ -196,7 +190,28 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
 
-                    //TODO: Add mismatch speech
+                    //TODO: Add mismatch speech - clocks must be running
+                    if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
+                    {
+                        _dgtEbDllFacade.DisplayForeverMessage("SYNC ERR");
+                        
+                        if (!_appDataService.IsMismatchDetected)
+                        {
+                            Speak(AudioClip.MISMATCH);
+                            _appDataService.IsMismatchDetected = true;
+                        }
+                    }
+                    else
+                    {
+                        if (_appDataService.IsMismatchDetected)
+                        {
+                            _dgtEbDllFacade.StopForeverMessage();
+                            _dgtEbDllFacade.DisplayMessage(" MATCH ", 2000);
+                            _appDataService.IsMismatchDetected = false;                           
+                            Speak(AudioClip.MATCH);
+                        }
+                    }
+
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });
@@ -220,7 +235,28 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
 
-                    //TODO: Add mismatch speech
+                    //TODO: Add mismatch speech - clocks must be running
+                    if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
+                    {
+                        _dgtEbDllFacade.DisplayForeverMessage("SYNC ERR");                       
+
+                        if (!_appDataService.IsMismatchDetected)
+                        {
+                            Speak(AudioClip.MISMATCH);
+                            _appDataService.IsMismatchDetected = true;
+                        }
+                    }
+                    else
+                    {
+                        if (_appDataService.IsMismatchDetected)
+                        {
+                            _dgtEbDllFacade.StopForeverMessage();
+                            _dgtEbDllFacade.DisplayMessage(" MATCH ", 2000);
+                            _appDataService.IsMismatchDetected = false;
+                            Speak(AudioClip.MATCH);
+                        }
+                    }
+
                     LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                     LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
                 });

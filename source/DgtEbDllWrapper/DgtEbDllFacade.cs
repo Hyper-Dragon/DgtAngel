@@ -45,6 +45,16 @@ namespace DgtEbDllWrapper
             DgtEbDllAdapter.EndDisplay();
         }
 
+        public void DisplayForeverMessage(string message)
+        {
+            DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
+        }
+
+        public void StopForeverMessage()
+        {
+            DgtEbDllAdapter.EndDisplay();
+        }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DisplayMessageSeries(params string[] messages)
         {
