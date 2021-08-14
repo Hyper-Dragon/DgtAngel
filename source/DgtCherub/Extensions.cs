@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace DgtCherub
@@ -41,6 +43,11 @@ namespace DgtCherub
             return false;
         }
 
+        public static void AddChar(this TextBox box, char character, bool timeStamp = true)
+        {
+            box.Text += character;
+        }
+
         public static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)
         {
             foreach (string line in text)
@@ -71,4 +78,31 @@ namespace DgtCherub
             }
         }
     }
+
+
+    public class ControlWriter : TextWriter
+    {
+        private readonly TextBox textbox;
+        public ControlWriter(TextBox textbox)
+        {
+            this.textbox = textbox;
+        }
+
+        public override void Write(char value)
+        {
+            textbox.AddChar(value);
+        }
+
+        public override void Write(string value)
+        {
+            textbox.AddLine(value);
+        }
+
+        public override Encoding Encoding
+        {
+            get { return Encoding.ASCII; }
+        }
+    }
+
+
 }

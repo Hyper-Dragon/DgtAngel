@@ -332,6 +332,7 @@ namespace DgtCherub
             };
 
             //All the Events are set up so we can start watching the local board
+            Console.SetOut(new ControlWriter(TextBoxConsole));
             _dgtLiveChess.PollDgtBoard();
         }
 
