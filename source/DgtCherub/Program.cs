@@ -80,7 +80,7 @@ namespace DgtCherub
                    .ConfigureWebHostDefaults(webBuilder =>
                    {
                        webBuilder.UseStartup<Startup>()
-                                 .UseUrls($"http://localhost:{CHERUB_API_LISTEN_PORT}");
+                                 .UseUrls($"http://0.0.0.0:{CHERUB_API_LISTEN_PORT}");
                    }).Build();
 
 

@@ -10,7 +10,7 @@ namespace DgtCherub
 {
     public static class ControlHelper
     {
-        public static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null)
+        public static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null, bool useShellExecute=true)
         {
             try
             {
@@ -20,9 +20,12 @@ namespace DgtCherub
                 {
                     StartInfo = new()
                     {
-                        UseShellExecute = true,
+                        UseShellExecute = useShellExecute,
                         FileName = filename,
-                        Arguments = arguments
+                        Arguments = arguments,
+                        CreateNoWindow = true,
+                        RedirectStandardError = !useShellExecute,
+                        RedirectStandardOutput = !useShellExecute,
                     }
                 }).Start();
 

@@ -12,6 +12,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+//TODO: Add Firewall Config
+/*
+netsh advfirewall firewall add rule name="Dgt Angel ALLOW Tcp Port 37964" dir=in action=allow protocol=TCP localport=37964
+netsh advfirewall firewall show rule name="Dgt Angel ALLOW Tcp Port 37964"
+netsh advfirewall firewall delete rule name="Dgt Angel ALLOW Tcp Port 37964"
+ */
+
 namespace DgtCherub
 {
     public partial class Form1 : Form
@@ -333,6 +341,7 @@ namespace DgtCherub
 
             //All the Events are set up so we can start watching the local board
             Console.SetOut(new ControlWriter(TextBoxConsole));
+            Console.SetError(new ControlWriter(TextBoxConsole));
             _dgtLiveChess.PollDgtBoard();
         }
 
@@ -483,6 +492,7 @@ namespace DgtCherub
                                                    TEXTBOX_MAX_LINES);
         }
 
+        //TODO: Create 'Play' Menu - leave this on tasks
         private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -491,7 +501,8 @@ namespace DgtCherub
                                                       "/IM \"DGT LiveChess.exe\" /F",
                                                       $"Trying to kill 'DGT LiveChess.exe'....",
                                                       $"...done. 'DGT LiveChess.exe' is no longer running",
-                                                      TEXTBOX_MAX_LINES);
+                                                      TEXTBOX_MAX_LINES,
+                                                      useShellExecute:false);
             }
         }
 
