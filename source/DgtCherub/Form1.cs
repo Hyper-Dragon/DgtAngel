@@ -352,6 +352,8 @@ namespace DgtCherub
         {
             SuspendLayout();
 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+
             //Set Appsettings from the designer values...
             _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
             _appDataService.PlayAudio = CheckBoxPlayAudio.Checked;

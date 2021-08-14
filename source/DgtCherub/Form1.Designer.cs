@@ -96,16 +96,18 @@ namespace DgtCherub
             this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg2);
             this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg1);
             this.GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.GroupBoxClockTest.Location = new System.Drawing.Point(10, 57);
             this.GroupBoxClockTest.Name = "GroupBoxClockTest";
             this.GroupBoxClockTest.Size = new System.Drawing.Size(135, 103);
             this.GroupBoxClockTest.TabIndex = 0;
             this.GroupBoxClockTest.TabStop = false;
-            this.GroupBoxClockTest.Text = "Clock Test Messages";
+            this.GroupBoxClockTest.Text = "Clock Test";
             // 
             // ButtonSendTestMsg2
             // 
             this.ButtonSendTestMsg2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSendTestMsg2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ButtonSendTestMsg2.Location = new System.Drawing.Point(7, 65);
             this.ButtonSendTestMsg2.Name = "ButtonSendTestMsg2";
             this.ButtonSendTestMsg2.Size = new System.Drawing.Size(123, 32);
@@ -117,6 +119,7 @@ namespace DgtCherub
             // ButtonSendTestMsg1
             // 
             this.ButtonSendTestMsg1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSendTestMsg1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.ButtonSendTestMsg1.Location = new System.Drawing.Point(6, 26);
             this.ButtonSendTestMsg1.Name = "ButtonSendTestMsg1";
             this.ButtonSendTestMsg1.Size = new System.Drawing.Size(124, 33);
@@ -133,7 +136,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 357);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 356);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -169,7 +172,7 @@ namespace DgtCherub
             this.TabPageTest.Location = new System.Drawing.Point(29, 4);
             this.TabPageTest.Name = "TabPageTest";
             this.TabPageTest.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageTest.Size = new System.Drawing.Size(159, 357);
+            this.TabPageTest.Size = new System.Drawing.Size(159, 356);
             this.TabPageTest.TabIndex = 3;
             this.TabPageTest.Text = "Testers";
             this.TabPageTest.UseVisualStyleBackColor = true;
@@ -191,9 +194,9 @@ namespace DgtCherub
             this.Panel1.Controls.Add(this.TabControlSidePanel);
             this.Panel1.Controls.Add(this.TextBoxConsole);
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1.Location = new System.Drawing.Point(0, 24);
+            this.Panel1.Location = new System.Drawing.Point(0, 25);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(716, 365);
+            this.Panel1.Size = new System.Drawing.Size(716, 364);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -205,14 +208,14 @@ namespace DgtCherub
             this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
             this.TabControlSidePanel.Controls.Add(this.TabPageTest);
             this.TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TabControlSidePanel.HotTrack = true;
             this.TabControlSidePanel.ItemSize = new System.Drawing.Size(82, 25);
             this.TabControlSidePanel.Location = new System.Drawing.Point(0, 0);
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 365);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 364);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -227,7 +230,7 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 357);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 356);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -237,6 +240,7 @@ namespace DgtCherub
             this.CheckBoxPlayAudio.Checked = true;
             this.CheckBoxPlayAudio.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxPlayAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxPlayAudio.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxPlayAudio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.CheckBoxPlayAudio.Location = new System.Drawing.Point(25, 112);
             this.CheckBoxPlayAudio.Name = "CheckBoxPlayAudio";
@@ -263,6 +267,7 @@ namespace DgtCherub
             this.CheckBoxShowInbound.Checked = true;
             this.CheckBoxShowInbound.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxShowInbound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxShowInbound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxShowInbound.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.CheckBoxShowInbound.Location = new System.Drawing.Point(25, 81);
             this.CheckBoxShowInbound.Name = "CheckBoxShowInbound";
@@ -288,6 +293,7 @@ namespace DgtCherub
             this.CheckBoxOnTop.Checked = true;
             this.CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxOnTop.Location = new System.Drawing.Point(25, 50);
             this.CheckBoxOnTop.Name = "CheckBoxOnTop";
             this.CheckBoxOnTop.Size = new System.Drawing.Size(102, 25);
@@ -308,7 +314,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 357);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 356);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -320,6 +326,7 @@ namespace DgtCherub
             this.CheckBoxShowConsole.Checked = true;
             this.CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxShowConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxShowConsole.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxShowConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.CheckBoxShowConsole.Location = new System.Drawing.Point(28, 328);
             this.CheckBoxShowConsole.Name = "CheckBoxShowConsole";
@@ -332,7 +339,7 @@ namespace DgtCherub
             // LabelWhiteClock
             // 
             this.LabelWhiteClock.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.LabelWhiteClock.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.LabelWhiteClock.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Pixel);
             this.LabelWhiteClock.ForeColor = System.Drawing.Color.Black;
             this.LabelWhiteClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.LabelWhiteClock.Location = new System.Drawing.Point(78, 2);
@@ -345,7 +352,7 @@ namespace DgtCherub
             // LabelBlackClock
             // 
             this.LabelBlackClock.BackColor = System.Drawing.Color.Black;
-            this.LabelBlackClock.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+            this.LabelBlackClock.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Pixel);
             this.LabelBlackClock.ForeColor = System.Drawing.Color.White;
             this.LabelBlackClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.LabelBlackClock.Location = new System.Drawing.Point(79, 164);
@@ -359,7 +366,7 @@ namespace DgtCherub
             // 
             this.LabelRemoteBoard.BackColor = System.Drawing.Color.Silver;
             this.LabelRemoteBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LabelRemoteBoard.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.LabelRemoteBoard.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.LabelRemoteBoard.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.LabelRemoteBoard.Location = new System.Drawing.Point(9, 164);
             this.LabelRemoteBoard.Name = "LabelRemoteBoard";
@@ -371,7 +378,7 @@ namespace DgtCherub
             // 
             this.LabelLocalDgt.BackColor = System.Drawing.Color.Silver;
             this.LabelLocalDgt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LabelLocalDgt.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.LabelLocalDgt.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.LabelLocalDgt.Location = new System.Drawing.Point(9, 2);
             this.LabelLocalDgt.Name = "LabelLocalDgt";
             this.LabelLocalDgt.Size = new System.Drawing.Size(65, 16);
@@ -412,14 +419,14 @@ namespace DgtCherub
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextBoxConsole.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TextBoxConsole.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TextBoxConsole.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(255)))), ((int)(((byte)(102)))));
             this.TextBoxConsole.Location = new System.Drawing.Point(194, 0);
             this.TextBoxConsole.Multiline = true;
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(519, 365);
+            this.TextBoxConsole.Size = new System.Drawing.Size(519, 364);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -460,7 +467,7 @@ namespace DgtCherub
             this.linksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(716, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(716, 25);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -473,28 +480,29 @@ namespace DgtCherub
             this.PlayWindowlessMenuItem,
             this.toolStripSeparator1,
             this.ExitToolStripMenuItem});
+            this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(51, 21);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
             // 
             this.KillLiveChessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("KillLiveChessMenuItem.Image")));
             this.KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
-            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(267, 22);
             this.KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
             this.KillLiveChessMenuItem.Click += new System.EventHandler(this.KillLiveChessMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(247, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(264, 6);
             // 
             // PlayChessToolStripMenuItem
             // 
             this.PlayChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayChessToolStripMenuItem.Image")));
             this.PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
-            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
             this.PlayChessToolStripMenuItem.Click += new System.EventHandler(this.PlayChessToolStripMenuItem_Click);
             // 
@@ -502,20 +510,20 @@ namespace DgtCherub
             // 
             this.PlayWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayWindowlessMenuItem.Image")));
             this.PlayWindowlessMenuItem.Name = "PlayWindowlessMenuItem";
-            this.PlayWindowlessMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.PlayWindowlessMenuItem.Size = new System.Drawing.Size(267, 22);
             this.PlayWindowlessMenuItem.Text = "Play on Chess.Com (Windowless)";
             this.PlayWindowlessMenuItem.Click += new System.EventHandler(this.PlayWindowlessMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(247, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(264, 6);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ExitToolStripMenuItem.Image")));
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -525,8 +533,9 @@ namespace DgtCherub
             this.DownloadsToolStripMenuItem,
             this.DGTAngelToolStripMenuItem,
             this.ChesscomDgtForumsMenuItem});
+            this.linksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.linksToolStripMenuItem.Name = "linksToolStripMenuItem";
-            this.linksToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.linksToolStripMenuItem.Size = new System.Drawing.Size(48, 21);
             this.linksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -538,14 +547,14 @@ namespace DgtCherub
             this.DgtDriversRabbitPluginMenuItem});
             this.DownloadsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DownloadsToolStripMenuItem.Image")));
             this.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
-            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.DownloadsToolStripMenuItem.Text = "Downloads";
             // 
             // DgtAngelChromeExtensionMenuItem
             // 
             this.DgtAngelChromeExtensionMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelChromeExtensionMenuItem.Image")));
             this.DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
-            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(282, 22);
             this.DgtAngelChromeExtensionMenuItem.Text = "DGT Angel Chrome Extension";
             this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
             // 
@@ -553,7 +562,7 @@ namespace DgtCherub
             // 
             this.CdcChromeExtensionVoiceComentaryMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CdcChromeExtensionVoiceComentaryMenuItem.Image")));
             this.CdcChromeExtensionVoiceComentaryMenuItem.Name = "CdcChromeExtensionVoiceComentaryMenuItem";
-            this.CdcChromeExtensionVoiceComentaryMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.CdcChromeExtensionVoiceComentaryMenuItem.Size = new System.Drawing.Size(282, 22);
             this.CdcChromeExtensionVoiceComentaryMenuItem.Text = "Chess.com Chrome Voice Extension";
             this.CdcChromeExtensionVoiceComentaryMenuItem.Click += new System.EventHandler(this.CdcChromeExtensionVoiceComentaryMenuItem_Click);
             // 
@@ -561,7 +570,7 @@ namespace DgtCherub
             // 
             this.DgtLiveChessSoftwareMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtLiveChessSoftwareMenuItem.Image")));
             this.DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
-            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(282, 22);
             this.DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
             this.DgtLiveChessSoftwareMenuItem.Click += new System.EventHandler(this.DgtLiveChessSoftwareMenuItem_Click);
             // 
@@ -569,7 +578,7 @@ namespace DgtCherub
             // 
             this.DgtDriversRabbitPluginMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtDriversRabbitPluginMenuItem.Image")));
             this.DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
-            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(282, 22);
             this.DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
             this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
             // 
@@ -581,14 +590,14 @@ namespace DgtCherub
             this.ReleasesMenuItem});
             this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
             this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
-            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.DGTAngelToolStripMenuItem.Text = "DGT Angel";
             // 
             // ProjectPageMenuItem
             // 
             this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
             this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.ProjectPageMenuItem.Size = new System.Drawing.Size(201, 22);
             this.ProjectPageMenuItem.Text = "Project Page (GitHub)";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
@@ -596,7 +605,7 @@ namespace DgtCherub
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
             this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(201, 22);
             this.ReportIssuesMenuItem.Text = "Report Issues";
             this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
             // 
@@ -604,7 +613,7 @@ namespace DgtCherub
             // 
             this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
             this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.ReleasesMenuItem.Size = new System.Drawing.Size(201, 22);
             this.ReleasesMenuItem.Text = "Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
             // 
@@ -612,7 +621,7 @@ namespace DgtCherub
             // 
             this.ChesscomDgtForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomDgtForumsMenuItem.Image")));
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
-            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(214, 22);
             this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Forums";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
@@ -624,6 +633,7 @@ namespace DgtCherub
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.MenuStrip);
             this.DoubleBuffered = true;
+            this.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
             this.MinimumSize = new System.Drawing.Size(420, 450);
