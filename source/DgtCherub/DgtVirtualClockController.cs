@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DgtCherub
@@ -12,13 +15,34 @@ namespace DgtCherub
     [Controller]
     public class DgtVirtualClockController : ControllerBase
     {
+        private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
+        private const string RESOURCE_CLOCK_NAME = "TestClock";
+        private const string RESOURCE_CLOCK_HTML = "Clock.html";
+        private const string RESOURCE_CLOCK_FAV  = "favicon.png";
+
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
+
+        private readonly string IndexPageHtml;
+        private readonly byte[] FavIcon;
 
         public DgtVirtualClockController(ILogger<Form1> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;
+
+            using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
+                                                             .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_NAME}.{RESOURCE_CLOCK_HTML}");
+
+            using StreamReader reader = new(indexHtmlStream);
+            IndexPageHtml = reader.ReadToEnd();
+
+            using System.IO.Stream favIconStream = Assembly.GetExecutingAssembly()
+                                                           .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_FAV}");
+
+            using var memoryStream = new MemoryStream();
+            favIconStream.CopyTo(memoryStream);
+            FavIcon = memoryStream.ToArray();
         }
 
 #pragma warning disable CA1822 // DO NOT Mark members as static - it's part of the API!
@@ -38,28 +62,32 @@ namespace DgtCherub
         [Route("{action}")]
         public ContentResult GetClock()
         {
-            string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML/DgtAngelClock.html");
+            // http://localhost:37964/DgtVirtualClock/GetClock
 
-            System.Console.WriteLine(">>>GET CLOCK");
+            //TODO: Replace with embeded resource
+            //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML/DgtAngelClock.html");
+            string htmlOut = IndexPageHtml;
 
             return new ContentResult
             {
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
                 Content = htmlOut,
-                //Content = "<html><body>Hello World<script>var source=new EventSource('/DgtVirtualClock/GetStuff')</script></body></html>"
             };
-
-
-
-            // http://localhost:37964/DgtVirtualClock/GetClock
         }
 
         [HttpGet]
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            if (!string.IsNullOrWhiteSpace(fileName) && fileName == "blah")
+            if (FavIcon != null && !string.IsNullOrWhiteSpace(fileName) && (fileName == "favicon.png"))
+            {
+                //byte[] imageData = System.IO.File.ReadAllBytes(@"C:/TESTHTML/test.jpg");
+                byte[] imageData = FavIcon;
+                string fileType = "image/png";
+                return File(imageData, fileType);
+            }
+            else if (!string.IsNullOrWhiteSpace(fileName) && (fileName == "blah" || fileName == "blah.jpg") )
             {
                 byte[] imageData = System.IO.File.ReadAllBytes(@"C:/TESTHTML/test.jpg");
                 string fileType = "image/jpeg";
@@ -71,43 +99,94 @@ namespace DgtCherub
 
 
         [HttpGet]
-        [Route("{action}")]
-        public async Task GetStuff()
+        [Route("{action}/{clientUtcMs}")]
+        public async Task GetStuff(string clientUtcMs)
         {
-            string[] data = new string[] {  "Hello World!",
-                                            "Hello Galaxy!",
-                                            "Hello Universe!"
-                                        };
-
             // http://localhost:37964/DgtVirtualClock/GetStuff
 
+            int clientServerTimeDiff = (int) (double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+
+            //TODO: Need to get the time the clocks were taken
             Response.Headers.Add("Content-Type", "text/event-stream");
 
-
-            _appDataService.OnLocalFenChange += async () =>
+            _appDataService.OnClockChange += () =>
             {
-                //Action updateAction = new(async () =>
-                //{
-                    string dataItem = $"data: {DateTime.Now.ToLongTimeString()} - {_appDataService.LocalBoardFEN}\n\n";
+                var wcs = _appDataService.WhiteClock.Split(':');
+                var bcs = _appDataService.BlackClock.Split(':');
+
+                //TODO: Knockd off a couple of seconds for now....fix properly
+                int wctime = ((((int.Parse(wcs[0]) * 60) * 60) + (int.Parse(wcs[1]) * 60) + int.Parse(wcs[2])) * 1000)-2000;
+                int bctime = ((((int.Parse(bcs[0]) * 60) * 60) + (int.Parse(bcs[1]) * 60) + int.Parse(bcs[2])) * 1000)-2000;
+
+                _appDataService.OnClockChange += async () =>
+                {
+                    string jsonString = JsonSerializer.Serialize(new
+                    {
+                        MessageType = "OnClockChange",
+                        WhiteClockMsRemaining = wctime,
+                        BlackClockMsRemaining = bctime,
+                        IsGameActive = _appDataService.RunWhoString=="3"?false:true,
+                        IsWhiteToPlay = _appDataService.RunWhoString == "1"?true:false,
+                        ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                        ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                    });
+
+                    string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
                     byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
                     await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
                     await Response.Body.FlushAsync();
-                //});
+                };
+            };
+
+            _appDataService.OnLocalFenChange += async () =>
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType="OnLocalFenChange",
+                    BoardFen = _appDataService.LocalBoardFEN,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                    await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                    await Response.Body.FlushAsync();
+            };
+
+            _appDataService.OnChessDotComFenChange += async () =>
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnRemoteFenChange",
+                    BoardFen = _appDataService.ChessDotComBoardFEN,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                await Response.Body.FlushAsync();
             };
 
             //Keep Alive
             while (true)
             {
-                for (int i = 0; i < data.Length; i++)
+                string jsonString = JsonSerializer.Serialize(new
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(120));
-                    string dataItem = $"data: {DateTime.Now.ToLongTimeString()} - {data[i]}\n\n";
-                    byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                    await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
-                    await Response.Body.FlushAsync();
-                }
+                    MessageType = "Keep-Alive",
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                await Response.Body.FlushAsync();
+
+                await Task.Delay(TimeSpan.FromSeconds(60 * 5));
             }
         }
-
     }
 }

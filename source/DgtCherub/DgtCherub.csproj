@@ -25,6 +25,8 @@
     <None Remove="Assets\Audio\Speech-en-01\DgtLcDisconnected.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Match.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Mismatch.wav" />
+    <None Remove="Assets\Clocks\favicon.png" />
+    <None Remove="Assets\Clocks\TestClock\Clock.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +39,8 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcDisconnected.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch.wav" />
+    <EmbeddedResource Include="Assets\Clocks\favicon.png" />
+    <EmbeddedResource Include="Assets\Clocks\TestClock\Clock.html" />
   </ItemGroup>
 
   <ItemGroup>
