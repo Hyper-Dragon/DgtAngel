@@ -141,8 +141,8 @@ namespace DgtCherub
                         MessageType = "OnClockChange",
                         WhiteClockMsRemaining = wctime,
                         BlackClockMsRemaining = bctime,
-                        IsGameActive = _appDataService.RunWhoString=="3"?false:true,
-                        IsWhiteToPlay = _appDataService.RunWhoString == "1"?true:false,
+                        IsGameActive = _appDataService.RunWhoString!="3",
+                        IsWhiteToPlay = _appDataService.RunWhoString == "1",
                         ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                         ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                     });
