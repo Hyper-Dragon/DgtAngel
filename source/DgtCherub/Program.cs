@@ -85,7 +85,7 @@ namespace DgtCherub
 
 
                 //Start everything
-                _ = host.RunAsync();
+                //_ = host.RunAsync();
                 Application.Run(host.Services.GetRequiredService<Form1>());
             }
         }

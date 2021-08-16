@@ -1,6 +1,7 @@
 ﻿using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
 using DynamicBoard;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Concurrent;
@@ -55,6 +56,7 @@ namespace DgtCherub
                                                  "DgtCantFindBoard.wav"
                                                 };
 
+        private readonly IHost _iHost;
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
@@ -81,7 +83,8 @@ namespace DgtCherub
         //TODO:Remove Chessdotnet
         //TODO:Own board maker
 
-        public Form1(ILogger<Form1> logger,
+        public Form1(IHost iHost,
+                     ILogger<Form1> logger,
                      SoundPlayer soundPlayer,
                      IAppDataService appData,
                      IDgtEbDllFacade dgtEbDllFacade,
@@ -90,6 +93,7 @@ namespace DgtCherub
         {
 
             //TODO: Sort out the logging in here
+            _iHost = iHost;
             _logger = logger;
             _soundPlayer = soundPlayer;
             _appDataService = appData;
@@ -342,6 +346,10 @@ namespace DgtCherub
             //All the Events are set up so we can start watching the local board
             Console.SetOut(new ControlWriter(TextBoxConsole));
             Console.SetError(new ControlWriter(TextBoxConsole));
+
+
+
+            _ = _iHost.RunAsync();
             _dgtLiveChess.PollDgtBoard();
         }
 
