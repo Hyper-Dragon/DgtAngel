@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Clock for DGT Angel and server by DGT Cherub" />
+    <meta name="author" content="Hyper-Dragon" />
+    <title>DGT Angel Clock</title>
+    <link rel='shortcut icon' type='image/png' href="/DgtVirtualClock/Images/favicon.png">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <style>
+        /* GLOBAL STYLES */
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0px;
+            padding: 0px;
+            color: black;
+        }
+
+        svg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+        }
+
+        /* The Carousel  */
+        /* ------------  */
+
+        /* Carousel base class */
+        .carousel {
+            margin-bottom: 0rem;
+        }
+
+        /* Since positioning the image, we need to help out the caption */
+        .carousel-caption {
+            bottom: 3rem;
+            z-index: 10;
+        }
+
+        /* Declare heights because of positioning of img element */
+        .carousel-item {
+            height: 100vh;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center center;
+        }
+
+            .carousel-item > img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                min-width: 100%;
+                height: 32rem;
+            }
+
+        .parent {
+            position: relative;
+        }
+
+        .child {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .img-child {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 10%);
+        }
+
+        .bkg-clock {
+            padding: 0px;
+            background-clip: padding-box;
+            height: 50vh;
+            min-height: 100vh;
+            max-height: 50vh;
+            font-size: 13vw;
+        }
+
+        .board-img {
+            padding: 0px;
+            background-clip: padding-box;
+            width: min(80vw, 80vh);
+            width: min(80vw, 80vh);
+        }
+
+        .bkg-white-clock {
+            margin: 0 auto;
+            background: lightgrey;
+        }
+
+        .bkg-black-clock {
+            background: darkslategrey;
+        }
+
+        .bkg-logo {
+            opacity: 0.3;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <i hidden id='remote-fen'>-</i>
+        <i hidden id='local-fen'>-</i>
+        <i hidden id='is-white-to-play'>-</i>
+
+        <!--data-bs-ride="carousel"  -->
+        <div id="myCarousel" data-bs-interval="false" data-bs-ride="false" data-bs-wrap="true" class="carousel slide">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#777" />
+                    </svg>
+                    <img class="bkg-logo" src="/DgtVirtualClock/Images/DgtAngelLogo.svg" />
+                    <div class="container">
+                        <div class="carousel-caption text-start">
+                            <h1>Connection State:&nbsp;<i id='con-state'>-</i></h1>
+                            <h2>
+                                Last Update:&nbsp;<i id='last-update-day'>-</i>&commat;<i id='last-update-time'>-</i>
+                            </h2>
+                            <h2>To Play:&nbsp;<i id='is-white-to-play'>-</i></h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#077" />
+                    </svg>
+                    <div class="row">
+                        <div class="col-6 bkg-clock bkg-white-clock d-flex parent">
+                            <div class="align-self-center"><b id='white-clock' class="child">0:00:00</b></div>
+                        </div>
+                        <div class="col-6 bkg-clock bkg-black-clock d-flex parent">
+                            <div class="align-self-center"><b id='black-clock' class="child">0:00:00</b></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#777" />
+                    </svg>
+
+                    <div class="row">
+                        <div class="col-6 d-flex parent">
+                            <div>
+                                <img id="local-board-img" class="board-img img-child"
+                                     src="https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8" />
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex parent">
+                            <div>
+                                <img id="remote-board-img" class="board-img img-child"
+                                     src="https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+
+    <script>
+        start = Date.now();
+        whiteClockMsRemaining = 0;
+        blackClockMsRemaining = 0;
+        isGameInProgress = false;
+        isWhiteToPlay = true;
+        isTimerSuspended = false;
+
+        function timeRemaining(clockId, diff) {
+            display = document.getElementById(clockId);
+
+            if (diff <= 0) {
+                display.textContent = "0:00:00";
+            } else {
+                totalMinutes = (diff / 60) | 0;
+
+                hours = (totalMinutes / 60) | 0;
+                minutes = (totalMinutes % 60) | 0;
+                seconds = (diff % 60) | 0;
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+            }
+        }
+
+        function timer() {
+            if (isGameInProgress) {
+                if (isTimerSuspended == false) {
+                    // get the number of seconds that have elapsed since update
+                    if (isWhiteToPlay == true) {
+                        document.getElementById('is-white-to-play').textContent = "White To Play";
+
+                        timeRemaining('white-clock', (whiteClockMsRemaining / 1000) - (((Date.now() - start) / 1000) | 0));
+                        timeRemaining('black-clock', (blackClockMsRemaining / 1000));
+
+                        document.getElementById('white-clock').style.color = 'yellow';
+                        document.getElementById('black-clock').style.color = 'black';
+                    } else {
+                        document.getElementById('is-white-to-play').textContent = "Black To Play";
+
+                        timeRemaining('white-clock', (whiteClockMsRemaining / 1000));
+                        timeRemaining('black-clock', (blackClockMsRemaining / 1000) - (((Date.now() - start) / 1000) | 0));
+
+                        document.getElementById('white-clock').style.color = 'black';
+                        document.getElementById('black-clock').style.color = 'yellow';
+                    }
+                }
+            } else {
+                document.getElementById('is-white-to-play').textContent = "No Game";
+                document.getElementById('white-clock').textContent = "0:00:00";
+                document.getElementById('black-clock').textContent = "0:00:00";
+
+                document.getElementById('white-clock').style.color = 'black';
+                document.getElementById('black-clock').style.color = 'black';
+            }
+        }
+
+        window.onload = function () {
+            var source = new EventSource('/DgtVirtualClock/GetStuff/' + (new Date()).getTime());
+
+            source.onopen = function (event) { document.getElementById('con-state').innerHTML = 'CONNECTED'; timer(); setInterval(timer, 1000); };
+            source.onerror = function (event) { document.getElementById('con-state').innerHTML = 'DISCONNECTED'; source.close(); }
+
+            source.onmessage = function (event) {
+                //console.log(event.data);
+                const obj = JSON.parse(event.data);
+
+                var myCarouselEl = document.getElementById('myCarousel');
+                var carousel = bootstrap.Carousel.getOrCreateInstance(myCarouselEl);
+
+                switch (obj.MessageType) {
+                    case "OnLocalFenChange":
+                        document.getElementById('local-fen').textContent = obj.BoardFen;
+                        document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen;
+
+                        /*
+                        carousel.to('2');
+                        carousel.pause();
+                        */
+                        break;
+                    case "OnRemoteFenChange":
+                        document.getElementById('remote-fen').textContent = obj.BoardFen;
+                        document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen;
+                        /*
+                        carousel.to('2');
+                        carousel.pause();
+                        */
+                        break;
+                    case "OnClockChange":
+                        isTimerSuspended = true;
+                        start = Date.now();
+                        whiteClockMsRemaining = obj.WhiteClockMsRemaining;
+                        blackClockMsRemaining = obj.BlackClockMsRemaining;
+                        isGameInProgress = obj.IsGameActive;
+                        isWhiteToPlay = obj.IsWhiteToPlay;
+                        isTimerSuspended = false;
+
+                        carousel.to('1');
+                        carousel.pause();
+                        break;
+                    case "Keep-Alive":
+                        //console.log("...Still Reunning");
+                        break;
+                    default:
+                        console.error("Invalid message type recieved from DGT Cherub");
+                        break;
+                }
+
+                document.getElementById('last-update-day').textContent = obj.ResponseAtData;
+                document.getElementById('last-update-time').textContent = obj.ResponseAtTime;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

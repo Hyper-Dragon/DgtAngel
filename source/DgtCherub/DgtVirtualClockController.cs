@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -16,15 +17,17 @@ namespace DgtCherub
     public class DgtVirtualClockController : ControllerBase
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
-        private const string RESOURCE_CLOCK_NAME = "TestClock";
+        private const string RESOURCE_CLOCK_NAME = "SlideClock";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
         private const string RESOURCE_CLOCK_FAV  = "favicon.png";
+        private const string RESOURCE_CLOCK_SVG = "DgtAngelLogo.svg";
 
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
 
         private readonly string IndexPageHtml;
         private readonly byte[] FavIcon;
+        private readonly byte[] SvgLogo;
 
         public DgtVirtualClockController(ILogger<Form1> logger, IAppDataService appData)
         {
@@ -43,6 +46,13 @@ namespace DgtCherub
             using var memoryStream = new MemoryStream();
             favIconStream.CopyTo(memoryStream);
             FavIcon = memoryStream.ToArray();
+
+            using System.IO.Stream svgIconStream = Assembly.GetExecutingAssembly()
+                                               .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
+
+            using var memoryStreamSvg = new MemoryStream();
+            svgIconStream.CopyTo(memoryStreamSvg);
+            SvgLogo = memoryStreamSvg.ToArray();
         }
 
 #pragma warning disable CA1822 // DO NOT Mark members as static - it's part of the API!
@@ -65,7 +75,8 @@ namespace DgtCherub
             // http://localhost:37964/DgtVirtualClock/GetClock
 
             //TODO: Replace with embeded resource
-            //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML/DgtAngelClock.html");
+            //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/tryagain.html");
+            
             string htmlOut = IndexPageHtml;
 
             return new ContentResult
@@ -80,9 +91,14 @@ namespace DgtCherub
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            if (FavIcon != null && !string.IsNullOrWhiteSpace(fileName) && (fileName == "favicon.png"))
+            if (SvgLogo != null && !string.IsNullOrWhiteSpace(fileName) && fileName == "DgtAngelLogo.svg")
             {
-                //byte[] imageData = System.IO.File.ReadAllBytes(@"C:/TESTHTML/test.jpg");
+                byte[] imageData = SvgLogo;
+                string fileType = "image/svg+xml";
+                return File(imageData, fileType);
+            }
+            else if (FavIcon != null && !string.IsNullOrWhiteSpace(fileName) && (fileName == "favicon.png"))
+            {
                 byte[] imageData = FavIcon;
                 string fileType = "image/png";
                 return File(imageData, fileType);
