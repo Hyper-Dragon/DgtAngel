@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ChessDotNet\ChessDotNet.csproj" />
     <ProjectReference Include="..\DgtAngelShared\DgtAngelShared.csproj" />
   </ItemGroup>
 

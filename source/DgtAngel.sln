@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31410.223
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAngel.csproj", "{DF96AD8A-E912-4328-B282-8DE16F28B8D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessDotNet", "ChessDotNet\ChessDotNet.csproj", "{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtAngelLib\DgtLiveChessWrapper.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC5E410E-067B-48BA-8C57-F231E35A8790}"
@@ -40,10 +38,6 @@ Global
 		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1FEC173-AF0A-43B6-B70D-6FBD125C816C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU

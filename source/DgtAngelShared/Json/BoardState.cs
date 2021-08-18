@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DgtAngelShared.Json
@@ -17,8 +18,27 @@ namespace DgtAngelShared.Json
 
     public class State
     {
-        public string Code { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public ResponseCode Code { get; set; }
         public string Message { get; set; }
+    }
+
+    public enum ResponseCode
+    {
+        UNKNOWN_PAGE,
+        RUNNING,
+        SCRIPT_SCRAPE_ERROR,
+        GAME_PENDING,
+        GAME_COMPLETED,
+        GAME_IN_PROGRESS
+    }
+
+    public enum TurnCode
+    {
+        NONE,
+        WHITE,
+        BLACK,
+        UNKNOWN
     }
 
     public class Boardconnection
@@ -30,7 +50,8 @@ namespace DgtAngelShared.Json
     public class Board
     {
         public bool IsWhiteOnBottom { get; set; }
-        public string Turn { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public TurnCode Turn { get; set; }
         public string LastMove { get; set; }
         public string FenString { get; set; }
         public Clocks Clocks { get; set; }

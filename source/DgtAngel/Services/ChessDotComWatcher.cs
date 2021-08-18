@@ -9,16 +9,12 @@ namespace DgtAngel.Services
 {
     public class ChessDotComWatcherGameStateEventArgs : EventArgs
     {
-        public string FenString { get; set; }
-        public string ToMove { get; set; }
-        public string WhiteClock { get; set; }
-        public string BlackClock { get; set; }
-        public string IsWhiteBottom { get; set; }
+        public BoardState RemoteBoardState { get; set; }
     }
 
     public interface IChessDotComWatcher
     {
-        event EventHandler OnWatchStarted;
+        event EventHandler<ChessDotComWatcherGameStateEventArgs> OnWatchStarted;
         event EventHandler<ChessDotComWatcherGameStateEventArgs> OnFenRecieved;
         event EventHandler<ChessDotComWatcherGameStateEventArgs> OnDuplicateFenRecieved;
         event EventHandler OnWatchStopped;
@@ -32,14 +28,14 @@ namespace DgtAngel.Services
         private readonly IScriptWrapper _scriptWrapper;
         private readonly IChessDotComHelperService _chessDotComHelpers;
 
-        public event EventHandler OnWatchStarted;
+        public event EventHandler<ChessDotComWatcherGameStateEventArgs>OnWatchStarted;
         public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnFenRecieved;
         public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnDuplicateFenRecieved;
         public event EventHandler OnWatchStopped;
 
         private const int SLEEP_RUNNING_DELAY = 100;
-        private const int SLEEP_REOPEN_TAB_DELAY = 1000;
-        private const int SLEEP_EXCEPTION_DELAY = 5000;
+        private const int SLEEP_REOPEN_TAB_DELAY = 3000;
+        private const int SLEEP_EXCEPTION_DELAY = 10000;
 
         public ChessDotComWatcher(ILogger<ChessDotComWatcher> logger,
                                   IScriptWrapper scriptWrapper,
@@ -53,76 +49,55 @@ namespace DgtAngel.Services
         public async Task PollChessDotComBoard(CancellationToken token)
         {
             bool hasOnWatchStartedEventBeenFired = false;
-            string lastChessDotComFenString = "", lastToPlay = "";
+            string lastChessDotComFenString = "";
+            TurnCode lastToPlay = TurnCode.UNKNOWN;
 
-            _logger?.LogInformation($"Started watching for tab activation (https://www.chess.com/live)");
+            _logger?.LogInformation($"Started watching for tab activation");
 
             while (!token.IsCancellationRequested)
             {
                 try
                 {
                     token.ThrowIfCancellationRequested();
+                    BoardState remoteBoardState = JsonSerializer.Deserialize<BoardState>(await _scriptWrapper.GetChessDotComBoardJson());
 
-                    string chessDotComBoardString = await _scriptWrapper.GetChessDotComBoardString();
-                    _logger?.LogDebug($"The returned board string from _scriptWrapper.GetChessDotComBoardString() is '{chessDotComBoardString}'");
-
-                    string chessDotComBoardJson = await _scriptWrapper.GetChessDotComBoardJson();
-                    var boardState = JsonSerializer.Deserialize<BoardState>(chessDotComBoardJson);
-                    
-                    
-                    
-                    Console.WriteLine($"JSON [{boardState.PageUrl}]");
-                    Console.WriteLine($"JSON [{boardState.Board.Clocks.WhiteClock}]");
-
-
-
-                    //TODO: Split this out
-                    while (!string.IsNullOrWhiteSpace(chessDotComBoardString) && chessDotComBoardString != "UNDEFINED")
+                    while (remoteBoardState != null && remoteBoardState.State.Code !=  ResponseCode.UNKNOWN_PAGE)
                     {
-                        _logger?.LogDebug($"We probably have a valid board string so lets parse it...");
-                        (string newFenString, string whiteClock, string blackClock, string toPlayString, string isWhiteBottom) = _chessDotComHelpers.ConvertLiveBoardHtmlToFen(chessDotComBoardString);
-
-                        _logger?.LogDebug($"...and the result is {newFenString} {whiteClock} {blackClock} {toPlayString}");
-
-                        whiteClock = _chessDotComHelpers.FormatClockStringToDGT(whiteClock);
-                        blackClock = _chessDotComHelpers.FormatClockStringToDGT(blackClock);
-
-                        _logger?.LogDebug($"...then the clocks are reformatted to {whiteClock} {blackClock}");
-
-                        // If this is the first time we have found a valid page let the outside
-                        // world know that we are watching
+                        // If this is the first time we have found a valid page - let the outside world know that we are watching
                         if (!hasOnWatchStartedEventBeenFired)
                         {
                             _logger?.LogInformation($"Started watching chess.com");
-                            OnWatchStarted?.Invoke(this, new EventArgs());
+                            OnWatchStarted?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
                             hasOnWatchStartedEventBeenFired = true;
                             lastChessDotComFenString = ""; //Set to blank because this is considered a new position;
-                            lastToPlay = "";
+                            lastToPlay = TurnCode.UNKNOWN;
                         }
 
-                        if (lastChessDotComFenString == newFenString && lastToPlay == toPlayString)
+                        if (lastChessDotComFenString == remoteBoardState.Board.FenString && lastToPlay == remoteBoardState.Board.Turn)
                         {
-                            _logger?.LogDebug($"This FEN and the Last FEN Match so raise the duplicateFen event.");
-                            _logger?.LogDebug($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
+                            //_logger?.LogDebug($"This FEN and the Last FEN Match so raise the duplicateFen event.");
+                            //_logger?.LogDebug($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
 
-                            OnDuplicateFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString, IsWhiteBottom = isWhiteBottom });
+                            OnDuplicateFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
                         }
                         else
                         {
-                            _logger?.LogInformation($"The FEN has changed from [{lastChessDotComFenString}] to [{newFenString}]");
-                            _logger?.LogInformation($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
+                            //_logger?.LogInformation($"The FEN has changed from [{lastChessDotComFenString}] to [{newFenString}]");
+                            //_logger?.LogInformation($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
 
-                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { FenString = newFenString, WhiteClock = whiteClock, BlackClock = blackClock, ToMove = toPlayString, IsWhiteBottom = isWhiteBottom });
+                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
                         }
 
-                        lastChessDotComFenString = newFenString;
-                        lastToPlay = toPlayString;
+                        lastChessDotComFenString = remoteBoardState.Board.FenString;
+                        lastToPlay = remoteBoardState.Board.Turn;
 
                         _logger?.LogTrace($"Sleeping with Running Delay of {SLEEP_RUNNING_DELAY}ms");
                         await Task.Delay(SLEEP_RUNNING_DELAY, token);
 
-                        chessDotComBoardString = await _scriptWrapper.GetChessDotComBoardString();
-                        _logger?.LogDebug($"(Inner Loop) The returned board string from _scriptWrapper.GetChessDotComBoardString() is '{chessDotComBoardString}'");
+                        //remoteBoardState = JsonSerializer.Deserialize<BoardState>(await _scriptWrapper.GetChessDotComBoardJson());
+                        //_logger?.LogDebug($"(Inner Loop) The returned board string from _scriptWrapper.GetChessDotComBoardString() is '{chessDotComBoardString}'");
+
+                        remoteBoardState = JsonSerializer.Deserialize<BoardState>(await _scriptWrapper.GetChessDotComBoardJson());
                     }
 
                     _logger?.LogTrace($"Sleeping with Reopen Tab Delay of {SLEEP_REOPEN_TAB_DELAY}ms");
@@ -135,7 +110,7 @@ namespace DgtAngel.Services
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogWarning($"Watching Tab Stopped (Exception) - {ex.Message}");
+                    _logger?.LogInformation($"Watching Tab Stopped (Exception) - {ex.Message}");
                     _logger?.LogTrace($"Sleeping with Exception Tab Delay of {SLEEP_EXCEPTION_DELAY}ms");
                     await Task.Delay(SLEEP_EXCEPTION_DELAY, token);
                 }
@@ -146,18 +121,13 @@ namespace DgtAngel.Services
                         OnWatchStopped?.Invoke(this, new ChessDotComWatcherGameStateEventArgs());
                         _logger?.LogInformation($"The user navigated off the Chess.com game tab");
                         lastChessDotComFenString = "";
-                        lastToPlay = "";
+                        lastToPlay = TurnCode.UNKNOWN;
                         hasOnWatchStartedEventBeenFired = false;
                     }
                 }
             }
 
-            _logger?.LogInformation($"Stopped watching for tab activation (https://www.chess.com/live)");
+            _logger?.LogInformation($"Stopped watching for tab activation");
         }
     }
-
-
-
-    
-
 }

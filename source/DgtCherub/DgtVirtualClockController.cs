@@ -113,7 +113,6 @@ namespace DgtCherub
             return StatusCode(404);
         }
 
-
         [HttpGet]
         [Route("{action}/{clientUtcMs}")]
         public async Task GetStuff(string clientUtcMs)

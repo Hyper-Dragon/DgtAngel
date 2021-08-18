@@ -11,7 +11,6 @@ namespace DgtAngel.Services
         Task AddIndexToContextMenu();
         string GetAudioFileId(ScriptWrapper.AudioClip audioClip);
         string GetAudioFileSrc(ScriptWrapper.AudioClip audioClip);
-        Task<string> GetChessDotComBoardString();
         Task<string> GetChessDotComBoardJson();
         Task PlayAudioFile(ScriptWrapper.AudioClip audioClip);
         Task WriteToConsole(ScriptWrapper.LogLevel logLevel, string source, string message);
@@ -60,12 +59,6 @@ namespace DgtAngel.Services
         }
 
         // JAVASCRIPT CALLS BELOW HERE >>>>>>
-        public async Task<string> GetChessDotComBoardString()
-        {
-            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
-            return await _jSRuntime.InvokeAsync<string>("getPiecesHtml");
-        }
-
 
         public async Task<string> GetChessDotComBoardJson()
         {

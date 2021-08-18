@@ -6,6 +6,7 @@
 @inject ILogger<Background> Logging
 @inject HttpClient WebClient
 @using DgtAngel.Services
+@using DgtAngelShared.Json
 @using Microsoft.Extensions.Logging
 @using WebExtensions.Net.Tabs
 @using System.Threading
@@ -43,17 +44,19 @@
         }
         catch (Exception ex)
         {
-            Logging?.LogInformation($"{ex.Message}");
+            //Logging?.LogInformation($"{ex.Message}");
         }
     }
 
-    protected async Task SendUpdatedFenToCherubClient(string fen, bool isForLocalBoard, string isWhiteBottom)
+    protected async Task SendUpdatedFenToCherubClient(BoardState remoteBoardState)
     {
-        Logging.LogInformation($"Sending FEN {fen} to Cherub");
+       // Logging.LogInformation($"Sending FEN [{remoteBoardState.}]  to Cherub");
 
         try
         {
-            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}?isWhiteBottom={isWhiteBottom}&fen={HttpUtility.UrlEncode(fen)}") });
+
+
+           // await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{((isForLocalBoard) ? CHERUB_SEND_LOCAL_BOARD_FEN : CHERUB_SEND_CDC_FEN)}/{CHERUB_SENDER_NAME}?isWhiteBottom={isWhiteBottom}&fen={HttpUtility.UrlEncode(fen)}") });
         }
         catch (Exception ex)
         {
@@ -61,12 +64,12 @@
         }
     }
 
-    protected async Task SendUpdatedClockToCherubClient(string whiteTime, string blackTime, int runWho)
+    protected async Task SendUpdatedClockToCherubClient(BoardState remoteBoardState)
     {
-        Logging.LogInformation($"Sending clock {whiteTime} {blackTime} {runWho} to Chetub");
+       // Logging.LogInformation($"Sending clock {whiteTime} {blackTime} {runWho} to Chetub");
         try
         {
-            await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{whiteTime}/{blackTime}/{runWho.ToString()}") });
+           // await WebClient.SendAsync(new HttpRequestMessage() { RequestUri = new Uri($"{CHERUB_API_HOST}/{CHERUB_API_PATH}/{CHERUB_SEND_CLOCK_MESSAGE}/{remoteBoardState.Board.Clocks.WhiteClock}/{remoteBoardState.Board.Clocks.BlackClock}/{remoteBoardState.Board.Turn}") });
         }
         catch (Exception ex)
         {
@@ -102,35 +105,24 @@
                             {
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
 
-                                Logging.LogInformation($"Watching a board on Chess.com");
-                                await SendMessageToCherubClient($"Angel is watching a board on Chess.com");
+                                //Logging.LogInformation($"Watching a board on Chess.com");
+                                //await SendMessageToCherubClient($"Angel is watching a board on Chess.com");
                             };
 
         ChessDotComWatcher.OnWatchStopped += async (obj, eventArgs) =>
                             {
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
 
-                                Logging.LogInformation($"Stopped watching a board on Chess.com");
-                                await SendMessageToCherubClient($"Angel has stopped watching a board on Chess.com");
-                                                    
-                                //await SendUpdatedClockToCherubClient("0:00:00", "0:00:00", 0);
-                                //await SendUpdatedFenToCherubClient("8/8/8/8/8/8/8/8", false);
-                                await SendDgtAngelDisconnectedToCherubClient();
+                                //Logging.LogInformation($"Stopped watching a board on Chess.com");
+                                //await SendMessageToCherubClient($"Angel has stopped watching a board on Chess.com");                                          
+                                //await SendDgtAngelDisconnectedToCherubClient();
                             };
 
         ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
                             {
-                                Logging.LogInformation($"OnFenRecieved Event fired");
-
-                                var toMoveInt = eventArgs.ToMove switch
-                                {
-                                    "white" => 1,
-                                    "black" => 2,
-                                    _ => 0
-                                };
-
-                                await SendUpdatedClockToCherubClient(eventArgs.WhiteClock, eventArgs.BlackClock, toMoveInt);
-                                await SendUpdatedFenToCherubClient($"{eventArgs.FenString}", false, eventArgs.IsWhiteBottom);
+                                //Logging.LogInformation($"OnFenRecieved Event fired");
+                                //await SendUpdatedClockToCherubClient(eventArgs.RemoteBoardState);
+                                //await SendUpdatedFenToCherubClient(eventArgs.RemoteBoardState);
                             };
 
         //Run the Chess.Com Watcher
