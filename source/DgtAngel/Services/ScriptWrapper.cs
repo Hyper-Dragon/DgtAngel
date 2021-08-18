@@ -12,6 +12,7 @@ namespace DgtAngel.Services
         string GetAudioFileId(ScriptWrapper.AudioClip audioClip);
         string GetAudioFileSrc(ScriptWrapper.AudioClip audioClip);
         Task<string> GetChessDotComBoardString();
+        Task<string> GetChessDotComBoardJson();
         Task PlayAudioFile(ScriptWrapper.AudioClip audioClip);
         Task WriteToConsole(ScriptWrapper.LogLevel logLevel, string source, string message);
     }
@@ -46,12 +47,6 @@ namespace DgtAngel.Services
             _jSRuntime = jSRuntime;
         }
 
-        public async Task AddIndexToContextMenu()
-        {
-            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
-            await _jSRuntime.InvokeVoidAsync("addIndexToContextMenu");
-        }
-
         // HELPER METHODS
 
         public string GetAudioFileId(AudioClip audioClip)
@@ -68,10 +63,20 @@ namespace DgtAngel.Services
         public async Task<string> GetChessDotComBoardString()
         {
             _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
-
-            await  _jSRuntime.InvokeAsync<string>("getGetRemoteBoardStateJson");
-
             return await _jSRuntime.InvokeAsync<string>("getPiecesHtml");
+        }
+
+
+        public async Task<string> GetChessDotComBoardJson()
+        {
+            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+            return await _jSRuntime.InvokeAsync<string>("getGetRemoteBoardStateJson");
+        }
+
+        public async Task AddIndexToContextMenu()
+        {
+            _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+            await _jSRuntime.InvokeVoidAsync("addIndexToContextMenu");
         }
 
         public async Task PlayAudioFile(AudioClip audioClip)

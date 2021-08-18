@@ -106,15 +106,20 @@
             }
 
             //For the time conversion
-            var w_mul = [3600000.0, 60000.0, 1000.0];
+            var w_mul = [3600000, 60000, 1000];
+            wcConTime = 0;
+            whiteClock.innerText.split(":").reverse().forEach(element => wcConTime += w_mul.pop() * parseFloat(element))
+
             var b_mul = [3600000.0, 60000.0, 1000.0];
+            bcConTime = 0;
+            blackClock.innerText.split(":").reverse().forEach(element => bcConTime += b_mul.pop() * parseFloat(element))
 
             remoteBoard.Board.FenString = result;
             remoteBoard.Board.Turn = turn;
             remoteBoard.Board.IsWhiteOnBottom = Array.from(document.getElementById('main-clock-top').parentElement.classList).includes('clock-black');
             remoteBoard.Board.LastMove = lastMove;
-            remoteBoard.Board.Clocks.WhiteClock = whiteClock.innerText.split(":").reverse().forEach(element => retVal += w_mul.pop() * parseFloat(element));
-            remoteBoard.Board.Clocks.BlackClock = blackClock.innerText.split(":").reverse().forEach(element => retVal += b_mul.pop() * parseFloat(element));
+            remoteBoard.Board.Clocks.WhiteClock = wcConTime;
+            remoteBoard.Board.Clocks.BlackClock = bcConTime;
             remoteBoard.CaptureTimeMs = (new Date()).getTime();
             remoteBoard.BoardConnection.BoardState = boardState;
             remoteBoard.BoardConnection.ConMessage = boardMessage;
@@ -416,7 +421,6 @@ async function getGetRemoteBoardStateJson() {
                 }
             });
 
-
         //Sleep in loop
         for (let i = 0; i < 5; i++) {
             if (retVal != '-')
@@ -431,7 +435,6 @@ async function getGetRemoteBoardStateJson() {
 
     return retVal;
 }
-
 
 
 async function getPiecesHtml() {

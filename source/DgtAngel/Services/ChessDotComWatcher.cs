@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -63,6 +64,15 @@ namespace DgtAngel.Services
 
                     string chessDotComBoardString = await _scriptWrapper.GetChessDotComBoardString();
                     _logger?.LogDebug($"The returned board string from _scriptWrapper.GetChessDotComBoardString() is '{chessDotComBoardString}'");
+
+                    string chessDotComBoardJson = await _scriptWrapper.GetChessDotComBoardJson();
+
+
+                    var boardState = JsonSerializer.Deserialize<BoardState>(chessDotComBoardJson);
+                    Console.WriteLine($"JSON [{boardState.PageUrl}]");
+                    Console.WriteLine($"JSON [{boardState.Board.Clocks.WhiteClock}]");
+
+
 
                     //TODO: Split this out
                     while (!string.IsNullOrWhiteSpace(chessDotComBoardString) && chessDotComBoardString != "UNDEFINED")
@@ -143,4 +153,44 @@ namespace DgtAngel.Services
             _logger?.LogInformation($"Stopped watching for tab activation (https://www.chess.com/live)");
         }
     }
+
+
+
+    public class BoardState
+    {
+        public string PageUrl { get; set; }
+        public long CaptureTimeMs { get; set; }
+        public State State { get; set; }
+        public Boardconnection BoardConnection { get; set; }
+        public Board Board { get; set; }
+    }
+
+    public class State
+    {
+        public string Code { get; set; }
+        public string Message { get; set; }
+    }
+
+    public class Boardconnection
+    {
+        public string BoardState { get; set; }
+        public string ConMessage { get; set; }
+    }
+
+    public class Board
+    {
+        public bool IsWhiteOnBottom { get; set; }
+        public string Turn { get; set; }
+        public string LastMove { get; set; }
+        public string FenString { get; set; }
+        public Clocks Clocks { get; set; }
+    }
+
+    public class Clocks
+    {
+        public int WhiteClock { get; set; }
+        public int BlackClock { get; set; }
+    }
+
+
 }
