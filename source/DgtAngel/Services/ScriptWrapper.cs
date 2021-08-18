@@ -68,6 +68,9 @@ namespace DgtAngel.Services
         public async Task<string> GetChessDotComBoardString()
         {
             _logger?.LogTrace($"Calling JS from {MethodBase.GetCurrentMethod().ReflectedType.Name}");
+
+            await  _jSRuntime.InvokeAsync<string>("getGetRemoteBoardStateJson");
+
             return await _jSRuntime.InvokeAsync<string>("getPiecesHtml");
         }
 
