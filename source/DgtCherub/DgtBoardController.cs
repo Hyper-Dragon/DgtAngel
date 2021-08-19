@@ -1,4 +1,5 @@
-﻿using DgtCherub;
+﻿using DgtAngelShared.Json;
+using DgtCherub;
 using DgtEbDllWrapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,13 +19,11 @@ namespace DgtCherub
     {
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
-        private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
-        public WebSocketController(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade)
+        public WebSocketController(ILogger<Form1> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;
-            _dgtEbDllFacade = dgtEbDllFacade;
         }
 
         [HttpGet("/ws")]
@@ -32,12 +32,10 @@ namespace DgtCherub
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-
-                //await Echo(HttpContext, webSocket);
+                _appDataService.UserMessageArrived("INTERNAL", "DGT Angel Connected");
 
                 while (webSocket.State == WebSocketState.Open)
                 {
-                    // Read the bytes from the web socket and accumulate all into a list.
                     var buffer = new ArraySegment<byte>(new byte[1024]);
                     WebSocketReceiveResult result = null;
                     var allBytes = new List<byte>();
@@ -52,20 +50,53 @@ namespace DgtCherub
                     }
                     while (!result.EndOfMessage);
 
-                    // Convert to a string (UTF-8 encoding).
-                    var message = Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count);
-
-
-                    if(message == "Keep-Alive")
+                    try
                     {
-                        //Do Nothing
-                        _appDataService.UserMessageArrived("WS-ALIVE", message);
+                        // Convert to a string (UTF-8 encoding).
+                        var messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
+
+                        switch (messageIn.MessageType)
+                        {
+                            case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
+                                _logger.LogTrace($"Cherub Keep-Alive from {messageIn.Source}");
+                                break;
+                            case CherubApiMessage.MessageTypeCode.MESSAGE:
+                                _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
+                                break;
+                            case CherubApiMessage.MessageTypeCode.FEN_UPDATE:
+                                _appDataService.UserMessageArrived(messageIn.Source, messageIn.RemoteBoard.Board.FenString);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                break;
+                            default:
+                                _appDataService.UserMessageArrived("INTERNAL", "ERROR: Unknown message type recieved on the API!");
+                                _logger.LogError($"Unknown message type recieved on the API!");
+                                break;
+                        }
                     }
-                    else
-                    {
-                        _appDataService.UserMessageArrived("WS", message);
+                    catch (Exception ex) {
+                        _appDataService.UserMessageArrived("INTERNAL", $"ERROR: Unknown message recieved on the API :: {ex.Message}");
+                        _logger.LogError($"Unknown message type recieved on the API :: {ex.Message}");
                     }
                 }
+
+                _appDataService.UserMessageArrived("INTERNAL", "DGT Angel Disconnected");
             }
             else
             {

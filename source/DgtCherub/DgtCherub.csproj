@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DgtAngelLib\DgtLiveChessWrapper.csproj" />
+    <ProjectReference Include="..\DgtAngelShared\DgtAngelShared.csproj" />
     <ProjectReference Include="..\DgtEbDllWrapper\DgtEbDllWrapper.csproj" />
     <ProjectReference Include="..\DynamicBoard\DynamicBoard.csproj" />
   </ItemGroup>
