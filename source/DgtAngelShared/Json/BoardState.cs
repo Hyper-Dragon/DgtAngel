@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace DgtAngelShared.Json
 {
+    public enum ResponseCode
+    {
+        UNKNOWN_PAGE,RUNNING,SCRIPT_SCRAPE_ERROR,
+        GAME_PENDING,GAME_COMPLETED,GAME_IN_PROGRESS
+    }
+
+    public enum TurnCode
+    {
+        NONE,WHITE,BLACK,UNKNOWN
+    }
+
     public class BoardState
     {
         public string PageUrl { get; set; }
@@ -21,24 +32,6 @@ namespace DgtAngelShared.Json
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public ResponseCode Code { get; set; }
         public string Message { get; set; }
-    }
-
-    public enum ResponseCode
-    {
-        UNKNOWN_PAGE,
-        RUNNING,
-        SCRIPT_SCRAPE_ERROR,
-        GAME_PENDING,
-        GAME_COMPLETED,
-        GAME_IN_PROGRESS
-    }
-
-    public enum TurnCode
-    {
-        NONE,
-        WHITE,
-        BLACK,
-        UNKNOWN
     }
 
     public class Boardconnection

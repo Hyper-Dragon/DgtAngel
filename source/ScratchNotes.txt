@@ -1,22 +1,3 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Reflection;
-
-namespace DgtAngel.Services
-{
-    public interface IChessDotComHelperService
-    {
-        string FormatClockStringToDGT(string cdcClockString);
-    }
-
-    public class ChessDotComHelperService : IChessDotComHelperService
-    {
-        private readonly ILogger _logger;
-
-        public ChessDotComHelperService(ILogger<ChessDotComHelperService> logger)
-        {
-            _logger = logger;
-        }
 
         public string FormatClockStringToDGT(string cdcClockString)
         {
@@ -30,6 +11,9 @@ namespace DgtAngel.Services
 
 
 
+
+
+        
         /// <summary>
         /// Turns the output of document.getElementsByClassName('piece')
         /// into a FEN string
@@ -72,5 +56,3 @@ namespace DgtAngel.Services
         //        Board = board,
         //    }).GetFen();
         //}
-    }
-}

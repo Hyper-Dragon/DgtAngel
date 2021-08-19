@@ -26,7 +26,6 @@ namespace DgtAngel.Services
     {
         private readonly ILogger _logger;
         private readonly IScriptWrapper _scriptWrapper;
-        private readonly IChessDotComHelperService _chessDotComHelpers;
 
         public event EventHandler<ChessDotComWatcherGameStateEventArgs>OnWatchStarted;
         public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnFenRecieved;
@@ -38,12 +37,10 @@ namespace DgtAngel.Services
         private const int SLEEP_EXCEPTION_DELAY = 10000;
 
         public ChessDotComWatcher(ILogger<ChessDotComWatcher> logger,
-                                  IScriptWrapper scriptWrapper,
-                                  IChessDotComHelperService chessDotComHelpers)
+                                  IScriptWrapper scriptWrapper)
         {
             _logger = logger;
             _scriptWrapper = scriptWrapper;
-            _chessDotComHelpers = chessDotComHelpers;
         }
 
         public async Task PollChessDotComBoard(CancellationToken token)

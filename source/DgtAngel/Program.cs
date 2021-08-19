@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace DgtAngel
@@ -19,9 +20,9 @@ namespace DgtAngel
             // workaround to use JavaScript fetch to bypass url validation
             // see: https://github.com/dotnet/runtime/issues/52836
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
-                            .AddSingleton<IChessDotComHelperService, ChessDotComHelperService>()
                             .AddSingleton<IScriptWrapper, ScriptWrapper>()
                             .AddSingleton<IChessDotComWatcher, ChessDotComWatcher>()
+                            .AddSingleton<ICherubConnectionManager, CherubConnectionManager>()
                             .AddBrowserExtensionServices(options => { options.ProjectNamespace = typeof(Program).Namespace; });
 
             await builder.Build().RunAsync();

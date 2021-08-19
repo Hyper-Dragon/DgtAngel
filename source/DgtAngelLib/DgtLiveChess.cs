@@ -173,7 +173,7 @@ namespace DgtLiveChessWrapper
         /// <returns>JSON Response String</returns>
         private static async Task<string> Receive(ClientWebSocket socket, bool isBoardConnected)
         {
-            ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[2048]);
+            ArraySegment<byte> buffer = new(new byte[2048]);
 
             WebSocketReceiveResult result;
             using MemoryStream ms = new MemoryStream();

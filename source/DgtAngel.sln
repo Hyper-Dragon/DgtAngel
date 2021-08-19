@@ -17,6 +17,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\DGT Electronic Board DLL.pdf = Docs\DGT Electronic Board DLL.pdf
+		ScratchNotes.txt = ScratchNotes.txt
 		Docs\Script.txt = Docs\Script.txt
 	EndProjectSection
 EndProject

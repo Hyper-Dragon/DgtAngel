@@ -53,6 +53,7 @@ namespace DgtCherub
         {
             app.UseDeveloperExceptionPage()
                 .UseRouting()
+                .UseWebSockets()
                 .UseCors("DevCorsPolicy")
                 .UseEndpoints(endpoints =>
                 {
