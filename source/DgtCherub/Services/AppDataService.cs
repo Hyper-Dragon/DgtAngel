@@ -86,8 +86,10 @@ namespace DgtCherub.Services
             {
                 if (string.IsNullOrEmpty(_chessDotComFEN) || _chessDotComFEN != value)
                 {
-                    _chessDotComFEN = value;
-                    OnChessDotComFenChange?.Invoke();
+
+                        _chessDotComFEN = value;
+                        OnChessDotComFenChange?.Invoke();
+
                 }
             }
         }

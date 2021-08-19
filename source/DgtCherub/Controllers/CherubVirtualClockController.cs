@@ -28,7 +28,7 @@ namespace DgtCherub.Controllers
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
-        public CherubVirtualClockController(ILogger<Form1> logger, IAppDataService appData)
+        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;

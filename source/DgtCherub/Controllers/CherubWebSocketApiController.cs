@@ -1,17 +1,13 @@
 ﻿using DgtAngelShared.Json;
 using DgtCherub.Services;
-using DgtEbDllWrapper;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.WebSockets;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -28,7 +24,7 @@ namespace DgtCherub.Controllers
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
 
-        public CherubWebSocketApiController(ILogger<Form1> logger, IAppDataService appData)
+        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;
@@ -69,7 +65,7 @@ namespace DgtCherub.Controllers
                             switch (messageIn.MessageType)
                             {
                                 case CherubApiMessage.MessageTypeCode.STATE_UPDATED:
-                                    _appDataService.UserMessageArrived(messageIn.Source, messageIn.RemoteBoard.Board.FenString);
+                                    //_appDataService.UserMessageArrived("DEBUG", messageIn.RemoteBoard.Board.FenString);
                                     _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:

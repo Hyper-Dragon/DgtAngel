@@ -278,7 +278,7 @@ namespace DgtCherub
 
             _appDataService.OnClockChange += () =>
             {
-                TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
+                //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
 
                 Invoke((Action)(() =>
                 {

@@ -11,7 +11,7 @@ namespace DgtCherub.Controllers
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
 
-        public CherubHttpApiController(ILogger<Form1> logger, IAppDataService appData)
+        public CherubHttpApiController(ILogger<CherubHttpApiController> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;
