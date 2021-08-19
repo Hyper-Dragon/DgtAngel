@@ -68,15 +68,9 @@ namespace DgtCherub
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
         //TODO:Own board maker
 
-        public Form1(IHost iHost,
-                     ILogger<Form1> logger,
-                     IAppDataService appData,
-                     IDgtEbDllFacade dgtEbDllFacade,
-                     IDgtLiveChess dgtLiveChess,
-                     IBoardRenderer boardRenderer,
-                     ISequentialVoicePlayer voicePlayer)
+        public Form1(IHost iHost, ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade,
+                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer)
         {
-
             _iHost = iHost;
             _logger = logger;
             _appDataService = appData;
@@ -134,6 +128,58 @@ namespace DgtCherub
             LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
             LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            SuspendLayout();
+
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+
+            //Set Appsettings from the designer values...
+            _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
+            _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
+
+            ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
+            TabControlSidePanel.SelectedTab = TabPageConfig;
+
+            LinkLabelAbout1.Text = "GitHub Project Page";
+            LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
+            LinkLabelAbout1.Visible = true;
+            LinkLabelAbout1.Click += (object sender, EventArgs e) =>
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = $"{PROJECT_URL}",
+                    UseShellExecute = true //required on .Net Core 
+                });
+            };
+
+            // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
+            BoredLabelsInitialColor = LabelLocalDgt.BackColor;
+            LastFormWidth = Width;
+            InitialMinSize = MinimumSize;
+            InitialMaxSize = MaximumSize;
+            PictureBoxLocalInitialImage = PictureBoxLocal.Image;
+            PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
+
+            // ItemSize.Height is correct - the tabs are on the side!
+            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
+
+            //If no rabbit disable rabbit things..
+            if (!IsRabbitInstalled)
+            {
+                ButtonSendTestMsg1.Enabled = false;
+                ButtonSendTestMsg2.Enabled = false;
+                ButtonRabbitConfig1.Enabled = false;
+                ButtonRabbitConf2.Enabled = false;
+            }
+
+            //Make sure this is set
+            DoubleBuffered = true;
+
+            ResumeLayout();
+        }
+
 
         private void Form1_Shown(object sender, EventArgs e)
         {
@@ -253,55 +299,7 @@ namespace DgtCherub
             _dgtLiveChess.PollDgtBoard();
         }
 
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            SuspendLayout();
-
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-
-            //Set Appsettings from the designer values...
-            _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
-            _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
-
-            ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
-            TabControlSidePanel.SelectedTab = TabPageConfig;
-
-            LinkLabelAbout1.Text = "GitHub Project Page";
-            LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
-            LinkLabelAbout1.Visible = true;
-            LinkLabelAbout1.Click += (object sender, EventArgs e) =>
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = $"{PROJECT_URL}",
-                    UseShellExecute = true //required on .Net Core 
-                });
-            };
-
-            // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
-            BoredLabelsInitialColor = LabelLocalDgt.BackColor;
-            LastFormWidth = Width;
-            InitialMinSize = MinimumSize;
-            InitialMaxSize = MaximumSize;
-            PictureBoxLocalInitialImage = PictureBoxLocal.Image;
-            PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
-
-            // ItemSize.Height is correct - the tabs are on the side!
-            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
-
-            //If no rabbit disable rabbit things..
-            ButtonSendTestMsg1.Enabled = false;
-            ButtonSendTestMsg2.Enabled = false;
-            ButtonRabbitConfig1.Enabled = false;
-            ButtonRabbitConf2.Enabled = false;
-
-            //Make sure this is set
-            DoubleBuffered = true;
-
-            ResumeLayout();
-        }
+        
 
         //*********************************************//
         #region Form Control Events
