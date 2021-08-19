@@ -12,7 +12,6 @@ namespace DgtCherub.Services
         string BlackClock { get; }
         string ChessDotComBoardFEN { get; set; }
         bool EchoExternalMessagesToConsole { get; set; }
-        bool PlayAudio { get; set; }
         bool IsChessDotComBoardStateActive { get; }
         string LocalBoardFEN { get; set; }
         string WhiteClock { get; }

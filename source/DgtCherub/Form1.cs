@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static DgtCherub.Helpers.ISequentialVoicePlayer;
 
 
 //TODO: Add Firewall Config
@@ -42,31 +43,13 @@ namespace DgtCherub
 
         private const int MISMATCH_DELAY = 1500;
 
-        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND };
-
-        private const string RESOURCE_VOICE_ROOT = "DgtCherub.Assets.Audio";
-        private const string RESOURCE_VOICE_NAME = "Speech_en_01";
-
-        private readonly string[] AudioFiles = { "Mismatch.wav" ,
-                                                 "Match.wav" ,
-                                                 "DgtLcConnected.wav" ,
-                                                 "DgtLcDisconnected.wav" ,
-                                                 "DgtConnected.wav" ,
-                                                 "DgtDisconnected.wav" ,
-                                                 "CdcWatching.wav" ,
-                                                 "CdcStoppedWatching.wav" ,
-                                                 "DgtCantFindBoard.wav"
-                                                };
-
         private readonly IHost _iHost;
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
-        private readonly SoundPlayer _soundPlayer;
-
-        private readonly ConcurrentQueue<AudioClip> playList = new();
+        private readonly ISequentialVoicePlayer _voicePlayer;
 
         private int LastFormWidth = 705;
         private int CollapsedWidth = 705;
@@ -78,6 +61,8 @@ namespace DgtCherub
 
         private readonly bool IsRabbitInstalled = false;
 
+
+
         //TODO: Finish the testers tab
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
@@ -85,20 +70,20 @@ namespace DgtCherub
 
         public Form1(IHost iHost,
                      ILogger<Form1> logger,
-                     SoundPlayer soundPlayer,
                      IAppDataService appData,
                      IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess,
-                     IBoardRenderer boardRenderer)
+                     IBoardRenderer boardRenderer,
+                     ISequentialVoicePlayer voicePlayer)
         {
 
             _iHost = iHost;
             _logger = logger;
-            _soundPlayer = soundPlayer;
             _appDataService = appData;
             _dgtEbDllFacade = dgtEbDllFacade;
             _dgtLiveChess = dgtLiveChess;
             _boardRenderer = boardRenderer;
+            _voicePlayer = voicePlayer;
 
             InitializeComponent();
 
@@ -114,47 +99,6 @@ namespace DgtCherub
                 IsRabbitInstalled = false;
             }
         }
-
-
-
-
-        private void Speak(AudioClip clipName)
-        {
-            if (playList.IsEmpty)
-            {
-                if (_appDataService.PlayAudio)
-                {
-                    playList.Enqueue(clipName);
-
-                    Thread playListPlayer = new(() =>
-                    {
-                        while (!playList.IsEmpty)
-                        {
-                            if (playList.TryDequeue(out AudioClip result))
-                            {
-                                if (_appDataService.PlayAudio)
-                                {
-                                    using System.IO.Stream audioStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{RESOURCE_VOICE_ROOT}.{RESOURCE_VOICE_NAME}.{AudioFiles[((int)result)]}");
-                                    _soundPlayer.Stream = audioStream;
-                                    _soundPlayer.PlaySync();
-                                    _soundPlayer.Stream = null;
-                                }
-                            }
-                        }
-                    });
-
-                    playListPlayer.Start();
-                }
-            }
-            else
-            {
-                if (_appDataService.PlayAudio)
-                {
-                    playList.Enqueue(clipName);
-                }
-            }
-        }
-
 
         private async Task FenChangedMatchTest()
         {
@@ -172,7 +116,7 @@ namespace DgtCherub
 
                 if (!_appDataService.IsMismatchDetected)
                 {
-                    Speak(AudioClip.MISMATCH);
+                    _voicePlayer.Speak(AudioClip.MISMATCH);
                     _appDataService.IsMismatchDetected = true;
                 }
             }
@@ -183,7 +127,7 @@ namespace DgtCherub
                     _dgtEbDllFacade?.StopForeverMessage();
                     _dgtEbDllFacade?.DisplayMessage(" MATCH ", 2000);
                     _appDataService.IsMismatchDetected = false;
-                    Speak(AudioClip.MATCH);
+                    _voicePlayer.Speak(AudioClip.MATCH);
                 }
             }
 
@@ -253,7 +197,7 @@ namespace DgtCherub
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
-                Speak(AudioClip.DGT_LC_CONNECTED);
+                _voicePlayer.Speak(AudioClip.DGT_LC_CONNECTED);
                 TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Live Chess running [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
@@ -262,7 +206,7 @@ namespace DgtCherub
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                Speak(AudioClip.DGT_LC_DISCONNECTED);
+                _voicePlayer.Speak(AudioClip.DGT_LC_DISCONNECTED);
                 _appDataService.ResetChessDotComLocalBoardState();
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
@@ -270,7 +214,7 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                Speak(AudioClip.DGT_CONNECTED);
+                _voicePlayer.Speak(AudioClip.DGT_CONNECTED);
                 TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Board found [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
@@ -279,14 +223,14 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                Speak(AudioClip.DGT_DISCONNECTED);
+                _voicePlayer.Speak(AudioClip.DGT_DISCONNECTED);
                 _appDataService.ResetChessDotComLocalBoardState();
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnCantFindBoard += (source, eventArgs) =>
             {
-                Speak(AudioClip.DGT_CANT_FIND);
+                _voicePlayer.Speak(AudioClip.DGT_CANT_FIND);
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
@@ -319,7 +263,7 @@ namespace DgtCherub
 
             //Set Appsettings from the designer values...
             _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
-            _appDataService.PlayAudio = CheckBoxPlayAudio.Checked;
+            _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -358,8 +302,6 @@ namespace DgtCherub
 
             ResumeLayout();
         }
-
-        
 
         //*********************************************//
         #region Form Control Events
@@ -409,21 +351,6 @@ namespace DgtCherub
             _dgtEbDllFacade?.DisplayMessageSeries("ABCDEFGH", "12345678");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         private void ButtonRabbitConfig_Click(object sender, EventArgs e)
         {
             _dgtEbDllFacade?.HideCongigDialog();
@@ -465,7 +392,7 @@ namespace DgtCherub
         private void CheckBoxPlayAudio_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayAudio.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
-            _appDataService.PlayAudio = CheckBoxPlayAudio.Checked;
+            _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using DgtCherub.Services;
+﻿using DgtCherub.Helpers;
+using DgtCherub.Services;
 using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
 using DynamicBoard;
@@ -33,15 +34,16 @@ namespace DgtCherub
                            .AllowAnyHeader();
                 });
             });
-
+            
             services.AddHttpClient();
             services.AddControllers();
             services.AddLogging();
+            services.AddScoped(typeof(SoundPlayer));
             services.AddTransient(typeof(IBoardRenderer), typeof(ChessDotComBoardRenderer));
+            services.AddSingleton(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
             services.AddSingleton(typeof(IAppDataService), typeof(AppDataService));
             services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
-            services.AddScoped(typeof(SoundPlayer));
             services.AddScoped<Form1>();
         }
 
