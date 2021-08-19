@@ -6,11 +6,8 @@ using DynamicBoard;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Drawing;
-using System.Media;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,7 +25,6 @@ namespace DgtCherub
 {
     public partial class Form1 : Form
     {
-
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.0.1";
         private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
@@ -61,8 +57,6 @@ namespace DgtCherub
 
         private readonly bool IsRabbitInstalled = false;
 
-
-
         //TODO: Finish the testers tab
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
@@ -74,8 +68,10 @@ namespace DgtCherub
             _iHost = iHost;
             _logger = logger;
             _appDataService = appData;
-            _dgtEbDllFacade = dgtEbDllFacade;
+
             _dgtLiveChess = dgtLiveChess;
+
+            _dgtEbDllFacade = dgtEbDllFacade;
             _boardRenderer = boardRenderer;
             _voicePlayer = voicePlayer;
 
@@ -180,7 +176,6 @@ namespace DgtCherub
             ResumeLayout();
         }
 
-
         private void Form1_Shown(object sender, EventArgs e)
         {
             ClearConsole();
@@ -207,7 +202,7 @@ namespace DgtCherub
                 PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
             };
 
-            _appDataService.OnChessDotComFenChange += () =>
+            _appDataService.OnRemoteFenChange += () =>
             {
                 Action updateAction = new(async () =>
                 {

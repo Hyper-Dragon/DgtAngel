@@ -17,7 +17,7 @@ namespace DgtCherub.Services
         string WhiteClock { get; }
         string RunWhoString { get; }
 
-        event Action OnChessDotComFenChange;
+        event Action OnRemoteFenChange;
         event Action OnChessDotComDisconnect;
         event Action OnClockChange;
         event Action OnLocalFenChange;
@@ -33,7 +33,7 @@ namespace DgtCherub.Services
     public sealed class AppDataService : IAppDataService
     {
         public event Action OnLocalFenChange;
-        public event Action OnChessDotComFenChange;
+        public event Action OnRemoteFenChange;
         public event Action OnChessDotComDisconnect;
         public event Action OnClockChange;
         public event Action<string, string> OnUserMessageArrived;
@@ -92,7 +92,7 @@ namespace DgtCherub.Services
                 {
 
                         _chessDotComFEN = value;
-                        OnChessDotComFenChange?.Invoke();
+                        OnRemoteFenChange?.Invoke();
 
                 }
             }

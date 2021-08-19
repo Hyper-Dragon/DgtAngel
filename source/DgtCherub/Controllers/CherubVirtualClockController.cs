@@ -168,7 +168,7 @@ namespace DgtCherub.Controllers
                 await Response.Body.FlushAsync();
             };
 
-            _appDataService.OnChessDotComFenChange += async () =>
+            _appDataService.OnRemoteFenChange += async () =>
             {
                 string jsonString = JsonSerializer.Serialize(new
                 {
