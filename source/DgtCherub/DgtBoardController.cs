@@ -39,7 +39,7 @@ namespace DgtCherub
                 while (webSocket.State == WebSocketState.Open)
                 {
                     var buffer = new ArraySegment<byte>(new byte[1024]);
-                    WebSocketReceiveResult result = null;
+                    WebSocketReceiveResult result;
                     var allBytes = new List<byte>();
 
                     do

@@ -148,7 +148,7 @@ namespace DgtCherub
 
                     string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
                     byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                    await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                    await Response.Body.WriteAsync(dataItemBytes);
                     await Response.Body.FlushAsync();
                 };
             };
@@ -165,7 +165,7 @@ namespace DgtCherub
 
                 string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
                 byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                    await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                    await Response.Body.WriteAsync(dataItemBytes);
                     await Response.Body.FlushAsync();
             };
 
@@ -180,8 +180,7 @@ namespace DgtCherub
                 });
 
                 string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                await Response.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes(dataItem));
                 await Response.Body.FlushAsync();
             };
 
@@ -197,7 +196,7 @@ namespace DgtCherub
 
                 string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
                 byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes, 0, dataItemBytes.Length);
+                await Response.Body.WriteAsync(dataItemBytes);
                 await Response.Body.FlushAsync();
 
                 await Task.Delay(TimeSpan.FromSeconds(60 * 5));

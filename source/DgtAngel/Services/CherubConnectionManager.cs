@@ -42,7 +42,6 @@ namespace DgtAngel.Services
         private readonly ILogger _logger;
         private ClientWebSocket _socket = null;
 
-
         private string replayOnConnectMessage = "";
 
   
@@ -119,14 +118,13 @@ namespace DgtAngel.Services
             for (; ; )
             {
                 await SendJsonToCherubClient(keepAliveMessage);
-
-                var buffer = new ArraySegment<byte>(new byte[1024*4]);
-
-                CancellationTokenSource canxTokenSource = new CancellationTokenSource(2000);
-
-                var test = await _socket.ReceiveAsync(buffer, canxTokenSource.Token);
-
-                _logger.LogInformation($"Keep Alive Bytes Recieved {test.Count}");
+                
+                using (CancellationTokenSource canxTokenSource = new(2000))
+                {
+                    var buffer = new ArraySegment<byte>(new byte[1024 * 4]);
+                    var test = await _socket.ReceiveAsync(buffer, canxTokenSource.Token);
+                    _logger.LogInformation($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
+                }
 
                 await Task.Delay(30000);
             }
