@@ -102,7 +102,7 @@ namespace DgtLiveChessWrapper
             bool reportNoActiveBoards = true;
 
             //Open a websocket to DGT LiveChess (running on the local machine)
-            using ClientWebSocket socket = new ClientWebSocket();
+            using ClientWebSocket socket = new();
             await socket.ConnectAsync(new Uri(LIVE_CHESS_URL), CancellationToken.None).ConfigureAwait(false);
 
             OnLiveChessConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
@@ -175,7 +175,7 @@ namespace DgtLiveChessWrapper
             ArraySegment<byte> buffer = new(new byte[2048]);
 
             WebSocketReceiveResult result;
-            using MemoryStream ms = new MemoryStream();
+            using MemoryStream ms = new();
             do
             {
                 result = await socket.ReceiveAsync(buffer, CancellationToken.None).ConfigureAwait(false);
@@ -196,7 +196,7 @@ namespace DgtLiveChessWrapper
             else
             {
                 ms.Seek(0, SeekOrigin.Begin);
-                using StreamReader reader = new StreamReader(ms, Encoding.UTF8);
+                using StreamReader reader = new(ms, Encoding.UTF8);
                 string response = await reader.ReadToEndAsync();
 
                 return response;
