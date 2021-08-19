@@ -54,6 +54,11 @@ namespace DgtCherub.Services
             _dgtEbDllFacade = dgtEbDllFacade;
         }
 
+        //public void LocalBoardUpdated(string fen)
+        //{
+        //
+        //}
+
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
             // Account for the actual time captured/now if clock running

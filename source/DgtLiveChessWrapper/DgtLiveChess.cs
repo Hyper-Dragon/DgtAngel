@@ -12,7 +12,6 @@ namespace DgtLiveChessWrapper
     {
         public string ResponseOut { get; set; }
     }
-
     public interface IDgtLiveChess
     {
         event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
