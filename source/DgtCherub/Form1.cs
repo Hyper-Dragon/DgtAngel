@@ -1,4 +1,6 @@
-﻿using DgtEbDllWrapper;
+﻿using DgtCherub.Helpers;
+using DgtCherub.Services;
+using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
 using DynamicBoard;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +27,7 @@ namespace DgtCherub
 {
     public partial class Form1 : Form
     {
-        
+
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.0.1";
         private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
@@ -37,7 +39,7 @@ namespace DgtCherub
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
         private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
-        
+
         private const int MISMATCH_DELAY = 1500;
 
         public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND };
@@ -74,7 +76,7 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
 
-        private readonly bool IsRabbitInstalled=false;
+        private readonly bool IsRabbitInstalled = false;
 
         //TODO: Finish the testers tab
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
@@ -191,7 +193,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"              the Live Chess Software, DGT Drivers and DGT Angel (see link)", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"              installed on this machine.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Using { ((IsRabbitInstalled)? _dgtEbDllFacade.GetRabbitVersionString():"DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
+            TextBoxConsole.AddLine($"Using { ((IsRabbitInstalled) ? _dgtEbDllFacade.GetRabbitVersionString() : "DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
         }
 
@@ -208,7 +210,7 @@ namespace DgtCherub
             //TODO: Add mismatch speech - clocks must be running
             if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
             {
-                 _dgtEbDllFacade?.DisplayForeverMessage("SYNC ERR");
+                _dgtEbDllFacade?.DisplayForeverMessage("SYNC ERR");
 
                 if (!_appDataService.IsMismatchDetected)
                 {
@@ -368,7 +370,7 @@ namespace DgtCherub
         {
             SuspendLayout();
 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             //Set Appsettings from the designer values...
             _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
@@ -508,7 +510,7 @@ namespace DgtCherub
                                                       $"Trying to kill 'DGT LiveChess.exe'....",
                                                       $"...done. 'DGT LiveChess.exe' is no longer running",
                                                       TEXTBOX_MAX_LINES,
-                                                      useShellExecute:false);
+                                                      useShellExecute: false);
             }
         }
 

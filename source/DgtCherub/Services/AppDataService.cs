@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DgtCherub
+namespace DgtCherub.Services
 {
     public interface IAppDataService
     {

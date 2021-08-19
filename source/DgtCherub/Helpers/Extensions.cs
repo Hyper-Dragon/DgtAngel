@@ -1,16 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
-namespace DgtCherub
+namespace DgtCherub.Helpers
 {
-    public static class ControlHelper
+    public static class TextBoxExtensions
     {
-        public static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null, bool useShellExecute=true)
+        public static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null, bool useShellExecute = true)
         {
             try
             {
@@ -81,31 +79,4 @@ namespace DgtCherub
             }
         }
     }
-
-
-    public class ControlWriter : TextWriter
-    {
-        private readonly TextBox textbox;
-        public ControlWriter(TextBox textbox)
-        {
-            this.textbox = textbox;
-        }
-
-        public override void Write(char value)
-        {
-            textbox.AddChar(value);
-        }
-
-        public override void Write(string value)
-        {
-            textbox.AddLine(value);
-        }
-
-        public override Encoding Encoding
-        {
-            get { return Encoding.ASCII; }
-        }
-    }
-
-
 }

@@ -30,8 +30,8 @@ namespace DgtAngel.Services
 
     public sealed class CherubConnectionManager : ICherubConnectionManager
     {
-        const string CHERUB_API_WS_PATH = "/ws";
-        const string CHERUB_API_WS_HOST = "ws://localhost:37964";
+        private const string CHERUB_API_WS_PATH = "/ws";
+        private const string CHERUB_API_WS_HOST = "ws://localhost:37964";
 
         private const int CONNECTION_RETRY_DELAY = 5000;
 
@@ -44,7 +44,7 @@ namespace DgtAngel.Services
 
         private string replayOnConnectMessage = "";
 
-  
+
         private readonly string keepAliveMessage = JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
         {
             Source = "ANGEL",
@@ -118,11 +118,11 @@ namespace DgtAngel.Services
             for (; ; )
             {
                 await SendJsonToCherubClient(keepAliveMessage);
-                
+
                 using (CancellationTokenSource canxTokenSource = new(2000))
                 {
-                    var buffer = new ArraySegment<byte>(new byte[1024 * 4]);
-                    var test = await _socket.ReceiveAsync(buffer, canxTokenSource.Token);
+                    ArraySegment<byte> buffer = new(new byte[1024 * 4]);
+                    WebSocketReceiveResult test = await _socket.ReceiveAsync(buffer, canxTokenSource.Token);
                     _logger.LogInformation($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
                 }
 
@@ -131,7 +131,7 @@ namespace DgtAngel.Services
         }
 
         // These method are fire and forget - if Cherub isn't there that's fine - just log
-        private async Task SendJsonToCherubClient(string message, bool saveAsLastMessage=false)
+        private async Task SendJsonToCherubClient(string message, bool saveAsLastMessage = false)
         {
             // Save message to replay 
             if (saveAsLastMessage) { replayOnConnectMessage = message; }

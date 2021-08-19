@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -47,7 +46,7 @@ namespace DgtCherub
                 mutex.Close();
             }
             //...and that we can listen on the correct socket
-            else if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == CHERUB_API_LISTEN_PORT) )
+            else if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == CHERUB_API_LISTEN_PORT))
             {
                 ShowCantStartDialog($"Another service is listening on port {CHERUB_API_LISTEN_PORT}.  Please stop it and retry.");
             }

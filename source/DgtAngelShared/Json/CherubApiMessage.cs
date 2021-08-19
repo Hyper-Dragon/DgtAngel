@@ -13,6 +13,6 @@ namespace DgtAngelShared.Json
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public MessageTypeCode MessageType { get; set; }
         public string Message { get; set; }
-        public BoardState RemoteBoard  { get; set; }
+        public BoardState RemoteBoard { get; set; }
     }
 }

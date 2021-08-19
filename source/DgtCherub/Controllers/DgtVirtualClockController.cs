@@ -1,8 +1,7 @@
-﻿using DgtEbDllWrapper;
+﻿using DgtCherub.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace DgtCherub
+namespace DgtCherub.Controllers
 {
     [Route("[controller]")]
     [Controller]
@@ -19,7 +18,7 @@ namespace DgtCherub
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
         private const string RESOURCE_CLOCK_NAME = "SlideClock";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
-        private const string RESOURCE_CLOCK_FAV  = "favicon.png";
+        private const string RESOURCE_CLOCK_FAV = "favicon.png";
         private const string RESOURCE_CLOCK_SVG = "DgtAngelLogo.svg";
 
         private readonly ILogger _logger;
@@ -43,14 +42,14 @@ namespace DgtCherub
             using System.IO.Stream favIconStream = Assembly.GetExecutingAssembly()
                                                            .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_FAV}");
 
-            using var memoryStream = new MemoryStream();
+            using MemoryStream memoryStream = new();
             favIconStream.CopyTo(memoryStream);
             FavIcon = memoryStream.ToArray();
 
             using System.IO.Stream svgIconStream = Assembly.GetExecutingAssembly()
                                                .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
 
-            using var memoryStreamSvg = new MemoryStream();
+            using MemoryStream memoryStreamSvg = new();
             svgIconStream.CopyTo(memoryStreamSvg);
             SvgLogo = memoryStreamSvg.ToArray();
         }
@@ -76,7 +75,7 @@ namespace DgtCherub
 
             //TODO: Replace with embeded resource
             //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/tryagain.html");
-            
+
             string htmlOut = IndexPageHtml;
 
             return new ContentResult
@@ -103,7 +102,7 @@ namespace DgtCherub
                 string fileType = "image/png";
                 return File(imageData, fileType);
             }
-            else if (!string.IsNullOrWhiteSpace(fileName) && (fileName == "blah" || fileName == "blah.jpg") )
+            else if (!string.IsNullOrWhiteSpace(fileName) && (fileName == "blah" || fileName == "blah.jpg"))
             {
                 byte[] imageData = System.IO.File.ReadAllBytes(@"C:/TESTHTML/test.jpg");
                 string fileType = "image/jpeg";
@@ -119,19 +118,19 @@ namespace DgtCherub
         {
             // http://localhost:37964/DgtVirtualClock/GetStuff
 
-            int clientServerTimeDiff = (int) (double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+            int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
             //TODO: Need to get the time the clocks were taken
             Response.Headers.Add("Content-Type", "text/event-stream");
 
             _appDataService.OnClockChange += () =>
             {
-                var wcs = _appDataService.WhiteClock.Split(':');
-                var bcs = _appDataService.BlackClock.Split(':');
+                string[] wcs = _appDataService.WhiteClock.Split(':');
+                string[] bcs = _appDataService.BlackClock.Split(':');
 
                 //TODO: Knockd off a couple of seconds for now....fix properly
-                int wctime = ((((int.Parse(wcs[0]) * 60) * 60) + (int.Parse(wcs[1]) * 60) + int.Parse(wcs[2])) * 1000)-2000;
-                int bctime = ((((int.Parse(bcs[0]) * 60) * 60) + (int.Parse(bcs[1]) * 60) + int.Parse(bcs[2])) * 1000)-2000;
+                int wctime = ((((int.Parse(wcs[0]) * 60) * 60) + (int.Parse(wcs[1]) * 60) + int.Parse(wcs[2])) * 1000) - 2000;
+                int bctime = ((((int.Parse(bcs[0]) * 60) * 60) + (int.Parse(bcs[1]) * 60) + int.Parse(bcs[2])) * 1000) - 2000;
 
                 _appDataService.OnClockChange += async () =>
                 {
@@ -140,7 +139,7 @@ namespace DgtCherub
                         MessageType = "OnClockChange",
                         WhiteClockMsRemaining = wctime,
                         BlackClockMsRemaining = bctime,
-                        IsGameActive = _appDataService.RunWhoString!="3",
+                        IsGameActive = _appDataService.RunWhoString != "3",
                         IsWhiteToPlay = _appDataService.RunWhoString == "1",
                         ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                         ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
@@ -157,7 +156,7 @@ namespace DgtCherub
             {
                 string jsonString = JsonSerializer.Serialize(new
                 {
-                    MessageType="OnLocalFenChange",
+                    MessageType = "OnLocalFenChange",
                     BoardFen = _appDataService.LocalBoardFEN,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
@@ -165,8 +164,8 @@ namespace DgtCherub
 
                 string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
                 byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                    await Response.Body.WriteAsync(dataItemBytes);
-                    await Response.Body.FlushAsync();
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
             };
 
             _appDataService.OnChessDotComFenChange += async () =>

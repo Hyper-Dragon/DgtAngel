@@ -1,4 +1,5 @@
 ﻿using DgtAngelShared.Json;
+using DgtCherub.Services;
 using DgtEbDllWrapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DgtCherub
+namespace DgtCherub.Controllers
 {
     public class WebSocketController : ControllerBase
     {
@@ -37,9 +38,9 @@ namespace DgtCherub
 
                 while (webSocket.State == WebSocketState.Open)
                 {
-                    var buffer = new ArraySegment<byte>(new byte[1024]);
+                    ArraySegment<byte> buffer = new(new byte[1024]);
                     WebSocketReceiveResult result;
-                    var allBytes = new List<byte>();
+                    List<byte> allBytes = new();
 
                     do
                     {
@@ -54,7 +55,7 @@ namespace DgtCherub
                     try
                     {
                         // Convert to a string (UTF-8 encoding).
-                        var messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
+                        CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
 
                         switch (messageIn.MessageType)
                         {
@@ -83,9 +84,9 @@ namespace DgtCherub
                                 TimeSpan whiteTimespan = new(0, 0, 0, 0, messageIn.RemoteBoard.Board.Clocks.WhiteClock);
                                 TimeSpan blackTimespan = new(0, 0, 0, 0, messageIn.RemoteBoard.Board.Clocks.BlackClock);
 
-                                var whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
-                                var blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
-                                var runWho = messageIn.RemoteBoard.Board.Turn == TurnCode.WHITE ? 1 : messageIn.RemoteBoard.Board.Turn == TurnCode.BLACK ? 2 : 0;
+                                string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
+                                string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
+                                int runWho = messageIn.RemoteBoard.Board.Turn == TurnCode.WHITE ? 1 : messageIn.RemoteBoard.Board.Turn == TurnCode.BLACK ? 2 : 0;
 
                                 _appDataService.SetClocks(whiteClockString, blackClockString, runWho.ToString());
                                 _dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);

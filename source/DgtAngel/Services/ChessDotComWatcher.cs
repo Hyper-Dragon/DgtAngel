@@ -27,7 +27,7 @@ namespace DgtAngel.Services
         private readonly ILogger _logger;
         private readonly IScriptWrapper _scriptWrapper;
 
-        public event EventHandler<ChessDotComWatcherGameStateEventArgs>OnWatchStarted;
+        public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnWatchStarted;
         public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnFenRecieved;
         public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnDuplicateFenRecieved;
         public event EventHandler OnWatchStopped;
@@ -58,7 +58,7 @@ namespace DgtAngel.Services
                     token.ThrowIfCancellationRequested();
                     BoardState remoteBoardState = JsonSerializer.Deserialize<BoardState>(await _scriptWrapper.GetChessDotComBoardJson());
 
-                    while (remoteBoardState != null && remoteBoardState.State.Code !=  ResponseCode.UNKNOWN_PAGE)
+                    while (remoteBoardState != null && remoteBoardState.State.Code != ResponseCode.UNKNOWN_PAGE)
                     {
                         // If this is the first time we have found a valid page - let the outside world know that we are watching
                         if (!hasOnWatchStartedEventBeenFired)

@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DgtCherub.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace DgtCherub
+namespace DgtCherub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

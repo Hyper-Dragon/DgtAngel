@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace DgtAngelShared.Json
 {
     public enum ResponseCode
     {
-        UNKNOWN_PAGE,RUNNING,SCRIPT_SCRAPE_ERROR,
-        GAME_PENDING,GAME_COMPLETED,GAME_IN_PROGRESS
+        UNKNOWN_PAGE, RUNNING, SCRIPT_SCRAPE_ERROR,
+        GAME_PENDING, GAME_COMPLETED, GAME_IN_PROGRESS
     }
 
     public enum TurnCode
     {
-        NONE,WHITE,BLACK,UNKNOWN
+        NONE, WHITE, BLACK, UNKNOWN
     }
 
     public class BoardState
