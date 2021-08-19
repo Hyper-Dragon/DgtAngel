@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace DgtCherub.Controllers
 {
-    public class WebSocketController : ControllerBase
+    public class CherubWebSocketApiController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
-        public WebSocketController(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade)
+        public CherubWebSocketApiController(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
             _appDataService = appData;

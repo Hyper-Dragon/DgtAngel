@@ -4,14 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace DgtCherub.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
-    public class DgtBoardController : ControllerBase
+    public class CherubHttpApiController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
 
-        public DgtBoardController(ILogger<Form1> logger, IAppDataService appData)
+        public CherubHttpApiController(ILogger<Form1> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;
@@ -21,7 +21,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{source}")]
         public object MessageUser(string source = "Unknown", string message = "Message Empty")
         {
-            // Test: curl -G 'http://localhost:37964/api/DgtBoard/MessageUser/CLI/' --data-urlencode 'message=Just wanted to say hi by GET'
+            // curl -G  http://192.168.1.10:37964/api/MessageUser/CLI --data-urlencode 'message=Just wanted to say Hiya by GET'
             _appDataService.UserMessageArrived(source, message);
 
             return new { isSuccess = true };
@@ -32,7 +32,7 @@ namespace DgtCherub.Controllers
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Part of API")]
         public object AreYouThere()
         {
-            // Test: curl -G 'http://localhost:37964/api/DgtBoard/DgtAngelDisconnected/CLI/'
+            // Test: curl -G  http://192.168.1.10:37964/api/AreYouThere
             return new { isSuccess = true };
         }
     }

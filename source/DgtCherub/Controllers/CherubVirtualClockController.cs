@@ -13,7 +13,7 @@ namespace DgtCherub.Controllers
 {
     [Route("[controller]")]
     [Controller]
-    public class DgtVirtualClockController : ControllerBase
+    public class CherubVirtualClockController : ControllerBase
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
         private const string RESOURCE_CLOCK_NAME = "SlideClock";
@@ -28,7 +28,7 @@ namespace DgtCherub.Controllers
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
-        public DgtVirtualClockController(ILogger<Form1> logger, IAppDataService appData)
+        public CherubVirtualClockController(ILogger<Form1> logger, IAppDataService appData)
         {
             _logger = logger;
             _appDataService = appData;
