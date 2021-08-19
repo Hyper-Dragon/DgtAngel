@@ -6,7 +6,7 @@ namespace DgtCherub.Controllers
 {
     [Route("api/")]
     [ApiController]
-    public class CherubHttpApiController : ControllerBase
+    public sealed class CherubHttpApiController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;

@@ -13,7 +13,7 @@ namespace DgtCherub.Controllers
 {
     [Route("[controller]")]
     [Controller]
-    public class CherubVirtualClockController : ControllerBase
+    public sealed class CherubVirtualClockController : ControllerBase
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
         private const string RESOURCE_CLOCK_NAME = "SlideClock";

@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31410.223
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAngel.csproj", "{DF96AD8A-E912-4328-B282-8DE16F28B8D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtAngelLib\DgtLiveChessWrapper.csproj", "{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC5E410E-067B-48BA-8C57-F231E35A8790}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{9BEF4676-8089-4C82-B85F-B694610D431E}"
@@ -27,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtCherub", "DgtCherub\DgtC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicBoard", "DynamicBoard\DynamicBoard.csproj", "{C0BA15EF-D915-4146-87FA-1085B0A0228D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DgtAngelShared", "DgtAngelShared\DgtAngelShared.csproj", "{F7649A82-C699-4229-877F-822E64E20037}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngelShared", "DgtAngelShared\DgtAngelShared.csproj", "{F7649A82-C699-4229-877F-822E64E20037}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtLiveChessWrapper\DgtLiveChessWrapper.csproj", "{42C198C0-EE34-4952-AECD-FBB6A4EA4494}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A9AEEED-A851-4870-919B-ECFADEC5BEC2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9F97188-1996-4F0F-BD67-734EA3F672D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9F97188-1996-4F0F-BD67-734EA3F672D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9F97188-1996-4F0F-BD67-734EA3F672D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,6 +55,10 @@ Global
 		{F7649A82-C699-4229-877F-822E64E20037}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7649A82-C699-4229-877F-822E64E20037}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7649A82-C699-4229-877F-822E64E20037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42C198C0-EE34-4952-AECD-FBB6A4EA4494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42C198C0-EE34-4952-AECD-FBB6A4EA4494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42C198C0-EE34-4952-AECD-FBB6A4EA4494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42C198C0-EE34-4952-AECD-FBB6A4EA4494}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

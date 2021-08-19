@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace DgtCherub.Helpers
 {
-    public class ControlWriter : TextWriter
+    public sealed class ControlWriter : TextWriter
     {
         private readonly TextBox textbox;
         public ControlWriter(TextBox textbox)

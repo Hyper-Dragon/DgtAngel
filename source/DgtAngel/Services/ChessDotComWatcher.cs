@@ -21,7 +21,7 @@ namespace DgtAngel.Services
         Task PollChessDotComBoard(CancellationToken token);
     }
 
-    public class ChessDotComWatcher : IRemoteBoardWatcher
+    public sealed class ChessDotComWatcher : IRemoteBoardWatcher
     {
         private readonly ILogger _logger;
         private readonly IScriptWrapper _scriptWrapper;

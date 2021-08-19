@@ -27,7 +27,7 @@ namespace DgtCherub.Services
         void UserMessageArrived(string source, string message);
     }
 
-    public class AppDataService : IAppDataService
+    public sealed class AppDataService : IAppDataService
     {
         public event Action OnLocalFenChange;
         public event Action OnChessDotComFenChange;

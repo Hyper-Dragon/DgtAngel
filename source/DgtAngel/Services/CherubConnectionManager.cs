@@ -157,7 +157,7 @@ namespace DgtAngel.Services
                 {
                     ArraySegment<byte> buffer = new(new byte[1024 * 4]);
                     WebSocketReceiveResult test = await _socket.ReceiveAsync(buffer, canxTokenSource.Token);
-                    _logger.LogInformation($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
+                    _logger.LogDebug($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
                 }
 
                 await Task.Delay(CONNECTION_KEEPALIVE_DELAY);
@@ -201,7 +201,7 @@ namespace DgtAngel.Services
             await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
-                MessageType = MessageTypeCode.FEN_UPDATE,
+                MessageType = MessageTypeCode.STATE_UPDATED,
                 Message = "",
                 RemoteBoard = remoteBoardState
             }), true);
@@ -214,7 +214,7 @@ namespace DgtAngel.Services
             {
                 Source = "ANGEL",
                 MessageType = MessageTypeCode.MESSAGE,
-                Message = "DGT Angel Disconnected",
+                Message = "DGT Angel Stopped Watching Board",
                 RemoteBoard = null
             }));
         }
