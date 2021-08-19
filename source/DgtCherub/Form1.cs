@@ -344,8 +344,8 @@ namespace DgtCherub
             };
 
             //All the Events are set up so we can start watching the local board
-            Console.SetOut(new ControlWriter(TextBoxConsole));
-            Console.SetError(new ControlWriter(TextBoxConsole));
+            //Console.SetOut(new ControlWriter(TextBoxConsole));
+            //Console.SetError(new ControlWriter(TextBoxConsole));
 
 
 

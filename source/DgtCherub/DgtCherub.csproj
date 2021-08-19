@@ -52,6 +52,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DgtAngelShared\DgtAngelShared.csproj" />
     <ProjectReference Include="..\DgtEbDllWrapper\DgtEbDllWrapper.csproj" />
     <ProjectReference Include="..\DgtLiveChessWrapper\DgtLiveChessWrapper.csproj" />

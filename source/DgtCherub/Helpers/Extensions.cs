@@ -10,6 +10,8 @@ namespace DgtCherub.Helpers
     {
         public static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null, bool useShellExecute = true)
         {
+            if (box.IsDisposed) return false;
+
             try
             {
                 box.AddLine($"...{preStartText}", maxLine, true);
@@ -46,11 +48,15 @@ namespace DgtCherub.Helpers
 
         public static void AddChar(this TextBox box, char character, bool timeStamp = true)
         {
+            if (box.IsDisposed) return;
+
             box.Text += character;
         }
 
         public static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)
         {
+            if (box.IsDisposed) return;
+
             foreach (string line in text)
             {
                 box.AddLine($">> {line}", maxLine, timeStamp);
@@ -59,6 +65,8 @@ namespace DgtCherub.Helpers
 
         public static void AddLine(this TextBox box, string text, int? maxLine = null, bool timeStamp = true)
         {
+            if (box.IsDisposed) return;
+
             Action updateAction = new(() =>
             {
                 box.SuspendLayout();
