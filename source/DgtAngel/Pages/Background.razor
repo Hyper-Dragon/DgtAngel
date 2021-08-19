@@ -1,9 +1,9 @@
 ﻿@page "/background.html"
 @inherits BackgroundPage
 @inject IScriptWrapper Scripts
-@inject IChessDotComWatcher ChessDotComWatcher
+@inject IRemoteBoardWatcher ChessDotComWatcher
 @inject ILogger<Background> Logging
-@inject ICherubConnectionManager CherubConnection
+@inject IConnectionManager CherubConnection
 @using DgtAngel.Services
 @using DgtAngelShared.Json
 @using Microsoft.Extensions.Logging
@@ -32,27 +32,27 @@
         Logging.LogInformation($"Context Menu Item Added");
 
         #pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT IT!
-        CherubConnection.StartCherubConnection();
+        CherubConnection.StartAndManageConnection();
         #pragma warning restore CS4014
 
-        await CherubConnection.SendMessageToCherubClient($"DGT Angel is starting...");
+        await CherubConnection.SendMessageToClient($"DGT Angel is starting...");
 
         ChessDotComWatcher.OnWatchStarted += async (obj, eventArgs) =>
                             {
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
-                                await CherubConnection.SendMessageToCherubClient($"Angel is watching a board on Chess.com");
+                                await CherubConnection.SendMessageToClient($"Angel is watching a board on Chess.com");
                             };
 
         ChessDotComWatcher.OnWatchStopped += async (obj, eventArgs) =>
                             {
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_NOTWATCHING);
-                                await CherubConnection.SendMessageToCherubClient($"Angel has stopped watching a board on Chess.com");                                          
-                                await CherubConnection.SendDgtAngelDisconnectedToCherubClient();
+                                await CherubConnection.SendMessageToClient($"Angel has stopped watching a board on Chess.com");                                          
+                                await CherubConnection.SendDgtAngelDisconnectedToClient();
                             };
 
-        ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
+        ChessDotComWatcher.OnBoardStateRecieved += async (obj, eventArgs) =>
                             {
-                                await CherubConnection.SendUpdatedBoardStateToCherubClient(eventArgs.RemoteBoardState);
+                                await CherubConnection.SendUpdatedBoardStateToClient(eventArgs.RemoteBoardState);
                             };
 
 
@@ -62,6 +62,6 @@
         pollChessDotComBoardTask = ChessDotComWatcher.PollChessDotComBoard(canxSrcChessDotComBoardPoll.Token);
 #pragma warning restore CS4014
 
-        await CherubConnection.SendMessageToCherubClient($"DGT Angel is running");
+        await CherubConnection.SendMessageToClient($"DGT Angel is running");
     }
 }

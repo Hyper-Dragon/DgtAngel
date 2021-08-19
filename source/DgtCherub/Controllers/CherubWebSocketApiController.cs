@@ -60,15 +60,15 @@ namespace DgtCherub.Controllers
                         switch (messageIn.MessageType)
                         {
                             case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
-                                _logger.LogTrace($"Cherub Keep-Alive from {messageIn.Source}");
-                                _appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PING Arrived");
+                                _logger.LogDebug($"Cherub Keep-Alive from {messageIn.Source}");
+                                //_appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PING Arrived");
 
                                 await webSocket.SendAsync(Encoding.UTF8.GetBytes("PONG"),
                                                           WebSocketMessageType.Text,
                                                           true,
                                                           CancellationToken.None);
 
-                                _appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PONG Sent");
+                                //_appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PONG Sent");
 
                                 break;
                             case CherubApiMessage.MessageTypeCode.MESSAGE:

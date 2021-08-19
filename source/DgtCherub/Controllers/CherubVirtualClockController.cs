@@ -71,7 +71,7 @@ namespace DgtCherub.Controllers
         [Route("{action}")]
         public ContentResult GetClock()
         {
-            // http://localhost:37964/DgtVirtualClock/GetClock
+            // http://localhost:37964/CherubVirtualClock/GetClock
 
             //TODO: Replace with embeded resource
             //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/tryagain.html");
@@ -116,7 +116,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{clientUtcMs}")]
         public async Task GetStuff(string clientUtcMs)
         {
-            // http://localhost:37964/DgtVirtualClock/GetStuff
+            // http://localhost:37964/CherubVirtualClock/GetStuff
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 

@@ -16,12 +16,15 @@ namespace DgtAngel
             builder.Logging.SetMinimumLevel(LogLevel.Trace); //TODO: Fix this -> level does not work!
             builder.RootComponents.Add<App>("#app");
 
+            //TODO: double http????
+
             // workaround to use JavaScript fetch to bypass url validation
             // see: https://github.com/dotnet/runtime/issues/52836
             builder.Services.AddScoped<HttpClient>(sp => new JsHttpClient(sp) { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
+
                             .AddSingleton<IScriptWrapper, ScriptWrapper>()
-                            .AddSingleton<IChessDotComWatcher, ChessDotComWatcher>()
-                            .AddSingleton<ICherubConnectionManager, CherubConnectionManager>()
+                            .AddSingleton<IRemoteBoardWatcher, ChessDotComWatcher>()
+                            .AddSingleton<IConnectionManager, CherubConnectionManager>()
                             .AddBrowserExtensionServices(options => { options.ProjectNamespace = typeof(Program).Namespace; });
 
             await builder.Build().RunAsync();

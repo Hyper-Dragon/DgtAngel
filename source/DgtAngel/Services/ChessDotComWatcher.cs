@@ -7,29 +7,27 @@ using System.Threading.Tasks;
 
 namespace DgtAngel.Services
 {
-    public class ChessDotComWatcherGameStateEventArgs : EventArgs
+    public class RemoteBoardWatcherGameStateEventArgs : EventArgs
     {
         public BoardState RemoteBoardState { get; set; }
     }
 
-    public interface IChessDotComWatcher
+    public interface IRemoteBoardWatcher
     {
-        event EventHandler<ChessDotComWatcherGameStateEventArgs> OnWatchStarted;
-        event EventHandler<ChessDotComWatcherGameStateEventArgs> OnFenRecieved;
-        event EventHandler<ChessDotComWatcherGameStateEventArgs> OnDuplicateFenRecieved;
+        event EventHandler<RemoteBoardWatcherGameStateEventArgs> OnWatchStarted;
+        event EventHandler<RemoteBoardWatcherGameStateEventArgs> OnBoardStateRecieved;
         event EventHandler OnWatchStopped;
 
         Task PollChessDotComBoard(CancellationToken token);
     }
 
-    public class ChessDotComWatcher : IChessDotComWatcher
+    public class ChessDotComWatcher : IRemoteBoardWatcher
     {
         private readonly ILogger _logger;
         private readonly IScriptWrapper _scriptWrapper;
 
-        public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnWatchStarted;
-        public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnFenRecieved;
-        public event EventHandler<ChessDotComWatcherGameStateEventArgs> OnDuplicateFenRecieved;
+        public event EventHandler<RemoteBoardWatcherGameStateEventArgs> OnWatchStarted;
+        public event EventHandler<RemoteBoardWatcherGameStateEventArgs> OnBoardStateRecieved;
         public event EventHandler OnWatchStopped;
 
         private const int SLEEP_RUNNING_DELAY = 100;
@@ -46,7 +44,6 @@ namespace DgtAngel.Services
         public async Task PollChessDotComBoard(CancellationToken token)
         {
             bool hasOnWatchStartedEventBeenFired = false;
-            string lastChessDotComFenString = "";
             TurnCode lastToPlay = TurnCode.UNKNOWN;
 
             _logger?.LogInformation($"Started watching for tab activation");
@@ -64,35 +61,17 @@ namespace DgtAngel.Services
                         if (!hasOnWatchStartedEventBeenFired)
                         {
                             _logger?.LogInformation($"Started watching chess.com");
-                            OnWatchStarted?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
+                            OnWatchStarted?.Invoke(this, new RemoteBoardWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
                             hasOnWatchStartedEventBeenFired = true;
-                            lastChessDotComFenString = ""; //Set to blank because this is considered a new position;
                             lastToPlay = TurnCode.UNKNOWN;
                         }
 
-                        if (lastChessDotComFenString == remoteBoardState.Board.FenString && lastToPlay == remoteBoardState.Board.Turn)
-                        {
-                            //_logger?.LogDebug($"This FEN and the Last FEN Match so raise the duplicateFen event.");
-                            //_logger?.LogDebug($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
+                        OnBoardStateRecieved?.Invoke(this, new RemoteBoardWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
 
-                            OnDuplicateFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
-                        }
-                        else
-                        {
-                            //_logger?.LogInformation($"The FEN has changed from [{lastChessDotComFenString}] to [{newFenString}]");
-                            //_logger?.LogInformation($"The clock is string is [{whiteClock}] [{blackClock}] [{toPlayString}]");
-
-                            OnFenRecieved?.Invoke(this, new ChessDotComWatcherGameStateEventArgs() { RemoteBoardState = remoteBoardState });
-                        }
-
-                        lastChessDotComFenString = remoteBoardState.Board.FenString;
                         lastToPlay = remoteBoardState.Board.Turn;
 
                         _logger?.LogTrace($"Sleeping with Running Delay of {SLEEP_RUNNING_DELAY}ms");
                         await Task.Delay(SLEEP_RUNNING_DELAY, token);
-
-                        //remoteBoardState = JsonSerializer.Deserialize<BoardState>(await _scriptWrapper.GetChessDotComBoardJson());
-                        //_logger?.LogDebug($"(Inner Loop) The returned board string from _scriptWrapper.GetChessDotComBoardString() is '{chessDotComBoardString}'");
 
                         remoteBoardState = JsonSerializer.Deserialize<BoardState>(await _scriptWrapper.GetChessDotComBoardJson());
                     }
@@ -115,9 +94,8 @@ namespace DgtAngel.Services
                 {
                     if (hasOnWatchStartedEventBeenFired)
                     {
-                        OnWatchStopped?.Invoke(this, new ChessDotComWatcherGameStateEventArgs());
+                        OnWatchStopped?.Invoke(this, new RemoteBoardWatcherGameStateEventArgs());
                         _logger?.LogInformation($"The user navigated off the Chess.com game tab");
-                        lastChessDotComFenString = "";
                         lastToPlay = TurnCode.UNKNOWN;
                         hasOnWatchStartedEventBeenFired = false;
                     }

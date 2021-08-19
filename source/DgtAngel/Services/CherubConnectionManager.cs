@@ -1,6 +1,7 @@
 ﻿using DgtAngelShared.Json;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -10,36 +11,40 @@ using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtAngel.Services
 {
-    public class CherubConnectionEventArgs : EventArgs
+    public class ConnectionManagerEventArgs : EventArgs
     {
         public string ResponseOut { get; set; }
     }
 
-    public interface ICherubConnectionManager
+    public interface IConnectionManager
     {
-        event EventHandler<CherubConnectionEventArgs> OnCherubConnected;
-        event EventHandler<CherubConnectionEventArgs> OnCherubDisconnected;
-        event EventHandler<CherubConnectionEventArgs> OnError;
+        event EventHandler<ConnectionManagerEventArgs> OnCherubConnected;
+        event EventHandler<ConnectionManagerEventArgs> OnCherubDisconnected;
+        event EventHandler<ConnectionManagerEventArgs> OnError;
 
         Task ConnectAndWatch();
-        Task SendDgtAngelDisconnectedToCherubClient();
-        Task SendMessageToCherubClient(string message);
-        Task SendUpdatedBoardStateToCherubClient(BoardState remoteBoardState);
-        Task StartCherubConnection();
+        Task SendDgtAngelDisconnectedToClient();
+        Task SendMessageToClient(string message);
+        Task SendUpdatedBoardStateToClient(BoardState remoteBoardState);
+        Task StartAndManageConnection();
     }
 
-    public sealed class CherubConnectionManager : ICherubConnectionManager
+    public sealed class CherubConnectionManager : IConnectionManager
     {
-        private const string CHERUB_API_WS_PATH = "/ws";
         private const string CHERUB_API_WS_HOST = "ws://localhost:37964";
+        private const string CHERUB_API_WS_PATH = "/ws";
+        private const string CHERUB_API_HTTP_HOST = "http://127.0.0.1:37964";
+        private const string CHERUB_API_HTTP_PATH = "/api";
+        private const string CHERUB_API_HTTP_TEST_CALL = "/AreYouThere";
+        private const int CONNECTION_RETRY_DELAY = 1000;
+        private const int CONNECTION_KEEPALIVE_DELAY = 5000;
 
-        private const int CONNECTION_RETRY_DELAY = 5000;
-
-        public event EventHandler<CherubConnectionEventArgs> OnCherubConnected;
-        public event EventHandler<CherubConnectionEventArgs> OnCherubDisconnected;
-        public event EventHandler<CherubConnectionEventArgs> OnError;
+        public event EventHandler<ConnectionManagerEventArgs> OnCherubConnected;
+        public event EventHandler<ConnectionManagerEventArgs> OnCherubDisconnected;
+        public event EventHandler<ConnectionManagerEventArgs> OnError;
 
         private readonly ILogger _logger;
+        private readonly HttpClient _httpClient;
         private ClientWebSocket _socket = null;
 
         private string replayOnConnectMessage = "";
@@ -53,19 +58,50 @@ namespace DgtAngel.Services
             RemoteBoard = null
         });
 
-        public CherubConnectionManager(ILogger<CherubConnectionManager> logger)
+        public CherubConnectionManager(ILogger<CherubConnectionManager> logger, HttpClient httpClient)
         {
             _logger = logger;
+            _httpClient = httpClient;
         }
 
-        public async Task StartCherubConnection()
+        private async Task WaitForCherub()
+        {
+            _logger?.LogInformation($"Looking for Cherub...");
+            for (; ; )
+            {
+                try
+                {
+                    var apiResponse = await _httpClient.GetAsync($"{CHERUB_API_HTTP_HOST}{CHERUB_API_HTTP_PATH}{CHERUB_API_HTTP_TEST_CALL}");
+
+                    if (apiResponse.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        _logger?.LogInformation("Found Cherub");
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogDebug($"Cherub not found (Expect - TypeError: Failed to fetch) :: {ex.Message}");
+                }
+
+                //Wait and then try again
+                await Task.Delay(CONNECTION_RETRY_DELAY);
+            }
+        }
+
+
+        public async Task StartAndManageConnection()
         {
             _logger?.LogInformation($"Starting Chrub Connection Manager");
 
             for (; ; )
             {
+                //Do this to avoid uncatchable web socket errors generated in the chrome console
+                await WaitForCherub();
+
                 try
                 {
+                    _logger?.LogInformation("Connecting to Cherub /ws");
                     await ConnectAndWatch();
                 }
                 catch (WebSocketException ex)
@@ -89,12 +125,9 @@ namespace DgtAngel.Services
                 }
                 finally
                 {
-                    OnCherubDisconnected?.Invoke(this, new CherubConnectionEventArgs() { ResponseOut = "Disconnected from Cherub" });
+                    OnCherubDisconnected?.Invoke(this, new ConnectionManagerEventArgs() { ResponseOut = "Disconnected from Cherub" });
                     _socket = null;
                 }
-
-                //Wait and then try again               
-                await Task.Delay(CONNECTION_RETRY_DELAY);
             }
         }
 
@@ -110,14 +143,15 @@ namespace DgtAngel.Services
 
             if (!string.IsNullOrWhiteSpace(replayOnConnectMessage))
             {
-                await SendJsonToCherubClient(replayOnConnectMessage);
+                await SendJsonToClient(replayOnConnectMessage);
             }
 
-            OnCherubConnected?.Invoke(this, new CherubConnectionEventArgs() { ResponseOut = "Connected to Cherub" });
+            OnCherubConnected?.Invoke(this, new ConnectionManagerEventArgs() { ResponseOut = "Connected to Cherub" });
 
+            // Send PING/PONG messages to keep the socket alive/detect disconnects
             for (; ; )
             {
-                await SendJsonToCherubClient(keepAliveMessage);
+                await SendJsonToClient(keepAliveMessage);
 
                 using (CancellationTokenSource canxTokenSource = new(2000))
                 {
@@ -126,12 +160,12 @@ namespace DgtAngel.Services
                     _logger.LogInformation($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
                 }
 
-                await Task.Delay(30000);
+                await Task.Delay(CONNECTION_KEEPALIVE_DELAY);
             }
         }
 
         // These method are fire and forget - if Cherub isn't there that's fine - just log
-        private async Task SendJsonToCherubClient(string message, bool saveAsLastMessage = false)
+        private async Task SendJsonToClient(string message, bool saveAsLastMessage = false)
         {
             // Save message to replay 
             if (saveAsLastMessage) { replayOnConnectMessage = message; }
@@ -149,9 +183,10 @@ namespace DgtAngel.Services
             catch (Exception ex) { _logger?.LogInformation($"Failed to send to Cherub>> {_socket?.State} :: {ex.Message}"); }
         }
 
-        public async Task SendMessageToCherubClient(string message)
+        public async Task SendMessageToClient(string message)
         {
-            await SendJsonToCherubClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
+            _logger.LogDebug($"Sending Message {message} to Client");
+            await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
                 MessageType = MessageTypeCode.MESSAGE,
@@ -160,10 +195,10 @@ namespace DgtAngel.Services
             }));
         }
 
-        public async Task SendUpdatedBoardStateToCherubClient(BoardState remoteBoardState)
+        public async Task SendUpdatedBoardStateToClient(BoardState remoteBoardState)
         {
-            _logger.LogInformation($"Sending FEN [{remoteBoardState.Board.FenString}]  to Cherub");
-            await SendJsonToCherubClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
+            _logger.LogDebug($"Sending FEN [{remoteBoardState.Board.FenString}] to Client");
+            await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
                 MessageType = MessageTypeCode.FEN_UPDATE,
@@ -172,11 +207,10 @@ namespace DgtAngel.Services
             }), true);
         }
 
-        public async Task SendDgtAngelDisconnectedToCherubClient()
+        public async Task SendDgtAngelDisconnectedToClient()
         {
-            _logger.LogInformation($"Sending DGT Angel disconnect to Cherub");
-
-            await SendJsonToCherubClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
+            _logger.LogDebug($"Sending DGT Angel disconnect to Client");
+            await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
                 MessageType = MessageTypeCode.MESSAGE,
