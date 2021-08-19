@@ -19,11 +19,13 @@ namespace DgtCherub
     {
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
+        private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
-        public WebSocketController(ILogger<Form1> logger, IAppDataService appData)
+        public WebSocketController(ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
             _appDataService = appData;
+            _dgtEbDllFacade = dgtEbDllFacade;
         }
 
         [HttpGet("/ws")]
@@ -59,6 +61,15 @@ namespace DgtCherub
                         {
                             case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
                                 _logger.LogTrace($"Cherub Keep-Alive from {messageIn.Source}");
+                                _appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PING Arrived");
+
+                                await webSocket.SendAsync(Encoding.UTF8.GetBytes("PONG"),
+                                                          WebSocketMessageType.Text,
+                                                          true,
+                                                          CancellationToken.None);
+
+                                _appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PONG Sent");
+
                                 break;
                             case CherubApiMessage.MessageTypeCode.MESSAGE:
                                 _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
@@ -67,21 +78,53 @@ namespace DgtCherub
                                 _appDataService.UserMessageArrived(messageIn.Source, messageIn.RemoteBoard.Board.FenString);
 
 
+                                //int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
 
+                                TimeSpan whiteTimespan = new(0, 0, 0, 0, messageIn.RemoteBoard.Board.Clocks.WhiteClock);
+                                TimeSpan blackTimespan = new(0, 0, 0, 0, messageIn.RemoteBoard.Board.Clocks.BlackClock);
+
+                                var whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
+                                var blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
+                                var runWho = messageIn.RemoteBoard.Board.Turn == TurnCode.WHITE ? 1 : messageIn.RemoteBoard.Board.Turn == TurnCode.BLACK ? 2 : 0;
+
+                                _appDataService.SetClocks(whiteClockString, blackClockString, runWho.ToString());
+                                _dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
+
+                                _appDataService.ChessDotComBoardFEN = messageIn.RemoteBoard.Board.FenString;
 
 
-
-
-
-
-
-
-
-
-
-
-
+                                //if (_appDataService.LocalBoardFEN == fen)
+                                //{
+                                //    _appDataService.UserMessageArrived(source, $"Local DGT board FEN is a DUPLICATE");
+                                //}
+                                //else
+                                //{
+                                //    _appDataService.UserMessageArrived(source, $"Local DGT board FEN is {fen}");
+                                //    _appDataService.LocalBoardFEN = fen;
+                                //}
+                                //
+                                //
+                                //if (_appDataService.ChessDotComBoardFEN == fen)
+                                //{
+                                //    _appDataService.UserMessageArrived(source, $"Chess.com board FEN is a DUPLICATE");
+                                //}
+                                //else
+                                //{
+                                //    _appDataService.IsWhiteOnBottom = bool.Parse(isWhiteBottom);
+                                //    _appDataService.ChessDotComBoardFEN = fen;
+                                //    _appDataService.UserMessageArrived(source, $"Chess.com board FEN is {fen}.");
+                                //}
+                                //
+                                //
+                                //
+                                //
+                                //
+                                //_appDataService.ResetChessDotComRemoteBoardState();
+                                //_appDataService.UserMessageArrived(source, $"Chess.com board disconnected.");
+                                //
+                                //
+                                //
 
                                 break;
                             default:

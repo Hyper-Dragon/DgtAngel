@@ -74,13 +74,11 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
 
-        private bool IsRabbitInstalled=false;
+        private readonly bool IsRabbitInstalled=false;
 
         //TODO: Finish the testers tab
-        //hours not done in time????
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
-        //TODO:Remove Chessdotnet
         //TODO:Own board maker
 
         public Form1(IHost iHost,
@@ -248,7 +246,7 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
 
-                    FenChangedMatchTest();
+                    await FenChangedMatchTest();
                 });
 
                 PictureBoxLocal.BeginInvoke(updateAction);
@@ -270,7 +268,7 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
 
-                    FenChangedMatchTest();
+                    await FenChangedMatchTest();
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);

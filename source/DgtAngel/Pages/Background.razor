@@ -52,7 +52,7 @@
 
         ChessDotComWatcher.OnFenRecieved += async (obj, eventArgs) =>
                             {
-                                await CherubConnection.SendUpdatedBoardStateCherubClient(eventArgs.RemoteBoardState);
+                                await CherubConnection.SendUpdatedBoardStateToCherubClient(eventArgs.RemoteBoardState);
                             };
 
 
