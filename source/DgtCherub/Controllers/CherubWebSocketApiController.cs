@@ -84,7 +84,7 @@ namespace DgtCherub.Controllers
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
-                                    _appDataService.ResetChessDotComRemoteBoardState();
+                                    _appDataService.ResetRemoteBoardState();
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
                                     break;
                                 default:
@@ -106,7 +106,7 @@ namespace DgtCherub.Controllers
                     }
                 }
 
-                _appDataService.ResetChessDotComRemoteBoardState();
+                _appDataService.ResetRemoteBoardState();
                 _appDataService.UserMessageArrived("INTERNAL", "DGT Angel has Disconnected");
             }
             else

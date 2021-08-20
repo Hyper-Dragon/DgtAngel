@@ -92,8 +92,8 @@ namespace DgtCherub
             }
         }
 
-        /*
-        private async Task FenChangedMatchTest()
+        //TODO:  THIS HAS REAL CLOCK CODE IN IT - check before delete 
+        /*private async Task FenChangedMatchTest()
         {
             //TODO: prob should be canceled if fen changes while we wait
             if (!_appDataService.IsMismatchDetected)
@@ -200,7 +200,26 @@ namespace DgtCherub
 
                 PictureBoxLocal.BeginInvoke(updateAction);
             };
-            
+
+            _appDataService.OnBoardMissmatch += () =>
+            {
+                TextBoxConsole.AddLine($"The boards DO NOT match", TEXTBOX_MAX_LINES);
+
+                LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                
+                _voicePlayer.Speak(AudioClip.MISMATCH);
+            };
+
+            _appDataService.OnBoardMatch += () =>
+            {
+                TextBoxConsole.AddLine($"The boards match", TEXTBOX_MAX_LINES);
+
+                LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+
+                _voicePlayer.Speak(AudioClip.MATCH);
+            };
 
             _appDataService.OnChessDotComDisconnect += () =>
             {
@@ -253,7 +272,7 @@ namespace DgtCherub
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 _voicePlayer.Speak(AudioClip.DGT_LC_DISCONNECTED);
-                _appDataService.ResetChessDotComLocalBoardState();
+                _appDataService.ResetBoardState();
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
@@ -270,7 +289,7 @@ namespace DgtCherub
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                 _voicePlayer.Speak(AudioClip.DGT_DISCONNECTED);
-                _appDataService.ResetChessDotComLocalBoardState();
+                _appDataService.ResetBoardState();
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 

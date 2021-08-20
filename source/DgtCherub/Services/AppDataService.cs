@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DgtAngelShared.Json;
 using DgtEbDllWrapper;
 using Microsoft.Extensions.Logging;
@@ -23,12 +24,14 @@ namespace DgtCherub.Services
         event Action OnClockChange;
         event Action OnLocalFenChange;
         event Action OnRemoteFenChange;
+        event Action OnBoardMissmatch;
+        event Action OnBoardMatch;
         event Action<string, string> OnUserMessageArrived;
 
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
-        void ResetChessDotComLocalBoardState();
-        void ResetChessDotComRemoteBoardState();
+        void ResetBoardState();
+        void ResetRemoteBoardState();
         void SetClocksStrings(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString);
         void UserMessageArrived(string source, string message);
     }
@@ -39,6 +42,8 @@ namespace DgtCherub.Services
         public event Action OnRemoteFenChange;
         public event Action OnChessDotComDisconnect;
         public event Action OnClockChange;
+        public event Action OnBoardMissmatch;
+        public event Action OnBoardMatch;
         public event Action<string, string> OnUserMessageArrived;
 
         private string _chessDotComWhiteClock = "00:00";
@@ -67,11 +72,50 @@ namespace DgtCherub.Services
             _dgtEbDllFacade = dgtEbDllFacade;
         }
 
+
+
+
+        private async void TestForBoardMatch(string matchCode)
+        {
+            if (isBoardInSync)
+            {
+                //await Task.Delay(2000);
+
+                //if (matchCode != currentUpdatetMatch.ToString())
+                //{
+                    if (ChessDotComBoardFEN != LocalBoardFEN)
+                    {
+                        isBoardInSync = false;
+                        OnBoardMissmatch?.Invoke();
+                    }
+                //}
+            }
+            else
+            {
+                //if (matchCode == currentUpdatetMatch.ToString())
+                //{
+                if (ChessDotComBoardFEN == LocalBoardFEN)
+                {
+                    isBoardInSync = true;
+                    OnBoardMatch?.Invoke();
+                }
+                //}
+            }
+        }
+
+
+        private Guid currentUpdatetMatch;
+        private bool isBoardInSync = true;
+
         public void LocalBoardUpdate(string fen)
         {
             if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
             {
                 LocalBoardFEN = fen;
+
+                currentUpdatetMatch = Guid.NewGuid();
+                Task.Run(() => TestForBoardMatch(currentUpdatetMatch.ToString()));
+
                 OnLocalFenChange?.Invoke();
             }
         }
@@ -91,21 +135,27 @@ namespace DgtCherub.Services
             int runWho = remoteBoardState.Board.Turn == TurnCode.WHITE ? 1 : remoteBoardState.Board.Turn == TurnCode.BLACK ? 2 : 0;
             SetClocksStrings(whiteClockString, blackClockString, runWho.ToString());
 
-            //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
-            LastMove = remoteBoardState.Board.LastMove;
-            IsWhiteOnBottom = remoteBoardState.Board.IsWhiteOnBottom;
-            ChessDotComBoardFEN = remoteBoardState.Board.FenString;
+            if (ChessDotComBoardFEN != remoteBoardState.Board.FenString)
+            {
+                //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
+                LastMove = remoteBoardState.Board.LastMove;
+                IsWhiteOnBottom = remoteBoardState.Board.IsWhiteOnBottom;
+                ChessDotComBoardFEN = remoteBoardState.Board.FenString;
 
-            OnRemoteFenChange?.Invoke();
+                currentUpdatetMatch = Guid.NewGuid();
+                Task.Run(() => TestForBoardMatch(currentUpdatetMatch.ToString()));
+
+                OnRemoteFenChange?.Invoke();
+            }
         }
 
-        public void ResetChessDotComLocalBoardState()
+        public void ResetBoardState()
         {
             LocalBoardFEN = "";
             IsMismatchDetected = false;
         }
 
-        public void ResetChessDotComRemoteBoardState()
+        public void ResetRemoteBoardState()
         {
             ChessDotComBoardFEN = "";
             _chessDotComWhiteClock = "00:00";
