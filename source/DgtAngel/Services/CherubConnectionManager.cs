@@ -89,7 +89,6 @@ namespace DgtAngel.Services
             }
         }
 
-
         public async Task StartAndManageConnection()
         {
             _logger?.LogInformation($"Starting Chrub Connection Manager");
@@ -213,8 +212,8 @@ namespace DgtAngel.Services
             await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
-                MessageType = MessageTypeCode.MESSAGE,
-                Message = "DGT Angel Stopped Watching Board",
+                MessageType = MessageTypeCode.WATCH_STOPPED,
+                Message = "",
                 RemoteBoard = null
             }));
         }

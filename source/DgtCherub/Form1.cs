@@ -55,6 +55,8 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
 
+        private bool EchoExternalMessagesToConsole { get; set;} = true;
+
         private readonly bool IsRabbitInstalled = false;
 
         //TODO: Finish the testers tab
@@ -90,6 +92,7 @@ namespace DgtCherub
             }
         }
 
+        /*
         private async Task FenChangedMatchTest()
         {
             //TODO: prob should be canceled if fen changes while we wait
@@ -124,6 +127,7 @@ namespace DgtCherub
             LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
             LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
         }
+        */
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -132,7 +136,7 @@ namespace DgtCherub
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             //Set Appsettings from the designer values...
-            _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
+            EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
             _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
@@ -179,7 +183,7 @@ namespace DgtCherub
         private void Form1_Shown(object sender, EventArgs e)
         {
             ClearConsole();
-
+            
             _appDataService.OnLocalFenChange += () =>
             {
                 Action updateAction = new(async () =>
@@ -191,17 +195,18 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
 
-                    await FenChangedMatchTest();
+                    //await FenChangedMatchTest();
                 });
 
                 PictureBoxLocal.BeginInvoke(updateAction);
             };
+            
 
             _appDataService.OnChessDotComDisconnect += () =>
             {
                 PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
             };
-
+            
             _appDataService.OnRemoteFenChange += () =>
             {
                 Action updateAction = new(async () =>
@@ -213,12 +218,12 @@ namespace DgtCherub
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
 
-                    await FenChangedMatchTest();
+                    //await FenChangedMatchTest();
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);
             };
-
+            
             _appDataService.OnClockChange += () =>
             {
                 //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
@@ -283,7 +288,7 @@ namespace DgtCherub
             _dgtLiveChess.OnFenRecieved += (obj, eventArgs) =>
             {
                 TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-                _appDataService.LocalBoardFEN = eventArgs.ResponseOut;
+                _appDataService.LocalBoardUpdate(eventArgs.ResponseOut);
             };
 
             //All the Events are set up so we can start watching the local board
@@ -354,7 +359,7 @@ namespace DgtCherub
         private void CheckBoxShowInbound_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxShowInbound.Checked ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
-            _appDataService.EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
+            EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
         }
 
         private void ButtonClearConsole_Click(object sender, EventArgs e)
