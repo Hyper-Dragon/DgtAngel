@@ -263,6 +263,11 @@
             function initEventSource() {
                 if (source == null || source.readyState == 2)
                 {
+                    var myCarouselEl = document.getElementById('myCarousel');
+                    var carousel = bootstrap.Carousel.getOrCreateInstance(myCarouselEl);
+                    carousel.to('0');
+                    carousel.pause();
+
                     document.getElementById('con-state').innerHTML = 'CONNECTING...';
                     source = new EventSource('/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
 
@@ -274,7 +279,7 @@
 
                     source.onerror = function (event) {
                         document.getElementById('con-state').innerHTML = 'DISCONNECTED';
-                        clearInterval(clocksTimer);
+                        isTimerSuspended = true;
                         source.close();
 
                         if (source.readyState == 2) {
@@ -303,26 +308,19 @@
                             case "OnLocalFenChange":
                                 document.getElementById('local-fen').textContent = obj.BoardFen;
                                 document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
-
-                                /*
-                                carousel.to('2');
-                                carousel.pause();
-                                */
                                 break;
                             case "OnRemoteFenChange":
                                 document.getElementById('remote-fen').textContent = obj.BoardFen;
                                 document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
                                 document.getElementById('last-move').textContent = obj.LastMove;
-
-                                /*
-                                 * 
-                                carousel.to('2');
-                                carousel.pause();
-                                */
                                 break;
                             case "OnBoardMissmatch":
+                                carousel.to('2');
+                                carousel.pause();
                                 break;
                             case "OnBoardMatch":
+                                carousel.to('1');
+                                carousel.pause();
                                 break;
                             case "OnClockChange":
                                 isTimerSuspended = true;
@@ -332,9 +330,6 @@
                                 isGameInProgress = obj.IsGameActive;
                                 isWhiteToPlay = obj.IsWhiteToPlay;
                                 isTimerSuspended = false;
-
-                                //carousel.to('1');
-                                //carousel.pause();
                                 break;
                             case "OnRemoteStopWatch":
                                 isTimerSuspended = true;

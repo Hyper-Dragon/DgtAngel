@@ -116,8 +116,41 @@ namespace DgtCherub.Controllers
             Response.Headers.Add("Content-Type", "text/event-stream");
 
             //case "OnLocalStopWatch":
-            // "OnBoardMatch"
-            //"OnBoardMissmatch"
+
+            _appDataService.OnBoardMissmatch += async () =>
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnBoardMissmatch",
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
+            };
+
+            _appDataService.OnBoardMatch += async () =>
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnBoardMatch",
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
+            };
+
+
+
+
+
 
             //Send on connect
             if (_appDataService.LocalBoardFEN != "")
@@ -140,7 +173,6 @@ namespace DgtCherub.Controllers
 
             if (_appDataService.ChessDotComBoardFEN != "")
             {
-
                 string jsonString = JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",
@@ -157,9 +189,6 @@ namespace DgtCherub.Controllers
                 await Response.Body.FlushAsync();
             }
 
-
-            //TODO: Send other stuff
-            //TODO: Reconnect
             _appDataService.OnOrientationFlipped += async () =>
             {
                 string jsonString = JsonSerializer.Serialize(new
