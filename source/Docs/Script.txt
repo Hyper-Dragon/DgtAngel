@@ -29,3 +29,38 @@ DgtConnected       |
 DgtDisconnected    | 
 CdcWatching        | 
 CdcStoppedWatching | 
+
+
+
+
+
+NOTES>>>>>>>>>>>>
+
+
+1629307266602-1629307268146
+
+
+
+
+Ay Bee See Dee Ee Ef Jee H
+1  2   3   4   5  6  7   8
+
+King, Queen, Rook, Bishop, Knight, Pawn,
+
+,takes ,Check   
+
+King, Bee ,takes Ef 2
+
+Castles Short
+Castles Long
+
+White Wins
+Black Wins
+Game Drawn
+
+Qh4×e1
+Queen, H Four ,takes Ee One
+Rook, H ,Ef Two
+
+King takes Jee 6 ,Check
+Rook Ef takes Jee 6 ,Check
