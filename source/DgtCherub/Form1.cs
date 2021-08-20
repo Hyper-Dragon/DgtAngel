@@ -37,8 +37,6 @@ namespace DgtCherub
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
         private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
 
-        private const int MISMATCH_DELAY = 1500;
-
         private readonly IHost _iHost;
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
@@ -92,7 +90,13 @@ namespace DgtCherub
             }
         }
 
-        //TODO:  THIS HAS REAL CLOCK CODE IN IT - check before delete 
+        //TODO:  THIS HAS REAL CLOCK CODE IN IT - check before delete
+        //
+
+///        LabelLocalDgt.BackColor = Color.Yellow;
+///                    LabelRemoteBoard.BackColor = Color.Yellow;
+///                    Update();
+
         /*private async Task FenChangedMatchTest()
         {
             //TODO: prob should be canceled if fen changes while we wait
@@ -200,14 +204,8 @@ namespace DgtCherub
             {
                 Action updateAction = new(async () =>
                 {
-                    LabelLocalDgt.BackColor = Color.Yellow;
-                    LabelRemoteBoard.BackColor = Color.Yellow;
-                    Update();
-
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
-
-                    //await FenChangedMatchTest();
                 });
 
                 PictureBoxLocal.BeginInvoke(updateAction);
@@ -217,20 +215,28 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"The boards DO NOT match", TEXTBOX_MAX_LINES);
 
-                LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-                LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
+                LabelLocalDgt.BackColor = Color.Red;
+                LabelRemoteBoard.BackColor = Color.Red;
                 
                 _voicePlayer.Speak(AudioClip.MISMATCH);
             };
 
+            _appDataService.OnBoardMatcherStarted += () =>
+            {
+                LabelLocalDgt.BackColor = Color.Yellow;
+                LabelRemoteBoard.BackColor = Color.Yellow;
+            };
+
+            _appDataService.OnBoardMatchFromMissmatch += () =>
+            {
+                TextBoxConsole.AddLine($"The boards now match", TEXTBOX_MAX_LINES);
+                _voicePlayer.Speak(AudioClip.MATCH);
+            };
+
             _appDataService.OnBoardMatch += () =>
             {
-                TextBoxConsole.AddLine($"The boards match", TEXTBOX_MAX_LINES);
-
-                LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-                LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-
-                _voicePlayer.Speak(AudioClip.MATCH);
+                LabelLocalDgt.BackColor = BoredLabelsInitialColor;
+                LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
             };
 
             _appDataService.OnChessDotComDisconnect += () =>
@@ -242,14 +248,8 @@ namespace DgtCherub
             {
                 Action updateAction = new(async () =>
                 {
-                    LabelLocalDgt.BackColor = Color.Yellow;
-                    LabelRemoteBoard.BackColor = Color.Yellow;
-                    Update();
-
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
-
-                    //await FenChangedMatchTest();
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);
