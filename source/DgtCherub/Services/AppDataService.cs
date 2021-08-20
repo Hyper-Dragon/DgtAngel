@@ -73,34 +73,50 @@ namespace DgtCherub.Services
         }
 
 
-
-
         private async void TestForBoardMatch(string matchCode)
         {
-            if (isBoardInSync)
-            {
-                //await Task.Delay(2000);
+            
 
-                //if (matchCode != currentUpdatetMatch.ToString())
-                //{
-                    if (ChessDotComBoardFEN != LocalBoardFEN)
-                    {
-                        isBoardInSync = false;
-                        OnBoardMissmatch?.Invoke();
-                    }
-                //}
+            if (ChessDotComBoardFEN != LocalBoardFEN)
+            {
+                OnUserMessageArrived("MATCHER", $"MISS L:{LocalBoardFEN} Sync:{isBoardInSync}");
+                OnUserMessageArrived("MATCHER", $"MISS R:{ChessDotComBoardFEN} Sync:{isBoardInSync}");
+                isBoardInSync = false;
+                OnBoardMissmatch?.Invoke();
             }
             else
             {
-                //if (matchCode == currentUpdatetMatch.ToString())
-                //{
-                if (ChessDotComBoardFEN == LocalBoardFEN)
-                {
-                    isBoardInSync = true;
-                    OnBoardMatch?.Invoke();
-                }
-                //}
+                OnUserMessageArrived("MATCHER", $"HIT  L:{LocalBoardFEN} Sync:{isBoardInSync}");
+                OnUserMessageArrived("MATCHER", $"HIT  R:{ChessDotComBoardFEN} Sync:{isBoardInSync}");
+                isBoardInSync = true;
+                OnBoardMatch?.Invoke();
             }
+
+       //
+       //     //if (isBoardInSync)
+       //     //{
+       //         //await Task.Delay(2000);
+       //
+       //         //if (matchCode != currentUpdatetMatch.ToString())
+       //         //{
+       //             if (ChessDotComBoardFEN != LocalBoardFEN)
+       //             {
+       //                 isBoardInSync = false;
+       //                 OnBoardMissmatch?.Invoke();
+       //             }
+       //         //}
+       //     }
+       //     else
+       //     {
+       //         //if (matchCode == currentUpdatetMatch.ToString())
+       //         //{
+       //         if (ChessDotComBoardFEN == LocalBoardFEN)
+       //         {
+       //             isBoardInSync = true;
+       //             OnBoardMatch?.Invoke();
+       //         }
+       //         //}
+       //     }
         }
 
 

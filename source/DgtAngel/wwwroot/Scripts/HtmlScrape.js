@@ -46,7 +46,7 @@
             piecesStringArray = pieceString.split(',');
             while (piecesStringArray.length) {
                 var piece = piecesStringArray.pop();
-                board[(parseInt(piece[3]) - 1)][8 - parseInt(piece[2])] = piece[0] + "" + piece[1];
+                board[(8-parseInt(piece[3]))][parseInt(piece[2])-1] = piece[0] + "" + piece[1];
             }
 
             // Generate FEN String

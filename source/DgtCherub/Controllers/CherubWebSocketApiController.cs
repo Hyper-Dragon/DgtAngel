@@ -61,42 +61,41 @@ namespace DgtCherub.Controllers
                         {
                             // Convert to a string (UTF-8 encoding).
                             CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
+                            _logger.LogDebug($"Cherub Keep-Alive from {messageIn.Source}");
 
                             switch (messageIn.MessageType)
                             {
                                 case CherubApiMessage.MessageTypeCode.STATE_UPDATED:
-                                    //_appDataService.UserMessageArrived("DEBUG", messageIn.RemoteBoard.Board.FenString);
+                                    //_appDataService.UserMessageArrived("INGEST", messageIn.RemoteBoard.Board.FenString);
                                     _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
-                                    _logger.LogDebug($"Cherub Keep-Alive from {messageIn.Source}");
-
-                                    //_appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PING Arrived");
+                                    //_appDataService.UserMessageArrived("INGEST", "Keep Alive PING Arrived");
                                     await webSocket.SendAsync(Encoding.UTF8.GetBytes("PONG"),
                                                               WebSocketMessageType.Text,
                                                               true,
                                                               CancellationToken.None);
 
-                                    //_appDataService.UserMessageArrived(messageIn.Source, "Keep Alive PONG Sent");
-
+                                    //_appDataService.UserMessageArrived("INGEST", "Keep Alive PONG Sent");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.MESSAGE:
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
+                                    //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
                                     _appDataService.ResetRemoteBoardState();
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
                                     break;
                                 default:
-                                    _appDataService.UserMessageArrived("INTERNAL", "ERROR: Unknown message type recieved on the API!");
-                                    _logger.LogError($"Unknown message type recieved on the API!");
+                                    _appDataService.UserMessageArrived("INTERNAL", "ERROR: Unknown MESSAGE TYPE recieved on the API!");
+                                    _logger.LogError($"Unknown MESSAGE TYPE recieved on the API!");
                                     break;
                             }
                         }
                         catch (Exception ex)
                         {
-                            _appDataService.UserMessageArrived("INTERNAL", $"ERROR: Unknown message recieved on the API :: {ex.Message}");
-                            _logger.LogError($"Unknown message type recieved on the API :: {ex.Message}");
+                            _appDataService.UserMessageArrived("INTERNAL", $"ERROR: Unknown DATA recieved on the API :: {ex.Message}");
+                            _logger.LogError($"Unknown DATA recieved on the API :: {ex.Message}");
                         }
                     }
                     catch (ConnectionAbortedException)
