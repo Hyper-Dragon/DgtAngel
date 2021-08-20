@@ -22,6 +22,7 @@ namespace DgtCherub.Services
 
         event Action OnChessDotComDisconnect;
         event Action OnClockChange;
+        event Action OnOrientationFlipped;
         event Action OnLocalFenChange;
         event Action OnRemoteFenChange;
         event Action OnBoardMissmatch;
@@ -42,6 +43,7 @@ namespace DgtCherub.Services
         public event Action OnRemoteFenChange;
         public event Action OnChessDotComDisconnect;
         public event Action OnClockChange;
+        public event Action OnOrientationFlipped;
         public event Action OnBoardMissmatch;
         public event Action OnBoardMatch;
         public event Action<string, string> OnUserMessageArrived;
@@ -151,11 +153,16 @@ namespace DgtCherub.Services
             int runWho = remoteBoardState.Board.Turn == TurnCode.WHITE ? 1 : remoteBoardState.Board.Turn == TurnCode.BLACK ? 2 : 0;
             SetClocksStrings(whiteClockString, blackClockString, runWho.ToString());
 
+            if(IsWhiteOnBottom != remoteBoardState.Board.IsWhiteOnBottom)
+            {
+                IsWhiteOnBottom = remoteBoardState.Board.IsWhiteOnBottom;
+                OnOrientationFlipped?.Invoke();
+            }
+
             if (ChessDotComBoardFEN != remoteBoardState.Board.FenString)
             {
                 //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
                 LastMove = remoteBoardState.Board.LastMove;
-                IsWhiteOnBottom = remoteBoardState.Board.IsWhiteOnBottom;
                 ChessDotComBoardFEN = remoteBoardState.Board.FenString;
 
                 currentUpdatetMatch = Guid.NewGuid();

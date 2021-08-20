@@ -14,7 +14,7 @@ namespace DynamicBoard
         private readonly IHttpClientFactory _httpClientFactory;
         private const string BOARD_DOWNLOAD_SIZE = "2";
         private const string BOARD_URL_START = @"https://www.chess.com/dynboard?fen=";
-        private const string BOARD_URL_OPT = @"%20w%20-%20-%200%201&board=green&piece=space&size=" + BOARD_DOWNLOAD_SIZE;
+        private const string BOARD_URL_OPT = @"&board=green&piece=space&size=" + BOARD_DOWNLOAD_SIZE;
         private const int DL_TIMEOUT = 3000;
 
         public ChessDotComBoardRenderer(ILogger<ChessDotComBoardRenderer> logger,
@@ -37,7 +37,7 @@ namespace DynamicBoard
                 CancellationToken canxToken = new();
                 // DONT....{HttpUtility.UrlEncode(fenString)} - The endpoint doesn't decode the url properly!
                 //string boardUrl = $"{BOARD_URL_START}{fenString}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip=true")}";
-                string boardUrl = $"{BOARD_URL_START}{fenString}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip")}";
+                string boardUrl = $"{BOARD_URL_START}{fenString}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip=true")}";
 
                 _logger?.LogDebug($"Downloading board image from [{boardUrl}]");
                 Task<System.IO.Stream> responseTask = httpClient.GetStreamAsync(new Uri(boardUrl), canxToken);

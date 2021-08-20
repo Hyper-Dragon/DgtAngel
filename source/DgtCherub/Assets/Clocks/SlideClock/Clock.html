@@ -202,6 +202,7 @@
         isGameInProgress = false;
         isWhiteToPlay = true;
         isTimerSuspended = false;
+        flip = false;
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -268,9 +269,19 @@
                 var carousel = bootstrap.Carousel.getOrCreateInstance(myCarouselEl);
 
                 switch (obj.MessageType) {
+                    case "OnOrientationFlipped":
+                        if (obj.IsWhiteOnBottom) {
+                            flip = "";
+                        } else {
+                            flip = "&flip=true";
+                        }
+
+                        document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.LocalBoardFen + flip;
+                        document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.RemoteBoardFen + flip;
+                        break;
                     case "OnLocalFenChange":
                         document.getElementById('local-fen').textContent = obj.BoardFen;
-                        document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen;
+                        document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
 
                         /*
                         carousel.to('2');
@@ -279,7 +290,7 @@
                         break;
                     case "OnRemoteFenChange":
                         document.getElementById('remote-fen').textContent = obj.BoardFen;
-                        document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen;
+                        document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
                         document.getElementById('last-move').textContent = obj.LastMove;
                         
                         /*

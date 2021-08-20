@@ -118,7 +118,8 @@ namespace DgtCherub.Controllers
 
 
             //Send on connect
-            if (_appDataService.LocalBoardFEN != "") {
+            if (_appDataService.LocalBoardFEN != "")
+            {
 
                 string jsonString = JsonSerializer.Serialize(new
                 {
@@ -136,28 +137,42 @@ namespace DgtCherub.Controllers
 
             //TODO: Send other stuff
             //TODO: Reconnect
-
-
-            _appDataService.OnClockChange += () =>
+            _appDataService.OnOrientationFlipped += async () =>
             {
-                _appDataService.OnClockChange += async () =>
+                string jsonString = JsonSerializer.Serialize(new
                 {
-                    string jsonString = JsonSerializer.Serialize(new
-                    {
-                        MessageType = "OnClockChange",
-                        WhiteClockMsRemaining = _appDataService.WhiteClockMs,
-                        BlackClockMsRemaining = _appDataService.BlackClockMs,
-                        IsGameActive = _appDataService.RunWhoString != "3",
-                        IsWhiteToPlay = _appDataService.RunWhoString == "1",
-                        ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
-                        ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                    });
+                    MessageType = "OnOrientationFlipped",
+                    LocalBoardFen = _appDataService.LocalBoardFEN,
+                    RemoteBoardFen = _appDataService.ChessDotComBoardFEN,
+                    _appDataService.IsWhiteOnBottom,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
 
-                    string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                    byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                    await Response.Body.WriteAsync(dataItemBytes);
-                    await Response.Body.FlushAsync();
-                };
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
+            };
+
+
+            _appDataService.OnClockChange += async () =>
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnClockChange",
+                    WhiteClockMsRemaining = _appDataService.WhiteClockMs,
+                    BlackClockMsRemaining = _appDataService.BlackClockMs,
+                    IsGameActive = _appDataService.RunWhoString != "3",
+                    IsWhiteToPlay = _appDataService.RunWhoString == "1",
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
             };
 
             _appDataService.OnLocalFenChange += async () =>
@@ -166,6 +181,7 @@ namespace DgtCherub.Controllers
                 {
                     MessageType = "OnLocalFenChange",
                     BoardFen = _appDataService.LocalBoardFEN,
+                    _appDataService.IsWhiteOnBottom,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 });
@@ -182,6 +198,7 @@ namespace DgtCherub.Controllers
                 {
                     MessageType = "OnRemoteFenChange",
                     BoardFen = _appDataService.ChessDotComBoardFEN,
+                    _appDataService.IsWhiteOnBottom,
                     LastMove = _appDataService.LastMove,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",

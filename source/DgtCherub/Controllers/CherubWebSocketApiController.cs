@@ -75,7 +75,6 @@ namespace DgtCherub.Controllers
                                                               WebSocketMessageType.Text,
                                                               true,
                                                               CancellationToken.None);
-
                                     //_appDataService.UserMessageArrived("INGEST", "Keep Alive PONG Sent");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.MESSAGE:

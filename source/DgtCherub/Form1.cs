@@ -183,7 +183,19 @@ namespace DgtCherub
         private void Form1_Shown(object sender, EventArgs e)
         {
             ClearConsole();
-            
+
+            _appDataService.OnOrientationFlipped += () =>
+            {
+                Action updateAction = new(async () =>
+                {
+                    PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
+                });
+
+                this.BeginInvoke(updateAction);
+            };
+
+
             _appDataService.OnLocalFenChange += () =>
             {
                 Action updateAction = new(async () =>
