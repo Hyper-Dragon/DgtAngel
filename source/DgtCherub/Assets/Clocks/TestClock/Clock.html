@@ -7,7 +7,7 @@
     <title>DGT Angel Clock</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Hyper-Dragon">
-    <link rel='favicon' type='image/png' href='/DgtVirtualClock/Images/favicon.png'>
+    <link rel='favicon' type='image/png' href='/CherubVirtualClock/Images/favicon.png'>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         </table>
         <hr />
         <small>Connection Status&nbsp;<i id='con-state'>Not Connected</i>&nbsp;Last Update Date&nbsp;<i id='last-update-day'>Never</i>&nbsp;Last Update Time&nbsp;<i id='last-update-time'>Never</i></small>
-        <!--<h2><img src="/DgtVirtualClock/Images/blah.jpg" /></h2>-->
+        <!--<h2><img src="/CherubVirtualClock/Images/blah.jpg" /></h2>-->
     </div>
 
     <script>
@@ -73,7 +73,7 @@
         }
 
         window.onload = function () {
-            var source = new EventSource('/DgtVirtualClock/GetStuff/' + (new Date()).getTime());
+            var source = new EventSource('/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
 
             source.onopen = function (event) { document.getElementById('con-state').innerHTML = 'CONNECTED'; timer(); setInterval(timer, 1000); };
             source.onerror = function (event) { document.getElementById('con-state').innerHTML = 'DISCONNECTED'; source.close(); }

@@ -90,8 +90,7 @@
         .board-img {
             padding: 0px;
             background-clip: padding-box;
-            width: min(80vw, 80vh);
-            width: min(80vw, 80vh);
+            width: min(40vw, 80vh);
         }
 
         .bkg-white-clock {
@@ -253,7 +252,7 @@
         }
 
         window.onload = function () {
-            var source = new EventSource('/DgtVirtualClock/GetStuff/' + (new Date()).getTime());
+            var source = new EventSource('/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
 
             source.onopen = function (event) { document.getElementById('con-state').innerHTML = 'CONNECTED'; timer(); setInterval(timer, 1000); };
             source.onerror = function (event) { document.getElementById('con-state').innerHTML = 'DISCONNECTED'; source.close(); }
