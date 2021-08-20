@@ -115,7 +115,9 @@ namespace DgtCherub.Controllers
             //TODO: Need to get the time the clocks were taken
             Response.Headers.Add("Content-Type", "text/event-stream");
 
-
+            //case "OnLocalStopWatch":
+            // "OnBoardMatch"
+            //"OnBoardMissmatch"
 
             //Send on connect
             if (_appDataService.LocalBoardFEN != "")
@@ -125,6 +127,7 @@ namespace DgtCherub.Controllers
                 {
                     MessageType = "OnLocalFenChange",
                     BoardFen = _appDataService.LocalBoardFEN,
+                    _appDataService.IsWhiteOnBottom,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 });
@@ -134,6 +137,26 @@ namespace DgtCherub.Controllers
                 await Response.Body.WriteAsync(dataItemBytes);
                 await Response.Body.FlushAsync();
             }
+
+            if (_appDataService.ChessDotComBoardFEN != "")
+            {
+
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnRemoteFenChange",
+                    BoardFen = _appDataService.ChessDotComBoardFEN,
+                    _appDataService.IsWhiteOnBottom,
+                    LastMove = _appDataService.LastMove,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
+            }
+
 
             //TODO: Send other stuff
             //TODO: Reconnect

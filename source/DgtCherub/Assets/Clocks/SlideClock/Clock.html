@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1">
     <meta name="description" content="Clock for DGT Angel and server by DGT Cherub" />
     <meta name="author" content="Hyper-Dragon" />
     <title>DGT Angel Clock</title>
@@ -203,6 +203,7 @@
         isWhiteToPlay = true;
         isTimerSuspended = false;
         flip = false;
+        clocksTimer=0;
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -256,82 +257,121 @@
         }
 
         window.onload = function () {
-            var source = new EventSource('/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
 
-            source.onopen = function (event) { document.getElementById('con-state').innerHTML = 'CONNECTED'; timer(); setInterval(timer, 1000); };
-            source.onerror = function (event) { document.getElementById('con-state').innerHTML = 'DISCONNECTED'; source.close(); }
+            var source = null;
 
-            source.onmessage = function (event) {
-                //console.log(event.data);
-                const obj = JSON.parse(event.data);
+            function initEventSource() {
+                if (source == null || source.readyState == 2)
+                {
+                    document.getElementById('con-state').innerHTML = 'CONNECTING...';
+                    source = new EventSource('/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
 
-                var myCarouselEl = document.getElementById('myCarousel');
-                var carousel = bootstrap.Carousel.getOrCreateInstance(myCarouselEl);
+                    source.onopen = function (event) {
+                        document.getElementById('con-state').innerHTML = 'CONNECTED';
+                        timer();
+                        clocksTimer = setInterval(timer, 1000);
+                    };
 
-                switch (obj.MessageType) {
-                    case "OnOrientationFlipped":
-                        if (obj.IsWhiteOnBottom) {
-                            flip = "";
-                        } else {
-                            flip = "&flip=true";
+                    source.onerror = function (event) {
+                        document.getElementById('con-state').innerHTML = 'DISCONNECTED';
+                        clearInterval(clocksTimer);
+                        source.close();
+
+                        if (source.readyState == 2) {
+                            setTimeout(initEventSource, 5000);
+                        }
+                    }
+
+                    source.onmessage = function (event) {
+                        //console.log(event.data);
+                        const obj = JSON.parse(event.data);
+
+                        var myCarouselEl = document.getElementById('myCarousel');
+                        var carousel = bootstrap.Carousel.getOrCreateInstance(myCarouselEl);
+
+                        switch (obj.MessageType) {
+                            case "OnOrientationFlipped":
+                                if (obj.IsWhiteOnBottom) {
+                                    flip = "";
+                                } else {
+                                    flip = "&flip=true";
+                                }
+
+                                document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.LocalBoardFen + flip;
+                                document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.RemoteBoardFen + flip;
+                                break;
+                            case "OnLocalFenChange":
+                                document.getElementById('local-fen').textContent = obj.BoardFen;
+                                document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
+
+                                /*
+                                carousel.to('2');
+                                carousel.pause();
+                                */
+                                break;
+                            case "OnRemoteFenChange":
+                                document.getElementById('remote-fen').textContent = obj.BoardFen;
+                                document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
+                                document.getElementById('last-move').textContent = obj.LastMove;
+
+                                /*
+                                 * 
+                                carousel.to('2');
+                                carousel.pause();
+                                */
+                                break;
+                            case "OnBoardMissmatch":
+                                break;
+                            case "OnBoardMatch":
+                                break;
+                            case "OnClockChange":
+                                isTimerSuspended = true;
+                                start = Date.now();
+                                whiteClockMsRemaining = obj.WhiteClockMsRemaining;
+                                blackClockMsRemaining = obj.BlackClockMsRemaining;
+                                isGameInProgress = obj.IsGameActive;
+                                isWhiteToPlay = obj.IsWhiteToPlay;
+                                isTimerSuspended = false;
+
+                                //carousel.to('1');
+                                //carousel.pause();
+                                break;
+                            case "OnRemoteStopWatch":
+                                isTimerSuspended = true;
+                                document.getElementById('remote-fen').textContent = "8/8/8/8/8/8/8/8";
+                                document.getElementById('remote-board-img').src = "https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8";
+                                whiteClockMsRemaining = 0;
+                                blackClockMsRemaining = 0;
+                                isGameInProgress = false;
+                                isWhiteToPlay = true;
+                                isTimerSuspended = true;
+                                break;
+                            case "OnLocalStopWatch":
+                                isTimerSuspended = true;
+                                document.getElementById('local-fen').textContent = "8/8/8/8/8/8/8/8";
+                                document.getElementById('local-board-img').src = "https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8";
+                                whiteClockMsRemaining = 0;
+                                blackClockMsRemaining = 0;
+                                isGameInProgress = false;
+                                isWhiteToPlay = true;
+                                isTimerSuspended = true;
+                                break;
+                            case "Keep-Alive":
+                                //console.log("...Still Reunning");
+                                break;
+                            default:
+                                console.error("Invalid message type recieved from DGT Cherub");
+                                break;
                         }
 
-                        document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.LocalBoardFen + flip;
-                        document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.RemoteBoardFen + flip;
-                        break;
-                    case "OnLocalFenChange":
-                        document.getElementById('local-fen').textContent = obj.BoardFen;
-                        document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
+                        document.getElementById('last-update-day').textContent = obj.ResponseAtData;
+                        document.getElementById('last-update-time').textContent = obj.ResponseAtTime;
+                    }
 
-                        /*
-                        carousel.to('2');
-                        carousel.pause();
-                        */
-                        break;
-                    case "OnRemoteFenChange":
-                        document.getElementById('remote-fen').textContent = obj.BoardFen;
-                        document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
-                        document.getElementById('last-move').textContent = obj.LastMove;
-                        
-                        /*
-                         * 
-                        carousel.to('2');
-                        carousel.pause();
-                        */
-                        break;
-                    case "OnClockChange":
-                        isTimerSuspended = true;
-                        start = Date.now();
-                        whiteClockMsRemaining = obj.WhiteClockMsRemaining;
-                        blackClockMsRemaining = obj.BlackClockMsRemaining;
-                        isGameInProgress = obj.IsGameActive;
-                        isWhiteToPlay = obj.IsWhiteToPlay;
-                        isTimerSuspended = false;
-
-                        //carousel.to('1');
-                        //carousel.pause();
-                        break;
-                    case "OnRemoteStopWatch":
-                        isTimerSuspended = true;
-                        document.getElementById('remote-fen').textContent = "8/8/8/8/8/8/8/8";
-                        document.getElementById('remote-board-img').src = "https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8";
-                        whiteClockMsRemaining = 0;
-                        blackClockMsRemaining = 0;
-                        isGameInProgress = false;
-                        isWhiteToPlay = true;
-                        isTimerSuspended = true;
-                        break;
-                    case "Keep-Alive":
-                        //console.log("...Still Reunning");
-                        break;
-                    default:
-                        console.error("Invalid message type recieved from DGT Cherub");
-                        break;
                 }
-
-                document.getElementById('last-update-day').textContent = obj.ResponseAtData;
-                document.getElementById('last-update-time').textContent = obj.ResponseAtTime;
             }
+
+            initEventSource();
         }
     </script>
 
