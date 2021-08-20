@@ -155,6 +155,9 @@
                             <div class="align-self-center"><b id='black-clock' class="child">0:00:00</b></div>
                         </div>
                     </div>
+                    <div class="carousel-caption text-start">
+                        <h2>Last Move:&nbsp;<i id='last-move'>-</i></h2>
+                    </div>
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
@@ -277,7 +280,10 @@
                     case "OnRemoteFenChange":
                         document.getElementById('remote-fen').textContent = obj.BoardFen;
                         document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen;
+                        document.getElementById('last-move').textContent = obj.LastMove;
+                        
                         /*
+                         * 
                         carousel.to('2');
                         carousel.pause();
                         */
@@ -291,8 +297,18 @@
                         isWhiteToPlay = obj.IsWhiteToPlay;
                         isTimerSuspended = false;
 
-                        carousel.to('1');
-                        carousel.pause();
+                        //carousel.to('1');
+                        //carousel.pause();
+                        break;
+                    case "OnRemoteStopWatch":
+                        isTimerSuspended = true;
+                        document.getElementById('remote-fen').textContent = "8/8/8/8/8/8/8/8";
+                        document.getElementById('remote-board-img').src = "https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8";
+                        whiteClockMsRemaining = 0;
+                        blackClockMsRemaining = 0;
+                        isGameInProgress = false;
+                        isWhiteToPlay = true;
+                        isTimerSuspended = true;
                         break;
                     case "Keep-Alive":
                         //console.log("...Still Reunning");

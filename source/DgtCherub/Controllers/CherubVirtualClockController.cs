@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DgtCherub.Controllers
 {
@@ -103,6 +104,10 @@ namespace DgtCherub.Controllers
         [Route("{action}/{clientUtcMs}")]
         public async Task GetStuff(string clientUtcMs)
         {
+            //TODO: No initial local board without piece move
+            //TODO: Remote board does not clear on disconnect
+            //TODO: Clock runs with no active game
+
             // http://localhost:37964/CherubVirtualClock/GetStuff
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
@@ -110,22 +115,38 @@ namespace DgtCherub.Controllers
             //TODO: Need to get the time the clocks were taken
             Response.Headers.Add("Content-Type", "text/event-stream");
 
+
+
+            //Send on connect
+            if (_appDataService.LocalBoardFEN != "") {
+
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnLocalFenChange",
+                    BoardFen = _appDataService.LocalBoardFEN,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
+                await Response.Body.WriteAsync(dataItemBytes);
+                await Response.Body.FlushAsync();
+            }
+
+            //TODO: Send other stuff
+            //TODO: Reconnect
+
+
             _appDataService.OnClockChange += () =>
             {
-                string[] wcs = _appDataService.WhiteClock.Split(':');
-                string[] bcs = _appDataService.BlackClock.Split(':');
-
-                //TODO: Knockd off a couple of seconds for now....fix properly
-                int wctime = ((((int.Parse(wcs[0]) * 60) * 60) + (int.Parse(wcs[1]) * 60) + int.Parse(wcs[2])) * 1000) - 2000;
-                int bctime = ((((int.Parse(bcs[0]) * 60) * 60) + (int.Parse(bcs[1]) * 60) + int.Parse(bcs[2])) * 1000) - 2000;
-
                 _appDataService.OnClockChange += async () =>
                 {
                     string jsonString = JsonSerializer.Serialize(new
                     {
                         MessageType = "OnClockChange",
-                        WhiteClockMsRemaining = wctime,
-                        BlackClockMsRemaining = bctime,
+                        WhiteClockMsRemaining = _appDataService.WhiteClockMs,
+                        BlackClockMsRemaining = _appDataService.BlackClockMs,
                         IsGameActive = _appDataService.RunWhoString != "3",
                         IsWhiteToPlay = _appDataService.RunWhoString == "1",
                         ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
@@ -161,6 +182,22 @@ namespace DgtCherub.Controllers
                 {
                     MessageType = "OnRemoteFenChange",
                     BoardFen = _appDataService.ChessDotComBoardFEN,
+                    LastMove = _appDataService.LastMove,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                });
+
+                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
+                await Response.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes(dataItem));
+                await Response.Body.FlushAsync();
+            };
+
+            _appDataService.OnChessDotComDisconnect += async () =>
+            {
+                string jsonString = JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnRemoteStopWatch",
+                    BoardFen = "",
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 });

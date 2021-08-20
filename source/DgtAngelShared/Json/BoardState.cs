@@ -13,6 +13,11 @@ namespace DgtAngelShared.Json
         NONE, WHITE, BLACK, UNKNOWN
     }
 
+    public enum SiteToBoardConnectionState
+    {
+        UNKNOWN, ACTIVE
+    }
+
     public class BoardState
     {
         public string PageUrl { get; set; }
@@ -28,10 +33,11 @@ namespace DgtAngelShared.Json
         public ResponseCode Code { get; set; }
         public string Message { get; set; }
     }
-
+    
     public class Boardconnection
     {
-        public string BoardState { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public SiteToBoardConnectionState BoardState { get; set; }
         public string ConMessage { get; set; }
     }
 
