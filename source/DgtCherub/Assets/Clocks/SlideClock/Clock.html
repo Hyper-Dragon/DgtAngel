@@ -169,13 +169,13 @@
                         <div class="col-6 d-flex parent">
                             <div>
                                 <img id="local-board-img" class="board-img img-child"
-                                     src="https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8" />
+                                     src="/CherubVirtualClock/BoardImage/blank" />
                             </div>
                         </div>
                         <div class="col-6 d-flex parent">
                             <div>
                                 <img id="remote-board-img" class="board-img img-child"
-                                     src="https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8" />
+                                     src="/CherubVirtualClock/BoardImage/blank" />
                             </div>
                         </div>
                     </div>
@@ -302,16 +302,18 @@
                                     flip = "&flip=true";
                                 }
 
-                                document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.LocalBoardFen + flip;
-                                document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.RemoteBoardFen + flip;
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
                                 break;
                             case "OnLocalFenChange":
                                 document.getElementById('local-fen').textContent = obj.BoardFen;
-                                document.getElementById('local-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
                                 break;
                             case "OnRemoteFenChange":
                                 document.getElementById('remote-fen').textContent = obj.BoardFen;
-                                document.getElementById('remote-board-img').src = 'https://www.chess.com/dynboard?board=green&piece=space&size=3&fen=' + obj.BoardFen + flip;
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
                                 document.getElementById('last-move').textContent = obj.LastMove;
                                 break;
                             case "OnBoardMissmatch":
@@ -334,7 +336,7 @@
                             case "OnRemoteStopWatch":
                                 isTimerSuspended = true;
                                 document.getElementById('remote-fen').textContent = "8/8/8/8/8/8/8/8";
-                                document.getElementById('remote-board-img').src = "https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8";
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/blank?time=' + new Date();
                                 whiteClockMsRemaining = 0;
                                 blackClockMsRemaining = 0;
                                 isGameInProgress = false;
@@ -344,7 +346,7 @@
                             case "OnLocalStopWatch":
                                 isTimerSuspended = true;
                                 document.getElementById('local-fen').textContent = "8/8/8/8/8/8/8/8";
-                                document.getElementById('local-board-img').src = "https://www.chess.com/dynboard?board=blue&piece=space&size=3&fen=8/8/8/8/8/8/8/8";
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/blank?time=' + new Date();
                                 whiteClockMsRemaining = 0;
                                 blackClockMsRemaining = 0;
                                 isGameInProgress = false;

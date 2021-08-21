@@ -1,7 +1,9 @@
 ﻿using DgtCherub.Services;
+using DynamicBoard;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -24,15 +26,17 @@ namespace DgtCherub.Controllers
 
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
+        private readonly IBoardRenderer _boardRenderer;
 
         private readonly string IndexPageHtml;
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
-        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAppDataService appData)
+        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAppDataService appData, IBoardRenderer boardRenderer)
         {
             _logger = logger;
             _appDataService = appData;
+            _boardRenderer = boardRenderer;
 
             using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
                                                              .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_NAME}.{RESOURCE_CLOCK_HTML}");
@@ -48,7 +52,7 @@ namespace DgtCherub.Controllers
             FavIcon = memoryStream.ToArray();
 
             using System.IO.Stream svgIconStream = Assembly.GetExecutingAssembly()
-                                               .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
+                                                           .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
 
             using MemoryStream memoryStreamSvg = new();
             svgIconStream.CopyTo(memoryStreamSvg);
@@ -72,6 +76,34 @@ namespace DgtCherub.Controllers
                 StatusCode = (int)HttpStatusCode.OK,
                 Content = htmlOut,
             };
+        }
+
+        [HttpGet]
+        [Route("{action}/{board}")]
+        public async Task<FileContentResult> BoardImage(string board)
+        {
+            ImageConverter converter = new ImageConverter();
+
+            string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
+            string remote = _appDataService.IsRemoteBoardAvailable ? _appDataService.ChessDotComBoardFEN : _appDataService.LocalBoardFEN;
+
+            switch (board.ToLowerInvariant())
+            {
+                case "local":
+                    Bitmap localBmpOut = _appDataService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, 1024, _appDataService.IsWhiteOnBottom)
+                                                                               : await _boardRenderer.GetImageDiffFromFenAsync("8/8/8/8/8/8/8/8", "8/8/8/8/8/8/8/8", 2048, _appDataService.IsWhiteOnBottom);
+
+                    return File(((byte[])converter.ConvertTo(localBmpOut, typeof(byte[]))), "image/png");
+                case "remote":
+                    Bitmap remBmpOut = _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, 1024, _appDataService.IsWhiteOnBottom)
+                                                                              : await _boardRenderer.GetImageDiffFromFenAsync("8/8/8/8/8/8/8/8", "8/8/8/8/8/8/8/8", 2048, _appDataService.IsWhiteOnBottom);
+
+                    return File(((byte[])converter.ConvertTo(remBmpOut, typeof(byte[]))), "image/png");
+                default:
+                    Bitmap blankBmpOut = await _boardRenderer.GetImageDiffFromFenAsync("8/8/8/8/8/8/8/8", "8/8/8/8/8/8/8/8", 2048, _appDataService.IsWhiteOnBottom);
+
+                    return File(((byte[])converter.ConvertTo(blankBmpOut, typeof(byte[]))), "image/png");
+            }
         }
 
         [HttpGet]
@@ -146,11 +178,6 @@ namespace DgtCherub.Controllers
                 await Response.Body.WriteAsync(dataItemBytes);
                 await Response.Body.FlushAsync();
             };
-
-
-
-
-
 
             //Send on connect
             if (_appDataService.LocalBoardFEN != "")

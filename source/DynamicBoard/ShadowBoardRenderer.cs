@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading;
 using System.Threading.Tasks;
 using static DynamicBoard.Helpers.FenConversion;
 
@@ -43,14 +44,12 @@ namespace DynamicBoard
         };
 
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
-
+        static object gdiLock = new();
 
         public ShadowBoardRenderer(ILogger<ChessDotComBoardRenderer> logger) : base(logger)
         {
             _logger = logger;
         }
-
-
 
         public override Task<Bitmap> GetImageFromFenAsync(string fenString, int imageSize, bool isFromWhitesPerspective)
         {
@@ -70,21 +69,23 @@ namespace DynamicBoard
 
             try
             {
+                Monitor.Enter(gdiLock);
+
                 // Dont pass in the blank board unless customised...it is slower!
                 resizedBmpOut = RenderBoard(//blankBoard: blankBoard,
                                             whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
                                             blackSquareColour: Color.FromArgb(255, 118, 150, 86),
-                                            errorSquareColour: Color.FromArgb(230, Color.Yellow),
+                                            errorSquareColour: Color.FromArgb(150, Color.Red),
                                             //whiteSquareColour: Color.PaleTurquoise,
                                             //blackSquareColour: Color.DarkCyan,
                                             //errorSquareColour: Color.FromArgb(150, Color.Yellow),
                                             fenString: fenString,
                                             fenCompareString: compFenString,
                                             requestedSizeOut: imageSize,
-                                            internalRenderSize: 6,
-                                            requestHighQualityComposite: false,
-                                            shadowOffsetX: 2,
-                                            shadowOffsetY: 2,
+                                            internalRenderSize: 3,
+                                            requestHighQualityComposite: true,
+                                            shadowOffsetX: 5,
+                                            shadowOffsetY: 5,
                                             isFlipRequired: !isFromWhitesPerspective
                                             );
 
@@ -95,10 +96,14 @@ namespace DynamicBoard
 
                 Bitmap bmp = new(imageSize, imageSize);
                 using Graphics g = Graphics.FromImage(bmp);
-                g.DrawString($"ERROR RENDERING IMAGE{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}", new Font("Segoe UI", 8), Brushes.Black, new PointF(5, 20));
+                g.DrawString($"ERROR RENDERING IMAGE{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}", new Font("Segoe UI", 12), Brushes.Black, new PointF(5, 20));
                 g.Flush();
                 errorBmpOut = bmp;
                 resizedBmpOut = null;
+            }
+            finally
+            {
+                Monitor.Exit(gdiLock);
             }
 
             return Task.FromResult(resizedBmpOut ?? errorBmpOut);
