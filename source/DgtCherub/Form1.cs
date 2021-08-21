@@ -53,7 +53,7 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
 
-        private bool EchoExternalMessagesToConsole { get; set;} = true;
+        private bool EchoExternalMessagesToConsole { get; set; } = true;
 
         private readonly bool IsRabbitInstalled = false;
 
@@ -93,9 +93,9 @@ namespace DgtCherub
         //TODO:  THIS HAS REAL CLOCK CODE IN IT - check before delete
         //
 
-///        LabelLocalDgt.BackColor = Color.Yellow;
-///                    LabelRemoteBoard.BackColor = Color.Yellow;
-///                    Update();
+        ///        LabelLocalDgt.BackColor = Color.Yellow;
+        ///                    LabelRemoteBoard.BackColor = Color.Yellow;
+        ///                    Update();
 
         /*private async Task FenChangedMatchTest()
         {
@@ -190,26 +190,17 @@ namespace DgtCherub
 
             _appDataService.OnOrientationFlipped += () =>
             {
-                Action updateAction = new(async () =>
-                {
-                    PictureBoxLocal.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.LocalBoardFEN, _appDataService.ChessDotComBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.ChessDotComBoardFEN, _appDataService.LocalBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
-                });
-
-                this.BeginInvoke(updateAction);
+                DisplayBoardImages();
             };
-
 
             _appDataService.OnLocalFenChange += () =>
             {
-                Action updateAction = new(async () =>
-                {
-                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxLocal.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.LocalBoardFEN, _appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.ChessDotComBoardFEN, _appDataService.LocalBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
-                });
+                DisplayBoardImages();
+            };
 
-                PictureBoxLocal.BeginInvoke(updateAction);
+            _appDataService.OnRemoteFenChange += () =>
+            {
+                DisplayBoardImages();
             };
 
             _appDataService.OnBoardMissmatch += () =>
@@ -218,7 +209,7 @@ namespace DgtCherub
 
                 LabelLocalDgt.BackColor = Color.Red;
                 LabelRemoteBoard.BackColor = Color.Red;
-                
+
                 _voicePlayer.Speak(AudioClip.MISMATCH);
             };
 
@@ -242,21 +233,17 @@ namespace DgtCherub
 
             _appDataService.OnChessDotComDisconnect += () =>
             {
-                PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                DisplayBoardImages();
             };
-            
-            _appDataService.OnRemoteFenChange += () =>
-            {
-                Action updateAction = new(async () =>
-                {
-                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxLocal.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.LocalBoardFEN, _appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.ChessDotComBoardFEN, _appDataService.LocalBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
-                });
 
-                PictureBoxRemote.BeginInvoke(updateAction);
+           _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
+            {
+                _appDataService.ResetBoardState();
+                _voicePlayer.Speak(AudioClip.DGT_LC_DISCONNECTED);
+                DisplayBoardImages();
+                TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
-            
+
             _appDataService.OnClockChange += () =>
             {
                 //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
@@ -282,13 +269,7 @@ namespace DgtCherub
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
             };
 
-            _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
-            {
-                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                _voicePlayer.Speak(AudioClip.DGT_LC_DISCONNECTED);
-                _appDataService.ResetBoardState();
-                TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-            };
+ 
 
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
@@ -301,7 +282,8 @@ namespace DgtCherub
 
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
-                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                DisplayBoardImages();
+                
                 _voicePlayer.Speak(AudioClip.DGT_DISCONNECTED);
                 _appDataService.ResetBoardState();
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
@@ -332,7 +314,7 @@ namespace DgtCherub
             _dgtLiveChess.PollDgtBoard();
         }
 
-        
+
 
         //*********************************************//
         #region Form Control Events
@@ -365,7 +347,7 @@ namespace DgtCherub
 
             TopLevelControl.ResumeLayout();
         }
-   
+
         private void ButtonSendTestMsg1_Click(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Sending a test message to the clock. You should see '{"  *DGT*  "}' ", TEXTBOX_MAX_LINES);
@@ -566,6 +548,22 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Using { ((IsRabbitInstalled) ? _dgtEbDllFacade.GetRabbitVersionString() : "DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+        }
+
+        private void DisplayBoardImages()
+        {
+            Action updateAction = new(async () =>
+            {
+                ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
+
+                string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
+                string remote = _appDataService.IsRemoteBoardAvailable ? _appDataService.ChessDotComBoardFEN : _appDataService.LocalBoardFEN;
+
+                PictureBoxLocal.Image = _appDataService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                PictureBoxRemote.Image = _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+            });
+
+            this.BeginInvoke(updateAction);
         }
     }
 }
