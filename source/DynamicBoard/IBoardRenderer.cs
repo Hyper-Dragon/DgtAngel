@@ -17,5 +17,6 @@ namespace DynamicBoard
         Task<Bitmap> GetImageFromFenLargeAsync(string fenString, bool isFromWhitesPerspective = true);
         Task<Bitmap> GetImageFromFenXLargeAsync(string fenString, bool isFromWhitesPerspective = true);
         Task<Bitmap> GetImageFromFenAsync(string fenString, int imageSize, bool isFromWhitesPerspective = true);
+        Task<Bitmap> GetImageDiffFromFenAsync(string fenString, string compFenString, int imageSize, bool isFromWhitesPerspective = true);
     }
 }

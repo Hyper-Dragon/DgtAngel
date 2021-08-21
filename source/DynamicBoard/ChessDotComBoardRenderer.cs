@@ -24,6 +24,12 @@ namespace DynamicBoard
             _httpClientFactory = httpClientFactory;
         }
 
+        public override Task<Bitmap> GetImageDiffFromFenAsync(string fenString, string compFenString, int imageSize, bool isFromWhitesPerspective = true)
+        {
+            //No support for this so just return the regular fen
+            return GetImageFromFenAsync(fenString, imageSize, isFromWhitesPerspective);
+        }
+
         public override Task<Bitmap> GetImageFromFenAsync(string fenString, int imageSize, bool isFromWhitesPerspective)
         {
             _logger?.LogDebug($"Constructing board for fen [{fenString}]");

@@ -39,7 +39,8 @@ namespace DgtCherub
             services.AddControllers();
             services.AddLogging();
             services.AddScoped(typeof(SoundPlayer));
-            services.AddTransient(typeof(IBoardRenderer), typeof(ChessDotComBoardRenderer));
+            //services.AddTransient(typeof(IBoardRenderer), typeof(ChessDotComBoardRenderer));
+            services.AddTransient(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
             services.AddSingleton(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
             services.AddSingleton(typeof(IAppDataService), typeof(AppDataService));
             services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));

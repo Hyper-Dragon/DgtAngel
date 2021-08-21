@@ -192,8 +192,8 @@ namespace DgtCherub
             {
                 Action updateAction = new(async () =>
                 {
-                    PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxLocal.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.LocalBoardFEN, _appDataService.ChessDotComBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.ChessDotComBoardFEN, _appDataService.LocalBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
                 });
 
                 this.BeginInvoke(updateAction);
@@ -205,7 +205,8 @@ namespace DgtCherub
                 Action updateAction = new(async () =>
                 {
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxLocal.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.LocalBoardFEN, PictureBoxLocal.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxLocal.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.LocalBoardFEN, _appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.ChessDotComBoardFEN, _appDataService.LocalBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
                 });
 
                 PictureBoxLocal.BeginInvoke(updateAction);
@@ -249,7 +250,8 @@ namespace DgtCherub
                 Action updateAction = new(async () =>
                 {
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    PictureBoxRemote.Image = await _boardRenderer.GetImageFromFenAsync(_appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxLocal.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.LocalBoardFEN, _appDataService.ChessDotComBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
+                    PictureBoxRemote.Image = await _boardRenderer.GetImageDiffFromFenAsync(_appDataService.ChessDotComBoardFEN, _appDataService.LocalBoardFEN, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom);
                 });
 
                 PictureBoxRemote.BeginInvoke(updateAction);
