@@ -1,0 +1,56 @@
+NOTES>>>>>>>>>>>>
+
+King, Bee ,takes Ef 2
+
+Castles Short
+Castles Long
+
+White Wins
+Black Wins
+Game Drawn
+
+Qh4×e1
+Queen, H Four ,takes Ee One
+Rook, H ,Ef Two
+
+King takes Jee 6 ,Check
+Rook Ef takes Jee 6 ,Check
+
+
+-----------------------------------------------------
+
+Ay 
+Bee 
+See 
+Dee 
+E 
+Ef 
+Jee 
+H
+1  
+2   
+3   
+4   
+5  
+6  
+7   
+8
+King, 
+Queen, 
+Rook, 
+Bishop, 
+Knight, 
+Pawn,
+,takes 
+,Check   
+,Checkmate
+Castles Short
+Castles Long
+White Wins
+Black Wins
+Game Drawn
+White wins by resignation
+White wins by checkmate
+Black wins by resignation
+Black wins by checkmate
+Error, sound file missing!
