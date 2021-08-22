@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Media;
 using System.Reflection;
 using System.Threading;
@@ -13,6 +14,7 @@ namespace DgtCherub.Helpers
         public bool IsMuted { get; set; }
         public uint Volume { get; set; }
         void Speak(AudioClip clipName);
+        void Speak(UnmanagedMemoryStream clipStream);
     }
 
     public class SequentialVoicePlayer : ISequentialVoicePlayer
@@ -42,6 +44,13 @@ namespace DgtCherub.Helpers
         {
             _logger = logger;
             _soundPlayer = soundPlayer;
+        }
+
+        public void Speak(UnmanagedMemoryStream clipStream)
+        {
+            _soundPlayer.Stream = clipStream;
+            _soundPlayer.PlaySync();
+            _soundPlayer.Stream = null;
         }
 
         public void Speak(AudioClip clipName)

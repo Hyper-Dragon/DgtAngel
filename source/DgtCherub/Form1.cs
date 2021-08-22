@@ -528,6 +528,12 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
+            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Queen);
+            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Takes);
+            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Bishop);
+            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Check);
+
+
             TextBoxConsole.AddLine($"  -------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"  Welcome to...                                                                  ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"  ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗ ", TEXTBOX_MAX_LINES, false);
