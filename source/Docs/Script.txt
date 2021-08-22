@@ -64,3 +64,38 @@ Rook, H ,Ef Two
 
 King takes Jee 6 ,Check
 Rook Ef takes Jee 6 ,Check
+
+
+-----------------------------------------------------
+
+Ay 
+Bee 
+See 
+Dee 
+E 
+Ef 
+Jee 
+H
+1  
+2   
+3   
+4   
+5  
+6  
+7   
+8
+King, 
+Queen, 
+Rook, 
+Bishop, 
+Knight, 
+Pawn,
+,takes 
+,Check   
+,Checkmate
+Castles Short
+Castles Long
+White Wins
+Black Wins
+Game Drawn
+Missing
