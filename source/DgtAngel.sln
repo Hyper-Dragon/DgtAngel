@@ -15,8 +15,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\DGT Electronic Board DLL.pdf = Docs\DGT Electronic Board DLL.pdf
-		ScratchNotes.txt = ScratchNotes.txt
-		Docs\Script.txt = Docs\Script.txt
+		Docs\ScratchNotes.txt = Docs\ScratchNotes.txt
+		Docs\VoiceScript-Moves.txt = Docs\VoiceScript-Moves.txt
+		Docs\VoiceScript-Speech.txt = Docs\VoiceScript-Speech.txt
+		Docs\VoiceScript-Time.txt = Docs\VoiceScript-Time.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtEbDllWrapper", "DgtEbDllWrapper\DgtEbDllWrapper.csproj", "{B9F97188-1996-4F0F-BD67-734EA3F672D1}"
@@ -28,6 +30,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngelShared", "DgtAngelShared\DgtAngelShared.csproj", "{F7649A82-C699-4229-877F-822E64E20037}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtLiveChessWrapper\DgtLiveChessWrapper.csproj", "{42C198C0-EE34-4952-AECD-FBB6A4EA4494}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{63F2D03A-9A15-4D3F-AA5B-45B623A07542}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\DgtAngelAudioPreprocess.ps1 = Scripts\DgtAngelAudioPreprocess.ps1
+		Scripts\ffmpeg.exe = Scripts\ffmpeg.exe
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +74,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9BEF4676-8089-4C82-B85F-B694610D431E} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 		{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
+		{63F2D03A-9A15-4D3F-AA5B-45B623A07542} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A4E0476-968F-47C5-A7F0-E73B416E345A}

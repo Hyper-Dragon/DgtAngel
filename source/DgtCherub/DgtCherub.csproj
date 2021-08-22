@@ -88,6 +88,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Audio\Moves-en-01\" />
+    <Folder Include="Assets\Audio\Time-en-01\" />
   </ItemGroup>
   
 </Project>
