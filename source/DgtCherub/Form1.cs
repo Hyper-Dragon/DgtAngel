@@ -290,7 +290,7 @@ namespace DgtCherub
                         soundName = moveString switch
                         {
                             "O-O" => "Words_CastlesShort",
-                            "O-O-O" => "Words_CastlesShort",
+                            "O-O-O" => "Words_CastlesLong",
                             "1/2-1/2" => "Words_GameDrawn",
                             "1-0" => "Words_WhiteWins",
                             "0-1" => "Words_BlackWins",
@@ -331,13 +331,13 @@ namespace DgtCherub
                                     '8' => "Numbers_8",
                                     'x' => "Words_Takes",
                                     '+' => "Words_Check",
+                                    '=' => "Words-PromotesTo",
                                     _ => "Words_Missing",
                                 };
 
                                 _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
                             }
                         }
-
                     }
                     catch { throw; }
                     finally { Monitor.Exit(movesPlayerLock); }

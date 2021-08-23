@@ -211,7 +211,7 @@ namespace DgtCherub.Services
 
         public void ResetRemoteBoardState()
         {
-            ChessDotComBoardFEN = "";
+           // ChessDotComBoardFEN = "";
             _chessDotComWhiteClock = "00:00";
             _chessDotComBlackClock = "00:00";
             _chessDotComRunWhoString = "0";

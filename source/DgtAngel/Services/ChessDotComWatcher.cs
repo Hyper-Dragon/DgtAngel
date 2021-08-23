@@ -30,7 +30,7 @@ namespace DgtAngel.Services
         public event EventHandler<RemoteBoardWatcherGameStateEventArgs> OnBoardStateRecieved;
         public event EventHandler OnWatchStopped;
 
-        private const int SLEEP_RUNNING_DELAY = 500;
+        private const int SLEEP_RUNNING_DELAY = 100;
         private const int SLEEP_REOPEN_TAB_DELAY = 3000;
         private const int SLEEP_EXCEPTION_DELAY = 10000;
 

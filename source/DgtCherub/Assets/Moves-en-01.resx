@@ -208,6 +208,9 @@
   <data name="Words_Missing_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Audio\Moves-en-01\Words-Missing-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Words_PromotesTo_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-PromotesTo-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Words_Takes_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Audio\Moves-en-01\Words-Takes-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

@@ -333,6 +333,15 @@ namespace DgtCherub.Assets {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Words_PromotesTo_AP {
+            get {
+                return ResourceManager.GetStream("Words_PromotesTo_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Words_Takes_AP {
             get {
                 return ResourceManager.GetStream("Words_Takes_AP", resourceCulture);

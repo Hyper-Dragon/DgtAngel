@@ -120,7 +120,7 @@
             remoteBoard.Board.LastMove = lastMove;
             remoteBoard.Board.Clocks.WhiteClock = wcConTime;
             remoteBoard.Board.Clocks.BlackClock = bcConTime;
-            remoteBoard.CaptureTimeMs = (new Date()).getTime();
+            //remoteBoard.CaptureTimeMs = (new Date()).getTime();
             remoteBoard.BoardConnection.BoardState = boardState;
             remoteBoard.BoardConnection.ConMessage = boardMessage;
 

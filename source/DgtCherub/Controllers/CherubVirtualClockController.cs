@@ -205,7 +205,7 @@ namespace DgtCherub.Controllers
                     MessageType = "OnRemoteFenChange",
                     BoardFen = _appDataService.ChessDotComBoardFEN,
                     _appDataService.IsWhiteOnBottom,
-                    LastMove = _appDataService.LastMove,
+                    _appDataService.LastMove,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 });
