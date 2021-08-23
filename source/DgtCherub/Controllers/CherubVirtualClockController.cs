@@ -82,7 +82,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
-            ImageConverter converter = new ImageConverter();
+            ImageConverter converter = new();
 
             string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
             string remote = _appDataService.IsRemoteBoardAvailable ? _appDataService.ChessDotComBoardFEN : _appDataService.LocalBoardFEN;

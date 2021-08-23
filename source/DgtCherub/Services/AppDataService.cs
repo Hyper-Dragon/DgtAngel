@@ -33,6 +33,8 @@ namespace DgtCherub.Services
         event Action OnLocalFenChange;
         event Action OnOrientationFlipped;
         event Action OnRemoteFenChange;
+        event Action<string> OnPlayWhiteClockAudio;
+        event Action<string> OnPlayBlackClockAudio;
         event Action<string, string> OnUserMessageArrived;
 
         void LocalBoardUpdate(string fen);
@@ -56,6 +58,8 @@ namespace DgtCherub.Services
         public event Action OnBoardMatcherStarted;
         public event Action OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
+        public event Action<string> OnPlayWhiteClockAudio;
+        public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnUserMessageArrived;
 
         private string _chessDotComWhiteClock = "00:00";
@@ -72,6 +76,8 @@ namespace DgtCherub.Services
         public int BlackClockMs { get; private set; }
         public string WhiteClock => _chessDotComWhiteClock;
         public string BlackClock => _chessDotComBlackClock;
+        private int BlackNextClockAudioNotBefore { get; set; } = int.MaxValue;
+        private int WhiteNextClockAudioNotBefore { get; set; } = int.MaxValue;
         public string RunWhoString => _chessDotComRunWhoString;
         public bool IsLocalBoardAvailable => (!string.IsNullOrWhiteSpace(LocalBoardFEN));
         public bool IsRemoteBoardAvailable => (!string.IsNullOrWhiteSpace(ChessDotComBoardFEN));
@@ -191,6 +197,8 @@ namespace DgtCherub.Services
             OnClockChange?.Invoke();
             OnChessDotComDisconnect?.Invoke();
             IsMismatchDetected = false;
+            WhiteNextClockAudioNotBefore = int.MaxValue;
+            BlackNextClockAudioNotBefore = int.MaxValue;
         }
 
         public void SetClocksStrings(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString)
@@ -199,6 +207,62 @@ namespace DgtCherub.Services
             _chessDotComBlackClock = chessDotComBlackClock;
             _chessDotComRunWhoString = chessDotComRunWhoString;
             OnClockChange?.Invoke();
+
+            TimeSpan clockAudioWhiteTs;          
+            if ( (clockAudioWhiteTs = TimeSpan.FromMilliseconds(WhiteClockMs)).TotalMilliseconds <= WhiteNextClockAudioNotBefore)
+            {
+                if (clockAudioWhiteTs.Hours < 1)
+                {
+                    if (clockAudioWhiteTs.Minutes > 20)
+                    {
+                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (((clockAudioWhiteTs.Minutes % 5) * 60000) + ((60 - clockAudioWhiteTs.Seconds) * 1000));
+                        OnPlayWhiteClockAudio?.Invoke($"M_{clockAudioWhiteTs.Minutes.ToString().PadLeft(2, '0')}");
+                    }
+                    else if (clockAudioWhiteTs.Minutes > 0)
+                    {
+                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - ((60 - clockAudioWhiteTs.Seconds) * 1000);
+                        OnPlayWhiteClockAudio?.Invoke($"M_{clockAudioWhiteTs.Minutes.ToString().PadLeft(2, '0')}");
+                    }
+                    else if (clockAudioWhiteTs.Seconds > 30)
+                    {
+                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (5 * 1000);
+                        OnPlayWhiteClockAudio?.Invoke($"S_{clockAudioWhiteTs.Seconds.ToString().PadLeft(2, '0')}");
+                    }
+                    else if (clockAudioWhiteTs.Seconds > 0)
+                    {
+                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (2 * 1000);
+                        OnPlayWhiteClockAudio?.Invoke($"S_{clockAudioWhiteTs.Seconds.ToString().PadLeft(2, '0')}");
+                    }
+                }
+            }
+
+            TimeSpan clockAudioBlackTs;
+            if ((clockAudioBlackTs = TimeSpan.FromMilliseconds(BlackClockMs)).TotalMilliseconds <= BlackNextClockAudioNotBefore)
+            {
+                if (clockAudioBlackTs.Hours < 1)
+                {
+                    if (clockAudioBlackTs.Minutes > 20)
+                    {
+                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (((clockAudioWhiteTs.Minutes % 5) * 60000) + ((60 - clockAudioWhiteTs.Seconds) * 1000));
+                        OnPlayBlackClockAudio?.Invoke($"M_{clockAudioBlackTs.Minutes.ToString().PadLeft(2, '0')}");
+                    }
+                    else if (clockAudioBlackTs.Minutes > 0)
+                    {
+                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - ((60 - clockAudioBlackTs.Seconds) * 1000);
+                        OnPlayBlackClockAudio?.Invoke($"M_{clockAudioBlackTs.Minutes.ToString().PadLeft(2, '0')}");
+                    }
+                    else if (clockAudioBlackTs.Seconds > 30)
+                    {
+                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (5 * 1000);
+                        OnPlayBlackClockAudio?.Invoke($"S_{clockAudioBlackTs.Seconds.ToString().PadLeft(2, '0')}");
+                    }
+                    else if (clockAudioBlackTs.Seconds > 0)
+                    {
+                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (2 * 1000);
+                        OnPlayBlackClockAudio?.Invoke($"S_{clockAudioBlackTs.Seconds.ToString().PadLeft(2, '0')}");
+                    }
+                }
+            }
         }
 
         public void UserMessageArrived(string source, string message)

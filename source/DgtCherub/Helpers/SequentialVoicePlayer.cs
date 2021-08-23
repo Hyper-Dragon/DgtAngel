@@ -35,22 +35,24 @@ namespace DgtCherub.Helpers
 
         private readonly ILogger _logger;
         private readonly SoundPlayer _soundPlayer;
+        private readonly SoundPlayer _soundPlayerTime;
         private readonly ConcurrentQueue<AudioClip> playList = new();
 
         public bool IsMuted { get; set; } = false;
         public uint Volume { get; set; } = 10;
 
-        public SequentialVoicePlayer(ILogger<Form1> logger, SoundPlayer soundPlayer)
+        public SequentialVoicePlayer(ILogger<Form1> logger, SoundPlayer soundPlayer, SoundPlayer soundPlayerTime)
         {
             _logger = logger;
             _soundPlayer = soundPlayer;
+            _soundPlayerTime = soundPlayerTime;
         }
 
         public void Speak(UnmanagedMemoryStream clipStream)
         {
-            _soundPlayer.Stream = clipStream;
-            _soundPlayer.PlaySync();
-            _soundPlayer.Stream = null;
+            _soundPlayerTime.Stream = clipStream;
+            _soundPlayerTime.PlaySync();
+            _soundPlayerTime.Stream = null;
         }
 
         public void Speak(AudioClip clipName)

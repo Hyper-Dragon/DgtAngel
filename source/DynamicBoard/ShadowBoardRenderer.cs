@@ -44,7 +44,7 @@ namespace DynamicBoard
         };
 
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
-        static object gdiLock = new();
+        static readonly object gdiLock = new();
 
         public ShadowBoardRenderer(ILogger<ChessDotComBoardRenderer> logger) : base(logger)
         {

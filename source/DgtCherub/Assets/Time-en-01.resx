@@ -1,0 +1,571 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="M_01_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-01-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_02_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-02-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_03_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-03-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_04_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-04-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_05_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-05-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_06_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-06-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_07_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-07-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_08_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-08-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_09_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-09-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_10_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-10-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_11_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-11-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_12_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-12-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_13_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-13-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_14_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-14-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_15_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-15-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_16_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-16-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_17_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-17-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_18_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-18-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_19_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-19-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_20_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-20-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_21_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-21-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_22_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-22-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_23_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-23-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_24_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-24-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_25_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-25-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_26_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-26-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_27_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-27-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_28_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-28-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_29_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-29-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_30_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-30-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_31_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-31-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_32_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-32-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_33_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-33-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_34_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-34-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_35_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-35-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_36_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-36-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_37_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-37-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_38_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-38-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_39_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-39-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_40_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-40-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_41_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-41-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_42_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-42-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_43_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-43-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_44_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-44-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_45_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-45-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_46_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-46-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_47_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-47-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_48_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-48-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_49_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-49-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_50_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-50-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_51_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-51-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_52_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-52-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_53_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-53-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_54_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-54-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_55_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-55-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_56_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-56-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_57_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-57-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_58_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-58-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_59_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-59-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_60_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-60-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_61_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-61-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_62_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-62-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_63_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-63-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_64_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-64-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_65_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-65-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_66_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-66-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_67_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-67-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_68_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-68-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_69_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-69-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_70_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-70-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_71_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-71-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_72_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-72-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_73_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-73-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_74_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-74-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_75_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-75-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_76_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-76-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_77_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-77-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_78_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-78-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_79_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-79-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_80_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-80-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_81_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-81-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_82_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-82-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_83_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-83-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_84_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-84-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_85_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-85-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_86_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-86-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_87_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-87-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_88_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-88-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_89_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-89-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="M_90_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\M-90-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_00_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-00-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_01_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-01-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_02_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-02-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_03_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-03-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_04_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-04-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_05_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-05-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_06_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-06-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_07_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-07-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_08_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-08-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_09_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-09-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_10_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-10-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_11_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-11-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_12_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-12-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_13_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-13-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_14_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-14-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_15_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-15-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_16_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-16-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_17_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-17-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_18_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-18-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_19_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-19-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_20_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-20-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_21_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-21-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_22_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-22-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_23_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-23-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_24_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-24-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_25_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-25-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_26_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-26-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_27_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-27-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_28_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-28-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_29_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-29-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_30_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-30-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_31_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-31-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_32_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-32-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_33_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-33-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_34_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-34-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_35_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-35-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_36_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-36-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_37_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-37-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_38_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-38-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_39_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-39-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_40_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-40-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_41_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-41-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_42_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-42-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_43_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-43-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_44_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-44-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_45_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-45-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_46_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-46-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_47_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-47-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_48_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-48-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_49_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-49-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_50_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-50-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_51_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-51-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_52_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-52-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_53_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-53-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_54_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-54-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_55_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-55-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_56_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-56-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_57_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-57-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_58_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-58-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="S_59_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Time-en-01\S-59-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

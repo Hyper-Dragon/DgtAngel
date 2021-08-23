@@ -5,6 +5,7 @@ using DgtLiveChessWrapper;
 using DynamicBoard;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -244,10 +245,25 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
+            _appDataService.OnPlayWhiteClockAudio += (audioFilename) =>
+            {
+                if (_appDataService.IsWhiteOnBottom)
+                {
+                    _voicePlayer.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
+                }
+            };
+
+            _appDataService.OnPlayBlackClockAudio += (audioFilename) =>
+            {
+                if (!_appDataService.IsWhiteOnBottom)
+                {
+                    _voicePlayer.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
+                }
+            };
+
             _appDataService.OnClockChange += () =>
             {
-                //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES);
-
+                //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES); 
                 Invoke((Action)(() =>
                 {
                     LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "1") ? "*" : " ")}{_appDataService.WhiteClock}";
@@ -528,10 +544,10 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
-            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Queen);
-            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Takes);
-            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Bishop);
-            _voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Check);
+            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Queen);
+            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Takes);
+            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Bishop);
+            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Check);
 
 
             TextBoxConsole.AddLine($"  -------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);

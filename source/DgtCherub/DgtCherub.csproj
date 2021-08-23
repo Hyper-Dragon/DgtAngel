@@ -68,6 +68,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Moves-en-01.resx</DependentUpon>
     </Compile>
+    <Compile Update="Assets\Time-en-01.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Time-en-01.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -79,6 +84,10 @@
     <EmbeddedResource Update="Assets\Moves-en-01.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Moves-en-01.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Time-en-01.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Time-en-01.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
