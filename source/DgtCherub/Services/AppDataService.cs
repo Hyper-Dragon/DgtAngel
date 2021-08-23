@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using DgtAngelShared.Json;
 using DgtEbDllWrapper;
@@ -33,6 +36,7 @@ namespace DgtCherub.Services
         event Action OnLocalFenChange;
         event Action OnOrientationFlipped;
         event Action OnRemoteFenChange;
+        event Action<string> OnNewMoveDetected;
         event Action<string> OnPlayWhiteClockAudio;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string, string> OnUserMessageArrived;
@@ -58,6 +62,7 @@ namespace DgtCherub.Services
         public event Action OnBoardMatcherStarted;
         public event Action OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
+        public event Action<string> OnNewMoveDetected;
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnUserMessageArrived;
@@ -85,8 +90,13 @@ namespace DgtCherub.Services
         public bool IsChessDotComBoardStateActive => (ChessDotComBoardFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00");
         private Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
 
+        //private readonly ConcurrentQueue<string> moveQueue=new();
+
+
         private readonly ILogger _logger;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
+        
+        private readonly static object fenChangeLock=new();
 
         public AppDataService(ILogger<AppDataService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
@@ -101,14 +111,14 @@ namespace DgtCherub.Services
             {
                 OnBoardMatcherStarted?.Invoke();
 
-                OnUserMessageArrived("MATCHER", $"PRE  IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                //OnUserMessageArrived("MATCHER", $"PRE  IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 await Task.Delay(MATCHER_TIME_DELAY_MS);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
                 if (matchCode == CurrentUpdatetMatch.ToString())
                 {
-                    OnUserMessageArrived("MATCHER", $"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    //OnUserMessageArrived("MATCHER", $"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
                     if (ChessDotComBoardFEN != LocalBoardFEN)
                     {
@@ -128,7 +138,7 @@ namespace DgtCherub.Services
                 }
                 else
                 {
-                    OnUserMessageArrived("MATCHER", $"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    //OnUserMessageArrived("MATCHER", $"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 }
             }
         }
@@ -169,16 +179,27 @@ namespace DgtCherub.Services
                 OnOrientationFlipped?.Invoke();
             }
 
-            if (ChessDotComBoardFEN != remoteBoardState.Board.FenString)
+            try
             {
-                //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
-                LastMove = remoteBoardState.Board.LastMove;
-                ChessDotComBoardFEN = remoteBoardState.Board.FenString;
+                Monitor.Enter(fenChangeLock);
+                if (ChessDotComBoardFEN != remoteBoardState.Board.FenString)
+                {
+                    //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
+                    LastMove = remoteBoardState.Board.LastMove;
+                    ChessDotComBoardFEN = remoteBoardState.Board.FenString;
 
-                CurrentUpdatetMatch = Guid.NewGuid();
-                Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString()));
+                    CurrentUpdatetMatch = Guid.NewGuid();
+                    Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString()));
 
-                OnRemoteFenChange?.Invoke();
+                    OnUserMessageArrived?.Invoke("LMOVE", remoteBoardState.Board.LastMove);
+                    OnNewMoveDetected?.Invoke(remoteBoardState.Board.LastMove);
+                    OnRemoteFenChange?.Invoke();
+                }
+            }
+            catch { throw;  }
+            finally
+            {
+                Monitor.Exit(fenChangeLock);
             }
         }
 
@@ -208,8 +229,8 @@ namespace DgtCherub.Services
             _chessDotComRunWhoString = chessDotComRunWhoString;
             OnClockChange?.Invoke();
 
-            TimeSpan clockAudioWhiteTs;          
-            if ( (clockAudioWhiteTs = TimeSpan.FromMilliseconds(WhiteClockMs)).TotalMilliseconds <= WhiteNextClockAudioNotBefore)
+            TimeSpan clockAudioWhiteTs;
+            if ((clockAudioWhiteTs = TimeSpan.FromMilliseconds(WhiteClockMs)).TotalMilliseconds <= WhiteNextClockAudioNotBefore)
             {
                 if (clockAudioWhiteTs.Hours < 1)
                 {

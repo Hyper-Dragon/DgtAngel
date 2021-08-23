@@ -7,8 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic.Devices;
 using System;
+using System.CodeDom;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,6 +47,7 @@ namespace DgtCherub
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
         private readonly ISequentialVoicePlayer _voicePlayer;
+        private readonly ISequentialVoicePlayer _voicePlayerMoves;
 
         private int LastFormWidth = 705;
         private int CollapsedWidth = 705;
@@ -53,6 +56,8 @@ namespace DgtCherub
         private Color BoredLabelsInitialColor = Color.Silver;
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
+
+        private readonly static object movesPlayerLock = new();
 
         private bool EchoExternalMessagesToConsole { get; set; } = true;
 
@@ -64,7 +69,8 @@ namespace DgtCherub
         //TODO:Own board maker
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAppDataService appData, IDgtEbDllFacade dgtEbDllFacade,
-                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer)
+                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
+                     ISequentialVoicePlayer voicePlayerMoves)
         {
             _iHost = iHost;
             _logger = logger;
@@ -75,6 +81,7 @@ namespace DgtCherub
             _dgtEbDllFacade = dgtEbDllFacade;
             _boardRenderer = boardRenderer;
             _voicePlayer = voicePlayer;
+            _voicePlayerMoves = voicePlayerMoves;
 
             InitializeComponent();
 
@@ -142,7 +149,7 @@ namespace DgtCherub
 
             //Set Appsettings from the designer values...
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
-            _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
+            _voicePlayer.IsMuted = !CheckBoxPlayStatus.Checked;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -237,17 +244,17 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-           _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
-            {
-                _appDataService.ResetBoardState();
-                _voicePlayer.Speak(AudioClip.DGT_LC_DISCONNECTED);
-                DisplayBoardImages();
-                TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-            };
+            _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
+             {
+                 _appDataService.ResetBoardState();
+                 _voicePlayer.Speak(AudioClip.DGT_LC_DISCONNECTED);
+                 DisplayBoardImages();
+                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+             };
 
             _appDataService.OnPlayWhiteClockAudio += (audioFilename) =>
             {
-                if (_appDataService.IsWhiteOnBottom)
+                if (CheckBoxPlayTime.Checked && _appDataService.IsWhiteOnBottom)
                 {
                     _voicePlayer.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
@@ -255,7 +262,7 @@ namespace DgtCherub
 
             _appDataService.OnPlayBlackClockAudio += (audioFilename) =>
             {
-                if (!_appDataService.IsWhiteOnBottom)
+                if (CheckBoxPlayTime.Checked && !_appDataService.IsWhiteOnBottom)
                 {
                     _voicePlayer.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
@@ -272,9 +279,81 @@ namespace DgtCherub
                 }));
             };
 
+            _appDataService.OnNewMoveDetected += (moveString) =>
+            {
+                if (CheckBoxPlayMoves.Checked)
+                {
+                    Monitor.Enter(movesPlayerLock);
+                    string soundName = "";
+                    try
+                    {
+                        soundName = moveString switch
+                        {
+                            "O-O" => "Words_CastlesShort",
+                            "O-O-O" => "Words_CastlesShort",
+                            "1/2-1/2" => "Words_GameDrawn",
+                            "1-0" => "Words_WhiteWins",
+                            "0-1" => "Words_BlackWins",
+                            _ => ""
+                        };
+
+                        if (!string.IsNullOrEmpty(soundName))
+                        {
+                            _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                        }
+                        else
+                        {
+                            foreach (var ch in moveString.ToCharArray())
+                            {
+                                soundName = ch switch
+                                {
+                                    'Q' => "Pieces_Queen",
+                                    'K' => "Pieces_King",
+                                    'N' => "Pieces_Knight",
+                                    'B' => "Pieces_Bishop",
+                                    'R' => "Pieces_Rook",
+                                    'P' => "Pieces_Pawn",
+                                    'a' => "Letters_A",
+                                    'b' => "Letters_B",
+                                    'c' => "Letters_C",
+                                    'd' => "Letters_D",
+                                    'e' => "Letters_E",
+                                    'f' => "Letters_F",
+                                    'g' => "Letters_G",
+                                    'h' => "Letters_H",
+                                    '1' => "Numbers_1",
+                                    '2' => "Numbers_2",
+                                    '3' => "Numbers_3",
+                                    '4' => "Numbers_4",
+                                    '5' => "Numbers_5",
+                                    '6' => "Numbers_6",
+                                    '7' => "Numbers_7",
+                                    '8' => "Numbers_8",
+                                    'x' => "Words_Takes",
+                                    '+' => "Words_Check",
+                                    _ => "Words_Missing",
+                                };
+
+                                _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                            }
+                        }
+
+                    }
+                    catch { throw; }
+                    finally { Monitor.Exit(movesPlayerLock); }
+                }
+            };
+
             _appDataService.OnUserMessageArrived += (source, message) =>
             {
-                TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
+                //TODO: Remove condition
+                if (source == "LMOVE" || source == "INGEST")
+                {
+                    if (CheckBoxRecieveLog.Checked)
+                    {
+                        TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
+                    }
+                }
             };
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
@@ -284,8 +363,6 @@ namespace DgtCherub
                                                      $"Live Chess running [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
             };
-
- 
 
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
@@ -299,7 +376,7 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
                 DisplayBoardImages();
-                
+
                 _voicePlayer.Speak(AudioClip.DGT_DISCONNECTED);
                 _appDataService.ResetBoardState();
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
@@ -420,8 +497,8 @@ namespace DgtCherub
         }
         private void CheckBoxPlayAudio_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayAudio.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
-            _voicePlayer.IsMuted = !CheckBoxPlayAudio.Checked;
+            TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayStatus.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
+            _voicePlayer.IsMuted = !CheckBoxPlayStatus.Checked;
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -543,12 +620,6 @@ namespace DgtCherub
         {
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
-
-            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Queen);
-            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Takes);
-            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Pieces_Bishop);
-            //_voicePlayer.Speak(DgtCherub.Assets.Moves_en_01.Words_Check);
-
 
             TextBoxConsole.AddLine($"  -------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"  Welcome to...                                                                  ", TEXTBOX_MAX_LINES, false);

@@ -41,7 +41,9 @@ namespace DgtCherub
             this.Panel1 = new System.Windows.Forms.Panel();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
-            this.CheckBoxPlayAudio = new System.Windows.Forms.CheckBox();
+            this.CheckBoxPlayTime = new System.Windows.Forms.CheckBox();
+            this.CheckBoxPlayMoves = new System.Windows.Forms.CheckBox();
+            this.CheckBoxPlayStatus = new System.Windows.Forms.CheckBox();
             this.ButtonClearConsole = new System.Windows.Forms.Button();
             this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
             this.ButtonRabbitConfig1 = new System.Windows.Forms.Button();
@@ -77,6 +79,7 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
             this.GroupBoxClockTest.SuspendLayout();
             this.TabPageAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLogo)).BeginInit();
@@ -222,7 +225,10 @@ namespace DgtCherub
             // TabPageConfig
             // 
             this.TabPageConfig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TabPageConfig.Controls.Add(this.CheckBoxPlayAudio);
+            this.TabPageConfig.Controls.Add(this.CheckBoxRecieveLog);
+            this.TabPageConfig.Controls.Add(this.CheckBoxPlayTime);
+            this.TabPageConfig.Controls.Add(this.CheckBoxPlayMoves);
+            this.TabPageConfig.Controls.Add(this.CheckBoxPlayStatus);
             this.TabPageConfig.Controls.Add(this.ButtonClearConsole);
             this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
             this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig1);
@@ -235,20 +241,48 @@ namespace DgtCherub
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxPlayAudio
+            // CheckBoxPlayTime
             // 
-            this.CheckBoxPlayAudio.Checked = true;
-            this.CheckBoxPlayAudio.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxPlayAudio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxPlayAudio.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxPlayAudio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxPlayAudio.Location = new System.Drawing.Point(25, 112);
-            this.CheckBoxPlayAudio.Name = "CheckBoxPlayAudio";
-            this.CheckBoxPlayAudio.Size = new System.Drawing.Size(102, 25);
-            this.CheckBoxPlayAudio.TabIndex = 0;
-            this.CheckBoxPlayAudio.Text = "Play Audio";
-            this.CheckBoxPlayAudio.UseVisualStyleBackColor = true;
-            this.CheckBoxPlayAudio.CheckedChanged += new System.EventHandler(this.CheckBoxPlayAudio_CheckedChanged);
+            this.CheckBoxPlayTime.Checked = true;
+            this.CheckBoxPlayTime.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxPlayTime.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxPlayTime.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxPlayTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxPlayTime.Location = new System.Drawing.Point(25, 174);
+            this.CheckBoxPlayTime.Name = "CheckBoxPlayTime";
+            this.CheckBoxPlayTime.Size = new System.Drawing.Size(102, 25);
+            this.CheckBoxPlayTime.TabIndex = 52;
+            this.CheckBoxPlayTime.Text = "Play Time";
+            this.CheckBoxPlayTime.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxPlayMoves
+            // 
+            this.CheckBoxPlayMoves.Checked = true;
+            this.CheckBoxPlayMoves.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxPlayMoves.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxPlayMoves.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxPlayMoves.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxPlayMoves.Location = new System.Drawing.Point(25, 143);
+            this.CheckBoxPlayMoves.Name = "CheckBoxPlayMoves";
+            this.CheckBoxPlayMoves.Size = new System.Drawing.Size(102, 25);
+            this.CheckBoxPlayMoves.TabIndex = 51;
+            this.CheckBoxPlayMoves.Text = "Play Moves";
+            this.CheckBoxPlayMoves.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxPlayStatus
+            // 
+            this.CheckBoxPlayStatus.Checked = true;
+            this.CheckBoxPlayStatus.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxPlayStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxPlayStatus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxPlayStatus.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxPlayStatus.Location = new System.Drawing.Point(25, 112);
+            this.CheckBoxPlayStatus.Name = "CheckBoxPlayStatus";
+            this.CheckBoxPlayStatus.Size = new System.Drawing.Size(102, 25);
+            this.CheckBoxPlayStatus.TabIndex = 0;
+            this.CheckBoxPlayStatus.Text = "Play Status";
+            this.CheckBoxPlayStatus.UseVisualStyleBackColor = true;
+            this.CheckBoxPlayStatus.CheckedChanged += new System.EventHandler(this.CheckBoxPlayAudio_CheckedChanged);
             // 
             // ButtonClearConsole
             // 
@@ -625,6 +659,20 @@ namespace DgtCherub
             this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Forums";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
+            // CheckBoxRecieveLog
+            // 
+            this.CheckBoxRecieveLog.Checked = true;
+            this.CheckBoxRecieveLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(25, 283);
+            this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
+            this.CheckBoxRecieveLog.Size = new System.Drawing.Size(102, 25);
+            this.CheckBoxRecieveLog.TabIndex = 53;
+            this.CheckBoxRecieveLog.Text = "Recieve Log";
+            this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -703,7 +751,7 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem CdcChromeExtensionVoiceComentaryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtLiveChessSoftwareMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
-        private System.Windows.Forms.CheckBox CheckBoxPlayAudio;
+        private System.Windows.Forms.CheckBox CheckBoxPlayStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem PlayWindowlessMenuItem;
         private System.Windows.Forms.GroupBox GroupBoxClockTest;
@@ -711,6 +759,9 @@ namespace DgtCherub
         private System.Windows.Forms.PictureBox PictureBoxLogo;
         private System.Windows.Forms.TabPage TabPageTest;
         private System.Windows.Forms.Panel Panel1;
+        private System.Windows.Forms.CheckBox CheckBoxPlayTime;
+        private System.Windows.Forms.CheckBox CheckBoxPlayMoves;
+        private System.Windows.Forms.CheckBox CheckBoxRecieveLog;
     }
 }
 

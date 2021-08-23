@@ -66,7 +66,7 @@ namespace DgtCherub.Controllers
                             switch (messageIn.MessageType)
                             {
                                 case CherubApiMessage.MessageTypeCode.STATE_UPDATED:
-                                    //_appDataService.UserMessageArrived("INGEST", messageIn.RemoteBoard.Board.FenString);
+                                    _appDataService.UserMessageArrived("INGEST", messageIn.RemoteBoard.Board.FenString);
                                     _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
