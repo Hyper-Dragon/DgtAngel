@@ -118,97 +118,106 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Letters_A" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-A.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_A_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-A-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-B.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_B_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-B-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_C" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-C.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_C_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-C-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_D" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-D.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_D_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-D-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_E" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-E.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_E_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-E-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_F" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-F.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_F_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-F-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_G" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-G.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_G_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-G-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Letters_H" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Letters-H.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Letters_H_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Letters-H-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-1.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_1_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-1-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-2.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_2_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-2-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-3.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_3_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-3-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-4.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_4_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-4-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-5.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_5_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-5-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-6.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_6_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-6-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-7.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_7_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-7-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Numbers_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Numbers-8.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Numbers_8_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Numbers-8-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pieces_Bishop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Pieces-Bishop.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Pieces_Bishop_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Pieces-Bishop-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pieces_King" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Pieces-King.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Pieces_King_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Pieces-King-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pieces_Knight" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Pieces-Knight.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Pieces_Knight_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Pieces-Knight-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pieces_Pawn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Pieces-Pawn.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Pieces_Pawn_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Pieces-Pawn-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pieces_Queen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Pieces-Queen.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Pieces_Queen_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Pieces-Queen-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Pieces_Rook" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Pieces-Rook.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Pieces_Rook_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Pieces-Rook-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_BlackWins" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-BlackWins.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_BlackWinsCheckmate_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-BlackWinsCheckmate-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_CastlesLong" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-CastlesLong.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_BlackWinsResignation_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-BlackWinsResignation-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_CastlesShort" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-CastlesShort.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_BlackWins_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-BlackWins-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_Check" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-Check.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_CastlesLong_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-CastlesLong-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_Checkmate" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-Checkmate.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_CastlesShort_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-CastlesShort-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_GameDrawn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-GameDrawn.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_Check_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-Check-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_Missing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-Missing.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_GameDrawn_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-GameDrawn-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_Takes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-Takes.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_Missing_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-Missing-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_WhiteWins" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Moves-en-01\Words-WhiteWins.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_Takes_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-Takes-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Words_WhiteWinsCheckmate_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-WhiteWinsCheckmate-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Words_WhiteWinsResignation_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-WhiteWinsResignation-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Words_WhiteWins_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Audio\Moves-en-01\Words-WhiteWins-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

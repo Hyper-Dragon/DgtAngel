@@ -16,15 +16,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\CdcWatching.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\DgtCantFindBoard.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\DgtConnected.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\DgtLcConnected.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\DgtLcDisconnected.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\Match.wav" />
-    <None Remove="Assets\Audio\Speech-en-01\Mismatch.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtConnected-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtLcConnected-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\DgtLcDisconnected-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\Match-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
     <None Remove="Assets\Clocks\SlideClock\Clock.html" />
     <None Remove="Assets\Clocks\DgtAngelLogo.svg" />
     <None Remove="Assets\Clocks\favicon.png" />
@@ -32,15 +32,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtCantFindBoard.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtConnected.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcConnected.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcDisconnected.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match.wav" />
-    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtConnected-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcConnected-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcDisconnected-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
     <EmbeddedResource Include="Assets\Clocks\SlideClock\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\DgtAngelLogo.svg" />
     <EmbeddedResource Include="Assets\Clocks\favicon.png" />

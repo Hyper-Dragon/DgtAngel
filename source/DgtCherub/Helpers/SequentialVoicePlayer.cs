@@ -22,15 +22,15 @@ namespace DgtCherub.Helpers
         private const string RESOURCE_VOICE_ROOT = "DgtCherub.Assets.Audio";
         private const string RESOURCE_VOICE_NAME = "Speech_en_01";
 
-        private readonly string[] AudioFiles = { "Mismatch.wav" ,
-                                                 "Match.wav" ,
-                                                 "DgtLcConnected.wav" ,
-                                                 "DgtLcDisconnected.wav" ,
-                                                 "DgtConnected.wav" ,
-                                                 "DgtDisconnected.wav" ,
-                                                 "CdcWatching.wav" ,
-                                                 "CdcStoppedWatching.wav" ,
-                                                 "DgtCantFindBoard.wav"
+        private readonly string[] AudioFiles = { "Mismatch-AP.wav" ,
+                                                 "Match-AP.wav" ,
+                                                 "DgtLcConnected-AP.wav" ,
+                                                 "DgtLcDisconnected-AP.wav" ,
+                                                 "DgtConnected-AP.wav" ,
+                                                 "DgtDisconnected-AP.wav" ,
+                                                 "CdcWatching-AP.wav" ,
+                                                 "CdcStoppedWatching-AP.wav" ,
+                                                 "DgtCantFindBoard-AP.wav"
                                                 };
 
         private readonly ILogger _logger;
