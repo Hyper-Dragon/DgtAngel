@@ -109,7 +109,7 @@ namespace DynamicBoard
             return Task.FromResult(resizedBmpOut ?? errorBmpOut);
         }
 
-        private Bitmap RenderBoard(Bitmap blankBoard = null, // Slower than passing colours
+        private static Bitmap RenderBoard(Bitmap blankBoard = null, // Slower than passing colours
                                   Color? whiteSquareColour = null,
                                   Color? blackSquareColour = null,
                                   Color? errorSquareColour = null,
@@ -184,7 +184,7 @@ namespace DynamicBoard
                 }
             }
 
-            //Keeps the momory in check
+            //Keeps the memory in check
             GC.Collect();
 
             return new(boardBmp, new Size(sizeOut, sizeOut));

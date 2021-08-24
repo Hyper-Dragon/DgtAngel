@@ -69,8 +69,6 @@ namespace DgtCherub.Controllers
                             switch (messageIn.MessageType)
                             {
                                 case CherubApiMessage.MessageTypeCode.STATE_UPDATED:
-                                    //if (await recieveLock.WaitAsync(0))
-                                    //{
                                     if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
                                     {
                                         highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
@@ -99,7 +97,6 @@ namespace DgtCherub.Controllers
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
-
                                     //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
                                     _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");

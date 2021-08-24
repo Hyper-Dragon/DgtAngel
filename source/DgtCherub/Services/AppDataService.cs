@@ -109,7 +109,7 @@ namespace DgtCherub.Services
             _logger = logger;
             _dgtEbDllFacade = dgtEbDllFacade;
 
-            BoundedChannelOptions processChannelOptions = new BoundedChannelOptions(1)
+            BoundedChannelOptions processChannelOptions = new(1)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
@@ -117,7 +117,7 @@ namespace DgtCherub.Services
                 SingleWriter = true
             };
 
-            BoundedChannelOptions messageChannelOptions = new BoundedChannelOptions(100)
+            BoundedChannelOptions messageChannelOptions = new(100)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,

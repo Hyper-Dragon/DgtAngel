@@ -343,7 +343,7 @@ namespace DgtCherub
                     //TODO: Remove condition
                     if (source == "LMOVE" || source == "INGEST")
                     {
-                        if (CheckBoxRecieveLog.Checked)
+                        if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
                         {
                             TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
                         }
