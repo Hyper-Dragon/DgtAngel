@@ -31,9 +31,9 @@
         await Scripts.AddIndexToContextMenu();
         Logging.LogInformation($"Context Menu Item Added");
 
-        #pragma warning disable CS4014 // This functions does not return without cancelation - NEVER AWAIT IT!
-        CherubConnection.StartAndManageConnection();
-        #pragma warning restore CS4014
+        // This functions does not return without cancelation - NEVER AWAIT IT!
+        _ = CherubConnection.StartAndManageConnection();
+
 
         await CherubConnection.SendMessageToClient($"DGT Angel is starting...");
 
@@ -41,6 +41,7 @@
                             {
                                 await Scripts.PlayAudioFile(ScriptWrapper.AudioClip.CDC_WATCHING);
                                 await CherubConnection.SendMessageToClient($"Angel is watching a board on Chess.com");
+                                await CherubConnection.SendDgtAngelConnectedToClient();
                             };
 
         ChessDotComWatcher.OnWatchStopped += async (obj, eventArgs) =>

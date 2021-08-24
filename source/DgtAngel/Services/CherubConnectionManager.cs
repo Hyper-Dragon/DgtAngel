@@ -24,6 +24,7 @@ namespace DgtAngel.Services
 
         Task ConnectAndWatch();
         Task SendDgtAngelDisconnectedToClient();
+        Task SendDgtAngelConnectedToClient();
         Task SendMessageToClient(string message);
         Task SendUpdatedBoardStateToClient(BoardState remoteBoardState);
         Task StartAndManageConnection();
@@ -37,7 +38,7 @@ namespace DgtAngel.Services
         private const string CHERUB_API_HTTP_PATH = "/api";
         private const string CHERUB_API_HTTP_TEST_CALL = "/AreYouThere";
         private const int CONNECTION_RETRY_DELAY = 1000;
-        private const int CONNECTION_KEEPALIVE_DELAY = 5000;
+        private const int CONNECTION_KEEPALIVE_DELAY = 60000;
 
         public event EventHandler<ConnectionManagerEventArgs> OnCherubConnected;
         public event EventHandler<ConnectionManagerEventArgs> OnCherubDisconnected;
@@ -204,6 +205,18 @@ namespace DgtAngel.Services
                 Message = "",
                 RemoteBoard = remoteBoardState
             }), true);
+        }
+
+        public async Task SendDgtAngelConnectedToClient()
+        {
+            _logger.LogDebug($"Sending DGT Angel disconnect to Client");
+            await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
+            {
+                Source = "ANGEL",
+                MessageType = MessageTypeCode.WATCH_STARTED,
+                Message = "",
+                RemoteBoard = null
+            }));
         }
 
         public async Task SendDgtAngelDisconnectedToClient()

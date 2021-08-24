@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Controllers
 {
@@ -92,13 +93,15 @@ namespace DgtCherub.Controllers
                                 case CherubApiMessage.MessageTypeCode.MESSAGE:
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
+                                case CherubApiMessage.MessageTypeCode.WATCH_STARTED:
+                                    //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
+                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.RemoteBoard);
+                                    _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
+                                    break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
 
                                     //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
-                                    _appDataService.ResetRemoteBoardState();
-
-
-
+                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
                                     break;
                                 default:
@@ -120,7 +123,7 @@ namespace DgtCherub.Controllers
                     }
                 }
 
-                _appDataService.ResetRemoteBoardState();
+                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED);
                 _appDataService.UserMessageArrived("INTERNAL", "DGT Angel has Disconnected");
             }
             else

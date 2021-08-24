@@ -6,7 +6,7 @@ namespace DgtAngelShared.Json
     {
         public enum MessageTypeCode
         {
-            KEEP_ALIVE, STATE_UPDATED, MESSAGE, WATCH_STOPPED
+            KEEP_ALIVE, STATE_UPDATED, MESSAGE, WATCH_STARTED, WATCH_STOPPED
         }
 
         public string Source { get; set; }

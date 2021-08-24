@@ -2,8 +2,10 @@
 using DgtEbDllWrapper;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
 {
@@ -26,30 +28,33 @@ namespace DgtCherub.Services
         int WhiteClockMs { get; }
 
         event Action OnBoardMatch;
+        event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
         event Action OnBoardMissmatch;
-        event Action OnBoardMatcherStarted;
         event Action OnChessDotComDisconnect;
         event Action OnClockChange;
         event Action OnLocalFenChange;
-        event Action OnOrientationFlipped;
-        event Action OnRemoteFenChange;
         event Action<string> OnNewMoveDetected;
-        event Action<string> OnPlayWhiteClockAudio;
+        event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
+        event Action<string> OnPlayWhiteClockAudio;
+        event Action OnRemoteFenChange;
         event Action<string, string> OnUserMessageArrived;
 
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetBoardState();
-        void ResetRemoteBoardState();
+        void RunClockProcessor();
+        void RunFenProcessor();
+        void RunLastMoveProcessor();
         void SetClocksStrings(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString);
         void UserMessageArrived(string source, string message);
+        void WatchStateChange(MessageTypeCode messageType, BoardState remoteBoardState = null);
     }
 
     public sealed class AppDataService : IAppDataService
     {
-        const int MATCHER_TIME_DELAY_MS = 3000;
+        const int MATCHER_TIME_DELAY_MS = 3500;
 
         public event Action OnLocalFenChange;
         public event Action OnRemoteFenChange;
@@ -94,14 +99,12 @@ namespace DgtCherub.Services
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
 
-        private readonly static object fenChangeLock = new();
-
         public AppDataService(ILogger<AppDataService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
             _dgtEbDllFacade = dgtEbDllFacade;
 
-            var processChannelOptions = new BoundedChannelOptions(2)
+            var processChannelOptions = new BoundedChannelOptions(1)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
@@ -156,7 +159,6 @@ namespace DgtCherub.Services
             }
         }
 
-
         //TODO: what about on first load
         public void LocalBoardUpdate(string fen)
         {
@@ -171,11 +173,43 @@ namespace DgtCherub.Services
             }
         }
 
+        SemaphoreSlim startStopSemaphore = new SemaphoreSlim(1, 1);
+        bool processUpdates = false;
+
+        public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, BoardState remoteBoardState = null)
+        {
+            try
+            {
+                await startStopSemaphore.WaitAsync();
+
+                if (messageType == MessageTypeCode.WATCH_STARTED)
+                {
+                    processUpdates = true;
+                }
+                else if (messageType == MessageTypeCode.WATCH_STOPPED)
+                {
+                    processUpdates = false;
+                    ResetRemoteBoardState();
+                }
+            }
+            finally { startStopSemaphore.Release(); }
+        }
+
+
+
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
-            fenProcessChannel.Writer.TryWrite(remoteBoardState);
-            clockProcessChannel.Writer.TryWrite(remoteBoardState);
-            lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
+                {
+                    fenProcessChannel.Writer.TryWrite(remoteBoardState);
+                    clockProcessChannel.Writer.TryWrite(remoteBoardState);
+                    lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+            }
+            else
+            {
+                fenProcessChannel.Writer.TryWrite(remoteBoardState);
+            }
+
         }
 
         public async void RunClockProcessor()
@@ -206,7 +240,6 @@ namespace DgtCherub.Services
                 }
             }
         }
-
         public async void RunLastMoveProcessor()
         {
             for (; ; )
@@ -218,11 +251,10 @@ namespace DgtCherub.Services
                 {
                     LastMove = remoteBoardState.Board.LastMove;
                     OnUserMessageArrived?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
-                    OnNewMoveDetected?.Invoke(remoteBoardState.Board.LastMove);
+                    OnNewMoveDetected.Invoke(remoteBoardState.Board.LastMove);
                 }
             }
         }
-
         public async void RunFenProcessor()
         {
             for (; ; )
@@ -251,9 +283,9 @@ namespace DgtCherub.Services
             IsMismatchDetected = false;
         }
 
-        public void ResetRemoteBoardState()
+        private void ResetRemoteBoardState()
         {
-            // ChessDotComBoardFEN = "";
+            ChessDotComBoardFEN = "";
             _chessDotComWhiteClock = "00:00";
             _chessDotComBlackClock = "00:00";
             _chessDotComRunWhoString = "0";
@@ -272,7 +304,7 @@ namespace DgtCherub.Services
             OnClockChange?.Invoke();
 
             TimeSpan clockAudioWhiteTs;
-            if ((clockAudioWhiteTs = TimeSpan.FromMilliseconds(WhiteClockMs)).TotalMilliseconds <= WhiteNextClockAudioNotBefore)
+            if ((clockAudioWhiteTs = TimeSpan.FromMilliseconds(WhiteClockMs)).TotalMilliseconds < WhiteNextClockAudioNotBefore)
             {
                 if (clockAudioWhiteTs.Hours < 1)
                 {
@@ -300,7 +332,7 @@ namespace DgtCherub.Services
             }
 
             TimeSpan clockAudioBlackTs;
-            if ((clockAudioBlackTs = TimeSpan.FromMilliseconds(BlackClockMs)).TotalMilliseconds <= BlackNextClockAudioNotBefore)
+            if ((clockAudioBlackTs = TimeSpan.FromMilliseconds(BlackClockMs)).TotalMilliseconds < BlackNextClockAudioNotBefore)
             {
                 if (clockAudioBlackTs.Hours < 1)
                 {
