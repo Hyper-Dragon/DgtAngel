@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using static DgtCherub.Helpers.ISequentialVoicePlayer;
 
@@ -388,12 +389,9 @@ namespace DgtCherub
                 _appDataService.LocalBoardUpdate(eventArgs.ResponseOut);
             };
 
-            //All the Events are set up so we can start watching the local board
-            //Console.SetOut(new ControlWriter(TextBoxConsole));
-            //Console.SetError(new ControlWriter(TextBoxConsole));
-
-            _iHost.RunAsync(CancellationToken.None);
-            _dgtLiveChess.PollDgtBoard();
+            //All the Events are set up so we can start watching the local board and running the inbound API
+            Task.Run(() => _dgtLiveChess.PollDgtBoard());
+            Task.Run(() => _iHost.Run());
         }
 
 

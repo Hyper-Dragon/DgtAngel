@@ -95,6 +95,7 @@ namespace DgtCherub.Services
 
         private readonly ILogger _logger;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
+
         private readonly Channel<BoardState> fenProcessChannel;
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
@@ -110,7 +111,7 @@ namespace DgtCherub.Services
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
                 SingleReader = true,
-                SingleWriter = false
+                SingleWriter = true
             };
 
             var messageChannelOptions = new BoundedChannelOptions(100)
@@ -118,9 +119,10 @@ namespace DgtCherub.Services
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
                 SingleReader = true,
-                SingleWriter = false
+                SingleWriter = true
             };
 
+            // Init the channels and run the processors
             fenProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
             clockProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
             lastMoveProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);

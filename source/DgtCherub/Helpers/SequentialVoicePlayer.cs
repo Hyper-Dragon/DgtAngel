@@ -50,8 +50,11 @@ namespace DgtCherub.Helpers
 
         public void Speak(UnmanagedMemoryStream clipStream)
         {
+           
             _soundPlayerTime.Stream = clipStream;
-            _soundPlayerTime.PlaySync();
+            //_soundPlayerTime.PlaySync();
+
+
             _soundPlayerTime.Stream = null;
         }
 
