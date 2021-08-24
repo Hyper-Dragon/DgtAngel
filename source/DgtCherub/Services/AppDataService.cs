@@ -306,7 +306,7 @@ namespace DgtCherub.Services
                 {
                     if (clockAudioBlackTs.Minutes > 20)
                     {
-                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (((clockAudioWhiteTs.Minutes % 5) * 60000) + (clockAudioWhiteTs.Seconds * 1000));
+                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (((clockAudioBlackTs.Minutes % 5) * 60000) + (clockAudioBlackTs.Seconds * 1000));
                         OnPlayBlackClockAudio?.Invoke($"M_{ (clockAudioBlackTs.Minutes + ((clockAudioBlackTs.Seconds > 45 || clockAudioBlackTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
                     }
                     else if (clockAudioBlackTs.Minutes > 0)
