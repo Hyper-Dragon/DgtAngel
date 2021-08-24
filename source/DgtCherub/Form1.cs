@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static DgtCherub.Helpers.ISequentialVoicePlayer;
@@ -146,7 +145,7 @@ namespace DgtCherub
 
             //Set Appsettings from the designer values...
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
-            _voicePlayer.Volume = CheckBoxPlayStatus.Checked ? 10 : 0; 
+            _voicePlayer.Volume = CheckBoxPlayStatus.Checked ? 10 : 0;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -299,7 +298,7 @@ namespace DgtCherub
                     else
                     {
                         List<UnmanagedMemoryStream> playlist = new();
-                        foreach (var ch in moveString.ToCharArray())
+                        foreach (char ch in moveString.ToCharArray())
                         {
                             soundName = ch switch
                             {
@@ -341,8 +340,8 @@ namespace DgtCherub
 
             _appDataService.OnUserMessageArrived += (source, message) =>
                 {
-                //TODO: Remove condition
-                if (source == "LMOVE" || source == "INGEST")
+                    //TODO: Remove condition
+                    if (source == "LMOVE" || source == "INGEST")
                     {
                         if (CheckBoxRecieveLog.Checked)
                         {
@@ -490,7 +489,7 @@ namespace DgtCherub
         private void CheckBoxPlayAudio_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayStatus.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
-            _voicePlayer.Volume = CheckBoxPlayStatus.Checked?10:0;
+            _voicePlayer.Volume = CheckBoxPlayStatus.Checked ? 10 : 0;
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -648,7 +647,7 @@ namespace DgtCherub
                 PictureBoxRemote.Image = _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
             });
 
-            this.BeginInvoke(updateAction);
+            BeginInvoke(updateAction);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace DgtAngelShared.Json
         public ResponseCode Code { get; set; }
         public string Message { get; set; }
     }
-    
+
     public class Boardconnection
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Media;
 using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 using static DgtCherub.Helpers.ISequentialVoicePlayer;
@@ -43,7 +42,7 @@ namespace DgtCherub.Helpers
         private readonly SoundPlayer _soundPlayerTime;
 
         private volatile int volume = 10;
-       
+
         private readonly ConcurrentQueue<AudioClip> playList = new();
 
         public int Volume

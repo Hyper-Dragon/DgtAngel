@@ -2,7 +2,7 @@
 
 namespace DynamicBoard.Helpers
 {
-    class FenConversion
+    internal class FenConversion
     {
         internal static char[] FenToCharArray(string fen, bool isFlipRequired = false)
         {

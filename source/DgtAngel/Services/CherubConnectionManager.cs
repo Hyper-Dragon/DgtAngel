@@ -72,7 +72,7 @@ namespace DgtAngel.Services
             {
                 try
                 {
-                    var apiResponse = await _httpClient.GetAsync($"{CHERUB_API_HTTP_HOST}{CHERUB_API_HTTP_PATH}{CHERUB_API_HTTP_TEST_CALL}");
+                    HttpResponseMessage apiResponse = await _httpClient.GetAsync($"{CHERUB_API_HTTP_HOST}{CHERUB_API_HTTP_PATH}{CHERUB_API_HTTP_TEST_CALL}");
 
                     if (apiResponse.StatusCode == System.Net.HttpStatusCode.OK)
                     {

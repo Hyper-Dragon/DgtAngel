@@ -20,6 +20,6 @@ namespace DynamicBoard
         public Task<Bitmap> GetImageFromFenMediumAsync(string fenString, bool isFromWhitesPerspective = false) { return GetImageFromFenAsync(fenString, IBoardRenderer.DEFAULT_BOARD_SIZE_MID, isFromWhitesPerspective); }
         public Task<Bitmap> GetImageFromFenLargeAsync(string fenString, bool isFromWhitesPerspective = false) { return GetImageFromFenAsync(fenString, IBoardRenderer.DEFAULT_BOARD_SIZE_LARGE, isFromWhitesPerspective); }
         public Task<Bitmap> GetImageFromFenXLargeAsync(string fenString, bool isFromWhitesPerspective = false) { return GetImageFromFenAsync(fenString, IBoardRenderer.DEFAULT_BOARD_SIZE_X_LARGE, isFromWhitesPerspective); }
-        
+
     }
 }

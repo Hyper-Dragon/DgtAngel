@@ -34,7 +34,7 @@ namespace DgtCherub
                            .AllowAnyHeader();
                 });
             });
-            
+
             services.AddHttpClient();
             services.AddControllers();
             services.AddLogging();

@@ -46,10 +46,20 @@ namespace DgtCherub.Helpers
 
         public static void AddChar(this TextBox box, char character, bool timeStamp = true)
         {
-            if (box.IsDisposed) return;
-            if (!box.IsHandleCreated) return;
-            if (box.TopLevelControl.IsDisposed) return;
+            if (box.IsDisposed)
+            {
+                return;
+            }
 
+            if (!box.IsHandleCreated)
+            {
+                return;
+            }
+
+            if (box.TopLevelControl.IsDisposed)
+            {
+                return;
+            }
 
             box.Text += character;
         }
@@ -69,16 +79,27 @@ namespace DgtCherub.Helpers
                 //TODO: Fix this on shutdown
                 //try
                 //{
-                    if (box.IsDisposed) return;
-                    if (!box.IsHandleCreated) return;
-                    if (box.TopLevelControl.IsDisposed) return;
+                if (box.IsDisposed)
+                {
+                    return;
+                }
 
-                    box.SuspendLayout();
-                    box.AppendText($"{((box.Lines.Length == 0) ? "" : $"{Environment.NewLine}")}{((timeStamp) ? $"[{System.DateTime.Now.ToLongTimeString()}] " : "")}{text}");
-                    box.Lines = (box.Lines.TakeLast(((maxLine != null && maxLine > 1) ? maxLine.Value - 1 : box.Lines.Length))).ToArray();
-                    box.SelectionStart = box.TextLength - box.Lines[^1].Length;
-                    box.ScrollToCaret();
-                    box.ResumeLayout();
+                if (!box.IsHandleCreated)
+                {
+                    return;
+                }
+
+                if (box.TopLevelControl.IsDisposed)
+                {
+                    return;
+                }
+
+                box.SuspendLayout();
+                box.AppendText($"{((box.Lines.Length == 0) ? "" : $"{Environment.NewLine}")}{((timeStamp) ? $"[{System.DateTime.Now.ToLongTimeString()}] " : "")}{text}");
+                box.Lines = (box.Lines.TakeLast(((maxLine != null && maxLine > 1) ? maxLine.Value - 1 : box.Lines.Length))).ToArray();
+                box.SelectionStart = box.TextLength - box.Lines[^1].Length;
+                box.ScrollToCaret();
+                box.ResumeLayout();
                 //}catch(InvalidOperationException)
                 //{
                 //    // Cherub is shutting down so the box nolonger exists

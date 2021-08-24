@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.CodeDom;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -65,8 +63,8 @@ namespace DgtCherub
                 // Add an event handler for handling non-UI thread exceptions to the event.
                 AppDomain.CurrentDomain.UnhandledException += (sender, exception) =>
                 {
-                        ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.ExceptionObject}");
-                        Environment.Exit(0); // Fatal error - using Env vs Application to quit immediately
+                    ShowErrorDialog($"Terminating on Fatal Error{Environment.NewLine}{exception.ExceptionObject}");
+                    Environment.Exit(0); // Fatal error - using Env vs Application to quit immediately
                 };
 
                 // Add an event handler for handling UI thread exceptions to the event.

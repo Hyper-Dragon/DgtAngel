@@ -24,7 +24,7 @@ namespace DgtCherub.Controllers
 
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
-        
+
         public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAppDataService appData)
         {
             _logger = logger;
@@ -71,16 +71,16 @@ namespace DgtCherub.Controllers
                                 case CherubApiMessage.MessageTypeCode.STATE_UPDATED:
                                     //if (await recieveLock.WaitAsync(0))
                                     //{
-                                        if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
-                                        {
-                                            highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
-                                            _appDataService.UserMessageArrived("INGEST", $"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
-                                            _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
-                                        }
-                                        else
-                                        {
-                                            _appDataService.UserMessageArrived("INGEST", $"ERROR: Message out of sequence recieved from Angel...dropping");
-                                        }
+                                    if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
+                                    {
+                                        highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
+                                        _appDataService.UserMessageArrived("INGEST", $"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
+                                        _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
+                                    }
+                                    else
+                                    {
+                                        _appDataService.UserMessageArrived("INGEST", $"ERROR: Message out of sequence recieved from Angel...dropping");
+                                    }
                                     break;
                                 case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
                                     //_appDataService.UserMessageArrived("INGEST", "Keep Alive PING Arrived");

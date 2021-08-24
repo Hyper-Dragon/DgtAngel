@@ -54,7 +54,7 @@ namespace DgtCherub.Services
 
     public sealed class AppDataService : IAppDataService
     {
-        const int MATCHER_TIME_DELAY_MS = 3500;
+        private const int MATCHER_TIME_DELAY_MS = 3500;
 
         public event Action OnLocalFenChange;
         public event Action OnRemoteFenChange;
@@ -102,14 +102,14 @@ namespace DgtCherub.Services
         private readonly Channel<BoardState> fenProcessChannel;
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
-        private readonly Channel<(string source,string message)> messageProcessChannel;
+        private readonly Channel<(string source, string message)> messageProcessChannel;
 
         public AppDataService(ILogger<AppDataService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
             _dgtEbDllFacade = dgtEbDllFacade;
 
-            var processChannelOptions = new BoundedChannelOptions(1)
+            BoundedChannelOptions processChannelOptions = new BoundedChannelOptions(1)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
@@ -117,7 +117,7 @@ namespace DgtCherub.Services
                 SingleWriter = true
             };
 
-            var messageChannelOptions = new BoundedChannelOptions(100)
+            BoundedChannelOptions messageChannelOptions = new BoundedChannelOptions(100)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
@@ -225,7 +225,7 @@ namespace DgtCherub.Services
 
         public void UserMessageArrived(string source, string message)
         {
-            messageProcessChannel.Writer.TryWrite((source,message));
+            messageProcessChannel.Writer.TryWrite((source, message));
         }
 
         private async void RunMessageProcessor()
@@ -244,11 +244,11 @@ namespace DgtCherub.Services
         {
             for (; ; )
             {
-                var remoteBoardState = await clockProcessChannel.Reader.ReadAsync();
+                BoardState remoteBoardState = await clockProcessChannel.Reader.ReadAsync();
                 UserMessageArrived("INGEST", $"Processing a clock recieved @ {remoteBoardState.CaptureTimeMs}");
 
                 // Account for the actual time captured/now if clock running
-                var captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - ((double)remoteBoardState.CaptureTimeMs));
+                int captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - remoteBoardState.CaptureTimeMs);
                 TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.Turn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
                 TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.Turn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
