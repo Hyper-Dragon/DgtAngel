@@ -284,9 +284,7 @@ namespace DgtCherub.Services
                     else if (clockAudioWhiteTs.Minutes > 0)
                     {
                         WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (clockAudioWhiteTs.Seconds * 1000);
-
-                        
-                        OnPlayWhiteClockAudio?.Invoke($"M_{(clockAudioWhiteTs.Minutes+((clockAudioWhiteTs.Seconds > 45 || clockAudioWhiteTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
+                        OnPlayWhiteClockAudio?.Invoke($"M_{(clockAudioWhiteTs.Minutes + ((clockAudioWhiteTs.Seconds > 45 || clockAudioWhiteTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
                     }
                     else if (clockAudioWhiteTs.Seconds > 30)
                     {
@@ -314,7 +312,7 @@ namespace DgtCherub.Services
                     else if (clockAudioBlackTs.Minutes > 0)
                     {
                         BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (clockAudioBlackTs.Seconds * 1000);
-                        OnPlayBlackClockAudio?.Invoke($"M_{ (clockAudioWhiteTs.Minutes + ((clockAudioBlackTs.Seconds > 45 || clockAudioBlackTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
+                        OnPlayBlackClockAudio?.Invoke($"M_{ (clockAudioBlackTs.Minutes + ((clockAudioBlackTs.Seconds > 45 || clockAudioBlackTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
                     }
                     else if (clockAudioBlackTs.Seconds > 30)
                     {
