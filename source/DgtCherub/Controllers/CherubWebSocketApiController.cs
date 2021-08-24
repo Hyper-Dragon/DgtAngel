@@ -23,8 +23,7 @@ namespace DgtCherub.Controllers
 
         private readonly ILogger _logger;
         private readonly IAppDataService _appDataService;
-        private static readonly object recieveLock = new();
-
+        
         public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAppDataService appData)
         {
             _logger = logger;
@@ -38,9 +37,10 @@ namespace DgtCherub.Controllers
             {
                 using WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                 _appDataService.UserMessageArrived("INTERNAL", "DGT Angel Connected");
+
                 long highestCaptureTimeRecieved = int.MinValue;
 
-                while (webSocket.State == WebSocketState.Open)
+                while (webSocket.State == WebSocketState.Open && isAcceptingConnections)
                 {
                     try
                     {
@@ -68,28 +68,18 @@ namespace DgtCherub.Controllers
                             switch (messageIn.MessageType)
                             {
                                 case CherubApiMessage.MessageTypeCode.STATE_UPDATED:
-                                    try
-                                    {
-                                        if (Monitor.TryEnter(recieveLock))
+                                    //if (await recieveLock.WaitAsync(0))
+                                    //{
+                                        if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
                                         {
-                                            if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
-                                            {
-                                                highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
-                                                _appDataService.UserMessageArrived("INGEST", $"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
-                                                _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
-                                            }
-                                            else
-                                            {
-                                                _appDataService.UserMessageArrived("INGEST", $"ERROR: Message out of sequence recieved from Angel...dropping");
-                                            }
+                                            highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
+                                            _appDataService.UserMessageArrived("INGEST", $"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
+                                            _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
                                         }
                                         else
                                         {
-                                            _appDataService.UserMessageArrived("INGEST", $"WARNING: Messages arriving too fast from Angel...dropping");
+                                            _appDataService.UserMessageArrived("INGEST", $"ERROR: Message out of sequence recieved from Angel...dropping");
                                         }
-                                    }
-                                    catch { throw; }
-                                    finally { Monitor.Exit(recieveLock); };
                                     break;
                                 case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
                                     //_appDataService.UserMessageArrived("INGEST", "Keep Alive PING Arrived");
@@ -103,8 +93,12 @@ namespace DgtCherub.Controllers
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
+
                                     //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
                                     _appDataService.ResetRemoteBoardState();
+
+
+
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
                                     break;
                                 default:
@@ -121,8 +115,8 @@ namespace DgtCherub.Controllers
                     }
                     catch (ConnectionAbortedException)
                     {
+                        // The Web Socket API Stopped...Cherub is shutting down.
                         isAcceptingConnections = false;
-                        _logger.LogInformation("Web Socket API Stopped...Cherub is shutting down.");
                     }
                 }
 

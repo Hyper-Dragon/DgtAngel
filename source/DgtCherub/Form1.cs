@@ -5,14 +5,10 @@ using DgtLiveChessWrapper;
 using DynamicBoard;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic.Devices;
 using System;
-using System.CodeDom;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq.Expressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static DgtCherub.Helpers.ISequentialVoicePlayer;
 
@@ -270,6 +266,7 @@ namespace DgtCherub
 
             _appDataService.OnClockChange += () =>
             {
+                //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
                 //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES); 
                 Invoke((Action)(() =>
                 {
