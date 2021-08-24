@@ -98,6 +98,7 @@ namespace DgtCherub.Services
         private readonly Channel<BoardState> fenProcessChannel;
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
+        private readonly Channel<(string source,string message)> messageProcessChannel;
 
         public AppDataService(ILogger<AppDataService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
@@ -112,13 +113,23 @@ namespace DgtCherub.Services
                 SingleWriter = false
             };
 
+            var messageChannelOptions = new BoundedChannelOptions(100)
+            {
+                AllowSynchronousContinuations = true,
+                FullMode = BoundedChannelFullMode.DropOldest,
+                SingleReader = true,
+                SingleWriter = false
+            };
+
             fenProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
             clockProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
             lastMoveProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
+            messageProcessChannel = Channel.CreateBounded<(string source, string message)>(messageChannelOptions);
 
-            RunFenProcessor();
-            RunClockProcessor();
-            RunLastMoveProcessor();
+            Task.Run(() => RunFenProcessor());
+            Task.Run(() => RunClockProcessor());
+            Task.Run(() => RunLastMoveProcessor());
+            Task.Run(() => RunMessageProcessor());
         }
 
         private async void TestForBoardMatch(string matchCode)
@@ -195,21 +206,36 @@ namespace DgtCherub.Services
             finally { startStopSemaphore.Release(); }
         }
 
-
-
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
-                if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
-                {
-                    fenProcessChannel.Writer.TryWrite(remoteBoardState);
-                    clockProcessChannel.Writer.TryWrite(remoteBoardState);
-                    lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+            if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
+            {
+                fenProcessChannel.Writer.TryWrite(remoteBoardState);
+                clockProcessChannel.Writer.TryWrite(remoteBoardState);
+                lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
             }
             else
             {
                 fenProcessChannel.Writer.TryWrite(remoteBoardState);
             }
 
+        }
+
+        public void UserMessageArrived(string source, string message)
+        {
+            messageProcessChannel.Writer.TryWrite((source,message));
+        }
+
+        private async void RunMessageProcessor()
+        {
+            (string source, string message) message;
+            while ((message = await messageProcessChannel.Reader.ReadAsync()).source != null)
+            {
+                if (EchoExternalMessagesToConsole)
+                {
+                    OnUserMessageArrived?.Invoke(message.source, message.message);
+                }
+            }
         }
 
         public async void RunClockProcessor()
@@ -240,6 +266,7 @@ namespace DgtCherub.Services
                 }
             }
         }
+
         public async void RunLastMoveProcessor()
         {
             for (; ; )
@@ -255,6 +282,7 @@ namespace DgtCherub.Services
                 }
             }
         }
+
         public async void RunFenProcessor()
         {
             for (; ; )
@@ -360,13 +388,6 @@ namespace DgtCherub.Services
             }
         }
 
-        public void UserMessageArrived(string source, string message)
-        {
-            if (EchoExternalMessagesToConsole)
-            {
-                OnUserMessageArrived?.Invoke(source, message);
-            }
-        }
     }
 }
 
