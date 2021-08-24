@@ -96,6 +96,9 @@ namespace DgtCherub.Services
         private readonly ILogger _logger;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
+        private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
+        private volatile bool processUpdates = false;
+
         private readonly Channel<BoardState> fenProcessChannel;
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
@@ -185,9 +188,6 @@ namespace DgtCherub.Services
                 OnLocalFenChange?.Invoke();
             }
         }
-
-        SemaphoreSlim startStopSemaphore = new SemaphoreSlim(1, 1);
-        bool processUpdates = false;
 
         public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, BoardState remoteBoardState = null)
         {

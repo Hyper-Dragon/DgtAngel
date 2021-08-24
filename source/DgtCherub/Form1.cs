@@ -6,8 +6,10 @@ using DynamicBoard;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -144,7 +146,7 @@ namespace DgtCherub
 
             //Set Appsettings from the designer values...
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
-            _voicePlayer.IsMuted = !CheckBoxPlayStatus.Checked;
+            _voicePlayer.Volume = CheckBoxPlayStatus.Checked ? 10 : 0; 
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -296,6 +298,7 @@ namespace DgtCherub
                     }
                     else
                     {
+                        List<UnmanagedMemoryStream> playlist = new();
                         foreach (var ch in moveString.ToCharArray())
                         {
                             soundName = ch switch
@@ -328,8 +331,10 @@ namespace DgtCherub
                                 _ => "Words_Missing",
                             };
 
-                            _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                            playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
                         }
+
+                        _voicePlayerMoves.Speak(playlist);
                     }
                 }
             };
@@ -485,7 +490,7 @@ namespace DgtCherub
         private void CheckBoxPlayAudio_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayStatus.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
-            _voicePlayer.IsMuted = !CheckBoxPlayStatus.Checked;
+            _voicePlayer.Volume = CheckBoxPlayStatus.Checked?10:0;
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)

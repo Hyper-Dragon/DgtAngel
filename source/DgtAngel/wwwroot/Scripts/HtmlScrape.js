@@ -17,6 +17,7 @@
             "LastMove": "",
             "FenString": "",
             "Clocks": {
+                "CaptureTimeMs":0,
                 "WhiteClock": 0,
                 "BlackClock": 0
             }
@@ -94,7 +95,7 @@
             lastMove = "";
 
             if (moveList.length > 0) {
-                lastMove = Array.from(document.getElementsByClassName('move-text-component')).pop().innerText;
+                lastMove = Array.from(document.getElementsByClassName('move-text-component')).pop().innerText.trim();
             }
 
             if (document.getElementsByClassName('dgt-board-status-component').length == 0) {
@@ -120,7 +121,7 @@
             remoteBoard.Board.LastMove = lastMove;
             remoteBoard.Board.Clocks.WhiteClock = wcConTime;
             remoteBoard.Board.Clocks.BlackClock = bcConTime;
-            //remoteBoard.CaptureTimeMs = (new Date()).getTime();
+            remoteBoard.Board.Clocks.CaptureTimeMs = (new Date()).getTime();
             remoteBoard.BoardConnection.BoardState = boardState;
             remoteBoard.BoardConnection.ConMessage = boardMessage;
 
