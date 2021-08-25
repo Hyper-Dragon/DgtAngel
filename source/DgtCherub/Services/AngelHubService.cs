@@ -84,8 +84,6 @@ namespace DgtCherub.Services
         public int BlackClockMs { get; private set; }
         public string WhiteClock => _chessDotComWhiteClock;
         public string BlackClock => _chessDotComBlackClock;
-        private int BlackNextClockAudioNotBefore { get; set; } = int.MaxValue;
-        private int WhiteNextClockAudioNotBefore { get; set; } = int.MaxValue;
         public string RunWhoString => _chessDotComRunWhoString;
         public bool IsLocalBoardAvailable => (!string.IsNullOrWhiteSpace(LocalBoardFEN));
         public bool IsRemoteBoardAvailable => (!string.IsNullOrWhiteSpace(ChessDotComBoardFEN));
@@ -103,6 +101,9 @@ namespace DgtCherub.Services
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
         private readonly Channel<(string source, string message)> messageProcessChannel;
+
+        private double whiteNextClockAudioNotBefore = double.MaxValue;
+        private double blackNextClockAudioNotBefore = double.MaxValue;
 
         public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
@@ -220,7 +221,6 @@ namespace DgtCherub.Services
             {
                 fenProcessChannel.Writer.TryWrite(remoteBoardState);
             }
-
         }
 
         public void UserMessageArrived(string source, string message)
@@ -322,9 +322,48 @@ namespace DgtCherub.Services
             OnClockChange?.Invoke();
             OnRemoteDisconnect?.Invoke();
             IsMismatchDetected = false;
-            WhiteNextClockAudioNotBefore = int.MaxValue;
-            BlackNextClockAudioNotBefore = int.MaxValue;
+            whiteNextClockAudioNotBefore = double.MaxValue;
+            blackNextClockAudioNotBefore = double.MaxValue;
         }
+
+        private void CalculateNextClockAudio(int clockMs, ref double nextAudioNotBefore, Action<string> onPlayAudio)
+        {
+            TimeSpan clockAudioTs;
+            if ((clockAudioTs = TimeSpan.FromMilliseconds(clockMs)).TotalMilliseconds < nextAudioNotBefore )
+            {
+                bool isFirstCall = nextAudioNotBefore == double.MaxValue ? true : false;
+                string audioFile = "";
+
+                if (clockAudioTs.Hours > 0)
+                {
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Hours * 3600000) + (clockAudioTs.Minutes * 60000) + (clockAudioTs.Seconds * 1000));
+                }
+                else if (clockAudioTs.Minutes > 20)
+                {
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (((clockAudioTs.Minutes % 5) * 60000) + (clockAudioTs.Seconds * 1000));
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                }
+                else if (clockAudioTs.Minutes > 0)
+                {
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (clockAudioTs.Seconds * 1000);
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                }
+                else if (clockAudioTs.Seconds > 30)
+                {
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (5 * 1000);
+                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                }
+                else if (clockAudioTs.Seconds > 0)
+                {
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (2 * 1000);
+                    audioFile = isFirstCall ? "" :  $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                }
+
+                // Play the audio if required
+                if (!string.IsNullOrEmpty(audioFile)) { onPlayAudio?.Invoke(audioFile); }
+            }
+        }
+
 
         public void SetClocksStrings(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString)
         {
@@ -333,63 +372,10 @@ namespace DgtCherub.Services
             _chessDotComRunWhoString = chessDotComRunWhoString;
             OnClockChange?.Invoke();
 
-            TimeSpan clockAudioWhiteTs;
-            if ((clockAudioWhiteTs = TimeSpan.FromMilliseconds(WhiteClockMs)).TotalMilliseconds < WhiteNextClockAudioNotBefore)
-            {
-                if (clockAudioWhiteTs.Hours < 1)
-                {
-                    if (clockAudioWhiteTs.Minutes > 20)
-                    {
-                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (((clockAudioWhiteTs.Minutes % 5) * 60000) + (clockAudioWhiteTs.Seconds * 1000));
-                        OnPlayWhiteClockAudio?.Invoke($"M_{(clockAudioWhiteTs.Minutes + ((clockAudioWhiteTs.Seconds > 45 || clockAudioWhiteTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
-                    }
-                    else if (clockAudioWhiteTs.Minutes > 0)
-                    {
-                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (clockAudioWhiteTs.Seconds * 1000);
-                        OnPlayWhiteClockAudio?.Invoke($"M_{(clockAudioWhiteTs.Minutes + ((clockAudioWhiteTs.Seconds > 45 || clockAudioWhiteTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
-                    }
-                    else if (clockAudioWhiteTs.Seconds > 30)
-                    {
-                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (5 * 1000);
-                        OnPlayWhiteClockAudio?.Invoke($"S_{clockAudioWhiteTs.Seconds.ToString().PadLeft(2, '0')}");
-                    }
-                    else if (clockAudioWhiteTs.Seconds > 0)
-                    {
-                        WhiteNextClockAudioNotBefore = (int)clockAudioWhiteTs.TotalMilliseconds - (2 * 1000);
-                        OnPlayWhiteClockAudio?.Invoke($"S_{clockAudioWhiteTs.Seconds.ToString().PadLeft(2, '0')}");
-                    }
-                }
-            }
 
-            TimeSpan clockAudioBlackTs;
-            if ((clockAudioBlackTs = TimeSpan.FromMilliseconds(BlackClockMs)).TotalMilliseconds < BlackNextClockAudioNotBefore)
-            {
-                if (clockAudioBlackTs.Hours < 1)
-                {
-                    if (clockAudioBlackTs.Minutes > 20)
-                    {
-                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (((clockAudioBlackTs.Minutes % 5) * 60000) + (clockAudioBlackTs.Seconds * 1000));
-                        OnPlayBlackClockAudio?.Invoke($"M_{ (clockAudioBlackTs.Minutes + ((clockAudioBlackTs.Seconds > 45 || clockAudioBlackTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
-                    }
-                    else if (clockAudioBlackTs.Minutes > 0)
-                    {
-                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (clockAudioBlackTs.Seconds * 1000);
-                        OnPlayBlackClockAudio?.Invoke($"M_{ (clockAudioBlackTs.Minutes + ((clockAudioBlackTs.Seconds > 45 || clockAudioBlackTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}");
-                    }
-                    else if (clockAudioBlackTs.Seconds > 30)
-                    {
-                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (5 * 1000);
-                        OnPlayBlackClockAudio?.Invoke($"S_{clockAudioBlackTs.Seconds.ToString().PadLeft(2, '0')}");
-                    }
-                    else if (clockAudioBlackTs.Seconds > 0)
-                    {
-                        BlackNextClockAudioNotBefore = (int)clockAudioBlackTs.TotalMilliseconds - (2 * 1000);
-                        OnPlayBlackClockAudio?.Invoke($"S_{clockAudioBlackTs.Seconds.ToString().PadLeft(2, '0')}");
-                    }
-                }
-            }
+            CalculateNextClockAudio(WhiteClockMs, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
+            CalculateNextClockAudio(BlackClockMs, ref blackNextClockAudioNotBefore, (string audioFile) => OnPlayBlackClockAudio?.Invoke(audioFile));
         }
-
     }
 }
 
