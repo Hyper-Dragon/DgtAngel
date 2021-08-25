@@ -91,6 +91,10 @@ namespace DgtCherub.Services
         public bool IsChessDotComBoardStateActive => (ChessDotComBoardFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00");
         private Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
 
+        private const int MS_IN_HOUR = 3600000;
+        private const int MS_IN_MIN = 60000;
+        private const int MS_IN_SEC = 1000;
+
         private readonly ILogger _logger;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
@@ -326,6 +330,7 @@ namespace DgtCherub.Services
             blackNextClockAudioNotBefore = double.MaxValue;
         }
 
+
         private void CalculateNextClockAudio(int clockMs, ref double nextAudioNotBefore, Action<string> onPlayAudio)
         {
             TimeSpan clockAudioTs;
@@ -336,26 +341,26 @@ namespace DgtCherub.Services
 
                 if (clockAudioTs.Hours > 0)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Hours * 3600000) + (clockAudioTs.Minutes * 60000) + (clockAudioTs.Seconds * 1000));
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Hours * MS_IN_HOUR) + (clockAudioTs.Minutes * MS_IN_MIN) + (clockAudioTs.Seconds * MS_IN_SEC));
                 }
                 else if (clockAudioTs.Minutes > 20)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (((clockAudioTs.Minutes % 5) * 60000) + (clockAudioTs.Seconds * 1000));
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (((clockAudioTs.Minutes % 5) * MS_IN_MIN) + (clockAudioTs.Seconds * MS_IN_SEC));
                     audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Minutes > 0)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (clockAudioTs.Seconds * 1000);
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (clockAudioTs.Seconds * MS_IN_SEC);
                     audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 30)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (5 * 1000);
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (5 * MS_IN_SEC);
                     audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 0)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (2 * 1000);
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (1 * MS_IN_SEC);
                     audioFile = isFirstCall ? "" :  $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
                 }
 
