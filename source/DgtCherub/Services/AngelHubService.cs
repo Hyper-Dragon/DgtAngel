@@ -9,7 +9,7 @@ using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
 {
-    public interface IAppDataService
+    public interface IAngelHubService
     {
         string BlackClock { get; }
         int BlackClockMs { get; }
@@ -31,7 +31,7 @@ namespace DgtCherub.Services
         event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
         event Action OnBoardMissmatch;
-        event Action OnChessDotComDisconnect;
+        event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action OnLocalFenChange;
         event Action<string> OnNewMoveDetected;
@@ -39,7 +39,7 @@ namespace DgtCherub.Services
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
         event Action OnRemoteFenChange;
-        event Action<string, string> OnUserMessageArrived;
+        event Action<string, string> OnNotification;
 
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
@@ -52,13 +52,13 @@ namespace DgtCherub.Services
         void WatchStateChange(MessageTypeCode messageType, BoardState remoteBoardState = null);
     }
 
-    public sealed class AppDataService : IAppDataService
+    public sealed class AngelHubService : IAngelHubService
     {
-        private const int MATCHER_TIME_DELAY_MS = 3500;
+        private const int MATCHER_TIME_DELAY_MS = 4000;
 
         public event Action OnLocalFenChange;
         public event Action OnRemoteFenChange;
-        public event Action OnChessDotComDisconnect;
+        public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
         public event Action OnBoardMissmatch;
@@ -68,7 +68,7 @@ namespace DgtCherub.Services
         public event Action<string> OnNewMoveDetected;
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
-        public event Action<string, string> OnUserMessageArrived;
+        public event Action<string, string> OnNotification;
 
         private string _chessDotComWhiteClock = "00:00";
         private string _chessDotComBlackClock = "00:00";
@@ -104,7 +104,7 @@ namespace DgtCherub.Services
         private readonly Channel<BoardState> lastMoveProcessChannel;
         private readonly Channel<(string source, string message)> messageProcessChannel;
 
-        public AppDataService(ILogger<AppDataService> logger, IDgtEbDllFacade dgtEbDllFacade)
+        public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
             _dgtEbDllFacade = dgtEbDllFacade;
@@ -150,7 +150,7 @@ namespace DgtCherub.Services
                 // if they are not the same we can skip as the local position has changed.
                 if (matchCode == CurrentUpdatetMatch.ToString())
                 {
-                    //OnUserMessageArrived("MATCHER", $"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    OnNotification("MATCHER", $"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
                     if (ChessDotComBoardFEN != LocalBoardFEN)
                     {
@@ -170,7 +170,7 @@ namespace DgtCherub.Services
                 }
                 else
                 {
-                    //OnUserMessageArrived("MATCHER", $"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    OnNotification("MATCHER", $"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace DgtCherub.Services
             {
                 if (EchoExternalMessagesToConsole)
                 {
-                    OnUserMessageArrived?.Invoke(message.source, message.message);
+                    OnNotification?.Invoke(message.source, message.message);
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace DgtCherub.Services
                 if (LastMove == null || LastMove != remoteBoardState.Board.LastMove)
                 {
                     LastMove = remoteBoardState.Board.LastMove;
-                    OnUserMessageArrived?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
+                    OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
                     OnNewMoveDetected.Invoke(remoteBoardState.Board.LastMove);
                 }
             }
@@ -320,7 +320,7 @@ namespace DgtCherub.Services
             _chessDotComBlackClock = "00:00";
             _chessDotComRunWhoString = "0";
             OnClockChange?.Invoke();
-            OnChessDotComDisconnect?.Invoke();
+            OnRemoteDisconnect?.Invoke();
             IsMismatchDetected = false;
             WhiteNextClockAudioNotBefore = int.MaxValue;
             BlackNextClockAudioNotBefore = int.MaxValue;

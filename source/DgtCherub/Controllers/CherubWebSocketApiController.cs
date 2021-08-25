@@ -23,9 +23,9 @@ namespace DgtCherub.Controllers
         private bool isAcceptingConnections = true;
 
         private readonly ILogger _logger;
-        private readonly IAppDataService _appDataService;
+        private readonly IAngelHubService _appDataService;
 
-        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAppDataService appData)
+        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAngelHubService appData)
         {
             _logger = logger;
             _appDataService = appData;

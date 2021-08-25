@@ -13,7 +13,7 @@ namespace DgtCherub.Helpers
 {
     public interface ISequentialVoicePlayer
     {
-        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND };
+        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING, DGT_CANT_FIND, BAT_OK, BAT_LOW, BAT_CRIT };
         public int Volume { get; set; }
         void Speak(AudioClip clipName);
         void Speak(UnmanagedMemoryStream clipStream);
@@ -33,7 +33,10 @@ namespace DgtCherub.Helpers
                                                  "DgtDisconnected-AP.wav" ,
                                                  "CdcWatching-AP.wav" ,
                                                  "CdcStoppedWatching-AP.wav" ,
-                                                 "DgtCantFindBoard-AP.wav"
+                                                 "DgtCantFindBoard-AP.wav",
+                                                 "BatteryOk-AP.wav",
+                                                 "BatteryLow-AP.wav",
+                                                 "BatteryCritical-AP.wav"
                                                 };
 
 

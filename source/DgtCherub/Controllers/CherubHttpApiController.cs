@@ -9,9 +9,9 @@ namespace DgtCherub.Controllers
     public sealed class CherubHttpApiController : ControllerBase
     {
         private readonly ILogger _logger;
-        private readonly IAppDataService _appDataService;
+        private readonly IAngelHubService _appDataService;
 
-        public CherubHttpApiController(ILogger<CherubHttpApiController> logger, IAppDataService appData)
+        public CherubHttpApiController(ILogger<CherubHttpApiController> logger, IAngelHubService appData)
         {
             _logger = logger;
             _appDataService = appData;

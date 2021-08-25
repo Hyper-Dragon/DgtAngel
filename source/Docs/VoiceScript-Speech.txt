@@ -17,7 +17,9 @@ DgtDisconnected    | The DGT Board is disconnected.
 CdcWatching        | Now watching Chess Dot COM.
 CdcStoppedWatching | No longer watching Chess Dot COM.
 DgtCantFindBoard   | Connected to Live Chess but can't find any active DGTee Boards!
-                   |
+BatteryOk          | Your boards battery level is ok.
+BatteryLow         | Your boards battery is getting a bit low.
+BatteryCritical    | You need to charge your board before playing!
                    |
                    |
 -------------------+------------------------------------------------------------------

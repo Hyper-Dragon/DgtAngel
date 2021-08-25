@@ -24,14 +24,14 @@ namespace DgtCherub.Controllers
         private const string RESOURCE_CLOCK_SVG = "DgtAngelLogo.svg";
 
         private readonly ILogger _logger;
-        private readonly IAppDataService _appDataService;
+        private readonly IAngelHubService _appDataService;
         private readonly IBoardRenderer _boardRenderer;
 
         private readonly string IndexPageHtml;
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
-        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAppDataService appData, IBoardRenderer boardRenderer)
+        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAngelHubService appData, IBoardRenderer boardRenderer)
         {
             _logger = logger;
             _appDataService = appData;
@@ -287,7 +287,7 @@ namespace DgtCherub.Controllers
                 await Response.Body.FlushAsync();
             };
 
-            _appDataService.OnChessDotComDisconnect += async () =>
+            _appDataService.OnRemoteDisconnect += async () =>
             {
                 string jsonString = JsonSerializer.Serialize(new
                 {

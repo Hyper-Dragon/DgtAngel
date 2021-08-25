@@ -14,17 +14,17 @@ namespace DgtLiveChessWrapper
     }
     public interface IDgtLiveChess
     {
+        event EventHandler<MessageRecievedEventArgs> OnBatteryOk;
         event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
+        event EventHandler<MessageRecievedEventArgs> OnBatteryCritical;
         event EventHandler<MessageRecievedEventArgs> OnLiveChessConnected;
         event EventHandler<MessageRecievedEventArgs> OnLiveChessDisconnected;
         event EventHandler<MessageRecievedEventArgs> OnBoardConnected;
         event EventHandler<MessageRecievedEventArgs> OnBoardDisconnected;
         event EventHandler<MessageRecievedEventArgs> OnError;
-        event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
         event EventHandler<MessageRecievedEventArgs> OnFenRecieved;
         event EventHandler<MessageRecievedEventArgs> OnCantFindBoard;
 
-        Task ConnectAndWatch();
         Task PollDgtBoard();
     }
 
@@ -39,6 +39,8 @@ namespace DgtLiveChessWrapper
         private const int BOARD_POLL_RETRY_DELAY = 5000;
 
         private const string BOARD_CONECTED_STATUS = "ACTIVE";
+        private const int BATTERY_LOW_THRESHOLD = 40;
+        private const int BATTERY_CRIT_THRESHOLD = 25;
 
         private const string CALL_EBAORDS = "{{\"call\": \"eboards\",\"id\": {0},\"param\": null}}";
         private const string CALL_SUBSCRIBE = "{{ \"call\": \"subscribe\", \"id\": {0}, \"param\": {{ \"feed\": \"eboardevent\",\"id\": {1},\"param\": {{\"serialnr\": \"{2}\"}}}}}}";
@@ -48,8 +50,9 @@ namespace DgtLiveChessWrapper
         public event EventHandler<MessageRecievedEventArgs> OnBoardConnected;
         public event EventHandler<MessageRecievedEventArgs> OnBoardDisconnected;
         public event EventHandler<MessageRecievedEventArgs> OnError;
+        public event EventHandler<MessageRecievedEventArgs> OnBatteryOk;
         public event EventHandler<MessageRecievedEventArgs> OnBatteryLow;
-        public event EventHandler<MessageRecievedEventArgs> OnResponseRecieved;
+        public event EventHandler<MessageRecievedEventArgs> OnBatteryCritical;
         public event EventHandler<MessageRecievedEventArgs> OnFenRecieved;
         public event EventHandler<MessageRecievedEventArgs> OnCantFindBoard;
 
@@ -83,7 +86,7 @@ namespace DgtLiveChessWrapper
                 }
                 catch (Exception ex)
                 {
-                    OnResponseRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $" ERROR: {ex.GetType()}{ex.Message}" });
+                    OnError?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $" ERROR: {ex.GetType()}{ex.Message}" });
                 }
 
                 //Wait and then try again
@@ -95,7 +98,7 @@ namespace DgtLiveChessWrapper
         /// Establish a connection and watch for board changes
         /// </summary>
         /// <returns></returns>
-        public async Task ConnectAndWatch()
+        private async Task ConnectAndWatch()
         {
             int idCount = 0;
             string watchdSerialNumber;
@@ -133,6 +136,19 @@ namespace DgtLiveChessWrapper
                     watchdSerialNumber = activeBoard.SerialNumber;
                     reportNoActiveBoards = true;
                     OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to Board {watchdSerialNumber} [State={activeBoard.ConnectionState}]" });
+
+
+                    if (int.TryParse(activeBoard.BatteryLevel.Replace("%", "").Trim(), out int batteryLevel))
+                    {
+                        if (batteryLevel < BATTERY_CRIT_THRESHOLD) { OnBatteryCritical?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Critical, your board needs to be charged! {BATTERY_CRIT_THRESHOLD}% [Level={activeBoard.BatteryLevel}]" }); }
+                        else if (batteryLevel < BATTERY_LOW_THRESHOLD) { OnBatteryLow?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Warning, your boards battery is getting a bit low. {BATTERY_LOW_THRESHOLD}% [Level={activeBoard.BatteryLevel}]" }); }
+                        else { OnBatteryOk?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Your boards battery is OK. [Level={activeBoard.BatteryLevel}]" }); };
+                    }
+                    else
+                    {
+                        OnError?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Warning, failed to parse the battery level!)" });
+                    }
+
                     break;
                 }
             }

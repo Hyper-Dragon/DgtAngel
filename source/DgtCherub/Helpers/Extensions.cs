@@ -44,7 +44,7 @@ namespace DgtCherub.Helpers
             return false;
         }
 
-        public static void AddChar(this TextBox box, char character, bool timeStamp = true)
+        public static void AddChar(this TextBox box, char character)
         {
             if (box.IsDisposed)
             {
