@@ -222,7 +222,7 @@ async function getGetRemoteBoardStateJson() {
                 break;
 
             //Need to wait for the script result 
-            await sleep(500);
+            await sleep(100);
         }
     } catch (ex) {
         retVal.BoardConnection = null;
