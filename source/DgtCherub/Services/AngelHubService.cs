@@ -43,7 +43,7 @@ namespace DgtCherub.Services
 
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
-        void ResetBoardState();
+        void ResetLocalBoardState();
         void RunClockProcessor();
         void RunFenProcessor();
         void RunLastMoveProcessor();
@@ -248,7 +248,7 @@ namespace DgtCherub.Services
                 UserMessageArrived("INGEST", $"Processing a clock recieved @ {remoteBoardState.CaptureTimeMs}");
 
                 // Account for the actual time captured/now if clock running
-                int captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - remoteBoardState.CaptureTimeMs);
+                int captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
                 TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.Turn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
                 TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.Turn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
@@ -307,7 +307,7 @@ namespace DgtCherub.Services
             }
         }
 
-        public void ResetBoardState()
+        public void ResetLocalBoardState()
         {
             LocalBoardFEN = "";
             IsMismatchDetected = false;

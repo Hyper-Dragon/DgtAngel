@@ -192,6 +192,7 @@ async function getGetRemoteBoardStateJson() {
             "LastMove": "",
             "FenString": "",
             "Clocks": {
+                "CaptureTimeMs": 0,
                 "WhiteClock": 0,
                 "BlackClock": 0
             }

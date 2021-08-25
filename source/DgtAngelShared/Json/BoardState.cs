@@ -53,6 +53,7 @@ namespace DgtAngelShared.Json
 
     public class Clocks
     {
+        public long CaptureTimeMs { get; set; }
         public int WhiteClock { get; set; }
         public int BlackClock { get; set; }
     }

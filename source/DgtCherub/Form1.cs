@@ -40,7 +40,7 @@ namespace DgtCherub
 
         private readonly IHost _iHost;
         private readonly ILogger _logger;
-        private readonly IAngelHubService _appDataService;
+        private readonly IAngelHubService _angelHubService;
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
@@ -71,7 +71,7 @@ namespace DgtCherub
         {
             _iHost = iHost;
             _logger = logger;
-            _appDataService = appData;
+            _angelHubService = appData;
 
             _dgtLiveChess = dgtLiveChess;
 
@@ -151,22 +151,22 @@ namespace DgtCherub
         {
             ClearConsole();
 
-            _appDataService.OnOrientationFlipped += () =>
+            _angelHubService.OnOrientationFlipped += () =>
             {
                 DisplayBoardImages();
             };
 
-            _appDataService.OnLocalFenChange += () =>
+            _angelHubService.OnLocalFenChange += () =>
             {
                 DisplayBoardImages();
             };
 
-            _appDataService.OnRemoteFenChange += () =>
+            _angelHubService.OnRemoteFenChange += () =>
             {
                 DisplayBoardImages();
             };
 
-            _appDataService.OnBoardMissmatch += () =>
+            _angelHubService.OnBoardMissmatch += () =>
             {
                 TextBoxConsole.AddLine($"The boards DO NOT match", TEXTBOX_MAX_LINES);
 
@@ -176,66 +176,58 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(AudioClip.MISMATCH);
             };
 
-            _appDataService.OnBoardMatcherStarted += () =>
+            _angelHubService.OnBoardMatcherStarted += () =>
             {
                 LabelLocalDgt.BackColor = Color.Yellow;
                 LabelRemoteBoard.BackColor = Color.Yellow;
             };
 
-            _appDataService.OnBoardMatchFromMissmatch += () =>
+            _angelHubService.OnBoardMatchFromMissmatch += () =>
             {
                 TextBoxConsole.AddLine($"The boards now match", TEXTBOX_MAX_LINES);
                 _voicePlayeStatus.Speak(AudioClip.MATCH);
             };
 
-            _appDataService.OnBoardMatch += () =>
+            _angelHubService.OnBoardMatch += () =>
             {
                 LabelLocalDgt.BackColor = BoredLabelsInitialColor;
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
             };
 
-            _appDataService.OnRemoteDisconnect += () =>
+            _angelHubService.OnRemoteDisconnect += () =>
             {
                 DisplayBoardImages();
             };
 
-            _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
-             {
-                 _appDataService.ResetBoardState();
-                 _voicePlayeStatus.Speak(AudioClip.DGT_LC_DISCONNECTED);
-                 DisplayBoardImages();
-                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-             };
-
-            _appDataService.OnPlayWhiteClockAudio += (audioFilename) =>
+            _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
             {
-                if (CheckBoxPlayTime.Checked && _appDataService.IsWhiteOnBottom)
+                if (CheckBoxPlayTime.Checked && _angelHubService.IsWhiteOnBottom)
                 {
                     _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
             };
 
-            _appDataService.OnPlayBlackClockAudio += (audioFilename) =>
+            _angelHubService.OnPlayBlackClockAudio += (audioFilename) =>
             {
-                if (CheckBoxPlayTime.Checked && !_appDataService.IsWhiteOnBottom)
+                if (CheckBoxPlayTime.Checked && !_angelHubService.IsWhiteOnBottom)
                 {
                     _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
             };
 
-            _appDataService.OnClockChange += () =>
+            _angelHubService.OnClockChange += () =>
             {
                 //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
                 //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES); 
                 Invoke((Action)(() =>
                 {
-                    LabelWhiteClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "1") ? "*" : " ")}{_appDataService.WhiteClock}";
-                    LabelBlackClock.Text = $"{ ((_appDataService.RunWhoString == "3" || _appDataService.RunWhoString == "2") ? "*" : " ")}{_appDataService.BlackClock}";
+                    LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
+                    LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                 }));
             };
 
-            _appDataService.OnNewMoveDetected += (moveString) =>
+            _angelHubService.OnNewMoveDetected += (moveString) =>
             {
                 if (CheckBoxPlayMoves.Checked)
                 {
@@ -297,17 +289,27 @@ namespace DgtCherub
                 }
             };
 
-            _appDataService.OnNotification += (source, message) =>
+            _angelHubService.OnNotification += (source, message) =>
+            {
+                //TODO: Remove condition
+                if (source == "LMOVE" || source == "INGEST")
                 {
-                    //TODO: Remove condition
-                    if (source == "LMOVE" || source == "INGEST")
+                    if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
                     {
-                        if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
-                        {
-                            TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
-                        }
+                        TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
                     }
-                };
+                }
+            };
+
+
+            _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
+            {
+                _angelHubService.ResetLocalBoardState();
+                _voicePlayeStatus.Speak(AudioClip.DGT_LC_DISCONNECTED);
+                DisplayBoardImages();
+                TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            };
+
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
@@ -329,9 +331,8 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
                 DisplayBoardImages();
-
                 _voicePlayeStatus.Speak(AudioClip.DGT_DISCONNECTED);
-                _appDataService.ResetBoardState();
+                _angelHubService.ResetLocalBoardState();               
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
@@ -367,15 +368,13 @@ namespace DgtCherub
             _dgtLiveChess.OnFenRecieved += (obj, eventArgs) =>
             {
                 TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-                _appDataService.LocalBoardUpdate(eventArgs.ResponseOut);
+                _angelHubService.LocalBoardUpdate(eventArgs.ResponseOut);
             };
 
             //All the Events are set up so we can start watching the local board and running the inbound API
             Task.Run(() => _dgtLiveChess.PollDgtBoard());
             Task.Run(() => _iHost.Run());
         }
-
-
 
         //*********************************************//
         #region Form Control Events
@@ -617,11 +616,11 @@ namespace DgtCherub
             {
                 ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
 
-                string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
-                string remote = _appDataService.IsRemoteBoardAvailable ? _appDataService.ChessDotComBoardFEN : _appDataService.LocalBoardFEN;
+                string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.ChessDotComBoardFEN;
+                string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.ChessDotComBoardFEN : _angelHubService.LocalBoardFEN;
 
-                PictureBoxLocal.Image = _appDataService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                PictureBoxRemote.Image = _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _appDataService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
             });
 
             BeginInvoke(updateAction);
