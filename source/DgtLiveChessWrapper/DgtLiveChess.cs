@@ -137,7 +137,6 @@ namespace DgtLiveChessWrapper
                     reportNoActiveBoards = true;
                     OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to Board {watchdSerialNumber} [State={activeBoard.ConnectionState}]" });
 
-
                     if (activeBoard.BatteryLevel != null && int.TryParse(activeBoard.BatteryLevel.Replace("%", "").Trim(), out int batteryLevel))
                     {
                         if (batteryLevel < BATTERY_CRIT_THRESHOLD) { OnBatteryCritical?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Critical, your board needs to be charged! {BATTERY_CRIT_THRESHOLD}% [Level={activeBoard.BatteryLevel}]" }); }

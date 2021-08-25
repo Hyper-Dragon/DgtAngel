@@ -301,7 +301,6 @@ namespace DgtCherub
                 }
             };
 
-
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
             {
                 _angelHubService.ResetLocalBoardState();

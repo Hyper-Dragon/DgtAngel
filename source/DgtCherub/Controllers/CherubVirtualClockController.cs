@@ -19,7 +19,8 @@ namespace DgtCherub.Controllers
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
         private const string RESOURCE_CLOCK_INDEX = "index.html";
-        private const string RESOURCE_CLOCK_NAME = "SlideClock";
+        private const string RESOURCE_CLOCK_SLIDE_NAME = "SlideClock";
+        private const string RESOURCE_CLOCK_TEST_NAME = "TestClock";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
         private const string RESOURCE_CLOCK_FAV = "favicon.png";
         private const string RESOURCE_CLOCK_SVG = "DgtAngelLogo.svg";
@@ -29,6 +30,8 @@ namespace DgtCherub.Controllers
         private readonly IBoardRenderer _boardRenderer;
 
         private readonly string IndexPageHtml;
+        private readonly string TestClockHtml;
+        private readonly string SlideClockHtml;
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
@@ -38,12 +41,17 @@ namespace DgtCherub.Controllers
             _appDataService = appData;
             _boardRenderer = boardRenderer;
 
-            //using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
-            //                                                 .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_NAME}.{RESOURCE_CLOCK_HTML}");
-            //
-            //using StreamReader reader = new(indexHtmlStream);
-            //IndexPageHtml = reader.ReadToEnd();
+            using System.IO.Stream slideClockStream = Assembly.GetExecutingAssembly()
+                                                             .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SLIDE_NAME}.{RESOURCE_CLOCK_HTML}");
+            
+            using StreamReader slideReader = new(slideClockStream);
+            SlideClockHtml = slideReader.ReadToEnd();
 
+            using System.IO.Stream testClockStream = Assembly.GetExecutingAssembly()
+                                                 .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_TEST_NAME}.{RESOURCE_CLOCK_HTML}");
+
+            using StreamReader testReader = new(testClockStream);
+            TestClockHtml = testReader.ReadToEnd();
 
             using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
                                                              .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_INDEX}");
@@ -96,12 +104,24 @@ namespace DgtCherub.Controllers
             string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/Clock.html");
             //string htmlOut = IndexPageHtml;
 
-            return new ContentResult
+            try
             {
-                ContentType = "text/html",
-                StatusCode = (int)HttpStatusCode.OK,
-                Content = htmlOut,
-            };
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = clock switch
+                    {
+                        "GreySlide" => SlideClockHtml,
+                        "TestClock" => TestClockHtml,
+                        _ => throw new FileNotFoundException()
+                    },
+                };
+            }
+            catch (FileNotFoundException)
+            {
+                return new ContentResult { StatusCode = (int)HttpStatusCode.NotFound };
+            }
         }
 
         [HttpGet]
