@@ -18,6 +18,7 @@ namespace DgtCherub.Controllers
     public sealed class CherubVirtualClockController : ControllerBase
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
+        private const string RESOURCE_CLOCK_INDEX = "index.html";
         private const string RESOURCE_CLOCK_NAME = "SlideClock";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
         private const string RESOURCE_CLOCK_FAV = "favicon.png";
@@ -37,11 +38,20 @@ namespace DgtCherub.Controllers
             _appDataService = appData;
             _boardRenderer = boardRenderer;
 
+            //using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
+            //                                                 .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_NAME}.{RESOURCE_CLOCK_HTML}");
+            //
+            //using StreamReader reader = new(indexHtmlStream);
+            //IndexPageHtml = reader.ReadToEnd();
+
+
             using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
-                                                             .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_NAME}.{RESOURCE_CLOCK_HTML}");
+                                                             .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_INDEX}");
 
             using StreamReader reader = new(indexHtmlStream);
             IndexPageHtml = reader.ReadToEnd();
+
+
 
             using System.IO.Stream favIconStream = Assembly.GetExecutingAssembly()
                                                            .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_FAV}");
@@ -59,15 +69,32 @@ namespace DgtCherub.Controllers
         }
 
         [HttpGet]
-        [Route("{action}")]
-        public ContentResult GetClock()
+        [Route("/")]
+        public ContentResult GetIndex()
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
 
             // Uncomment to load from disk (dev only)
-            // string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/tryagain.html");
-
+            //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/index.html");
             string htmlOut = IndexPageHtml;
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = htmlOut,
+            };
+        }
+
+        [HttpGet]
+        [Route("{action}/{clock}")]
+        public ContentResult GetClock(string clock)
+        {
+            // http://localhost:37964/CherubVirtualClock/GetClock
+
+            // Uncomment to load from disk (dev only)
+            string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/Clock.html");
+            //string htmlOut = IndexPageHtml;
 
             return new ContentResult
             {
