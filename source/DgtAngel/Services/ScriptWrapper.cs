@@ -18,8 +18,6 @@ namespace DgtAngel.Services
 
     public class ScriptWrapper : IScriptWrapper
     {
-        //Switch to true for full console trace
-        //TODO:Move to parameter
         private readonly bool isConsoleDebugEnabled = false;
 
         public enum LogLevel { DEBUG, INFO, WARN, ERR };
@@ -47,7 +45,6 @@ namespace DgtAngel.Services
         }
 
         // HELPER METHODS
-
         public string GetAudioFileId(AudioClip audioClip)
         {
             return AudioFiles[(int)audioClip, (int)AudioFileIdx.ID];

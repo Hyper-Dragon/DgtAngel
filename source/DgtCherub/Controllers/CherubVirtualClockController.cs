@@ -64,8 +64,8 @@ namespace DgtCherub.Controllers
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
 
-            //TODO: Replace with embeded resource
-            //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/tryagain.html");
+            // Uncomment to load from disk (dev only)
+            // string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/tryagain.html");
 
             string htmlOut = IndexPageHtml;
 
@@ -143,10 +143,7 @@ namespace DgtCherub.Controllers
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
-            //TODO: Need to get the time the clocks were taken
             Response.Headers.Add("Content-Type", "text/event-stream");
-
-            //case "OnLocalStopWatch":
 
             _appDataService.OnBoardMissmatch += async () =>
             {

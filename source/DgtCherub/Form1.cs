@@ -61,9 +61,9 @@ namespace DgtCherub
         private readonly bool IsRabbitInstalled = false;
 
         //TODO: Finish the testers tab
+
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
-        //TODO:Own board maker
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
@@ -95,49 +95,6 @@ namespace DgtCherub
                 IsRabbitInstalled = false;
             }
         }
-
-        //TODO:  THIS HAS REAL CLOCK CODE IN IT - check before delete
-        //
-
-        ///        LabelLocalDgt.BackColor = Color.Yellow;
-        ///                    LabelRemoteBoard.BackColor = Color.Yellow;
-        ///                    Update();
-
-        /*private async Task FenChangedMatchTest()
-        {
-            //TODO: prob should be canceled if fen changes while we wait
-            if (!_appDataService.IsMismatchDetected)
-            {
-                //if we have no mismatch delay before test
-                await Task.Delay(MISMATCH_DELAY);
-            }
-
-            //TODO: Add mismatch speech - clocks must be running
-            if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
-            {
-                _dgtEbDllFacade?.DisplayForeverMessage("SYNC ERR");
-
-                if (!_appDataService.IsMismatchDetected)
-                {
-                    _voicePlayer.Speak(AudioClip.MISMATCH);
-                    _appDataService.IsMismatchDetected = true;
-                }
-            }
-            else
-            {
-                if (_appDataService.IsMismatchDetected)
-                {
-                    _dgtEbDllFacade?.StopForeverMessage();
-                    _dgtEbDllFacade?.DisplayMessage(" MATCH ", 2000);
-                    _appDataService.IsMismatchDetected = false;
-                    _voicePlayer.Speak(AudioClip.MATCH);
-                }
-            }
-
-            LabelLocalDgt.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-            LabelRemoteBoard.BackColor = _appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN ? Color.Red : BoredLabelsInitialColor;
-        }
-        */
 
         private void Form1_Load(object sender, EventArgs e)
         {

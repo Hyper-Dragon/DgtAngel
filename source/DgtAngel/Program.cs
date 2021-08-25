@@ -13,10 +13,8 @@ namespace DgtAngel
         public static async Task Main(string[] args)
         {
             WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
-            builder.Logging.SetMinimumLevel(LogLevel.Trace); //TODO: Fix this -> level does not work!
+            builder.Logging.SetMinimumLevel(LogLevel.Information);
             builder.RootComponents.Add<App>("#app");
-
-            //TODO: double http????
 
             // workaround to use JavaScript fetch to bypass url validation
             // see: https://github.com/dotnet/runtime/issues/52836

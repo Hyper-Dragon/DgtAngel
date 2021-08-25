@@ -38,7 +38,6 @@ namespace DynamicBoard
 
             try
             {
-                //TODO: select download board size based on imagesize requested
                 CancellationToken canxToken = new();
                 // DONT....{HttpUtility.UrlEncode(fenString)} - The endpoint doesn't decode the url properly!
                 //string boardUrl = $"{BOARD_URL_START}{fenString}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip=true")}";
