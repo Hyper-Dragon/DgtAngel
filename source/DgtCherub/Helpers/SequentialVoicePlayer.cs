@@ -93,7 +93,7 @@ namespace DgtCherub.Helpers
 
         public void Speak(AudioClip clipName)
         {
-            _logger.LogDebug($"Speaking {clipName} [vol. {Volume}]");
+            _logger?.LogDebug($"Speaking {clipName} [vol. {Volume}]");
 
             if (playList.IsEmpty)
             {

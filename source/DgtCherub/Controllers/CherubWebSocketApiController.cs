@@ -64,7 +64,7 @@ namespace DgtCherub.Controllers
                         {
                             // Convert to a string (UTF-8 encoding).
                             CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
-                            _logger.LogDebug($"Cherub Keep-Alive from {messageIn.Source}");
+                            _logger?.LogDebug($"Cherub Keep-Alive from {messageIn.Source}");
 
                             switch (messageIn.MessageType)
                             {
@@ -103,14 +103,14 @@ namespace DgtCherub.Controllers
                                     break;
                                 default:
                                     _appDataService.UserMessageArrived("INTERNAL", "ERROR: Unknown MESSAGE TYPE recieved on the API!");
-                                    _logger.LogError($"Unknown MESSAGE TYPE recieved on the API!");
+                                    _logger?.LogError($"Unknown MESSAGE TYPE recieved on the API!");
                                     break;
                             }
                         }
                         catch (Exception ex)
                         {
                             _appDataService.UserMessageArrived("INTERNAL", $"ERROR: Unknown DATA recieved on the API :: {ex.Message}");
-                            _logger.LogError($"Unknown DATA recieved on the API :: {ex.Message}");
+                            _logger?.LogError($"Unknown DATA recieved on the API :: {ex.Message}");
                         }
                     }
                     catch (ConnectionAbortedException)

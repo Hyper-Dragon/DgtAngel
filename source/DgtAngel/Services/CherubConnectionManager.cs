@@ -37,6 +37,7 @@ namespace DgtAngel.Services
         private const string CHERUB_API_HTTP_HOST = "http://127.0.0.1:37964";
         private const string CHERUB_API_HTTP_PATH = "/api";
         private const string CHERUB_API_HTTP_TEST_CALL = "/AreYouThere";
+
         private const int CONNECTION_RETRY_DELAY = 1000;
         private const int CONNECTION_KEEPALIVE_DELAY = 60000;
 
@@ -157,7 +158,7 @@ namespace DgtAngel.Services
                 {
                     ArraySegment<byte> buffer = new(new byte[1024 * 4]);
                     WebSocketReceiveResult test = await _socket.ReceiveAsync(buffer, canxTokenSource.Token);
-                    _logger.LogDebug($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
+                    _logger?.LogDebug($"Keep Alive Bytes Recieved {test.Count} : Expected 4");
                 }
 
                 await Task.Delay(CONNECTION_KEEPALIVE_DELAY);
@@ -185,7 +186,7 @@ namespace DgtAngel.Services
 
         public async Task SendMessageToClient(string message)
         {
-            _logger.LogDebug($"Sending Message {message} to Client");
+            _logger?.LogDebug($"Sending Message {message} to Client");
             await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
@@ -197,7 +198,7 @@ namespace DgtAngel.Services
 
         public async Task SendUpdatedBoardStateToClient(BoardState remoteBoardState)
         {
-            _logger.LogDebug($"Sending FEN [{remoteBoardState.Board.FenString}] to Client");
+            _logger?.LogDebug($"Sending FEN [{remoteBoardState.Board.FenString}] to Client");
             await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
@@ -209,7 +210,7 @@ namespace DgtAngel.Services
 
         public async Task SendDgtAngelConnectedToClient()
         {
-            _logger.LogDebug($"Sending DGT Angel disconnect to Client");
+            _logger?.LogDebug($"Sending DGT Angel disconnect to Client");
             await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
@@ -221,7 +222,7 @@ namespace DgtAngel.Services
 
         public async Task SendDgtAngelDisconnectedToClient()
         {
-            _logger.LogDebug($"Sending DGT Angel disconnect to Client");
+            _logger?.LogDebug($"Sending DGT Angel disconnect to Client");
             await SendJsonToClient(JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
             {
                 Source = "ANGEL",
