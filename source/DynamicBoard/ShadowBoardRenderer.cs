@@ -73,12 +73,12 @@ namespace DynamicBoard
 
                 // Dont pass in the blank board unless customised...it is slower!
                 resizedBmpOut = RenderBoard(//blankBoard: blankBoard,
-                                            whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
-                                            blackSquareColour: Color.FromArgb(255, 118, 150, 86),
-                                            errorSquareColour: Color.FromArgb(150, Color.Red),
-                                            //whiteSquareColour: Color.PaleTurquoise,
-                                            //blackSquareColour: Color.DarkCyan,
-                                            //errorSquareColour: Color.FromArgb(150, Color.Yellow),
+                                            //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
+                                            //blackSquareColour: Color.FromArgb(255, 118, 150, 86),
+                                            //errorSquareColour: Color.FromArgb(150, Color.Red),
+                                            whiteSquareColour: Color.PaleTurquoise,
+                                            blackSquareColour: Color.DarkCyan,
+                                            errorSquareColour: Color.FromArgb(150, Color.Yellow),
                                             fenString: fenString,
                                             fenCompareString: compFenString,
                                             requestedSizeOut: imageSize,

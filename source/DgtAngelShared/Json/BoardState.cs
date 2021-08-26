@@ -18,44 +18,43 @@ namespace DgtAngelShared.Json
         UNKNOWN, ACTIVE
     }
 
-    public class BoardState
+    public sealed record BoardState
     {
-        public string PageUrl { get; set; }
-        public long CaptureTimeMs { get; set; }
-        public State State { get; set; }
-        public Boardconnection BoardConnection { get; set; }
-        public Board Board { get; set; }
+        public string PageUrl { get; init; }
+        public long CaptureTimeMs { get; init; }
+        public State State { get; init; }
+        public Boardconnection BoardConnection { get; init; }
+        public Board Board { get; init; }
     }
 
-    public class State
-    {
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public ResponseCode Code { get; set; }
-        public string Message { get; set; }
-    }
-
-    public class Boardconnection
+    public sealed record State
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public SiteToBoardConnectionState BoardState { get; set; }
-        public string ConMessage { get; set; }
+        public ResponseCode Code { get; init; }
+        public string Message { get; init; }
     }
 
-    public class Board
+    public sealed record Boardconnection
     {
-        public bool IsWhiteOnBottom { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public TurnCode Turn { get; set; }
-        public string LastMove { get; set; }
-        public string FenString { get; set; }
-        public Clocks Clocks { get; set; }
+        public SiteToBoardConnectionState BoardState { get; init; }
+        public string ConMessage { get; init; }
     }
 
-    public class Clocks
+    public sealed record Board
     {
-        public long CaptureTimeMs { get; set; }
-        public int WhiteClock { get; set; }
-        public int BlackClock { get; set; }
+        public bool IsWhiteOnBottom { get; init; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public TurnCode Turn { get; init; }
+        public string LastMove { get; init; }
+        public string FenString { get; init; }
+        public Clocks Clocks { get; init; }
     }
 
+    public sealed record Clocks
+    {
+        public long CaptureTimeMs { get; init; }
+        public int WhiteClock { get; init; }
+        public int BlackClock { get; init; }
+    }
 }
