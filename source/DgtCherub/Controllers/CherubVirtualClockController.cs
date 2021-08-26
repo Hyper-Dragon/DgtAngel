@@ -1,5 +1,6 @@
 ﻿using DgtCherub.Services;
 using DynamicBoard;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,13 +20,18 @@ namespace DgtCherub.Controllers
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
+        private const string FAV_ICON = "favicon.png";
+        private const string SVG_LOGO = "DgtAngelLogo.svg";
 
-        private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.SlideClock.{RESOURCE_CLOCK_HTML}";
-        private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.TestClock.{RESOURCE_CLOCK_HTML}";
+        private const string CLOCK_SLIDE = "GreySlide";
+        private const string CLOCK_TEST = "TestClock";
+
+        private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_SLIDE}.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_TEST}.{RESOURCE_CLOCK_HTML}";
 
         private const string RESOURCE_CLOCK_INDEX = $"{RESOURCE_CLOCK_ROOT}.index.html";
-        private const string RESOURCE_CLOCK_FAV = $"{RESOURCE_CLOCK_ROOT}.favicon.png";
-        private const string RESOURCE_CLOCK_SVG = $"{RESOURCE_CLOCK_ROOT}.DgtAngelLogo.svg";
+        private const string RESOURCE_CLOCK_FAV = $"{RESOURCE_CLOCK_ROOT}.{FAV_ICON}";
+        private const string RESOURCE_CLOCK_SVG = $"{RESOURCE_CLOCK_ROOT}.{SVG_LOGO}";
 
         private const string MIME_HTM = "text/html";
         private const string MIME_PNG = "image/png";
@@ -33,13 +39,14 @@ namespace DgtCherub.Controllers
         private const string MIME_EVENT = "text/event-stream";
 
         private const string BOARD_EMPTY_FEN = "8/8/8/8/8/8/8/8";
-
         private const int BOARD_IMAGE_SIZE = 1024;
+
+        private const double KEEP_ALIVE_EVERY_SECONDS = 60;
 
         private readonly DateTime unixDateTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         private readonly ILogger _logger;
-        private readonly IAngelHubService _appDataService;
+        private readonly IAngelHubService _angelHubService;
         private readonly IBoardRenderer _boardRenderer;
 
         private readonly string IndexPageHtml;
@@ -51,7 +58,7 @@ namespace DgtCherub.Controllers
         public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAngelHubService appData, IBoardRenderer boardRenderer)
         {
             _logger = logger;
-            _appDataService = appData;
+            _angelHubService = appData;
             _boardRenderer = boardRenderer;
 
             IndexPageHtml = LoadResourceString(RESOURCE_CLOCK_INDEX);
@@ -92,8 +99,8 @@ namespace DgtCherub.Controllers
                     StatusCode = (int)HttpStatusCode.OK,
                     Content = clock switch
                     {
-                        "GreySlide" => SlideClockHtml,
-                        "TestClock" => TestClockHtml,
+                        CLOCK_SLIDE => SlideClockHtml,
+                        CLOCK_TEST => TestClockHtml,
                         _ => throw new FileNotFoundException()
                     },
                 };
@@ -110,16 +117,16 @@ namespace DgtCherub.Controllers
         {
             _logger?.LogTrace($"Board image requested {board}");
 
-            string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
-            string remote = _appDataService.IsRemoteBoardAvailable ? _appDataService.ChessDotComBoardFEN : _appDataService.LocalBoardFEN;
+            string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
+            string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
             using Bitmap bmpOut = board.ToLowerInvariant() switch
             {
-                "local" => _appDataService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom)
-                                                                 : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom),
-                "remote" => _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom)
-                                                                   : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom),
-                _ => await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom)
+                "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                  : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                    : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                _ => await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
             };
 
             return File(((byte[])(new ImageConverter()).ConvertTo(bmpOut, typeof(byte[]))), MIME_PNG);
@@ -133,13 +140,10 @@ namespace DgtCherub.Controllers
 
             try
             {
-                return File(fileName.ToLowerInvariant() switch
-                {
-                    "dgtangellogo.svg" => SvgLogo,
-                    "favicon.png" => FavIcon,
-                    _ => throw new FileNotFoundException()
-                },
-                    fileName.EndsWith(".svg") ? MIME_SVG : MIME_PNG);
+                return File(fileName switch { SVG_LOGO => SvgLogo,
+                                              FAV_ICON => FavIcon,
+                                              _ => throw new FileNotFoundException()
+                                            },fileName.EndsWith(".svg") ? MIME_SVG : MIME_PNG);
             }
             catch (FileNotFoundException)
             {
@@ -156,183 +160,135 @@ namespace DgtCherub.Controllers
 
             //TODO: No initial local board without piece move
             //TODO: Remote board does not clear on disconnect
-
-
-
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
-
+            
             Response.Headers.Add("Content-Type", MIME_EVENT);
 
-            _appDataService.OnBoardMissmatch += async () =>
+            _angelHubService.OnBoardMissmatch += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
-                {
-                    MessageType = "OnBoardMissmatch",
-                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
-                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                await SendEventResponse(Response, ConstructMessageOnly("OnBoardMissmatch"));
             };
 
-            _appDataService.OnBoardMatch += async () =>
+            _angelHubService.OnBoardMatch += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
-                {
-                    MessageType = "OnBoardMatch",
-                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
-                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
             };
 
             //Send on connect
-            if (_appDataService.LocalBoardFEN != "")
+            if (_angelHubService.LocalBoardFEN != "")
             {
-
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnLocalFenChange",
-                    BoardFen = _appDataService.LocalBoardFEN,
-                    _appDataService.IsWhiteOnBottom,
+                    BoardFen = _angelHubService.LocalBoardFEN,
+                    _angelHubService.IsWhiteOnBottom,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                }));
             }
 
-            if (_appDataService.ChessDotComBoardFEN != "")
+            if (_angelHubService.RemoteBoardFEN != "")
             {
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",
-                    BoardFen = _appDataService.ChessDotComBoardFEN,
-                    _appDataService.IsWhiteOnBottom,
-                    _appDataService.LastMove,
+                    BoardFen = _angelHubService.RemoteBoardFEN,
+                    _angelHubService.IsWhiteOnBottom,
+                    _angelHubService.LastMove,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                }));
             }
 
-            _appDataService.OnOrientationFlipped += async () =>
+            _angelHubService.OnOrientationFlipped += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnOrientationFlipped",
-                    LocalBoardFen = _appDataService.LocalBoardFEN,
-                    RemoteBoardFen = _appDataService.ChessDotComBoardFEN,
-                    _appDataService.IsWhiteOnBottom,
+                    LocalBoardFen = _angelHubService.LocalBoardFEN,
+                    RemoteBoardFen = _angelHubService.RemoteBoardFEN,
+                    _angelHubService.IsWhiteOnBottom,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                }));
             };
 
-            _appDataService.OnClockChange += async () =>
+            _angelHubService.OnClockChange += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnClockChange",
-                    WhiteClockMsRemaining = _appDataService.WhiteClockMs,
-                    BlackClockMsRemaining = _appDataService.BlackClockMs,
-                    IsGameActive = _appDataService.RunWhoString != "3",
-                    IsWhiteToPlay = _appDataService.RunWhoString == "1",
+                    _angelHubService.WhiteClockMsRemaining,
+                    _angelHubService.BlackClockMsRemaining,
+                    IsGameActive = _angelHubService.RunWhoString != "3",
+                    IsWhiteToPlay = _angelHubService.RunWhoString == "1",
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                }));
             };
 
-            _appDataService.OnLocalFenChange += async () =>
+            _angelHubService.OnLocalFenChange += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnLocalFenChange",
-                    BoardFen = _appDataService.LocalBoardFEN,
-                    _appDataService.IsWhiteOnBottom,
+                    BoardFen = _angelHubService.LocalBoardFEN,
+                    _angelHubService.IsWhiteOnBottom,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
+                }));
             };
 
-            _appDataService.OnRemoteFenChange += async () =>
+            _angelHubService.OnRemoteFenChange += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",
-                    BoardFen = _appDataService.ChessDotComBoardFEN,
-                    _appDataService.IsWhiteOnBottom,
-                    _appDataService.LastMove,
+                    BoardFen = _angelHubService.RemoteBoardFEN,
+                    _angelHubService.IsWhiteOnBottom,
+                    _angelHubService.LastMove,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                await Response.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes(dataItem));
-                await Response.Body.FlushAsync();
+                }));
             };
 
-            _appDataService.OnRemoteDisconnect += async () =>
+            _angelHubService.OnRemoteDisconnect += async () =>
             {
-                string jsonString = JsonSerializer.Serialize(new
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteStopWatch",
                     BoardFen = "",
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                await Response.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes(dataItem));
-                await Response.Body.FlushAsync();
+                }));
             };
 
             //Keep Alive
             while (true)
             {
-                string jsonString = JsonSerializer.Serialize(new
-                {
-                    MessageType = "Keep-Alive",
-                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
-                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-                });
-
-                string dataItem = $"data: {jsonString}{Environment.NewLine}{Environment.NewLine}";
-                byte[] dataItemBytes = ASCIIEncoding.ASCII.GetBytes(dataItem);
-                await Response.Body.WriteAsync(dataItemBytes);
-                await Response.Body.FlushAsync();
-
-                await Task.Delay(TimeSpan.FromSeconds(60 * 5));
+                await SendEventResponse(Response, ConstructMessageOnly("Keep-Alive"));
+                await Task.Delay(TimeSpan.FromSeconds(KEEP_ALIVE_EVERY_SECONDS));
             }
         }
+
+        //*********************************************//
+        #region Event Response Helpers
+        private static string ConstructMessageOnly(in string messageType)
+        {
+            return JsonSerializer.Serialize(new
+            {
+                MessageType = messageType,
+                ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+            });
+        }
+
+        private static async Task SendEventResponse(HttpResponse responseObject, string jsonMessage)
+        {
+            await responseObject.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes($"data: {jsonMessage}{Environment.NewLine}{Environment.NewLine}"));
+            await responseObject.Body.FlushAsync();
+        }
+        #endregion
+        //*********************************************//
     }
 }

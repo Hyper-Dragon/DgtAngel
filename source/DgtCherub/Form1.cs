@@ -166,7 +166,7 @@ namespace DgtCherub
 
             _angelHubService.OnRemoteFenChange += () =>
             {
-                TextBoxConsole.AddLine($"Remote DGT board changed [{_angelHubService.ChessDotComBoardFEN}]");
+                TextBoxConsole.AddLine($"Remote DGT board changed [{_angelHubService.RemoteBoardFEN}]");
                 DisplayBoardImages();
             };
 
@@ -629,8 +629,8 @@ namespace DgtCherub
                 {
                     ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
 
-                    string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.ChessDotComBoardFEN;
-                    string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.ChessDotComBoardFEN : _angelHubService.LocalBoardFEN;
+                    string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
+                    string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
                     PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                     PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;

@@ -12,8 +12,8 @@ namespace DgtCherub.Services
     public interface IAngelHubService
     {
         string BlackClock { get; }
-        int BlackClockMs { get; }
-        string ChessDotComBoardFEN { get; }
+        int BlackClockMsRemaining { get; }
+        string RemoteBoardFEN { get; }
         bool EchoExternalMessagesToConsole { get; }
         bool IsBoardInSync { get; }
         bool IsChessDotComBoardStateActive { get; }
@@ -25,7 +25,7 @@ namespace DgtCherub.Services
         string LocalBoardFEN { get; }
         string RunWhoString { get; }
         string WhiteClock { get; }
-        int WhiteClockMs { get; }
+        int WhiteClockMsRemaining { get; }
 
         event Action OnBoardMatch;
         event Action OnBoardMatcherStarted;
@@ -78,17 +78,17 @@ namespace DgtCherub.Services
         public bool IsMismatchDetected { get; private set; } = false;
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
         public string LocalBoardFEN { get; private set; }
-        public string ChessDotComBoardFEN { get; private set; }
+        public string RemoteBoardFEN { get; private set; }
         public string LastMove { get; private set; }
-        public int WhiteClockMs { get; private set; }
-        public int BlackClockMs { get; private set; }
+        public int WhiteClockMsRemaining { get; private set; }
+        public int BlackClockMsRemaining { get; private set; }
         public string WhiteClock => _chessDotComWhiteClock;
         public string BlackClock => _chessDotComBlackClock;
         public string RunWhoString => _chessDotComRunWhoString;
         public bool IsLocalBoardAvailable => (!string.IsNullOrWhiteSpace(LocalBoardFEN));
-        public bool IsRemoteBoardAvailable => (!string.IsNullOrWhiteSpace(ChessDotComBoardFEN));
+        public bool IsRemoteBoardAvailable => (!string.IsNullOrWhiteSpace(RemoteBoardFEN));
         public bool IsBoardInSync { get; private set; } = true;
-        public bool IsChessDotComBoardStateActive => (ChessDotComBoardFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00");
+        public bool IsChessDotComBoardStateActive => (RemoteBoardFEN != "" && _chessDotComWhiteClock != "00:00" || _chessDotComBlackClock != "00:00");
         private Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
 
         private const int MS_IN_HOUR = 3600000;
@@ -160,7 +160,7 @@ namespace DgtCherub.Services
                 {
                     _logger?.LogTrace($"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
-                    if (ChessDotComBoardFEN != LocalBoardFEN)
+                    if (RemoteBoardFEN != LocalBoardFEN)
                     {
                         IsBoardInSync = false;
                         OnBoardMissmatch?.Invoke();
@@ -275,8 +275,8 @@ namespace DgtCherub.Services
                 TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.Turn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
                 TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.Turn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
-                WhiteClockMs = (int)whiteTimespan.TotalMilliseconds;
-                BlackClockMs = (int)blackTimespan.TotalMilliseconds;
+                WhiteClockMsRemaining = (int)whiteTimespan.TotalMilliseconds;
+                BlackClockMsRemaining = (int)blackTimespan.TotalMilliseconds;
 
                 string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
                 string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
@@ -308,12 +308,12 @@ namespace DgtCherub.Services
                 BoardState remoteBoardState = await fenProcessChannel.Reader.ReadAsync();
                 _logger?.LogTrace($"Processing a board recieved @ {remoteBoardState.CaptureTimeMs}");
 
-                if (ChessDotComBoardFEN != remoteBoardState.Board.FenString)
+                if (RemoteBoardFEN != remoteBoardState.Board.FenString)
                 {
                     _logger?.LogTrace($"FEN Change");
 
                     //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
-                    ChessDotComBoardFEN = remoteBoardState.Board.FenString;
+                    RemoteBoardFEN = remoteBoardState.Board.FenString;
 
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString()));
@@ -331,7 +331,7 @@ namespace DgtCherub.Services
 
         private void ResetRemoteBoardState()
         {
-            ChessDotComBoardFEN = "";
+            RemoteBoardFEN = "";
             _chessDotComWhiteClock = "00:00";
             _chessDotComBlackClock = "00:00";
             _chessDotComRunWhoString = "0";
@@ -391,8 +391,8 @@ namespace DgtCherub.Services
             _chessDotComRunWhoString = chessDotComRunWhoString;
             OnClockChange?.Invoke();
 
-            CalculateNextClockAudio(WhiteClockMs, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
-            CalculateNextClockAudio(BlackClockMs, ref blackNextClockAudioNotBefore, (string audioFile) => OnPlayBlackClockAudio?.Invoke(audioFile));
+            CalculateNextClockAudio(WhiteClockMsRemaining, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
+            CalculateNextClockAudio(BlackClockMsRemaining, ref blackNextClockAudioNotBefore, (string audioFile) => OnPlayBlackClockAudio?.Invoke(audioFile));
         }
     }
 }

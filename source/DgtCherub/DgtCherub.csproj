@@ -30,7 +30,7 @@
     <None Remove="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
     <None Remove="Assets\Clocks\index.html" />
-    <None Remove="Assets\Clocks\SlideClock\Clock.html" />
+    <None Remove="Assets\Clocks\GreySlide\Clock.html" />
     <None Remove="Assets\Clocks\DgtAngelLogo.svg" />
     <None Remove="Assets\Clocks\favicon.png" />
     <None Remove="Assets\Clocks\TestClock\Clock.html" />
@@ -50,7 +50,7 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
     <EmbeddedResource Include="Assets\Clocks\index.html" />
-    <EmbeddedResource Include="Assets\Clocks\SlideClock\Clock.html" />
+    <EmbeddedResource Include="Assets\Clocks\GreySlide\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\DgtAngelLogo.svg" />
     <EmbeddedResource Include="Assets\Clocks\favicon.png" />
     <EmbeddedResource Include="Assets\Clocks\TestClock\Clock.html" />
