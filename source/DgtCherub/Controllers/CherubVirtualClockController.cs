@@ -124,13 +124,13 @@ namespace DgtCherub.Controllers
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            if (SvgLogo != null && !string.IsNullOrWhiteSpace(fileName) && fileName == "DgtAngelLogo.svg")
+            if (SvgLogo is not null && !string.IsNullOrWhiteSpace(fileName) && fileName == "DgtAngelLogo.svg")
             {
                 byte[] imageData = SvgLogo;
                 string fileType = "image/svg+xml";
                 return File(imageData, fileType);
             }
-            else if (FavIcon != null && !string.IsNullOrWhiteSpace(fileName) && (fileName == "favicon.png"))
+            else if (FavIcon is not null && !string.IsNullOrWhiteSpace(fileName) && (fileName == "favicon.png"))
             {
                 byte[] imageData = FavIcon;
                 string fileType = "image/png";

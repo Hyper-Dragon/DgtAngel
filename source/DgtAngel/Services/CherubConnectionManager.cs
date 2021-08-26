@@ -173,7 +173,7 @@ namespace DgtAngel.Services
 
             try
             {
-                if (_socket != null && _socket.State == WebSocketState.Open)
+                if (_socket is not null && _socket.State == WebSocketState.Open)
                 {
                     await _socket.SendAsync(Encoding.UTF8.GetBytes(message),
                                             WebSocketMessageType.Text,

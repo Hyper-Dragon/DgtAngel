@@ -121,7 +121,7 @@ namespace DgtLiveChessWrapper
                 //...then find the first active board if we have one...
                 DgtLiveChessJson.CallResponse.LiveChessCallParams activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
 
-                if (activeBoard == null)
+                if (activeBoard is null)
                 {
                     //...if no active boards are available wait and try again...
                     if (reportNoActiveBoards)
@@ -138,7 +138,7 @@ namespace DgtLiveChessWrapper
                     reportNoActiveBoards = true;
                     OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to Board {watchdSerialNumber} [State={activeBoard.ConnectionState}]" });
 
-                    if (activeBoard.BatteryLevel != null && int.TryParse(activeBoard.BatteryLevel.Replace("%", "").Trim(), out int batteryLevel))
+                    if (activeBoard.BatteryLevel is not null && int.TryParse(activeBoard.BatteryLevel.Replace("%", "").Trim(), out int batteryLevel))
                     {
                         if (batteryLevel < BATTERY_CRIT_THRESHOLD) { OnBatteryCritical?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Critical, your board needs to be charged! [Level={activeBoard.BatteryLevel}]" }); }
                         else if (batteryLevel < BATTERY_LOW_THRESHOLD) { OnBatteryLow?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Warning, your boards battery is getting a bit low. [Level={activeBoard.BatteryLevel}]" }); }
