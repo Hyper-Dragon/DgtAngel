@@ -6,10 +6,10 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static DgtCherub.Helpers.ResourceLoader;
 
 namespace DgtCherub.Controllers
 {
@@ -41,39 +41,11 @@ namespace DgtCherub.Controllers
             _appDataService = appData;
             _boardRenderer = boardRenderer;
 
-            using System.IO.Stream slideClockStream = Assembly.GetExecutingAssembly()
-                                                             .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SLIDE_NAME}.{RESOURCE_CLOCK_HTML}");
-            
-            using StreamReader slideReader = new(slideClockStream);
-            SlideClockHtml = slideReader.ReadToEnd();
-
-            using System.IO.Stream testClockStream = Assembly.GetExecutingAssembly()
-                                                 .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_TEST_NAME}.{RESOURCE_CLOCK_HTML}");
-
-            using StreamReader testReader = new(testClockStream);
-            TestClockHtml = testReader.ReadToEnd();
-
-            using System.IO.Stream indexHtmlStream = Assembly.GetExecutingAssembly()
-                                                             .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_INDEX}");
-
-            using StreamReader reader = new(indexHtmlStream);
-            IndexPageHtml = reader.ReadToEnd();
-
-
-
-            using System.IO.Stream favIconStream = Assembly.GetExecutingAssembly()
-                                                           .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_FAV}");
-
-            using MemoryStream memoryStream = new();
-            favIconStream.CopyTo(memoryStream);
-            FavIcon = memoryStream.ToArray();
-
-            using System.IO.Stream svgIconStream = Assembly.GetExecutingAssembly()
-                                                           .GetManifestResourceStream($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
-
-            using MemoryStream memoryStreamSvg = new();
-            svgIconStream.CopyTo(memoryStreamSvg);
-            SvgLogo = memoryStreamSvg.ToArray();
+            IndexPageHtml = LoadResourceString($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_INDEX}");
+            SlideClockHtml = LoadResourceString($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SLIDE_NAME}.{RESOURCE_CLOCK_HTML}");
+            TestClockHtml = LoadResourceString($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_TEST_NAME}.{RESOURCE_CLOCK_HTML}");
+            FavIcon = LoadResource($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_FAV}");
+            SvgLogo = LoadResource($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
         }
 
         [HttpGet]
@@ -276,7 +248,6 @@ namespace DgtCherub.Controllers
                 await Response.Body.WriteAsync(dataItemBytes);
                 await Response.Body.FlushAsync();
             };
-
 
             _appDataService.OnClockChange += async () =>
             {

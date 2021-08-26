@@ -139,8 +139,8 @@ namespace DgtLiveChessWrapper
 
                     if (activeBoard.BatteryLevel != null && int.TryParse(activeBoard.BatteryLevel.Replace("%", "").Trim(), out int batteryLevel))
                     {
-                        if (batteryLevel < BATTERY_CRIT_THRESHOLD) { OnBatteryCritical?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Critical, your board needs to be charged! {BATTERY_CRIT_THRESHOLD}% [Level={activeBoard.BatteryLevel}]" }); }
-                        else if (batteryLevel < BATTERY_LOW_THRESHOLD) { OnBatteryLow?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Warning, your boards battery is getting a bit low. {BATTERY_LOW_THRESHOLD}% [Level={activeBoard.BatteryLevel}]" }); }
+                        if (batteryLevel < BATTERY_CRIT_THRESHOLD) { OnBatteryCritical?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Critical, your board needs to be charged! [Level={activeBoard.BatteryLevel}]" }); }
+                        else if (batteryLevel < BATTERY_LOW_THRESHOLD) { OnBatteryLow?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Warning, your boards battery is getting a bit low. [Level={activeBoard.BatteryLevel}]" }); }
                         else { OnBatteryOk?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Your boards battery is OK. [Level={activeBoard.BatteryLevel}]" }); };
                     }
                     else
