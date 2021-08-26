@@ -342,14 +342,11 @@ namespace DgtCherub.Services
             blackNextClockAudioNotBefore = double.MaxValue;
         }
 
-
         private static void CalculateNextClockAudio(int clockMs, ref double nextAudioNotBefore, Action<string> onPlayAudio)
         {
             TimeSpan clockAudioTs;
             if ((clockAudioTs = TimeSpan.FromMilliseconds(clockMs)).TotalMilliseconds < nextAudioNotBefore)
             {
-                //TODO: switcj to patterns
-                //TODO: lock this??????
                 bool isFirstCall = nextAudioNotBefore == double.MaxValue;
                 string audioFile = "";
 
@@ -382,7 +379,6 @@ namespace DgtCherub.Services
                 if (!string.IsNullOrEmpty(audioFile)) { onPlayAudio?.Invoke(audioFile); }
             }
         }
-
 
         public void SetClocksStrings(string chessDotComWhiteClock, string chessDotComBlackClock, string chessDotComRunWhoString)
         {
