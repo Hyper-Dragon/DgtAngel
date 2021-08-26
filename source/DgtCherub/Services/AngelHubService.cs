@@ -264,6 +264,7 @@ namespace DgtCherub.Services
                 int runWho = remoteBoardState.Board.Turn == TurnCode.WHITE ? 1 : remoteBoardState.Board.Turn == TurnCode.BLACK ? 2 : 0;
                 SetClocksStrings(whiteClockString, blackClockString, runWho.ToString());
 
+                //TODO: Move this - only works with running clock is here
                 //Do this with the clock as it is the most responsive
                 if (IsWhiteOnBottom != remoteBoardState.Board.IsWhiteOnBottom)
                 {
@@ -377,7 +378,6 @@ namespace DgtCherub.Services
             _chessDotComBlackClock = chessDotComBlackClock;
             _chessDotComRunWhoString = chessDotComRunWhoString;
             OnClockChange?.Invoke();
-
 
             CalculateNextClockAudio(WhiteClockMs, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
             CalculateNextClockAudio(BlackClockMs, ref blackNextClockAudioNotBefore, (string audioFile) => OnPlayBlackClockAudio?.Invoke(audioFile));

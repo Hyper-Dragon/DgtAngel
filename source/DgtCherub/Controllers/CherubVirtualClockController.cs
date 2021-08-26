@@ -19,13 +19,24 @@ namespace DgtCherub.Controllers
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
-        
+
         private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.SlideClock.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.TestClock.{RESOURCE_CLOCK_HTML}";
 
         private const string RESOURCE_CLOCK_INDEX = $"{RESOURCE_CLOCK_ROOT}.index.html";
         private const string RESOURCE_CLOCK_FAV = $"{RESOURCE_CLOCK_ROOT}.favicon.png";
         private const string RESOURCE_CLOCK_SVG = $"{RESOURCE_CLOCK_ROOT}.DgtAngelLogo.svg";
+
+        private const string MIME_HTM = "text/html";
+        private const string MIME_PNG = "image/png";
+        private const string MIME_SVG = "image/svg+xml";
+        private const string MIME_EVENT = "text/event-stream";
+
+        private const string BOARD_EMPTY_FEN = "8/8/8/8/8/8/8/8";
+
+        private const int BOARD_IMAGE_SIZE = 1024;
+
+        private readonly DateTime unixDateTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         private readonly ILogger _logger;
         private readonly IAngelHubService _appDataService;
@@ -46,7 +57,7 @@ namespace DgtCherub.Controllers
             IndexPageHtml = LoadResourceString(RESOURCE_CLOCK_INDEX);
             SlideClockHtml = LoadResourceString(RESOURCE_CLOCK_SLIDE);
             TestClockHtml = LoadResourceString(RESOURCE_CLOCK_TEST);
-            
+
             FavIcon = LoadResource(RESOURCE_CLOCK_FAV);
             SvgLogo = LoadResource(RESOURCE_CLOCK_SVG);
         }
@@ -77,7 +88,7 @@ namespace DgtCherub.Controllers
             {
                 return new ContentResult
                 {
-                    ContentType = "text/html",
+                    ContentType = MIME_HTM,
                     StatusCode = (int)HttpStatusCode.OK,
                     Content = clock switch
                     {
@@ -99,28 +110,19 @@ namespace DgtCherub.Controllers
         {
             _logger?.LogTrace($"Board image requested {board}");
 
-            ImageConverter converter = new();
-
             string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
             string remote = _appDataService.IsRemoteBoardAvailable ? _appDataService.ChessDotComBoardFEN : _appDataService.LocalBoardFEN;
 
-            switch (board.ToLowerInvariant())
+            using Bitmap bmpOut = board.ToLowerInvariant() switch
             {
-                case "local":
-                    Bitmap localBmpOut = _appDataService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, 1024, _appDataService.IsWhiteOnBottom)
-                                                                               : await _boardRenderer.GetImageDiffFromFenAsync("8/8/8/8/8/8/8/8", "8/8/8/8/8/8/8/8", 2048, _appDataService.IsWhiteOnBottom);
+                "local" => _appDataService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom)
+                                                                 : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom),
+                "remote" => _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom)
+                                                                   : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom),
+                _ => await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _appDataService.IsWhiteOnBottom)
+            };
 
-                    return File(((byte[])converter.ConvertTo(localBmpOut, typeof(byte[]))), "image/png");
-                case "remote":
-                    Bitmap remBmpOut = _appDataService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, 1024, _appDataService.IsWhiteOnBottom)
-                                                                              : await _boardRenderer.GetImageDiffFromFenAsync("8/8/8/8/8/8/8/8", "8/8/8/8/8/8/8/8", 2048, _appDataService.IsWhiteOnBottom);
-
-                    return File(((byte[])converter.ConvertTo(remBmpOut, typeof(byte[]))), "image/png");
-                default:
-                    Bitmap blankBmpOut = await _boardRenderer.GetImageDiffFromFenAsync("8/8/8/8/8/8/8/8", "8/8/8/8/8/8/8/8", 2048, _appDataService.IsWhiteOnBottom);
-
-                    return File(((byte[])converter.ConvertTo(blankBmpOut, typeof(byte[]))), "image/png");
-            }
+            return File(((byte[])(new ImageConverter()).ConvertTo(bmpOut, typeof(byte[]))), MIME_PNG);
         }
 
         [HttpGet]
@@ -129,20 +131,20 @@ namespace DgtCherub.Controllers
         {
             _logger?.LogTrace($"Image requested {fileName}");
 
-            if (SvgLogo is not null && !string.IsNullOrWhiteSpace(fileName) && fileName == "DgtAngelLogo.svg")
+            try
             {
-                byte[] imageData = SvgLogo;
-                string fileType = "image/svg+xml";
-                return File(imageData, fileType);
+                return File(fileName.ToLowerInvariant() switch
+                {
+                    "dgtangellogo.svg" => SvgLogo,
+                    "favicon.png" => FavIcon,
+                    _ => throw new FileNotFoundException()
+                },
+                    fileName.EndsWith(".svg") ? MIME_SVG : MIME_PNG);
             }
-            else if (FavIcon is not null && !string.IsNullOrWhiteSpace(fileName) && (fileName == "favicon.png"))
+            catch (FileNotFoundException)
             {
-                byte[] imageData = FavIcon;
-                string fileType = "image/png";
-                return File(imageData, fileType);
+                return StatusCode(404);
             }
-
-            return StatusCode(404);
         }
 
         [HttpGet]
@@ -155,11 +157,11 @@ namespace DgtCherub.Controllers
             //TODO: No initial local board without piece move
             //TODO: Remote board does not clear on disconnect
 
-            
 
-            int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
-            Response.Headers.Add("Content-Type", "text/event-stream");
+            int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
+
+            Response.Headers.Add("Content-Type", MIME_EVENT);
 
             _appDataService.OnBoardMissmatch += async () =>
             {
