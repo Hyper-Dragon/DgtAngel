@@ -63,7 +63,7 @@ namespace DgtLiveChessWrapper
         /// </summary>
         public async Task PollDgtBoard()
         {
-            for (; ; )
+            while (true)
             {
                 try
                 {
@@ -112,7 +112,7 @@ namespace DgtLiveChessWrapper
             OnLiveChessConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = "Connected to Live Chess" });
 
             // Loop until we have a board to watch
-            for (; ; )
+            while (true)
             {
                 //First get a list of eBoards...
                 await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
@@ -158,7 +158,7 @@ namespace DgtLiveChessWrapper
             (string feedSetupJsonString, DgtLiveChessJson.CallResponse.LiveChessCallResponse feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.LiveChessCallResponse.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
-            for (; ; )
+            while (true)
             {
                 (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.LiveChessFeedResponse feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.LiveChessFeedResponse.Deserialize(await Receive(socket, true));
 

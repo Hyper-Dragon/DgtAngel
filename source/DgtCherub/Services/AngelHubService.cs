@@ -104,6 +104,7 @@ namespace DgtCherub.Services
         private readonly Channel<BoardState> fenProcessChannel;
         private readonly Channel<BoardState> clockProcessChannel;
         private readonly Channel<BoardState> lastMoveProcessChannel;
+        private readonly Channel<bool> orientationProcessChannel;
         private readonly Channel<(string source, string message)> messageProcessChannel;
 
         private double whiteNextClockAudioNotBefore = double.MaxValue;
@@ -134,8 +135,10 @@ namespace DgtCherub.Services
             fenProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
             clockProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
             lastMoveProcessChannel = Channel.CreateBounded<BoardState>(processChannelOptions);
+            orientationProcessChannel = Channel.CreateBounded<bool>(processChannelOptions);
             messageProcessChannel = Channel.CreateBounded<(string source, string message)>(messageChannelOptions);
 
+            Task.Run(() => RunOrientationProcessor());
             Task.Run(() => RunFenProcessor());
             Task.Run(() => RunClockProcessor());
             Task.Run(() => RunLastMoveProcessor());
@@ -217,12 +220,14 @@ namespace DgtCherub.Services
         {
             if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
             {
+                orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
                 fenProcessChannel.Writer.TryWrite(remoteBoardState);
                 clockProcessChannel.Writer.TryWrite(remoteBoardState);
                 lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
             }
             else
             {
+                orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
                 fenProcessChannel.Writer.TryWrite(remoteBoardState);
             }
         }
@@ -244,9 +249,23 @@ namespace DgtCherub.Services
             }
         }
 
+        public async void RunOrientationProcessor()
+        {
+            while (true)
+            {
+                bool isWhiteOnBottom = await orientationProcessChannel.Reader.ReadAsync();
+                
+                if (IsWhiteOnBottom != isWhiteOnBottom)
+                {
+                    IsWhiteOnBottom = isWhiteOnBottom;
+                    OnOrientationFlipped?.Invoke();
+                }
+            }
+        }
+
         public async void RunClockProcessor()
         {
-            for (; ; )
+            while (true)
             {
                 BoardState remoteBoardState = await clockProcessChannel.Reader.ReadAsync();
                 _logger?.LogTrace($"Processing a clock recieved @ {remoteBoardState.CaptureTimeMs}");
@@ -263,20 +282,12 @@ namespace DgtCherub.Services
                 string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
                 int runWho = remoteBoardState.Board.Turn == TurnCode.WHITE ? 1 : remoteBoardState.Board.Turn == TurnCode.BLACK ? 2 : 0;
                 SetClocksStrings(whiteClockString, blackClockString, runWho.ToString());
-
-                //TODO: Move this - only works with running clock is here
-                //Do this with the clock as it is the most responsive
-                if (IsWhiteOnBottom != remoteBoardState.Board.IsWhiteOnBottom)
-                {
-                    IsWhiteOnBottom = remoteBoardState.Board.IsWhiteOnBottom;
-                    OnOrientationFlipped?.Invoke();
-                }
             }
         }
 
         public async void RunLastMoveProcessor()
         {
-            for (; ; )
+            while (true)
             {
                 BoardState remoteBoardState = await lastMoveProcessChannel.Reader.ReadAsync();
                 _logger?.LogTrace($"Processing a move  recieved @ {remoteBoardState.CaptureTimeMs}");
@@ -292,7 +303,7 @@ namespace DgtCherub.Services
 
         public async void RunFenProcessor()
         {
-            for (; ; )
+            while (true)
             {
                 BoardState remoteBoardState = await fenProcessChannel.Reader.ReadAsync();
                 _logger?.LogTrace($"Processing a board recieved @ {remoteBoardState.CaptureTimeMs}");
@@ -337,6 +348,7 @@ namespace DgtCherub.Services
             TimeSpan clockAudioTs;
             if ((clockAudioTs = TimeSpan.FromMilliseconds(clockMs)).TotalMilliseconds < nextAudioNotBefore)
             {
+                //TODO: switcj to patterns
                 //TODO: lock this??????
                 bool isFirstCall = nextAudioNotBefore == double.MaxValue;
                 string audioFile = "";

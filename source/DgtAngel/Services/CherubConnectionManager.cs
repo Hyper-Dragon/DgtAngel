@@ -69,7 +69,7 @@ namespace DgtAngel.Services
         private async Task WaitForCherub()
         {
             _logger?.LogInformation($"Looking for Cherub...");
-            for (; ; )
+            while(true)
             {
                 try
                 {
@@ -95,7 +95,7 @@ namespace DgtAngel.Services
         {
             _logger?.LogInformation($"Starting Chrub Connection Manager");
 
-            for (; ; )
+            while (true)
             {
                 //Do this to avoid uncatchable web socket errors generated in the chrome console
                 await WaitForCherub();
@@ -150,7 +150,7 @@ namespace DgtAngel.Services
             OnCherubConnected?.Invoke(this, new ConnectionManagerEventArgs() { ResponseOut = "Connected to Cherub" });
 
             // Send PING/PONG messages to keep the socket alive/detect disconnects
-            for (; ; )
+            while (true)
             {
                 await SendJsonToClient(keepAliveMessage);
 
