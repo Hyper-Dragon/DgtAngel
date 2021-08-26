@@ -334,7 +334,7 @@ namespace DgtCherub.Services
         private static void CalculateNextClockAudio(int clockMs, ref double nextAudioNotBefore, Action<string> onPlayAudio)
         {
             TimeSpan clockAudioTs;
-            if ((clockAudioTs = TimeSpan.FromMilliseconds(clockMs)).TotalMilliseconds < nextAudioNotBefore )
+            if ((clockAudioTs = TimeSpan.FromMilliseconds(clockMs)).TotalMilliseconds < nextAudioNotBefore)
             {
                 //TODO: lock this??????
                 bool isFirstCall = nextAudioNotBefore == double.MaxValue;
@@ -362,7 +362,7 @@ namespace DgtCherub.Services
                 else if (clockAudioTs.Seconds > 0)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (1 * MS_IN_SEC);
-                    audioFile = isFirstCall ? "" :  $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
                 }
 
                 // Play the audio if required

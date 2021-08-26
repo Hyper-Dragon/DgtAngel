@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace DgtCherub.Helpers
 {
-    public class ResourceLoader
+    internal sealed class ResourceLoader
     {
-        public static string LoadResourceString(string resourceName)
+        internal static string LoadResourceString(in string resourceName)
         {
             using Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
             using StreamReader reader = new(resourceStream);
@@ -13,7 +13,7 @@ namespace DgtCherub.Helpers
             return reader.ReadToEnd();
         }
 
-        public static byte[] LoadResource(string resourceName)
+        internal static byte[] LoadResource(in string resourceName)
         {
             using Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
             using MemoryStream memoryStream = new();

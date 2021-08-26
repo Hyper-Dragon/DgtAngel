@@ -224,7 +224,7 @@ namespace DgtCherub
                 //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
                 _logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
 
-                if (!this.IsDisposed && this.IsHandleCreated && !this.TopLevelControl.IsDisposed)
+                if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
 
                     Invoke((Action)(() =>
@@ -300,10 +300,10 @@ namespace DgtCherub
 
             _angelHubService.OnNotification += (source, message) =>
             {
-                    if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
-                    {
-                        TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
-                    }
+                if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
+                {
+                    TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
+                }
             };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
@@ -336,7 +336,7 @@ namespace DgtCherub
             {
                 DisplayBoardImages();
                 _voicePlayeStatus.Speak(AudioClip.DGT_DISCONNECTED);
-                _angelHubService.ResetLocalBoardState();               
+                _angelHubService.ResetLocalBoardState();
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
@@ -614,7 +614,7 @@ namespace DgtCherub
 
             // Get Hostname and v4 IP Addrs
             string hostName = Dns.GetHostName();
-            var myIP = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
+            string[] myIP = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
 
             TextBoxConsole.AddLine($">> IP Addresses for {hostName} are [{string.Join(',', myIP)}]", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($">> The Virtual Clock is available on http://<Your IP>:37964/", TEXTBOX_MAX_LINES, true);
@@ -623,7 +623,7 @@ namespace DgtCherub
 
         private void DisplayBoardImages()
         {
-            if ( !this.IsDisposed && this.IsHandleCreated && !this.TopLevelControl.IsDisposed)
+            if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
             {
                 Action updateAction = new(async () =>
                 {

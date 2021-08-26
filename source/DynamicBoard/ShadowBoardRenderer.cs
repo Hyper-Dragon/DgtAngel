@@ -56,7 +56,7 @@ namespace DynamicBoard
             return GetImageDiffFromFenAsync(fenString, fenString, imageSize, isFromWhitesPerspective);
         }
 
-        public override Task<Bitmap> GetImageDiffFromFenAsync(in string fenString="", in string compFenString="", in int imageSize=1024, in bool isFromWhitesPerspective = true)
+        public override Task<Bitmap> GetImageDiffFromFenAsync(in string fenString = "", in string compFenString = "", in int imageSize = 1024, in bool isFromWhitesPerspective = true)
         {
             _logger?.LogDebug($"Constructing board for fen [{fenString}]");
 

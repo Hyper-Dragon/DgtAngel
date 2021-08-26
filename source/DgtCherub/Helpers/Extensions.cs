@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace DgtCherub.Helpers
 {
-    public static class TextBoxExtensions
+    internal static class TextBoxExtensions
     {
-        public static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null, bool useShellExecute = true)
+        internal static bool RunProcessWithComments(this TextBox box, string filename, string arguments, string preStartText, string successText, int? maxLine = null, bool useShellExecute = true)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace DgtCherub.Helpers
             return false;
         }
 
-        public static void AddChar(this TextBox box, char character)
+        internal static void AddChar(this TextBox box, char character)
         {
             if (box.IsDisposed)
             {
@@ -64,7 +64,7 @@ namespace DgtCherub.Helpers
             box.Text += character;
         }
 
-        public static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)
+        internal static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)
         {
             foreach (string line in text)
             {
@@ -72,7 +72,7 @@ namespace DgtCherub.Helpers
             }
         }
 
-        public static void AddLine(this TextBox box, string text, int? maxLine = null, bool timeStamp = true)
+        internal static void AddLine(this TextBox box, string text, int? maxLine = null, bool timeStamp = true)
         {
             Action updateAction = new(() =>
             {

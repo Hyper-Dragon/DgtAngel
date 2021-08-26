@@ -20,10 +20,8 @@ namespace DgtCherub
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-#pragma warning disable CA1822 // DO NOT Mark members as static
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "This method gets called by the runtime.")]
         public void ConfigureServices(IServiceCollection services)
-#pragma warning restore CA1822 
         {
             services.AddCors(options =>
             {
@@ -39,7 +37,6 @@ namespace DgtCherub
             services.AddControllers();
             services.AddLogging();
             services.AddScoped(typeof(SoundPlayer));
-            //services.AddTransient(typeof(IBoardRenderer), typeof(ChessDotComBoardRenderer));
             services.AddTransient(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
             services.AddSingleton(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
             services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
@@ -48,12 +45,9 @@ namespace DgtCherub
             services.AddScoped<Form1>();
         }
 
-
-#pragma warning disable CA1822  // This method gets called by the runtime. Use this method to add services to the container
-#pragma warning disable IDE0060 // DO NOT Mark members as static OR Remove unused parameter
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "This method gets called by the runtime.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "This method gets called by the runtime.")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#pragma warning restore IDE0060 
-#pragma warning restore CA1822 
         {
             app.UseDeveloperExceptionPage()
                 .UseRouting()
