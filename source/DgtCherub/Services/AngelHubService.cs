@@ -254,7 +254,7 @@ namespace DgtCherub.Services
             while (true)
             {
                 bool isWhiteOnBottom = await orientationProcessChannel.Reader.ReadAsync();
-                
+
                 if (IsWhiteOnBottom != isWhiteOnBottom)
                 {
                     IsWhiteOnBottom = isWhiteOnBottom;

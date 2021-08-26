@@ -69,7 +69,7 @@ namespace DgtAngel.Services
         private async Task WaitForCherub()
         {
             _logger?.LogInformation($"Looking for Cherub...");
-            while(true)
+            while (true)
             {
                 try
                 {

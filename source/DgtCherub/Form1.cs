@@ -227,12 +227,12 @@ namespace DgtCherub
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
 
-                    Invoke((Action)(() =>
+                    Invoke(() =>
                     {
                         LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
                         LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
                         ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    }));
+                    });
                 }
             };
 

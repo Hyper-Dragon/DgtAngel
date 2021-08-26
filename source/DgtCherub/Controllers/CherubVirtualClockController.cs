@@ -140,10 +140,12 @@ namespace DgtCherub.Controllers
 
             try
             {
-                return File(fileName switch { SVG_LOGO => SvgLogo,
-                                              FAV_ICON => FavIcon,
-                                              _ => throw new FileNotFoundException()
-                                            },fileName.EndsWith(".svg") ? MIME_SVG : MIME_PNG);
+                return File(fileName switch
+                {
+                    SVG_LOGO => SvgLogo,
+                    FAV_ICON => FavIcon,
+                    _ => throw new FileNotFoundException()
+                }, fileName.EndsWith(".svg") ? MIME_SVG : MIME_PNG);
             }
             catch (FileNotFoundException)
             {
@@ -161,7 +163,7 @@ namespace DgtCherub.Controllers
             //TODO: No initial local board without piece move
             //TODO: Remote board does not clear on disconnect
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
-            
+
             Response.Headers.Add("Content-Type", MIME_EVENT);
 
             _angelHubService.OnBoardMissmatch += async () =>
