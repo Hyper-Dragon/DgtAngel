@@ -55,17 +55,14 @@ namespace DgtCherub.Controllers
         [Route("/")]
         public ContentResult GetIndex()
         {
-            // http://localhost:37964/CherubVirtualClock/GetClock
-
-            // Uncomment to load from disk (dev only)
-            // string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/index.html");
-            string htmlOut = IndexPageHtml;
+            // http://localhost:37964/
+            _logger?.LogTrace("Clock index requested");
 
             return new ContentResult
             {
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
-                Content = htmlOut,
+                Content = IndexPageHtml,
             };
         }
 
@@ -74,6 +71,7 @@ namespace DgtCherub.Controllers
         public ContentResult GetClock(string clock)
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
+            _logger?.LogTrace($"Clock requested {clock}");
 
             try
             {
@@ -99,6 +97,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
+            _logger?.LogTrace($"Board image requested {board}");
+
             ImageConverter converter = new();
 
             string local = _appDataService.IsLocalBoardAvailable ? _appDataService.LocalBoardFEN : _appDataService.ChessDotComBoardFEN;
@@ -127,6 +127,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
+            _logger?.LogTrace($"Image requested {fileName}");
+
             if (SvgLogo is not null && !string.IsNullOrWhiteSpace(fileName) && fileName == "DgtAngelLogo.svg")
             {
                 byte[] imageData = SvgLogo;
@@ -147,10 +149,13 @@ namespace DgtCherub.Controllers
         [Route("{action}/{clientUtcMs}")]
         public async Task GetStuff(string clientUtcMs)
         {
+            // http://localhost:37964/CherubVirtualClock/GetStuff
+            _logger?.LogTrace($"Clock client connected running {clientUtcMs}");
+
             //TODO: No initial local board without piece move
             //TODO: Remote board does not clear on disconnect
 
-            // http://localhost:37964/CherubVirtualClock/GetStuff
+            
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
