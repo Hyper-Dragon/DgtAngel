@@ -72,10 +72,6 @@ namespace DgtCherub.Controllers
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
 
-            // Uncomment to load from disk (dev only)
-            string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/Clock.html");
-            //string htmlOut = IndexPageHtml;
-
             try
             {
                 return new ContentResult
@@ -140,12 +136,6 @@ namespace DgtCherub.Controllers
                 string fileType = "image/png";
                 return File(imageData, fileType);
             }
-            else if (!string.IsNullOrWhiteSpace(fileName) && (fileName == "blah" || fileName == "blah.jpg"))
-            {
-                byte[] imageData = System.IO.File.ReadAllBytes(@"C:/TESTHTML/test.jpg");
-                string fileType = "image/jpeg";
-                return File(imageData, fileType);
-            }
 
             return StatusCode(404);
         }
@@ -156,7 +146,6 @@ namespace DgtCherub.Controllers
         {
             //TODO: No initial local board without piece move
             //TODO: Remote board does not clear on disconnect
-            //TODO: Clock runs with no active game
 
             // http://localhost:37964/CherubVirtualClock/GetStuff
 
