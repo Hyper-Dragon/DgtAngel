@@ -3,32 +3,32 @@ using System.Text.Json.Serialization;
 
 namespace DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse
 {
-    public class Rootobject
+    internal sealed record LiveChessFeedResponse
     {
-        public static (string JsonString, Rootobject Response) Deserialize(string jsonString)
+        internal static (string JsonString, LiveChessFeedResponse Response) Deserialize(string jsonString)
         {
-            return (jsonString, JsonSerializer.Deserialize<DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject>(jsonString));
+            return (jsonString, JsonSerializer.Deserialize<LiveChessFeedResponse>(jsonString));
         }
 
         [JsonPropertyName("response")]
-        public string Response { get; set; }
+        public string Response { get; init; }
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public int Id { get; init; }
         [JsonPropertyName("param")]
-        public Param Param { get; set; }
+        public LiveChessResponseParams Param { get; init; }
         [JsonPropertyName("time")]
-        public long Time { get; set; }
+        public long Time { get; init; }
     }
 
-    public class Param
+    internal sealed record LiveChessResponseParams
     {
         [JsonPropertyName("serialnr")]
-        public string Serialnr { get; set; }
+        public string Serialnr { get; init; }
         [JsonPropertyName("flipped")]
-        public bool Flipped { get; set; }
+        public bool Flipped { get; init; }
         [JsonPropertyName("board")]
-        public string Board { get; set; }
+        public string Board { get; init; }
         [JsonPropertyName("clock")]
-        public object Clock { get; set; }
+        public object Clock { get; init; }
     }
 }

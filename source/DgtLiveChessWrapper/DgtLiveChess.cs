@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace DgtLiveChessWrapper
 {
-    public class MessageRecievedEventArgs : EventArgs
+    public sealed class MessageRecievedEventArgs : EventArgs
     {
-        public string ResponseOut { get; set; }
+        public string ResponseOut { get; init; }
     }
+
     public interface IDgtLiveChess
     {
         event EventHandler<MessageRecievedEventArgs> OnBatteryOk;
@@ -28,7 +29,7 @@ namespace DgtLiveChessWrapper
         Task PollDgtBoard();
     }
 
-    public class DgtLiveChess : IDgtLiveChess
+    public sealed class DgtLiveChess : IDgtLiveChess
     {
         // API Docs - Live Chess bust be installed and running
         // http://localhost:1982/doc/api/feeds/eboardevent/index.html
@@ -115,10 +116,10 @@ namespace DgtLiveChessWrapper
             {
                 //First get a list of eBoards...
                 await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
-                (string eboardsJsonString, DgtLiveChessJson.CallResponse.Rootobject eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, false));
+                (string eboardsJsonString, DgtLiveChessJson.CallResponse.LiveChessCallResponse eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.LiveChessCallResponse.Deserialize(await Receive(socket, false));
 
                 //...then find the first active board if we have one...
-                DgtLiveChessJson.CallResponse.Param activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
+                DgtLiveChessJson.CallResponse.LiveChessCallParams activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
 
                 if (activeBoard == null)
                 {
@@ -154,12 +155,12 @@ namespace DgtLiveChessWrapper
 
             //...so set up a feed...
             await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
-            (string feedSetupJsonString, DgtLiveChessJson.CallResponse.Rootobject feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.Rootobject.Deserialize(await Receive(socket, true));
+            (string feedSetupJsonString, DgtLiveChessJson.CallResponse.LiveChessCallResponse feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.LiveChessCallResponse.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
             for (; ; )
             {
-                (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.Rootobject feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.Rootobject.Deserialize(await Receive(socket, true));
+                (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.LiveChessFeedResponse feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.LiveChessFeedResponse.Deserialize(await Receive(socket, true));
 
                 if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
                 {

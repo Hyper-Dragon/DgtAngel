@@ -67,6 +67,7 @@ namespace DynamicBoard
             {
                 Monitor.Enter(gdiLock);
 
+                // TODO: add switch colour profile
                 // Dont pass in the blank board unless customised...it is slower!
                 resizedBmpOut = RenderBoard(//blankBoard: blankBoard,
                                             //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),

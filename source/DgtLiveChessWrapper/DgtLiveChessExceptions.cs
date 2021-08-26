@@ -2,7 +2,7 @@
 
 namespace DgtLiveChessWrapper
 {
-    public class LiveChessDisconnectedException : Exception
+    internal sealed class LiveChessDisconnectedException : Exception
     {
         public LiveChessDisconnectedException()
         {
@@ -19,7 +19,7 @@ namespace DgtLiveChessWrapper
         }
     }
 
-    public class BoardDisconnectedException : Exception
+    internal sealed class BoardDisconnectedException : Exception
     {
         public BoardDisconnectedException()
         {

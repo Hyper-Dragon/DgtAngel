@@ -3,41 +3,41 @@ using System.Text.Json.Serialization;
 
 namespace DgtLiveChessWrapper.DgtLiveChessJson.CallResponse
 {
-    public class Rootobject
+    internal sealed record LiveChessCallResponse
     {
-        public static (string JsonString, Rootobject Response) Deserialize(string jsonString)
+        internal static (string JsonString, LiveChessCallResponse Response) Deserialize(in string jsonString)
         {
-            return (jsonString, JsonSerializer.Deserialize<DgtLiveChessJson.CallResponse.Rootobject>(jsonString));
+            return (jsonString, JsonSerializer.Deserialize<LiveChessCallResponse>(jsonString));
         }
 
         [JsonPropertyName("response")]
-        public string Response { get; set; }
+        public string Response { get; init; }
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public int Id { get; init; }
         [JsonPropertyName("param")]
-        public Param[] Boards { get; set; }
+        public LiveChessCallParams[] Boards { get; init; }
         [JsonPropertyName("time")]
-        public long Time { get; set; }
+        public long Time { get; init; }
     }
 
-    public class Param
+    internal sealed record LiveChessCallParams
     {
         [JsonPropertyName("serialnr")]
-        public string SerialNumber { get; set; }
+        public string SerialNumber { get; init; }
         [JsonPropertyName("source")]
-        public string Source { get; set; }
+        public string Source { get; init; }
         [JsonPropertyName("state")]
-        public string ConnectionState { get; set; }
+        public string ConnectionState { get; init; }
         [JsonPropertyName("battery")]
-        public string BatteryLevel { get; set; }
+        public string BatteryLevel { get; init; }
         [JsonPropertyName("comment")]
-        public object Comment { get; set; }
+        public object Comment { get; init; }
         [JsonPropertyName("board")]
-        public string BoardFen { get; set; }
+        public string BoardFen { get; init; }
         [JsonPropertyName("flipped")]
-        public bool Flipped { get; set; }
+        public bool Flipped { get; init; }
         [JsonPropertyName("clock")]
-        public object Clock { get; set; }
+        public object Clock { get; init; }
     }
 }
 
