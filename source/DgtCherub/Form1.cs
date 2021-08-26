@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static DgtCherub.Helpers.ISequentialVoicePlayer;
@@ -163,6 +166,7 @@ namespace DgtCherub
 
             _angelHubService.OnRemoteFenChange += () =>
             {
+                TextBoxConsole.AddLine($"Remote DGT board changed [{_angelHubService.ChessDotComBoardFEN}]");
                 DisplayBoardImages();
             };
 
@@ -218,13 +222,18 @@ namespace DgtCherub
             _angelHubService.OnClockChange += () =>
             {
                 //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
-                //TextBoxConsole.AddLine($">>Recieved Clock Update ({_appDataService.WhiteClock}) ({_appDataService.BlackClock}) ({_appDataService.RunWhoString})", TEXTBOX_MAX_LINES); 
-                Invoke((Action)(() =>
+                _logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
+
+                if (!this.IsDisposed && this.IsHandleCreated && !this.TopLevelControl.IsDisposed)
                 {
-                    LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
-                    LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
-                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                }));
+
+                    Invoke((Action)(() =>
+                    {
+                        LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
+                        LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
+                        ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
+                    }));
+                }
             };
 
             _angelHubService.OnNewMoveDetected += (moveString) =>
@@ -291,14 +300,10 @@ namespace DgtCherub
 
             _angelHubService.OnNotification += (source, message) =>
             {
-                //TODO: Remove condition
-                if (source == "LMOVE" || source == "INGEST")
-                {
                     if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
                     {
-                        TextBoxConsole.AddLine($"From {source}::{message}", TEXTBOX_MAX_LINES);
+                        TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
                     }
-                }
             };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
@@ -605,24 +610,34 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"              the Live Chess Software, DGT Drivers and DGT Angel (see link)", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"              installed on this machine.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Using { ((IsRabbitInstalled) ? _dgtEbDllFacade.GetRabbitVersionString() : "DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
+            TextBoxConsole.AddLine($">> Using { ((IsRabbitInstalled) ? _dgtEbDllFacade.GetRabbitVersionString() : "DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
+
+            // Get Hostname and v4 IP Addrs
+            string hostName = Dns.GetHostName();
+            var myIP = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
+
+            TextBoxConsole.AddLine($">> IP Addresses for {hostName} are [{string.Join(',', myIP)}]", TEXTBOX_MAX_LINES, true);
+            TextBoxConsole.AddLine($">> The Virtual Clock is available on http://<Your IP>:37964/", TEXTBOX_MAX_LINES, true);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
         }
 
         private void DisplayBoardImages()
         {
-            Action updateAction = new(async () =>
+            if ( !this.IsDisposed && this.IsHandleCreated && !this.TopLevelControl.IsDisposed)
             {
-                ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
+                Action updateAction = new(async () =>
+                {
+                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
 
-                string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.ChessDotComBoardFEN;
-                string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.ChessDotComBoardFEN : _angelHubService.LocalBoardFEN;
+                    string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.ChessDotComBoardFEN;
+                    string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.ChessDotComBoardFEN : _angelHubService.LocalBoardFEN;
 
-                PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
-            });
+                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                    PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                });
 
-            BeginInvoke(updateAction);
+                BeginInvoke(updateAction);
+            }
         }
     }
 }

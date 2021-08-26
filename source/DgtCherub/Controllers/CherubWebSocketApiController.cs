@@ -37,7 +37,7 @@ namespace DgtCherub.Controllers
             if (HttpContext.WebSockets.IsWebSocketRequest && isAcceptingConnections)
             {
                 using WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                _appDataService.UserMessageArrived("INTERNAL", "DGT Angel Connected");
+                _appDataService.UserMessageArrived("WSAPI", "DGT Angel has Connected");
 
                 long highestCaptureTimeRecieved = int.MinValue;
 
@@ -72,7 +72,7 @@ namespace DgtCherub.Controllers
                                     if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
                                     {
                                         highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
-                                        _appDataService.UserMessageArrived("INGEST", $"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
+                                        _logger?.LogTrace($"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
                                         _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
                                     }
                                     else
@@ -81,23 +81,21 @@ namespace DgtCherub.Controllers
                                     }
                                     break;
                                 case CherubApiMessage.MessageTypeCode.KEEP_ALIVE:
-                                    //_appDataService.UserMessageArrived("INGEST", "Keep Alive PING Arrived");
+                                    _logger?.LogTrace("Keep Alive PING Arrived");
                                     await webSocket.SendAsync(Encoding.UTF8.GetBytes("PONG"),
                                                               WebSocketMessageType.Text,
                                                               true,
                                                               CancellationToken.None);
-                                    //_appDataService.UserMessageArrived("INGEST", "Keep Alive PONG Sent");
+                                    _logger?.LogTrace("Keep Alive PONG Sent");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.MESSAGE:
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STARTED:
-                                    //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
                                     _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.RemoteBoard);
-                                    _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
+                                    _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel started watching a remote board.");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
-                                    //_appDataService.UserMessageArrived("INGEST", "DGT Angel stopped watching the remote board");
                                     _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
                                     break;

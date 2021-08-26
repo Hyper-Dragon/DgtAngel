@@ -12,7 +12,7 @@ namespace DgtCherub.Helpers
         {
             try
             {
-                box.AddLine($"...{preStartText}", maxLine, true);
+                box.AddLine($"{preStartText}", maxLine, true);
 
                 _ = (new Process()
                 {
@@ -76,20 +76,7 @@ namespace DgtCherub.Helpers
         {
             Action updateAction = new(() =>
             {
-                //TODO: Fix this on shutdown
-                //try
-                //{
-                if (box.IsDisposed)
-                {
-                    return;
-                }
-
-                if (!box.IsHandleCreated)
-                {
-                    return;
-                }
-
-                if (box.TopLevelControl.IsDisposed)
+                if (box.IsDisposed || !box.IsHandleCreated || box.TopLevelControl.IsDisposed)
                 {
                     return;
                 }
@@ -100,10 +87,6 @@ namespace DgtCherub.Helpers
                 box.SelectionStart = box.TextLength - box.Lines[^1].Length;
                 box.ScrollToCaret();
                 box.ResumeLayout();
-                //}catch(InvalidOperationException)
-                //{
-                //    // Cherub is shutting down so the box nolonger exists
-                //}
             });
 
             if (box.InvokeRequired)

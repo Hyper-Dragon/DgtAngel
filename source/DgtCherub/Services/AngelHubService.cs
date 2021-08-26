@@ -148,14 +148,14 @@ namespace DgtCherub.Services
             {
                 OnBoardMatcherStarted?.Invoke();
 
-                //OnUserMessageArrived("MATCHER", $"PRE  IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                _logger?.LogTrace("MATCHER", $"PRE  IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 await Task.Delay(MATCHER_TIME_DELAY_MS);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
                 if (matchCode == CurrentUpdatetMatch.ToString())
                 {
-                    OnNotification("MATCHER", $"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    _logger?.LogTrace($"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
                     if (ChessDotComBoardFEN != LocalBoardFEN)
                     {
@@ -175,7 +175,7 @@ namespace DgtCherub.Services
                 }
                 else
                 {
-                    OnNotification("MATCHER", $"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    _logger?.LogTrace($"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 }
             }
         }
@@ -249,7 +249,7 @@ namespace DgtCherub.Services
             for (; ; )
             {
                 BoardState remoteBoardState = await clockProcessChannel.Reader.ReadAsync();
-                UserMessageArrived("INGEST", $"Processing a clock recieved @ {remoteBoardState.CaptureTimeMs}");
+                _logger?.LogTrace($"Processing a clock recieved @ {remoteBoardState.CaptureTimeMs}");
 
                 // Account for the actual time captured/now if clock running
                 int captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
@@ -278,7 +278,7 @@ namespace DgtCherub.Services
             for (; ; )
             {
                 BoardState remoteBoardState = await lastMoveProcessChannel.Reader.ReadAsync();
-                UserMessageArrived("INGEST", $"Processing a move  recieved @ {remoteBoardState.CaptureTimeMs}");
+                _logger?.LogTrace($"Processing a move  recieved @ {remoteBoardState.CaptureTimeMs}");
 
                 if (LastMove == null || LastMove != remoteBoardState.Board.LastMove)
                 {
@@ -294,11 +294,11 @@ namespace DgtCherub.Services
             for (; ; )
             {
                 BoardState remoteBoardState = await fenProcessChannel.Reader.ReadAsync();
-                UserMessageArrived("INGEST", $"Processing a board recieved @ {remoteBoardState.CaptureTimeMs}");
+                _logger?.LogTrace($"Processing a board recieved @ {remoteBoardState.CaptureTimeMs}");
 
                 if (ChessDotComBoardFEN != remoteBoardState.Board.FenString)
                 {
-                    UserMessageArrived("INGEST", "FEN Change");
+                    _logger?.LogTrace($"FEN Change");
 
                     //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
                     ChessDotComBoardFEN = remoteBoardState.Board.FenString;
