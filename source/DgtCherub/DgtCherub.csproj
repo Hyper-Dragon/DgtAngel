@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

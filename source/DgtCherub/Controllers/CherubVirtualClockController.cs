@@ -18,12 +18,14 @@ namespace DgtCherub.Controllers
     public sealed class CherubVirtualClockController : ControllerBase
     {
         private const string RESOURCE_CLOCK_ROOT = "DgtCherub.Assets.Clocks";
-        private const string RESOURCE_CLOCK_INDEX = "index.html";
-        private const string RESOURCE_CLOCK_SLIDE_NAME = "SlideClock";
-        private const string RESOURCE_CLOCK_TEST_NAME = "TestClock";
         private const string RESOURCE_CLOCK_HTML = "Clock.html";
-        private const string RESOURCE_CLOCK_FAV = "favicon.png";
-        private const string RESOURCE_CLOCK_SVG = "DgtAngelLogo.svg";
+        
+        private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.SlideClock.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.TestClock.{RESOURCE_CLOCK_HTML}";
+
+        private const string RESOURCE_CLOCK_INDEX = $"{RESOURCE_CLOCK_ROOT}.index.html";
+        private const string RESOURCE_CLOCK_FAV = $"{RESOURCE_CLOCK_ROOT}.favicon.png";
+        private const string RESOURCE_CLOCK_SVG = $"{RESOURCE_CLOCK_ROOT}.DgtAngelLogo.svg";
 
         private readonly ILogger _logger;
         private readonly IAngelHubService _appDataService;
@@ -41,11 +43,12 @@ namespace DgtCherub.Controllers
             _appDataService = appData;
             _boardRenderer = boardRenderer;
 
-            IndexPageHtml = LoadResourceString($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_INDEX}");
-            SlideClockHtml = LoadResourceString($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SLIDE_NAME}.{RESOURCE_CLOCK_HTML}");
-            TestClockHtml = LoadResourceString($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_TEST_NAME}.{RESOURCE_CLOCK_HTML}");
-            FavIcon = LoadResource($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_FAV}");
-            SvgLogo = LoadResource($"{RESOURCE_CLOCK_ROOT}.{RESOURCE_CLOCK_SVG}");
+            IndexPageHtml = LoadResourceString(RESOURCE_CLOCK_INDEX);
+            SlideClockHtml = LoadResourceString(RESOURCE_CLOCK_SLIDE);
+            TestClockHtml = LoadResourceString(RESOURCE_CLOCK_TEST);
+            
+            FavIcon = LoadResource(RESOURCE_CLOCK_FAV);
+            SvgLogo = LoadResource(RESOURCE_CLOCK_SVG);
         }
 
         [HttpGet]
@@ -55,7 +58,7 @@ namespace DgtCherub.Controllers
             // http://localhost:37964/CherubVirtualClock/GetClock
 
             // Uncomment to load from disk (dev only)
-            //string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/index.html");
+            // string htmlOut = System.IO.File.ReadAllText(@"C:/TESTHTML2/index.html");
             string htmlOut = IndexPageHtml;
 
             return new ContentResult
