@@ -337,7 +337,7 @@ namespace DgtCherub.Services
             if ((clockAudioTs = TimeSpan.FromMilliseconds(clockMs)).TotalMilliseconds < nextAudioNotBefore )
             {
                 //TODO: lock this??????
-                bool isFirstCall = nextAudioNotBefore == double.MaxValue ? true : false;
+                bool isFirstCall = nextAudioNotBefore == double.MaxValue;
                 string audioFile = "";
 
                 if (clockAudioTs.Hours > 0)

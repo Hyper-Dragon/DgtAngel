@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DynamicBoard
 {
-    public class ChessDotComBoardRenderer : BoardRendererBase, IBoardRenderer
+    public sealed class ChessDotComBoardRenderer : BoardRendererBase, IBoardRenderer
     {
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -23,13 +23,13 @@ namespace DynamicBoard
             _httpClientFactory = httpClientFactory;
         }
 
-        public override Task<Bitmap> GetImageDiffFromFenAsync(string fenString, string compFenString, int imageSize, bool isFromWhitesPerspective = true)
+        public override Task<Bitmap> GetImageFromFenAsync(in string fenString, in int imageSize, in bool isFromWhitesPerspective = true)
         {
             //No support for this so just return the regular fen
             return GetImageFromFenAsync(fenString, imageSize, isFromWhitesPerspective);
         }
 
-        public override Task<Bitmap> GetImageFromFenAsync(string fenString, int imageSize, bool isFromWhitesPerspective)
+        public override Task<Bitmap> GetImageDiffFromFenAsync(in string fenString = "", in string compFenString = "", in int imageSize = 1024, in bool isFromWhitesPerspective = true)
         {
             _logger?.LogDebug($"Constructing board for fen [{fenString}]");
 
@@ -39,6 +39,7 @@ namespace DynamicBoard
             try
             {
                 CancellationToken canxToken = new();
+                // TODO: Verify this
                 // DONT....{HttpUtility.UrlEncode(fenString)} - The endpoint doesn't decode the url properly!
                 //string boardUrl = $"{BOARD_URL_START}{fenString}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip=true")}";
                 string boardUrl = $"{BOARD_URL_START}{fenString}{BOARD_URL_OPT}{(isFromWhitesPerspective ? "" : "&flip=true")}";

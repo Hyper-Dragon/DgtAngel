@@ -12,11 +12,11 @@ namespace DynamicBoard
         const int DEFAULT_BOARD_SIZE_LARGE = 480;
         const int DEFAULT_BOARD_SIZE_X_LARGE = 720;
 
-        Task<Bitmap> GetImageFromFenSmallAsync(string fenString, bool isFromWhitesPerspective = true);
-        Task<Bitmap> GetImageFromFenMediumAsync(string fenString, bool isFromWhitesPerspective = true);
-        Task<Bitmap> GetImageFromFenLargeAsync(string fenString, bool isFromWhitesPerspective = true);
-        Task<Bitmap> GetImageFromFenXLargeAsync(string fenString, bool isFromWhitesPerspective = true);
-        Task<Bitmap> GetImageFromFenAsync(string fenString, int imageSize, bool isFromWhitesPerspective = true);
-        Task<Bitmap> GetImageDiffFromFenAsync(string fenString, string compFenString, int imageSize, bool isFromWhitesPerspective = true);
+        Task<Bitmap> GetImageFromFenSmallAsync(in string fenString, in bool isFromWhitesPerspective);
+        Task<Bitmap> GetImageFromFenMediumAsync(in string fenString, in bool isFromWhitesPerspective);
+        Task<Bitmap> GetImageFromFenLargeAsync(in string fenString, in bool isFromWhitesPerspective);
+        Task<Bitmap> GetImageFromFenXLargeAsync(in string fenString, in bool isFromWhitesPerspective);
+        Task<Bitmap> GetImageFromFenAsync(in string fenString, in int imageSize, in bool isFromWhitesPerspective);
+        Task<Bitmap> GetImageDiffFromFenAsync(in string fenString, in string compFenString, in int imageSize, in bool isFromWhitesPerspective);
     }
 }

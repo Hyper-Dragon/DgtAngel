@@ -9,7 +9,7 @@ using static DynamicBoard.Helpers.FenConversion;
 
 namespace DynamicBoard
 {
-    public class ShadowBoardRenderer : BoardRendererBase, IBoardRenderer
+    public sealed class ShadowBoardRenderer : BoardRendererBase, IBoardRenderer
     {
         private static readonly Dictionary<char, Bitmap> Pieces = new()
         {
@@ -51,18 +51,14 @@ namespace DynamicBoard
             _logger = logger;
         }
 
-        public override Task<Bitmap> GetImageFromFenAsync(string fenString, int imageSize, bool isFromWhitesPerspective)
+        public override Task<Bitmap> GetImageFromFenAsync(in string fenString, in int imageSize, in bool isFromWhitesPerspective = true)
         {
             return GetImageDiffFromFenAsync(fenString, fenString, imageSize, isFromWhitesPerspective);
         }
 
-
-        public override Task<Bitmap> GetImageDiffFromFenAsync(string fenString, string compFenString, int imageSize, bool isFromWhitesPerspective = true)
+        public override Task<Bitmap> GetImageDiffFromFenAsync(in string fenString="", in string compFenString="", in int imageSize=1024, in bool isFromWhitesPerspective = true)
         {
             _logger?.LogDebug($"Constructing board for fen [{fenString}]");
-
-            fenString ??= "";
-            compFenString ??= "";
 
             Bitmap errorBmpOut = null;
             Bitmap resizedBmpOut = null;
@@ -109,18 +105,18 @@ namespace DynamicBoard
             return Task.FromResult(resizedBmpOut ?? errorBmpOut);
         }
 
-        private static Bitmap RenderBoard(Bitmap blankBoard = null, // Slower than passing colours
-                                  Color? whiteSquareColour = null,
-                                  Color? blackSquareColour = null,
-                                  Color? errorSquareColour = null,
-                                  string fenString = "8/8/8/8/8/8/8/8",
-                                  string fenCompareString = "",
-                                  int requestedSizeOut = 0,
-                                  int internalRenderSize = 1, // 1 is best
-                                  bool requestHighQualityComposite = true,
-                                  int shadowOffsetX = 25,
-                                  int shadowOffsetY = 15,
-                                  bool isFlipRequired = false)
+        private static Bitmap RenderBoard(in Bitmap blankBoard = null, // Slower than passing colours
+                                          in Color? whiteSquareColour = null,
+                                          in Color? blackSquareColour = null,
+                                          in Color? errorSquareColour = null,
+                                          in string fenString = "8/8/8/8/8/8/8/8",
+                                          in string fenCompareString = "",
+                                          in int requestedSizeOut = 0,
+                                          in int internalRenderSize = 1, // 1 is best
+                                          in bool requestHighQualityComposite = true,
+                                          in int shadowOffsetX = 25,
+                                          in int shadowOffsetY = 15,
+                                          in bool isFlipRequired = false)
         {
             // Make the max return size the natural draw size
             int squareSize = 320 / Math.Min(10, internalRenderSize); // 320 matches the piece graphic size
@@ -189,5 +185,6 @@ namespace DynamicBoard
 
             return new(boardBmp, new Size(sizeOut, sizeOut));
         }
+
     }
 }
