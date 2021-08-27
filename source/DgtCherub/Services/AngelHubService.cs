@@ -54,7 +54,8 @@ namespace DgtCherub.Services
 
     public sealed class AngelHubService : IAngelHubService
     {
-        private const int MATCHER_TIME_DELAY_MS = 4000;
+        private const int MATCHER_REMOTE_TIME_DELAY_MS = 4000;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 1000;
 
         public event Action OnLocalFenChange;
         public event Action OnRemoteFenChange;
@@ -145,14 +146,14 @@ namespace DgtCherub.Services
             Task.Run(() => RunMessageProcessor());
         }
 
-        private async void TestForBoardMatch(string matchCode)
+        private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
             if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
             {
                 OnBoardMatcherStarted?.Invoke();
 
                 _logger?.LogTrace("MATCHER", $"PRE  IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-                await Task.Delay(MATCHER_TIME_DELAY_MS);
+                await Task.Delay(matchDelay);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
@@ -191,7 +192,7 @@ namespace DgtCherub.Services
                 LocalBoardFEN = fen;
 
                 CurrentUpdatetMatch = Guid.NewGuid();
-                Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString()));
+                _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
 
                 OnLocalFenChange?.Invoke();
             }
@@ -318,7 +319,7 @@ namespace DgtCherub.Services
                     RemoteBoardFEN = remoteBoardState.Board.FenString;
 
                     CurrentUpdatetMatch = Guid.NewGuid();
-                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString()));
+                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_REMOTE_TIME_DELAY_MS));
 
                     OnRemoteFenChange?.Invoke();
                 }
