@@ -31,8 +31,8 @@ namespace DgtAngel.Services
         public event EventHandler OnWatchStopped;
 
         private const int SLEEP_RUNNING_DELAY = 100;
-        private const int SLEEP_REOPEN_TAB_DELAY = 3000;
-        private const int SLEEP_EXCEPTION_DELAY = 10000;
+        private const int SLEEP_REOPEN_TAB_DELAY = 1000;
+        private const int SLEEP_EXCEPTION_DELAY = 5000;
 
         public ChessDotComWatcher(ILogger<ChessDotComWatcher> logger,
                                   IScriptWrapper scriptWrapper)

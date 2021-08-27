@@ -189,6 +189,7 @@ namespace DgtCherub.Controllers
                 }));
             }
 
+            //Send on connect
             if (_angelHubService.RemoteBoardFEN != "")
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
@@ -249,6 +250,7 @@ namespace DgtCherub.Controllers
                     BoardFen = _angelHubService.RemoteBoardFEN,
                     _angelHubService.IsWhiteOnBottom,
                     _angelHubService.LastMove,
+                    IsGameActive = _angelHubService.RunWhoString != "3",
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 }));

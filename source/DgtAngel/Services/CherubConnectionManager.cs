@@ -39,7 +39,7 @@ namespace DgtAngel.Services
         private const string CHERUB_API_HTTP_TEST_CALL = "/AreYouThere";
 
         private const int CONNECTION_RETRY_DELAY = 1000;
-        private const int CONNECTION_KEEPALIVE_DELAY = 60000;
+        private const int CONNECTION_KEEPALIVE_DELAY = 1000;
 
         public event EventHandler<ConnectionManagerEventArgs> OnCherubConnected;
         public event EventHandler<ConnectionManagerEventArgs> OnCherubDisconnected;
@@ -50,7 +50,6 @@ namespace DgtAngel.Services
         private ClientWebSocket _socket = null;
 
         private string replayOnConnectMessage = "";
-
 
         private readonly string keepAliveMessage = JsonSerializer.Serialize<CherubApiMessage>(new CherubApiMessage()
         {

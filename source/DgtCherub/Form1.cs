@@ -5,17 +5,18 @@ using DgtLiveChessWrapper;
 using DynamicBoard;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static DgtCherub.Helpers.ISequentialVoicePlayer;
 
 
 //TODO: Add Firewall Config
@@ -32,7 +33,8 @@ namespace DgtCherub
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.0.1";
         private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
-        private const string VIRTUAL_CLOCK_LINK = @"http://127.0.0.1:37964";
+        private const string VIRTUAL_CLOCK_PORT = "37964";
+        private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
         private const string CHESS_DOT_COM_PLAY_LINK = @"https://chess.com/live";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
         private const string PROJECT_LINK = @"https://github.com/Hyper-Dragon/DgtAngel";
@@ -60,11 +62,15 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
 
+        private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
+
         private bool EchoExternalMessagesToConsole { get; set; } = true;
 
         private readonly bool IsRabbitInstalled = false;
 
-        //TODO: Finish the testers tab
+        // Get Hostname 
+        private readonly string hostName;
+        private readonly string[] thisMachineIpV4Addrs;
 
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
@@ -87,7 +93,7 @@ namespace DgtCherub
 
             InitializeComponent();
 
-            // Start the Rabbit Plugin if we can...
+            //TODO: Start the Rabbit Plugin if we can...
             try
             {
                 //_dgtEbDllFacade.Init();
@@ -97,6 +103,20 @@ namespace DgtCherub
             {
                 _dgtEbDllFacade = null;
                 IsRabbitInstalled = false;
+            }
+
+            // Get Hostname and v4 IP Addrs
+            try
+            {
+                hostName = Dns.GetHostName();
+                thisMachineIpV4Addrs = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
+                qrCodeImageDictionary = new Dictionary<string, Bitmap>();
+            }
+            catch
+            {
+                //If this fails don't error - UI Quality of life only
+                hostName = "";
+                thisMachineIpV4Addrs = Array.Empty<string>();
             }
         }
 
@@ -141,7 +161,22 @@ namespace DgtCherub
             {
                 ButtonRabbitConfig1.Visible = false;
                 ButtonRabbitConf2.Visible = false;
-                TabControlSidePanel.TabPages.Remove(TabPageTest);
+                GroupBoxClockTest.Visible = false;
+            }
+
+            // Generate the clock QR Codes + set images
+            if (thisMachineIpV4Addrs.Length > 0) {
+                QRCodeGenerator qrGenerator = new();
+                thisMachineIpV4Addrs.OrderByDescending(item => item.ToString())
+                    .ToList<string>()
+                    .ForEach(addr =>
+                    {
+                        DomainUpDown.Items.Add(addr);
+                        QRCode qrCode = new(qrGenerator.CreateQrCode($@"http://{addr}:{VIRTUAL_CLOCK_PORT}/", QRCodeGenerator.ECCLevel.Q));
+                        qrCodeImageDictionary.Add(addr, qrCode.GetGraphic(20));
+                    });
+
+                DomainUpDown.SelectedIndex = 0;
             }
 
             //Make sure this is set
@@ -227,7 +262,7 @@ namespace DgtCherub
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
 
-                    this.Invoke(() =>
+                    Invoke(() =>
                     {
                         LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
                         LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
@@ -611,33 +646,33 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
-            TextBoxConsole.AddLine($"  -------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  Welcome to...                                                                  ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"     Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"  -------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" Welcome to...                                                                   ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗  ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗ ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝ ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗ ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝ ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: This is an Alpha version.  The best I can say is that it works on my", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         machine.  Your mileage may vary.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         machine...Your mileage may vary.  Report any defects via the links menu.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Requirements: You will need A DGT Board (Bluetooth version), a DGT 3000 Clock,", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"              the Live Chess Software, DGT Drivers and DGT Angel (see link)", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"              installed on this machine.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"PreReq : You will need A DGT Board and the Live Chess Software installed on this", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         machine, just as you would for playing on Chess.com.  You will also need", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         the Chrome browser with the 'DTG Angel' plugin installed.  Don't forget", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         to enable your board in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($">> Using { ((IsRabbitInstalled) ? _dgtEbDllFacade.GetRabbitVersionString() : "DGT Rabbit is not installed on this machine.")     }", TEXTBOX_MAX_LINES, true);
-
-            // Get Hostname and v4 IP Addrs
-            string hostName = Dns.GetHostName();
-            string[] myIP = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
-
-            TextBoxConsole.AddLine($">> IP Addresses for {hostName} are [{string.Join(',', myIP)}]", TEXTBOX_MAX_LINES, true);
-            TextBoxConsole.AddLine($">> The Virtual Clock is available on http://<Your IP>:37964/", TEXTBOX_MAX_LINES, true);
+            TextBoxConsole.AddLine($"Rabbit : {((IsRabbitInstalled) ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()}" : "DGT Rabbit is not installed or is not required in this version.")     }", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{((string.IsNullOrEmpty(hostName))?"NO HOST!": hostName)}] are [{((string.IsNullOrEmpty(hostName))?"":string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         Alternatively, point your phone at the QR code on the clock tab (don't", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         forget that you will need to open port 37964 on the windows firewall", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
         private void DisplayBoardImages()
@@ -659,6 +694,9 @@ namespace DgtCherub
             }
         }
 
-
+        private void DomainUpDown_SelectedItemChanged(object sender, EventArgs e)
+        {
+            PictureBoxQrCode.Image = qrCodeImageDictionary[((DomainUpDown)sender).SelectedItem.ToString()];
+        }
     }
 }

@@ -161,6 +161,7 @@ namespace DgtCherub.Services
                 if (messageType == MessageTypeCode.WATCH_STARTED)
                 {
                     processUpdates = true;
+                    //ResetRemoteBoardState();
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED)
                 {
@@ -186,8 +187,21 @@ namespace DgtCherub.Services
                 clockProcessChannel.Writer.TryWrite(remoteBoardState);
                 lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
             }
+            else if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
+            {
+                if (remoteBoardState.Board.LastMove == "1-O" ||
+                    remoteBoardState.Board.LastMove == "O-1" ||
+                    remoteBoardState.Board.LastMove == "1/2-1/2")
+                {
+                    //ResetRemoteBoardState(true);
+                    lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                    orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+                    remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+                }
+            }
             else
             {
+                //ResetRemoteBoardState(true);
                 orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
                 remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
             }
@@ -204,14 +218,16 @@ namespace DgtCherub.Services
             IsMismatchDetected = false;
         }
 
-        private void ResetRemoteBoardState()
+        private void ResetRemoteBoardState(bool isGameCompleted=false)
         {
-            RemoteBoardFEN = "";
+            if (string.IsNullOrEmpty((RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))) OnRemoteDisconnect?.Invoke();
+
             _remoteWhiteClock = "00:00";
             _remoteBlackClock = "00:00";
             _remoteRunWhoString = "0";
+
             OnClockChange?.Invoke();
-            OnRemoteDisconnect?.Invoke();
+
             IsMismatchDetected = false;
             whiteNextClockAudioNotBefore = double.MaxValue;
             blackNextClockAudioNotBefore = double.MaxValue;

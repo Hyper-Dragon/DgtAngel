@@ -36,7 +36,9 @@ namespace DgtCherub
             this.TabPageAbout = new System.Windows.Forms.TabPage();
             this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
             this.PictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.TabPageTest = new System.Windows.Forms.TabPage();
+            this.TabPageClock = new System.Windows.Forms.TabPage();
+            this.DomainUpDown = new System.Windows.Forms.DomainUpDown();
+            this.PictureBoxQrCode = new System.Windows.Forms.PictureBox();
             this.ButtonRabbitConf2 = new System.Windows.Forms.Button();
             this.Panel1 = new System.Windows.Forms.Panel();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
@@ -67,6 +69,8 @@ namespace DgtCherub
             this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,12 +84,11 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBoxClockTest.SuspendLayout();
             this.TabPageAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLogo)).BeginInit();
-            this.TabPageTest.SuspendLayout();
+            this.TabPageClock.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxQrCode)).BeginInit();
             this.Panel1.SuspendLayout();
             this.TabControlSidePanel.SuspendLayout();
             this.TabPageConfig.SuspendLayout();
@@ -102,7 +105,7 @@ namespace DgtCherub
             this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg1);
             this.GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.GroupBoxClockTest.Location = new System.Drawing.Point(10, 57);
+            this.GroupBoxClockTest.Location = new System.Drawing.Point(10, 246);
             this.GroupBoxClockTest.Name = "GroupBoxClockTest";
             this.GroupBoxClockTest.Size = new System.Drawing.Size(135, 103);
             this.GroupBoxClockTest.TabIndex = 0;
@@ -169,24 +172,46 @@ namespace DgtCherub
             this.PictureBoxLogo.TabIndex = 1;
             this.PictureBoxLogo.TabStop = false;
             // 
-            // TabPageTest
+            // TabPageClock
             // 
-            this.TabPageTest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TabPageTest.Controls.Add(this.GroupBoxClockTest);
-            this.TabPageTest.Controls.Add(this.ButtonRabbitConf2);
-            this.TabPageTest.Location = new System.Drawing.Point(29, 4);
-            this.TabPageTest.Name = "TabPageTest";
-            this.TabPageTest.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageTest.Size = new System.Drawing.Size(159, 356);
-            this.TabPageTest.TabIndex = 3;
-            this.TabPageTest.Text = "Testers";
-            this.TabPageTest.UseVisualStyleBackColor = true;
+            this.TabPageClock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageClock.Controls.Add(this.DomainUpDown);
+            this.TabPageClock.Controls.Add(this.PictureBoxQrCode);
+            this.TabPageClock.Controls.Add(this.GroupBoxClockTest);
+            this.TabPageClock.Controls.Add(this.ButtonRabbitConf2);
+            this.TabPageClock.Location = new System.Drawing.Point(29, 4);
+            this.TabPageClock.Name = "TabPageClock";
+            this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 356);
+            this.TabPageClock.TabIndex = 3;
+            this.TabPageClock.Text = "Clock";
+            this.TabPageClock.UseVisualStyleBackColor = true;
+            // 
+            // DomainUpDown
+            // 
+            this.DomainUpDown.Location = new System.Drawing.Point(9, 6);
+            this.DomainUpDown.Name = "DomainUpDown";
+            this.DomainUpDown.ReadOnly = true;
+            this.DomainUpDown.Size = new System.Drawing.Size(142, 26);
+            this.DomainUpDown.TabIndex = 3;
+            this.DomainUpDown.SelectedItemChanged += new System.EventHandler(this.DomainUpDown_SelectedItemChanged);
+            // 
+            // PictureBoxQrCode
+            // 
+            this.PictureBoxQrCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PictureBoxQrCode.Image = ((System.Drawing.Image)(resources.GetObject("PictureBoxQrCode.Image")));
+            this.PictureBoxQrCode.Location = new System.Drawing.Point(9, 38);
+            this.PictureBoxQrCode.Name = "PictureBoxQrCode";
+            this.PictureBoxQrCode.Size = new System.Drawing.Size(142, 142);
+            this.PictureBoxQrCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PictureBoxQrCode.TabIndex = 2;
+            this.PictureBoxQrCode.TabStop = false;
             // 
             // ButtonRabbitConf2
             // 
             this.ButtonRabbitConf2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonRabbitConf2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonRabbitConf2.Location = new System.Drawing.Point(16, 6);
+            this.ButtonRabbitConf2.Location = new System.Drawing.Point(16, 195);
             this.ButtonRabbitConf2.Name = "ButtonRabbitConf2";
             this.ButtonRabbitConf2.Size = new System.Drawing.Size(124, 35);
             this.ButtonRabbitConf2.TabIndex = 0;
@@ -211,7 +236,7 @@ namespace DgtCherub
             this.TabControlSidePanel.Controls.Add(this.TabPageAbout);
             this.TabControlSidePanel.Controls.Add(this.TabPageConfig);
             this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
-            this.TabControlSidePanel.Controls.Add(this.TabPageTest);
+            this.TabControlSidePanel.Controls.Add(this.TabPageClock);
             this.TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TabControlSidePanel.HotTrack = true;
@@ -566,6 +591,22 @@ namespace DgtCherub
             this.PlayWindowlessMenuItem.Text = "Play on Chess.Com (Windowless)";
             this.PlayWindowlessMenuItem.Click += new System.EventHandler(this.PlayWindowlessMenuItem_Click);
             // 
+            // VirtualClockMenuItem
+            // 
+            this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
+            this.VirtualClockMenuItem.Name = "VirtualClockMenuItem";
+            this.VirtualClockMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.VirtualClockMenuItem.Text = "Virtual Clock ";
+            this.VirtualClockMenuItem.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
+            // 
+            // VirtualClockWindowlessMenuItem
+            // 
+            this.VirtualClockWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockWindowlessMenuItem.Image")));
+            this.VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
+            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
+            this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
+            // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
@@ -677,22 +718,6 @@ namespace DgtCherub
             this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Forums";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
-            // VirtualClockMenuItem
-            // 
-            this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
-            this.VirtualClockMenuItem.Name = "VirtualClockMenuItem";
-            this.VirtualClockMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.VirtualClockMenuItem.Text = "Virtual Clock ";
-            this.VirtualClockMenuItem.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
-            // 
-            // VirtualClockWindowlessMenuItem
-            // 
-            this.VirtualClockWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockWindowlessMenuItem.Image")));
-            this.VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
-            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
-            this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -712,7 +737,8 @@ namespace DgtCherub
             this.GroupBoxClockTest.ResumeLayout(false);
             this.TabPageAbout.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLogo)).EndInit();
-            this.TabPageTest.ResumeLayout(false);
+            this.TabPageClock.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxQrCode)).EndInit();
             this.Panel1.ResumeLayout(false);
             this.Panel1.PerformLayout();
             this.TabControlSidePanel.ResumeLayout(false);
@@ -777,13 +803,15 @@ namespace DgtCherub
         private System.Windows.Forms.GroupBox GroupBoxClockTest;
         private System.Windows.Forms.TabPage TabPageAbout;
         private System.Windows.Forms.PictureBox PictureBoxLogo;
-        private System.Windows.Forms.TabPage TabPageTest;
+        private System.Windows.Forms.TabPage TabPageClock;
         private System.Windows.Forms.Panel Panel1;
         private System.Windows.Forms.CheckBox CheckBoxPlayTime;
         private System.Windows.Forms.CheckBox CheckBoxPlayMoves;
         private System.Windows.Forms.CheckBox CheckBoxRecieveLog;
         private System.Windows.Forms.ToolStripMenuItem VirtualClockMenuItem;
         private System.Windows.Forms.ToolStripMenuItem VirtualClockWindowlessMenuItem;
+        private System.Windows.Forms.DomainUpDown DomainUpDown;
+        private System.Windows.Forms.PictureBox PictureBoxQrCode;
     }
 }
 
