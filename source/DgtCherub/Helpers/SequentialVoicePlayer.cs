@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using NAudio.Wave;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using static DgtCherub.Helpers.ISequentialVoicePlayer;
 
 namespace DgtCherub.Helpers
 {
@@ -68,7 +66,7 @@ namespace DgtCherub.Helpers
                     using WaveOutEvent outputDevice = new();
                     outputDevice.Init(reader);
                     outputDevice.Play();
-                    while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(100); };
+                    while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(50); };
                 }
             }
         }

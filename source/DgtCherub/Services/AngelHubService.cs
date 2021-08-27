@@ -298,7 +298,7 @@ namespace DgtCherub.Services
                 {
                     LastMove = remoteBoardState.Board.LastMove;
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
-                    OnNewMoveDetected.Invoke(remoteBoardState.Board.LastMove);
+                    OnNewMoveDetected?.Invoke(remoteBoardState.Board.LastMove);
                 }
             }
         }
