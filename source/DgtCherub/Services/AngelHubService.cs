@@ -239,9 +239,10 @@ namespace DgtCherub.Services
 
         private async void RunMessageProcessor()
         {
-            (string source, string message) message;
-            while ((message = await messageProcessChannel.Reader.ReadAsync()).source is not null)
+            while (true)
             {
+                var message = await messageProcessChannel.Reader.ReadAsync();
+
                 if (EchoExternalMessagesToConsole)
                 {
                     OnNotification?.Invoke(message.source, message.message);
@@ -290,7 +291,8 @@ namespace DgtCherub.Services
             while (true)
             {
                 BoardState remoteBoardState = await lastMoveProcessChannel.Reader.ReadAsync();
-                _logger?.LogTrace($"Processing a move  recieved @ {remoteBoardState.CaptureTimeMs}");
+
+                _logger?.LogTrace($"Processing a move recieved @ {remoteBoardState.CaptureTimeMs}");
 
                 if (LastMove is null || LastMove != remoteBoardState.Board.LastMove)
                 {

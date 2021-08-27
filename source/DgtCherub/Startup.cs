@@ -36,13 +36,12 @@ namespace DgtCherub
             services.AddHttpClient();
             services.AddControllers();
             services.AddLogging();
-            services.AddScoped(typeof(SoundPlayer));
+            services.AddTransient(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
             services.AddTransient(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
-            services.AddSingleton(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
             services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
             services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
-            services.AddScoped<Form1>();
+            services.AddSingleton<Form1>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "This method gets called by the runtime.")]

@@ -177,7 +177,7 @@ namespace DgtCherub
                 LabelLocalDgt.BackColor = Color.Red;
                 LabelRemoteBoard.BackColor = Color.Red;
 
-                _voicePlayeStatus.Speak(AudioClip.MISMATCH);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.Mismatch_AP);
             };
 
             _angelHubService.OnBoardMatcherStarted += () =>
@@ -189,7 +189,7 @@ namespace DgtCherub
             _angelHubService.OnBoardMatchFromMissmatch += () =>
             {
                 TextBoxConsole.AddLine($"The boards now match", TEXTBOX_MAX_LINES);
-                _voicePlayeStatus.Speak(AudioClip.MATCH);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
             };
 
             _angelHubService.OnBoardMatch += () =>
@@ -227,7 +227,7 @@ namespace DgtCherub
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
 
-                    Invoke(() =>
+                    this.Invoke(() =>
                     {
                         LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
                         LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
@@ -309,7 +309,7 @@ namespace DgtCherub
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
             {
                 _angelHubService.ResetLocalBoardState();
-                _voicePlayeStatus.Speak(AudioClip.DGT_LC_DISCONNECTED);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcDisconnected_AP);
                 DisplayBoardImages();
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
@@ -317,7 +317,7 @@ namespace DgtCherub
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
-                _voicePlayeStatus.Speak(AudioClip.DGT_LC_CONNECTED);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcConnected_AP);
                 TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Live Chess running [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
@@ -326,7 +326,7 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
                 PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                _voicePlayeStatus.Speak(AudioClip.DGT_CONNECTED);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtConnected_AP);
                 TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Board found [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
@@ -335,14 +335,14 @@ namespace DgtCherub
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
             {
                 DisplayBoardImages();
-                _voicePlayeStatus.Speak(AudioClip.DGT_DISCONNECTED);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtDisconnected_AP);
                 _angelHubService.ResetLocalBoardState();
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnCantFindBoard += (source, eventArgs) =>
             {
-                _voicePlayeStatus.Speak(AudioClip.DGT_CANT_FIND);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtCantFindBoard_AP);
                 TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
 
@@ -353,19 +353,19 @@ namespace DgtCherub
 
             _dgtLiveChess.OnBatteryCritical += (obj, eventArgs) =>
             {
-                _voicePlayeStatus.Speak(AudioClip.BAT_CRIT);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryCritical_AP);
                 TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnBatteryLow += (obj, eventArgs) =>
             {
-                _voicePlayeStatus.Speak(AudioClip.BAT_LOW);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryLow_AP);
                 TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnBatteryOk += (obj, eventArgs) =>
             {
-                _voicePlayeStatus.Speak(AudioClip.BAT_OK);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryOk_AP);
                 TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
             };
 

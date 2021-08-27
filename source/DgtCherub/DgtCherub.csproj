@@ -61,6 +61,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.0.1" />
     <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
   </ItemGroup>
 
@@ -76,6 +77,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Moves-en-01.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Assets\Speech-en-01.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Speech-en-01.resx</DependentUpon>
     </Compile>
     <Compile Update="Assets\Time-en-01.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -93,6 +99,10 @@
     <EmbeddedResource Update="Assets\Moves-en-01.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Moves-en-01.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Speech-en-01.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Speech-en-01.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Assets\Time-en-01.resx">
       <Generator>ResXFileCodeGenerator</Generator>
