@@ -32,7 +32,8 @@ namespace DgtCherub
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.0.1";
         private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
-        private const string CHESS_DOT_COM_PLAY_LINK = @"http://chess.com/live";
+        private const string VIRTUAL_CLOCK_LINK = @"http://127.0.0.1:37964";
+        private const string CHESS_DOT_COM_PLAY_LINK = @"https://chess.com/live";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
         private const string PROJECT_LINK = @"https://github.com/Hyper-Dragon/DgtAngel";
         private const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues";
@@ -89,8 +90,8 @@ namespace DgtCherub
             // Start the Rabbit Plugin if we can...
             try
             {
-                _dgtEbDllFacade.Init();
-                IsRabbitInstalled = true;
+                //_dgtEbDllFacade.Init();
+                //IsRabbitInstalled = true;
             }
             catch (DllNotFoundException)
             {
@@ -138,10 +139,9 @@ namespace DgtCherub
             //If no rabbit disable rabbit things..
             if (!IsRabbitInstalled)
             {
-                ButtonSendTestMsg1.Enabled = false;
-                ButtonSendTestMsg2.Enabled = false;
-                ButtonRabbitConfig1.Enabled = false;
-                ButtonRabbitConf2.Enabled = false;
+                ButtonRabbitConfig1.Visible = false;
+                ButtonRabbitConf2.Visible = false;
+                TabControlSidePanel.TabPages.Remove(TabPageTest);
             }
 
             //Make sure this is set
@@ -584,6 +584,25 @@ namespace DgtCherub
                                                   $"...Chess.com openend.",
                                                   TEXTBOX_MAX_LINES);
         }
+
+        private void VirtualClockMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(VIRTUAL_CLOCK_LINK,
+                                      "",
+                                      $"Trying to open the Virtual Clock....",
+                                      $"...the Virtual Clock is opened.",
+                                      TEXTBOX_MAX_LINES);
+        }
+
+        private void VirtualClockWindowlessMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments("chrome",
+                                      $"--app={VIRTUAL_CLOCK_LINK}",
+                                      $"Trying to open the Virtual Clock in Chrome....",
+                                      $"...virtual clock openend.",
+                                      TEXTBOX_MAX_LINES);
+        }
+
         #endregion
         //*********************************************//
 
@@ -639,5 +658,7 @@ namespace DgtCherub
                 BeginInvoke(updateAction);
             }
         }
+
+
     }
 }

@@ -41,6 +41,7 @@ namespace DgtCherub
             this.Panel1 = new System.Windows.Forms.Panel();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
+            this.CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
             this.CheckBoxPlayTime = new System.Windows.Forms.CheckBox();
             this.CheckBoxPlayMoves = new System.Windows.Forms.CheckBox();
             this.CheckBoxPlayStatus = new System.Windows.Forms.CheckBox();
@@ -63,12 +64,12 @@ namespace DgtCherub
             this.MenuStrip = new System.Windows.Forms.MenuStrip();
             this.TasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.KillLiveChessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PlayWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.linksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DownloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CdcChromeExtensionVoiceComentaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +80,8 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
+            this.VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBoxClockTest.SuspendLayout();
             this.TabPageAbout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLogo)).BeginInit();
@@ -240,6 +242,20 @@ namespace DgtCherub
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
+            // 
+            // CheckBoxRecieveLog
+            // 
+            this.CheckBoxRecieveLog.Checked = true;
+            this.CheckBoxRecieveLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(25, 283);
+            this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
+            this.CheckBoxRecieveLog.Size = new System.Drawing.Size(102, 25);
+            this.CheckBoxRecieveLog.TabIndex = 53;
+            this.CheckBoxRecieveLog.Text = "Recieve Log";
+            this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
             // 
             // CheckBoxPlayTime
             // 
@@ -498,7 +514,7 @@ namespace DgtCherub
             // 
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TasksToolStripMenuItem,
-            this.linksToolStripMenuItem});
+            this.LinksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
             this.MenuStrip.Size = new System.Drawing.Size(716, 25);
@@ -509,10 +525,12 @@ namespace DgtCherub
             // 
             this.TasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.KillLiveChessMenuItem,
-            this.toolStripSeparator2,
+            this.ToolStripSeparator2,
             this.PlayChessToolStripMenuItem,
             this.PlayWindowlessMenuItem,
-            this.toolStripSeparator1,
+            this.VirtualClockMenuItem,
+            this.VirtualClockWindowlessMenuItem,
+            this.ToolStripSeparator1,
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
@@ -527,10 +545,10 @@ namespace DgtCherub
             this.KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
             this.KillLiveChessMenuItem.Click += new System.EventHandler(this.KillLiveChessMenuItem_Click);
             // 
-            // toolStripSeparator2
+            // ToolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(264, 6);
+            this.ToolStripSeparator2.Name = "ToolStripSeparator2";
+            this.ToolStripSeparator2.Size = new System.Drawing.Size(264, 6);
             // 
             // PlayChessToolStripMenuItem
             // 
@@ -548,10 +566,10 @@ namespace DgtCherub
             this.PlayWindowlessMenuItem.Text = "Play on Chess.Com (Windowless)";
             this.PlayWindowlessMenuItem.Click += new System.EventHandler(this.PlayWindowlessMenuItem_Click);
             // 
-            // toolStripSeparator1
+            // ToolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(264, 6);
+            this.ToolStripSeparator1.Name = "ToolStripSeparator1";
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(264, 6);
             // 
             // ExitToolStripMenuItem
             // 
@@ -561,16 +579,16 @@ namespace DgtCherub
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
-            // linksToolStripMenuItem
+            // LinksToolStripMenuItem
             // 
-            this.linksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DownloadsToolStripMenuItem,
             this.DGTAngelToolStripMenuItem,
             this.ChesscomDgtForumsMenuItem});
-            this.linksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.linksToolStripMenuItem.Name = "linksToolStripMenuItem";
-            this.linksToolStripMenuItem.Size = new System.Drawing.Size(48, 21);
-            this.linksToolStripMenuItem.Text = "Links";
+            this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(48, 21);
+            this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
             // 
@@ -659,19 +677,21 @@ namespace DgtCherub
             this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Forums";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
-            // CheckBoxRecieveLog
+            // VirtualClockMenuItem
             // 
-            this.CheckBoxRecieveLog.Checked = true;
-            this.CheckBoxRecieveLog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(25, 283);
-            this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
-            this.CheckBoxRecieveLog.Size = new System.Drawing.Size(102, 25);
-            this.CheckBoxRecieveLog.TabIndex = 53;
-            this.CheckBoxRecieveLog.Text = "Recieve Log";
-            this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
+            this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
+            this.VirtualClockMenuItem.Name = "VirtualClockMenuItem";
+            this.VirtualClockMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.VirtualClockMenuItem.Text = "Virtual Clock ";
+            this.VirtualClockMenuItem.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
+            // 
+            // VirtualClockWindowlessMenuItem
+            // 
+            this.VirtualClockWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockWindowlessMenuItem.Image")));
+            this.VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
+            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
+            this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
             // 
             // Form1
             // 
@@ -738,12 +758,12 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem TasksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem KillLiveChessMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PlayChessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem linksToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem LinksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DGTAngelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProjectPageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ReportIssuesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ChesscomDgtForumsMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator ToolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ReleasesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DownloadsToolStripMenuItem;
@@ -752,7 +772,7 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem DgtLiveChessSoftwareMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
         private System.Windows.Forms.CheckBox CheckBoxPlayStatus;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator ToolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem PlayWindowlessMenuItem;
         private System.Windows.Forms.GroupBox GroupBoxClockTest;
         private System.Windows.Forms.TabPage TabPageAbout;
@@ -762,6 +782,8 @@ namespace DgtCherub
         private System.Windows.Forms.CheckBox CheckBoxPlayTime;
         private System.Windows.Forms.CheckBox CheckBoxPlayMoves;
         private System.Windows.Forms.CheckBox CheckBoxRecieveLog;
+        private System.Windows.Forms.ToolStripMenuItem VirtualClockMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem VirtualClockWindowlessMenuItem;
     }
 }
 
