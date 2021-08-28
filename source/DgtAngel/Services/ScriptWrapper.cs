@@ -31,8 +31,8 @@ namespace DgtAngel.Services
                                                   { "audio-lcdisconnected","DgtLcDisconnected.wav" },
                                                   { "audio-dgtconnected","DgtConnected.wav" },
                                                   { "audio-dgtdisconnected","DgtDisconnected.wav" },
-                                                  { "audio-cdcwatching","CdcWatching.wav" },
-                                                  { "audio-cdcnotwatching","CdcStoppedWatching.wav" },
+                                                  { "audio-cdcwatching","CdcWatching-AP.wav" },
+                                                  { "audio-cdcnotwatching","CdcStoppedWatching-AP.wav" },
                                                 };
 
         private readonly ILogger _logger;
