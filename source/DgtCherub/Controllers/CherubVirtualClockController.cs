@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -120,16 +122,16 @@ namespace DgtCherub.Controllers
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
-            using Bitmap bmpOut = board.ToLowerInvariant() switch
+            Bitmap bmpOut = board.ToLowerInvariant() switch
             {
                 "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
                                                                   : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
                 "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
                                                                     : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
-                _ => await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                _ => await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, false)
             };
 
-            return File(((byte[])(new ImageConverter()).ConvertTo(bmpOut, typeof(byte[]))), MIME_PNG);
+            return File((byte[])(new ImageConverter()).ConvertTo(bmpOut, typeof(byte[])), MIME_PNG);
         }
 
         [HttpGet]

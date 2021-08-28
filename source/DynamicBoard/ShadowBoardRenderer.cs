@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using static DynamicBoard.Helpers.FenConversion;
@@ -74,9 +76,9 @@ namespace DynamicBoard
                 Monitor.Enter(gdiLock);
                 string cacheKey = $"{isFromWhitesPerspective}-{imageSize}-{fenString}-{compFenString}";
 
-                if (imageCache.TryGetValue(cacheKey, out Bitmap cachedBmp))
+                if (imageCache.TryGetValue<byte[]>(cacheKey, out byte[] cachedBmp))
                 {
-                    resizedBmpOut = cachedBmp;
+                    resizedBmpOut = (Bitmap) Bitmap.FromStream(new MemoryStream(cachedBmp));
                 }
                 else
                 {
@@ -102,14 +104,11 @@ namespace DynamicBoard
                     MemoryCacheEntryOptions cacheEntryOptions = new();
                     cacheEntryOptions.SetPriority(CacheItemPriority.Normal)
                                      .SetSize(1)
-                                     .SetSlidingExpiration(TimeSpan.FromMinutes(CACHE_TIME_MINS))
-                                     .RegisterPostEvictionCallback(callback: delegate (object key, object value, EvictionReason reason, object state)
-                                                                             {
-                                                                                 //Keeps the memory in check
-                                                                                 System.GC.Collect();
-                                                                             });
+                                     .SetSlidingExpiration(TimeSpan.FromMinutes(CACHE_TIME_MINS));
 
-                    imageCache.Set(cacheKey, resizedBmpOut, cacheEntryOptions);
+                    MemoryStream memoryStream = new();
+                    resizedBmpOut.Save(memoryStream, ImageFormat.Png);
+                    imageCache.Set(cacheKey, memoryStream.ToArray(), cacheEntryOptions);
                 }
             }
             catch (Exception ex)
@@ -127,7 +126,7 @@ namespace DynamicBoard
             {
                 Monitor.Exit(gdiLock);
             }
-
+                    
             return Task.FromResult(resizedBmpOut ?? errorBmpOut);
         }
 

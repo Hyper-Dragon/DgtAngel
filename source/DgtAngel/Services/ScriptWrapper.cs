@@ -21,17 +21,11 @@ namespace DgtAngel.Services
         private readonly bool isConsoleDebugEnabled = false;
 
         public enum LogLevel { DEBUG, INFO, WARN, ERR };
-        public enum AudioClip { MISMATCH = 0, MATCH, DGT_LC_CONNECTED, DGT_LC_DISCONNECTED, DGT_CONNECTED, DGT_DISCONNECTED, CDC_WATCHING, CDC_NOTWATCHING };
+        public enum AudioClip { CDC_WATCHING, CDC_NOTWATCHING };
         private enum AudioFileIdx { ID = 0, FILENAME };
 
         private const string AUDIO_BASE = "Audio/Speech-en-01/";
-        private readonly string[,] AudioFiles = { { "audio-mismatch", "Mismatch.wav" },
-                                                  { "audio-match","Match.wav" },
-                                                  { "audio-lcconnected","DgtLcConnected.wav" },
-                                                  { "audio-lcdisconnected","DgtLcDisconnected.wav" },
-                                                  { "audio-dgtconnected","DgtConnected.wav" },
-                                                  { "audio-dgtdisconnected","DgtDisconnected.wav" },
-                                                  { "audio-cdcwatching","CdcWatching-AP.wav" },
+        private readonly string[,] AudioFiles = { { "audio-cdcwatching","CdcWatching-AP.wav" },
                                                   { "audio-cdcnotwatching","CdcStoppedWatching-AP.wav" },
                                                 };
 
@@ -94,7 +88,4 @@ namespace DgtAngel.Services
             }
         }
     }
-
-
-
 }

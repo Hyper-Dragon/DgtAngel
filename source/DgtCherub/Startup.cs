@@ -38,7 +38,7 @@ namespace DgtCherub
             services.AddControllers();
             services.AddLogging();
             services.AddTransient(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
-            services.AddTransient(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
+            services.AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
             services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
             services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
