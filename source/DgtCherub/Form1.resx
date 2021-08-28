@@ -3087,6 +3087,31 @@
         mj1w3Bh8XsO/9oJxxkycyJla959SSimllFJKKXUeMfZfqEk/J1oR0vgAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="DonateViaPayPalMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAABJdJREFUWEfF
+        lltMHFUYx/9TK6G0SSVqSyEUKGx3luuwJsSEilEjmloSSI1V6wtYaiEBG1s1jUgK9AoFE5QWUy6FhZbE
+        B1/0oX1oYjFaMtLFRII1pJSKVwqNiZB2d2eP35ndpTt7prtLH/BLfpnMlzPn///ObQ4YY/8rpsmVxDS5
+        kpgmRTST3IOgtt579HSH5M0xTXq9XpSWlkJRFCIPSvG7u5XX+0eV17qd4en5Vtn52ZCy/aMDSmGZVcnL
+        hpKX6+9Hwfj4uKAlJDiapiE1NRVLkVJ9FbbjDNbGyMhNDLZj9GxcxBPbG/096DEyMiJoCQkONyDLsu+r
+        R9fFIbv+FpSTDHnUcdSQ4afaGZJ2HPR1BKiqKmgJCY7BQFxyBpQTLr1DU6EwcNM5jbNYvT6ed/VwBuLz
+        i2FvNemcDCknIpN/iiEupYB39XAGNhXXwt4WYoDEM+tozj98MPIhhqx6aksmHnkyi3elqj8IWkKCYzCQ
+        8sYZ4wiQeO4RJqVVMynlnfBsJmzvM+w6ehwxa1apI98LWkKC4zNg9RnYWnMZSst9A3zosw8zKbUqMkmV
+        TCr42IuhOwwVpxrU74YFLSHB0Q1stZD66lhk100ZdgCfVxp+vUIz0WA2ljO81a9h4A+Gzl/m1Vuzj4dq
+        GV4C+AykA6vi06jiu3rVQQYkmuOIBpL3MslS60Xbj170TjN03WTqnMseqmV4CaAbsKQBsZbnhR3ADVje
+        IwP7zIU5fO4TKhiqv9Tg+I3EbxBTTL3tUkK1DC8BfAZSgMe2VYk74BiT0mtJyMQAF95Uwav34u0hDf0z
+        DN1TujjOXP9HnZnfEKpleAmwNAIby9qFHZDTxKREWlwJ5XqVSyTuYVJGjVd6oUXD4WFf5bo4VX+OjDRc
+        HFZHrwlaQoKjeTy+XbB5zyXDDtBp8kplnZpEi0t6s48/3aj8woMPLmloHdPQ9ytDP6EPu5/zcwwl+/eq
+        Vy4LWkKCo3lckLPsMUg/OGnYATb62ex0uHHhT4aB3wmqMoCDquSLLVB1gAFq2zriRNz6NerVaM8B913I
+        SlEyrPWL+rYLGJAbGKq+duliwSJm9JCZC1R5x0+TSLfrh0r0J6F7EXJBWRFsR0k4aAtm0ggcuuIShrj7
+        JlX6N8PgLA33bd/z7OQsartOIzEjgYvziP5f4PoXctG+SmT6hTm5+lPDyWtunOP7Okj88+vzqOpoRnlz
+        HUpqavHMrpeRsGWDX3cpojfgXoBcXN9mMJBzhOHpVg86fvagh0QDBgap8urT7X6NsBG9AY8bcsmnF2Ej
+        UX0KiCy66bzY6aFFphkWGl/hr1RX+jXCxjJ+x15JLu1y6lcrpdlHJq2HVwc8wvwP/MVgf+lZv0bYWN59
+        IP+5DLpIbMPa1EKduJRC7G45i0ESDIjz+e+6sYgkmY7NyLEsA1bLFv9nQbG/1wEHGThL4pxeGo1PRqcR
+        uy7G3yJsLM+A1X8fWAoJqP/qG/TRARQYAQcdMgcGz/sbRIyoDXAmJibgdDrvMzYG58xcsnPerTjn7vm4
+        41Gck9NrDe3CsLCwIOgIiZXGNLmSmCZXDob/AMvqvk15/ZgHAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="ChesscomDgtForumsMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAANsAAADbCAYAAADkg+RAAAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
@@ -3206,7 +3231,7 @@
 </value>
   </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>55</value>
+    <value>47</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

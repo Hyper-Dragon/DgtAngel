@@ -12,9 +12,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -43,6 +43,10 @@ namespace DgtCherub
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
         private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
+        private const string PP_CODE = "---";
+        private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
+
+        private const decimal DEFAULT_VOLUME = 7;
 
         private readonly IHost _iHost;
         private readonly ILogger _logger;
@@ -64,6 +68,7 @@ namespace DgtCherub
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
 
+        private bool EchoInternallMessagesToConsole { get; set; } = true;
         private bool EchoExternalMessagesToConsole { get; set; } = true;
 
         private readonly bool IsRabbitInstalled = false;
@@ -74,6 +79,9 @@ namespace DgtCherub
 
         //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
         //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
+
+        [DllImport("user32")]
+        private static extern bool HideCaret(IntPtr hWnd);
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
@@ -127,8 +135,8 @@ namespace DgtCherub
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             //Set Appsettings from the designer values...
+            EchoInternallMessagesToConsole = CheckBoxRecieveLog.Checked;
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
-            _voicePlayeStatus.Volume = CheckBoxPlayStatus.Checked ? 10 : 0;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
@@ -165,7 +173,8 @@ namespace DgtCherub
             }
 
             // Generate the clock QR Codes + set images
-            if (thisMachineIpV4Addrs.Length > 0) {
+            if (thisMachineIpV4Addrs.Length > 0)
+            {
                 QRCodeGenerator qrGenerator = new();
                 thisMachineIpV4Addrs.OrderByDescending(item => item.ToString())
                     .ToList<string>()
@@ -179,9 +188,21 @@ namespace DgtCherub
                 DomainUpDown.SelectedIndex = 0;
             }
 
+            //Set volume to default
+            UpDownVolStatus.Value = DEFAULT_VOLUME;
+            UpDownVolMoves.Value = DEFAULT_VOLUME;
+            UpDownVolTime.Value = DEFAULT_VOLUME;
+
+            //Hides the caret from up/down boxes
+            HideCaret(UpDownVolStatus.Controls[1].Handle);
+            HideCaret(UpDownVolMoves.Controls[1].Handle);
+            HideCaret(UpDownVolTime.Controls[1].Handle);
+            HideCaret(DomainUpDown.Controls[1].Handle);
+
             //Make sure this is set
             DoubleBuffered = true;
 
+            Update();
             ResumeLayout();
         }
 
@@ -240,7 +261,7 @@ namespace DgtCherub
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
             {
-                if (CheckBoxPlayTime.Checked && _angelHubService.IsWhiteOnBottom)
+                if (_angelHubService.IsWhiteOnBottom)
                 {
                     _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
@@ -248,7 +269,7 @@ namespace DgtCherub
 
             _angelHubService.OnPlayBlackClockAudio += (audioFilename) =>
             {
-                if (CheckBoxPlayTime.Checked && !_angelHubService.IsWhiteOnBottom)
+                if (!_angelHubService.IsWhiteOnBottom)
                 {
                     _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
@@ -273,72 +294,67 @@ namespace DgtCherub
 
             _angelHubService.OnNewMoveDetected += (moveString) =>
             {
-                if (CheckBoxPlayMoves.Checked)
+                string soundName = "";
+                soundName = moveString switch
                 {
-                    string soundName = "";
-                    soundName = moveString switch
-                    {
-                        "O-O" => "Words_CastlesShort",
-                        "O-O-O" => "Words_CastlesLong",
-                        "1/2-1/2" => "Words_GameDrawn",
-                        "1-0" => "Words_WhiteWins",
-                        "0-1" => "Words_BlackWins",
-                        _ => ""
-                    };
+                    "O-O" => "Words_CastlesShort",
+                    "O-O-O" => "Words_CastlesLong",
+                    "1/2-1/2" => "Words_GameDrawn",
+                    "1-0" => "Words_WhiteWins",
+                    "0-1" => "Words_BlackWins",
+                    _ => ""
+                };
 
-                    if (!string.IsNullOrEmpty(soundName))
+                if (!string.IsNullOrEmpty(soundName))
+                {
+                    _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                }
+                else
+                {
+                    List<UnmanagedMemoryStream> playlist = new();
+                    foreach (char ch in moveString.ToCharArray())
                     {
-                        _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
-                    }
-                    else
-                    {
-                        List<UnmanagedMemoryStream> playlist = new();
-                        foreach (char ch in moveString.ToCharArray())
+                        soundName = ch switch
                         {
-                            soundName = ch switch
-                            {
-                                'Q' => "Pieces_Queen",
-                                'K' => "Pieces_King",
-                                'N' => "Pieces_Knight",
-                                'B' => "Pieces_Bishop",
-                                'R' => "Pieces_Rook",
-                                'P' => "Pieces_Pawn",
-                                'a' => "Letters_A",
-                                'b' => "Letters_B",
-                                'c' => "Letters_C",
-                                'd' => "Letters_D",
-                                'e' => "Letters_E",
-                                'f' => "Letters_F",
-                                'g' => "Letters_G",
-                                'h' => "Letters_H",
-                                '1' => "Numbers_1",
-                                '2' => "Numbers_2",
-                                '3' => "Numbers_3",
-                                '4' => "Numbers_4",
-                                '5' => "Numbers_5",
-                                '6' => "Numbers_6",
-                                '7' => "Numbers_7",
-                                '8' => "Numbers_8",
-                                'x' => "Words_Takes",
-                                '+' => "Words_Check",
-                                '=' => "Words_PromotesTo",
-                                _ => "Words_Missing",
-                            };
+                            'Q' => "Pieces_Queen",
+                            'K' => "Pieces_King",
+                            'N' => "Pieces_Knight",
+                            'B' => "Pieces_Bishop",
+                            'R' => "Pieces_Rook",
+                            'P' => "Pieces_Pawn",
+                            'a' => "Letters_A",
+                            'b' => "Letters_B",
+                            'c' => "Letters_C",
+                            'd' => "Letters_D",
+                            'e' => "Letters_E",
+                            'f' => "Letters_F",
+                            'g' => "Letters_G",
+                            'h' => "Letters_H",
+                            '1' => "Numbers_1",
+                            '2' => "Numbers_2",
+                            '3' => "Numbers_3",
+                            '4' => "Numbers_4",
+                            '5' => "Numbers_5",
+                            '6' => "Numbers_6",
+                            '7' => "Numbers_7",
+                            '8' => "Numbers_8",
+                            'x' => "Words_Takes",
+                            '+' => "Words_Check",
+                            '=' => "Words_PromotesTo",
+                            _ => "Words_Missing",
+                        };
 
-                            playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
-                        }
-
-                        _voicePlayerMoves.Speak(playlist);
+                        playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
                     }
+
+                    _voicePlayerMoves.Speak(playlist);
                 }
             };
 
             _angelHubService.OnNotification += (source, message) =>
             {
-                if (EchoExternalMessagesToConsole && CheckBoxRecieveLog.Checked)
-                {
-                    TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
-                }
+                if( (source == "ANGEL" && EchoExternalMessagesToConsole) || 
+                    (source != "ANGEL" && EchoInternallMessagesToConsole)) TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
             };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
@@ -348,7 +364,6 @@ namespace DgtCherub
                 DisplayBoardImages();
                 TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
             };
-
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
@@ -419,7 +434,7 @@ namespace DgtCherub
         #region Form Control Events
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
         {
-            TopLevelControl.SuspendLayout();
+            SuspendLayout();
 
             if (CheckBoxShowConsole.Checked)
             {
@@ -444,7 +459,8 @@ namespace DgtCherub
                 ToolStripStatusLabelVersion.Visible = false;
             }
 
-            TopLevelControl.ResumeLayout();
+            Update();
+            ResumeLayout();
         }
 
         private void ButtonSendTestMsg1_Click(object sender, EventArgs e)
@@ -468,6 +484,11 @@ namespace DgtCherub
             _dgtEbDllFacade?.HideCongigDialog();
             TextBoxConsole.AddLine($"Showing Rabbit Configuration", TEXTBOX_MAX_LINES);
             _dgtEbDllFacade?.ShowCongigDialog();
+        }
+        private void CheckBoxRecieveLog_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxRecieveLog.Checked ? "will" : "WILL NOT")} display notification messages.", TEXTBOX_MAX_LINES);
+            EchoExternalMessagesToConsole = CheckBoxRecieveLog.Checked;
         }
 
         private void CheckBoxShowInbound_CheckedChanged(object sender, EventArgs e)
@@ -500,11 +521,6 @@ namespace DgtCherub
                 TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
                                                        $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
             }
-        }
-        private void CheckBoxPlayAudio_CheckedChanged(object sender, EventArgs e)
-        {
-            TextBoxConsole.AddLine($"Audio messages from DGT Cherub {((CheckBoxPlayStatus.Checked) ? "are enabled" : "have been disabled.")}", TEXTBOX_MAX_LINES);
-            _voicePlayeStatus.Volume = CheckBoxPlayStatus.Checked ? 10 : 0;
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -638,8 +654,58 @@ namespace DgtCherub
                                       TEXTBOX_MAX_LINES);
         }
 
+        private void DonateViaPayPalMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(PP_LINK,
+                                      "",
+                                      $"Thank you very much for thinking about donating....",
+                                      $"...PayPal should be open now.",
+                                      TEXTBOX_MAX_LINES);
+        }
         #endregion
         //*********************************************//
+
+        //*********************************************//
+        #region Volume Controls
+        private void UpDownVolStatus_ValueChanged(object sender, EventArgs e)
+        {
+            _voicePlayeStatus.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
+            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+        }
+
+        private void UpDownVolMoves_ValueChanged(object sender, EventArgs e)
+        {
+            _voicePlayerMoves.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
+            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+        }
+
+        private void UpDownVolTime_ValueChanged(object sender, EventArgs e)
+        {
+            _voicePlayerTime.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
+            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+        }
+
+        private void UpDownVolHideCaret(object sender, EventArgs e)
+        {
+            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+        }
+        #endregion
+        //*********************************************//
+
+        //*********************************************//
+        #region QR Code Change
+        private void DomainUpDown_SelectedItemChanged(object sender, EventArgs e)
+        {
+            PictureBoxQrCode.Image = qrCodeImageDictionary[((DomainUpDown)sender).SelectedItem.ToString()];
+        }
+
+        private void UpDownDomainHideCaret(object sender, EventArgs e)
+        {
+            HideCaret(((DomainUpDown)sender).Controls[1].Handle);
+        }
+        #endregion
+        //*********************************************//
+
 
         private void ClearConsole()
         {
@@ -666,7 +732,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Rabbit : {((IsRabbitInstalled) ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()}" : "DGT Rabbit is not installed or is not required in this version.")     }", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{((string.IsNullOrEmpty(hostName))?"NO HOST!": hostName)}] are [{((string.IsNullOrEmpty(hostName))?"":string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{((string.IsNullOrEmpty(hostName)) ? "NO HOST!" : hostName)}] are [{((string.IsNullOrEmpty(hostName)) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         Alternatively, point your phone at the QR code on the clock tab (don't", TEXTBOX_MAX_LINES, false);
@@ -694,9 +760,6 @@ namespace DgtCherub
             }
         }
 
-        private void DomainUpDown_SelectedItemChanged(object sender, EventArgs e)
-        {
-            PictureBoxQrCode.Image = qrCodeImageDictionary[((DomainUpDown)sender).SelectedItem.ToString()];
-        }
+
     }
 }
