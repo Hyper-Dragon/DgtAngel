@@ -37,9 +37,11 @@ namespace DgtCherub.Helpers
             }
         }
 
-        public SequentialVoicePlayer(ILogger<Form1> logger)
+        public SequentialVoicePlayer(ILogger<SequentialVoicePlayer> logger)
         {
             _logger = logger;
+
+            _logger?.LogTrace($"Sequential Voice Player Created");
 
             BoundedChannelOptions playlistChannelOptions = new(1)
             {
@@ -56,6 +58,8 @@ namespace DgtCherub.Helpers
 
         private async void RunPlaylistProcessor()
         {
+            _logger?.LogTrace($"Running Audio Process");
+
             while (true)
             {
                 IEnumerable<UnmanagedMemoryStream> playlist = await playlistChannel.Reader.ReadAsync();
@@ -74,11 +78,14 @@ namespace DgtCherub.Helpers
 
         public void Speak(IEnumerable<UnmanagedMemoryStream> clipStreams)
         {
+            _logger?.LogTrace($"Speak Called");
             _ = playlistChannel.Writer.TryWrite(clipStreams);
         }
 
         public void Speak(UnmanagedMemoryStream clipStream)
         {
+            _logger?.LogTrace($"Speak Called");
+
             List<UnmanagedMemoryStream> tmp = (new List<UnmanagedMemoryStream>());
             tmp.Add(clipStream);
 

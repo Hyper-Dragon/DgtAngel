@@ -19,9 +19,10 @@ namespace DgtCherub.Controllers
 
         [HttpGet]
         [Route("{action}/{source}")]
+        // curl -G  http://127.0.0.1:37964/api/MessageUser/CLI --data-urlencode 'message=Just wanted to say Hiya by GET'
         public object MessageUser(string source = "Unknown", string message = "Message Empty")
         {
-            // curl -G  http://192.168.1.10:37964/api/MessageUser/CLI --data-urlencode 'message=Just wanted to say Hiya by GET'
+            _logger?.LogDebug($"CherubHttpApiController MessageUser [{source}] [{message}]");
             _appDataService.UserMessageArrived(source, message);
 
             return new { isSuccess = true };
@@ -30,9 +31,11 @@ namespace DgtCherub.Controllers
         [HttpGet]
         [Route("{action}")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Part of API")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "This is a circle!")]
+        // Test: curl -G  http://127.0.0.1:37964/api/AreYouThere
         public object AreYouThere()
         {
-            // Test: curl -G  http://192.168.1.10:37964/api/AreYouThere
+            _logger?.LogDebug($"CherubHttpApiController AreYouThere");
             return new { isSuccess = true };
         }
     }

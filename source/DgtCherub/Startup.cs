@@ -21,6 +21,7 @@ namespace DgtCherub
         public IConfiguration Configuration { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "This method gets called by the runtime.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "This is a circle!")]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
