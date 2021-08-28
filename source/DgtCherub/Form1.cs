@@ -282,7 +282,6 @@ namespace DgtCherub
 
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
-
                     Invoke(() =>
                     {
                         LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
@@ -752,7 +751,7 @@ namespace DgtCherub
                     string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
                     string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
-                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
                     PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
                 });
 

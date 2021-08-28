@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -43,8 +44,12 @@ namespace DynamicBoard
             { 'P', ShadowBoardResource.PawnShadow },
         };
 
+        const double CACHE_TIME_MINS = 5;
+        const long CACHE_MAX_ITEMS = 200;
+
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
         private static readonly object gdiLock = new();
+        private static readonly MemoryCache imageCache = new(new MemoryCacheOptions() { SizeLimit=CACHE_MAX_ITEMS });
 
         public ShadowBoardRenderer(ILogger<ChessDotComBoardRenderer> logger) : base(logger)
         {
@@ -66,26 +71,45 @@ namespace DynamicBoard
             try
             {
                 Monitor.Enter(gdiLock);
+                string cacheKey = $"{isFromWhitesPerspective}-{imageSize}-{fenString}-{compFenString}";
 
-                // TODO: add switch colour profile
-                // Dont pass in the blank board unless customised...it is slower!
-                resizedBmpOut = RenderBoard(//blankBoard: blankBoard,
-                                            //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
-                                            //blackSquareColour: Color.FromArgb(255, 118, 150, 86),
-                                            //errorSquareColour: Color.FromArgb(150, Color.Red),
-                                            whiteSquareColour: Color.PaleTurquoise,
-                                            blackSquareColour: Color.DarkCyan,
-                                            errorSquareColour: Color.FromArgb(150, Color.Yellow),
-                                            fenString: fenString,
-                                            fenCompareString: compFenString,
-                                            requestedSizeOut: imageSize,
-                                            internalRenderSize: 3,
-                                            requestHighQualityComposite: true,
-                                            shadowOffsetX: 5,
-                                            shadowOffsetY: 5,
-                                            isFlipRequired: !isFromWhitesPerspective
-                                            );
+                if (imageCache.TryGetValue(cacheKey, out Bitmap cachedBmp))
+                {
+                    resizedBmpOut = cachedBmp;
+                }
+                else
+                {
+                    // TODO: add switch colour profile
+                    // Dont pass in the blank board unless customised for some reason...it is slower!
+                    resizedBmpOut = RenderBoard(//blankBoard: blankBoard,
+                                                //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
+                                                //blackSquareColour: Color.FromArgb(255, 118, 150, 86),
+                                                //errorSquareColour: Color.FromArgb(150, Color.Red),
+                                                whiteSquareColour: Color.PaleTurquoise,
+                                                blackSquareColour: Color.DarkCyan,
+                                                errorSquareColour: Color.FromArgb(150, Color.Yellow),
+                                                fenString: fenString,
+                                                fenCompareString: compFenString,
+                                                requestedSizeOut: imageSize,
+                                                internalRenderSize: 3,
+                                                requestHighQualityComposite: true,
+                                                shadowOffsetX: 5,
+                                                shadowOffsetY: 5,
+                                                isFlipRequired: !isFromWhitesPerspective
+                                                );
 
+                    MemoryCacheEntryOptions cacheEntryOptions = new();
+                    cacheEntryOptions.SetPriority(CacheItemPriority.Normal)
+                                     .SetSize(1)
+                                     .SetSlidingExpiration(TimeSpan.FromMinutes(CACHE_TIME_MINS))
+                                     .RegisterPostEvictionCallback(callback: delegate (object key, object value, EvictionReason reason, object state) 
+                                                                             {
+                                                                                 //Keeps the memory in check
+                                                                                 System.GC.Collect();
+                                                                             });
+
+                    imageCache.Set(cacheKey,resizedBmpOut,cacheEntryOptions);
+                }
             }
             catch (Exception ex)
             {
@@ -112,7 +136,7 @@ namespace DynamicBoard
                                           in Color? errorSquareColour = null,
                                           in string fenString = "8/8/8/8/8/8/8/8",
                                           in string fenCompareString = "",
-                                          in int requestedSizeOut = 0,
+                                          in int requestedSizeOut = 1024,
                                           in int internalRenderSize = 1, // 1 is best
                                           in bool requestHighQualityComposite = true,
                                           in int shadowOffsetX = 25,
