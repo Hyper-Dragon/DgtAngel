@@ -44,12 +44,12 @@ namespace DynamicBoard
             { 'P', ShadowBoardResource.PawnShadow },
         };
 
-        const double CACHE_TIME_MINS = 5;
-        const long CACHE_MAX_ITEMS = 200;
+        private const double CACHE_TIME_MINS = 5;
+        private const long CACHE_MAX_ITEMS = 200;
 
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
         private static readonly object gdiLock = new();
-        private static readonly MemoryCache imageCache = new(new MemoryCacheOptions() { SizeLimit=CACHE_MAX_ITEMS });
+        private static readonly MemoryCache imageCache = new(new MemoryCacheOptions() { SizeLimit = CACHE_MAX_ITEMS });
 
         public ShadowBoardRenderer(ILogger<ChessDotComBoardRenderer> logger) : base(logger)
         {
@@ -102,13 +102,13 @@ namespace DynamicBoard
                     cacheEntryOptions.SetPriority(CacheItemPriority.Normal)
                                      .SetSize(1)
                                      .SetSlidingExpiration(TimeSpan.FromMinutes(CACHE_TIME_MINS))
-                                     .RegisterPostEvictionCallback(callback: delegate (object key, object value, EvictionReason reason, object state) 
+                                     .RegisterPostEvictionCallback(callback: delegate (object key, object value, EvictionReason reason, object state)
                                                                              {
                                                                                  //Keeps the memory in check
                                                                                  System.GC.Collect();
                                                                              });
 
-                    imageCache.Set(cacheKey,resizedBmpOut,cacheEntryOptions);
+                    imageCache.Set(cacheKey, resizedBmpOut, cacheEntryOptions);
                 }
             }
             catch (Exception ex)
