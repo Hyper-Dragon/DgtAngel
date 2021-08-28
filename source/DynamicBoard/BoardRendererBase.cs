@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Drawing;
 using System.Threading.Tasks;
 
 namespace DynamicBoard

@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using static DynamicBoard.Helpers.FenConversion;
@@ -127,7 +125,7 @@ namespace DynamicBoard
             {
                 Monitor.Exit(gdiLock);
             }
-                    
+
             return Task.FromResult(imageOutBytes ?? errorImageOutBytes);
         }
 

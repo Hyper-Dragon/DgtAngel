@@ -354,7 +354,10 @@ namespace DgtCherub
             _angelHubService.OnNotification += (source, message) =>
             {
                 if ((source == "ANGEL" && EchoExternalMessagesToConsole) ||
-                    (source != "ANGEL" && EchoInternallMessagesToConsole)) TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
+                    (source != "ANGEL" && EchoInternallMessagesToConsole))
+                {
+                    TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
+                }
             };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>

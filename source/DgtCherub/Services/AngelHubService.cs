@@ -218,9 +218,12 @@ namespace DgtCherub.Services
             IsMismatchDetected = false;
         }
 
-        private void ResetRemoteBoardState(bool isGameCompleted=false)
+        private void ResetRemoteBoardState(bool isGameCompleted = false)
         {
-            if (string.IsNullOrEmpty((RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))) OnRemoteDisconnect?.Invoke();
+            if (string.IsNullOrEmpty((RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : "")))
+            {
+                OnRemoteDisconnect?.Invoke();
+            }
 
             _remoteWhiteClock = "00:00";
             _remoteBlackClock = "00:00";
@@ -412,7 +415,7 @@ namespace DgtCherub.Services
                 }
                 else if (clockAudioTs.Minutes > 0)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ( (clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
                     audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 30)

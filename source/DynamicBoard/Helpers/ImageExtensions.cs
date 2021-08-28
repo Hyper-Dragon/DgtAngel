@@ -16,8 +16,7 @@ namespace DynamicBoard.Helpers
 
         public static Bitmap ConvertPngByteArrayToBitmap(this byte[] pngArray)
         {
-            return (Bitmap) Bitmap.FromStream(new MemoryStream(pngArray));
+            return (Bitmap)Bitmap.FromStream(new MemoryStream(pngArray));
         }
     }
 }
-    

@@ -24,7 +24,7 @@ namespace DgtCherub.Helpers
 
         public float Volume
         {
-            get => volume ; set
+            get => volume; set
             {
                 if (value < 0 || value > 1)
                 {
@@ -68,7 +68,7 @@ namespace DgtCherub.Helpers
                 {
                     using WaveFileReader reader = new(sound);
                     using WaveOutEvent outputDevice = new();
-                    outputDevice.Volume = (float)volume;
+                    outputDevice.Volume = volume;
                     outputDevice.Init(reader);
                     outputDevice.Play();
                     while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(50); };
