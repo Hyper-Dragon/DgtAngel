@@ -43,7 +43,7 @@ namespace DgtCherub
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
         private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
-        private const string PP_CODE = "---";
+        private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
 
         private const decimal DEFAULT_VOLUME = 7;

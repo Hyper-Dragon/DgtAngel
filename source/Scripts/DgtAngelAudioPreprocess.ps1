@@ -9,7 +9,7 @@ Write-Output "                                      Values for Audio Source - Cl
 
 # OPTIONS@ https://ffmpeg.org/ffmpeg-filters.html#silencedetect
 
-$sParams= "start_periods=810",
+$sParams= "start_periods=600",
           "start_duration=0",
           "start_silence=0",
           "start_threshold=-40dB",
