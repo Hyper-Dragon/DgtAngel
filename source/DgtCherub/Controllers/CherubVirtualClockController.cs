@@ -122,16 +122,16 @@ namespace DgtCherub.Controllers
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
-            Bitmap bmpOut = board.ToLowerInvariant() switch
+            byte[] bmpOut = board.ToLowerInvariant() switch
             {
-                "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
-                                                                  : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
-                "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
-                                                                    : await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
-                _ => await _boardRenderer.GetImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, false)
+                "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                  : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                    : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                _ => await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, false)
             };
 
-            return File((byte[])(new ImageConverter()).ConvertTo(bmpOut, typeof(byte[])), MIME_PNG);
+            return File(bmpOut, MIME_PNG);
         }
 
         [HttpGet]

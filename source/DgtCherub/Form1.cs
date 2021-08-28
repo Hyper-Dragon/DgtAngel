@@ -3,6 +3,7 @@ using DgtCherub.Services;
 using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
 using DynamicBoard;
+using DynamicBoard.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QRCoder;
@@ -352,7 +353,7 @@ namespace DgtCherub
 
             _angelHubService.OnNotification += (source, message) =>
             {
-                if( (source == "ANGEL" && EchoExternalMessagesToConsole) || 
+                if ((source == "ANGEL" && EchoExternalMessagesToConsole) ||
                     (source != "ANGEL" && EchoInternallMessagesToConsole)) TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
             };
 
@@ -751,14 +752,15 @@ namespace DgtCherub
                     string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
                     string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
-                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)) : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                    PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom) : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
+                                                                                   : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+
+                    PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
+                                                                                       : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
                 });
 
                 BeginInvoke(updateAction);
             }
         }
-
-
     }
 }

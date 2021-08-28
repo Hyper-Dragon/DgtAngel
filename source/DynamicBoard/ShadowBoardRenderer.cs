@@ -1,4 +1,5 @@
 ﻿using DynamicBoard.Assets;
+using DynamicBoard.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System;
@@ -50,26 +51,26 @@ namespace DynamicBoard
         private const double CACHE_TIME_MINS = 5;
         private const long CACHE_MAX_ITEMS = 200;
 
-        private readonly ILogger<ChessDotComBoardRenderer> _logger;
+        private readonly ILogger _logger;
         private static readonly object gdiLock = new();
         private static readonly MemoryCache imageCache = new(new MemoryCacheOptions() { SizeLimit = CACHE_MAX_ITEMS });
 
-        public ShadowBoardRenderer(ILogger<ChessDotComBoardRenderer> logger) : base(logger)
+        public ShadowBoardRenderer(ILogger<ShadowBoardRenderer> logger) : base(logger)
         {
             _logger = logger;
         }
 
-        public override Task<Bitmap> GetImageFromFenAsync(in string fenString, in int imageSize, in bool isFromWhitesPerspective = true)
+        public override Task<byte[]> GetPngImageFromFenAsync(in string fenString, in int imageSize, in bool isFromWhitesPerspective = true)
         {
-            return GetImageDiffFromFenAsync(fenString, fenString, imageSize, isFromWhitesPerspective);
+            return GetPngImageDiffFromFenAsync(fenString, fenString, imageSize, isFromWhitesPerspective);
         }
 
-        public override Task<Bitmap> GetImageDiffFromFenAsync(in string fenString = "", in string compFenString = "", in int imageSize = 1024, in bool isFromWhitesPerspective = true)
+        public override Task<byte[]> GetPngImageDiffFromFenAsync(in string fenString = "", in string compFenString = "", in int imageSize = 1024, in bool isFromWhitesPerspective = true)
         {
             _logger?.LogDebug($"Constructing board for fen [{fenString}]");
 
-            Bitmap errorBmpOut = null;
-            Bitmap resizedBmpOut = null;
+            byte[] errorImageOutBytes = null;
+            byte[] imageOutBytes = null;
 
             try
             {
@@ -78,56 +79,56 @@ namespace DynamicBoard
 
                 if (imageCache.TryGetValue<byte[]>(cacheKey, out byte[] cachedBmp))
                 {
-                    resizedBmpOut = (Bitmap) Bitmap.FromStream(new MemoryStream(cachedBmp));
+                    imageOutBytes = cachedBmp;
                 }
                 else
                 {
                     // TODO: add switch colour profile
                     // Dont pass in the blank board unless customised for some reason...it is slower!
-                    resizedBmpOut = RenderBoard(//blankBoard: blankBoard,
-                                                //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
-                                                //blackSquareColour: Color.FromArgb(255, 118, 150, 86),
-                                                //errorSquareColour: Color.FromArgb(150, Color.Red),
-                                                whiteSquareColour: Color.PaleTurquoise,
-                                                blackSquareColour: Color.DarkCyan,
-                                                errorSquareColour: Color.FromArgb(150, Color.Yellow),
-                                                fenString: fenString,
-                                                fenCompareString: compFenString,
-                                                requestedSizeOut: imageSize,
-                                                internalRenderSize: 3,
-                                                requestHighQualityComposite: true,
-                                                shadowOffsetX: 5,
-                                                shadowOffsetY: 5,
-                                                isFlipRequired: !isFromWhitesPerspective
-                                                );
+                    using Bitmap boardBmp = RenderBoard(//blankBoard: blankBoard,
+                                                        //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),
+                                                        //blackSquareColour: Color.FromArgb(255, 118, 150, 86),
+                                                        //errorSquareColour: Color.FromArgb(150, Color.Red),
+                                                        whiteSquareColour: Color.PaleTurquoise,
+                                                        blackSquareColour: Color.DarkCyan,
+                                                        errorSquareColour: Color.FromArgb(150, Color.Yellow),
+                                                        fenString: fenString,
+                                                        fenCompareString: compFenString,
+                                                        requestedSizeOut: imageSize,
+                                                        internalRenderSize: 3,
+                                                        requestHighQualityComposite: true,
+                                                        shadowOffsetX: 5,
+                                                        shadowOffsetY: 5,
+                                                        isFlipRequired: !isFromWhitesPerspective
+                                                        );
 
                     MemoryCacheEntryOptions cacheEntryOptions = new();
                     cacheEntryOptions.SetPriority(CacheItemPriority.Normal)
                                      .SetSize(1)
                                      .SetSlidingExpiration(TimeSpan.FromMinutes(CACHE_TIME_MINS));
 
-                    MemoryStream memoryStream = new();
-                    resizedBmpOut.Save(memoryStream, ImageFormat.Png);
-                    imageCache.Set(cacheKey, memoryStream.ToArray(), cacheEntryOptions);
+                    //Save as byte array and cache image
+                    imageOutBytes = boardBmp.ConvertToPngByteArray();
+                    imageCache.Set(cacheKey, imageOutBytes, cacheEntryOptions);
                 }
             }
             catch (Exception ex)
             {
                 _logger?.LogDebug($"Rendering board error [{fenString}] [{ex.Message}]");
 
-                Bitmap bmp = new(imageSize, imageSize);
+                using Bitmap bmp = new(imageSize, imageSize);
                 using Graphics g = Graphics.FromImage(bmp);
                 g.DrawString($"ERROR RENDERING IMAGE{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}", new Font("Segoe UI", 12), Brushes.Black, new PointF(5, 20));
                 g.Flush();
-                errorBmpOut = bmp;
-                resizedBmpOut = null;
+                errorImageOutBytes = bmp.ConvertToPngByteArray();
+                imageOutBytes = null;
             }
             finally
             {
                 Monitor.Exit(gdiLock);
             }
                     
-            return Task.FromResult(resizedBmpOut ?? errorBmpOut);
+            return Task.FromResult(imageOutBytes ?? errorImageOutBytes);
         }
 
         private static Bitmap RenderBoard(in Bitmap blankBoard = null, // Slower than passing colours
