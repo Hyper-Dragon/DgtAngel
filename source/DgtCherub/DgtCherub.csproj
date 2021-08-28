@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <ApplicationIcon>Assets/Images/Logo.ico</ApplicationIcon>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
