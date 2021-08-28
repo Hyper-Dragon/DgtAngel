@@ -7,20 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAng
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC5E410E-067B-48BA-8C57-F231E35A8790}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{9BEF4676-8089-4C82-B85F-B694610D431E}"
-	ProjectSection(SolutionItems) = preProject
-		Assets\Icons.svg = Assets\Icons.svg
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91}"
-	ProjectSection(SolutionItems) = preProject
-		Docs\DGT Electronic Board DLL.pdf = Docs\DGT Electronic Board DLL.pdf
-		Docs\ScratchNotes.txt = Docs\ScratchNotes.txt
-		Docs\VoiceScript-Moves.txt = Docs\VoiceScript-Moves.txt
-		Docs\VoiceScript-Speech.txt = Docs\VoiceScript-Speech.txt
-		Docs\VoiceScript-Time.txt = Docs\VoiceScript-Time.txt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtEbDllWrapper", "DgtEbDllWrapper\DgtEbDllWrapper.csproj", "{B9F97188-1996-4F0F-BD67-734EA3F672D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtCherub", "DgtCherub\DgtCherub.csproj", "{A3126BB7-0C51-43CA-9075-2863CE97E2F6}"
@@ -31,10 +17,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngelShared", "DgtAngelS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtLiveChessWrapper\DgtLiveChessWrapper.csproj", "{42C198C0-EE34-4952-AECD-FBB6A4EA4494}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{63F2D03A-9A15-4D3F-AA5B-45B623A07542}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{814DF335-BC76-411E-AE94-9AE144DEDAFD}"
 	ProjectSection(SolutionItems) = preProject
-		Scripts\DgtAngelAudioPreprocess.ps1 = Scripts\DgtAngelAudioPreprocess.ps1
-		Scripts\ffmpeg.exe = Scripts\ffmpeg.exe
+		SolutionItems\Assets\Icons.svg = SolutionItems\Assets\Icons.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{20E36046-6DCD-4CC9-BC57-1CFD35CB4C40}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Docs\DGT Electronic Board DLL.pdf = SolutionItems\Docs\DGT Electronic Board DLL.pdf
+		SolutionItems\Docs\ScratchNotes.txt = SolutionItems\Docs\ScratchNotes.txt
+		SolutionItems\Docs\VoiceScript-Moves.txt = SolutionItems\Docs\VoiceScript-Moves.txt
+		SolutionItems\Docs\VoiceScript-Speech.txt = SolutionItems\Docs\VoiceScript-Speech.txt
+		SolutionItems\Docs\VoiceScript-Time.txt = SolutionItems\Docs\VoiceScript-Time.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProcessAudio", "ProcessAudio", "{3F663C5C-A65B-4B43-AC40-5A0D5B80234C}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\ProcessAudio\DgtAngelAudioPreprocess.ps1 = SolutionItems\ProcessAudio\DgtAngelAudioPreprocess.ps1
+		SolutionItems\ProcessAudio\ffmpeg.exe = SolutionItems\ProcessAudio\ffmpeg.exe
 	EndProjectSection
 EndProject
 Global
@@ -72,9 +72,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9BEF4676-8089-4C82-B85F-B694610D431E} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
-		{46BFB6AB-72BC-4974-A0F7-8C363ADE0A91} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
-		{63F2D03A-9A15-4D3F-AA5B-45B623A07542} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
+		{814DF335-BC76-411E-AE94-9AE144DEDAFD} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
+		{20E36046-6DCD-4CC9-BC57-1CFD35CB4C40} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
+		{3F663C5C-A65B-4B43-AC40-5A0D5B80234C} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A4E0476-968F-47C5-A7F0-E73B416E345A}
