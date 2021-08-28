@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ShadowBoardResource.Designer.cs">
+    <Compile Update="Assets\ShadowBoardResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ShadowBoardResource.resx</DependentUpon>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="ShadowBoardResource.resx">
+    <EmbeddedResource Update="Assets\ShadowBoardResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ShadowBoardResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
