@@ -1,4 +1,4 @@
-name: DTG Cherub Build on Main
+name: Cherub Build on Main
 
 on:
   push:
@@ -21,6 +21,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./source/DgtCherub/DgtCherub.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore ./source/DgtCherub/DgtCherub.csproj
     - name: Test
       run: dotnet test --no-build --verbosity normal
