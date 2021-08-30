@@ -1,4 +1,4 @@
-name: .NET
+name: DTG Cherub Build on Main
 
 on:
   push:
