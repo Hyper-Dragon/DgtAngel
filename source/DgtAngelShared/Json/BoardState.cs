@@ -10,7 +10,7 @@ namespace DgtAngelShared.Json
 
     public enum TurnCode
     {
-        NONE, WHITE, BLACK, UNKNOWN
+        NONE, WHITE, BLACK, UNKNOWN, ERROR
     }
 
     public enum SiteToBoardConnectionState

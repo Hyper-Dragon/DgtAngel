@@ -19,8 +19,8 @@ namespace DgtCherub.Controllers
     public sealed class CherubWebSocketApiController : ControllerBase
     {
         private const int RECIEVE_BUFFER_SIZE_BYTES = 1024 * 10;
-
         private bool isAcceptingConnections = true;
+        private static WebSocket runningSocket = null;
 
         private readonly ILogger _logger;
         private readonly IAngelHubService _appDataService;
@@ -36,7 +36,13 @@ namespace DgtCherub.Controllers
         {
             if (HttpContext.WebSockets.IsWebSocketRequest && isAcceptingConnections)
             {
+                //Only allow one connection 
+                if (runningSocket != null) runningSocket.Abort();
+                runningSocket = null;
+
                 using WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+                runningSocket = webSocket;
+
                 _appDataService.UserMessageArrived("WSAPI", "DGT Angel has Connected");
 
                 long highestCaptureTimeRecieved = int.MinValue;
@@ -60,11 +66,17 @@ namespace DgtCherub.Controllers
                         }
                         while (!result.EndOfMessage);
 
+                        if (allBytes.Count == 0)
+                        {
+                            // The remote connection has been forcefully terminated
+                            break;
+                        }
+
                         try
                         {
                             // Convert to a string (UTF-8 encoding).
                             CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
-                            _logger?.LogDebug($"Cherub Keep-Alive from {messageIn.Source}");
+
 
                             switch (messageIn.MessageType)
                             {
