@@ -16,7 +16,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.0-preview.7'
+        dotnet-version: '6.0.x'
+        include-prerelease: true
     - name: Restore dependencies
       run: dotnet restore ./source/DgtAngel.sln
     - name: Build
