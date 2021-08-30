@@ -1,4 +1,4 @@
-name: Cherub Build on Main
+name: Cherub Build
 
 on:
   push:
