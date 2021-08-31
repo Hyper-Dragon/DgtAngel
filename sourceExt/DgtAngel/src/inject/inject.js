@@ -1,6 +1,6 @@
 //chrome.extension.sendMessage({}, function(response) {
 //	var readyStateCheckInterval = setInterval(function() {
-//	if (document.readyState === "complete") {
+//	if () {
 //		clearInterval(readyStateCheckInterval);
 //
 //		// ----------------------------------------------------------
@@ -246,9 +246,8 @@ function GetRemoteBoardState() {
 
 //**********************************************************************************/
 
-//const socket = new WebSocket('ws://localhost:37964/ws');
+
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-//isWatchingStarted = false;
 
 function GetBlankMessage(messageType) {
     blankMsg = {
@@ -261,80 +260,15 @@ function GetBlankMessage(messageType) {
     return blankMsg;
 }
 
-// Connection opened
-//socket.addEventListener('open', function (event) {
-//	console.log('Socket to Cherub OPEN');
-//});
+console.log("Watching Page...");
 
-// Listen for messages
-//socket.addEventListener('message', function (event) {
-//console.log('PONG CAME BACK', event.data);
-//alert("PONG CAME BACK");
-//});
+setInterval(() => {
+    if (document.readyState === "complete") {
+        updateMsg = GetBlankMessage("STATE_UPDATED");
+        updateMsg.RemoteBoard = GetRemoteBoardState();
 
-//async function runKeepAlive() {
-//	while (true) {
-//		while (socket.readyState == WebSocket.OPEN) {
-//			await delay(5000);
-//			keepAliveMsg = GetBlankMessage("KEEP_ALIVE");
-//			keepAliveJson = JSON.stringify(keepAliveMsg);
-//			socket.send(keepAliveJson);
-//		}
-//	}
-//}
-
-//async function getCurrentTab() {
-//	let queryOptions = { active: true, currentWindow: true };
-//	let [tab] = await chrome.tabs.query(queryOptions);
-//	return tab;
-//}
-//
-//async function sendWatchStarted() {
-//	startedMsg = GetBlankMessage("WATCH_STARTED");
-//	startedMsg.RemoteBoard = GetRemoteBoardState();
-//	startedMsgJson = JSON.stringify(startedMsg);
-//	socket.send(startedMsgJson);
-//	isWatchingStarted = true;
-//}
-//
-//
-//async function runUpdates() {
-//	while (true) {
-//		while (socket.readyState == WebSocket.OPEN) {
-//
-//			await sendWatchStarted();
-//
-//			while (isWatchingStarted == true) {
-//				await delay(100);
-//
-//				//if (document.hidden) {
-//				//	break;
-//				//}
-//
-//				updateMsg = GetBlankMessage("STATE_UPDATED");
-//				updateMsg.RemoteBoard = GetRemoteBoardState();
-//				updateMsgJson = JSON.stringify(updateMsg);
-//				socket.send(updateMsgJson);
-//			}
-//
-//
-//			if (isWatchingStarted == true) {
-//				isWatchingStarted = false;
-//				stoppedMsg = GetBlankMessage("WATCH_STOPPED");
-//				stoppedMsg.RemoteBoard = GetRemoteBoardState();
-//				stoppedMsgJson = JSON.stringify(stoppedMsg);
-//				socket.send(stoppedMsgJson);
-//
-//
-//				while (document.hidden) {
-//					await delay(1000);
-//				}
-//			}
-//		}
-//
-//		await delay(1000);
-//	}
-//}
-
-//runUpdates();
-//runKeepAlive();
+        chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
+    }else{
+        console.log("Document not ready");
+    }
+}, 500);
