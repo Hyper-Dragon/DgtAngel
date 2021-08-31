@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtLiveChessWrapper", "DgtL
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{814DF335-BC76-411E-AE94-9AE144DEDAFD}"
 	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Assets\DtgAngelSocialTemplate.png = SolutionItems\Assets\DtgAngelSocialTemplate.png
+		SolutionItems\Assets\DtgAngelSocialTemplate.psd = SolutionItems\Assets\DtgAngelSocialTemplate.psd
 		SolutionItems\Assets\Icons.svg = SolutionItems\Assets\Icons.svg
 	EndProjectSection
 EndProject

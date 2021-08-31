@@ -38,14 +38,15 @@ namespace DgtCherub
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
         private const string CHESS_DOT_COM_PLAY_LINK = @"https://chess.com/live";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
-        private const string PROJECT_LINK = @"https://github.com/Hyper-Dragon/DgtAngel";
-        private const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues";
+        private const string PROJECT_LINK = @"https://hyper-dragon.github.io/DgtAngel/";
+        private const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues/new/choose";
         private const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
         private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
         private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
+        private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
         private const decimal DEFAULT_VOLUME = 7;
 
@@ -665,6 +666,17 @@ namespace DgtCherub
                                       $"...PayPal should be open now.",
                                       TEXTBOX_MAX_LINES);
         }
+
+        private void DonateViaGitHubMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(GITHUB_SPN_LINK,
+                          "",
+                          $"Thank you very much for thinking about donating....",
+                          $"...GitHub should be open now.",
+                          TEXTBOX_MAX_LINES);
+        }
+
+
         #endregion
         //*********************************************//
 
@@ -765,5 +777,7 @@ namespace DgtCherub
                 BeginInvoke(updateAction);
             }
         }
+
+
     }
 }

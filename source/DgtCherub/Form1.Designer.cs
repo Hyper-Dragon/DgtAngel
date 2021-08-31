@@ -88,6 +88,7 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DonateViaPayPalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DonateViaGitHubMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
@@ -717,7 +718,6 @@ namespace DgtCherub
             this.LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DownloadsToolStripMenuItem,
             this.DGTAngelToolStripMenuItem,
-            this.DonateViaPayPalMenuItem,
             this.ChesscomDgtForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
@@ -772,6 +772,8 @@ namespace DgtCherub
             // 
             this.DGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProjectPageMenuItem,
+            this.DonateViaGitHubMenuItem,
+            this.DonateViaPayPalMenuItem,
             this.ReportIssuesMenuItem,
             this.ReleasesMenuItem});
             this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
@@ -783,15 +785,15 @@ namespace DgtCherub
             // 
             this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
             this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.ProjectPageMenuItem.Text = "Project Page (GitHub)";
+            this.ProjectPageMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.ProjectPageMenuItem.Text = "Project Home";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
             // ReportIssuesMenuItem
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
             this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(182, 22);
             this.ReportIssuesMenuItem.Text = "Report Issues";
             this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
             // 
@@ -799,7 +801,7 @@ namespace DgtCherub
             // 
             this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
             this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.ReleasesMenuItem.Size = new System.Drawing.Size(182, 22);
             this.ReleasesMenuItem.Text = "Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
             // 
@@ -807,9 +809,17 @@ namespace DgtCherub
             // 
             this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
             this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(182, 22);
             this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
             this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
+            // 
+            // DonateViaGitHubMenuItem
+            // 
+            this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
+            this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
+            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
+            this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
             // 
             // ChesscomDgtForumsMenuItem
             // 
@@ -923,6 +933,7 @@ namespace DgtCherub
         private System.Windows.Forms.Label Label2;
         private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.ToolStripMenuItem DonateViaPayPalMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem DonateViaGitHubMenuItem;
     }
 }
 
