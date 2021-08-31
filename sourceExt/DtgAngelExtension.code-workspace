@@ -5,6 +5,7 @@
 		}
 	],
 	"settings": {
-		"files.autoSave": "onWindowChange"
+		"files.autoSave": "onWindowChange",
+		"jshint.config": ""
 	}
 }
