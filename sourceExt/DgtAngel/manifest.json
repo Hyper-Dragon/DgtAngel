@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "DGT Angel",
+  "description": "The ultimate focus mode...JS Version...Man V3",
+  "version": "0.0.1",
+  "homepage_url": "https://github.com/Hyper-Dragon/DgtAngel",
+  "icons": {
+    "16":  "icons/Default/icon-16.png",
+    "48":  "icons/Default/icon-48.png",
+    "128": "icons/Default/icon-128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "https://www.chess.com/game/live/*",
+    "https://www.chess.com/play/online/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.chess.com/game/live/*",
+        "https://www.chess.com/play/online/*"
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
+}
