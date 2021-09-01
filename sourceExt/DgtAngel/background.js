@@ -16,8 +16,8 @@ function GetBlankMessage(messageType) {
 }
 
 function onUpdatedListener(tabId, changeInfo, tab) {
-    chrome.tabs.get(tabId.tabId, function(tab){
-        console.log('New active tab: ' + tab.id);
+    chrome.tabs.get(tabId.tabId, function (tab) {
+        console.log("New active tab: " + tab.id);
         activeTabId = tab.id;
     });
 }
@@ -30,20 +30,24 @@ function checkSocketConnection() {
         socket = new WebSocket("ws://localhost:37964/ws");
 
         socket.addEventListener("open", function (event) {
+            chrome.runtime.sendMessage({ WorkerMessage: "Client Connection OPEN" });
             console.log("Connection to Cherub OPEN");
         });
 
         socket.addEventListener("message", function (event) {
+            chrome.runtime.sendMessage({ WorkerMessage: "Keep-Alive" });
             console.log("PONG CAME BACK", event.data);
         });
 
         socket.addEventListener("close", function (event) {
             socket = null;
+            chrome.runtime.sendMessage({ WorkerMessage: "Client Connection CLOSED" });
             console.log("Connection to Cherub CLOSED");
         });
 
         socket.addEventListener("error", function (event) {
             socket = null;
+            chrome.runtime.sendMessage({ WorkerMessage: "Client Connection ERROR" });
             console.log("Connection to Cherub ERROR");
         });
     } else {
@@ -59,7 +63,7 @@ function sendWatchStarted(boardState) {
 
     chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg });
 
-    let startedMsgJson = JSON.stringify(startedMsg.RemoteBoard);
+    let startedMsgJson = JSON.stringify(startedMsg);
     socket.send(startedMsgJson);
 }
 
@@ -79,31 +83,35 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
     console.log("DGT Angel Starting");
-
-    setInterval(() => {
-        try {
-            checkSocketConnection();
-        } catch {
-            socket = null;
-            console.log("Connect failed");
-        }
-    }, 5000);
 });
+
+setInterval(() => {
+    try {
+        checkSocketConnection();
+    } catch {
+        socket = null;
+        chrome.runtime.sendMessage({ WorkerMessage: "Connect Failed" });
+        console.log("Connect failed");
+    }
+}, 5000);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
         if (socket != null && socket.readyState == WebSocket.OPEN) {
             if (currentTabId != sender.tab.id) {
                 if (currentTabId != -1) {
+                    chrome.runtime.sendMessage({ WorkerMessage: "Watch Stopped" });
                     console.log("Watch Stopped");
                     sendWatchStopped(request.BoardScrapeMsg.RemoteBoard);
                 }
 
                 currentTabId = sender.tab.id;
                 sendWatchStarted(request.BoardScrapeMsg.RemoteBoard);
+                chrome.runtime.sendMessage({ WorkerMessage: "Watch Started" });
                 console.log("Watch Started");
             }
 
+            chrome.runtime.sendMessage({ WorkerMessage: "Update Sent" });
             updateMsgJson = JSON.stringify(request.BoardScrapeMsg);
             socket.send(updateMsgJson);
         }

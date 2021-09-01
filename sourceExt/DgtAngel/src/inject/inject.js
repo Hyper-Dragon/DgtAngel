@@ -186,10 +186,9 @@ function GetRemoteBoardState() {
                 remoteBoard.Board.FenString = result;
                 remoteBoard.Board.Turn = turn;
                 remoteBoard.Board.IsWhiteOnBottom =
-                
-                whiteClock.classList.contains("clock-bottom");
+                    whiteClock.classList.contains("clock-bottom");
                 remoteBoard.Board.LastMove = lastMove;
-                
+
                 remoteBoard.Board.Clocks.WhiteClock = wcConTime;
                 remoteBoard.Board.Clocks.BlackClock = bcConTime;
                 remoteBoard.Board.Clocks.CaptureTimeMs = new Date().getTime();
@@ -234,7 +233,6 @@ function GetRemoteBoardState() {
 
 //**********************************************************************************/
 
-
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 function GetBlankMessage(messageType) {
@@ -255,7 +253,7 @@ setInterval(() => {
         updateMsg = GetBlankMessage("STATE_UPDATED");
         updateMsg.RemoteBoard = GetRemoteBoardState();
         chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
-    }else{
+    } else {
         console.log("Document not ready");
     }
 }, 500);

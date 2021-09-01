@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<link rel="stylesheet" type="text/css" href="popup_action.css">
+<link rel="stylesheet" type="text/css" href="popup_action.css" />
 
 <div id="mainPopup">
     <h1>DGT Angel</h1>
@@ -7,13 +7,22 @@
     <button id="show-con-out-button" class="topButton">Connection</button>
     <button id="show-msg-button" class="topButton">Messages</button>
     <hr />
-    <div id="conOutSection" hidden>hello</div>
+    <div id="conOutSection">
+		&nbsp;&nbsp;Worker:<span id="FromWorker">-</span
+			><br />
+	</div>
     <hr />
     <div id="messageSection" hidden>
         Source:<span id="SourceMsg">-</span><br />
         MessageType:<span id="MessageTypeMsg">-</span><br />
         Message:<span id="MessageMsg">-</span><br />
         <b>RemoteBoard:</b><br />
+        &nbsp;&nbsp;<b>State:</b><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Code:<span id="RemoteBoardStateCode">-</span
+        ><br />
+        &nbsp;&nbsp;&nbsp;&nbsp;Message:<span id="RemoteBoardStateMessage"
+            >-</span
+        ><br />
         &nbsp;&nbsp;<b>Board:</b><br />
         &nbsp;&nbsp;&nbsp;&nbsp;Fen:<span id="RemoteBoardFenString">-</span
         ><br />
@@ -43,6 +52,6 @@
         ><br />
     </div>
     <hr />
-    <small><i>ver 0.0.1</i></small>
+    <small><i>ver 0.0.3</i></small>
 </div>
 <script src="popup_action.js"></script>
