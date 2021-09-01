@@ -9,9 +9,12 @@
         "48": "icons/Default/icon-48.png",
         "128": "icons/Default/icon-128.png"
     },
-    "default_locale": "en",
     "background": {
         "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "src/page_action/popup_action.html",
+        "default_icon": "icons/Default/icon-128.png"
     },
     "permissions": [
     ],

@@ -15,7 +15,6 @@ function GetBlankMessage(messageType) {
     return blankMsg;
 }
 
-
 function onUpdatedListener(tabId, changeInfo, tab) {
     chrome.tabs.get(tabId.tabId, function(tab){
         console.log('New active tab: ' + tab.id);
@@ -57,6 +56,9 @@ function checkSocketConnection() {
 function sendWatchStarted(boardState) {
     let startedMsg = GetBlankMessage("WATCH_STARTED");
     startedMsg.RemoteBoard = boardState;
+
+    chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg });
+
     let startedMsgJson = JSON.stringify(startedMsg.RemoteBoard);
     socket.send(startedMsgJson);
 }
@@ -64,6 +66,9 @@ function sendWatchStarted(boardState) {
 function sendWatchStopped(boardState) {
     let stoppedMsg = GetBlankMessage("WATCH_STOPPED");
     stoppedMsg.RemoteBoard = boardState;
+
+    chrome.runtime.sendMessage({ BoardScrapeMsg: stoppedMsg });
+
     let stoppedMsgJson = JSON.stringify(stoppedMsg);
     socket.send(stoppedMsgJson);
 }

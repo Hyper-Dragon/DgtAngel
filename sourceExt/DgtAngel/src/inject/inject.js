@@ -1,17 +1,3 @@
-//chrome.extension.sendMessage({}, function(response) {
-//	var readyStateCheckInterval = setInterval(function() {
-//	if () {
-//		clearInterval(readyStateCheckInterval);
-//
-//		// ----------------------------------------------------------
-//		// This part of the script triggers when page is done loading
-//		//console.log("Hello. This message was sent from scripts/inject.js");
-//		// ----------------------------------------------------------
-//
-//	}
-//	}, 10);
-//});
-
 function GetRemoteBoardState() {
     // Setup Default Return Object
     remoteBoard = {
@@ -200,8 +186,10 @@ function GetRemoteBoardState() {
                 remoteBoard.Board.FenString = result;
                 remoteBoard.Board.Turn = turn;
                 remoteBoard.Board.IsWhiteOnBottom =
-                    whiteClock.classList.contains("clock-bottom");
+                
+                whiteClock.classList.contains("clock-bottom");
                 remoteBoard.Board.LastMove = lastMove;
+                
                 remoteBoard.Board.Clocks.WhiteClock = wcConTime;
                 remoteBoard.Board.Clocks.BlackClock = bcConTime;
                 remoteBoard.Board.Clocks.CaptureTimeMs = new Date().getTime();
@@ -266,7 +254,6 @@ setInterval(() => {
     if (document.readyState === "complete") {
         updateMsg = GetBlankMessage("STATE_UPDATED");
         updateMsg.RemoteBoard = GetRemoteBoardState();
-
         chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
     }else{
         console.log("Document not ready");
