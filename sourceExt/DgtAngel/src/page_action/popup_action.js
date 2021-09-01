@@ -24,6 +24,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
         if (request.BoardScrapeMsg != undefined) {
             document.getElementById("SourceMsg").innerText = "-";
+            document.getElementById("MessageTime").innerText = "-";
             document.getElementById("MessageTypeMsg").innerText = "-";
             document.getElementById("MessageMsg").innerText = "-";
             document.getElementById("RemoteBoardStateCode").innerText = "-";
@@ -41,6 +42,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
             document.getElementById("SourceMsg").innerText =
                 request.BoardScrapeMsg.Source;
+            document.getElementById("MessageTime").innerText =
+                request.BoardScrapeMsg.MsgTimeMs;
             document.getElementById("MessageTypeMsg").innerText =
                 request.BoardScrapeMsg.MessageType;
             document.getElementById("MessageMsg").innerText =

@@ -1,19 +1,13 @@
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+try {
+    importScripts("src/inject/messages.js");
+} catch (e) {
+    console.log(e);
+}
+
 
 var socket = null;
 var currentTabId = -1;
 var activeTabId = -1;
-
-function GetBlankMessage(messageType) {
-    blankMsg = {
-        Source: "ANGEL:WORKER",
-        MessageType: messageType,
-        Message: "",
-        RemoteBoard: null,
-    };
-
-    return blankMsg;
-}
 
 function onUpdatedListener(tabId, changeInfo, tab) {
     chrome.tabs.get(tabId.tabId, function (tab) {
@@ -51,14 +45,14 @@ function checkSocketConnection() {
             console.log("Connection to Cherub ERROR");
         });
     } else {
-        keepAliveMsg = GetBlankMessage("KEEP_ALIVE");
+        keepAliveMsg = GetBlankMessage("ANGEL:SERVICE","KEEP_ALIVE");
         keepAliveJson = JSON.stringify(keepAliveMsg);
         socket.send(keepAliveJson);
     }
 }
 
 function sendWatchStarted(boardState) {
-    let startedMsg = GetBlankMessage("WATCH_STARTED");
+    let startedMsg = GetBlankMessage("ANGEL:SERVICE","WATCH_STARTED");
     startedMsg.RemoteBoard = boardState;
 
     chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg });
@@ -68,7 +62,7 @@ function sendWatchStarted(boardState) {
 }
 
 function sendWatchStopped(boardState) {
-    let stoppedMsg = GetBlankMessage("WATCH_STOPPED");
+    let stoppedMsg = GetBlankMessage("ANGEL:SERVICE","WATCH_STOPPED");
     stoppedMsg.RemoteBoard = boardState;
 
     chrome.runtime.sendMessage({ BoardScrapeMsg: stoppedMsg });
