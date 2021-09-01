@@ -24,33 +24,25 @@ function GetRemoteBoardState() {
         },
     };
 
-    // Setup Blank Board
-    var board = [
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-        ["em", "em", "em", "em", "em", "em", "em", "em"],
-    ];
-
     try {
         if (
             remoteBoard.PageUrl.includes("chess.com/game/live/") ||
             remoteBoard.PageUrl.includes("chess.com/play")
         ) {
-            if (
-                Array.from(
-                    document.getElementsByClassName(
-                        "new-game-focus-mode-time-selector"
-                    )
-                ).length == 1
-            ) {
-                remoteBoard.State.Code = "UNKNOWN_PAGE";
+            if (document.visibilityState == "hidden") {
+                remoteBoard.State.Code = "LOST_VISABILITY";
                 remoteBoard.State.Message =
-                    "Do not use focus mode on the *Play* screen...there is no access to the last move!";
+                    "You need to keep the board at least partially visible.";
+                remoteBoard.Board = null;
+                remoteBoard.BoardConnection = null;
+            } else if (
+                Array.from(
+                    document.getElementsByClassName("move-list-component")
+                ).length == 0
+            ) {
+                remoteBoard.State.Code = "MOVE_LIST_MISSING";
+                remoteBoard.State.Message =
+                    "Are you in focus mode? Switched the side tabs?";
                 remoteBoard.Board = null;
                 remoteBoard.BoardConnection = null;
             } else {
@@ -58,6 +50,7 @@ function GetRemoteBoardState() {
                 myPiecesArray = Array.from(
                     document.getElementsByClassName("piece")
                 );
+
                 piecesStringOut = myPiecesArray
                     .map(
                         (o) =>
@@ -71,6 +64,18 @@ function GetRemoteBoardState() {
                                 .replaceAll("0", "")
                     )
                     .join(",");
+
+                // Setup Blank Board
+                var board = [
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                    ["em", "em", "em", "em", "em", "em", "em", "em"],
+                ];
 
                 // Add them to the board
                 piecesStringArray = piecesStringOut.split(",");
@@ -110,21 +115,34 @@ function GetRemoteBoardState() {
                     }
                 }
 
-                moveList = Array.from(document.getElementsByClassName("move"));
                 lastMove = "";
+                gameResult = document.getElementsByClassName("game-result");
 
-                if (moveList.length > 0) {
-                    lastMoveRow = Array.from(
+                if (gameResult.length > 0) {
+                    lastMove = gameResult[0].innerText;
+                } else {
+                    remoteBoard.State.Code = "GETTING_BOARD";
+                    moveList = Array.from(
                         document.getElementsByClassName("move")
-                    )
-                        .pop()
-                        .innerText.trim()
-                        .split("\n");
+                    );
 
-                    if (lastMoveRow.length == 2) {
-                        lastMove = lastMoveRow[1];
-                    } else if (lastMoveRow.length == 3) {
-                        lastMove = lastMoveRow[2];
+                    // Get the last move in the move list
+                    if (moveList.length > 0) {
+                        movePop = moveList.pop();
+                        nodePop = Array.from(
+                            movePop.getElementsByClassName("node")
+                        ).pop();
+
+                        iconFont =
+                            nodePop.getElementsByClassName("icon-font-chess");
+
+                        if (iconFont.length > 0) {
+                            lastMove =
+                                iconFont[0].attributes["data-figurine"].value +
+                                nodePop.innerText.trim();
+                        } else {
+                            lastMove = nodePop.innerText.trim();
+                        }
                     }
                 }
 
@@ -217,7 +235,7 @@ function GetRemoteBoardState() {
         } else {
             remoteBoard.State.Code = "UNKNOWN_PAGE";
             remoteBoard.State.Message =
-                "If you can see this the manifest has a config error!";
+                "If you can see this something has changed OR the manifest has a config error!";
             remoteBoard.Board = null;
             remoteBoard.BoardConnection = null;
         }
