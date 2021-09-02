@@ -180,14 +180,14 @@ namespace DgtCherub.Services
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
-            if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
+            if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
             {
                 orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
                 remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
                 clockProcessChannel.Writer.TryWrite(remoteBoardState);
                 lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
             }
-            else if (processUpdates && remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
+            else if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
             {
                 if (remoteBoardState.Board.LastMove == "1-O" ||
                     remoteBoardState.Board.LastMove == "O-1" ||
@@ -199,7 +199,7 @@ namespace DgtCherub.Services
                     remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
                 }
             }
-            else
+            else if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
             {
                 //ResetRemoteBoardState(true);
                 orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
