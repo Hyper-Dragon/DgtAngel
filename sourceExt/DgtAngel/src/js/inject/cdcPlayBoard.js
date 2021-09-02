@@ -1,3 +1,9 @@
+/**
+ * 
+ * DTG Angel Page Scrape
+ *  - Chess.com Play Board
+ * 
+ */
 function GetRemoteBoardState() {
     remoteBoard = getDefaultRemoteBoard();
 

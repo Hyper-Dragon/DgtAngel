@@ -1,5 +1,11 @@
+/**
+ * 
+ * DTG Angel Service Worker
+ * 
+ */
+
 try {
-    importScripts("src/inject/messages.js", "js/backgroundHelpers.js");
+    importScripts("src/js/shared/messages.js", "src/js/background/backgroundHelpers.js");
 } catch (e) {
     console.error(e);
 }

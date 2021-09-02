@@ -1,13 +1,8 @@
+//Set initial values
 document.getElementById("ver").innerText=chrome.runtime.getManifest().version;
 
-
-var element = document.getElementById("show-msg-button");
-var elemSection = document.getElementById("messageSection");
-
-var element2 = document.getElementById("show-con-out-button");
-var elemSection2 = document.getElementById("conOutSection");
-
-element.onclick = function (event) {
+document.getElementById("show-msg-button").onclick = function (event) {
+    elemSection = document.getElementById("messageSection");
     if (elemSection.hidden) {
         elemSection.hidden = false;
     } else {
@@ -15,7 +10,8 @@ element.onclick = function (event) {
     }
 };
 
-element2.onclick = function (event) {
+document.getElementById("show-con-out-button").onclick = function (event) {
+    elemSection2 = document.getElementById("conOutSection");
     if (elemSection2.hidden) {
         elemSection2.hidden = false;
     } else {

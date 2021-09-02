@@ -1,3 +1,9 @@
+/**
+ * 
+ * DTG Angel Service Worker Helpers
+ *  - Loaded from background.js
+ */
+
 var socket = null;
 
 function NotifyScreen(messageText) {

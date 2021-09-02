@@ -1,3 +1,9 @@
+/**
+ * 
+ * DTG Angel Page Scrape
+ *  - Chess.com Live Board
+ * 
+ */
 function GetRemoteBoardState() {
     // Setup Default Return Object + blank board
     remoteBoard = getDefaultRemoteBoard();
