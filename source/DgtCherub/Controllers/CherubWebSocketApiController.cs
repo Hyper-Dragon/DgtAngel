@@ -84,8 +84,29 @@ namespace DgtCherub.Controllers
                                     if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
                                     {
                                         highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
-                                        _logger?.LogTrace($"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
-                                        _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
+                                        
+                                        switch (messageIn.RemoteBoard.State.Code)
+                                        {
+                                            case ResponseCode.LOST_VISABILITY:
+                                            case ResponseCode.MOVE_LIST_MISSING:
+                                                _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen!");
+                                                break;
+                                            case ResponseCode.SCRIPT_SCRAPE_ERROR:
+                                                _appDataService.UserMessageArrived("INGEST", $"It looks like the page may have changed...please raise a bug report.");
+                                                break;
+                                            case ResponseCode.UNKNOWN_PAGE:
+                                                _appDataService.UserMessageArrived("INGEST", $"Trying to parse an unknown page...please raise a bug report.");
+                                                break;
+                                            case ResponseCode.GAME_PENDING:
+                                            case ResponseCode.GAME_IN_PROGRESS:
+                                            case ResponseCode.GAME_COMPLETED:
+                                                _logger?.LogTrace($"{messageIn.RemoteBoard.CaptureTimeMs} Fen:{messageIn.RemoteBoard.Board.FenString}");
+                                                _appDataService.RemoteBoardUpdated(messageIn.RemoteBoard);
+                                                break;
+                                            default:
+                                                _appDataService.UserMessageArrived("INGEST", $"Unhandled status code of [{messageIn.RemoteBoard.State.Code}] arrived.");
+                                                break;
+                                        }
                                     }
                                     else
                                     {

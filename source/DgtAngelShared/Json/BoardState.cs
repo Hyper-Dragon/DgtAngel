@@ -5,7 +5,7 @@ namespace DgtAngelShared.Json
     public enum ResponseCode
     {
         UNKNOWN_PAGE, RUNNING, SCRIPT_SCRAPE_ERROR,
-        GAME_PENDING, GAME_COMPLETED, GAME_IN_PROGRESS
+        GAME_PENDING, GAME_COMPLETED, GAME_IN_PROGRESS, LOST_VISABILITY, MOVE_LIST_MISSING
     }
 
     public enum TurnCode
