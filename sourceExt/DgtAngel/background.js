@@ -6,18 +6,34 @@ try {
 
 var socket = null;
 var hasSentStart = false;
-var currentTabId = -1;
 var activeTabId = -1;
+var lastUrl = "";
 
 function onUpdatedListener(tabId, changeInfo, tab) {
-    chrome.tabs.get(tabId.tabId, function (tab) {
-        console.log("New active tab: " + tab.id);
-        activeTabId = tab.id;
-    });
+    console.debug("Page Update: " + changeInfo.status + ":" + changeInfo.url);
+
+    if (changeInfo.status == "loading") {
+        //Can only get the url on loading
+        if (changeInfo.url == undefined) {
+            //not on a supported site
+            lastUrl = "";
+            sendWatchStopped();
+        } else if (changeInfo.lastUrl != changeInfo.url) {
+            //Detect page change on supported site
+            lastUrl = changeInfo.url;
+            sendWatchStopped();
+        }
+    }
 }
 
-// Subscribe to tab events
-chrome.tabs.onActivated.addListener(onUpdatedListener);
+function onActivatedListener(tabId, changeInfo, tab) {
+    chrome.tabs.get(tabId.tabId, function (tab) {
+        console.debug("New active tab: " + tab.id);
+
+        activeTabId = tab.id;
+        sendWatchStopped();
+    });
+}
 
 function checkSocketConnection() {
     if (socket == null) {
@@ -33,7 +49,7 @@ function checkSocketConnection() {
 
         socket.addEventListener("message", function (event) {
             chrome.runtime.sendMessage({ WorkerMessage: "Keep-Alive" });
-            console.log("PONG CAME BACK", event.data);
+            console.debug("PONG CAME BACK", event.data);
         });
 
         socket.addEventListener("close", function (event) {
@@ -68,16 +84,25 @@ function sendWatchStarted(boardState) {
     socket.send(startedMsgJson);
 }
 
-function sendWatchStopped(boardState) {
-    let stoppedMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STOPPED");
-    stoppedMsg.RemoteBoard = boardState;
+function sendWatchStopped() {
+    if (hasSentStart == true) {
+        hasSentStart = false;
+        chrome.runtime.sendMessage({
+            WorkerMessage: "Watch Stopped",
+        });
 
-    chrome.runtime.sendMessage({ BoardScrapeMsg: stoppedMsg });
+        console.log("Watch Stopped");
 
-    let stoppedMsgJson = JSON.stringify(stoppedMsg);
-    socket.send(stoppedMsgJson);
+        let stoppedMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STOPPED");
+
+        chrome.runtime.sendMessage({ BoardScrapeMsg: stoppedMsg });
+
+        let stoppedMsgJson = JSON.stringify(stoppedMsg);
+        socket.send(stoppedMsgJson);
+    }
 }
 
+// Subscribe to service worker events
 self.addEventListener("install", (event) => {
     console.log("DGT Angel Installing");
 });
@@ -86,41 +111,29 @@ self.addEventListener("activate", (event) => {
     console.log("DGT Angel Activated");
 });
 
-setInterval(() => {
-    try {
-        checkSocketConnection();
-    } catch {
-        socket = null;
-        chrome.runtime.sendMessage({ WorkerMessage: "Connect Failed" });
-        console.log("Connect failed");
-    }
-}, 5000);
+// Subscribe to tab events
+chrome.tabs.onActivated.addListener(onActivatedListener);
+chrome.tabs.onUpdated.addListener(onUpdatedListener);
 
+// Subscribe to chrome events
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
         if (socket != null && socket.readyState == WebSocket.OPEN) {
-            if (currentTabId != sender.tab.id) {
-                if (hasSentStart == true) {
-                    hasSentStart = false;
+            if (activeTabId == sender.tab.id) {
+                if (hasSentStart == false) {
+                    sendWatchStarted(request.BoardScrapeMsg.RemoteBoard);
                     chrome.runtime.sendMessage({
-                        WorkerMessage: "Watch Stopped",
+                        WorkerMessage: "Watch Started",
                     });
-                    console.log("Watch Stopped");
-                    sendWatchStopped(request.BoardScrapeMsg.RemoteBoard);
+                    console.log("Watch Started");
+                    hasSentStart = true;
+                } else {
+                    chrome.runtime.sendMessage({
+                        WorkerMessage: "Update Sent",
+                    });
+                    socket.send(JSON.stringify(request.BoardScrapeMsg));
                 }
             }
-
-            if (hasSentStart == false) {
-                currentTabId = sender.tab.id;
-                sendWatchStarted(request.BoardScrapeMsg.RemoteBoard);
-                chrome.runtime.sendMessage({ WorkerMessage: "Watch Started" });
-                console.log("Watch Started");
-                hasSentStart = true;
-            }
-
-            chrome.runtime.sendMessage({ WorkerMessage: "Update Sent" });
-            updateMsgJson = JSON.stringify(request.BoardScrapeMsg);
-            socket.send(updateMsgJson);
         }
     } catch (err) {
         hasSentStart = false;
@@ -130,3 +143,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true; // Required to keep message port open
     }
 });
+
+//Keep trying to connect to client
+setInterval(() => {
+    try {
+        checkSocketConnection();
+    } catch {
+        socket = null;
+        chrome.runtime.sendMessage({ WorkerMessage: "Connect Failed" });
+        console.log("Connect failed");
+    }
+}, 5000);
