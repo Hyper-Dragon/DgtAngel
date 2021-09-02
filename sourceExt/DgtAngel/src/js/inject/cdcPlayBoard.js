@@ -1,8 +1,12 @@
+/**
+ * 
+ * DTG Angel Page Scrape
+ *  - Chess.com Play Board
+ * 
+ */
 function GetRemoteBoardState() {
     remoteBoard = getDefaultRemoteBoard();
 
-    
-    
     if (
         remoteBoard.PageUrl.includes("chess.com/game/live/") ||
         remoteBoard.PageUrl.includes("chess.com/play")
@@ -96,7 +100,7 @@ function GetRemoteBoardState() {
                 turn = "NONE";
             }
 
-            // Finally the DTG board atatus if we can get it
+            // Finally the DTG board status if we can get it
             if (
                 document.getElementsByClassName("dgt-board-status-component")
                     .length == 0

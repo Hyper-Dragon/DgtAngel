@@ -1,3 +1,10 @@
+/**
+ * 
+ * Generic Chess Functions
+ *  - Fen Calculation
+ *  - Clock Conversion
+ * 
+ */
 function getBlankBoard() {
     return [
         ["em", "em", "em", "em", "em", "em", "em", "em"],

@@ -1,5 +1,9 @@
-
-
+/**
+ * 
+ * DTG Angel Generic injection script
+ *  - Calls GetRemoteBoardState() in the scrape file added by the manifest
+ * 
+ */
 setInterval(() => {
     if (document.readyState === "complete") {
         updateMsg = GetBlankMessage("ANGEL:WATCHER","STATE_UPDATED");

@@ -1,3 +1,9 @@
+/**
+ * 
+ * DTG Angel Messages
+ *  - (shared with the content and background scripts)
+ * 
+ */
 function GetBlankMessage(messageSource, messageType) {
 
     if(typeof(window) !== "undefined"){
