@@ -4,8 +4,8 @@ try {
     console.log(e);
 }
 
-
 var socket = null;
+var hasSentStart = false;
 var currentTabId = -1;
 var activeTabId = -1;
 
@@ -21,10 +21,13 @@ chrome.tabs.onActivated.addListener(onUpdatedListener);
 
 function checkSocketConnection() {
     if (socket == null) {
+        hasSentStart = false;
         socket = new WebSocket("ws://localhost:37964/ws");
 
         socket.addEventListener("open", function (event) {
-            chrome.runtime.sendMessage({ WorkerMessage: "Client Connection OPEN" });
+            chrome.runtime.sendMessage({
+                WorkerMessage: "Client Connection OPEN",
+            });
             console.log("Connection to Cherub OPEN");
         });
 
@@ -35,24 +38,28 @@ function checkSocketConnection() {
 
         socket.addEventListener("close", function (event) {
             socket = null;
-            chrome.runtime.sendMessage({ WorkerMessage: "Client Connection CLOSED" });
+            chrome.runtime.sendMessage({
+                WorkerMessage: "Client Connection CLOSED",
+            });
             console.log("Connection to Cherub CLOSED");
         });
 
         socket.addEventListener("error", function (event) {
             socket = null;
-            chrome.runtime.sendMessage({ WorkerMessage: "Client Connection ERROR" });
+            chrome.runtime.sendMessage({
+                WorkerMessage: "Client Connection ERROR",
+            });
             console.log("Connection to Cherub ERROR");
         });
     } else {
-        keepAliveMsg = GetBlankMessage("ANGEL:SERVICE","KEEP_ALIVE");
+        keepAliveMsg = GetBlankMessage("ANGEL:SERVICE", "KEEP_ALIVE");
         keepAliveJson = JSON.stringify(keepAliveMsg);
         socket.send(keepAliveJson);
     }
 }
 
 function sendWatchStarted(boardState) {
-    let startedMsg = GetBlankMessage("ANGEL:SERVICE","WATCH_STARTED");
+    let startedMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STARTED");
     startedMsg.RemoteBoard = boardState;
 
     chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg });
@@ -62,7 +69,7 @@ function sendWatchStarted(boardState) {
 }
 
 function sendWatchStopped(boardState) {
-    let stoppedMsg = GetBlankMessage("ANGEL:SERVICE","WATCH_STOPPED");
+    let stoppedMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STOPPED");
     stoppedMsg.RemoteBoard = boardState;
 
     chrome.runtime.sendMessage({ BoardScrapeMsg: stoppedMsg });
@@ -76,7 +83,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-    console.log("DGT Angel Starting");
+    console.log("DGT Angel Activated");
 });
 
 setInterval(() => {
@@ -93,24 +100,32 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
         if (socket != null && socket.readyState == WebSocket.OPEN) {
             if (currentTabId != sender.tab.id) {
-                if (currentTabId != -1) {
-                    chrome.runtime.sendMessage({ WorkerMessage: "Watch Stopped" });
+                if (hasSentStart == true) {
+                    hasSentStart = false;
+                    chrome.runtime.sendMessage({
+                        WorkerMessage: "Watch Stopped",
+                    });
                     console.log("Watch Stopped");
                     sendWatchStopped(request.BoardScrapeMsg.RemoteBoard);
                 }
+            }
 
+            if (hasSentStart == false) {
                 currentTabId = sender.tab.id;
                 sendWatchStarted(request.BoardScrapeMsg.RemoteBoard);
                 chrome.runtime.sendMessage({ WorkerMessage: "Watch Started" });
                 console.log("Watch Started");
+                hasSentStart = true;
             }
 
             chrome.runtime.sendMessage({ WorkerMessage: "Update Sent" });
             updateMsgJson = JSON.stringify(request.BoardScrapeMsg);
             socket.send(updateMsgJson);
         }
-    } catch {
-        console.log("ERROR");
+    } catch (err) {
+        hasSentStart = false;
+        chrome.runtime.sendMessage({ WorkerMessage: err.message });
+        console.log("ERROR:", err.message);
     } finally {
         return true; // Required to keep message port open
     }

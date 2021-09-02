@@ -1,10 +1,17 @@
 function GetBlankMessage(messageSource, messageType) {
+
+    if(typeof(window) !== "undefined"){
+        windowLocation=window.location.toString();
+    }else{
+        windowLocation="Background";
+    }
+
     blankMsg = {
         AngelVersion: chrome.runtime.getManifest().version,
         Source: messageSource,
         MessageType: messageType,
         MsgTimeMs: new Date().getTime(),
-        Message: window.location.toString(),
+        Message: windowLocation,
         RemoteBoard: null,
     };
 
