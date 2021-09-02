@@ -80,15 +80,14 @@ namespace DgtCherub
             this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DownloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CdcChromeExtensionVoiceComentaryMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtLiveChessSoftwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtDriversRabbitPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DonateViaGitHubMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DonateViaPayPalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DonateViaPayPalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DonateViaGitHubMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
@@ -728,7 +727,6 @@ namespace DgtCherub
             // 
             this.DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DgtAngelChromeExtensionMenuItem,
-            this.CdcChromeExtensionVoiceComentaryMenuItem,
             this.DgtLiveChessSoftwareMenuItem,
             this.DgtDriversRabbitPluginMenuItem});
             this.DownloadsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DownloadsToolStripMenuItem.Image")));
@@ -743,14 +741,6 @@ namespace DgtCherub
             this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(282, 22);
             this.DgtAngelChromeExtensionMenuItem.Text = "DGT Angel Chrome Extension";
             this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
-            // 
-            // CdcChromeExtensionVoiceComentaryMenuItem
-            // 
-            this.CdcChromeExtensionVoiceComentaryMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("CdcChromeExtensionVoiceComentaryMenuItem.Image")));
-            this.CdcChromeExtensionVoiceComentaryMenuItem.Name = "CdcChromeExtensionVoiceComentaryMenuItem";
-            this.CdcChromeExtensionVoiceComentaryMenuItem.Size = new System.Drawing.Size(282, 22);
-            this.CdcChromeExtensionVoiceComentaryMenuItem.Text = "Chess.com Chrome Voice Extension";
-            this.CdcChromeExtensionVoiceComentaryMenuItem.Click += new System.EventHandler(this.CdcChromeExtensionVoiceComentaryMenuItem_Click);
             // 
             // DgtLiveChessSoftwareMenuItem
             // 
@@ -789,6 +779,22 @@ namespace DgtCherub
             this.ProjectPageMenuItem.Text = "Project Home";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
+            // DonateViaGitHubMenuItem
+            // 
+            this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
+            this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
+            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
+            this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
+            // 
+            // DonateViaPayPalMenuItem
+            // 
+            this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
+            this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
+            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
+            this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
+            // 
             // ReportIssuesMenuItem
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
@@ -804,22 +810,6 @@ namespace DgtCherub
             this.ReleasesMenuItem.Size = new System.Drawing.Size(182, 22);
             this.ReleasesMenuItem.Text = "Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
-            // 
-            // DonateViaPayPalMenuItem
-            // 
-            this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
-            this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
-            this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
-            // 
-            // DonateViaGitHubMenuItem
-            // 
-            this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
-            this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
-            this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
             // 
             // ChesscomDgtForumsMenuItem
             // 
@@ -910,7 +900,6 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem ReleasesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DownloadsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtAngelChromeExtensionMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem CdcChromeExtensionVoiceComentaryMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtLiveChessSoftwareMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator2;

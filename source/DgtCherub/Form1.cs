@@ -577,15 +577,6 @@ namespace DgtCherub
                                                    $"the project release page and follow the instructions."}, TEXTBOX_MAX_LINES);
         }
 
-        private void CdcChromeExtensionVoiceComentaryMenuItem_Click(object sender, EventArgs e)
-        {
-            TextBoxConsole.RunProcessWithComments("chrome",
-                                                   DL_VOICE_EXT,
-                                                   $"Trying to open the Google Chrome Web Store....",
-                                                   $"...the Google Chrome Web Store is open.",
-                                                   TEXTBOX_MAX_LINES);
-        }
-
         private void DgtLiveChessSoftwareMenuItem_Click(object sender, EventArgs e)
         {
             TextBoxConsole.RunProcessWithComments(DL_LIVE_CHESS,
