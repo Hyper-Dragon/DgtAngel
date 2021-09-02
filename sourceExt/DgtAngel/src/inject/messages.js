@@ -1,6 +1,6 @@
 function GetBlankMessage(messageSource, messageType) {
     blankMsg = {
-        AngelVersion: "0.0.3",
+        AngelVersion: chrome.runtime.getManifest().version,
         Source: messageSource,
         MessageType: messageType,
         MsgTimeMs: new Date().getTime(),

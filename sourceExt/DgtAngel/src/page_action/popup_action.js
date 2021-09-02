@@ -1,3 +1,6 @@
+document.getElementById("ver").innerText=chrome.runtime.getManifest().version;
+
+
 var element = document.getElementById("show-msg-button");
 var elemSection = document.getElementById("messageSection");
 
