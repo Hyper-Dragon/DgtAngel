@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.223
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtAngel", "DgtAngel\DgtAngel.csproj", "{DF96AD8A-E912-4328-B282-8DE16F28B8D2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC5E410E-067B-48BA-8C57-F231E35A8790}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtEbDllWrapper", "DgtEbDllWrapper\DgtEbDllWrapper.csproj", "{B9F97188-1996-4F0F-BD67-734EA3F672D1}"
@@ -39,16 +37,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProcessAudio", "ProcessAudi
 		SolutionItems\ProcessAudio\ffmpeg.exe = SolutionItems\ProcessAudio\ffmpeg.exe
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Archive", "Archive", "{6980A029-979A-478A-B35E-FBB53C52486C}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Archive\ForRef-OldBlazorChromeExtension.zip = SolutionItems\Archive\ForRef-OldBlazorChromeExtension.zip
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF96AD8A-E912-4328-B282-8DE16F28B8D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9F97188-1996-4F0F-BD67-734EA3F672D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B9F97188-1996-4F0F-BD67-734EA3F672D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9F97188-1996-4F0F-BD67-734EA3F672D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,6 +76,7 @@ Global
 		{814DF335-BC76-411E-AE94-9AE144DEDAFD} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 		{20E36046-6DCD-4CC9-BC57-1CFD35CB4C40} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 		{3F663C5C-A65B-4B43-AC40-5A0D5B80234C} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
+		{6980A029-979A-478A-B35E-FBB53C52486C} = {DC5E410E-067B-48BA-8C57-F231E35A8790}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A4E0476-968F-47C5-A7F0-E73B416E345A}
