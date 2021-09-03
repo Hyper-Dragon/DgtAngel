@@ -1,5 +1,4 @@
 /**
- * 
  * DTG Angel Messages
  *  - (shared with the content and background scripts)
  * 

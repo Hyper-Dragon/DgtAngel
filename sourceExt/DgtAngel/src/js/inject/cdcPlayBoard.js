@@ -1,5 +1,4 @@
 /**
- * 
  * DTG Angel Page Scrape
  *  - Chess.com Play Board
  * 

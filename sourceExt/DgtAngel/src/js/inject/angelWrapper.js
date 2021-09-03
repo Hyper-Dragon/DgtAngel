@@ -1,15 +1,13 @@
 /**
- * 
  * DTG Angel Generic injection script
  *  - Calls GetRemoteBoardState() in the scrape file added by the manifest
  * 
  */
-
- var port = chrome.runtime.connect({name: "BoardScrapePort"});
+var port = chrome.runtime.connect({name: WRAPPER_PORT_NAME});
 
 setInterval(() => {
     if (document.readyState === "complete") {
-        updateMsg = GetBlankMessage("ANGEL:WATCHER","STATE_UPDATED");
+        updateMsg = GetBlankMessage(WRAPPER_SOURCE_NAME,"STATE_UPDATED");
 
         try {
             updateMsg.RemoteBoard = GetRemoteBoardState();
@@ -20,7 +18,6 @@ setInterval(() => {
             updateMsg.RemoteBoard.Board = null;
             updateMsg.RemoteBoard.BoardConnection = null;
         }
-
         
         port.postMessage({ BoardScrapeMsg: updateMsg });
         
@@ -30,10 +27,7 @@ setInterval(() => {
     } else {
         console.log("Document not ready");
     }
-}, 500);
+}, PAGE_POLL_DELAY_MS);
 
 console.log("Watching Page...");
-
-
-
 
