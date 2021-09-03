@@ -34,6 +34,8 @@ namespace DgtCherub.Services
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action OnLocalFenChange;
+        event Action OnRemoteWatchStarted;
+        event Action OnRemoteWatchStopped;
         event Action<string> OnNewMoveDetected;
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
@@ -59,6 +61,8 @@ namespace DgtCherub.Services
         public event Action OnBoardMatcherStarted;
         public event Action OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
+        public event Action OnRemoteWatchStarted;
+        public event Action OnRemoteWatchStopped;
         public event Action<string> OnNewMoveDetected;
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
@@ -160,11 +164,13 @@ namespace DgtCherub.Services
 
                 if (messageType == MessageTypeCode.WATCH_STARTED)
                 {
+                    OnRemoteWatchStarted?.Invoke();
                     processUpdates = true;
                     //ResetRemoteBoardState();
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED)
                 {
+                    OnRemoteWatchStopped?.Invoke();
                     processUpdates = false;
                     ResetRemoteBoardState();
                 }

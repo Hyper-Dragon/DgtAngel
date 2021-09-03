@@ -238,6 +238,16 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Mismatch_AP);
             };
 
+            _angelHubService.OnRemoteWatchStarted += () =>
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
+            };
+
+            _angelHubService.OnRemoteWatchStopped += () =>
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
+            };
+
             _angelHubService.OnBoardMatcherStarted += () =>
             {
                 LabelLocalDgt.BackColor = Color.Yellow;
@@ -575,15 +585,6 @@ namespace DgtCherub
         {
             TextBoxConsole.AddLines(new string[] { $"DGT Angel is currently only available as a developer release.  Go to",
                                                    $"the project release page and follow the instructions."}, TEXTBOX_MAX_LINES);
-        }
-
-        private void CdcChromeExtensionVoiceComentaryMenuItem_Click(object sender, EventArgs e)
-        {
-            TextBoxConsole.RunProcessWithComments("chrome",
-                                                   DL_VOICE_EXT,
-                                                   $"Trying to open the Google Chrome Web Store....",
-                                                   $"...the Google Chrome Web Store is open.",
-                                                   TEXTBOX_MAX_LINES);
         }
 
         private void DgtLiveChessSoftwareMenuItem_Click(object sender, EventArgs e)
