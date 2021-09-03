@@ -37,7 +37,7 @@ function checkSocketConnection() {
             NotifyScreen("Connection to Cherub CLOSED");
         });
     } else {
-        SocketSendMessage(GetBlankMessage("ANGEL:SERVICE", "KEEP_ALIVE"));
+        SocketSendMessage(GetBlankMessage(BACKGROUND_SOURCE_NAME, "KEEP_ALIVE"));
     }
 }
 
