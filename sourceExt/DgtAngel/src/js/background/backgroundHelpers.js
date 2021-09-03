@@ -4,17 +4,19 @@
  *  - Loaded from background.js
  */
 
-var socket = null;
-
 function NotifyScreen(messageText) {
     chrome.runtime.sendMessage({ WorkerMessage: messageText });
-    console.log(messageText);
+    //console.log(messageText);
 }
 
 function NotifyScreenDebug(messageText) {
     chrome.runtime.sendMessage({ WorkerMessage: messageText });
-    console.debug(messageText);
+    //console.debug(messageText);
 }
+
+
+
+var socket = null;
 
 function checkSocketConnection() {
     if (socket == null) {
@@ -47,6 +49,6 @@ function SocketSendMessage(messageObject) {
             NotifyScreenDebug("No open socket to client");
         }
     } catch (err) {
-        NotifyScreen("ERROR:", err.message);
+        NotifyScreen("Send Error:", err.message);
     }
 }

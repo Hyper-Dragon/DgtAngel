@@ -4,6 +4,9 @@
  *  - Calls GetRemoteBoardState() in the scrape file added by the manifest
  * 
  */
+
+ var port = chrome.runtime.connect({name: "BoardScrapePort"});
+
 setInterval(() => {
     if (document.readyState === "complete") {
         updateMsg = GetBlankMessage("ANGEL:WATCHER","STATE_UPDATED");
@@ -18,10 +21,19 @@ setInterval(() => {
             updateMsg.RemoteBoard.BoardConnection = null;
         }
 
+        
+        port.postMessage({ BoardScrapeMsg: updateMsg });
+        
+        //echo for popup
         chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
+    
     } else {
         console.log("Document not ready");
     }
 }, 500);
 
 console.log("Watching Page...");
+
+
+
+

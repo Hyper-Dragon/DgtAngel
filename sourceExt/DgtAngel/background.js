@@ -1,11 +1,13 @@
 /**
- * 
+ *
  * DTG Angel Service Worker
- * 
+ *
  */
-
 try {
-    importScripts("src/js/shared/messages.js", "src/js/background/backgroundHelpers.js");
+    importScripts(
+        "src/js/shared/messages.js",
+        "src/js/background/backgroundHelpers.js"
+    );
 } catch (e) {
     console.error(e);
 }
@@ -49,7 +51,7 @@ function sendWatchStarted(boardState) {
 function sendWatchStopped() {
     if (hasSentStart == true) {
         hasSentStart = false;
-        stopMsg=GetBlankMessage("ANGEL:SERVICE", "WATCH_STOPPED");
+        stopMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STOPPED");
         SocketSendMessage(stopMsg);
         chrome.runtime.sendMessage({ BoardScrapeMsg: stopMsg });
         NotifyScreen("WATCH STOPPED");
@@ -70,23 +72,28 @@ chrome.tabs.onActivated.addListener(onActivatedListener);
 chrome.tabs.onUpdated.addListener(onUpdatedListener);
 
 // Subscribe to chrome events
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    try {
-        if (activeTabId == sender.tab.id) {
-            if (hasSentStart == false) {
-                sendWatchStarted(request.BoardScrapeMsg.RemoteBoard);
-                NotifyScreen("WATCH STARTED");
-                hasSentStart = true;
-            } else {
-                NotifyScreen("Trying to sending update...");
-                SocketSendMessage(request.BoardScrapeMsg);
+chrome.runtime.onConnect.addListener(function (port) {
+    if (port.name == "BoardScrapePort") {
+        port.onMessage.addListener(function (request) {
+            try {
+//                if (activeTabId == sender.tab.id) {
+                    if (hasSentStart == false) {
+                        sendWatchStarted(request.BoardScrapeMsg.RemoteBoard);
+                        NotifyScreen("WATCH STARTED");
+                        hasSentStart = true;
+                    }else{
+        
+                    NotifyScreen("Trying to sending update...");
+                    SocketSendMessage(request.BoardScrapeMsg);
+                    }
+  //              }
+            } catch (err) {
+                hasSentStart = false;
+                NotifyScreen("ERROR:", err.message);
+            } finally {
+                return true; // Required to keep message port open
             }
-        }
-    } catch (err) {
-        hasSentStart = false;
-        NotifyScreen("ERROR:", err.message);
-    } finally {
-        return true; // Required to keep message port open
+        });
     }
 });
 
