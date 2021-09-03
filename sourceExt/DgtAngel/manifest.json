@@ -19,9 +19,7 @@
     "permissions": [
     ],
     "host_permissions": [
-        "https://www.chess.com/game/live/*",
-        "https://www.chess.com/play/online/*",
-        "https://www.chess.com/live/*"
+        "https://www.chess.com/"
     ],
     "content_scripts": [
         {

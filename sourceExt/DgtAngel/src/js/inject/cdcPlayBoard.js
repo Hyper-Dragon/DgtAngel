@@ -1,10 +1,12 @@
 /**
  * DTG Angel Page Scrape
  *  - Chess.com Play Board
- * 
+ *
  */
 function GetRemoteBoardState() {
+    // Setup Default Return Object + blank board
     remoteBoard = getDefaultRemoteBoard();
+    var board = getBlankBoard();
 
     if (
         remoteBoard.PageUrl.includes("chess.com/game/live/") ||
@@ -13,7 +15,7 @@ function GetRemoteBoardState() {
         if (document.visibilityState == "hidden") {
             remoteBoard.State.Code = "LOST_VISABILITY";
             remoteBoard.State.Message =
-                "You need to keep the board at least partially visible.";
+                "On the play screen the board needs to be visible.";
             remoteBoard.Board = null;
             remoteBoard.BoardConnection = null;
         } else if (
@@ -21,8 +23,7 @@ function GetRemoteBoardState() {
                 .length == 0
         ) {
             remoteBoard.State.Code = "MOVE_LIST_MISSING";
-            remoteBoard.State.Message =
-                "Are you in focus mode? Switched the side tabs?";
+            remoteBoard.State.Message = "The move list is inaccessible.";
             remoteBoard.Board = null;
             remoteBoard.BoardConnection = null;
         } else {
@@ -42,9 +43,6 @@ function GetRemoteBoardState() {
                             .replaceAll("0", "")
                 )
                 .join(",");
-
-            // Setup a Blank Board
-            var board = getBlankBoard();
 
             // Add them to the board
             piecesStringArray = piecesStringOut.split(",");
@@ -89,14 +87,13 @@ function GetRemoteBoardState() {
             // Now the clocks....
             whiteClock = document.getElementsByClassName("clock-white")[0];
             blackClock = document.getElementsByClassName("clock-black")[0];
+            turn = "NONE";
 
             // Use the clocks to detect the turn
             if (whiteClock.classList.contains("clock-player-turn")) {
                 turn = "WHITE";
             } else if (blackClock.classList.contains("clock-player-turn")) {
                 turn = "BLACK";
-            } else {
-                turn = "NONE";
             }
 
             // Finally the DTG board status if we can get it
@@ -152,7 +149,7 @@ function GetRemoteBoardState() {
     } else {
         remoteBoard.State.Code = "UNKNOWN_PAGE";
         remoteBoard.State.Message =
-            "If you can see this something has changed OR the manifest has a config error!";
+            "If you can see this something has changed on chess.com";
         remoteBoard.Board = null;
         remoteBoard.BoardConnection = null;
     }

@@ -1,7 +1,7 @@
 /**
  * DTG Angel Page Scrape
  *  - Chess.com Live Board
- * 
+ *
  */
 function GetRemoteBoardState() {
     // Setup Default Return Object + blank board
@@ -27,19 +27,7 @@ function GetRemoteBoardState() {
                 piece[0] + "" + piece[1];
         }
 
-        // Generate FEN String
-        let result = calculateFen(board);
-
-        whiteClock = document.getElementsByClassName("clock-white")[0];
-        blackClock = document.getElementsByClassName("clock-black")[0];
-        turn = "NONE";
-
-        if (whiteClock.outerHTML.includes("clock-playerTurn")) {
-            turn = "WHITE";
-        } else if (blackClock.outerHTML.includes("clock-playerTurn")) {
-            turn = "BLACK";
-        }
-
+        //Now..the move list
         moveList = Array.from(
             document.getElementsByClassName("move-text-component")
         );
@@ -53,6 +41,19 @@ function GetRemoteBoardState() {
                 .innerText.trim();
         }
 
+        // Now the clocks....
+        whiteClock = document.getElementsByClassName("clock-white")[0];
+        blackClock = document.getElementsByClassName("clock-black")[0];
+        turn = "NONE";
+
+        // Use the clocks to detect the turn
+        if (whiteClock.outerHTML.includes("clock-playerTurn")) {
+            turn = "WHITE";
+        } else if (blackClock.outerHTML.includes("clock-playerTurn")) {
+            turn = "BLACK";
+        }
+
+        // Finally the DTG board status if we can get it
         if (
             document.getElementsByClassName("dgt-board-status-component")
                 .length == 0
@@ -67,37 +68,23 @@ function GetRemoteBoardState() {
                 .replaceAll("\n", "");
         }
 
-        //For the time conversion
-        var w_mul = [3600000, 60000, 1000];
-        wcConTime = 0;
-        whiteClock.innerText
-            .split(":")
-            .reverse()
-            .forEach(
-                (element) => (wcConTime += w_mul.pop() * parseFloat(element))
-            );
-
-        var b_mul = [3600000.0, 60000.0, 1000.0];
-        bcConTime = 0;
-        blackClock.innerText
-            .split(":")
-            .reverse()
-            .forEach(
-                (element) => (bcConTime += b_mul.pop() * parseFloat(element))
-            );
-
-        remoteBoard.Board.FenString = result;
+        remoteBoard.Board.FenString = calculateFen(board);
         remoteBoard.Board.Turn = turn;
         remoteBoard.Board.IsWhiteOnBottom = Array.from(
             document.getElementById("main-clock-top").parentElement.classList
         ).includes("clock-black");
         remoteBoard.Board.LastMove = lastMove;
-        remoteBoard.Board.Clocks.WhiteClock = wcConTime;
-        remoteBoard.Board.Clocks.BlackClock = bcConTime;
+        remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
+            whiteClock.innerText
+        );
+        remoteBoard.Board.Clocks.BlackClock = convertClockStringToMs(
+            blackClock.innerText
+        );
         remoteBoard.Board.Clocks.CaptureTimeMs = new Date().getTime();
         remoteBoard.BoardConnection.BoardState = boardState;
         remoteBoard.BoardConnection.ConMessage = boardMessage;
 
+        //Calculate the game state
         if (remoteBoard.Board.Turn == "NONE") {
             if (remoteBoard.Board.LastMove == "") {
                 remoteBoard.State.Code = "GAME_PENDING";
@@ -105,12 +92,21 @@ function GetRemoteBoardState() {
                 remoteBoard.State.Code = "GAME_COMPLETED";
             }
         } else {
-            remoteBoard.State.Code = "GAME_IN_PROGRESS";
+            if (
+                remoteBoard.Board.LastMove == "1-0" ||
+                remoteBoard.Board.LastMove == "0-1" ||
+                remoteBoard.Board.LastMove == "1/2-1-2"
+            ) {
+                remoteBoard.Board.Turn = "NONE";
+                remoteBoard.State.Code = "GAME_COMPLETED";
+            } else {
+                remoteBoard.State.Code = "GAME_IN_PROGRESS";
+            }
         }
     } else {
         remoteBoard.State.Code = "UNKNOWN_PAGE";
         remoteBoard.State.Message =
-            "If you can see this the manifest has a config error!";
+            "If you can see this something has changed on chess.com";
         remoteBoard.Board = null;
         remoteBoard.BoardConnection = null;
     }
