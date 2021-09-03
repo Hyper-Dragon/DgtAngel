@@ -1,10 +1,10 @@
 /**
- *
  * DTG Angel Service Worker
  *
  */
 try {
     importScripts(
+        "src/js/shared/globals.js",
         "src/js/shared/messages.js",
         "src/js/background/backgroundHelpers.js"
     );
@@ -41,7 +41,7 @@ function onUpdatedListener(tabId, changeInfo, tab) {
 }
 
 function sendWatchStarted(boardState) {
-    let startedMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STARTED");
+    let startedMsg = GetBlankMessage(BACKGROUND_SOURCE_NAME, "WATCH_STARTED");
     startedMsg.RemoteBoard = boardState;
 
     chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg });
@@ -51,7 +51,7 @@ function sendWatchStarted(boardState) {
 function sendWatchStopped() {
     if (hasSentStart == true) {
         hasSentStart = false;
-        stopMsg = GetBlankMessage("ANGEL:SERVICE", "WATCH_STOPPED");
+        stopMsg = GetBlankMessage(BACKGROUND_SOURCE_NAME, "WATCH_STOPPED");
         SocketSendMessage(stopMsg);
         chrome.runtime.sendMessage({ BoardScrapeMsg: stopMsg });
         NotifyScreen("WATCH STOPPED");
@@ -73,7 +73,7 @@ chrome.tabs.onUpdated.addListener(onUpdatedListener);
 
 // Subscribe to chrome events
 chrome.runtime.onConnect.addListener(function (port) {
-    if (port.name == "BoardScrapePort") {
+    if (port.name == WRAPPER_PORT_NAME ) {
         port.onMessage.addListener(function (request) {
             try {
 //                if (activeTabId == sender.tab.id) {
@@ -105,4 +105,4 @@ setInterval(() => {
         socket = null;
         NotifyScreen("Client Connect Failed");
     }
-}, 5000);
+}, CLIENT_CONNECT_KEEP_ALIVE_MS);

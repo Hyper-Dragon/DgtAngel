@@ -29,13 +29,13 @@
                 "https://www.chess.com/game/live/*",
                 "https://www.chess.com/play/online/*"
             ],
-            "js": ["src/js/shared/chessHelpers.js","src/js/shared/messages.js", "src/js/inject/cdcPlayBoard.js", "src/js/inject/angelWrapper.js"]
+            "js": ["src/js/shared/globals.js","src/js/shared/chessHelpers.js","src/js/shared/messages.js", "src/js/inject/cdcPlayBoard.js", "src/js/inject/angelWrapper.js"]
         },
         {
             "matches": [
                 "https://www.chess.com/live/*"
             ],
-            "js": ["src/js/shared/chessHelpers.js", "src/js/shared/messages.js", "src/js/inject/cdcLiveBoard.js", "src/js/inject/angelWrapper.js"]
+            "js": ["src/js/shared/globals.js","src/js/shared/chessHelpers.js", "src/js/shared/messages.js", "src/js/inject/cdcLiveBoard.js", "src/js/inject/angelWrapper.js"]
         }
     ]
 }

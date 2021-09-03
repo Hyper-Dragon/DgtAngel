@@ -1,26 +1,27 @@
 /**
- * 
  * DTG Angel Service Worker Helpers
  *  - Loaded from background.js
  */
 
 function NotifyScreen(messageText) {
     chrome.runtime.sendMessage({ WorkerMessage: messageText });
-    //console.log(messageText);
+    if (LOG_NOTIFY_ON_CONSOLE) {
+        console.log(messageText);
+    }
 }
 
 function NotifyScreenDebug(messageText) {
     chrome.runtime.sendMessage({ WorkerMessage: messageText });
-    //console.debug(messageText);
+    if (LOG_NOTIFY_DEBUG_ON_CONSOLE) {
+        console.debug(messageText);
+    }
 }
-
-
 
 var socket = null;
 
 function checkSocketConnection() {
     if (socket == null) {
-        socket = new WebSocket("ws://localhost:37964/ws");
+        socket = new WebSocket(CLIENT_URL);
 
         socket.addEventListener("open", function (event) {
             NotifyScreen("Connection to Cherub OPEN");
@@ -45,7 +46,7 @@ function SocketSendMessage(messageObject) {
         if (socket != null && socket.readyState == WebSocket.OPEN) {
             socket.send(JSON.stringify(messageObject));
             NotifyScreenDebug("Update sent");
-        }else{
+        } else {
             NotifyScreenDebug("No open socket to client");
         }
     } catch (err) {
