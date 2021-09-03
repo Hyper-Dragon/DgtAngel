@@ -238,6 +238,16 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Mismatch_AP);
             };
 
+            _angelHubService.OnRemoteWatchStarted += () =>
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
+            };
+
+            _angelHubService.OnRemoteWatchStopped += () =>
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
+            };
+
             _angelHubService.OnBoardMatcherStarted += () =>
             {
                 LabelLocalDgt.BackColor = Color.Yellow;
