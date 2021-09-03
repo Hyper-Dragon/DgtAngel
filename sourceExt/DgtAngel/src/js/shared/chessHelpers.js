@@ -49,8 +49,9 @@ function calculateFen(board) {
 
 function convertClockStringToMs(clockTxt) {
     //For the time conversion
-    mulMs = [3600000, 60000, 1000];
+    mulMs = [3600000, 60000, 1000];    
     conTime = 0;
+
     clockTxt
         .split(":")
         .reverse()

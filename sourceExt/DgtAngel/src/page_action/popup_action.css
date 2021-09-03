@@ -12,6 +12,7 @@
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
         "Lucida Sans Unicode", Geneva, Verdana, sans-serif, Ubuntu, Arial,
         sans-serif;
+    font-size: 1em;
 }
 
 #messageSection {
@@ -21,7 +22,19 @@
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 1.8em;
+    color: white;
+}
+
+a {
+    color: white;
+
+    
+}
+
+.subH1 {
+    font-style: italic;
+    font-size: .5em;
 }
 
 .topButton {

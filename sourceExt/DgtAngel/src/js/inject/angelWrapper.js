@@ -3,16 +3,21 @@
  *  - Calls GetRemoteBoardState() in the scrape file added by the manifest
  *
  */
-var port = chrome.runtime.connect({ name: WRAPPER_PORT_NAME });
+
+ window.addEventListener('beforeunload', function (e) {
+    //e.preventDefault();
+    //e.returnValue = '';
+    sendWatchStopped()
+});
 
 setInterval(() => {
     if (document.readyState === "complete") {
-        updateMsg = GetBlankMessage(WRAPPER_SOURCE_NAME, "STATE_UPDATED");
-
         try {
             if (IsUrlValid(window.location.toString())) {
+                updateMsg = GetBlankMessage(PAGE_SOURCE_NAME, "STATE_UPDATED");
                 updateMsg.RemoteBoard = GetRemoteBoardState();
             } else {
+                updateMsg = GetBlankMessage(WRAPPER_SOURCE_NAME, "STATE_UPDATED");
                 updateMsg.RemoteBoard = getDefaultRemoteBoard();
                 updateMsg.RemoteBoard.State.Code = "UNKNOWN_PAGE";
                 updateMsg.RemoteBoard.State.Message =
@@ -21,6 +26,7 @@ setInterval(() => {
                 updateMsg.RemoteBoard.BoardConnection = null;
             }
         } catch (err) {
+            updateMsg = GetBlankMessage(WRAPPER_SOURCE_NAME, "STATE_UPDATED");
             updateMsg.RemoteBoard = getDefaultRemoteBoard();
             updateMsg.RemoteBoard.State.Code = "PAGE_READ_ERROR";
             updateMsg.RemoteBoard.State.Message = err.message;
@@ -28,13 +34,56 @@ setInterval(() => {
             updateMsg.RemoteBoard.BoardConnection = null;
         }
 
-        port.postMessage({ BoardScrapeMsg: updateMsg });
+        try {
+            //                if (activeTabId == sender.tab.id) {
+            if (hasSentStart == false) {
+                sendWatchStarted(updateMsg.RemoteBoard);
+                NotifyScreen("WATCH STARTED");
+            } else {
+                NotifyScreen("Sending Update...");
+                SocketSendMessage(updateMsg);
 
-        //echo for popup
-        chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
+                //echo the message out for the popup (if it is running)
+                chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
+            }
+            //              }
+        } catch (err) {
+            sendWatchStopped();
+            NotifyScreen("ERROR:", err.message);
+        } finally {
+            return true; // Required to keep message port open
+        }
     } else {
         console.log("Document not ready");
     }
 }, PAGE_POLL_DELAY_MS);
 
 console.log("Watching Page...");
+
+
+
+//var port = chrome.runtime.connect({ name: WRAPPER_PORT_NAME });
+
+//function onActivatedListener(tabId, changeInfo, tab) {
+//    chrome.tabs.get(tabId.tabId, function (tab) {
+//        console.debug("New active tab: " + tab.id);
+//        activeTabId = tab.id;
+//        lastUrl = "";
+//        sendWatchStopped();
+//    });
+//}
+//
+//function onUpdatedListener(tabId, changeInfo, tab) {
+//    if (changeInfo.status == "loading") {
+//        //Can only get the url on loading
+//        if (changeInfo.url == undefined) {
+//            //not on a supported site
+//            lastUrl = "";
+//            sendWatchStopped();
+//        } else if (changeInfo.lastUrl != changeInfo.url) {
+//            //Detect page change on supported site
+//            lastUrl = changeInfo.url;
+//            sendWatchStopped();
+//        }
+//    }
+//}
