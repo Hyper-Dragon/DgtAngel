@@ -16,26 +16,35 @@
         "default_popup": "src/page_action/popup_action.html",
         "default_icon": "icons/Default/icon-128.png"
     },
-    "permissions": [
-    ],
-    "host_permissions": [
-        "https://www.chess.com/game/live/*",
-        "https://www.chess.com/play/online/*",
-        "https://www.chess.com/live/*"
-    ],
+    "permissions": [],
+    "host_permissions": ["https://www.chess.com/"],
     "content_scripts": [
         {
             "matches": [
                 "https://www.chess.com/game/live/*",
                 "https://www.chess.com/play/online/*"
             ],
-            "js": ["src/js/shared/chessHelpers.js","src/js/shared/messages.js", "src/js/inject/cdcPlayBoard.js", "src/js/inject/angelWrapper.js"]
+            "js": [
+                "src/js/shared/globals.js",
+                "src/js/shared/chessHelpers.js",
+                "src/js/shared/messages.js",
+                "src/js/shared/globalHelpers.js",
+                "src/js/inject/clientConnection.js",
+                "src/js/inject/cdcPlayBoard.js",
+                "src/js/inject/angelWrapper.js"
+            ]
         },
         {
-            "matches": [
-                "https://www.chess.com/live/*"
-            ],
-            "js": ["src/js/shared/chessHelpers.js", "src/js/shared/messages.js", "src/js/inject/cdcLiveBoard.js", "src/js/inject/angelWrapper.js"]
+            "matches": ["https://www.chess.com/live/*"],
+            "js": [
+                "src/js/shared/globals.js",
+                "src/js/shared/chessHelpers.js",
+                "src/js/shared/messages.js",
+                "src/js/shared/globalHelpers.js",
+                "src/js/inject/clientConnection.js",
+                "src/js/inject/cdcLiveBoard.js",
+                "src/js/inject/angelWrapper.js"
+            ]
         }
     ]
 }
