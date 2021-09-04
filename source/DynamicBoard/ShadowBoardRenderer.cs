@@ -2,12 +2,8 @@
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Threading;
-using System.Threading.Tasks;
 using static DynamicBoard.Helpers.FenConversion;
 
 namespace DynamicBoard
@@ -65,7 +61,7 @@ namespace DynamicBoard
 
         public override Task<byte[]> GetPngImageDiffFromFenAsync(in string fenString = "", in string compFenString = "", in int imageSize = 1024, in bool isFromWhitesPerspective = true)
         {
-            _logger?.LogDebug($"Constructing board for fen [{fenString}]");
+            _logger?.LogDebug(message: $"Constructing board for fen [{fenString}]");
 
             byte[] errorImageOutBytes = null;
             byte[] imageOutBytes = null;

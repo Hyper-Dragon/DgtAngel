@@ -4,14 +4,10 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Controllers
@@ -37,7 +33,11 @@ namespace DgtCherub.Controllers
             if (HttpContext.WebSockets.IsWebSocketRequest && isAcceptingConnections)
             {
                 //Only allow one connection 
-                if (runningSocket != null) runningSocket.Abort();
+                if (runningSocket != null)
+                {
+                    runningSocket.Abort();
+                }
+
                 runningSocket = null;
 
                 using WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
@@ -84,7 +84,7 @@ namespace DgtCherub.Controllers
                                     if (messageIn.RemoteBoard.CaptureTimeMs > highestCaptureTimeRecieved)
                                     {
                                         highestCaptureTimeRecieved = messageIn.RemoteBoard.CaptureTimeMs;
-                                        
+
                                         switch (messageIn.RemoteBoard.State.Code)
                                         {
                                             case ResponseCode.LOST_VISABILITY:

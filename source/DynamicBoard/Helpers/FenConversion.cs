@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DynamicBoard.Helpers
+﻿namespace DynamicBoard.Helpers
 {
     internal class FenConversion
     {

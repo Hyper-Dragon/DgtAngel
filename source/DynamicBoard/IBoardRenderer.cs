@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace DynamicBoard
+﻿namespace DynamicBoard
 {
     public interface IBoardRenderer
     {
