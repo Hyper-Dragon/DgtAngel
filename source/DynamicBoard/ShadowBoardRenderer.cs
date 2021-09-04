@@ -77,7 +77,6 @@ namespace DynamicBoard
                 }
                 else
                 {
-                    // TODO: add switch colour profile
                     // Dont pass in the blank board unless customised for some reason...it is slower!
                     using Bitmap boardBmp = RenderBoard(//blankBoard: blankBoard,
                                                         //whiteSquareColour: Color.FromArgb(255, 238, 238, 210),

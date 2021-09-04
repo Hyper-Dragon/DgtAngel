@@ -57,7 +57,6 @@ namespace DgtCherub.Controllers
 
                         do
                         {
-                            //TODO: Make read more efficient and use the canx token on shutdown
                             result = await webSocket.ReceiveAsync(buffer, CancellationToken.None);
                             for (int i = 0; i < result.Count; i++)
                             {

@@ -175,7 +175,7 @@ namespace DgtCherub.Services
             finally { startStopSemaphore.Release(); }
         }
 
-        //TODO: what about on first load
+
         public void LocalBoardUpdate(string fen)
         {
             localFenProcessChannel.Writer.TryWrite(fen);

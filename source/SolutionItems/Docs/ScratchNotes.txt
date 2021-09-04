@@ -1,5 +1,5 @@
 
-        //TODO:  THIS HAS REAL CLOCK CODE IN IT - check before delete
+        //  THIS HAS REAL CLOCK CODE IN IT - check before delete
         //
 
         ///        LabelLocalDgt.BackColor = Color.Yellow;
@@ -8,14 +8,14 @@
 
         /*private async Task FenChangedMatchTest()
         {
-            //TODO: prob should be canceled if fen changes while we wait
+            //prob should be canceled if fen changes while we wait
             if (!_appDataService.IsMismatchDetected)
             {
                 //if we have no mismatch delay before test
                 await Task.Delay(MISMATCH_DELAY);
             }
 
-            //TODO: Add mismatch speech - clocks must be running
+            //Add mismatch speech - clocks must be running
             if (_appDataService.LocalBoardFEN != _appDataService.ChessDotComBoardFEN)
             {
                 _dgtEbDllFacade?.DisplayForeverMessage("SYNC ERR");
@@ -56,7 +56,7 @@
         {
             _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Reformatting {cdcClockString}");
 
-            //TODO: Need to handle from zero - need example
+            //Need to handle from zero - need example
             string[] clockParts = cdcClockString.Split(".")[0].Split(":");
 
             return $"0:{clockParts[0].PadLeft(2, '0')}:{clockParts[1].PadLeft(2, '0')}";

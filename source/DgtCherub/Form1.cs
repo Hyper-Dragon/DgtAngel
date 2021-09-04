@@ -73,8 +73,6 @@ namespace DgtCherub
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
-        //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-        //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
 
         [DllImport("user32")]
         private static extern bool HideCaret(IntPtr hWnd);
@@ -98,6 +96,8 @@ namespace DgtCherub
             InitializeComponent();
 
             //TODO: Start the Rabbit Plugin if we can...
+            //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
+            //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
             try
             {
                 //_dgtEbDllFacade.Init();
@@ -561,7 +561,6 @@ namespace DgtCherub
                                                    TEXTBOX_MAX_LINES);
         }
 
-        //TODO: Create 'Play' Menu - leave this on tasks
         private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)

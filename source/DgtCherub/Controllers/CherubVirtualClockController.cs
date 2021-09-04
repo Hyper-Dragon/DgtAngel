@@ -156,8 +156,7 @@ namespace DgtCherub.Controllers
             // http://localhost:37964/CherubVirtualClock/GetStuff
             _logger?.LogTrace($"Clock client connected running {clientUtcMs}");
 
-            //TODO: No initial local board without piece move
-            //TODO: Remote board does not clear on disconnect
+
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
 
             Response.Headers.Add("Content-Type", MIME_EVENT);
