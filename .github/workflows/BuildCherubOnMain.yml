@@ -3,6 +3,8 @@ name: Cherub Build
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'DgtAngel/source/'
   pull_request:
     branches: [ main ]
 
