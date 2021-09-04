@@ -1,8 +1,37 @@
 /**
  * DTG Angel Messages
  *  - (shared with the content and background scripts)
- * 
+ *  - Defines supported state codes
  */
+const messageStateCodes = {
+	ERROR_IF_NOT_SET: "ERROR_IF_NOT_SET",
+    WATCH_STARTED: "WATCH_STARTED",
+    STATE_UPDATED: "STATE_UPDATED",
+    WATCH_STOPPED: "WATCH_STOPPED",
+	KEEP_ALIVE: "KEEP_ALIVE",
+};
+
+const boardStateCodes = {
+	UNKNOWN_PAGE: "UNKNOWN_PAGE",
+    LOST_VISABILITY: "LOST_VISABILITY",
+    MOVE_LIST_MISSING: "MOVE_LIST_MISSING",
+	GAME_PENDING: "GAME_PENDING",
+    GAME_IN_PROGRESS: "GAME_IN_PROGRESS",
+	GAME_COMPLETED: "GAME_COMPLETED",
+    PAGE_READ_ERROR: "PAGE_READ_ERROR",
+};
+
+const turnCodes = {
+    WHITE : "WHITE",
+    BLACK : "BLACK",
+    NONE : "NONE",
+};
+
+const dgtStateCodes = {
+    UNKNOWN : "UNKNOWN",
+    ACTIVE : "ACTIVE",
+};
+
 function GetBlankMessage(messageSource, messageType) {
 
     if(typeof(window) !== "undefined"){
@@ -17,7 +46,7 @@ function GetBlankMessage(messageSource, messageType) {
         MessageType: messageType,
         MsgTimeMs: new Date().getTime(),
         Message: windowLocation,
-        RemoteBoard: null,
+        RemoteBoard: null
     };
 
     return blankMsg;
@@ -29,7 +58,7 @@ function getDefaultRemoteBoard() {
         PageUrl: window.location.toString(),
         CaptureTimeMs: new Date().getTime(),
         State: {
-            Code: "ERROR_IF_NOT_SET",
+            Code: messageStateCodes.ERROR_IF_NOT_SET,
             Message: "",
         },
         BoardConnection: {

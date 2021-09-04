@@ -55,9 +55,9 @@ function GetRemoteBoardState() {
 
     // Use the clocks to detect the turn
     if (whiteClock.outerHTML.includes("clock-playerTurn")) {
-        turn = "WHITE";
+        turn = turnCodes.WHITE;
     } else if (blackClock.outerHTML.includes("clock-playerTurn")) {
-        turn = "BLACK";
+        turn = turnCodes.BLACK;
     }
 
     // Finally the DTG board status if we can get it
@@ -65,10 +65,10 @@ function GetRemoteBoardState() {
         document.getElementsByClassName("dgt-board-status-component").length ==
         0
     ) {
-        boardState = "UNKNOWN";
+        boardState = dgtStateCodes.UNKNOWN;
         boardMessage = "";
     } else {
-        boardState = "ACTIVE";
+        boardState = dgtStateCodes.ACTIVE;
         boardMessage = document
             .getElementsByClassName("dgt-board-status-component")[0]
             .innerText.trim()
@@ -92,11 +92,11 @@ function GetRemoteBoardState() {
     remoteBoard.BoardConnection.ConMessage = boardMessage;
 
     //Calculate the game state
-    if (remoteBoard.Board.Turn == "NONE") {
+    if (remoteBoard.Board.Turn == turnCodes.NONE) {
         if (remoteBoard.Board.LastMove == "") {
-            remoteBoard.State.Code = "GAME_PENDING";
+            remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
         } else {
-            remoteBoard.State.Code = "GAME_COMPLETED";
+            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
         }
     } else {
         if (
@@ -104,10 +104,10 @@ function GetRemoteBoardState() {
             remoteBoard.Board.LastMove == "0-1" ||
             remoteBoard.Board.LastMove == "1/2-1-2"
         ) {
-            remoteBoard.Board.Turn = "NONE";
-            remoteBoard.State.Code = "GAME_COMPLETED";
+            remoteBoard.Board.Turn = turnCodes.NONE;
+            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
         } else {
-            remoteBoard.State.Code = "GAME_IN_PROGRESS";
+            remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
         }
     }
 
