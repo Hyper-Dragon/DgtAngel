@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.autoSave": "onWindowChange",
+        	"files.exclude": {
+            		"**/source": true,
+			"**/sourceExt": true,
+			"**/docs": true
+        	}
+	}
+}
