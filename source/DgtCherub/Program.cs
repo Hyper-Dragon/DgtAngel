@@ -2,10 +2,7 @@ using DgtCherub.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace DgtCherub

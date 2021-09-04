@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DgtLiveChessWrapper
+﻿namespace DgtLiveChessWrapper
 {
     internal sealed class LiveChessDisconnectedException : Exception
     {

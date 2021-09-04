@@ -3,12 +3,9 @@ using DynamicBoard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using static DgtCherub.Helpers.ResourceLoader;
 
 namespace DgtCherub.Controllers
@@ -159,8 +156,7 @@ namespace DgtCherub.Controllers
             // http://localhost:37964/CherubVirtualClock/GetStuff
             _logger?.LogTrace($"Clock client connected running {clientUtcMs}");
 
-            //TODO: No initial local board without piece move
-            //TODO: Remote board does not clear on disconnect
+
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
 
             Response.Headers.Add("Content-Type", MIME_EVENT);

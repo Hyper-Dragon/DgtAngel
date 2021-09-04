@@ -3,6 +3,8 @@ name: Cherub Build
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'DgtAngel/source/'
   pull_request:
     branches: [ main ]
 
@@ -22,5 +24,5 @@ jobs:
       run: dotnet restore ./source/DgtCherub/DgtCherub.csproj
     - name: Build
       run: dotnet build --no-restore ./source/DgtCherub/DgtCherub.csproj
-#    - name: Test
-#      run: dotnet test --no-build --verbosity normal
+    - name: Test
+      run: dotnet test --verbosity normal ./source/DynamicBoardTest/DynamicBoardTest.csproj

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Threading;
 using static DgtEbDllWrapper.DgtEbDllAdapter;
 
 namespace DgtEbDllWrapper

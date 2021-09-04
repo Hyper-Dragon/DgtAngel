@@ -7,16 +7,11 @@ using DynamicBoard.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QRCoder;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -43,7 +38,6 @@ namespace DgtCherub
         private const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
-        private const string DL_VOICE_EXT = @"https://chrome.google.com/webstore/detail/chesscom-voice-commentary/kampphbbbggcjlepmgfogpkpembcaphk";
         private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
@@ -79,8 +73,6 @@ namespace DgtCherub
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
-        //TODO:add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-        //TODO:The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
 
         [DllImport("user32")]
         private static extern bool HideCaret(IntPtr hWnd);
@@ -104,6 +96,8 @@ namespace DgtCherub
             InitializeComponent();
 
             //TODO: Start the Rabbit Plugin if we can...
+            //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
+            //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
             try
             {
                 //_dgtEbDllFacade.Init();
@@ -567,7 +561,6 @@ namespace DgtCherub
                                                    TEXTBOX_MAX_LINES);
         }
 
-        //TODO: Create 'Play' Menu - leave this on tasks
         private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
