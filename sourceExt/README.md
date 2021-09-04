@@ -2,11 +2,11 @@
 
 ## Install
 
-###
+### Current Release
 
 The current release is available from the Chrome store [TODO].
 
-### Dev Install
+### Development Install
 
 - Open Chrome
 - blah
@@ -36,5 +36,3 @@ on:
 
 ---
 [![CodeQL JS](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/codeql-analysis.yml)
-
-
