@@ -23,4 +23,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore ./source/DgtCherub/DgtCherub.csproj
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal ./source/DynamicBoardTest/DynamicBoardTest.csproj
