@@ -8,21 +8,30 @@ var socket = null;
 
 function checkSocketConnection() {
     if (socket == null) {
-        socket = new WebSocket(CLIENT_URL);
+        try {
+            NotifyScreen("Connecting to the Cherub client...");
+            socket = new WebSocket(CLIENT_URL);
 
-        socket.addEventListener("open", function (event) {
-            NotifyScreen("Connection to Cherub OPEN");
-        });
+            socket.onerror = function (error) {
+                NotifyScreen("Connecting to the Cherub client...FAILED");
+            };
 
-        socket.addEventListener("message", function (event) {
-            NotifyScreenDebug("KEEP-ALIVE");
-        });
+            socket.addEventListener("open", function (event) {
+                NotifyScreen("Connecting to the Cherub client...OPEN");
+            });
 
-        socket.addEventListener("close", function (event) {
-            socket = null;
-            hasSentStart = false;
-            NotifyScreen("Connection to Cherub CLOSED");
-        });
+            socket.addEventListener("message", function (event) {
+                NotifyScreenDebug("Sending Update...KEEP-ALIVE");
+            });
+
+            socket.addEventListener("close", function (event) {
+                socket = null;
+                hasSentStart = false;
+                NotifyScreen("Cherub client connection...CLOSED");
+            });
+        } catch {
+            NotifyScreen("Connecting to the Cherub client...FAILED");
+        }
     } else {
         SocketSendMessage(GetBlankMessage(WRAPPER_SOURCE_NAME, "KEEP_ALIVE"));
     }
@@ -67,9 +76,5 @@ function SocketSendMessage(messageObject) {
 //Keep trying to connect to the client and when we do keep it alive
 //*****************************************************************/
 setInterval(() => {
-    try {
-        checkSocketConnection();
-    } catch {
-        NotifyScreen("Client Connect Failed");
-    }
+    checkSocketConnection();
 }, CLIENT_CONNECT_KEEP_ALIVE_MS);
