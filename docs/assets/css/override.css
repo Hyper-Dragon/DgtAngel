@@ -1,9 +1,20 @@
 body{
-    background-color: #2b2a33;
+    background-color: white;
   }
+
+p{
+  color: rgba(255, 255, 255, .75);
+}
+
+a{
+  color: rgba(255, 255, 0, .75);
+}
+
+.main-content{
+  background-color: rgba(0, 0, 0, .89);
+}
   
-  
-  .page-header{
+.page-header{
       background-color: #0d1117;
       background-image: url('/DgtAngel/assets/images/BoardBackground.png'),
                         url('/DgtAngel/assets/images/GlowBackground.png'),
@@ -16,9 +27,11 @@ body{
       border: 0px;
       margin: 0px;
       padding-top: 20px;
+      box-shadow: 0 28px 28px -10px rgba(0, 0, 0, .8);
   }
   
   .project-name{
+    color: rgba(255, 255, 255, .9);
     text-align: center;
     text-decoration-line: underline;
     vertical-align: top;
@@ -28,10 +41,16 @@ body{
     background-color: rgba(133, 145, 159, .4);
     transition-duration: 0.5s;
     color: white;
-    box-shadow: 0 5px 20px 0 rgba(0,0,0,0.2), 0 5px 20px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 5px 20px 0 rgba(0,0,0,0.2);
   }
   
   .btn:hover {
     background-color: rgba(133, 145, 159, .9);
     color: white;
   }
+
+.highlight{
+  box-shadow: 0 20px 20px -10px rgba(0, 0, 0, .8);
+}
+
+
