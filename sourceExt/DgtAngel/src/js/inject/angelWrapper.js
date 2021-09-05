@@ -72,28 +72,3 @@ setInterval(() => {
 
 console.log("Watching Page...");
 
-//var port = chrome.runtime.connect({ name: WRAPPER_PORT_NAME });
-
-//function onActivatedListener(tabId, changeInfo, tab) {
-//    chrome.tabs.get(tabId.tabId, function (tab) {
-//        console.debug("New active tab: " + tab.id);
-//        activeTabId = tab.id;
-//        lastUrl = "";
-//        sendWatchStopped();
-//    });
-//}
-//
-//function onUpdatedListener(tabId, changeInfo, tab) {
-//    if (changeInfo.status == "loading") {
-//        //Can only get the url on loading
-//        if (changeInfo.url == undefined) {
-//            //not on a supported site
-//            lastUrl = "";
-//            sendWatchStopped();
-//        } else if (changeInfo.lastUrl != changeInfo.url) {
-//            //Detect page change on supported site
-//            lastUrl = changeInfo.url;
-//            sendWatchStopped();
-//        }
-//    }
-//}

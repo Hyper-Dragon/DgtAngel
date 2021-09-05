@@ -7,51 +7,58 @@ var hasSentStart = false;
 var socket = null;
 
 function checkSocketConnection() {
-    if ( socket == null ) {
+    if (socket == null) {
         NotifyScreen("Connecting to the Cherub client...");
 
         //Test to see if the client is there before we try to open the websocket.
-        //Not doing this first means that we end up with errors being raised on 
+        //Not doing this first means that we end up with errors being raised on
         //the plugin extension page.
         fetch(CLIENT_TEST_URL)
-        .then(response => response.json())
-        .then(data=>{
-            try {        
-                socket = new WebSocket(CLIENT_URL);
-    
-                socket.onerror = function (error) {
+            .then((response) => response.json())
+            .then((data) => {
+                try {
+                    socket = new WebSocket(CLIENT_URL);
+
+                    socket.onerror = function (error) {
+                        NotifyScreen(
+                            "Connecting to the Cherub client...FAILED"
+                        );
+                    };
+
+                    socket.addEventListener("open", function (event) {
+                        NotifyScreen("Connecting to the Cherub client...OPEN");
+                    });
+
+                    socket.addEventListener("message", function (event) {
+                        //This is the pong comming back
+                        NotifyScreenDebug("Sending Update...KEEP-ALIVE");
+                    });
+
+                    socket.addEventListener("close", function (event) {
+                        socket = null;
+                        hasSentStart = false;
+                        NotifyScreen("Cherub client connection...CLOSED");
+                    });
+                } catch {
                     NotifyScreen("Connecting to the Cherub client...FAILED");
-                };
-    
-                socket.addEventListener("open", function (event) {
-                    NotifyScreen("Connecting to the Cherub client...OPEN");
-                });
-    
-                socket.addEventListener("message", function (event) {
-                    //This is the pong comming back
-                    NotifyScreenDebug("Sending Update...KEEP-ALIVE");
-                });
-    
-                socket.addEventListener("close", function (event) {
-                    socket = null;
-                    hasSentStart = false;
-                    NotifyScreen("Cherub client connection...CLOSED");
-                });
-            } catch {
+                }
+            })
+            .catch((error) => {
                 NotifyScreen("Connecting to the Cherub client...FAILED");
-            }
-        })
-        .catch((error) => {
-            NotifyScreen("Connecting to the Cherub client...FAILED");
-        });
+            });
     } else {
-        SocketSendMessage(GetBlankMessage(WRAPPER_SOURCE_NAME, messageStateCodes.KEEP_ALIVE));
+        SocketSendMessage(
+            GetBlankMessage(WRAPPER_SOURCE_NAME, messageStateCodes.KEEP_ALIVE)
+        );
     }
 }
 
 function sendWatchStarted(boardState) {
     hasSentStart = true;
-    startedMsg = GetBlankMessage(WRAPPER_SOURCE_NAME, messageStateCodes.WATCH_STARTED);
+    startedMsg = GetBlankMessage(
+        WRAPPER_SOURCE_NAME,
+        messageStateCodes.WATCH_STARTED
+    );
     startedMsg.RemoteBoard = boardState;
     SocketSendMessage(startedMsg);
 
@@ -63,7 +70,10 @@ function sendWatchStarted(boardState) {
 function sendWatchStopped() {
     if (hasSentStart == true) {
         hasSentStart = false;
-        stopMsg = GetBlankMessage(WRAPPER_SOURCE_NAME, messageStateCodes.WATCH_STOPPED);
+        stopMsg = GetBlankMessage(
+            WRAPPER_SOURCE_NAME,
+            messageStateCodes.WATCH_STOPPED
+        );
         SocketSendMessage(stopMsg);
 
         //echo the message out for the popup (if it is running)

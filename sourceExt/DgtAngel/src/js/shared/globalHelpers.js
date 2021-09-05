@@ -16,3 +16,7 @@ function NotifyScreenDebug(messageText) {
         console.debug(messageText);
     }
 }
+
+function NotifyLog(messageText) {
+    console.log(messageText);
+}
