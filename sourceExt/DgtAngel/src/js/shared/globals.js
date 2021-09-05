@@ -7,6 +7,7 @@
 const CLIENT_CONNECT_KEEP_ALIVE_MS=5000;
 const CLIENT_TEST_URL="http://127.0.0.1:37964/api/AreYouThere";
 const CLIENT_URL="ws://localhost:37964/ws";
+const ANGEL_MESSAGE_VERSION="1.0";
 
 //Angel Wrapper
 const PAGE_POLL_DELAY_MS=500;
