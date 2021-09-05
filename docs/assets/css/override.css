@@ -1,7 +1,3 @@
-.testme {
-  font-size: 3em;
-}
-
 .page-header{
     background-color: #0d1117;
     background-image: url('/DgtAngel/assets/images/BoardBackground.png'),
@@ -9,6 +5,16 @@
                       linear-gradient(120deg, #0d1117 0%,  #2e537d 100%);
     background-repeat:no-repeat;
     background-size:contain;
+    min-width: 325px;
+    max-height: 300px;
     color: rgb(255, 255, 255);
+    border: 0px;
+    margin: 0px;
+    padding-top: 20px;
 }
 
+.project-name{
+  text-align: center;
+  text-decoration-line: underline;
+  vertical-align: top;
+}
