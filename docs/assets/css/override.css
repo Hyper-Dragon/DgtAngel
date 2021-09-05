@@ -3,11 +3,12 @@
 }
 
 .page-header{
-    background-color:rgb(255, 255, 255);
-    background-image: linear-gradient(120deg,#0d1117, #2e537d);
+    background-color: #0d1117;
+    background-image: url('/DgtAngel/assets/images/BoardBackground.png'),
+                      url('/DgtAngel/assets/images/GlowBackground.png'),
+                      linear-gradient(120deg, #0d1117 0%,  #2e537d 100%);
+    background-repeat:no-repeat;
+    background-size:contain;
     color: rgb(255, 255, 255);
 }
 
-.head-image{
-    width: 50px;
-}
