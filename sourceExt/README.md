@@ -4,17 +4,33 @@
 
 ### Current Release
 
-The current release is available from the Chrome store [TODO].
+The current release will be ~~is~~ available from the Chrome Store ~~[TODO]~~.
 
 ### Development Install
 
 - Open Chrome
-- blah
-- blah
-  
-## The Manifest
+- From the menu open More Tools-->Extensions
+- Click 'Load Unpacked'
+- Select the */sourceExt/DtgAngel* folder
 
-To enable additional page support add a new matches section and an associated *src/js/inject/**NAME**Board.js* file.
+## Adding Support For Pages
+
+### The Page Reader
+
+To support additional pages you need to create a .js file in the *src/js/inject/* folder and implement 2 methods:
+
+- function IsUrlValid(urlToTest) {}
+- function GetRemoteBoardState() {}
+
+The first should return true or false if the supplied URL parameter is supported by the javascript.
+
+The second returns the current board state. Call *getDefaultRemoteBoard()* and populate the values.  Supported constants can be found in *messages.js*.
+
+To run the new code unpdate the manifest (see below), load the changes into Chrome and navigete to the supported URL.
+
+### The Manifest
+
+To enable additional page support add a new matches section and an associated *src/js/inject/**NAME**Board.js* file. You should include the other .js files in the order below.
 
 ```json
 "content_scripts": [
