@@ -1,20 +1,37 @@
-.page-header{
-    background-color: #0d1117;
-    background-image: url('/DgtAngel/assets/images/BoardBackground.png'),
-                      url('/DgtAngel/assets/images/GlowBackground.png'),
-                      linear-gradient(120deg, #0d1117 0%,  #2e537d 100%);
-    background-repeat:no-repeat;
-    background-size:contain;
-    min-width: 325px;
-    max-height: 300px;
-    color: rgb(255, 255, 255);
-    border: 0px;
-    margin: 0px;
-    padding-top: 20px;
-}
-
-.project-name{
-  text-align: center;
-  text-decoration-line: underline;
-  vertical-align: top;
-}
+body{
+    background-color: #2b2a33;
+  }
+  
+  
+  .page-header{
+      background-color: #0d1117;
+      background-image: url('/DgtAngel/assets/images/BoardBackground.png'),
+                        url('/DgtAngel/assets/images/GlowBackground.png'),
+                        linear-gradient(120deg, #0d1117 0%,  #2e537d 100%);
+      background-repeat:no-repeat;
+      background-size:contain;
+      min-width: 325px;
+      max-height: 500px;
+      color: rgb(255, 255, 255);
+      border: 0px;
+      margin: 0px;
+      padding-top: 20px;
+  }
+  
+  .project-name{
+    text-align: center;
+    text-decoration-line: underline;
+    vertical-align: top;
+  }
+  
+  .btn{
+    background-color: rgba(133, 145, 159, .4);
+    transition-duration: 0.5s;
+    color: white;
+    box-shadow: 0 5px 20px 0 rgba(0,0,0,0.2), 0 5px 20px 0 rgba(0,0,0,0.2);
+  }
+  
+  .btn:hover {
+    background-color: rgba(133, 145, 159, .9);
+    color: white;
+  }
