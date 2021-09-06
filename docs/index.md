@@ -37,7 +37,9 @@ It looks like a lot but it isn't really.  If you already play on chess.com with 
 
 ### DGT Angel Plugin
 
-This is the Chrome Extension...Just go and download it from google.
+This is the Chrome Extension...Just go and download it from the google store.
+
+![DGT Angel](assets/images/RunningExtension.gif "Running Extension")
 
 ### DGT Cherub
 
