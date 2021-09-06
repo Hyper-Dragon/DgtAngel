@@ -1,12 +1,16 @@
 # DGT Angel
 
-'Ultimate' might be a bit of a stretch since this is very much an Alpha version.  The best I can say is that it works machine...Your mileage may vary.  It is designed to be be a **passive addition to the play experience** and does not directly interact with any web sites to work.  Any issues see the [Support](#Support) section.
+'Ultimate' might be a bit of a stretch since this is very much an Alpha version.  The best I can say is that it works on my machine...Your mileage may vary but if you do have any issues see the [Support Section](#Software-Support) below.  
+
+It is designed to be be a **passive addition to the play experience** and does not directly interact with any web sites directly to work.  Think of it as nothing more than a casual observer.  An observer that will let you know if your board is out of sync with the screen and how much time you have left.
+
+For a distraction free experience use the 'virtual clock' from your phone.  Almost just like playing OTB.
 
 ## Supported Page(s)
 
 - [The Chess.com Live Board](https://www.chess.com/live)¹
 
-¹ *The live board is being retired at some point Later this year.  The code has already been written to support the play board but is not included in this release*
+¹ *The live board is being retired at some point Later this year.  The code has already been written to support the play board but is not included in this release.*
 
 ## Prerequisites
 
@@ -66,5 +70,7 @@ Report any defects on the project [issues page](https://github.com/Hyper-Dragon/
 
 ## Donate
 
-This software was written.... If you use it regularly then please consider supporting the project with a donation.  No pressure.
-[TODO]
+This software was written by me, initially for me.  I decided to put in the extra work required to make it available to you.  If you use it regularly then please consider supporting the project with a donation.  No pressure.
+
+- **[Donate via Github](https://github.com/sponsors/Hyper-Dragon)**
+  
