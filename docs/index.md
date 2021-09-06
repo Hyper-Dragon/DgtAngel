@@ -35,11 +35,11 @@ If you just want the voice support you only need the Chrome plugin and the Cheru
 
 It looks like a lot but it isn't really.  If you already play on chess.com with your board then you are almost good to go.
 
-### Dtg Angel
+### DGT Angel Plugin
 
 This is the Chrome Extension...Just go and download it from google.
 
-### Dtg Cherub
+### DGT Cherub
 
 Download the .zip file from the [releases page](https://github.com/Hyper-Dragon/DgtAngel/releases), extract it and double click *Cherub.exe* to run.
 
