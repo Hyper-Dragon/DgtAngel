@@ -18,6 +18,10 @@ img {
 }
 
 pre {
+  font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+  color: white;
+  background: black;
+  white-space:break-spaces;
   box-shadow: 0 28px 28px -10px rgba(0, 0, 0, 0.8);
 }
 
@@ -34,7 +38,7 @@ pre {
   color: rgb(255, 255, 255);
   border: 0px;
   margin: 0px;
-  margin-bottom: 40px;
+  margin-bottom: 15px;
   padding-left: 10px;
   padding-top: 5px;
   padding-bottom: 10px;
