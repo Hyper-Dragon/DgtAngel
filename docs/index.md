@@ -18,14 +18,14 @@ If you just want the voice support you only need the Chrome plugin and the Cheru
 
 ### Miniumum
 
-[ ] A DGT Board
-[ ] Windows¹
-[ ] A Chrome web browser
-[ ] The DGT Live Chess Software²
-[ ] ~~The DGT Rabbit Plugin~~³
-[ ] 'Dgt Angel' - The chrome extension
-[ ] 'Dgt Cherub' - The windows client  
-[ ] Don't forget to enable your board in the Chess.com options.
+- A DGT Board
+- Windows¹
+- A Chrome web browser
+- The DGT Live Chess Software²
+- ~~The DGT Rabbit Plugin~~³
+- 'Dgt Angel' - The chrome extension
+- 'Dgt Cherub' - The windows client  
+- Don't forget to enable your board in the Chess.com options.
 
 ¹ *The client currently requires windows to run*
 ² *As required by chess.com*
