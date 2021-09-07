@@ -14,9 +14,9 @@ For the avoidance of duplication go check out the [github pages](https://hyper-d
 
 ## Dependencies
 
-- DGT Live Chess Software v2.2.5
+- DGT Live Chess Software v2.2.5 [Download](http://www.livechesscloud.com/software/)
 - Chess.com in page html (live board) as of Sep 2021
- 
+
 ## Contributing
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
