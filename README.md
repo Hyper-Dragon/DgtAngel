@@ -2,6 +2,11 @@
 
 ## About
 
+[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/Hyper-Dragon/DgtAngel/blob/main/LICENSE)
+[![Website monip.org](https://img.shields.io/website-up-down-green-red/http/monip.org.svg)](https://hyper-dragon.github.io/DgtAngel/)
+[![Windows](https://svgshare.com/i/ZhY.svg)](https://svgshare.com/i/ZhY.svg)
+
+
 For the avoidance of duplication go check the [github pages](https://hyper-dragon.github.io/DgtAngel/) site.
 
 ## Contributions
