@@ -1,6 +1,14 @@
 # Security Policy
 
-## Supported Versions
+## Extension (Angel) Supported Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 0.0.4   | :white_check_mark: |
+| < 0.0.4   | :x:                |
+
+
+## Client (Cherub) Supported Versions
 
 | Version | Supported          |
 | ------- | ------------------ |
