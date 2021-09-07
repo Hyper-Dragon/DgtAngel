@@ -1,5 +1,7 @@
 # Dgt Angel Client (Cherub) Root
 
+[![Cherub Build](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/BuildCherubOnMain.yml/badge.svg?branch=main)](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/BuildCherubOnMain.yml)
+
 ## Install
 
 ### Current Release
