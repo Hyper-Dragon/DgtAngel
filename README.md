@@ -48,3 +48,6 @@ Got a problem or even a great idea...
 
 This software was written by me, initially for me. I decided to put in the extra work required to make it available to you. If you use it regularly then please consider supporting the project with a donation. No pressure.  The links are on the side.
 
+***
+
+![image](https://user-images.githubusercontent.com/61525854/132361295-c0252654-5658-4cbf-a8de-f098ce308448.png)
