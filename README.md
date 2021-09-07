@@ -6,9 +6,9 @@ For the avoidance of duplication go check the [github pages](https://hyper-drago
 
 ## Contributions
 
-All are welcome...just send a pull request.
+Pull requests are welcome.  If, however, you want to make significant changes then please open an issue first so it can discussed.
 
-[![Open in Visual Studio Code](https://img.shields.io/badge/Open%20in-Visal%20Studio%20Code-blue?style=for-the-badge&logo=visualstudiocode)](https://open.vscode.dev/Hyper-Dragon/DgtAngel)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/Hyper-Dragon/DgtAngel)
 
 ## Feedback
 
