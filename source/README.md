@@ -6,7 +6,7 @@
 
 ### Current Release
 
-The current release is available from the releases page [TODO].
+The current release is available from the [releases page](https://github.com/Hyper-Dragon/DgtAngel/releases).
   
 ## Github Build Config
 
