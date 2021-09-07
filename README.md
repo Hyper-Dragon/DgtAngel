@@ -24,7 +24,7 @@ For the avoidance of duplication go check out the [github pages](https://hyper-d
 
 Pull requests are welcome.  If you want to make any significant changes then please open an issue first so that they can be discussed.
 
-This project consits of two distinct compponents with their own separate development guides.
+This project consits of two distinct components with their own separate development guides.
 
 - [*sourceExt*](/Hyper-Dragon/DgtAngel/tree/main/sourceExt) is the Chrome Extension (Javascript)
 - [*source*](/Hyper-Dragon/DgtAngel/tree/main/source) is the Cherub Client (.Net Core)
