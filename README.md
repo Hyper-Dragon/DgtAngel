@@ -6,7 +6,7 @@ For the avoidance of duplication go check the [github pages](https://hyper-drago
 
 ## Contributions
 
-Pull requests are welcome.  If, however, you want to make significant changes then please open an issue first so it can discussed.
+Pull requests are welcome.  If you want to make any significant changes then please open an issue first so that they can be discussed.
 
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/Hyper-Dragon/DgtAngel)
 
