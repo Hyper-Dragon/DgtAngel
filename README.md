@@ -7,7 +7,7 @@ For the avoidance of duplication go check the [github pages](https://hyper-drago
 ## Contributions
 
 Pull requests are welcome.  If you want to make any significant changes then please open an issue first so that they can be discussed.
-
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/Hyper-Dragon/DgtAngel)
 
 ## Feedback
