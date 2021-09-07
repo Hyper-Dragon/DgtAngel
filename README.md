@@ -1,12 +1,5 @@
 # DgtAngel
 
-##### Table of Contents  
-[Headers](#headers)  
-[Emphasis](#emphasis)    
-<a name="headers"/>
-## Headers
-## About
-
 [![Website monip.org](https://img.shields.io/website-up-down-green-red/http/monip.org.svg)](https://hyper-dragon.github.io/DgtAngel/)
 [![Cherub Build](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/BuildCherubOnMain.yml/badge.svg?branch=main)](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/BuildCherubOnMain.yml)
 [![CodeQL JS](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/codeql-analysis.yml)
@@ -21,9 +14,9 @@ For the avoidance of duplication go check out the [github pages](https://hyper-d
 
 ## Dependencies
 
-- blah
-- blah
-
+- DGT Live Chess Software v2.2.5
+- Chess.com in page html (live board) as of Sep 2021
+ 
 ## Contributing
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
