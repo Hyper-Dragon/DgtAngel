@@ -26,8 +26,8 @@ Pull requests are welcome.  If you want to make any significant changes then ple
 
 This project consits of two distinct components with their own separate development guides.
 
-- [*sourceExt*](/Hyper-Dragon/DgtAngel/tree/main/sourceExt) is the Chrome Extension (Javascript)
-- [*source*](/Hyper-Dragon/DgtAngel/tree/main/source) is the Cherub Client (.Net Core)
+- [*sourceExt*](https://github.com/Hyper-Dragon/DgtAngel/tree/main/sourceExt) is the Chrome Extension (Javascript)
+- [*source*](https://github.com/Hyper-Dragon/DgtAngel/tree/main/source) is the Cherub Client (.Net Core)
 
 ## License
 
