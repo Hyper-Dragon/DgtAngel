@@ -91,7 +91,7 @@ namespace DgtCherub.Services
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 4000;
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 1000;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 10;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
         private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC / 2;
@@ -249,10 +249,16 @@ namespace DgtCherub.Services
                 if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
                 {
                     LocalBoardFEN = fen;
-
-                    CurrentUpdatetMatch = Guid.NewGuid();
-                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
-
+                    
+                    if (!IsBoardInSync && LocalBoardFEN == RemoteBoardFEN)
+                    {
+                        // If the fens match we have caught up to the remote board.
+                        // Run the matcher straight away to clear any outstanding match requests.
+                        // There is no need to match after our moves - issues will be detected by the remote board match
+                        CurrentUpdatetMatch = Guid.NewGuid();
+                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
+                    }
+                    
                     OnLocalFenChange?.Invoke();
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
                 }
