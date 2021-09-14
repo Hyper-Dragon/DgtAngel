@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="65204HyperD.CherubClient"
+    Publisher="CN=614551EF-3605-48DD-8BAD-A772D2282EA6"
+    Version="0.1.0.0" />
+
+  <Properties>
+    <DisplayName>CherubClient</DisplayName>
+    <PublisherDisplayName>HyperD</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="x-generate"/>
+  </Resources>
+
+  <Applications>
+    <Application Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="Cherub Client"
+        Description="Play online with your DGT Board, mismatch detection, voice alerts (for moves and time remaining) and a &apos;virtual&apos; clock.  It is designed to be be a passive addition to the play experience and does not directly interact with any web sites directly to work. Think of it as nothing more than a casual observer. An observer that will let you know if your board is out of sync with the screen and how much time you have left.  This is the client software for Dtg Angel see: https://hyper-dragon.github.io/DgtAngel/"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <rescap:Capability Name="runFullTrust" />
+    <Capability Name="privateNetworkClientServer"/>
+  </Capabilities>
+</Package>

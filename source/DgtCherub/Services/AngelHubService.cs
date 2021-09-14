@@ -104,7 +104,6 @@ namespace DgtCherub.Services
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
-        private volatile bool processUpdates = false;
 
         private readonly Channel<string> localFenProcessChannel;
         private readonly Channel<BoardState> remoteFenProcessChannel;
@@ -162,13 +161,10 @@ namespace DgtCherub.Services
                 if (messageType == MessageTypeCode.WATCH_STARTED)
                 {
                     OnRemoteWatchStarted?.Invoke();
-                    processUpdates = true;
-                    //ResetRemoteBoardState();
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED)
                 {
                     OnRemoteWatchStopped?.Invoke();
-                    processUpdates = false;
                     ResetRemoteBoardState();
                 }
             }
@@ -249,7 +245,7 @@ namespace DgtCherub.Services
                 if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
                 {
                     LocalBoardFEN = fen;
-                    
+
                     if (!IsBoardInSync && LocalBoardFEN == RemoteBoardFEN)
                     {
                         // If the fens match we have caught up to the remote board.
@@ -258,7 +254,7 @@ namespace DgtCherub.Services
                         CurrentUpdatetMatch = Guid.NewGuid();
                         _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
                     }
-                    
+
                     OnLocalFenChange?.Invoke();
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
                 }
@@ -299,7 +295,7 @@ namespace DgtCherub.Services
             while (true)
             {
                 BoardState remoteBoardState = await clockProcessChannel.Reader.ReadAsync();
-                _logger?.LogTrace($"Processing a clock recieved @ {remoteBoardState.CaptureTimeMs}");
+                _logger?.LogTrace("Processing a clock recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 // Account for the actual time captured/now if clock running
                 int captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
@@ -331,7 +327,7 @@ namespace DgtCherub.Services
             {
                 BoardState remoteBoardState = await lastMoveProcessChannel.Reader.ReadAsync();
 
-                _logger?.LogTrace($"Processing a move recieved @ {remoteBoardState.CaptureTimeMs}");
+                _logger?.LogTrace("Processing a move recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 if (LastMove is null || LastMove != remoteBoardState.Board.LastMove)
                 {
@@ -349,7 +345,7 @@ namespace DgtCherub.Services
             while (true)
             {
                 BoardState remoteBoardState = await remoteFenProcessChannel.Reader.ReadAsync();
-                _logger?.LogTrace($"Processing a board recieved @ {remoteBoardState.CaptureTimeMs}");
+                _logger?.LogTrace("Processing a board recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 if (RemoteBoardFEN != remoteBoardState.Board.FenString)
                 {
@@ -380,7 +376,7 @@ namespace DgtCherub.Services
                 // if they are not the same we can skip as the local position has changed.
                 if (matchCode == CurrentUpdatetMatch.ToString())
                 {
-                    _logger?.LogTrace($"POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    _logger?.LogTrace("POST IN:{MatchCode} OUT:{CurrentUpdatetMatch}", matchCode, CurrentUpdatetMatch);
 
                     if (RemoteBoardFEN != LocalBoardFEN)
                     {
@@ -400,7 +396,7 @@ namespace DgtCherub.Services
                 }
                 else
                 {
-                    _logger?.LogTrace($"CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    _logger?.LogTrace("CANX IN:{MatchCode} OUT:{CurrentUpdatetMatch}", matchCode, CurrentUpdatetMatch);
                 }
             }
         }
