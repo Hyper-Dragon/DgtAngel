@@ -149,9 +149,9 @@
     <value>Audio\Speech-en-01\DgtLcDisconnected-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Match_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Speech-en-01\Match-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>audio\speech-en-01\match-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Mismatch_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Audio\Speech-en-01\Mismatch-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>audio\speech-en-01\mismatch-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
