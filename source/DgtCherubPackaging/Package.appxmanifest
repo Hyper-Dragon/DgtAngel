@@ -32,7 +32,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Cherub Client"
-        Description="This is the client software for Dtg Angel see: https://hyper-dragon.github.io/DgtAngel/"
+        Description="Play online with your DGT Board, mismatch detection, voice alerts (for moves and time remaining) and a &apos;virtual&apos; clock.  It is designed to be be a passive addition to the play experience and does not directly interact with any web sites directly to work. Think of it as nothing more than a casual observer. An observer that will let you know if your board is out of sync with the screen and how much time you have left.  This is the client software for Dtg Angel see: https://hyper-dragon.github.io/DgtAngel/"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
