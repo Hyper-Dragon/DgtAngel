@@ -61,7 +61,7 @@ namespace DynamicBoard
 
         public override Task<byte[]> GetPngImageDiffFromFenAsync(in string fenString = "", in string compFenString = "", in int imageSize = 1024, in bool isFromWhitesPerspective = true)
         {
-            _logger?.LogDebug(message: $"Constructing board for fen [{fenString}]");
+            _logger?.LogTrace("Constructing board for fen [{FenString}]", fenString);
 
             byte[] errorImageOutBytes = null;
             byte[] imageOutBytes = null;
@@ -107,7 +107,7 @@ namespace DynamicBoard
             }
             catch (Exception ex)
             {
-                _logger?.LogDebug($"Rendering board error [{fenString}] [{ex.Message}]");
+                _logger?.LogTrace("Rendering board error [{FenString}] [{ExMessage}]",fenString,ex.Message);
 
                 using Bitmap bmp = new(imageSize, imageSize);
                 using Graphics g = Graphics.FromImage(bmp);
