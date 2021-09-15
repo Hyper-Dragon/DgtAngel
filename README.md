@@ -50,4 +50,4 @@ This software was written by me, initially for me. I decided to put in the extra
 
 ***
 
-![image](https://user-images.githubusercontent.com/61525854/132361295-c0252654-5658-4cbf-a8de-f098ce308448.png)
+![image](https://raw.githubusercontent.com/Hyper-Dragon/DgtAngel/main/source/SolutionItems/Assets/DtgAngelSocialTemplate.png)
