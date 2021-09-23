@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "DGT Angel",
     "description": "'The ultimate focus mode'...You also need to install the DGT Cherub client software.",
-    "version": "0.0.4",
+    "version": "0.1.0",
     "homepage_url": "https://hyper-dragon.github.io/DgtAngel/",
     "icons": {
         "16": "icons/Default/icon-16.png",
