@@ -71,4 +71,3 @@ setInterval(() => {
 }, PAGE_POLL_DELAY_MS);
 
 console.log("Watching Page...");
-
