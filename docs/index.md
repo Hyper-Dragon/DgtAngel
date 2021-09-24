@@ -37,13 +37,13 @@ It looks like a lot but it isn't really.  If you already play on chess.com with 
 
 ### DGT Angel Plugin
 
-This is the Chrome Extension...Just go and download it from the [Google Store](https://chrome.google.com/webstore/detail/dgt-angel/glikmaobiidgennbhhildeajdeljcaie?hl=en-US).
+This is the Chrome Extension...Just go and download it from the [Google Store](https://chrome.google.com/webstore/detail/dgt-angel/glikmaobiidgennbhhildeajdeljcaie).
 
 ![DGT Angel](assets/images/RunningExtension.gif "Running Extension")
 
 ### DGT Cherub
 
-And download the client from the [Microsoft Store](https://www.microsoft.com/en-gb/p/cherubclient/9p28k5tfbdvq?rtc=1&activetab=pivot:overviewtab).
+And download the client from the [Microsoft Store](https://www.microsoft.com/p/cherubclient/9p28k5tfbdvq).
 
 ### Virtual Clock
 
