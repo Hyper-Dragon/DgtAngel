@@ -10,6 +10,8 @@
     <StartupObject>DgtCherub.Program</StartupObject>
     <DebugType>embedded</DebugType>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

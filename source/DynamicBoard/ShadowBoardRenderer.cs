@@ -4,10 +4,12 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Runtime.Versioning;
 using static DynamicBoard.Helpers.FenConversion;
 
 namespace DynamicBoard
 {
+    [SupportedOSPlatform("windows")]
     public sealed class ShadowBoardRenderer : BoardRendererBase, IBoardRenderer
     {
         private static readonly Dictionary<char, Bitmap> Pieces = new()

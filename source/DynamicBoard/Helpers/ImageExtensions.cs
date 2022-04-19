@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.Runtime.Versioning;
 
 namespace DynamicBoard.Helpers
 {
+    [SupportedOSPlatform("windows")]
     public static class ImageExtensions
     {
         public static byte[] ConvertToPngByteArray(this Bitmap bmp)
