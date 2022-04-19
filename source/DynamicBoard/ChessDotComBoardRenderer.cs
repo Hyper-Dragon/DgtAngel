@@ -1,9 +1,11 @@
 ﻿using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Drawing;
+using System.Runtime.Versioning;
 
 namespace DynamicBoard
 {
+    [SupportedOSPlatform("windows")]
     public sealed class ChessDotComBoardRenderer : BoardRendererBase, IBoardRenderer
     {
         private readonly ILogger<ChessDotComBoardRenderer> _logger;
