@@ -426,7 +426,12 @@ namespace DgtCherub
             this.UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.UpDownVoiceDelay.Location = new System.Drawing.Point(89, 223);
             this.UpDownVoiceDelay.Maximum = new decimal(new int[] {
-            10,
+            15,
+            0,
+            0,
+            0});
+            this.UpDownVoiceDelay.Minimum = new decimal(new int[] {
+            4,
             0,
             0,
             0});
@@ -435,7 +440,7 @@ namespace DgtCherub
             this.UpDownVoiceDelay.TabIndex = 7;
             this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVoiceDelay.Value = new decimal(new int[] {
-            10,
+            4,
             0,
             0,
             0});

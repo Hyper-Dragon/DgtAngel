@@ -24,6 +24,8 @@ namespace DgtCherub.Services
         string WhiteClock { get; }
         int WhiteClockMsRemaining { get; }
 
+        public int MatcherRemoteTimeDelayMs { get; set; }
+
         event Action OnBoardMatch;
         event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
@@ -80,18 +82,20 @@ namespace DgtCherub.Services
         public string WhiteClock => _remoteWhiteClock;
         public string BlackClock => _remoteBlackClock;
         public string RunWhoString => _remoteRunWhoString;
+        public int MatcherRemoteTimeDelayMs { get; set; } = MATCHER_REMOTE_TIME_DELAY_MS;
         public bool IsLocalBoardAvailable => (!string.IsNullOrWhiteSpace(LocalBoardFEN));
         public bool IsRemoteBoardAvailable => (!string.IsNullOrWhiteSpace(RemoteBoardFEN));
         public bool IsBoardInSync { get; private set; } = true;
         public bool IsRemoteBoardStateActive => (RemoteBoardFEN != "" && _remoteWhiteClock != "00:00" || _remoteBlackClock != "00:00");
         private Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
+        
 
         private const int MS_IN_HOUR = 3600000;
         private const int MS_IN_MIN = 60000;
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 4000;
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 10;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 100;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
         private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC / 2;
@@ -119,6 +123,7 @@ namespace DgtCherub.Services
         {
             _logger = logger;
             _dgtEbDllFacade = dgtEbDllFacade;
+
 
             BoundedChannelOptions processChannelOptions = new(1)
             {
@@ -355,7 +360,7 @@ namespace DgtCherub.Services
                     RemoteBoardFEN = remoteBoardState.Board.FenString;
 
                     CurrentUpdatetMatch = Guid.NewGuid();
-                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_REMOTE_TIME_DELAY_MS));
+                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
                     OnRemoteFenChange?.Invoke();
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);

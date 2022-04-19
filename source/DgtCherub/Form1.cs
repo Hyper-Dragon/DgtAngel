@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.0.1";
+        private const string VERSION_NUMBER = "0.1.0";
         private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -777,7 +777,8 @@ namespace DgtCherub
 
         private void UpDownVoiceDelay_ValueChanged(object sender, EventArgs e)
         {
-
+            TextBoxConsole.AddLine($"Remote matcher delay is now {(int)UpDownVoiceDelay.Value} seconds");
+            _angelHubService.MatcherRemoteTimeDelayMs = ((int)UpDownVoiceDelay.Value * 1000);
         }
     }
 }
