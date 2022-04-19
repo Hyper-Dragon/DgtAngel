@@ -763,6 +763,19 @@ namespace DgtCherub
             }
         }
 
+        private void TabPageConfig_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void UpDownFontSize_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UpDownVoiceDelay_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

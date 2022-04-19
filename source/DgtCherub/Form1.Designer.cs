@@ -50,6 +50,10 @@ namespace DgtCherub
             this.Panel1 = new System.Windows.Forms.Panel();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
+            this.label5 = new System.Windows.Forms.Label();
+            this.UpDownVoiceDelay = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.UpDownFontSize = new System.Windows.Forms.NumericUpDown();
             this.CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
             this.ButtonClearConsole = new System.Windows.Forms.Button();
             this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
@@ -100,6 +104,8 @@ namespace DgtCherub
             this.Panel1.SuspendLayout();
             this.TabControlSidePanel.SuspendLayout();
             this.TabPageConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UpDownVoiceDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpDownFontSize)).BeginInit();
             this.TabPageBoards.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).BeginInit();
@@ -128,7 +134,7 @@ namespace DgtCherub
             this.Label3.AutoSize = true;
             this.Label3.Location = new System.Drawing.Point(6, 95);
             this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(38, 19);
+            this.Label3.Size = new System.Drawing.Size(42, 20);
             this.Label3.TabIndex = 59;
             this.Label3.Text = "Time";
             // 
@@ -137,7 +143,7 @@ namespace DgtCherub
             this.Label2.AutoSize = true;
             this.Label2.Location = new System.Drawing.Point(6, 63);
             this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(50, 19);
+            this.Label2.Size = new System.Drawing.Size(52, 20);
             this.Label2.TabIndex = 58;
             this.Label2.Text = "Moves";
             // 
@@ -146,7 +152,7 @@ namespace DgtCherub
             this.Label1.AutoSize = true;
             this.Label1.Location = new System.Drawing.Point(6, 31);
             this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(47, 19);
+            this.Label1.Size = new System.Drawing.Size(49, 20);
             this.Label1.TabIndex = 57;
             this.Label1.Text = "Status";
             // 
@@ -273,7 +279,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 356);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 437);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -311,7 +317,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 356);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 437);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -361,7 +367,7 @@ namespace DgtCherub
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel1.Location = new System.Drawing.Point(0, 25);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(716, 364);
+            this.Panel1.Size = new System.Drawing.Size(716, 445);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -380,13 +386,17 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 364);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 445);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
             // TabPageConfig
             // 
             this.TabPageConfig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageConfig.Controls.Add(this.label5);
+            this.TabPageConfig.Controls.Add(this.UpDownVoiceDelay);
+            this.TabPageConfig.Controls.Add(this.label4);
+            this.TabPageConfig.Controls.Add(this.UpDownFontSize);
             this.TabPageConfig.Controls.Add(this.GroupBox1);
             this.TabPageConfig.Controls.Add(this.CheckBoxRecieveLog);
             this.TabPageConfig.Controls.Add(this.ButtonClearConsole);
@@ -396,10 +406,69 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 356);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 437);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
+            this.TabPageConfig.Click += new System.EventHandler(this.TabPageConfig_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(23, 225);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 20);
+            this.label5.TabIndex = 61;
+            this.label5.Text = "Delay";
+            // 
+            // UpDownVoiceDelay
+            // 
+            this.UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.UpDownVoiceDelay.Location = new System.Drawing.Point(89, 223);
+            this.UpDownVoiceDelay.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpDownVoiceDelay.Name = "UpDownVoiceDelay";
+            this.UpDownVoiceDelay.Size = new System.Drawing.Size(45, 22);
+            this.UpDownVoiceDelay.TabIndex = 60;
+            this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.UpDownVoiceDelay.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpDownVoiceDelay.ValueChanged += new System.EventHandler(this.UpDownVoiceDelay_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(23, 196);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 20);
+            this.label4.TabIndex = 59;
+            this.label4.Text = "Font Size";
+            // 
+            // UpDownFontSize
+            // 
+            this.UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.UpDownFontSize.Location = new System.Drawing.Point(89, 194);
+            this.UpDownFontSize.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpDownFontSize.Name = "UpDownFontSize";
+            this.UpDownFontSize.Size = new System.Drawing.Size(45, 22);
+            this.UpDownFontSize.TabIndex = 58;
+            this.UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.UpDownFontSize.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpDownFontSize.ValueChanged += new System.EventHandler(this.UpDownFontSize_ValueChanged);
             // 
             // CheckBoxRecieveLog
             // 
@@ -408,7 +477,7 @@ namespace DgtCherub
             this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(25, 283);
+            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 344);
             this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             this.CheckBoxRecieveLog.Size = new System.Drawing.Size(102, 25);
             this.CheckBoxRecieveLog.TabIndex = 7;
@@ -420,7 +489,7 @@ namespace DgtCherub
             // 
             this.ButtonClearConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonClearConsole.Location = new System.Drawing.Point(16, 314);
+            this.ButtonClearConsole.Location = new System.Drawing.Point(17, 386);
             this.ButtonClearConsole.Name = "ButtonClearConsole";
             this.ButtonClearConsole.Size = new System.Drawing.Size(124, 33);
             this.ButtonClearConsole.TabIndex = 8;
@@ -435,7 +504,7 @@ namespace DgtCherub
             this.CheckBoxShowInbound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxShowInbound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxShowInbound.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxShowInbound.Location = new System.Drawing.Point(25, 252);
+            this.CheckBoxShowInbound.Location = new System.Drawing.Point(23, 313);
             this.CheckBoxShowInbound.Name = "CheckBoxShowInbound";
             this.CheckBoxShowInbound.Size = new System.Drawing.Size(102, 25);
             this.CheckBoxShowInbound.TabIndex = 6;
@@ -446,7 +515,7 @@ namespace DgtCherub
             // ButtonRabbitConfig1
             // 
             this.ButtonRabbitConfig1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 205);
+            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 259);
             this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
             this.ButtonRabbitConfig1.TabIndex = 0;
@@ -480,7 +549,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 356);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 437);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -592,7 +661,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(519, 364);
+            this.TextBoxConsole.Size = new System.Drawing.Size(519, 445);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -600,7 +669,7 @@ namespace DgtCherub
             // ToolStripStatusLabelLastUpdate
             // 
             this.ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            this.ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(651, 17);
+            this.ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(634, 20);
             this.ToolStripStatusLabelLastUpdate.Spring = true;
             this.ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             this.ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -608,12 +677,13 @@ namespace DgtCherub
             // StatusStrip
             // 
             this.StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            this.StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripStatusLabelLastUpdate,
             this.ToolStripStatusLabelVersion});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 389);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 470);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(716, 22);
+            this.StatusStrip.Size = new System.Drawing.Size(716, 26);
             this.StatusStrip.TabIndex = 1;
             this.StatusStrip.Text = "statusStrip1";
             // 
@@ -622,12 +692,13 @@ namespace DgtCherub
             this.ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.ToolStripStatusLabelVersion.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
             this.ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
-            this.ToolStripStatusLabelVersion.Size = new System.Drawing.Size(50, 17);
+            this.ToolStripStatusLabelVersion.Size = new System.Drawing.Size(67, 20);
             this.ToolStripStatusLabelVersion.Text = "Ver. 0.0.0";
             this.ToolStripStatusLabelVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // MenuStrip
             // 
+            this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TasksToolStripMenuItem,
             this.LinksToolStripMenuItem});
@@ -649,27 +720,27 @@ namespace DgtCherub
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(51, 21);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
             // 
             this.KillLiveChessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("KillLiveChessMenuItem.Image")));
             this.KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
-            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(245, 26);
             this.KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
             this.KillLiveChessMenuItem.Click += new System.EventHandler(this.KillLiveChessMenuItem_Click);
             // 
             // ToolStripSeparator2
             // 
             this.ToolStripSeparator2.Name = "ToolStripSeparator2";
-            this.ToolStripSeparator2.Size = new System.Drawing.Size(228, 6);
+            this.ToolStripSeparator2.Size = new System.Drawing.Size(242, 6);
             // 
             // PlayChessToolStripMenuItem
             // 
             this.PlayChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayChessToolStripMenuItem.Image")));
             this.PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
-            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
             this.PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
             this.PlayChessToolStripMenuItem.Click += new System.EventHandler(this.PlayChessToolStripMenuItem_Click);
             // 
@@ -677,7 +748,7 @@ namespace DgtCherub
             // 
             this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
             this.VirtualClockMenuItem.Name = "VirtualClockMenuItem";
-            this.VirtualClockMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.VirtualClockMenuItem.Size = new System.Drawing.Size(245, 26);
             this.VirtualClockMenuItem.Text = "Virtual Clock ";
             this.VirtualClockMenuItem.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
             // 
@@ -685,20 +756,20 @@ namespace DgtCherub
             // 
             this.VirtualClockWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockWindowlessMenuItem.Image")));
             this.VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
-            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(245, 26);
             this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
             this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(228, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(242, 6);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ExitToolStripMenuItem.Image")));
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -710,7 +781,7 @@ namespace DgtCherub
             this.ChesscomDgtForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(48, 21);
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 21);
             this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -721,14 +792,14 @@ namespace DgtCherub
             this.DgtDriversRabbitPluginMenuItem});
             this.DownloadsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DownloadsToolStripMenuItem.Image")));
             this.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
-            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
             this.DownloadsToolStripMenuItem.Text = "Downloads";
             // 
             // DgtAngelChromeExtensionMenuItem
             // 
             this.DgtAngelChromeExtensionMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelChromeExtensionMenuItem.Image")));
             this.DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
-            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(261, 26);
             this.DgtAngelChromeExtensionMenuItem.Text = "DGT Angel Chrome Extension";
             this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
             // 
@@ -736,7 +807,7 @@ namespace DgtCherub
             // 
             this.DgtLiveChessSoftwareMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtLiveChessSoftwareMenuItem.Image")));
             this.DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
-            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(261, 26);
             this.DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
             this.DgtLiveChessSoftwareMenuItem.Click += new System.EventHandler(this.DgtLiveChessSoftwareMenuItem_Click);
             // 
@@ -744,7 +815,7 @@ namespace DgtCherub
             // 
             this.DgtDriversRabbitPluginMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtDriversRabbitPluginMenuItem.Image")));
             this.DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
-            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(247, 22);
+            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(261, 26);
             this.DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
             this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
             // 
@@ -758,14 +829,14 @@ namespace DgtCherub
             this.ReleasesMenuItem});
             this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
             this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
-            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
             this.DGTAngelToolStripMenuItem.Text = "DGT Angel";
             // 
             // ProjectPageMenuItem
             // 
             this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
             this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.ProjectPageMenuItem.Size = new System.Drawing.Size(196, 26);
             this.ProjectPageMenuItem.Text = "Project Home";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
@@ -773,7 +844,7 @@ namespace DgtCherub
             // 
             this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
             this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(196, 26);
             this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
             this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
             // 
@@ -781,7 +852,7 @@ namespace DgtCherub
             // 
             this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
             this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(196, 26);
             this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
             this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
             // 
@@ -789,7 +860,7 @@ namespace DgtCherub
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
             this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(196, 26);
             this.ReportIssuesMenuItem.Text = "Report Issues";
             this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
             // 
@@ -797,7 +868,7 @@ namespace DgtCherub
             // 
             this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
             this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.ReleasesMenuItem.Size = new System.Drawing.Size(196, 26);
             this.ReleasesMenuItem.Text = "Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
             // 
@@ -805,14 +876,14 @@ namespace DgtCherub
             // 
             this.ChesscomDgtForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomDgtForumsMenuItem.Image")));
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
-            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(228, 26);
             this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Forums";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(716, 411);
+            this.ClientSize = new System.Drawing.Size(716, 496);
             this.Controls.Add(this.Panel1);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.MenuStrip);
@@ -839,6 +910,9 @@ namespace DgtCherub
             this.Panel1.PerformLayout();
             this.TabControlSidePanel.ResumeLayout(false);
             this.TabPageConfig.ResumeLayout(false);
+            this.TabPageConfig.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UpDownVoiceDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpDownFontSize)).EndInit();
             this.TabPageBoards.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).EndInit();
@@ -912,6 +986,10 @@ namespace DgtCherub
         private System.Windows.Forms.Label Label1;
         private System.Windows.Forms.ToolStripMenuItem DonateViaPayPalMenuItem;
         private System.Windows.Forms.ToolStripMenuItem DonateViaGitHubMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown UpDownVoiceDelay;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown UpDownFontSize;
     }
 }
 
