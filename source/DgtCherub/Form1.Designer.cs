@@ -432,7 +432,7 @@ namespace DgtCherub
             0});
             this.UpDownVoiceDelay.Name = "UpDownVoiceDelay";
             this.UpDownVoiceDelay.Size = new System.Drawing.Size(45, 22);
-            this.UpDownVoiceDelay.TabIndex = 60;
+            this.UpDownVoiceDelay.TabIndex = 7;
             this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVoiceDelay.Value = new decimal(new int[] {
             10,
@@ -455,16 +455,21 @@ namespace DgtCherub
             this.UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.UpDownFontSize.Location = new System.Drawing.Point(89, 194);
             this.UpDownFontSize.Maximum = new decimal(new int[] {
-            10,
+            50,
+            0,
+            0,
+            0});
+            this.UpDownFontSize.Minimum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
             this.UpDownFontSize.Name = "UpDownFontSize";
             this.UpDownFontSize.Size = new System.Drawing.Size(45, 22);
-            this.UpDownFontSize.TabIndex = 58;
+            this.UpDownFontSize.TabIndex = 6;
             this.UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownFontSize.Value = new decimal(new int[] {
-            10,
+            11,
             0,
             0,
             0});
@@ -480,7 +485,7 @@ namespace DgtCherub
             this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 344);
             this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             this.CheckBoxRecieveLog.Size = new System.Drawing.Size(102, 25);
-            this.CheckBoxRecieveLog.TabIndex = 7;
+            this.CheckBoxRecieveLog.TabIndex = 10;
             this.CheckBoxRecieveLog.Text = "Logging On";
             this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
             this.CheckBoxRecieveLog.CheckedChanged += new System.EventHandler(this.CheckBoxRecieveLog_CheckedChanged);
@@ -492,7 +497,7 @@ namespace DgtCherub
             this.ButtonClearConsole.Location = new System.Drawing.Point(17, 386);
             this.ButtonClearConsole.Name = "ButtonClearConsole";
             this.ButtonClearConsole.Size = new System.Drawing.Size(124, 33);
-            this.ButtonClearConsole.TabIndex = 8;
+            this.ButtonClearConsole.TabIndex = 12;
             this.ButtonClearConsole.Text = "Clear Console";
             this.ButtonClearConsole.UseVisualStyleBackColor = true;
             this.ButtonClearConsole.Click += new System.EventHandler(this.ButtonClearConsole_Click);
@@ -507,7 +512,7 @@ namespace DgtCherub
             this.CheckBoxShowInbound.Location = new System.Drawing.Point(23, 313);
             this.CheckBoxShowInbound.Name = "CheckBoxShowInbound";
             this.CheckBoxShowInbound.Size = new System.Drawing.Size(102, 25);
-            this.CheckBoxShowInbound.TabIndex = 6;
+            this.CheckBoxShowInbound.TabIndex = 9;
             this.CheckBoxShowInbound.Text = "Show Inbound";
             this.CheckBoxShowInbound.UseVisualStyleBackColor = true;
             this.CheckBoxShowInbound.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
@@ -518,7 +523,7 @@ namespace DgtCherub
             this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 259);
             this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
-            this.ButtonRabbitConfig1.TabIndex = 0;
+            this.ButtonRabbitConfig1.TabIndex = 8;
             this.ButtonRabbitConfig1.Text = "Rabbit Config...";
             this.ButtonRabbitConfig1.UseVisualStyleBackColor = true;
             this.ButtonRabbitConfig1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);

@@ -770,7 +770,9 @@ namespace DgtCherub
 
         private void UpDownFontSize_ValueChanged(object sender, EventArgs e)
         {
-
+            TextBoxConsole.Font = new Font("Consolas",
+                                            (float) UpDownFontSize.Value,
+                                             GraphicsUnit.Pixel) ;
         }
 
         private void UpDownVoiceDelay_ValueChanged(object sender, EventArgs e)
