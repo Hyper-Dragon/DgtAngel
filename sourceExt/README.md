@@ -6,7 +6,7 @@
 
 ### Current Release
 
-The current release will be ~~is~~ available from the Chrome Store ~~[TODO]~~.
+The current release will be ~~is~~ available from the Chrome Store.
 
 ### Development Install
 
