@@ -6,7 +6,7 @@
 
 ### Current Release
 
-The current release will be ~~is~~ available from the Chrome Store.
+The current release wis available from the [Chrome Store](https://chrome.google.com/webstore/detail/dgt-angel/glikmaobiidgennbhhildeajdeljcaie).
 
 ### Development Install
 
