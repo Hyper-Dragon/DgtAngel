@@ -193,14 +193,15 @@ namespace DgtCherub.Services
             }
             else if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
             {
-                if (remoteBoardState.Board.LastMove == "1-O" ||
-                    remoteBoardState.Board.LastMove == "O-1" ||
+                if (remoteBoardState.Board.LastMove == "1-0" ||
+                    remoteBoardState.Board.LastMove == "0-1" ||
                     remoteBoardState.Board.LastMove == "1/2-1/2")
                 {
                     //ResetRemoteBoardState(true);
                     lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
                     orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
                     remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+                    clockProcessChannel.Writer.TryWrite(remoteBoardState);
                 }
             }
             else if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
