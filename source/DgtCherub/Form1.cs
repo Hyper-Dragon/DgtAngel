@@ -28,16 +28,19 @@ namespace DgtCherub
     {
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.1.0";
-        private const string PROJECT_URL = "https://github.com/Hyper-Dragon/DgtAngel";
+        private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
         private const string CHESS_DOT_COM_PLAY_LINK = @"https://chess.com/live";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
+        private const string CHESS_DOT_COM_PEGASUS_FORUM = @"https://www.chess.com/clubs/forum/dgt-pegasus-centaur-e-board-users";
         private const string PROJECT_LINK = @"https://hyper-dragon.github.io/DgtAngel/";
         private const string PROJECT_ISSUES = @"https://github.com/Hyper-Dragon/DgtAngel/issues/new/choose";
         private const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
+        private const string PROJECT_CHESS_STATS = @"https://hyper-dragon.github.io/ChessStats/";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
+        private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel/glikmaobiidgennbhhildeajdeljcaie";
         private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
@@ -561,6 +564,24 @@ namespace DgtCherub
                                                    TEXTBOX_MAX_LINES);
         }
 
+        private void ChessStatsMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(PROJECT_CHESS_STATS,
+                                       "",
+                                       $"Trying to open the ChessStats site....",
+                                       $"...the ChessStats site opened.",
+                                       TEXTBOX_MAX_LINES);
+        }
+        
+        private void ChesscomPegasusForumsMenuItem_Click(object sender, EventArgs e)
+        {
+            TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_PEGASUS_FORUM,
+                                                   "",
+                                                   $"Trying to open the Chess.com DGT Pegasus Centaur e-Board Users forum....",
+                                                   $"...the Chess.com DGT forum opened.",
+                                                   TEXTBOX_MAX_LINES);
+        }
+
         private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -576,8 +597,11 @@ namespace DgtCherub
 
         private void DgtAngelChromeExtensionMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLines(new string[] { $"DGT Angel is currently only available as a developer release.  Go to",
-                                                   $"the project release page and follow the instructions."}, TEXTBOX_MAX_LINES);
+            TextBoxConsole.RunProcessWithComments(DL_CHROME_PLUGIN,
+                                                  "",
+                                                  $"Trying to open the download page for the Chrome Plugin....",
+                                                  $"...the download page opened.",
+                                                  TEXTBOX_MAX_LINES);
         }
 
         private void DgtLiveChessSoftwareMenuItem_Click(object sender, EventArgs e)
@@ -620,7 +644,7 @@ namespace DgtCherub
         {
             TextBoxConsole.RunProcessWithComments(PROJECT_RELEASES,
                                                   "",
-                                                  $"Trying to open DGT Anget releases page....",
+                                                  $"Trying to open the DGT Angel beta releases page....",
                                                   $"...the releases page is opened.",
                                                   TEXTBOX_MAX_LINES);
         }
@@ -722,6 +746,8 @@ namespace DgtCherub
             TextBoxConsole.AddLine($" ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"NOTE   : This project is not affiliated with either DGT or Chess.com in any way", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: This is an Alpha version.  The best I can say is that it works on my", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         machine...Your mileage may vary.  Report any defects via the links menu.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
