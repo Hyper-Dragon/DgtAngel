@@ -287,8 +287,9 @@ namespace DgtCherub
             _angelHubService.OnClockChange += () =>
             {
                 //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
-                _logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
-
+                //_logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
+                _logger?.LogTrace($">>Recieved Clock Update", TEXTBOX_MAX_LINES);
+                
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
                     Invoke(() =>
