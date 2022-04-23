@@ -87,6 +87,8 @@ namespace DgtCherub
             this.DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtLiveChessSoftwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtDriversRabbitPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ChessStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProjectPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DonateViaGitHubMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,6 +96,7 @@ namespace DgtCherub
             this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
@@ -321,7 +324,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 437);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 434);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -434,7 +437,7 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 437);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 434);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -587,7 +590,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 437);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 434);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -816,7 +819,8 @@ namespace DgtCherub
             this.LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DownloadsToolStripMenuItem,
             this.DGTAngelToolStripMenuItem,
-            this.ChesscomDgtForumsMenuItem});
+            this.ChesscomDgtForumsMenuItem,
+            this.ChesscomPegasusForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
             this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 21);
@@ -827,10 +831,12 @@ namespace DgtCherub
             this.DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DgtAngelChromeExtensionMenuItem,
             this.DgtLiveChessSoftwareMenuItem,
-            this.DgtDriversRabbitPluginMenuItem});
+            this.DgtDriversRabbitPluginMenuItem,
+            this.toolStripSeparator3,
+            this.ChessStatsMenuItem});
             this.DownloadsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DownloadsToolStripMenuItem.Image")));
             this.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
-            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
             this.DownloadsToolStripMenuItem.Text = "Downloads";
             // 
             // DgtAngelChromeExtensionMenuItem
@@ -857,6 +863,20 @@ namespace DgtCherub
             this.DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
             this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(258, 6);
+            // 
+            // ChessStatsMenuItem
+            // 
+            this.ChessStatsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChessStatsMenuItem.Image")));
+            this.ChessStatsMenuItem.Name = "ChessStatsMenuItem";
+            this.ChessStatsMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.ChessStatsMenuItem.Text = "Chess Stats Project Home";
+            this.ChessStatsMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.ChessStatsMenuItem.Click += new System.EventHandler(this.ChessStatsMenuItem_Click);
+            // 
             // DGTAngelToolStripMenuItem
             // 
             this.DGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -867,14 +887,14 @@ namespace DgtCherub
             this.ReleasesMenuItem});
             this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
             this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
-            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
             this.DGTAngelToolStripMenuItem.Text = "DGT Angel";
             // 
             // ProjectPageMenuItem
             // 
             this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
             this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.ProjectPageMenuItem.Size = new System.Drawing.Size(224, 26);
             this.ProjectPageMenuItem.Text = "Project Home";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
@@ -882,7 +902,7 @@ namespace DgtCherub
             // 
             this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
             this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(224, 26);
             this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
             this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
             // 
@@ -890,7 +910,7 @@ namespace DgtCherub
             // 
             this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
             this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(224, 26);
             this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
             this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
             // 
@@ -898,7 +918,7 @@ namespace DgtCherub
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
             this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(224, 26);
             this.ReportIssuesMenuItem.Text = "Report Issues";
             this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
             // 
@@ -906,17 +926,25 @@ namespace DgtCherub
             // 
             this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
             this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(196, 26);
-            this.ReleasesMenuItem.Text = "Releases";
+            this.ReleasesMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ReleasesMenuItem.Text = "Beta Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
             // 
             // ChesscomDgtForumsMenuItem
             // 
             this.ChesscomDgtForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomDgtForumsMenuItem.Image")));
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
-            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(228, 26);
-            this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Forums";
+            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Club";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
+            // 
+            // ChesscomPegasusForumsMenuItem
+            // 
+            this.ChesscomPegasusForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomPegasusForumsMenuItem.Image")));
+            this.ChesscomPegasusForumsMenuItem.Name = "ChesscomPegasusForumsMenuItem";
+            this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(234, 26);
+            this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
+            this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
             // 
             // Form1
             // 
@@ -1030,6 +1058,9 @@ namespace DgtCherub
         private System.Windows.Forms.NumericUpDown UpDownFontSize;
         private System.Windows.Forms.Button ButtonWindowless;
         private System.Windows.Forms.Button ButtonWindowed;
+        private System.Windows.Forms.ToolStripMenuItem ChesscomPegasusForumsMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem ChessStatsMenuItem;
     }
 }
 
