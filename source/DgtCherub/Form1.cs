@@ -746,7 +746,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($" ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with either DGT or Chess.com in any way", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with either DGT or Chess.com in any way.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: This is an Alpha version.  The best I can say is that it works on my", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         machine...Your mileage may vary.  Report any defects via the links menu.", TEXTBOX_MAX_LINES, false);
