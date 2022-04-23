@@ -42,6 +42,8 @@
         .carousel-caption {
             bottom: 3rem;
             z-index: 10;
+            color: white;
+            text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
         }
 
         /* Declare heights because of positioning of img element */
@@ -103,10 +105,16 @@
         }
 
         .bkg-logo {
-            opacity: 0.3;
+            opacity: 0.05;
             position: absolute;
             top: 0px;
             left: 0px;
+        }
+
+        .last-move {
+            font-size: 6vw;
+            color: yellow;
+            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -155,8 +163,8 @@
                             <div class="align-self-center"><b id='black-clock' class="child">0:00:00</b></div>
                         </div>
                     </div>
-                    <div class="carousel-caption text-start">
-                        <h2>Last Move:&nbsp;<i id='last-move'>-</i></h2>
+                    <div class="carousel-caption text-start last-move">
+                        <b>Last Move:&nbsp;<i id='last-move'>-</i></b>
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -203,7 +211,7 @@
         isWhiteToPlay = true;
         isTimerSuspended = false;
         flip = false;
-        clocksTimer=0;
+        clocksTimer = 0;
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -261,8 +269,7 @@
             var source = null;
 
             function initEventSource() {
-                if (source == null || source.readyState == 2)
-                {
+                if (source == null || source.readyState == 2) {
                     var myCarouselEl = document.getElementById('myCarousel');
                     var carousel = bootstrap.Carousel.getOrCreateInstance(myCarouselEl);
                     carousel.to('0');
