@@ -44,6 +44,8 @@ namespace DgtCherub
             this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
             this.PictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.TabPageClock = new System.Windows.Forms.TabPage();
+            this.ButtonWindowless = new System.Windows.Forms.Button();
+            this.ButtonWindowed = new System.Windows.Forms.Button();
             this.DomainUpDown = new System.Windows.Forms.DomainUpDown();
             this.PictureBoxQrCode = new System.Windows.Forms.PictureBox();
             this.ButtonRabbitConf2 = new System.Windows.Forms.Button();
@@ -240,7 +242,7 @@ namespace DgtCherub
             this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg1);
             this.GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.GroupBoxClockTest.Location = new System.Drawing.Point(10, 246);
+            this.GroupBoxClockTest.Location = new System.Drawing.Point(9, 326);
             this.GroupBoxClockTest.Name = "GroupBoxClockTest";
             this.GroupBoxClockTest.Size = new System.Drawing.Size(135, 103);
             this.GroupBoxClockTest.TabIndex = 0;
@@ -310,6 +312,8 @@ namespace DgtCherub
             // TabPageClock
             // 
             this.TabPageClock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageClock.Controls.Add(this.ButtonWindowless);
+            this.TabPageClock.Controls.Add(this.ButtonWindowed);
             this.TabPageClock.Controls.Add(this.DomainUpDown);
             this.TabPageClock.Controls.Add(this.PictureBoxQrCode);
             this.TabPageClock.Controls.Add(this.GroupBoxClockTest);
@@ -321,6 +325,30 @@ namespace DgtCherub
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
+            // 
+            // ButtonWindowless
+            // 
+            this.ButtonWindowless.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonWindowless.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ButtonWindowless.Location = new System.Drawing.Point(15, 225);
+            this.ButtonWindowless.Name = "ButtonWindowless";
+            this.ButtonWindowless.Size = new System.Drawing.Size(124, 33);
+            this.ButtonWindowless.TabIndex = 5;
+            this.ButtonWindowless.Text = "Windowless...";
+            this.ButtonWindowless.UseVisualStyleBackColor = true;
+            this.ButtonWindowless.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
+            // 
+            // ButtonWindowed
+            // 
+            this.ButtonWindowed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonWindowed.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.ButtonWindowed.Location = new System.Drawing.Point(15, 186);
+            this.ButtonWindowed.Name = "ButtonWindowed";
+            this.ButtonWindowed.Size = new System.Drawing.Size(124, 33);
+            this.ButtonWindowed.TabIndex = 4;
+            this.ButtonWindowed.Text = "Windowed...";
+            this.ButtonWindowed.UseVisualStyleBackColor = true;
+            this.ButtonWindowed.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
             // 
             // DomainUpDown
             // 
@@ -352,7 +380,7 @@ namespace DgtCherub
             // 
             this.ButtonRabbitConf2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonRabbitConf2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonRabbitConf2.Location = new System.Drawing.Point(17, 205);
+            this.ButtonRabbitConf2.Location = new System.Drawing.Point(15, 275);
             this.ButtonRabbitConf2.Name = "ButtonRabbitConf2";
             this.ButtonRabbitConf2.Size = new System.Drawing.Size(124, 35);
             this.ButtonRabbitConf2.TabIndex = 2;
@@ -1000,6 +1028,8 @@ namespace DgtCherub
         private System.Windows.Forms.NumericUpDown UpDownVoiceDelay;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown UpDownFontSize;
+        private System.Windows.Forms.Button ButtonWindowless;
+        private System.Windows.Forms.Button ButtonWindowed;
     }
 }
 
