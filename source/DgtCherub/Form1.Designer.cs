@@ -894,7 +894,7 @@ namespace DgtCherub
             // 
             this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
             this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ProjectPageMenuItem.Size = new System.Drawing.Size(196, 26);
             this.ProjectPageMenuItem.Text = "Project Home";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
@@ -902,7 +902,7 @@ namespace DgtCherub
             // 
             this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
             this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(196, 26);
             this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
             this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
             // 
@@ -910,7 +910,7 @@ namespace DgtCherub
             // 
             this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
             this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(196, 26);
             this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
             this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
             // 
@@ -918,7 +918,7 @@ namespace DgtCherub
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
             this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(196, 26);
             this.ReportIssuesMenuItem.Text = "Report Issues";
             this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
             // 
@@ -926,7 +926,7 @@ namespace DgtCherub
             // 
             this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
             this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.ReleasesMenuItem.Size = new System.Drawing.Size(196, 26);
             this.ReleasesMenuItem.Text = "Beta Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
             // 
