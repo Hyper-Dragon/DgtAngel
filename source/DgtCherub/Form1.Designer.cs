@@ -308,7 +308,7 @@ namespace DgtCherub
             this.PictureBoxLogo.Location = new System.Drawing.Point(7, 3);
             this.PictureBoxLogo.Name = "PictureBoxLogo";
             this.PictureBoxLogo.Size = new System.Drawing.Size(142, 133);
-            this.PictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureBoxLogo.TabIndex = 1;
             this.PictureBoxLogo.TabStop = false;
             // 
@@ -324,7 +324,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 434);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 437);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -437,7 +437,7 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 434);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 437);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -590,7 +590,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 434);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 437);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
