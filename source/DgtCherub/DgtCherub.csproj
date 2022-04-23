@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows7.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>Assets/Images/Logo.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\Images\logoAngel.ico</ApplicationIcon>
     <LangVersion>preview</LangVersion>
     <MinimumPlatformVersion>7.0</MinimumPlatformVersion>
     <StartupObject>DgtCherub.Program</StartupObject>
@@ -12,6 +12,7 @@
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ImplicitUsings>disable</ImplicitUsings>
+    <PackageIcon>logoAngel.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -40,6 +41,10 @@
     <None Remove="Assets\Clocks\DgtAngelLogo.svg" />
     <None Remove="Assets\Clocks\favicon.png" />
     <None Remove="Assets\Clocks\TestClock\Clock.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Images\logoAngel.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -124,6 +129,13 @@
   <ItemGroup>
     <Folder Include="Assets\Audio\Moves-en-01\" />
     <Folder Include="Assets\Audio\Time-en-01\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\Images\logoAngel.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
 </Project>
