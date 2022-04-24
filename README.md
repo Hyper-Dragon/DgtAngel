@@ -4,7 +4,7 @@
 [![Cherub Build](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/BuildCherubOnMain.yml/badge.svg?branch=main)](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/BuildCherubOnMain.yml)
 [![CodeQL JS](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/codeql-analysis.yml/badge.svg?branch=main)](https://github.com/Hyper-Dragon/DgtAngel/actions/workflows/codeql-analysis.yml)
 
-Play online with your DGT Board, mismatch detection, voice alerts (for moves and time remaining) and a 'virtual' clock.
+Play online with your DGT Board, mismatch detection, voice alerts (for moves and time remaining) and a 'virtual' clock.  **This project IS NOT affiliated with either DGT or Chess.com in any way**.
 
 It is designed to be be a passive addition to the play experience and does not directly interact with any web sites directly to work. Think of it as nothing more than a casual observer. An observer that will let you know if your board is out of sync with the screen and how much time you have left.
 
