@@ -1,6 +1,6 @@
 # DGT Angel
 
-'Ultimate' might be a bit of a stretch since this is very much an Alpha version.  The best I can say is that it works on my machine...Your mileage may vary but if you do have any issues see the [Support Section](#Software-Support) below.  
+'Ultimate' might be a bit of a stretch since this is very much an Alpha version.  The best I can say is that it works on my machine...Your mileage may vary but if you do have any issues see the [Support Section](#Software-Support) below.  **This project IS NOT affiliated with either DGT or Chess.com in any way**.
 
 It is designed to be be a **passive addition to the play experience** and does not directly interact with any web sites directly to work.  Think of it as nothing more than a casual observer.  An observer that will let you know if your board is out of sync with the screen and how much time you have left.
 
