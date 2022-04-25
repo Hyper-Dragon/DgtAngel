@@ -45,6 +45,8 @@ This is the Chrome Extension...Just go and download it from the [Google Store](h
 
 And download the client from the [Microsoft Store](https://www.microsoft.com/p/cherubclient/9p28k5tfbdvq).
 
+![DGT Cherub](assets/images/RunningClient.gif "Running Client")
+
 ### Virtual Clock
 
 The Virtual Clock runs from the client and is available on `http://*Your IP*:37964/`.  For this to work you will need to open port 37964 on your windows firewall.
