@@ -45,7 +45,7 @@ This is the Chrome Extension...Just go and download it from the [Google Store](h
 
 And download the client from the [Microsoft Store](https://www.microsoft.com/p/cherubclient/9p28k5tfbdvq).
 
-![DGT Cherub](assets/images/RunningClient.gif "Running Client")
+![DGT Cherub](assets/images/RunningClient-small.gif "Running Client")
 
 ### Virtual Clock
 
