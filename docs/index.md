@@ -66,7 +66,9 @@ You can access your clock by pointing your phone/tablet at the QR code on the cl
 
 ![QR Code](assets/images/Help-QrCode.png "Use the QR Code")
 
-[Link MD TEST no extension](about)
+...and release Zen Mode!
+
+![Zen Mode](assets/images/RunningVClock-small.gif "Zen Mode")
 
 ## License
 
