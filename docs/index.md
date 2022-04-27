@@ -33,7 +33,7 @@ If you just want the voice support you only need the Chrome plugin and the Cheru
 
 ## Setup
 
-It looks like a lot but it isn't really.  If you already play on chess.com with your board then you are almost good to go.
+It looks like a lot but it isn't really.  If you already play on chess.com with your board then you are almost good to go. See the video kindly posted by [Hamilton53](https://www.chess.com/member/hamilton53) over on [Youtube](https://www.youtube.com/watch?v=4V9vO4nI1e8).
 
 ### DGT Angel Plugin
 
