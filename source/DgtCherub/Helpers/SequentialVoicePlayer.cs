@@ -6,7 +6,7 @@ namespace DgtCherub.Helpers
 {
     public interface ISequentialVoicePlayer
     {
-        public float Volume { get; set; }
+        public float Volume { get; set; }   
         void Speak(IEnumerable<UnmanagedMemoryStream> clipStreams);
         void Speak(UnmanagedMemoryStream clipStream);
     }
@@ -16,6 +16,7 @@ namespace DgtCherub.Helpers
         private readonly ILogger _logger;
         private readonly Channel<IEnumerable<UnmanagedMemoryStream>> playlistChannel;
         private volatile float volume = 0.7f;
+        private readonly WaveOutEvent outputDevice = null;
 
         public float Volume
         {
@@ -46,7 +47,10 @@ namespace DgtCherub.Helpers
                 SingleWriter = false
             };
 
-            // Init the channels and run the processor
+            // Init the channels and start the processor
+            outputDevice = new();
+            _logger?.LogTrace($"Sequential Voice Player Has Valid Audio Device");
+
             playlistChannel = Channel.CreateBounded<IEnumerable<UnmanagedMemoryStream>>(playlistChannelOptions);
             Task.Run(() => RunPlaylistProcessor());
         }
@@ -62,7 +66,6 @@ namespace DgtCherub.Helpers
                 foreach (UnmanagedMemoryStream sound in playlist)
                 {
                     using WaveFileReader reader = new(sound);
-                    using WaveOutEvent outputDevice = new();
                     outputDevice.Volume = volume;
                     outputDevice.Init(reader);
                     outputDevice.Play();
