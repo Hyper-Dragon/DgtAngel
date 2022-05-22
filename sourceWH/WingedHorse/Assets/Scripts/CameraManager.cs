@@ -13,7 +13,9 @@ public class CameraManager : MonoBehaviour
     private Vector3 tableCentre;
     private Vector3 initialCameraPos = new(0, 0, 0);
     private Quaternion initialCameraRot = new(0, 0, 0, 0);
-
+    private bool isLastMoveLeft = false;
+    private bool isLastMoveUp = false;
+    
     public int targetFrameRate = 30;
 
     // Start is called before the first frame update
@@ -41,6 +43,8 @@ public class CameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float speedModifier = Input.GetKey(KeyCode.LeftAlt) ? 10f : 1f;
+
         if (Input.GetKey(KeyCode.Space))
         {
             mainCamera.transform.SetPositionAndRotation(initialCameraPos, initialCameraRot);
@@ -86,43 +90,41 @@ public class CameraManager : MonoBehaviour
             }
 
         }
-        
 
         if (Input.GetKey(KeyCode.D) && isLeftOk)
         {
-            board.transform.position += new Vector3(0, 0, 2f * Time.deltaTime);
+            board.transform.position += new Vector3(0, 0, 2f * speedModifier * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.A) && isRightOk)
         {
-            board.transform.position += new Vector3(0, 0, -2f * Time.deltaTime);
+            board.transform.position += new Vector3(0, 0, -2f * speedModifier * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.W) && isUpOk)
         {
-            board.transform.position += new Vector3(-2f * Time.deltaTime, 0, 0);
+            board.transform.position += new Vector3(-2f * speedModifier * Time.deltaTime, 0, 0);
         }
         else if (Input.GetKey(KeyCode.S) && isDownOk)
         {
-            board.transform.position += new Vector3(2f * Time.deltaTime, 0, 0);
+            board.transform.position += new Vector3(2f * speedModifier * Time.deltaTime, 0, 0);
         }
-
 
 
         if (Input.GetKey(KeyCode.Z) && mainCamera.fieldOfView > 20 && isZoomInOk)
         {
-            mainCamera.fieldOfView -= 5 * Time.deltaTime;
+            mainCamera.fieldOfView -= 5 * speedModifier * Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.X) && mainCamera.fieldOfView < 70 && isZoomOutOk)
         {
-            mainCamera.fieldOfView += 5f * Time.deltaTime;
+            mainCamera.fieldOfView += 5f * speedModifier * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
             if (mainCamera.transform.eulerAngles.x >= 25 || !isLastMoveUp)
             {
-                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, 15 * Time.deltaTime), 40 * Time.deltaTime);
-                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, 15 * Time.deltaTime), 40 * Time.deltaTime);
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, 15 * Time.deltaTime), 20 * speedModifier * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, 15 * Time.deltaTime), 20 * speedModifier * Time.deltaTime);
                 isLastMoveUp = true;
             }
         }
@@ -130,8 +132,8 @@ public class CameraManager : MonoBehaviour
         {
             if (mainCamera.transform.eulerAngles.x >= 25 || isLastMoveUp)
             {
-                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -15 * Time.deltaTime), 40 * Time.deltaTime);
-                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -15 * Time.deltaTime), 40 * Time.deltaTime);
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -15 * Time.deltaTime), 20 * speedModifier * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -15 * Time.deltaTime), 20 * speedModifier * Time.deltaTime);
                 isLastMoveUp = false;
             }
         }
@@ -140,8 +142,8 @@ public class CameraManager : MonoBehaviour
         {
             if (mainCamera.transform.eulerAngles.x >= 25 || !isLastMoveLeft)
             {
-                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
-                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(15 * Time.deltaTime, 0, 0), 20 * speedModifier * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(15 *Time.deltaTime, 0, 0), 20 * speedModifier * Time.deltaTime);
                 isLastMoveLeft = true;
             }
         }
@@ -149,13 +151,10 @@ public class CameraManager : MonoBehaviour
         {
             if (mainCamera.transform.eulerAngles.x >= 25 || isLastMoveLeft)
             {
-                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(-15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
-                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(-15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(-15 * Time.deltaTime, 0, 0), 20 * speedModifier * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(-15 * Time.deltaTime, 0, 0), 20 * speedModifier * Time.deltaTime);
                 isLastMoveLeft = false;
             }
         }
     }
-
-    private bool isLastMoveLeft = false;
-    private bool isLastMoveUp = false;
 }
