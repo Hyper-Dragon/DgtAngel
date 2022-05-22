@@ -6,8 +6,11 @@ public class CameraManager : MonoBehaviour
 {
     //This is Main Camera in the Scene
     private Camera mainCamera;
+    private GameObject mainLight;
     private GameObject board;
     GameObject squareText;
+    private Vector3 cameraTargetPosition;
+    private Vector3 tableCentre;
     private Vector3 initialCameraPos = new(0, 0, 0);
     private Quaternion initialCameraRot = new(0, 0, 0, 0);
 
@@ -22,7 +25,11 @@ public class CameraManager : MonoBehaviour
         mainCamera = Camera.main;
         mainCamera.enabled = true;
 
+        mainLight = GameObject.Find("MainLight");
+
         board = GameObject.Find("Board");
+        cameraTargetPosition = GameObject.Find("CameraTarget").transform.position;
+        tableCentre = board.transform.position;
 
         initialCameraPos = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y,
                                        mainCamera.transform.position.z);
@@ -44,7 +51,10 @@ public class CameraManager : MonoBehaviour
         bool isRightOk = true;
         bool isZoomInOk = true;
         bool isZoomOutOk = true;
+        bool isUpOk = true;
+        bool isDownOk = true;
 
+        
         if (viewPos.x <= 0 || viewPos.x >= 1 ||
             viewPos.y <= 0 || viewPos.y >= 1 ||
             viewPos.z <= 0)
@@ -63,51 +73,89 @@ public class CameraManager : MonoBehaviour
                 isZoomInOk = false;
                 isZoomOutOk = true;
             }
+
+            if (viewPos.x <= 0.5)
+            {
+                isUpOk = true;
+                isDownOk = false;
+            }
+            else
+            {
+                isUpOk = false;
+                isDownOk = true;
+            }
+
         }
         
 
         if (Input.GetKey(KeyCode.D) && isLeftOk)
         {
-            //print($"X::{viewPos.x} Y::{viewPos.y} Z::{viewPos.z}");
-            // Camera or Board????
             board.transform.position += new Vector3(0, 0, 2f * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.A) && isRightOk)
         {
-            //print($"X::{viewPos.x} Y::{viewPos.y} Z::{viewPos.z}");
-            // Camera or Board????
             board.transform.position += new Vector3(0, 0, -2f * Time.deltaTime);
         }
 
-        if (Input.GetKey(KeyCode.S) && mainCamera.fieldOfView > 20 && isZoomInOk)
+        if (Input.GetKey(KeyCode.W) && isUpOk)
+        {
+            board.transform.position += new Vector3(-2f * Time.deltaTime, 0, 0);
+        }
+        else if (Input.GetKey(KeyCode.S) && isDownOk)
+        {
+            board.transform.position += new Vector3(2f * Time.deltaTime, 0, 0);
+        }
+
+
+
+        if (Input.GetKey(KeyCode.Z) && mainCamera.fieldOfView > 20 && isZoomInOk)
         {
             mainCamera.fieldOfView -= 5 * Time.deltaTime;
         }
-        else if (Input.GetKey(KeyCode.W) && mainCamera.fieldOfView < 70 && isZoomOutOk)
+        else if (Input.GetKey(KeyCode.X) && mainCamera.fieldOfView < 70 && isZoomOutOk)
         {
             mainCamera.fieldOfView += 5f * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) && 
-            mainCamera.transform.eulerAngles.x > 50 )
+        if (Input.GetKey(KeyCode.UpArrow))
         {
-            mainCamera.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, 15 * Time.deltaTime), 40 * Time.deltaTime);
+            if (mainCamera.transform.eulerAngles.x >= 25 || !isLastMoveUp)
+            {
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, 15 * Time.deltaTime), 40 * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, 15 * Time.deltaTime), 40 * Time.deltaTime);
+                isLastMoveUp = true;
+            }
         }
-        else if (Input.GetKey(KeyCode.DownArrow) && 
-                 mainCamera.transform.eulerAngles.x > 50)
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
-            mainCamera.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(0, 0, -15 * Time.deltaTime), 40 * Time.deltaTime);
+            if (mainCamera.transform.eulerAngles.x >= 25 || isLastMoveUp)
+            {
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -15 * Time.deltaTime), 40 * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -15 * Time.deltaTime), 40 * Time.deltaTime);
+                isLastMoveUp = false;
+            }
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow) &&
-            mainCamera.transform.eulerAngles.x > 50)
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
-            mainCamera.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+            if (mainCamera.transform.eulerAngles.x >= 25 || !isLastMoveLeft)
+            {
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+                isLastMoveLeft = true;
+            }
         }
-        else if (Input.GetKey(KeyCode.RightArrow) &&
-            mainCamera.transform.eulerAngles.x > 50)
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            mainCamera.transform.RotateAround(new Vector3(0, 0, 0), new Vector3(-15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+            if (mainCamera.transform.eulerAngles.x >= 25 || isLastMoveLeft)
+            {
+                mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(-15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+                mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(-15 * Time.deltaTime, 0, 0), 40 * Time.deltaTime);
+                isLastMoveLeft = false;
+            }
         }
     }
+
+    private bool isLastMoveLeft = false;
+    private bool isLastMoveUp = false;
 }

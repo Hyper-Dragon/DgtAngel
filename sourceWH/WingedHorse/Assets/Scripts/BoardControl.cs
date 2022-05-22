@@ -39,14 +39,14 @@ public class BoardControl : MonoBehaviour
         if (Input.GetKey(KeyCode.Q))
         {
             board.transform.Rotate(0, -30f * Time.deltaTime, 0);
-            squareTextA1.transform.Rotate(0, 0, -30f * Time.deltaTime);
-            squareTextH8.transform.Rotate(0, 0, -30f * Time.deltaTime);
+            squareTextA1.transform.Rotate(0, 0, -10f * Time.deltaTime);
+            squareTextH8.transform.Rotate(0, 0, -10f * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.E))
         {
             board.transform.Rotate(0, 30f * Time.deltaTime, 0);
-            squareTextA1.transform.Rotate(0, 0, 30f * Time.deltaTime);
-            squareTextH8.transform.Rotate(0, 0, 30f * Time.deltaTime);
+            squareTextA1.transform.Rotate(0, 0, 10f * Time.deltaTime);
+            squareTextH8.transform.Rotate(0, 0, 10f * Time.deltaTime);
         }
     }
 }

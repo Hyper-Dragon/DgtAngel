@@ -11,8 +11,10 @@ public class MessageHandler : MonoBehaviour
     [DllImport("__Internal")]
     private static extern void HelloString(string str);
 
-    public static string WhiteClock { get; private set; } = "WHITE";
-    public static string BlackClock { get; private set; } = "BLACK";
+    public static string WhiteClock { get; private set; } = "0:00:00";
+    public static string BlackClock { get; private set; } = "0:00:00";
+    public static string MessageText { get; private set; } = "---";
+
     public static bool IsRemoteWhiteOnBottom { get; private set; } = true;
     public static ConcurrentQueue<string> SquareDiffQueue = new ConcurrentQueue<string>();
     
