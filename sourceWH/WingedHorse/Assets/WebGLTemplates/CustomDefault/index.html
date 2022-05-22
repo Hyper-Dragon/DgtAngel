@@ -139,6 +139,7 @@
       isTimerSuspended = false;
       flip = false;
       clocksTimer = 0;
+      noFenSent = true;
 
       function timeRemaining(clockId, diff) {
           display = document.getElementById(clockId);
@@ -198,16 +199,29 @@
           function initEventSource() {
               if (source == null || source.readyState == 2) {
                   document.getElementById('con-state').innerHTML = 'CONNECTING...';
+                  
                   source = new EventSource('http://localhost:37964/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
+
+                  if(globalUnityInstance != null) {
+                      globalUnityInstance.SendMessage('Main Camera','SetText','CONNECTING...');
+                  } 
 
                   source.onopen = function (event) {
                       document.getElementById('con-state').innerHTML = 'CONNECTED';
+                      globalUnityInstance.SendMessage('Main Camera','SetText',"CONNECTED");
+                      globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
+                      globalUnityInstance.SendMessage('Main Camera','UpdatedFen','8/8/8/8/8/8/8/8');
+                      noFenSent = true;
                       timer();
                       clocksTimer = setInterval(timer, 1000);
                   };
 
                   source.onerror = function (event) {
                       document.getElementById('con-state').innerHTML = 'DISCONNECTED';
+                      globalUnityInstance.SendMessage('Main Camera','SetText',"DISCONNECTED");
+                      globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
+                      globalUnityInstance.SendMessage('Main Camera','UpdatedFen','8/8/8/8/8/8/8/8');
+                      noFenSent = true;
                       isTimerSuspended = true;
                       source.close();
 
@@ -227,17 +241,29 @@
                           case "OnLocalFenChange":
                               break;
                           case "OnRemoteFenChange":
+                              if(noFenSent == true) {
+                                globalUnityInstance.SendMessage('Main Camera','UpdatedFen',obj.BoardFen);
+                                noFenSent = false;
+                              }
+
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"---");
                               globalUnityInstance.SendMessage('Main Camera','UpdatedFen',obj.BoardFen);
                               globalUnityInstance.SendMessage('Main Camera','WhiteOrientation',obj.IsWhiteOnBottom.toString());
                               break;
                           case "OnBoardMissmatch":
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"MISSMATCH");
                               break;
                           case "OnBoardMatch":
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"---");
                               break;
                           case "OnClockChange":
                               globalUnityInstance.SendMessage('Main Camera','SetClocks',obj.WhiteClockMsRemaining.toString() + '/' + obj.BlackClockMsRemaining.toString());
                               break;
                           case "OnRemoteStopWatch":
+                              noFenSent = true;
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"NO WATCH");
+                              globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
+                              globalUnityInstance.SendMessage('Main Camera','UpdatedFen','8/8/8/8/8/8/8/8');
                               break;
                           case "OnLocalStopWatch":
                               break;

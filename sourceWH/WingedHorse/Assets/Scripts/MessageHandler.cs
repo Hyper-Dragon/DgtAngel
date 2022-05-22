@@ -16,9 +16,9 @@ public class MessageHandler : MonoBehaviour
     public static string MessageText { get; private set; } = "---";
 
     public static bool IsRemoteWhiteOnBottom { get; private set; } = true;
-    public static ConcurrentQueue<string> SquareDiffQueue = new ConcurrentQueue<string>();
+    public static ConcurrentQueue<string> SquareDiffQueue = new();
     
-    private string currentFen = "";
+    private string currentFen = "8/8/8/8/8/8/8/8";
     public string HighlightSquares { get; set; } = "";
 
     [SerializeField] private string fenString;
@@ -38,7 +38,12 @@ public class MessageHandler : MonoBehaviour
         WhiteClock = whiteClockTime.ToString(@"h\:mm\:ss");
         BlackClock = blackClockTime.ToString(@"h\:mm\:ss");
     }
-    
+
+    public void SetText(string text)
+    {
+        MessageText = text;
+    }
+
     public void UpdatedFen(string fenIn)
     {
         print($"FEN in:: {fenIn}");
