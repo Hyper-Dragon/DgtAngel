@@ -154,62 +154,85 @@
           border-color: black;
           box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
       }
+
+      #canvas-container {
+   width: 100%;
+   text-align:center;
+}
+
+canvas {
+   display: inline;
+}
   </style>
   </head>
   <body>
-        <!-- Header -->
-        <div class="p-5 jumbotron">
-          <div class="container-fluid">
-              <h1 class="project-name"><b>DGT Angel Virtual Clock</b></h1>
-          </div>
+    <!-- Header -->
+    <div class="p-5 jumbotron">
+      <div class="container-fluid">
+        <h1 class="project-name"><b>DGT Angel - {{{ PRODUCT_NAME }}}</b></h1>
       </div>
-      <!-- Header -->
+    </div>
+    <!-- Header -->
     <!-- Body -->
-    <div class="container body-page">
+    <div class="container body-page" id="canvas-section">
       <row>
-          <div class="col-12"></div>
-          <br />
-          <h4 id="con-state">Connecting...</h1>
-          <div id="unity-container" class="unity-desktop">
+        <div class="col-12">
+          <br/>
+          <div id="canvas-container" class="unity-desktop">
             <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}}></canvas>
-            <div id="unity-loading-bar">
-              <div id="unity-logo"></div>
-              <div id="unity-progress-bar-empty">
-                <div id="unity-progress-bar-full"></div>
-              </div>
-            </div>
-            <div id="unity-warning"> </div>
-            <div id="unity-footer">
-              <div id="unity-webgl-logo"></div>
-              <div id="unity-fullscreen-button"></div>
-              <div id="unity-build-title">{{{ PRODUCT_NAME }}}</div>
-            </div>
           </div>
+        </div>
       </row>
-  </div>
-  <!-- Body -->
-    <!-- Footer -->
-    <div class="container-fluid body-container">
-      <div class="row body-row-top">
-          <div class="col-1"></div>
-          <div class="col-10">
-              <a href="https://hyper-dragon.github.io/DgtAngel/" class="btn">Project Home</a>
-              <a href="https://github.com/sponsors/Hyper-Dragon" class="btn">
-                  Donate&nbsp;
-                  <svg aria-hidden="true"
-                       height="16"
-                       viewBox="0 0 16 16"
-                       version="1.1"
-                       width="16"
-                       data-view-component="true"
-                       class="octicon octicon-heart icon-sponsor mr-0 text-pink v-align-middle">
-                      <path fill-rule="evenodd"
-                            d="M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.75.75 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5zM8 14.25l-.345.666-.002-.001-.006-.003-.018-.01a7.643 7.643 0 01-.31-.17 22.075 22.075 0 01-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.08 22.08 0 01-3.744 2.584l-.018.01-.006.003h-.002L8 14.25zm0 0l.345.666a.752.752 0 01-.69 0L8 14.25z"></path>
-                  </svg>
-              </a>
+      <row>
+        <div class="col-12">
+          <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+              <div id="unity-progress-bar-full"></div>
+            </div>
           </div>
-          <div class="col-1"></div>
-      </div>
+          <div id="unity-warning"> </div>
+          <div id="unity-footer">
+            <div id="unity-webgl-logo"></div>
+            <div id="unity-fullscreen-button"></div>
+            <div id="unity-build-title">
+                <div id="con-state">{{{ PRODUCT_NAME }}} Connecting...</div>
+            </div>
+          </div>            
+        </div>
+      </row>
+    </div>
+    <div class="container body-page">
+        <row>
+          <div class="col-12">
+            <h1>Instructions</h1>
+            <b>This page is designed for use with Chromecast.  Please use your Chrome browser to access the display section.</b>
+          </div>
+        </row>
+    </div>
+  <!-- Body -->
+<!-- Footer -->
+<div class="container-fluid body-container">
+    <div class="row body-row-top">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <a href="https://hyper-dragon.github.io/DgtAngel/" class="btn">Project Home</a>
+            <a href="https://github.com/sponsors/Hyper-Dragon" class="btn">
+                Donate&nbsp;
+                <svg aria-hidden="true"
+                     height="16"
+                     viewBox="0 0 16 16"
+                     version="1.1"
+                     width="16"
+                     data-view-component="true"
+                     class="octicon octicon-heart icon-sponsor mr-0 text-pink v-align-middle">
+                    <path fill-rule="evenodd"
+                          d="M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.75.75 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5zM8 14.25l-.345.666-.002-.001-.006-.003-.018-.01a7.643 7.643 0 01-.31-.17 22.075 22.075 0 01-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.08 22.08 0 01-3.744 2.584l-.018.01-.006.003h-.002L8 14.25zm0 0l.345.666a.752.752 0 01-.69 0L8 14.25z"></path>
+                </svg>
+            </a>
+        </div>
+        <div class="col-1"></div>
+    </div>
   </div>
   <!-- Footer -->
     <script>
@@ -319,6 +342,7 @@
       document.body.appendChild(script);
     </script>
     <script>
+      var is_chrome = window.chrome;
       start = Date.now();
       whiteClockMsRemaining = 0;
       blackClockMsRemaining = 0;
@@ -328,6 +352,11 @@
       flip = false;
       clocksTimer = 0;
       noFenSent = true;
+
+
+        if(is_chrome  == false){
+            document.getElementById("canvas-section").style.display = "none";
+        }
 
       function timeRemaining(clockId, diff) {
           display = document.getElementById(clockId);
