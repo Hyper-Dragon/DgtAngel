@@ -26,8 +26,8 @@ public class LightArray : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Check for any changes and process (showing last move only)
-        while (MessageHandler.SquareDiffQueue.TryDequeue(out string message))
+        //Check for any changes and process
+        if (MessageHandler.SquareDiffQueue.TryDequeue(out string message))
         {
             //Turn off old active squares
             Array.ForEach(lastMessageProcessed, 

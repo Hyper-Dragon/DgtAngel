@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class BoardControl : MonoBehaviour
 {
-    GameObject board;
-    GameObject squareTextA1;
-    GameObject squareTextH8;
-    TextMeshPro whiteClock;
-    TextMeshPro blackClock;
-    TextMeshPro whiteText;
-    TextMeshPro blackText;
-    bool isWhiteOnBottom = true;
+    private GameObject board;
+    private GameObject squareTextA1;
+    private GameObject squareTextH8;
+    private TextMeshPro whiteClock;
+    private TextMeshPro blackClock;
+    private TextMeshPro whiteText;
+    private TextMeshPro blackText;
+    private bool isWhiteOnBottom = true;
 
     public float rotationStep = 5f;
     public float speedUpModifier = 10f;
