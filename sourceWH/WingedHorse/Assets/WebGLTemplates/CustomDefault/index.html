@@ -4,26 +4,214 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="shortcut icon" href="TemplateData/favicon.png">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous" />
     <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      body {
+          width: 100vw;
+          height: 100vh;
+          margin: 0px;
+          padding: 0px;
+          background-color: rgba(119, 119, 119, 0.9);
+          background-image: url("/CherubVirtualClock/Images/DgtAngelLogo.svg");
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: right top;
+          background-size: 100vh;
+          background-blend-mode: soft-light;
+          color: whitesmoke;
+          overflow-x: hidden !important;
+      }
+
+      .project-name {
+          color: rgba(255, 255, 255, 9);
+          text-align: center;
+          vertical-align: top;
+          text-shadow: #fff 0px 0px 5px, #fff 0px 0px 10px, #fff 0px 0px 15px, #ff2d95 0px 0px 20px, #ff2d95 0px 0px 30px, #ff2d95 0px 0px 40px, #ff2d95 0px 0px 50px, #ff2d95 0px 0px 75px;
+      }
+
+      .project-tagline {
+          font-style: italic;
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+      }
+
+      .btn {
+          background-color: rgba(133, 145, 159, 0.4);
+          transition-duration: 0.5s;
+          color: white;
+          margin: 3px;
+          margin-top: 1px;
+          box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.2);
+      }
+
+          .btn:hover {
+              background-color: rgba(133, 145, 159, 0.9);
+              color: white;
+          }
+
+      .highlight {
+          box-shadow: 0 20px 20px -10px rgba(0, 0, 0, 0.8);
+      }
+
+      .cmd {
+          border-color: ivory;
+          border-width: 1px;
+          padding: 3px;
+          border-style: dotted;
+      }
+
+      h1 {
+          color: white;
+          text-shadow: 4px 4px black;
+      }
+
+      .head-image {
+          height: 100vh;
+          text-align: center;
+          display: block;
+      }
+
+      .jumbotron {
+          width: 100vw;
+          margin: 0px;
+          padding: 0px;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-position: right top;
+          background-size: 100vh;
+          background-blend-mode: soft-light;
+          text-align: left;
+          background-color: rgba(22, 35, 51, 0.6);
+          backdrop-filter: blur(10px);
+          border-width: 0px;
+          border-bottom-width: 1px;
+          border-style: groove;
+          border-color: black;
+          box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .body-page {
+          margin-top: 15px;
+          margin-bottom: 10px;
+          padding-bottom: 100px;
+          background-color: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(10px);
+          border-width: 2px;
+          border-style: groove;
+          border-color: black;
+          border-radius: 15px;
+          box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+          color: yellow;
+      }
+
+      .body-container {
+          background-color: rgba(255, 255, 255, 0.15);
+          margin-top: 0.2em;
+          margin-bottom: 0.2em;
+          width: 100vw;
+          min-width: 100vw;
+          text-align: center;
+      }
+
+      .body-row-top {
+          margin-top: 15px;
+          padding: 2px;
+          background-color: rgba(22, 35, 51, 0.5);
+          backdrop-filter: blur(5px);
+          width: 100vw;
+          min-width: 100vw;
+          border-width: 0px;
+          border-top-width: 1px;
+          border-bottom-width: 1px;
+          border-style: groove;
+          border-color: black;
+          box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .clock-btn {
+          color: yellow;
+          font-weight: 600;
+      }
+
+      .page-foot-container {
+          margin: 0px;
+          padding: 0px;
+          text-align: center;
+          font-size: 15px;
+          width: 100vw;
+          min-width: 100vw;
+          background-color: rgba(22, 35, 51, 0.5);
+          backdrop-filter: blur(5px);
+          margin-top: 20px;
+          border-width: 0px;
+          border-top-width: 1px;
+          border-bottom-width: 1px;
+          border-style: groove;
+          border-color: black;
+          box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+      }
+  </style>
   </head>
   <body>
-    <h1 id="con-state">Connecting...</h1>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}}></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
+        <!-- Header -->
+        <div class="p-5 jumbotron">
+          <div class="container-fluid">
+              <h1 class="project-name"><b>DGT Angel Virtual Clock</b></h1>
+          </div>
       </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">{{{ PRODUCT_NAME }}}</div>
+      <!-- Header -->
+    <!-- Body -->
+    <div class="container body-page">
+      <row>
+          <div class="col-12"></div>
+          <br />
+          <h4 id="con-state">Connecting...</h1>
+          <div id="unity-container" class="unity-desktop">
+            <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}}></canvas>
+            <div id="unity-loading-bar">
+              <div id="unity-logo"></div>
+              <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+              </div>
+            </div>
+            <div id="unity-warning"> </div>
+            <div id="unity-footer">
+              <div id="unity-webgl-logo"></div>
+              <div id="unity-fullscreen-button"></div>
+              <div id="unity-build-title">{{{ PRODUCT_NAME }}}</div>
+            </div>
+          </div>
+      </row>
+  </div>
+  <!-- Body -->
+    <!-- Footer -->
+    <div class="container-fluid body-container">
+      <div class="row body-row-top">
+          <div class="col-1"></div>
+          <div class="col-10">
+              <a href="https://hyper-dragon.github.io/DgtAngel/" class="btn">Project Home</a>
+              <a href="https://github.com/sponsors/Hyper-Dragon" class="btn">
+                  Donate&nbsp;
+                  <svg aria-hidden="true"
+                       height="16"
+                       viewBox="0 0 16 16"
+                       version="1.1"
+                       width="16"
+                       data-view-component="true"
+                       class="octicon octicon-heart icon-sponsor mr-0 text-pink v-align-middle">
+                      <path fill-rule="evenodd"
+                            d="M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.75.75 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5zM8 14.25l-.345.666-.002-.001-.006-.003-.018-.01a7.643 7.643 0 01-.31-.17 22.075 22.075 0 01-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.08 22.08 0 01-3.744 2.584l-.018.01-.006.003h-.002L8 14.25zm0 0l.345.666a.752.752 0 01-.69 0L8 14.25z"></path>
+                  </svg>
+              </a>
+          </div>
+          <div class="col-1"></div>
       </div>
-    </div>
+  </div>
+  <!-- Footer -->
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
