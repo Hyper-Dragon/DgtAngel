@@ -1,55 +1,47 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LightArray : MonoBehaviour
 {
-
-    private string lastMessageProcessed="";
-    private readonly Dictionary<string, Renderer> spotMeshDictionary = new();
-    private readonly Dictionary<string, Renderer> squareMeshDictionary = new();
+    private string[] lastMessageProcessed = new string[0];
+    private readonly Dictionary<string, (Renderer spot, Renderer square)> meshDictionary = new();
 
     // Start is called before the first frame update
     void Start()
     {
-
-        foreach (var rank in new string[] { "1", "2", "3", "4", "5", "6", "7", "8" })
-        {
-            foreach (var file in new string[] { "A", "B", "C", "D", "E", "F", "G", "H" })
-            {
-                spotMeshDictionary
-                    .Add($"{file}{rank}", GameObject.Find($"Board/RanksSpot/Rank{rank}/Square{file}")
-                    .GetComponentInChildren<Renderer>());
-                squareMeshDictionary
-                    .Add($"{file}{rank}", GameObject.Find($"Board/Ranks/Rank{rank}/Square{file}")
-                    .GetComponentInChildren<Renderer>());
-            }
-        }
+        //Prebuild required mesh references
+        Array.ForEach(new string[] { "1", "2", "3", "4", "5", "6", "7", "8" },
+                      rank => Array.ForEach(new string[] { "A", "B", "C", "D", "E", "F", "G", "H" },
+                      file => meshDictionary.Add($"{file}{rank}",
+                               (spot: GameObject
+                                      .Find($"Board/RanksSpot/Rank{rank}/Square{file}")
+                                      .GetComponentInChildren<Renderer>(),
+                                square: GameObject
+                                        .Find($"Board/Ranks/Rank{rank}/Square{file}")
+                                        .GetComponentInChildren<Renderer>()))));
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Check for changes and process
-        if (MessageHandler.SquareDiffQueue.TryDequeue(out string message))
+        //Check for any changes and process (showing last move only)
+        while (MessageHandler.SquareDiffQueue.TryDequeue(out string message))
         {
             //Turn off old active squares
-            foreach (var square in lastMessageProcessed.Split(','))
-            {
-                if (spotMeshDictionary.ContainsKey(square))
-                {
-                    spotMeshDictionary[square].enabled = false;
-                    squareMeshDictionary[square].enabled = true;
-                }
-            }
+            Array.ForEach(lastMessageProcessed, 
+                          square => { meshDictionary[square].spot.enabled = false;
+                                      meshDictionary[square].square.enabled = true;});
+
+            //Extract squares from message making sure the key is in the dictionary
+            lastMessageProcessed = message.Split(',').Where(x => meshDictionary.ContainsKey(x)).ToArray();
 
             //Turn on new active squares
-            lastMessageProcessed = message;
-            foreach (var square in lastMessageProcessed.Split(','))
-            {
-                spotMeshDictionary[square].enabled = true;
-                squareMeshDictionary[square].enabled = false;
-            }
+            Array.ForEach(lastMessageProcessed,
+                          square => {
+                              meshDictionary[square].spot.enabled = true;
+                              meshDictionary[square].square.enabled = false;});
         }
     }
 }

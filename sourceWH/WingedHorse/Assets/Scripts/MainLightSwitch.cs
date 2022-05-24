@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainLightSwitch : MonoBehaviour
 {
-    Light mainLight;
+    private Light mainLight;
 
     // Start is called before the first frame update
     void Start()
@@ -15,20 +13,10 @@ public class MainLightSwitch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            mainLight.enabled = !mainLight.enabled;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) && mainLight.intensity <= 2.5f)
-        {
-            mainLight.intensity += .1f;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha1) && mainLight.intensity > .3f) 
-        {
-            mainLight.intensity -= .1f;
-        }
-
-
+        // Light on/off switch and dimmer control (if the light is off turn on if the dimmer controls are used)
+        mainLight.enabled = Input.GetKeyDown(KeyCode.L) 
+                            ? !mainLight.enabled : Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || mainLight.enabled;
+        mainLight.intensity -= (Input.GetKeyDown(KeyCode.Alpha1) && mainLight.intensity > .3f) ? .1f : 0f;
+        mainLight.intensity += (Input.GetKeyDown(KeyCode.Alpha2) && mainLight.intensity < 2.5f) ? .1f : 0f;
     }
 }
