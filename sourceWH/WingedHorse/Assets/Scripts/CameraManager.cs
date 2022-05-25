@@ -13,8 +13,19 @@ public class CameraManager : MonoBehaviour
     private Vector3 cameraTargetPosition;
     private Vector3 initialCameraPos = new(0, 0, 0);
     private Quaternion initialCameraRot = new(0, 0, 0, 0);
+    private Vector3 initialLightPos = new(0, 0, 0);
+    private Quaternion initialLightRot = new(0, 0, 0, 0);
+    private Vector3 initialBoardPos = new(0, 0, 0);
 
-    
+    private TiltCollision floorTiltLeft;
+    private TiltCollision floorTiltRight;
+    private TiltCollision floorTiltUp;
+    private TiltCollision floorTiltDown;
+    private TiltCollision ceilingTiltLeft;
+    private TiltCollision ceilingTiltRight;
+    private TiltCollision ceilingTiltUp;
+    private TiltCollision ceilingTiltDown;
+
     public int targetFrameRate = 30;
     public float moveStep = 1f;
     public float fovStep = 2f;
@@ -31,7 +42,15 @@ public class CameraManager : MonoBehaviour
         mainCamera.enabled = true;
 
         mainLight = GameObject.Find("MainLight");
-
+        floorTiltLeft  = GameObject.Find("Main Camera/FloorColliderLeft").GetComponent<TiltCollision>();
+        floorTiltRight = GameObject.Find("Main Camera/FloorColliderRight").GetComponent<TiltCollision>();
+        floorTiltUp    = GameObject.Find("Main Camera/FloorColliderUp").GetComponent<TiltCollision>();
+        floorTiltDown  = GameObject.Find("Main Camera/FloorColliderDown").GetComponent<TiltCollision>();
+        ceilingTiltLeft = GameObject.Find("Main Camera/CeilingColliderLeft").GetComponent<TiltCollision>();
+        ceilingTiltRight = GameObject.Find("Main Camera/CeilingColliderRight").GetComponent<TiltCollision>();
+        ceilingTiltUp = GameObject.Find("Main Camera/CeilingColliderUp").GetComponent<TiltCollision>();
+        ceilingTiltDown = GameObject.Find("Main Camera/CeilingColliderDown").GetComponent<TiltCollision>();
+        
         board = GameObject.Find("Board");
         cameraTarget = GameObject.Find("Board/BaseTarget/Centre").GetComponent<Renderer>();
         cameraBody = GameObject.Find("Main Camera").GetComponent<Rigidbody>();
@@ -41,6 +60,11 @@ public class CameraManager : MonoBehaviour
                                        mainCamera.transform.position.z);
         initialCameraRot = new Quaternion(mainCamera.transform.rotation.x, mainCamera.transform.rotation.y,
                                           mainCamera.transform.rotation.z, mainCamera.transform.rotation.w);
+        initialLightPos = new Vector3(mainLight.transform.position.x, mainLight.transform.position.y,
+                                       mainLight.transform.position.z);
+        initialLightRot = new Quaternion(mainLight.transform.rotation.x, mainLight.transform.rotation.y,
+                                          mainLight.transform.rotation.z, mainLight.transform.rotation.w);
+        initialBoardPos = board.transform.position;
     }
 
 
@@ -51,6 +75,8 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKey(KeyCode.R))
         {
             mainCamera.transform.SetPositionAndRotation(initialCameraPos, initialCameraRot);
+            mainLight.transform.SetPositionAndRotation(initialLightPos, initialLightRot);
+            board.transform.position = initialBoardPos;
         }
 
         float speedModifier = Input.GetKey(KeyCode.Space) ? speedUpModifier : 1f;
@@ -61,39 +87,26 @@ public class CameraManager : MonoBehaviour
         mainCamera.fieldOfView -= Input.GetKey(KeyCode.Z) && (cameraTarget.isVisible && mainCamera.fieldOfView > 20) ? fovStep * speedModifier * Time.deltaTime : 0;
         mainCamera.fieldOfView += Input.GetKey(KeyCode.X) && (cameraTarget.isVisible && mainCamera.fieldOfView < 70) ? fovStep * speedModifier * Time.deltaTime : 0;
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) && floorTiltUp.isMoveOk && ceilingTiltUp.isMoveOk)
         {
-            if (mainCamera.transform.forward.x < 0.5)
-            {
                 mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, rotationStep * Time.deltaTime), rotationStep * speedModifier * Time.deltaTime);
                 mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, rotationStep * Time.deltaTime), rotationStep * speedModifier * Time.deltaTime);
-            }
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow) && floorTiltDown.isMoveOk && ceilingTiltDown.isMoveOk)
         {
-            if (mainCamera.transform.forward.x > -0.5)
-            {
                 mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -rotationStep * Time.deltaTime), rotationStep * speedModifier * Time.deltaTime);
                 mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(0, 0, -rotationStep * Time.deltaTime), rotationStep * speedModifier * Time.deltaTime);
-            }
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && floorTiltLeft.isMoveOk && ceilingTiltLeft.isMoveOk)
         {
-            if (mainCamera.transform.forward.z > -0.5)
-            {
                 mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(rotationStep * Time.deltaTime, 0, 0), rotationStep * speedModifier * Time.deltaTime);
                 mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(rotationStep * Time.deltaTime, 0, 0), rotationStep * speedModifier * Time.deltaTime);
-            }
         }
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) && floorTiltRight.isMoveOk && ceilingTiltRight.isMoveOk)
         {
-            if (mainCamera.transform.forward.z < 0.5 )
-            {
                 mainCamera.transform.RotateAround(cameraTargetPosition, new Vector3(-rotationStep * Time.deltaTime, 0, 0), rotationStep * speedModifier * Time.deltaTime);
                 mainLight.transform.RotateAround(cameraTargetPosition, new Vector3(-rotationStep * Time.deltaTime, 0, 0), rotationStep * speedModifier * Time.deltaTime);
-            }
         }
     }
-
 }
