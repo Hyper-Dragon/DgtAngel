@@ -156,14 +156,14 @@
       }
 
       #canvas-container {
-   width: 100%;
-   text-align:center;
-}
+        width: 100%;
+        text-align:center;
+      }
 
-canvas {
-   display: inline;
-}
-  </style>
+      canvas {
+        display: inline;
+      }
+    </style>
   </head>
   <body>
     <!-- Header -->
@@ -340,12 +340,9 @@ canvas {
         });
       };
       document.body.appendChild(script);
-    </script>
-    <script>
+
       var is_chrome = window.chrome;
       start = Date.now();
-      whiteClockMsRemaining = 0;
-      blackClockMsRemaining = 0;
       isGameInProgress = false;
       isWhiteToPlay = true;
       isTimerSuspended = false;
@@ -357,57 +354,6 @@ canvas {
         if(is_chrome  == false){
             document.getElementById("canvas-section").style.display = "none";
         }
-
-      function timeRemaining(clockId, diff) {
-          display = document.getElementById(clockId);
-
-          if (diff <= 0) {
-              display.textContent = "0:00:00";
-          } else {
-              totalMinutes = (diff / 60) | 0;
-
-              hours = (totalMinutes / 60) | 0;
-              minutes = (totalMinutes % 60) | 0;
-              seconds = (diff % 60) | 0;
-
-              minutes = minutes < 10 ? "0" + minutes : minutes;
-              seconds = seconds < 10 ? "0" + seconds : seconds;
-
-              display.textContent = hours + ":" + minutes + ":" + seconds;
-          }
-      }
-
-      function timer() {
-          if (isGameInProgress) {
-              if (isTimerSuspended == false) {
-                  // get the number of seconds that have elapsed since update
-                  if (isWhiteToPlay == true) {
-                      document.getElementById('is-white-to-play').textContent = "White To Play";
-
-                      timeRemaining('white-clock', (whiteClockMsRemaining / 1000) - (((Date.now() - start) / 1000) | 0));
-                      timeRemaining('black-clock', (blackClockMsRemaining / 1000));
-
-                      document.getElementById('white-clock').style.color = 'yellow';
-                      document.getElementById('black-clock').style.color = 'black';
-                  } else {
-                      document.getElementById('is-white-to-play').textContent = "Black To Play";
-
-                      timeRemaining('white-clock', (whiteClockMsRemaining / 1000));
-                      timeRemaining('black-clock', (blackClockMsRemaining / 1000) - (((Date.now() - start) / 1000) | 0));
-
-                      document.getElementById('white-clock').style.color = 'black';
-                      document.getElementById('black-clock').style.color = 'yellow';
-                  }
-              }
-          } else {
-              document.getElementById('is-white-to-play').textContent = "No Game";
-              document.getElementById('white-clock').textContent = "0:00:00";
-              document.getElementById('black-clock').textContent = "0:00:00";
-
-              document.getElementById('white-clock').style.color = 'black';
-              document.getElementById('black-clock').style.color = 'black';
-          }
-      }
 
       window.onload = function () {
 
@@ -428,11 +374,10 @@ canvas {
 
                   source.onopen = function (event) {
                       document.getElementById('con-state').innerHTML = 'CONNECTED';
-                      globalUnityInstance.SendMessage('Main Camera','SetText',"CONNECTED");
+                      globalUnityInstance.SendMessage('Main Camera','SetText',"NO WATCH");
                       globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
-                      globalUnityInstance.SendMessage('Main Camera','ResetFen','rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+                      globalUnityInstance.SendMessage('Main Camera','ResetFen','8/8/8/8/8/8/8/8');
                       noFenSent = true;
-                      timer();
                       clocksTimer = setInterval(timer, 1000);
                   };
 
@@ -442,7 +387,6 @@ canvas {
                       globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
                       globalUnityInstance.SendMessage('Main Camera','ResetFen','8/8/8/8/8/8/8/8');
                       noFenSent = true;
-                      isTimerSuspended = true;
                       source.close();
 
                       if (source.readyState == 2) {
@@ -459,23 +403,23 @@ canvas {
                               globalUnityInstance.SendMessage('Main Camera','WhiteOrientation',obj.IsWhiteOnBottom.toString());
                               break;
                           case "OnLocalFenChange":
-                              globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
+                              //globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
                               break;
                           case "OnRemoteFenChange":
                               if(noFenSent == true) {
-                                globalUnityInstance.SendMessage('Main Camera','UpdatedFen',obj.BoardFen);
+                                globalUnityInstance.SendMessage('Main Camera','ResetFen',obj.BoardFen);
                                 noFenSent = false;
+                              }else{
+                                globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
+                                globalUnityInstance.SendMessage('Main Camera','UpdatedFen',obj.BoardFen);
+                                globalUnityInstance.SendMessage('Main Camera','WhiteOrientation',obj.IsWhiteOnBottom.toString());
                               }
-
-                              globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
-                              globalUnityInstance.SendMessage('Main Camera','UpdatedFen',obj.BoardFen);
-                              globalUnityInstance.SendMessage('Main Camera','WhiteOrientation',obj.IsWhiteOnBottom.toString());
                               break;
                           case "OnBoardMissmatch":
                               globalUnityInstance.SendMessage('Main Camera','SetText',"MISSMATCH");
                               break;
                           case "OnBoardMatch":
-                              globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"yyy");
                               break;
                           case "OnClockChange":
                               globalUnityInstance.SendMessage('Main Camera','SetClocks',obj.WhiteClockMsRemaining.toString() + '/' + obj.BlackClockMsRemaining.toString());
@@ -484,10 +428,10 @@ canvas {
                               noFenSent = true;
                               globalUnityInstance.SendMessage('Main Camera','SetText',"NO WATCH");
                               globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
-                              globalUnityInstance.SendMessage('Main Camera','ResetFen','rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+                              globalUnityInstance.SendMessage('Main Camera','ResetFen','8/8/8/8/8/8/8/8');
                               break;
                           case "OnLocalStopWatch":
-                              globalUnityInstance.SendMessage('Main Camera','SetText',"LOCAL STOP");
+                              //globalUnityInstance.SendMessage('Main Camera','SetText',"LOCAL STOP");
                               break;
                           case "Keep-Alive":
                               console.log("...Still Running");
