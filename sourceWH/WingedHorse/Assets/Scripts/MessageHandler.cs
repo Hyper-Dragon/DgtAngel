@@ -48,18 +48,30 @@ public class MessageHandler : MonoBehaviour
         BlackClock = blackClockTime.ToString(@"h\:mm\:ss");
     }
 
+
+    public void ResetFen(string fenIn)
+    {
+        UpdatedFenInternal(fenIn,true);
+        UpdatedFenInternal(fenIn, true);
+    }
+
+    public void UpdatedFen(string fenIn)
+    {
+        UpdatedFenInternal(fenIn);
+    }
+
     /// <summary>
     /// Board position update
     /// </summary>
     /// <param name="fenIn">Fen string - board only (exclude the turn no, castling etc)</param>
-    public void UpdatedFen(string fenIn)
+    private void UpdatedFenInternal(string fenIn, bool isNoMove = false)
     {
         //print($"FEN in:: {fenIn}");
 
         //Update highlighs only if we have a previous board to compare
         if (!string.IsNullOrEmpty(currentFen))
         {
-            if (currentFen != fenIn)
+            if (isNoMove || currentFen != fenIn)
             {
                 StringBuilder highlights = new();
                 char[] fenConversionIn = FenConversion.FenToCharArray(fenIn);
