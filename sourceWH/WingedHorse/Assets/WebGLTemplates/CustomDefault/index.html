@@ -179,7 +179,7 @@ canvas {
         <div class="col-12">
           <br/>
           <div id="canvas-container" class="unity-desktop">
-            <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}}></canvas>
+            <canvas id="unity-canvas" ></canvas>
           </div>
         </div>
       </row>
@@ -205,8 +205,8 @@ canvas {
     <div class="container body-page">
         <row>
           <div class="col-12">
-            <h1>Instructions</h1>
             <b>This page is designed for use with Chromecast.  Please use your Chrome browser to access the display section.</b>
+            <img src="/TemplateData/Keyboard.svg" />
           </div>
         </row>
     </div>
@@ -414,20 +414,23 @@ canvas {
           var source = null;
 
           function initEventSource() {
+                  if(globalUnityInstance == null){
+                      console.log("Waiting for Unity to load");
+                      setTimeout(initEventSource, 5000);
+                  }
+
               if (source == null || source.readyState == 2) {
                   document.getElementById('con-state').innerHTML = 'CONNECTING...';
+                  globalUnityInstance.SendMessage('Main Camera','SetText','CONNECTING...');
+                  globalUnityInstance.SendMessage('Main Camera','ResetFen','8/8/8/8/8/8/8/8');
                   
                   source = new EventSource('http://localhost:37964/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
-
-                  if(globalUnityInstance != null) {
-                      globalUnityInstance.SendMessage('Main Camera','SetText','CONNECTING...');
-                  } 
 
                   source.onopen = function (event) {
                       document.getElementById('con-state').innerHTML = 'CONNECTED';
                       globalUnityInstance.SendMessage('Main Camera','SetText',"CONNECTED");
                       globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
-                      globalUnityInstance.SendMessage('Main Camera','UpdatedFen','8/8/8/8/8/8/8/8');
+                      globalUnityInstance.SendMessage('Main Camera','ResetFen','rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
                       noFenSent = true;
                       timer();
                       clocksTimer = setInterval(timer, 1000);
@@ -437,7 +440,7 @@ canvas {
                       document.getElementById('con-state').innerHTML = 'DISCONNECTED';
                       globalUnityInstance.SendMessage('Main Camera','SetText',"DISCONNECTED");
                       globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
-                      globalUnityInstance.SendMessage('Main Camera','UpdatedFen','8/8/8/8/8/8/8/8');
+                      globalUnityInstance.SendMessage('Main Camera','ResetFen','8/8/8/8/8/8/8/8');
                       noFenSent = true;
                       isTimerSuspended = true;
                       source.close();
@@ -456,6 +459,7 @@ canvas {
                               globalUnityInstance.SendMessage('Main Camera','WhiteOrientation',obj.IsWhiteOnBottom.toString());
                               break;
                           case "OnLocalFenChange":
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
                               break;
                           case "OnRemoteFenChange":
                               if(noFenSent == true) {
@@ -463,7 +467,7 @@ canvas {
                                 noFenSent = false;
                               }
 
-                              globalUnityInstance.SendMessage('Main Camera','SetText',"---");
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
                               globalUnityInstance.SendMessage('Main Camera','UpdatedFen',obj.BoardFen);
                               globalUnityInstance.SendMessage('Main Camera','WhiteOrientation',obj.IsWhiteOnBottom.toString());
                               break;
@@ -471,7 +475,7 @@ canvas {
                               globalUnityInstance.SendMessage('Main Camera','SetText',"MISSMATCH");
                               break;
                           case "OnBoardMatch":
-                              globalUnityInstance.SendMessage('Main Camera','SetText',"---");
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"+++");
                               break;
                           case "OnClockChange":
                               globalUnityInstance.SendMessage('Main Camera','SetClocks',obj.WhiteClockMsRemaining.toString() + '/' + obj.BlackClockMsRemaining.toString());
@@ -480,12 +484,13 @@ canvas {
                               noFenSent = true;
                               globalUnityInstance.SendMessage('Main Camera','SetText',"NO WATCH");
                               globalUnityInstance.SendMessage('Main Camera','SetClocks','0/0');
-                              globalUnityInstance.SendMessage('Main Camera','UpdatedFen','8/8/8/8/8/8/8/8');
+                              globalUnityInstance.SendMessage('Main Camera','ResetFen','rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
                               break;
                           case "OnLocalStopWatch":
+                              globalUnityInstance.SendMessage('Main Camera','SetText',"LOCAL STOP");
                               break;
                           case "Keep-Alive":
-                              console.log("...Still Reunning");
+                              console.log("...Still Running");
                               break;
                           default:
                               console.error("Invalid message type recieved from DGT Cherub");
