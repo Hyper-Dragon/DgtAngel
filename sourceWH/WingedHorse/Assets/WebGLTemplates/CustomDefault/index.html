@@ -17,7 +17,6 @@
           margin: 0px;
           padding: 0px;
           background-color: rgba(119, 119, 119, 0.9);
-          background-image: url("/CherubVirtualClock/Images/DgtAngelLogo.svg");
           background-repeat: no-repeat;
           background-attachment: fixed;
           background-position: right top;
@@ -155,14 +154,17 @@
           box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
       }
 
-      #canvas-container {
+      #unity-canvas {
         width: 100%;
-        text-align:center;
+        height: auto;
       }
 
-      canvas {
-        display: inline;
+      .usage-image {
+        width: 100%;
+        height: auto;
       }
+
+
     </style>
   </head>
   <body>
@@ -178,9 +180,7 @@
       <row>
         <div class="col-12">
           <br/>
-          <div id="canvas-container" class="unity-desktop">
             <canvas id="unity-canvas" ></canvas>
-          </div>
         </div>
       </row>
       <row>
@@ -201,14 +201,18 @@
           </div>            
         </div>
       </row>
-    </div>
-    <div class="container body-page">
+    <row><br/><br/></row>
+
+      <row>
+        <div class="col-12">
+                    <img class="usage-image" src="/TemplateData/Keyboard.svg" />
+        </div>
+      </row>
         <row>
           <div class="col-12">
             <b>This page is designed for use with Chromecast.  Please use your Chrome browser to access the display section.</b>
-            <img src="/TemplateData/Keyboard.svg" />
           </div>
-        </row>
+          </row>
     </div>
   <!-- Body -->
 <!-- Footer -->
@@ -296,27 +300,12 @@
       // config.matchWebGLToCanvasSize = false;
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-
-        // To lower canvas resolution on mobile devices to gain some
-        // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
-
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-
         unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
-        canvas.style.width = "{{{ WIDTH }}}px";
-        canvas.style.height = "{{{ HEIGHT }}}px";
+        //canvas.style.width = "{{{ WIDTH }}}px";
+        //canvas.style.height = "{{{ HEIGHT }}}px";
       }
 
 #if BACKGROUND_FILENAME
