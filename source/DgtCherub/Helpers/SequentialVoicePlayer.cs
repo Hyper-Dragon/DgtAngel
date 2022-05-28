@@ -6,7 +6,7 @@ namespace DgtCherub.Helpers
 {
     public interface ISequentialVoicePlayer
     {
-        public float Volume { get; set; }   
+        public float Volume { get; set; }
         void Speak(IEnumerable<UnmanagedMemoryStream> clipStreams);
         void Speak(UnmanagedMemoryStream clipStream);
     }
@@ -16,7 +16,7 @@ namespace DgtCherub.Helpers
         private readonly ILogger _logger;
         private readonly Channel<IEnumerable<UnmanagedMemoryStream>> playlistChannel;
         private volatile float volume = 0.7f;
-        private readonly WaveOutEvent outputDevice = null;
+        private WaveOutEvent outputDevice = null;
 
         public float Volume
         {
@@ -36,8 +36,7 @@ namespace DgtCherub.Helpers
         public SequentialVoicePlayer(ILogger<SequentialVoicePlayer> logger)
         {
             _logger = logger;
-
-            _logger?.LogTrace($"Sequential Voice Player Created");
+            _logger?.LogTrace($"Creating the Sequential Voice Player");
 
             BoundedChannelOptions playlistChannelOptions = new(1)
             {
@@ -47,11 +46,8 @@ namespace DgtCherub.Helpers
                 SingleWriter = false
             };
 
-            // Init the channels and start the processor
-            outputDevice = new();
-            _logger?.LogTrace($"Sequential Voice Player Has Valid Audio Device");
-
             playlistChannel = Channel.CreateBounded<IEnumerable<UnmanagedMemoryStream>>(playlistChannelOptions);
+
             Task.Run(() => RunPlaylistProcessor());
         }
 
@@ -59,17 +55,32 @@ namespace DgtCherub.Helpers
         {
             _logger?.LogTrace($"Running Audio Process");
 
+            // Init the channels and start the processor
+            outputDevice = new() { Volume = volume };
+            _logger?.LogTrace($"Sequential Voice Player Has Valid Audio Device");
+
             while (true)
             {
-                IEnumerable<UnmanagedMemoryStream> playlist = await playlistChannel.Reader.ReadAsync();
-
-                foreach (UnmanagedMemoryStream sound in playlist)
+                try
                 {
-                    using WaveFileReader reader = new(sound);
-                    outputDevice.Volume = volume;
-                    outputDevice.Init(reader);
-                    outputDevice.Play();
-                    while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(50); };
+                    while (true)
+                    {
+                        IEnumerable<UnmanagedMemoryStream> playlist = await playlistChannel.Reader.ReadAsync();
+
+                        foreach (UnmanagedMemoryStream sound in playlist)
+                        {
+                            using WaveFileReader reader = new(sound);
+                            if (outputDevice.Volume != volume) outputDevice.Volume = volume;
+                            outputDevice.Init(reader);
+                            outputDevice.Play();
+                            while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(50); };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger?.LogError($"Sequential Voice Player Failed with {ex.Message} (Retrying)");
+                    Thread.Sleep(5000);
                 }
             }
         }
