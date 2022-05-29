@@ -98,8 +98,8 @@ namespace DgtCherub.Services
         private const int MATCHER_LOCAL_TIME_DELAY_MS = 100;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
-        private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC / 2;
-        private const int POST_EVENT_DELAY_REMOTE_FEN = MS_IN_SEC / 2;
+        private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC / 10;
+        private const int POST_EVENT_DELAY_REMOTE_FEN = MS_IN_SEC / 10;
         private const int POST_EVENT_DELAY_CLOCK = MS_IN_SEC / 2;
         private const int POST_EVENT_DELAY_MESSAGE = MS_IN_SEC / 10;
         private const int POST_EVENT_DELAY_ORIENTATION = MS_IN_SEC / 10;
