@@ -41,6 +41,22 @@
     <None Remove="Assets\Clocks\DgtAngelLogo.svg" />
     <None Remove="Assets\Clocks\favicon.png" />
     <None Remove="Assets\Clocks\TestClock\Clock.html" />
+    <None Remove="Assets\Clocks\WingedHorse\Build\Build.data.unityweb" />
+    <None Remove="Assets\Clocks\WingedHorse\Build\Build.framework.js.unityweb" />
+    <None Remove="Assets\Clocks\WingedHorse\Build\Build.loader.js" />
+    <None Remove="Assets\Clocks\WingedHorse\Build\Build.wasm.unityweb" />
+    <None Remove="Assets\Clocks\WingedHorse\index.html" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\favicon.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\fullscreen-button.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\Keyboard.svg" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\progress-bar-empty-dark.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\progress-bar-empty-light.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\progress-bar-full-dark.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\progress-bar-full-light.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\style.css" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\unity-logo-dark.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\unity-logo-light.png" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\webgl-logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,6 +81,22 @@
     <EmbeddedResource Include="Assets\Clocks\DgtAngelLogo.svg" />
     <EmbeddedResource Include="Assets\Clocks\favicon.png" />
     <EmbeddedResource Include="Assets\Clocks\TestClock\Clock.html" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.data.unityweb" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.framework.js.unityweb" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.loader.js" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.wasm.unityweb" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\index.html" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\favicon.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\fullscreen-button.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\Keyboard.svg" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\progress-bar-empty-dark.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\progress-bar-empty-light.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\progress-bar-full-dark.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\progress-bar-full-light.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\style.css" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\unity-logo-dark.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\unity-logo-light.png" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\webgl-logo.png" />
   </ItemGroup>
 
   <ItemGroup>
