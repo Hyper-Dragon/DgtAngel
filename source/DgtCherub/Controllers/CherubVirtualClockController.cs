@@ -21,9 +21,14 @@ namespace DgtCherub.Controllers
 
         private const string CLOCK_SLIDE = "GreySlide";
         private const string CLOCK_TEST = "TestClock";
+        private const string CLOCK_WINGED_HORSE = "WingedHorse";
+        //private const string CLOCK_SINGLE = "GreyPage";
+        //private const string CLOCK_LOCAL = "GreyLocalOnly";
+        //private const string CLOCK_REMOTE = "GreyRemoteOnly";        
 
         private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_SLIDE}.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_TEST}.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_WINGED_HORSE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_WINGED_HORSE}.{RESOURCE_CLOCK_HTML}";
 
         private const string RESOURCE_CLOCK_INDEX = $"{RESOURCE_CLOCK_ROOT}.index.html";
         private const string RESOURCE_CLOCK_FAV = $"{RESOURCE_CLOCK_ROOT}.{FAV_ICON}";
@@ -32,6 +37,9 @@ namespace DgtCherub.Controllers
         private const string MIME_HTM = "text/html";
         private const string MIME_PNG = "image/png";
         private const string MIME_SVG = "image/svg+xml";
+        private const string MIME_CSS = "text/css";
+        private const string MIME_JS = "text/javascript";
+        private const string MIME_UNITY = "application/wasm";
         private const string MIME_EVENT = "text/event-stream";
 
         private const string BOARD_EMPTY_FEN = "8/8/8/8/8/8/8/8";
@@ -48,6 +56,7 @@ namespace DgtCherub.Controllers
         private readonly string IndexPageHtml;
         private readonly string TestClockHtml;
         private readonly string SlideClockHtml;
+        private readonly string WigedHorseHtml;
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
@@ -60,6 +69,7 @@ namespace DgtCherub.Controllers
             IndexPageHtml = LoadResourceString(RESOURCE_CLOCK_INDEX);
             SlideClockHtml = LoadResourceString(RESOURCE_CLOCK_SLIDE);
             TestClockHtml = LoadResourceString(RESOURCE_CLOCK_TEST);
+            WigedHorseHtml = LoadResourceString(RESOURCE_CLOCK_WINGED_HORSE);
 
             FavIcon = LoadResource(RESOURCE_CLOCK_FAV);
             SvgLogo = LoadResource(RESOURCE_CLOCK_SVG);
@@ -80,6 +90,7 @@ namespace DgtCherub.Controllers
             };
         }
 
+
         [HttpGet]
         [Route("{action}/{clock}")]
         public ContentResult GetClock(string clock)
@@ -97,6 +108,7 @@ namespace DgtCherub.Controllers
                     {
                         CLOCK_SLIDE => SlideClockHtml,
                         CLOCK_TEST => TestClockHtml,
+                        CLOCK_WINGED_HORSE => WigedHorseHtml,
                         _ => throw new FileNotFoundException()
                     },
                 };
@@ -104,6 +116,33 @@ namespace DgtCherub.Controllers
             catch (FileNotFoundException)
             {
                 return new ContentResult { StatusCode = (int)HttpStatusCode.NotFound };
+            }
+        }
+
+        [HttpGet]
+        [Route("/CherubVirtualClock/{action}/{clock}/{directory}/{filename}")]
+        public ActionResult GetFile(string clock, string directory, string filename)
+        {
+            try
+            {
+                string mimeType = filename.Split(".").Last() switch
+                {
+                    "html" => MIME_HTM,
+                    "png" => MIME_PNG,
+                    "svg" => MIME_SVG,
+                    "css" => MIME_CSS,
+                    "js" => MIME_JS,
+                    "unityweb" => MIME_UNITY,
+                    _ => throw new FileNotFoundException()
+                };
+
+                //http://127.0.0.1:37964/CherubVirtualClock/GetClock/TemplateData/style.css
+
+                return File(LoadResource($"{RESOURCE_CLOCK_ROOT}.{clock}.{directory}.{filename}"), mimeType);
+            }
+            catch (FileNotFoundException)
+            {
+                return StatusCode(404);
             }
         }
 
