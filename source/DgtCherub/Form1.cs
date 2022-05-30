@@ -316,7 +316,8 @@ namespace DgtCherub
 
                 if (!string.IsNullOrEmpty(soundName))
                 {
-                    _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                    //_voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                    _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_02.ResourceManager.GetStream($"{soundName}_AP"));
                 }
                 else
                 {
@@ -353,7 +354,8 @@ namespace DgtCherub
                             _ => "Words_Missing",
                         };
 
-                        playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                        //playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                        playlist.Add(DgtCherub.Assets.Moves_en_02.ResourceManager.GetStream($"{soundName}_AP"));
                     }
 
                     _voicePlayerMoves.Speak(playlist);
