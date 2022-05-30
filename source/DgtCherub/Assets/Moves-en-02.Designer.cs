@@ -360,9 +360,9 @@ namespace DgtCherub.Assets {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream Words_WhiteWinsCheckmate___AP {
+        internal static System.IO.UnmanagedMemoryStream Words_WhiteWinsCheckmate_AP {
             get {
-                return ResourceManager.GetStream("Words_WhiteWinsCheckmate___AP", resourceCulture);
+                return ResourceManager.GetStream("Words_WhiteWinsCheckmate_AP", resourceCulture);
             }
         }
         

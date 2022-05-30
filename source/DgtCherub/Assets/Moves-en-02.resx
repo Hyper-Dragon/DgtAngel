@@ -214,8 +214,8 @@
   <data name="Words_Takes_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>audio\moves-en-02\words-takes-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Words_WhiteWinsCheckmate___AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>audio\moves-en-02\words-whitewinscheckmate  -ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Words_WhiteWinsCheckmate_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\moves-en-02\words-whitewinscheckmate-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Words_WhiteWinsResignation_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>audio\moves-en-02\words-whitewinsresignation-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
