@@ -47,6 +47,10 @@ namespace DgtCherub
 
         private const decimal DEFAULT_VOLUME = 7;
 
+        private const int DEFAULT_MOVE_VOICE_INDEX = 1;
+        private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
+        private System.Resources.ResourceManager VoiceMoveResManager;
+
         private readonly IHost _iHost;
         private readonly ILogger _logger;
         private readonly IAngelHubService _angelHubService;
@@ -187,13 +191,16 @@ namespace DgtCherub
                 DomainUpDown.SelectedIndex = 0;
             }
 
-            //Set volume to default
+            //Set voice/volume to default
             UpDownVolStatus.Value = DEFAULT_VOLUME;
             UpDownVolMoves.Value = DEFAULT_VOLUME;
             UpDownVolTime.Value = DEFAULT_VOLUME;
 
-            //Hides the caret from up/down boxes
-            HideCaret(UpDownVolStatus.Controls[1].Handle);
+            ComboBoxMoveVoice.SelectedIndex = DEFAULT_MOVE_VOICE_INDEX;
+            VoiceMoveResManager = DEFAULT_MOVE_VOICE;
+
+        //Hides the caret from up/down boxes
+        HideCaret(UpDownVolStatus.Controls[1].Handle);
             HideCaret(UpDownVolMoves.Controls[1].Handle);
             HideCaret(UpDownVolTime.Controls[1].Handle);
             HideCaret(DomainUpDown.Controls[1].Handle);
@@ -316,8 +323,7 @@ namespace DgtCherub
 
                 if (!string.IsNullOrEmpty(soundName))
                 {
-                    //_voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
-                    _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_02.ResourceManager.GetStream($"{soundName}_AP"));
+                    _voicePlayerMoves.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                 }
                 else
                 {
@@ -354,8 +360,7 @@ namespace DgtCherub
                             _ => "Words_Missing",
                         };
 
-                        //playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
-                        playlist.Add(DgtCherub.Assets.Moves_en_02.ResourceManager.GetStream($"{soundName}_AP"));
+                        playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                     }
 
                     _voicePlayerMoves.Speak(playlist);
@@ -808,6 +813,20 @@ namespace DgtCherub
         {
             TextBoxConsole.AddLine($"Remote matcher delay is now {(int)UpDownVoiceDelay.Value} seconds");
             _angelHubService.MatcherRemoteTimeDelayMs = ((int)UpDownVoiceDelay.Value * 1000);
+        }
+
+
+        private void ComboBoxMoveVoice_SelectedValueChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Using Voice {((ComboBox)sender).Text} for move announcements");
+
+            VoiceMoveResManager = ((ComboBox)sender).Text switch
+            {
+                "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
+                "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
+                _ => DEFAULT_MOVE_VOICE
+
+            };
         }
     }
 }
