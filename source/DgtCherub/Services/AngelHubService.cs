@@ -94,7 +94,7 @@ namespace DgtCherub.Services
         private const int MS_IN_MIN = 60000;
         private const int MS_IN_SEC = 1000;
 
-        private const int MATCHER_REMOTE_TIME_DELAY_MS = 4000;
+        private const int MATCHER_REMOTE_TIME_DELAY_MS = 5000;
         private const int MATCHER_LOCAL_TIME_DELAY_MS = 100;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;

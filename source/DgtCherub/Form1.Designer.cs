@@ -492,7 +492,7 @@ namespace DgtCherub
             0,
             0});
             this.UpDownVoiceDelay.Minimum = new decimal(new int[] {
-            4,
+            2,
             0,
             0,
             0});

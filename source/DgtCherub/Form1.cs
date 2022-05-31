@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.3.4";
+        private const string VERSION_NUMBER = "0.3.5";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -143,6 +143,9 @@ namespace DgtCherub
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
+
+
+            UpDownVoiceDelay.Value = _angelHubService.MatcherRemoteTimeDelayMs / 1000;
 
             LinkLabelAbout1.Text = "GitHub Project Page";
             LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
