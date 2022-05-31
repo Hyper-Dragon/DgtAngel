@@ -46,6 +46,8 @@ namespace DgtCherub
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
         private const decimal DEFAULT_VOLUME = 7;
+
+        // Use 'powercfg -requests' to test if the power settings are set correctly
         private const bool DEFAULT_PREVENT_SLEEP = true;
 
         private const int DEFAULT_MOVE_VOICE_INDEX = 1;
@@ -802,9 +804,9 @@ namespace DgtCherub
         }
 
 
-        private void PreventScreensaver(bool sw)
+        private void PreventScreensaver(bool preventSleep)
         {
-            if (sw)
+            if (preventSleep)
             {
                 SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
             }
