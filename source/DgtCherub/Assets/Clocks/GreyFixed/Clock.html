@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1">
+    <meta name="description" content="Clock for DGT Angel and server by DGT Cherub" />
+    <meta name="author" content="Hyper-Dragon" />
+    <title>DGT Angel Clock</title>
+    <link rel='shortcut icon' type='image/png' href="/CherubVirtualClock/Images/favicon.png">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/CherubVirtualClock/GetFile/Any/Style/bootstrap5.1.0.min.css" />
+    <style>
+        /* GLOBAL STYLES */
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0px;
+            padding: 0px;
+            color: black;
+        }
+
+        svg {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+        }
+
+
+        .parent {
+            position: relative;
+        }
+
+        .child {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .img-child {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 10%);
+        }
+
+        .bkg-clock {
+            padding: 0px;
+            background-clip: padding-box;
+            height: 50vh;
+            min-height: 100vh;
+            max-height: 50vh;
+            font-size: 13vw;
+        }
+
+        .board-img {
+            padding: 0px;
+            background-clip: padding-box;
+            width: min(40vw, 80vh);
+        }
+
+        .bkg-white-clock {
+            margin: 0 auto;
+            background: lightgrey;
+        }
+
+        .bkg-black-clock {
+            background: darkslategrey;
+        }
+
+        .bkg-logo {
+            opacity: 0.05;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        .last-move {
+            font-size: 6vw;
+            color: yellow;
+            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+            visibility:hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+        <i hidden id='remote-fen'>-</i>
+        <i hidden id='local-fen'>-</i>
+        <i hidden id='is-white-to-play'>-</i>
+
+
+
+
+                
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#777" />
+                    </svg>
+                    <img class="bkg-logo" src="/CherubVirtualClock/Images/DgtAngelLogo.svg" />
+                    <div class="container">
+                        <div>
+                            <h1>Connection State:&nbsp;<i id='con-state'>-</i></h1>
+                            <h2>
+                                Last Update:&nbsp;<i id='last-update-day'>-</i>&commat;<i id='last-update-time'>-</i>
+                            </h2>
+                            <h2>To Play:&nbsp;<i id='is-white-to-play'>-</i></h2>
+                        </div>
+                    </div>
+                
+                
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#077" />
+                    </svg>
+                    <div class="row">
+                        <div class="col-6 bkg-clock bkg-white-clock d-flex parent">
+                            <div class="align-self-center"><b id='white-clock' class="child">0:00:00</b></div>
+                        </div>
+                        <div class="col-6 bkg-clock bkg-black-clock d-flex parent">
+                            <div class="align-self-center"><b id='black-clock' class="child">0:00:00</b></div>
+                        </div>
+                    </div>
+                    <div>
+                        <b>Last Move:&nbsp;<i id='last-move'>-</i></b>
+                    </div>
+                
+
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                         aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#777" />
+                    </svg>
+
+                    <div class="row">
+                        <div class="col-6 d-flex parent">
+                            <div>
+                                <img id="local-board-img" class="board-img img-child"
+                                     src="/CherubVirtualClock/BoardImage/blank" />
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex parent">
+                            <div>
+                                <img id="remote-board-img" class="board-img img-child"
+                                     src="/CherubVirtualClock/BoardImage/blank" />
+                            </div>
+                        </div>
+                    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+
+    <script>
+        start = Date.now();
+        whiteClockMsRemaining = 0;
+        blackClockMsRemaining = 0;
+        isGameInProgress = false;
+        isWhiteToPlay = true;
+        isTimerSuspended = false;
+        flip = false;
+        clocksTimer = 0;
+
+        function timeRemaining(clockId, diff) {
+            display = document.getElementById(clockId);
+
+            if (diff <= 0) {
+                display.textContent = "0:00:00";
+            } else {
+                totalMinutes = (diff / 60) | 0;
+
+                hours = (totalMinutes / 60) | 0;
+                minutes = (totalMinutes % 60) | 0;
+                seconds = (diff % 60) | 0;
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = hours + ":" + minutes + ":" + seconds;
+            }
+        }
+
+        function timer() {
+            if (isGameInProgress) {
+                if (isTimerSuspended == false) {
+                    // get the number of seconds that have elapsed since update
+                    if (isWhiteToPlay == true) {
+                        document.getElementById('is-white-to-play').textContent = "White To Play";
+
+                        timeRemaining('white-clock', (whiteClockMsRemaining / 1000) - (((Date.now() - start) / 1000) | 0));
+                        timeRemaining('black-clock', (blackClockMsRemaining / 1000));
+
+                        document.getElementById('white-clock').style.color = 'yellow';
+                        document.getElementById('black-clock').style.color = 'black';
+                    } else {
+                        document.getElementById('is-white-to-play').textContent = "Black To Play";
+
+                        timeRemaining('white-clock', (whiteClockMsRemaining / 1000));
+                        timeRemaining('black-clock', (blackClockMsRemaining / 1000) - (((Date.now() - start) / 1000) | 0));
+
+                        document.getElementById('white-clock').style.color = 'black';
+                        document.getElementById('black-clock').style.color = 'yellow';
+                    }
+                }
+            } else {
+                document.getElementById('is-white-to-play').textContent = "No Game";
+                document.getElementById('white-clock').textContent = "0:00:00";
+                document.getElementById('black-clock').textContent = "0:00:00";
+
+                document.getElementById('white-clock').style.color = 'black';
+                document.getElementById('black-clock').style.color = 'black';
+            }
+        }
+
+        window.onload = function () {
+
+            var source = null;
+
+            function initEventSource() {
+                if (source == null || source.readyState == 2) {
+
+                    document.getElementById('con-state').innerHTML = 'CONNECTING...';
+                    source = new EventSource('/CherubVirtualClock/GetStuff/' + (new Date()).getTime());
+
+                    source.onopen = function (event) {
+                        document.getElementById('con-state').innerHTML = 'CONNECTED';
+                        timer();
+                        clocksTimer = setInterval(timer, 1000);
+                    };
+
+                    source.onerror = function (event) {
+                        document.getElementById('con-state').innerHTML = 'DISCONNECTED';
+                        isTimerSuspended = true;
+                        source.close();
+
+                        if (source.readyState == 2) {
+                            setTimeout(initEventSource, 5000);
+                        }
+                    }
+
+                    source.onmessage = function (event) {
+                        //console.log(event.data);
+                        const obj = JSON.parse(event.data);
+
+                        switch (obj.MessageType) {
+                            case "OnOrientationFlipped":
+                                if (obj.IsWhiteOnBottom) {
+                                    flip = "";
+                                } else {
+                                    flip = "&flip=true";
+                                }
+
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
+                                break;
+                            case "OnLocalFenChange":
+                                document.getElementById('local-fen').textContent = obj.BoardFen;
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
+                                break;
+                            case "OnRemoteFenChange":
+                                document.getElementById('remote-fen').textContent = obj.BoardFen;
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
+                                document.getElementById('last-move').textContent = obj.LastMove;
+                                break;
+                            case "OnBoardMissmatch":
+                                //carousel.to('2');
+                                //carousel.pause();
+                                break;
+                            case "OnBoardMatch":
+                                //carousel.to('1');
+                                //carousel.pause();
+                                break;
+                            case "OnClockChange":
+                                isTimerSuspended = true;
+                                start = Date.now();
+                                whiteClockMsRemaining = obj.WhiteClockMsRemaining;
+                                blackClockMsRemaining = obj.BlackClockMsRemaining;
+                                isGameInProgress = obj.IsGameActive;
+                                isWhiteToPlay = obj.IsWhiteToPlay;
+                                isTimerSuspended = false;
+                                break;
+                            case "OnRemoteStopWatch":
+                                isTimerSuspended = true;
+                                document.getElementById('remote-fen').textContent = "8/8/8/8/8/8/8/8";
+                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/blank?time=' + new Date();
+                                whiteClockMsRemaining = 0;
+                                blackClockMsRemaining = 0;
+                                isGameInProgress = false;
+                                isWhiteToPlay = true;
+                                isTimerSuspended = true;
+                                break;
+                            case "OnLocalStopWatch":
+                                isTimerSuspended = true;
+                                document.getElementById('local-fen').textContent = "8/8/8/8/8/8/8/8";
+                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/blank?time=' + new Date();
+                                whiteClockMsRemaining = 0;
+                                blackClockMsRemaining = 0;
+                                isGameInProgress = false;
+                                isWhiteToPlay = true;
+                                isTimerSuspended = true;
+                                break;
+                            case "Keep-Alive":
+                                //console.log("...Still Reunning");
+                                break;
+                            default:
+                                console.error("Invalid message type recieved from DGT Cherub");
+                                break;
+                        }
+
+                        document.getElementById('last-update-day').textContent = obj.ResponseAtData;
+                        document.getElementById('last-update-time').textContent = obj.ResponseAtTime;
+                    }
+
+                }
+            }
+
+            initEventSource();
+        }
+    </script>
+
+</body>
+
+</html>

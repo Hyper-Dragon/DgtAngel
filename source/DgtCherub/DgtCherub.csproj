@@ -37,10 +37,13 @@
     <None Remove="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
     <None Remove="Assets\Clocks\Any\Style\bootstrap5.1.0.min.css" />
+    <None Remove="Assets\Clocks\GreyFixed\Clock.html" />
     <None Remove="Assets\Clocks\index.html" />
     <None Remove="Assets\Clocks\GreySlide\Clock.html" />
     <None Remove="Assets\Clocks\DgtAngelLogo.svg" />
     <None Remove="Assets\Clocks\favicon.png" />
+    <None Remove="Assets\Clocks\LocalBroadcast\Clock.html" />
+    <None Remove="Assets\Clocks\RemoteBroadcast\Clock.html" />
     <None Remove="Assets\Clocks\TestClock\Clock.html" />
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.data.unityweb" />
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.framework.js.unityweb" />
@@ -78,10 +81,13 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
     <EmbeddedResource Include="Assets\Clocks\Any\Style\bootstrap5.1.0.min.css" />
+    <EmbeddedResource Include="Assets\Clocks\GreyFixed\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\index.html" />
     <EmbeddedResource Include="Assets\Clocks\GreySlide\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\DgtAngelLogo.svg" />
     <EmbeddedResource Include="Assets\Clocks\favicon.png" />
+    <EmbeddedResource Include="Assets\Clocks\LocalBroadcast\Clock.html" />
+    <EmbeddedResource Include="Assets\Clocks\RemoteBroadcast\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\TestClock\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.data.unityweb" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.framework.js.unityweb" />
@@ -172,9 +178,6 @@
   <ItemGroup>
     <Folder Include="Assets\Audio\Moves-en-01\" />
     <Folder Include="Assets\Audio\Time-en-01\" />
-    <Folder Include="Assets\Clocks\GreyFixed\" />
-    <Folder Include="Assets\Clocks\LocalBroadcast\" />
-    <Folder Include="Assets\Clocks\RemoteBroadcast\" />
   </ItemGroup>
 
   <ItemGroup>
