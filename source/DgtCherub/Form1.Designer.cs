@@ -472,6 +472,7 @@ namespace DgtCherub
             this.CheckBoxPreventSleep.TabIndex = 7;
             this.CheckBoxPreventSleep.Text = "Prevent Sleep";
             this.CheckBoxPreventSleep.UseVisualStyleBackColor = true;
+            this.CheckBoxPreventSleep.CheckedChanged += new System.EventHandler(this.CheckBoxPreventSleep_CheckedChanged);
             // 
             // label5
             // 

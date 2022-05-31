@@ -46,6 +46,7 @@ namespace DgtCherub
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
         private const decimal DEFAULT_VOLUME = 7;
+        private const bool DEFAULT_PREVENT_SLEEP = true;
 
         private const int DEFAULT_MOVE_VOICE_INDEX = 1;
         private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
@@ -80,6 +81,20 @@ namespace DgtCherub
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
+
+        [FlagsAttribute]
+        public enum EXECUTION_STATE : uint
+        {
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+            // Legacy flag, should not be used.
+            // ES_USER_PRESENT = 0x00000004
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 
         [DllImport("user32")]
         private static extern bool HideCaret(IntPtr hWnd);
@@ -202,11 +217,14 @@ namespace DgtCherub
             ComboBoxMoveVoice.SelectedIndex = DEFAULT_MOVE_VOICE_INDEX;
             VoiceMoveResManager = DEFAULT_MOVE_VOICE;
 
-        //Hides the caret from up/down boxes
-        HideCaret(UpDownVolStatus.Controls[1].Handle);
+            //Hides the caret from up/down boxes
+            HideCaret(UpDownVolStatus.Controls[1].Handle);
             HideCaret(UpDownVolMoves.Controls[1].Handle);
             HideCaret(UpDownVolTime.Controls[1].Handle);
             HideCaret(DomainUpDown.Controls[1].Handle);
+
+            CheckBoxPreventSleep.Checked = DEFAULT_PREVENT_SLEEP;
+            PreventScreensaver(DEFAULT_PREVENT_SLEEP);
 
             //Make sure this is set
             DoubleBuffered = true;
@@ -778,6 +796,20 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
+
+        private void PreventScreensaver(bool sw)
+        {
+            if (sw)
+            {
+                SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
+            }
+            else
+            {
+                SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+            }
+        }
+
+
         private void DisplayBoardImages()
         {
             if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
@@ -830,6 +862,12 @@ namespace DgtCherub
                 _ => DEFAULT_MOVE_VOICE
 
             };
+        }
+
+        private void CheckBoxPreventSleep_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Windows {((((CheckBox)sender).Checked)?"WILL NOT sleep":"MAY sleep")} while Cherub is running");
+            PreventScreensaver(((CheckBox)sender).Checked);
         }
     }
 }
