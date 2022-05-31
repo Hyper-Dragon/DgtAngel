@@ -146,6 +146,11 @@ namespace DgtCherub
             }
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PreventScreensaver(false);
+        }
+        
         private void Form1_Load(object sender, EventArgs e)
         {
             SuspendLayout();
