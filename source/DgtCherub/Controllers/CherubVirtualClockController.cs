@@ -23,14 +23,12 @@ namespace DgtCherub.Controllers
         private const string CLOCK_FIXED = "GreyFixed";
         private const string CLOCK_LOCAL = "LocalBroadcast";
         private const string CLOCK_REMOTE = "RemoteBroadcast";
-        private const string CLOCK_TEST = "TestClock";
         private const string CLOCK_WINGED_HORSE = "WingedHorse";      
 
         private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_SLIDE}.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_FIXED = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_FIXED}.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_LOCAL = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_LOCAL}.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_REMOTE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_REMOTE}.{RESOURCE_CLOCK_HTML}";
-        private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_TEST}.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_WINGED_HORSE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_WINGED_HORSE}.{RESOURCE_CLOCK_HTML}";
 
         private const string RESOURCE_CLOCK_INDEX = $"{RESOURCE_CLOCK_ROOT}.index.html";
@@ -77,7 +75,6 @@ namespace DgtCherub.Controllers
             FixedClockHtml = LoadResourceString(RESOURCE_CLOCK_FIXED);
             LocalClockHtml = LoadResourceString(RESOURCE_CLOCK_LOCAL);
             RemoteClockHtml = LoadResourceString(RESOURCE_CLOCK_REMOTE);
-            TestClockHtml = LoadResourceString(RESOURCE_CLOCK_TEST);
             WigedHorseHtml = LoadResourceString(RESOURCE_CLOCK_WINGED_HORSE);
 
             FavIcon = LoadResource(RESOURCE_CLOCK_FAV);
@@ -116,7 +113,6 @@ namespace DgtCherub.Controllers
                     Content = clock switch
                     {
                         CLOCK_SLIDE => SlideClockHtml,
-                        CLOCK_TEST => TestClockHtml,
                         CLOCK_FIXED => FixedClockHtml,
                         CLOCK_LOCAL => LocalClockHtml,
                         CLOCK_REMOTE => RemoteClockHtml,

@@ -36,6 +36,7 @@
     <None Remove="Assets\Audio\Speech-en-01\DgtLcDisconnected-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
+    <None Remove="Assets\Clocks\Any\Scripts\bootstrap5.1.0.bundle.min.js" />
     <None Remove="Assets\Clocks\Any\Style\bootstrap5.1.0.min.css" />
     <None Remove="Assets\Clocks\GreyFixed\Clock.html" />
     <None Remove="Assets\Clocks\index.html" />
@@ -44,7 +45,6 @@
     <None Remove="Assets\Clocks\favicon.png" />
     <None Remove="Assets\Clocks\LocalBroadcast\Clock.html" />
     <None Remove="Assets\Clocks\RemoteBroadcast\Clock.html" />
-    <None Remove="Assets\Clocks\TestClock\Clock.html" />
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.data.unityweb" />
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.framework.js.unityweb" />
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.loader.js" />
@@ -80,6 +80,7 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcDisconnected-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
+    <EmbeddedResource Include="Assets\Clocks\Any\Scripts\bootstrap5.1.0.bundle.min.js" />
     <EmbeddedResource Include="Assets\Clocks\Any\Style\bootstrap5.1.0.min.css" />
     <EmbeddedResource Include="Assets\Clocks\GreyFixed\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\index.html" />
@@ -88,7 +89,6 @@
     <EmbeddedResource Include="Assets\Clocks\favicon.png" />
     <EmbeddedResource Include="Assets\Clocks\LocalBroadcast\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\RemoteBroadcast\Clock.html" />
-    <EmbeddedResource Include="Assets\Clocks\TestClock\Clock.html" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.data.unityweb" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.framework.js.unityweb" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.loader.js" />

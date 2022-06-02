@@ -291,14 +291,8 @@
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             unityShowBanner('WebGL builds are not supported on mobile devices.');
-        } else {
-            // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-
-            //canvas.style.width = "960px";
-            //canvas.style.height = "600px";
         }
 
-        //canvas.style.background = "url('" + buildUrl + "/Build.jpg.unityweb') center / cover";
         loadingBar.style.display = "block";
 
         var script = document.createElement("script");
