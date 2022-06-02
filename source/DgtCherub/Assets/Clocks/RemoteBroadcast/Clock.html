@@ -8,7 +8,7 @@
     <meta name="description"
           content="Angel Virtual Clock" />
     <meta name="author" content="Hyper-Dragon" />
-    <title>Angel Fixed Clock</title>
+    <title>Angel Remote Broadcast Clock</title>
     <link rel='shortcut icon' type='image/png' href="/CherubVirtualClock/Images/favicon.png">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="/CherubVirtualClock/GetFile/Any/Style/bootstrap5.1.0.min.css" />
@@ -73,7 +73,7 @@
         .board-img {
             padding: 0px;
             background-clip: padding-box;
-            width: min(58vh, 32vw);
+            width: min(60vh, 40vw);
             height: auto;
         }
 
@@ -100,10 +100,6 @@
             visibility: hidden;
         }
 
-        .mismatch {
-            color: yellow;
-        }
-
         #con-state {
             color: yellow;
         }
@@ -112,7 +108,6 @@
 
 <body>
     <i id="remote-fen" hidden=""></i>
-    <i id="local-fen" hidden="">-</i>
     <i id="is-white-to-play" hidden="">No Game</i>
 
     <div class="row">
@@ -139,24 +134,14 @@
     </svg>
 
     <div class="row">
-        <div class="col-6 d-flex parent">
+        <div class="col-12 d-flex parent">
             <div>
                 <div class="board-text">
-                    LOCAL BOARD&nbsp;<b hidden class="mismatch" id="mis-msg1">MISMATCH</b>
-                </div>
-                <img id="local-board-img"
-                     class="board-img img-child"
-                     src="DGT%20Angel%20Clock_files/local.png" />
-            </div>
-        </div>
-        <div class="col-6 d-flex parent">
-            <div>
-                <div class="board-text">
-                    REMOTE BOARD&nbsp;<b hidden class="mismatch" id="mis-msg2">MISMATCH</b>
+                    REMOTE BOARD
                 </div>
                 <img id="remote-board-img"
                      class="board-img img-child"
-                     src="DGT%20Angel%20Clock_files/remote.png" />
+                     src="/CherubVirtualClock/BoardImage/blank" />
             </div>
         </div>
     </div>
@@ -164,7 +149,7 @@
     <div class="row">
         <div class="col-12 bkg-white-clock info-child d-flex">
             <div>
-                Connection State:&nbsp;<b id="con-state">CONNECTED</b>&nbsp;[udat:&nbsp;<i id="last-update-day">01/06/2022</i>@<i id="last-update-time">15:02:58</i>]&nbsp;[<i id="is-white-to-play">-</i>]
+                Connection State:&nbsp;<b id="con-state">CONNECTED</b>&nbsp;[udat:&nbsp;<i id="last-update-day">-</i>@<i id="last-update-time">-</i>]&nbsp;[<i id="is-white-to-play">-</i>]
             </div>
         </div>
     </div>
@@ -281,36 +266,22 @@
                                     flip = "&flip=true";
                                 }
 
-                                document.getElementById("local-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/local?time=" + new Date();
                                 document.getElementById("remote-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/remote?time=" + new Date();
+                                    "/CherubVirtualClock/BoardImageNoCompare/remote?time=" + new Date();
                                 break;
                             case "OnLocalFenChange":
-                                document.getElementById("local-fen").textContent =
-                                    obj.BoardFen;
-                                document.getElementById("local-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/local?time=" + new Date();
-                                document.getElementById("remote-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/remote?time=" + new Date();
                                 break;
                             case "OnRemoteFenChange":
                                 document.getElementById("remote-fen").textContent =
                                     obj.BoardFen;
-                                document.getElementById("local-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/local?time=" + new Date();
                                 document.getElementById("remote-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/remote?time=" + new Date();
+                                    "/CherubVirtualClock/BoardImageNoCompare/remote?time=" + new Date();
                                 document.getElementById("last-move").textContent =
                                     obj.LastMove;
                                 break;
                             case "OnBoardMissmatch":
-                                document.getElementById("mis-msg1").hidden = false;
-                                document.getElementById("mis-msg2").hidden = false;
                                 break;
                             case "OnBoardMatch":
-                                document.getElementById("mis-msg1").hidden = true;
-                                document.getElementById("mis-msg2").hidden = true;
                                 break;
                             case "OnClockChange":
                                 isTimerSuspended = true;
@@ -332,22 +303,8 @@
                                 isGameInProgress = false;
                                 isWhiteToPlay = true;
                                 isTimerSuspended = true;
-                                document.getElementById("mis-msg1").hidden = true;
-                                document.getElementById("mis-msg2").hidden = true;
                                 break;
                             case "OnLocalStopWatch":
-                                isTimerSuspended = true;
-                                document.getElementById("local-fen").textContent =
-                                    "8/8/8/8/8/8/8/8";
-                                document.getElementById("local-board-img").src =
-                                    "/CherubVirtualClock/BoardImage/blank?time=" + new Date();
-                                whiteClockMsRemaining = 0;
-                                blackClockMsRemaining = 0;
-                                isGameInProgress = false;
-                                isWhiteToPlay = true;
-                                isTimerSuspended = true;
-                                document.getElementById("mis-msg1").hidden = true;
-                                document.getElementById("mis-msg2").hidden = true;
                                 break;
                             case "Keep-Alive":
                                 //console.log("...Still Reunning");

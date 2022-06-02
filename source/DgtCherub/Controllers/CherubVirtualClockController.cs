@@ -176,6 +176,27 @@ namespace DgtCherub.Controllers
         }
 
         [HttpGet]
+        [Route("{action}/{board}")]
+        public async Task<FileContentResult> BoardImageNoCompare(string board)
+        {
+            _logger?.LogTrace($"Board image without compare requested {board}");
+
+            string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
+            string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
+
+            byte[] bmpOut = board.ToLowerInvariant() switch
+            {
+                "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(local, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                  : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(remote, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                    : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                _ => await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, false)
+            };
+
+            return File(bmpOut, MIME_PNG);
+        }
+
+        [HttpGet]
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
