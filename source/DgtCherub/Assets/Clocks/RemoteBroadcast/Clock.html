@@ -68,6 +68,7 @@
         .board-text {
             font-size: min(4vh, 3vw);
             font-weight: lighter;
+            text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
         }
 
         .board-img {
@@ -91,13 +92,6 @@
             position: absolute;
             top: 0px;
             left: 0px;
-        }
-
-        .last-move {
-            font-size: 6vw;
-            color: yellow;
-            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-            visibility: hidden;
         }
 
         #con-state {
@@ -155,7 +149,7 @@
     </div>
 
     <!-- Bootstrap core JS -->
-    <link rel="stylesheet" href="/CherubVirtualClock/GetFile/Any/Scripts/bootstrap5.1.0.bundle.min.js" />
+    <script src="/CherubVirtualClock/GetFile/Any/Scripts/bootstrap5.1.0.bundle.min.js"></script>
 
     <script>
         start = Date.now();
@@ -276,8 +270,6 @@
                                     obj.BoardFen;
                                 document.getElementById("remote-board-img").src =
                                     "/CherubVirtualClock/BoardImageNoCompare/remote?time=" + new Date();
-                                document.getElementById("last-move").textContent =
-                                    obj.LastMove;
                                 break;
                             case "OnBoardMissmatch":
                                 break;
