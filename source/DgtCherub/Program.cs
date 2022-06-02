@@ -33,7 +33,7 @@ namespace DgtCherub
             else
             {
                 // ...and if there is only one instance continue as normal
-                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                _ = Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
@@ -58,7 +58,7 @@ namespace DgtCherub
                 IHost host = Host.CreateDefaultBuilder(Array.Empty<string>())
                    .ConfigureWebHostDefaults(webBuilder =>
                    {
-                       webBuilder.UseStartup<Startup>()
+                       _ = webBuilder.UseStartup<Startup>()
                                  .UseUrls($"http://0.0.0.0:{CHERUB_API_LISTEN_PORT}");
                    }).UseConsoleLifetime().Build();
 

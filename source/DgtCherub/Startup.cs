@@ -23,25 +23,25 @@ namespace DgtCherub
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "This is a circle!")]
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            _ = services.AddCors(options =>
             {
                 options.AddPolicy("DevCorsPolicy", builder =>
                 {
-                    builder.AllowAnyOrigin()
+                    _ = builder.AllowAnyOrigin()
                            .AllowAnyMethod()
                            .AllowAnyHeader();
                 });
             });
 
-            services.AddHttpClient();
-            services.AddControllers();
-            services.AddLogging();
-            services.AddTransient(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
-            services.AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
-            services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
-            services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
-            services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
-            services.AddSingleton<Form1>();
+            _ = services.AddHttpClient();
+            _ = services.AddControllers();
+            _ = services.AddLogging();
+            _ = services.AddTransient(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
+            _ = services.AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
+            _ = services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
+            _ = services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
+            _ = services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
+            _ = services.AddSingleton<Form1>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "This method gets called by the runtime.")]
@@ -49,13 +49,13 @@ namespace DgtCherub
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "Take it out and get a different warning!")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage()
+            _ = app.UseDeveloperExceptionPage()
                 .UseRouting()
                 .UseWebSockets()
                 .UseCors("DevCorsPolicy")
                 .UseEndpoints(endpoints =>
                 {
-                    endpoints.MapControllers();
+                    _ = endpoints.MapControllers();
                 });
         }
     }

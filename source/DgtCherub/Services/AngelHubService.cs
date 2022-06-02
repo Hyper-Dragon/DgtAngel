@@ -67,10 +67,6 @@ namespace DgtCherub.Services
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
 
-        private string _remoteWhiteClock = "00:00";
-        private string _remoteBlackClock = "00:00";
-        private string _remoteRunWhoString = "0";
-
         public bool IsWhiteOnBottom { get; private set; } = true;
         public bool IsMismatchDetected { get; private set; } = false;
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
@@ -79,16 +75,16 @@ namespace DgtCherub.Services
         public string LastMove { get; private set; }
         public int WhiteClockMsRemaining { get; private set; }
         public int BlackClockMsRemaining { get; private set; }
-        public string WhiteClock => _remoteWhiteClock;
-        public string BlackClock => _remoteBlackClock;
-        public string RunWhoString => _remoteRunWhoString;
+        public string WhiteClock { get; private set; } = "00:00";
+        public string BlackClock { get; private set; } = "00:00";
+        public string RunWhoString { get; private set; } = "0";
         public int MatcherRemoteTimeDelayMs { get; set; } = MATCHER_REMOTE_TIME_DELAY_MS;
-        public bool IsLocalBoardAvailable => (!string.IsNullOrWhiteSpace(LocalBoardFEN));
-        public bool IsRemoteBoardAvailable => (!string.IsNullOrWhiteSpace(RemoteBoardFEN));
+        public bool IsLocalBoardAvailable => !string.IsNullOrWhiteSpace(LocalBoardFEN);
+        public bool IsRemoteBoardAvailable => !string.IsNullOrWhiteSpace(RemoteBoardFEN);
         public bool IsBoardInSync { get; private set; } = true;
-        public bool IsRemoteBoardStateActive => (RemoteBoardFEN != "" && _remoteWhiteClock != "00:00" || _remoteBlackClock != "00:00");
+        public bool IsRemoteBoardStateActive => (RemoteBoardFEN != "" && WhiteClock != "00:00") || BlackClock != "00:00";
         private Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
-        
+
 
         private const int MS_IN_HOUR = 3600000;
         private const int MS_IN_MIN = 60000;
@@ -149,12 +145,12 @@ namespace DgtCherub.Services
             orientationProcessChannel = Channel.CreateBounded<bool>(processChannelOptions);
             messageProcessChannel = Channel.CreateBounded<(string source, string message)>(messageChannelOptions);
 
-            Task.Run(() => RunLocalFenProcessor());
-            Task.Run(() => RunOrientationProcessor());
-            Task.Run(() => RunRemoteFenProcessor());
-            Task.Run(() => RunClockProcessor());
-            Task.Run(() => RunLastMoveProcessor());
-            Task.Run(() => RunMessageProcessor());
+            _ = Task.Run(RunLocalFenProcessor);
+            _ = Task.Run(RunOrientationProcessor);
+            _ = Task.Run(RunRemoteFenProcessor);
+            _ = Task.Run(RunClockProcessor);
+            _ = Task.Run(RunLastMoveProcessor);
+            _ = Task.Run(RunMessageProcessor);
         }
 
         public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, BoardState remoteBoardState = null)
@@ -173,48 +169,48 @@ namespace DgtCherub.Services
                     ResetRemoteBoardState();
                 }
             }
-            finally { startStopSemaphore.Release(); }
+            finally { _ = startStopSemaphore.Release(); }
         }
 
 
         public void LocalBoardUpdate(string fen)
         {
-            localFenProcessChannel.Writer.TryWrite(fen);
+            _ = localFenProcessChannel.Writer.TryWrite(fen);
         }
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
             if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
             {
-                orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-                remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
-                clockProcessChannel.Writer.TryWrite(remoteBoardState);
-                lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+                _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+                _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+                _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
             }
             else if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
             {
-                if (remoteBoardState.Board.LastMove == "1-0" ||
-                    remoteBoardState.Board.LastMove == "0-1" ||
-                    remoteBoardState.Board.LastMove == "1/2-1/2")
+                if (remoteBoardState.Board.LastMove is "1-0" or
+                    "0-1" or
+                    "1/2-1/2")
                 {
                     //ResetRemoteBoardState(true);
-                    lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
-                    orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-                    remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
-                    clockProcessChannel.Writer.TryWrite(remoteBoardState);
+                    _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                    _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+                    _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+                    _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
                 }
             }
             else if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
             {
                 //ResetRemoteBoardState(true);
-                orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-                remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+                _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+                _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
             }
         }
 
         public void UserMessageArrived(string source, string message)
         {
-            messageProcessChannel.Writer.TryWrite((source, message));
+            _ = messageProcessChannel.Writer.TryWrite((source, message));
         }
 
         public void ResetLocalBoardState()
@@ -225,14 +221,14 @@ namespace DgtCherub.Services
 
         private void ResetRemoteBoardState(bool isGameCompleted = false)
         {
-            if (string.IsNullOrEmpty((RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : "")))
+            if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
             {
                 OnRemoteDisconnect?.Invoke();
             }
 
-            _remoteWhiteClock = "00:00";
-            _remoteBlackClock = "00:00";
-            _remoteRunWhoString = "0";
+            WhiteClock = "00:00";
+            BlackClock = "00:00";
+            RunWhoString = "0";
 
             OnClockChange?.Invoke();
 
@@ -304,7 +300,7 @@ namespace DgtCherub.Services
                 _logger?.LogTrace("Processing a clock recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 // Account for the actual time captured/now if clock running
-                int captureTimeDiffMs = (int)((DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
+                int captureTimeDiffMs = (int)(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
                 TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.Turn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
                 TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.Turn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
@@ -315,9 +311,9 @@ namespace DgtCherub.Services
                 string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
                 int runWho = remoteBoardState.Board.Turn == TurnCode.WHITE ? 1 : remoteBoardState.Board.Turn == TurnCode.BLACK ? 2 : 0;
 
-                _remoteWhiteClock = whiteClockString;
-                _remoteBlackClock = blackClockString;
-                _remoteRunWhoString = runWho.ToString();
+                WhiteClock = whiteClockString;
+                BlackClock = blackClockString;
+                RunWhoString = runWho.ToString();
 
                 OnClockChange?.Invoke();
                 CalculateNextClockAudio(WhiteClockMsRemaining, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
@@ -421,22 +417,22 @@ namespace DgtCherub.Services
                 }
                 else if (clockAudioTs.Minutes > 25)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (((clockAudioTs.Minutes % 5) * MS_IN_MIN) + (clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Minutes % 5 * MS_IN_MIN) + (clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Minutes > 0)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds > 45 || clockAudioTs.Seconds < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 30)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (((clockAudioTs.Seconds % 5) * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds % 5 * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
                     audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 0)
                 {
-                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - clockAudioTs.Milliseconds % MS_IN_SEC;
+                    nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (clockAudioTs.Milliseconds % MS_IN_SEC);
                     audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
                 }
 

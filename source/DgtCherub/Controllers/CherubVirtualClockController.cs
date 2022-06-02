@@ -23,7 +23,7 @@ namespace DgtCherub.Controllers
         private const string CLOCK_FIXED = "GreyFixed";
         private const string CLOCK_LOCAL = "LocalBroadcast";
         private const string CLOCK_REMOTE = "RemoteBroadcast";
-        private const string CLOCK_WINGED_HORSE = "WingedHorse";      
+        private const string CLOCK_WINGED_HORSE = "WingedHorse";
 
         private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_SLIDE}.{RESOURCE_CLOCK_HTML}";
         private const string RESOURCE_CLOCK_FIXED = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_FIXED}.{RESOURCE_CLOCK_HTML}";
