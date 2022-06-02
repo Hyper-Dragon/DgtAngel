@@ -794,8 +794,8 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         the Chrome browser with the 'DTG Angel' plugin installed.  Don't forget", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         to enable your board in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53 and er642 for their support ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         and feedback and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642 and danielbaechli for", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         their support and feedback and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Rabbit : {((IsRabbitInstalled) ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()}" : "DGT Rabbit is not installed or is not required in this version.")     }", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
