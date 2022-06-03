@@ -55,7 +55,6 @@ namespace DgtCherub.Controllers
         private readonly IBoardRenderer _boardRenderer;
 
         private readonly string IndexPageHtml;
-        private readonly string TestClockHtml;
         private readonly string SlideClockHtml;
         private readonly string FixedClockHtml;
         private readonly string LocalClockHtml;
@@ -102,7 +101,7 @@ namespace DgtCherub.Controllers
         public ContentResult GetClock(string clock)
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
-            _logger?.LogTrace($"Clock requested {clock}");
+            _logger?.LogTrace($"Clock requested",clock);
 
             try
             {
@@ -158,7 +157,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
-            _logger?.LogTrace($"Board image requested {board}");
+            _logger?.LogTrace($"Board image requested",board);
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -179,7 +178,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImageNoCompare(string board)
         {
-            _logger?.LogTrace($"Board image without compare requested {board}");
+            _logger?.LogTrace($"Board image without compare requested",board);
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -200,7 +199,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            _logger?.LogTrace($"Image requested {fileName}");
+            _logger?.LogTrace($"Image requested", fileName);
 
             try
             {
@@ -222,7 +221,7 @@ namespace DgtCherub.Controllers
         public async Task GetStuff(string clientUtcMs)
         {
             // http://localhost:37964/CherubVirtualClock/GetStuff
-            _logger?.LogTrace($"Clock client connected running {clientUtcMs}");
+            _logger?.LogTrace($"Clock client connected running", clientUtcMs);
 
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);

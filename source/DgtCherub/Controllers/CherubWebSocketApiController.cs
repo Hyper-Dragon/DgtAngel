@@ -43,7 +43,7 @@ namespace DgtCherub.Controllers
                 using WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
                 runningSocket = webSocket;
 
-                _appDataService.UserMessageArrived("WSAPI", "DGT Angel has Connected");
+                _appDataService.UserMessageArrived("WSAPI", "Angel has Connected");
 
                 long highestCaptureTimeRecieved = int.MinValue;
 
@@ -125,11 +125,11 @@ namespace DgtCherub.Controllers
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STARTED:
                                     _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.RemoteBoard);
-                                    _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel started watching a remote board.");
+                                    _appDataService.UserMessageArrived(messageIn.Source, $"Angel started watching a remote board.");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
                                     _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.RemoteBoard);
-                                    _appDataService.UserMessageArrived(messageIn.Source, $"DGT Angel stopped watching the remote board.");
+                                    _appDataService.UserMessageArrived(messageIn.Source, $"Angel stopped watching the remote board.");
                                     break;
                                 default:
                                     _appDataService.UserMessageArrived("INTERNAL", "ERROR: Unknown MESSAGE TYPE recieved on the API!");
@@ -151,7 +151,7 @@ namespace DgtCherub.Controllers
                 }
 
                 _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED);
-                _appDataService.UserMessageArrived("INTERNAL", "DGT Angel has Disconnected");
+                _appDataService.UserMessageArrived("INTERNAL", "Angel has Disconnected");
             }
             else
             {

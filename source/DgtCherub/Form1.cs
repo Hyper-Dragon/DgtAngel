@@ -250,7 +250,7 @@ namespace DgtCherub
 
             _angelHubService.OnRemoteFenChange += () =>
             {
-                TextBoxConsole.AddLine($"Remote DGT board changed [{_angelHubService.RemoteBoardFEN}]");
+                TextBoxConsole.AddLine($"Remote board changed [{_angelHubService.RemoteBoardFEN}]");
                 DisplayBoardImages();
             };
 
@@ -525,13 +525,13 @@ namespace DgtCherub
         }
         private void CheckBoxRecieveLog_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxRecieveLog.Checked ? "will" : "WILL NOT")} display notification messages.", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"Cherub {(CheckBoxRecieveLog.Checked ? "will" : "WILL NOT")} display notification messages.", TEXTBOX_MAX_LINES);
             EchoExternalMessagesToConsole = CheckBoxRecieveLog.Checked;
         }
 
         private void CheckBoxShowInbound_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxShowInbound.Checked ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"Cherub {(CheckBoxShowInbound.Checked ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
         }
 
@@ -557,13 +557,13 @@ namespace DgtCherub
             if (!CheckBoxOnTop.Checked)
             {
                 TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
-                                                       $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
+                                                       $"to see it without Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
             }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to exit?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to exit?", "Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Application.Exit();
             }
@@ -605,13 +605,13 @@ namespace DgtCherub
             _ = TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_PEGASUS_FORUM,
                                                    "",
                                                    $"Trying to open the Chess.com DGT Pegasus Centaur e-Board Users forum....",
-                                                   $"...the Chess.com DGT forum opened.",
+                                                   $"...the Chess.com forum opened.",
                                                    TEXTBOX_MAX_LINES);
         }
 
         private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 _ = TextBoxConsole.RunProcessWithComments(@"Taskkill",
                                                       "/IM \"DGT LiveChess.exe\" /F",

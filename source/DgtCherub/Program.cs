@@ -22,7 +22,7 @@ namespace DgtCherub
             using Mutex mutex = new(false, "Global\\" + APP_GUID);
             if (!mutex.WaitOne(0, false))
             {
-                Dialogs.ShowCantStartDialog("DGT Cherub is already running on this machine, you must close it first.");
+                Dialogs.ShowCantStartDialog("Cherub is already running on this machine, you must close it first.");
                 mutex.Close();
             }
             //...and that we can listen on the correct socket

@@ -990,7 +990,7 @@ namespace DgtCherub
             this.MainMenuStrip = this.MenuStrip;
             this.MinimumSize = new System.Drawing.Size(420, 450);
             this.Name = "Form1";
-            this.Text = "DGT Cherub";
+            this.Text = "Cherub";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
