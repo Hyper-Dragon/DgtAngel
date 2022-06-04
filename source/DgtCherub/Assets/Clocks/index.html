@@ -5,18 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport"
           content="width=device-width, minimal-ui, initial-scale=1" />
-    <meta name="description" content="DGT Cherub for DTG Angel" />
+    <meta name="description" content="Clock index for Angel served by Cherub" />
     <meta name="author" content="Hyper-Dragon" />
-    <title>DGT Cherub Home</title>
+    <title>Angel Clocks Home</title>
     <link rel="shortcut icon"
           type="image/png"
           href="/CherubVirtualClock/Images/favicon.png" />
     <link rel="apple-touch-icon"
           href="/CherubVirtualClock/Images/favicon.png" />
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-          crossorigin="anonymous" />
+    <link rel="stylesheet" href="/CherubVirtualClock/GetFile/Any/Style/bootstrap5.1.0.min.css" />
 
     <style>
         body {
@@ -25,7 +22,6 @@
             margin: 0px;
             padding: 0px;
             background-color: rgba(119, 119, 119, 0.9);
-            background-image: url("/CherubVirtualClock/Images/DgtAngelLogo.svg");
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-position: right top;
@@ -169,7 +165,7 @@
     <!-- Header -->
     <div class="p-5 jumbotron">
         <div class="container-fluid">
-            <h1 class="project-name"><b>DGT Angel Virtual Clock</b></h1>
+            <h1 class="project-name"><b>Angel Virtual Clock Home</b></h1>
         </div>
     </div>
     <div class="container-fluid body-container">
@@ -177,8 +173,20 @@
             <div class="col-1"></div>
             <div class="col-10">
                 <a class="btn clock-btn"
+                   href="/CherubVirtualClock/GetClock/GreyFixed"
+                   role="button"><small>Page Clock</small></a>
+                <a class="btn clock-btn"
                    href="/CherubVirtualClock/GetClock/GreySlide"
-                   role="button"><small>START the Slide Clock</small></a>
+                   role="button"><small>Slide Clock</small></a>
+                <a class="btn clock-btn"
+                   href="/CherubVirtualClock/GetClock/LocalBroadcast"
+                   role="button"><small>Local Broadcast</small></a>
+                <a class="btn clock-btn"
+                   href="/CherubVirtualClock/GetClock/RemoteBroadcast"
+                   role="button"><small>Remote Broadcast</small></a>
+                <a class="btn clock-btn"
+                   href="/CherubVirtualClock/GetClock/WingedHorse"
+                   role="button"><small>Winged Horse Mode</small></a>
             </div>
             <div class="col-1"></div>
         </div>

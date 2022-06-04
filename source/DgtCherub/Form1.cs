@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.3.3";
+        private const string VERSION_NUMBER = "0.3.5";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -46,6 +46,13 @@ namespace DgtCherub
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
         private const decimal DEFAULT_VOLUME = 7;
+
+        // Use 'powercfg -requests' to test if the power settings are set correctly
+        private const bool DEFAULT_PREVENT_SLEEP = true;
+
+        private const int DEFAULT_MOVE_VOICE_INDEX = 1;
+        private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
+        private System.Resources.ResourceManager VoiceMoveResManager;
 
         private readonly IHost _iHost;
         private readonly ILogger _logger;
@@ -76,6 +83,20 @@ namespace DgtCherub
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
+
+        [FlagsAttribute]
+        public enum EXECUTION_STATE : uint
+        {
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+            // Legacy flag, should not be used.
+            // ES_USER_PRESENT = 0x00000004
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 
         [DllImport("user32")]
         private static extern bool HideCaret(IntPtr hWnd);
@@ -127,6 +148,11 @@ namespace DgtCherub
             }
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            PreventScreensaver(false);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             SuspendLayout();
@@ -140,12 +166,15 @@ namespace DgtCherub
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
+
+            UpDownVoiceDelay.Value = _angelHubService.MatcherRemoteTimeDelayMs / 1000;
+
             LinkLabelAbout1.Text = "GitHub Project Page";
             LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
             LinkLabelAbout1.Visible = true;
             LinkLabelAbout1.Click += (object sender, EventArgs e) =>
             {
-                Process.Start(new ProcessStartInfo
+                _ = Process.Start(new ProcessStartInfo
                 {
                     FileName = $"{PROJECT_URL}",
                     UseShellExecute = true //required on .Net Core 
@@ -161,7 +190,7 @@ namespace DgtCherub
             PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
 
             // ItemSize.Height is correct - the tabs are on the side!
-            CollapsedWidth = (TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height) - TabControlSidePanel.Padding.X;
+            CollapsedWidth = TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height - TabControlSidePanel.Padding.X;
 
             //If no rabbit disable rabbit things..
             if (!IsRabbitInstalled)
@@ -179,7 +208,7 @@ namespace DgtCherub
                     .ToList<string>()
                     .ForEach(addr =>
                     {
-                        DomainUpDown.Items.Add(addr);
+                        _ = DomainUpDown.Items.Add(addr);
                         QRCode qrCode = new(qrGenerator.CreateQrCode($@"http://{addr}:{VIRTUAL_CLOCK_PORT}/", QRCodeGenerator.ECCLevel.Q));
                         qrCodeImageDictionary.Add(addr, qrCode.GetGraphic(20));
                     });
@@ -187,16 +216,22 @@ namespace DgtCherub
                 DomainUpDown.SelectedIndex = 0;
             }
 
-            //Set volume to default
+            //Set voice/volume to default
             UpDownVolStatus.Value = DEFAULT_VOLUME;
             UpDownVolMoves.Value = DEFAULT_VOLUME;
             UpDownVolTime.Value = DEFAULT_VOLUME;
 
+            ComboBoxMoveVoice.SelectedIndex = DEFAULT_MOVE_VOICE_INDEX;
+            VoiceMoveResManager = DEFAULT_MOVE_VOICE;
+
             //Hides the caret from up/down boxes
-            HideCaret(UpDownVolStatus.Controls[1].Handle);
-            HideCaret(UpDownVolMoves.Controls[1].Handle);
-            HideCaret(UpDownVolTime.Controls[1].Handle);
-            HideCaret(DomainUpDown.Controls[1].Handle);
+            _ = HideCaret(UpDownVolStatus.Controls[1].Handle);
+            _ = HideCaret(UpDownVolMoves.Controls[1].Handle);
+            _ = HideCaret(UpDownVolTime.Controls[1].Handle);
+            _ = HideCaret(DomainUpDown.Controls[1].Handle);
+
+            CheckBoxPreventSleep.Checked = DEFAULT_PREVENT_SLEEP;
+            PreventScreensaver(DEFAULT_PREVENT_SLEEP);
 
             //Make sure this is set
             DoubleBuffered = true;
@@ -209,19 +244,13 @@ namespace DgtCherub
         {
             ClearConsole();
 
-            _angelHubService.OnOrientationFlipped += () =>
-            {
-                DisplayBoardImages();
-            };
+            _angelHubService.OnOrientationFlipped += DisplayBoardImages;
 
-            _angelHubService.OnLocalFenChange += () =>
-            {
-                DisplayBoardImages();
-            };
+            _angelHubService.OnLocalFenChange += DisplayBoardImages;
 
             _angelHubService.OnRemoteFenChange += () =>
             {
-                TextBoxConsole.AddLine($"Remote DGT board changed [{_angelHubService.RemoteBoardFEN}]");
+                TextBoxConsole.AddLine($"Remote board changed [{_angelHubService.RemoteBoardFEN}]");
                 DisplayBoardImages();
             };
 
@@ -263,10 +292,7 @@ namespace DgtCherub
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
             };
 
-            _angelHubService.OnRemoteDisconnect += () =>
-            {
-                DisplayBoardImages();
-            };
+            _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
             {
@@ -289,13 +315,13 @@ namespace DgtCherub
                 //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
                 //_logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
                 _logger?.LogTrace($">>Recieved Clock Update", TEXTBOX_MAX_LINES);
-                
+
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
                     Invoke(() =>
                     {
-                        LabelWhiteClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
-                        LabelBlackClock.Text = $"{ ((_angelHubService.RunWhoString == "3" || _angelHubService.RunWhoString == "2") ? "*" : " ")}{_angelHubService.BlackClock}";
+                        LabelWhiteClock.Text = $"{((_angelHubService.RunWhoString is "3" or "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
+                        LabelBlackClock.Text = $"{((_angelHubService.RunWhoString is "3" or "2") ? "*" : " ")}{_angelHubService.BlackClock}";
                         ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
                     });
                 }
@@ -316,7 +342,7 @@ namespace DgtCherub
 
                 if (!string.IsNullOrEmpty(soundName))
                 {
-                    _voicePlayerMoves.Speak(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                    _voicePlayerMoves.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                 }
                 else
                 {
@@ -353,7 +379,7 @@ namespace DgtCherub
                             _ => "Words_Missing",
                         };
 
-                        playlist.Add(DgtCherub.Assets.Moves_en_01.ResourceManager.GetStream($"{soundName}_AP"));
+                        playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                     }
 
                     _voicePlayerMoves.Speak(playlist);
@@ -438,8 +464,8 @@ namespace DgtCherub
             };
 
             //All the Events are set up so we can start watching the local board and running the inbound API
-            Task.Run(() => _dgtLiveChess.PollDgtBoard());
-            Task.Run(() => _iHost.Run());
+            _ = Task.Run(_dgtLiveChess.PollDgtBoard);
+            _ = Task.Run(_iHost.Run);
         }
 
         //*********************************************//
@@ -499,13 +525,13 @@ namespace DgtCherub
         }
         private void CheckBoxRecieveLog_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxRecieveLog.Checked ? "will" : "WILL NOT")} display notification messages.", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"Cherub {(CheckBoxRecieveLog.Checked ? "will" : "WILL NOT")} display notification messages.", TEXTBOX_MAX_LINES);
             EchoExternalMessagesToConsole = CheckBoxRecieveLog.Checked;
         }
 
         private void CheckBoxShowInbound_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"DGT Cherub {(CheckBoxShowInbound.Checked ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"Cherub {(CheckBoxShowInbound.Checked ? "will" : "WILL NOT")} display notification messages from DGT Angel.", TEXTBOX_MAX_LINES);
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
         }
 
@@ -516,7 +542,7 @@ namespace DgtCherub
 
         private void TabPageBoards_Enter(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Selected the Board Tab...you {((CheckBoxOnTop.Checked) ? "will always be on top." : "will not be on top.")}", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"Selected the Board Tab...you {(CheckBoxOnTop.Checked ? "will always be on top." : "will not be on top.")}", TEXTBOX_MAX_LINES);
             ((Form)TopLevelControl).TopMost = CheckBoxOnTop.Checked;
         }
 
@@ -527,17 +553,17 @@ namespace DgtCherub
 
         private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"The Board tab {((CheckBoxOnTop.Checked) ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
+            TextBoxConsole.AddLine($"The Board tab {(CheckBoxOnTop.Checked ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
             if (!CheckBoxOnTop.Checked)
             {
                 TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
-                                                       $"to see it without DGT Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
+                                                       $"to see it without Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
             }
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to exit?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to exit?", "Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Application.Exit();
             }
@@ -549,7 +575,7 @@ namespace DgtCherub
         #region Menu Links Region
         private void PlayChessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments("chrome",
+            _ = TextBoxConsole.RunProcessWithComments("chrome",
                                                    CHESS_DOT_COM_PLAY_LINK,
                                                    $"Trying to open Chess.com in Chrome....",
                                                    $"...Chess.com openend.",
@@ -558,7 +584,7 @@ namespace DgtCherub
 
         private void ChesscomDgtForumsMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_DGT_FORUM,
+            _ = TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_DGT_FORUM,
                                                    "",
                                                    $"Trying to open the Chess.com DGT forum....",
                                                    $"...the Chess.com DGT forum opened.",
@@ -567,27 +593,27 @@ namespace DgtCherub
 
         private void ChessStatsMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(PROJECT_CHESS_STATS,
+            _ = TextBoxConsole.RunProcessWithComments(PROJECT_CHESS_STATS,
                                        "",
                                        $"Trying to open the ChessStats site....",
                                        $"...the ChessStats site opened.",
                                        TEXTBOX_MAX_LINES);
         }
-        
+
         private void ChesscomPegasusForumsMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_PEGASUS_FORUM,
+            _ = TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_PEGASUS_FORUM,
                                                    "",
                                                    $"Trying to open the Chess.com DGT Pegasus Centaur e-Board Users forum....",
-                                                   $"...the Chess.com DGT forum opened.",
+                                                   $"...the Chess.com forum opened.",
                                                    TEXTBOX_MAX_LINES);
         }
 
         private void KillLiveChessMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "DGT Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Are you sure you want to kill the Live Chess process?", "Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                TextBoxConsole.RunProcessWithComments(@"Taskkill",
+                _ = TextBoxConsole.RunProcessWithComments(@"Taskkill",
                                                       "/IM \"DGT LiveChess.exe\" /F",
                                                       $"Trying to kill 'DGT LiveChess.exe'....",
                                                       $"...done. 'DGT LiveChess.exe' is no longer running",
@@ -598,7 +624,7 @@ namespace DgtCherub
 
         private void DgtAngelChromeExtensionMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(DL_CHROME_PLUGIN,
+            _ = TextBoxConsole.RunProcessWithComments(DL_CHROME_PLUGIN,
                                                   "",
                                                   $"Trying to open the download page for the Chrome Plugin....",
                                                   $"...the download page opened.",
@@ -607,7 +633,7 @@ namespace DgtCherub
 
         private void DgtLiveChessSoftwareMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(DL_LIVE_CHESS,
+            _ = TextBoxConsole.RunProcessWithComments(DL_LIVE_CHESS,
                                                    "",
                                                    $"Trying to open the download page for the Live Chess Software....",
                                                    $"...the download page opened.",
@@ -616,7 +642,7 @@ namespace DgtCherub
 
         private void DgtDriversRabbitPluginMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(DL_RABBIT,
+            _ = TextBoxConsole.RunProcessWithComments(DL_RABBIT,
                                                    "",
                                                    $"Trying to open the download page for the DGT drivers....",
                                                    $"...the download page is opened.",
@@ -625,7 +651,7 @@ namespace DgtCherub
 
         private void ProjectPageMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(PROJECT_LINK,
+            _ = TextBoxConsole.RunProcessWithComments(PROJECT_LINK,
                                                   "",
                                                   $"Trying to open DGT Angel project page....",
                                                   $"...the project page is opened.",
@@ -634,7 +660,7 @@ namespace DgtCherub
 
         private void ReportIssuesMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(PROJECT_ISSUES,
+            _ = TextBoxConsole.RunProcessWithComments(PROJECT_ISSUES,
                                                   "",
                                                   $"Trying to open DGT Angel issues page....",
                                                   $"...the issues page is opened.",
@@ -643,7 +669,7 @@ namespace DgtCherub
 
         private void ReleasesMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(PROJECT_RELEASES,
+            _ = TextBoxConsole.RunProcessWithComments(PROJECT_RELEASES,
                                                   "",
                                                   $"Trying to open the DGT Angel beta releases page....",
                                                   $"...the releases page is opened.",
@@ -652,7 +678,7 @@ namespace DgtCherub
 
         private void VirtualClockMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(VIRTUAL_CLOCK_LINK,
+            _ = TextBoxConsole.RunProcessWithComments(VIRTUAL_CLOCK_LINK,
                                       "",
                                       $"Trying to open the Virtual Clock....",
                                       $"...the Virtual Clock is opened.",
@@ -661,7 +687,7 @@ namespace DgtCherub
 
         private void VirtualClockWindowlessMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments("chrome",
+            _ = TextBoxConsole.RunProcessWithComments("chrome",
                                       $"--app={VIRTUAL_CLOCK_LINK}",
                                       $"Trying to open the Virtual Clock in Chrome....",
                                       $"...virtual clock openend.",
@@ -670,7 +696,7 @@ namespace DgtCherub
 
         private void DonateViaPayPalMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(PP_LINK,
+            _ = TextBoxConsole.RunProcessWithComments(PP_LINK,
                                       "",
                                       $"Thank you very much for thinking about donating....",
                                       $"...PayPal should be open now.",
@@ -679,7 +705,7 @@ namespace DgtCherub
 
         private void DonateViaGitHubMenuItem_Click(object sender, EventArgs e)
         {
-            TextBoxConsole.RunProcessWithComments(GITHUB_SPN_LINK,
+            _ = TextBoxConsole.RunProcessWithComments(GITHUB_SPN_LINK,
                           "",
                           $"Thank you very much for thinking about donating....",
                           $"...GitHub should be open now.",
@@ -695,24 +721,24 @@ namespace DgtCherub
         private void UpDownVolStatus_ValueChanged(object sender, EventArgs e)
         {
             _voicePlayeStatus.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
-            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+            _ = HideCaret(((NumericUpDown)sender).Controls[1].Handle);
         }
 
         private void UpDownVolMoves_ValueChanged(object sender, EventArgs e)
         {
             _voicePlayerMoves.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
-            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+            _ = HideCaret(((NumericUpDown)sender).Controls[1].Handle);
         }
 
         private void UpDownVolTime_ValueChanged(object sender, EventArgs e)
         {
             _voicePlayerTime.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
-            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+            _ = HideCaret(((NumericUpDown)sender).Controls[1].Handle);
         }
 
         private void UpDownVolHideCaret(object sender, EventArgs e)
         {
-            HideCaret(((NumericUpDown)sender).Controls[1].Handle);
+            _ = HideCaret(((NumericUpDown)sender).Controls[1].Handle);
         }
         #endregion
         //*********************************************//
@@ -726,7 +752,7 @@ namespace DgtCherub
 
         private void UpDownDomainHideCaret(object sender, EventArgs e)
         {
-            HideCaret(((DomainUpDown)sender).Controls[1].Handle);
+            _ = HideCaret(((DomainUpDown)sender).Controls[1].Handle);
         }
         #endregion
         //*********************************************//
@@ -749,17 +775,22 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with either DGT or Chess.com in any way.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"WARNING: This is an Alpha version.  The best I can say is that it works on my", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         machine...Your mileage may vary.  Report any defects via the links menu.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"WARNING: I think that this release can now be considered a beta version.  I can", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         confidently say that it works not only on my machine but also those", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         machines of others...as a beta your mileage may vary but please report", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         any defects via the links menu.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"PreReq : You will need A DGT Board and the Live Chess Software installed on this", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         machine, just as you would for playing on Chess.com.  You will also need", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         the Chrome browser with the 'DTG Angel' plugin installed.  Don't forget", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         to enable your board in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Rabbit : {((IsRabbitInstalled) ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()}" : "DGT Rabbit is not installed or is not required in this version.")     }", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642 and danielbaechli for", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         their support and feedback and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{((string.IsNullOrEmpty(hostName)) ? "NO HOST!" : hostName)}] are [{((string.IsNullOrEmpty(hostName)) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Rabbit : {(IsRabbitInstalled ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()}" : "DGT Rabbit is not installed or is not required in this version.")}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{(string.IsNullOrEmpty(hostName) ? "NO HOST!" : hostName)}] are [{(string.IsNullOrEmpty(hostName) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         Alternatively, point your phone at the QR code on the clock tab (don't", TEXTBOX_MAX_LINES, false);
@@ -767,6 +798,15 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
+
+
+        private void PreventScreensaver(bool preventSleep)
+        {
+            _ = preventSleep
+                ? SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS)
+                : SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+        }
+
 
         private void DisplayBoardImages()
         {
@@ -786,7 +826,7 @@ namespace DgtCherub
                                                                                        : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
                 });
 
-                BeginInvoke(updateAction);
+                _ = BeginInvoke(updateAction);
             }
         }
 
@@ -798,14 +838,34 @@ namespace DgtCherub
         private void UpDownFontSize_ValueChanged(object sender, EventArgs e)
         {
             TextBoxConsole.Font = new Font("Consolas",
-                                            (float) UpDownFontSize.Value,
-                                             GraphicsUnit.Pixel) ;
+                                            (float)UpDownFontSize.Value,
+                                             GraphicsUnit.Pixel);
         }
 
         private void UpDownVoiceDelay_ValueChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Remote matcher delay is now {(int)UpDownVoiceDelay.Value} seconds");
-            _angelHubService.MatcherRemoteTimeDelayMs = ((int)UpDownVoiceDelay.Value * 1000);
+            _angelHubService.MatcherRemoteTimeDelayMs = (int)UpDownVoiceDelay.Value * 1000;
+        }
+
+
+        private void ComboBoxMoveVoice_SelectedValueChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Using Voice {((ComboBox)sender).Text} for move announcements");
+
+            VoiceMoveResManager = ((ComboBox)sender).Text switch
+            {
+                "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
+                "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
+                _ => DEFAULT_MOVE_VOICE
+
+            };
+        }
+
+        private void CheckBoxPreventSleep_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Windows {(((CheckBox)sender).Checked ? "WILL NOT sleep" : "MAY sleep")} while Cherub is running");
+            PreventScreensaver(((CheckBox)sender).Checked);
         }
     }
 }

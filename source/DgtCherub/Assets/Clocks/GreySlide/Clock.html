@@ -4,14 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1">
-    <meta name="description" content="Clock for DGT Angel and server by DGT Cherub" />
+    <meta name="description" content="Clock for Angel served by Cherub" />
     <meta name="author" content="Hyper-Dragon" />
-    <title>DGT Angel Clock</title>
+    <title>Angel Slide Clock</title>
     <link rel='shortcut icon' type='image/png' href="/CherubVirtualClock/Images/favicon.png">
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/CherubVirtualClock/GetFile/Any/Style/bootstrap5.1.0.min.css" />
     <style>
         /* GLOBAL STYLES */
 
@@ -54,13 +52,13 @@
             background-position: center center;
         }
 
-            .carousel-item > img {
-                position: absolute;
-                top: 0;
-                left: 0;
-                min-width: 100%;
-                height: 32rem;
-            }
+        .carousel-item > img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            height: 32rem;
+        }
 
         .parent {
             position: relative;
@@ -110,13 +108,6 @@
             top: 0px;
             left: 0px;
         }
-
-        .last-move {
-            font-size: 6vw;
-            color: yellow;
-            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-            visibility:hidden;
-        }
     </style>
 </head>
 
@@ -164,9 +155,6 @@
                             <div class="align-self-center"><b id='black-clock' class="child">0:00:00</b></div>
                         </div>
                     </div>
-                    <div class="carousel-caption text-start last-move">
-                        <b>Last Move:&nbsp;<i id='last-move'>-</i></b>
-                    </div>
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
@@ -200,9 +188,9 @@
             </button>
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap core JS -->
+    <script src="/CherubVirtualClock/GetFile/Any/Scripts/bootstrap5.1.0.bundle.min.js"></script>
 
     <script>
         start = Date.now();
@@ -322,7 +310,6 @@
                                 document.getElementById('remote-fen').textContent = obj.BoardFen;
                                 document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
                                 document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
-                                document.getElementById('last-move').textContent = obj.LastMove;
                                 break;
                             case "OnBoardMissmatch":
                                 carousel.to('2');
@@ -365,7 +352,7 @@
                                 //console.log("...Still Reunning");
                                 break;
                             default:
-                                console.error("Invalid message type recieved from DGT Cherub");
+                                console.error("Invalid message type recieved from Cherub");
                                 break;
                         }
 

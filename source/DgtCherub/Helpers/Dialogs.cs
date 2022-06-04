@@ -6,7 +6,7 @@ namespace DgtCherub.Helpers
     {
         internal static void ShowCantStartDialog(in string message)
         {
-            MessageBox.Show($"{message}",
+            _ = MessageBox.Show($"{message}",
                              "Statup Failed",
                              MessageBoxButtons.OK,
                              MessageBoxIcon.Warning,
@@ -15,7 +15,7 @@ namespace DgtCherub.Helpers
 
         internal static void ShowErrorDialog(in string message)
         {
-            MessageBox.Show($"{message}",
+            _ = MessageBox.Show($"{message}",
                              "Fatal Error",
                              MessageBoxButtons.OK,
                              MessageBoxIcon.Error,

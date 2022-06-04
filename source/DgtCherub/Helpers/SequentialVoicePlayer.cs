@@ -20,17 +20,7 @@ namespace DgtCherub.Helpers
 
         public float Volume
         {
-            get => volume; set
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException("Volume", "Volume should be between 0-1");
-                }
-                else
-                {
-                    volume = value;
-                }
-            }
+            get => volume; set => volume = value is < 0 or > 1 ? throw new ArgumentOutOfRangeException("Volume", "Volume should be between 0-1") : value;
         }
 
         public SequentialVoicePlayer(ILogger<SequentialVoicePlayer> logger)
@@ -48,7 +38,7 @@ namespace DgtCherub.Helpers
 
             playlistChannel = Channel.CreateBounded<IEnumerable<UnmanagedMemoryStream>>(playlistChannelOptions);
 
-            Task.Run(() => RunPlaylistProcessor());
+            _ = Task.Run(RunPlaylistProcessor);
         }
 
         private async void RunPlaylistProcessor()
@@ -70,7 +60,11 @@ namespace DgtCherub.Helpers
                         foreach (UnmanagedMemoryStream sound in playlist)
                         {
                             using WaveFileReader reader = new(sound);
-                            if (outputDevice.Volume != volume) outputDevice.Volume = volume;
+                            if (outputDevice.Volume != volume)
+                            {
+                                outputDevice.Volume = volume;
+                            }
+
                             outputDevice.Init(reader);
                             outputDevice.Play();
                             while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(50); };
@@ -95,8 +89,10 @@ namespace DgtCherub.Helpers
         {
             _logger?.LogTrace($"Speak Called");
 
-            List<UnmanagedMemoryStream> tmp = (new List<UnmanagedMemoryStream>());
-            tmp.Add(clipStream);
+            List<UnmanagedMemoryStream> tmp = new()
+            {
+                clipStream
+            };
 
             _ = playlistChannel.Writer.TryWrite(tmp);
         }

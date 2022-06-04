@@ -12,7 +12,7 @@ namespace DgtCherub.Helpers
             {
                 box.AddLine($"{preStartText}", maxLine, true);
 
-                _ = (new Process()
+                _ = new Process()
                 {
                     StartInfo = new()
                     {
@@ -23,7 +23,7 @@ namespace DgtCherub.Helpers
                         RedirectStandardError = !useShellExecute,
                         RedirectStandardOutput = !useShellExecute,
                     }
-                }).Start();
+                }.Start();
 
                 box.AddLine($"...{successText}", maxLine, true);
                 return true;
@@ -80,8 +80,8 @@ namespace DgtCherub.Helpers
                 }
 
                 box.SuspendLayout();
-                box.AppendText($"{((box.Lines.Length == 0) ? "" : $"{Environment.NewLine}")}{((timeStamp) ? $"[{System.DateTime.Now.ToLongTimeString()}] " : "")}{text}");
-                box.Lines = (box.Lines.TakeLast(((maxLine is not null && maxLine > 1) ? maxLine.Value - 1 : box.Lines.Length))).ToArray();
+                box.AppendText($"{((box.Lines.Length == 0) ? "" : $"{Environment.NewLine}")}{(timeStamp ? $"[{System.DateTime.Now.ToLongTimeString()}] " : "")}{text}");
+                box.Lines = box.Lines.TakeLast((maxLine is not null and > 1) ? maxLine.Value - 1 : box.Lines.Length).ToArray();
                 box.SelectionStart = box.TextLength - box.Lines[^1].Length;
                 box.ScrollToCaret();
                 box.ResumeLayout();
@@ -89,7 +89,7 @@ namespace DgtCherub.Helpers
 
             if (box.InvokeRequired)
             {
-                box.BeginInvoke(updateAction);
+                _ = box.BeginInvoke(updateAction);
             }
             else
             {

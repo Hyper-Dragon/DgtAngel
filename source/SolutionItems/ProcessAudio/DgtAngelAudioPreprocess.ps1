@@ -26,7 +26,7 @@ $silenceremove = "silenceremove=" + ($sParams -Join ":")
 #$silenceremove =  "silenceremove=" + $silenceremove
 
 Write-Output "--------------------------------------------------------------------------------"
-Write-Output "Audio preprocessor for DGT Angel"
+Write-Output "Audio preprocessor for Angel"
 Write-Output "Ffmpeg Options $silenceremove"
 Write-Output ""
 Write-Output ">>Processing Audio"

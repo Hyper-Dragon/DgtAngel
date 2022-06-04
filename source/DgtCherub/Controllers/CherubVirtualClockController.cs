@@ -20,10 +20,16 @@ namespace DgtCherub.Controllers
         private const string SVG_LOGO = "DgtAngelLogo.svg";
 
         private const string CLOCK_SLIDE = "GreySlide";
-        private const string CLOCK_TEST = "TestClock";
+        private const string CLOCK_FIXED = "GreyFixed";
+        private const string CLOCK_LOCAL = "LocalBroadcast";
+        private const string CLOCK_REMOTE = "RemoteBroadcast";
+        private const string CLOCK_WINGED_HORSE = "WingedHorse";
 
         private const string RESOURCE_CLOCK_SLIDE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_SLIDE}.{RESOURCE_CLOCK_HTML}";
-        private const string RESOURCE_CLOCK_TEST = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_TEST}.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_FIXED = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_FIXED}.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_LOCAL = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_LOCAL}.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_REMOTE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_REMOTE}.{RESOURCE_CLOCK_HTML}";
+        private const string RESOURCE_CLOCK_WINGED_HORSE = $"{RESOURCE_CLOCK_ROOT}.{CLOCK_WINGED_HORSE}.{RESOURCE_CLOCK_HTML}";
 
         private const string RESOURCE_CLOCK_INDEX = $"{RESOURCE_CLOCK_ROOT}.index.html";
         private const string RESOURCE_CLOCK_FAV = $"{RESOURCE_CLOCK_ROOT}.{FAV_ICON}";
@@ -32,6 +38,9 @@ namespace DgtCherub.Controllers
         private const string MIME_HTM = "text/html";
         private const string MIME_PNG = "image/png";
         private const string MIME_SVG = "image/svg+xml";
+        private const string MIME_CSS = "text/css";
+        private const string MIME_JS = "text/javascript";
+        private const string MIME_UNITY = "application/wasm";
         private const string MIME_EVENT = "text/event-stream";
 
         private const string BOARD_EMPTY_FEN = "8/8/8/8/8/8/8/8";
@@ -46,8 +55,11 @@ namespace DgtCherub.Controllers
         private readonly IBoardRenderer _boardRenderer;
 
         private readonly string IndexPageHtml;
-        private readonly string TestClockHtml;
         private readonly string SlideClockHtml;
+        private readonly string FixedClockHtml;
+        private readonly string LocalClockHtml;
+        private readonly string RemoteClockHtml;
+        private readonly string WigedHorseHtml;
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
@@ -59,7 +71,10 @@ namespace DgtCherub.Controllers
 
             IndexPageHtml = LoadResourceString(RESOURCE_CLOCK_INDEX);
             SlideClockHtml = LoadResourceString(RESOURCE_CLOCK_SLIDE);
-            TestClockHtml = LoadResourceString(RESOURCE_CLOCK_TEST);
+            FixedClockHtml = LoadResourceString(RESOURCE_CLOCK_FIXED);
+            LocalClockHtml = LoadResourceString(RESOURCE_CLOCK_LOCAL);
+            RemoteClockHtml = LoadResourceString(RESOURCE_CLOCK_REMOTE);
+            WigedHorseHtml = LoadResourceString(RESOURCE_CLOCK_WINGED_HORSE);
 
             FavIcon = LoadResource(RESOURCE_CLOCK_FAV);
             SvgLogo = LoadResource(RESOURCE_CLOCK_SVG);
@@ -80,12 +95,13 @@ namespace DgtCherub.Controllers
             };
         }
 
+
         [HttpGet]
         [Route("{action}/{clock}")]
         public ContentResult GetClock(string clock)
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
-            _logger?.LogTrace($"Clock requested {clock}");
+            _logger?.LogTrace($"Clock requested",clock);
 
             try
             {
@@ -96,7 +112,10 @@ namespace DgtCherub.Controllers
                     Content = clock switch
                     {
                         CLOCK_SLIDE => SlideClockHtml,
-                        CLOCK_TEST => TestClockHtml,
+                        CLOCK_FIXED => FixedClockHtml,
+                        CLOCK_LOCAL => LocalClockHtml,
+                        CLOCK_REMOTE => RemoteClockHtml,
+                        CLOCK_WINGED_HORSE => WigedHorseHtml,
                         _ => throw new FileNotFoundException()
                     },
                 };
@@ -108,10 +127,37 @@ namespace DgtCherub.Controllers
         }
 
         [HttpGet]
+        [Route("/CherubVirtualClock/{action}/{clock}/{directory}/{filename}")]
+        public ActionResult GetFile(string clock, string directory, string filename)
+        {
+            try
+            {
+                string mimeType = filename.Split(".").Last() switch
+                {
+                    "html" => MIME_HTM,
+                    "png" => MIME_PNG,
+                    "svg" => MIME_SVG,
+                    "css" => MIME_CSS,
+                    "js" => MIME_JS,
+                    "unityweb" => MIME_UNITY,
+                    _ => throw new FileNotFoundException()
+                };
+
+                //http://127.0.0.1:37964/CherubVirtualClock/GetClock/TemplateData/style.css
+
+                return File(LoadResource($"{RESOURCE_CLOCK_ROOT}.{clock}.{directory}.{filename}"), mimeType);
+            }
+            catch (FileNotFoundException)
+            {
+                return StatusCode(404);
+            }
+        }
+
+        [HttpGet]
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
-            _logger?.LogTrace($"Board image requested {board}");
+            _logger?.LogTrace($"Board image requested",board);
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -129,10 +175,31 @@ namespace DgtCherub.Controllers
         }
 
         [HttpGet]
+        [Route("{action}/{board}")]
+        public async Task<FileContentResult> BoardImageNoCompare(string board)
+        {
+            _logger?.LogTrace($"Board image without compare requested",board);
+
+            string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
+            string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
+
+            byte[] bmpOut = board.ToLowerInvariant() switch
+            {
+                "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(local, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                  : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(remote, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                    : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                _ => await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, false)
+            };
+
+            return File(bmpOut, MIME_PNG);
+        }
+
+        [HttpGet]
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            _logger?.LogTrace($"Image requested {fileName}");
+            _logger?.LogTrace($"Image requested", fileName);
 
             try
             {
@@ -154,7 +221,7 @@ namespace DgtCherub.Controllers
         public async Task GetStuff(string clientUtcMs)
         {
             // http://localhost:37964/CherubVirtualClock/GetStuff
-            _logger?.LogTrace($"Clock client connected running {clientUtcMs}");
+            _logger?.LogTrace($"Clock client connected running", clientUtcMs);
 
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
