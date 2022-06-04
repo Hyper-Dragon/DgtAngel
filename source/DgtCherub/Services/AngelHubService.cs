@@ -334,7 +334,7 @@ namespace DgtCherub.Services
                 _logger?.LogTrace("Processing a move recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 if (LastMove is null || 
-                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn.ToString()}")
+                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}")
                 {
                     LastMove = remoteBoardState.Board.LastMove;
                     lastMoveVoiceTest = $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}";
