@@ -115,6 +115,8 @@ namespace DgtCherub.Services
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
+        private string lastMoveVoiceTest = "";
+        
         public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
@@ -331,9 +333,12 @@ namespace DgtCherub.Services
 
                 _logger?.LogTrace("Processing a move recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
-                if (LastMove is null || LastMove != remoteBoardState.Board.LastMove)
+                if (LastMove is null || 
+                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn.ToString()}")
                 {
                     LastMove = remoteBoardState.Board.LastMove;
+                    lastMoveVoiceTest = $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}";
+                        
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 
                     OnNewMoveDetected?.Invoke(remoteBoardState.Board.LastMove);
