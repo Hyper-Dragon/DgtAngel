@@ -14,15 +14,28 @@
     <link rel="stylesheet" href="/CherubVirtualClock/GetFile/Any/Style/bootstrap5.1.0.min.css" />
     <style>
         /* GLOBAL STYLES */
+        html {
+            overflow: hidden;
+            position: fixed;
+        }
 
         body {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             margin: 0px;
             padding: 0px;
+            border: 0px;
             color: black;
+            position: fixed;
             overflow: hidden;
-            min-height: 200vh;
+            min-height: 100%;
+            max-height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            min-height: 107px;
+            min-width: 211px;
         }
 
         svg {
@@ -129,7 +142,7 @@
             </div>
         </div>
     </div>
-
+    
     <svg class="bd-placeholder-img"
          width="100%"
          height="100%"
@@ -139,7 +152,7 @@
          focusable="false">
         <rect width="100%" height="100%" fill="#777"></rect>
     </svg>
-
+    
     <div class="row">
         <div class="col-6 d-flex parent">
             <div>
