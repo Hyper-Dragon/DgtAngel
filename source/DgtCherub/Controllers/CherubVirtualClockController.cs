@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Web;
 using static DgtCherub.Helpers.ResourceLoader;
 
 namespace DgtCherub.Controllers
@@ -154,6 +155,27 @@ namespace DgtCherub.Controllers
         }
 
         [HttpGet]
+        [Route("{action}/{board}/{localBoard}/{remoteBoard}")]
+        public async Task<FileContentResult> BoardImageCompareByFen(string board, string localBoard, string remoteBoard)
+        {
+            _logger?.LogTrace($"Board image requested", $"{localBoard} :: {remoteBoard}");
+
+            string local = string.IsNullOrEmpty(localBoard) ? HttpUtility.UrlDecode(remoteBoard) : HttpUtility.UrlDecode(localBoard);
+            string remote = string.IsNullOrEmpty(remoteBoard) ? HttpUtility.UrlDecode(localBoard) : HttpUtility.UrlDecode(remoteBoard);
+
+            byte[] bmpOut = board.ToLowerInvariant() switch
+            {
+                "local" => _angelHubService.IsLocalBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                  : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                "remote" => _angelHubService.IsRemoteBoardAvailable ? await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom)
+                                                                    : await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, _angelHubService.IsWhiteOnBottom),
+                _ => await _boardRenderer.GetPngImageDiffFromFenAsync(BOARD_EMPTY_FEN, BOARD_EMPTY_FEN, BOARD_IMAGE_SIZE, false)
+            };
+
+            return File(bmpOut, MIME_PNG);
+        }
+
+        [HttpGet]
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
@@ -292,24 +314,24 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            _angelHubService.OnLocalFenChange += async () =>
+            _angelHubService.OnLocalFenChange += async (string localFen) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnLocalFenChange",
-                    BoardFen = _angelHubService.LocalBoardFEN,
+                    BoardFen = localFen,
                     _angelHubService.IsWhiteOnBottom,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 }));
             };
 
-            _angelHubService.OnRemoteFenChange += async () =>
+            _angelHubService.OnRemoteFenChange += async (string remoteFen) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",
-                    BoardFen = _angelHubService.RemoteBoardFEN,
+                    BoardFen = remoteFen,
                     _angelHubService.IsWhiteOnBottom,
                     _angelHubService.LastMove,
                     IsGameActive = _angelHubService.RunWhoString != "3",

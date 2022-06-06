@@ -15,14 +15,28 @@
     <style>
         /* GLOBAL STYLES */
 
+        html {
+            overflow: hidden;
+            position: fixed;
+        }
+
         body {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             margin: 0px;
             padding: 0px;
+            border: 0px;
             color: black;
+            position: fixed;
             overflow: hidden;
-            min-height: 200vh;
+            min-height: 100%;
+            max-height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            min-height: 107px;
+            min-width: 211px;
         }
 
         svg {
@@ -74,7 +88,7 @@
         .board-img {
             padding: 0px;
             background-clip: padding-box;
-            width: min(60vh, 40vw);
+            width: min(60vh, 100vw);
             height: auto;
         }
 
@@ -129,21 +143,16 @@
 
     <div class="row">
         <div class="col-12 d-flex parent">
-            <div>
-                <div class="board-text">
-                    REMOTE BOARD
-                </div>
                 <img id="remote-board-img"
                      class="board-img img-child"
                      src="/CherubVirtualClock/BoardImage/blank" />
-            </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12 bkg-white-clock info-child d-flex">
             <div>
-                Connection State:&nbsp;<b id="con-state">CONNECTED</b>&nbsp;[udat:&nbsp;<i id="last-update-day">-</i>@<i id="last-update-time">-</i>]&nbsp;[<i id="is-white-to-play">-</i>]
+                <b>REMOTE</b> State:&nbsp;<b id="con-state">CONNECTED</b>&nbsp;[udat:&nbsp;<i id="last-update-day">-</i>@<i id="last-update-time">-</i>]&nbsp;[<i id="is-white-to-play">-</i>]
             </div>
         </div>
     </div>
@@ -160,7 +169,10 @@
         isTimerSuspended = false;
         flip = false;
         clocksTimer = 0;
+        encodedRemoteFen = encodeURIComponent("8/8/8/8/8/8/8/8");
 
+
+        
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
 
@@ -257,19 +269,20 @@
                                 if (obj.IsWhiteOnBottom) {
                                     flip = "";
                                 } else {
-                                    flip = "&flip=true";
+                                    flip = "?flip=true";
                                 }
-
+                                
                                 document.getElementById("remote-board-img").src =
-                                    "/CherubVirtualClock/BoardImageNoCompare/remote?time=" + new Date();
+                                    "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedRemoteFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnLocalFenChange":
                                 break;
                             case "OnRemoteFenChange":
-                                document.getElementById("remote-fen").textContent =
-                                    obj.BoardFen;
+                                document.getElementById("remote-fen").textContent = obj.BoardFen;
+                                encodedRemoteFen = encodeURIComponent(obj.BoardFen);    
+                                
                                 document.getElementById("remote-board-img").src =
-                                    "/CherubVirtualClock/BoardImageNoCompare/remote?time=" + new Date();
+                                    "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedRemoteFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnBoardMissmatch":
                                 break;
@@ -290,6 +303,7 @@
                                     "8/8/8/8/8/8/8/8";
                                 document.getElementById("remote-board-img").src =
                                     "/CherubVirtualClock/BoardImage/blank?time=" + new Date();
+                                encodedRemoteFen = encodeURIComponent("8/8/8/8/8/8/8/8");
                                 whiteClockMsRemaining = 0;
                                 blackClockMsRemaining = 0;
                                 isGameInProgress = false;

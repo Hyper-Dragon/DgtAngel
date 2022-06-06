@@ -13,12 +13,26 @@
     <style>
         /* GLOBAL STYLES */
 
+        html {
+            overflow: hidden;
+            position: fixed;
+        }
+
         body {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             margin: 0px;
             padding: 0px;
+            border: 0px;
             color: black;
+            position: fixed;
+            overflow: hidden;
+            min-height: 100%;
+            max-height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
 
         svg {
@@ -201,6 +215,9 @@
         isTimerSuspended = false;
         flip = false;
         clocksTimer = 0;
+        encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+        encodedRemoteFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -295,21 +312,31 @@
                                 if (obj.IsWhiteOnBottom) {
                                     flip = "";
                                 } else {
-                                    flip = "&flip=true";
+                                    flip = "?flip=true";
                                 }
 
-                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
-                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
+                                document.getElementById("local-board-img").src =
+                                    "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
+                                document.getElementById("remote-board-img").src =
+                                    "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnLocalFenChange":
-                                document.getElementById('local-fen').textContent = obj.BoardFen;
-                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
-                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
+                                document.getElementById("local-fen").textContent = obj.BoardFen;
+                                encodedLocalFen = encodeURIComponent(obj.BoardFen);
+
+                                document.getElementById("local-board-img").src =
+                                    "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
+                                document.getElementById("remote-board-img").src =
+                                    "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnRemoteFenChange":
-                                document.getElementById('remote-fen').textContent = obj.BoardFen;
-                                document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/local?time=' + new Date();
-                                document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/remote?time=' + new Date();
+                                document.getElementById("remote-fen").textContent = obj.BoardFen;
+                                encodedRemoteFen = encodeURIComponent(obj.BoardFen);
+
+                                document.getElementById("local-board-img").src =
+                                    "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
+                                document.getElementById("remote-board-img").src =
+                                    "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnBoardMissmatch":
                                 carousel.to('2');
@@ -332,6 +359,7 @@
                                 isTimerSuspended = true;
                                 document.getElementById('remote-fen').textContent = "8/8/8/8/8/8/8/8";
                                 document.getElementById('remote-board-img').src = '/CherubVirtualClock/BoardImage/blank?time=' + new Date();
+                                encodedRemoteFen = encodeURIComponent("8/8/8/8/8/8/8/8");
                                 whiteClockMsRemaining = 0;
                                 blackClockMsRemaining = 0;
                                 isGameInProgress = false;
@@ -342,6 +370,7 @@
                                 isTimerSuspended = true;
                                 document.getElementById('local-fen').textContent = "8/8/8/8/8/8/8/8";
                                 document.getElementById('local-board-img').src = '/CherubVirtualClock/BoardImage/blank?time=' + new Date();
+                                encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
                                 whiteClockMsRemaining = 0;
                                 blackClockMsRemaining = 0;
                                 isGameInProgress = false;

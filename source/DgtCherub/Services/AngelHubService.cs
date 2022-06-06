@@ -32,14 +32,14 @@ namespace DgtCherub.Services
         event Action OnBoardMissmatch;
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
-        event Action OnLocalFenChange;
+        event Action<string> OnLocalFenChange;
         event Action OnRemoteWatchStarted;
         event Action OnRemoteWatchStopped;
         event Action<string> OnNewMoveDetected;
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
-        event Action OnRemoteFenChange;
+        event Action<string> OnRemoteFenChange;
         event Action<string, string> OnNotification;
 
         void LocalBoardUpdate(string fen);
@@ -51,8 +51,8 @@ namespace DgtCherub.Services
 
     public sealed class AngelHubService : IAngelHubService
     {
-        public event Action OnLocalFenChange;
-        public event Action OnRemoteFenChange;
+        public event Action<string> OnLocalFenChange;
+        public event Action<string> OnRemoteFenChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
@@ -259,7 +259,7 @@ namespace DgtCherub.Services
                         _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
                     }
 
-                    OnLocalFenChange?.Invoke();
+                    OnLocalFenChange?.Invoke(LocalBoardFEN);
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
                 }
             }
@@ -364,7 +364,7 @@ namespace DgtCherub.Services
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    OnRemoteFenChange?.Invoke();
+                    OnRemoteFenChange?.Invoke(RemoteBoardFEN);
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
             }
