@@ -180,6 +180,8 @@
         isTimerSuspended = false;
         flip = false;
         clocksTimer = 0;
+        encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -277,17 +279,19 @@
                                 if (obj.IsWhiteOnBottom) {
                                     flip = "";
                                 } else {
-                                    flip = "&flip=true";
+                                    flip = "?flip=true";
                                 }
 
                                 document.getElementById("local-board-img").src =
-                                    "/CherubVirtualClock/BoardImageNoCompare/local?time=" + new Date();
+                                    "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedLocalFen + flip;
                                 break;
                             case "OnLocalFenChange":
-                                document.getElementById("local-fen").textContent =
-                                    obj.BoardFen;
+                                document.getElementById("local-fen").textContent = obj.BoardFen;
+                                encodedLocalFen = encodeURIComponent(obj.BoardFen);
+
+                                
                                 document.getElementById("local-board-img").src =
-                                    "/CherubVirtualClock/BoardImageNoCompare/local?time=" + new Date();
+                                    "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedLocalFen + flip;
                                 break;
                             case "OnRemoteFenChange":
                                 break;
@@ -312,6 +316,7 @@
                                     "8/8/8/8/8/8/8/8";
                                 document.getElementById("local-board-img").src =
                                     "/CherubVirtualClock/BoardImage/blank?time=" + new Date();
+                                encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
                                 whiteClockMsRemaining = 0;
                                 blackClockMsRemaining = 0;
                                 isGameInProgress = false;

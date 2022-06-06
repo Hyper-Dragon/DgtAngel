@@ -246,11 +246,15 @@ namespace DgtCherub
 
             _angelHubService.OnOrientationFlipped += DisplayBoardImages;
 
-            _angelHubService.OnLocalFenChange += DisplayBoardImages;
-
-            _angelHubService.OnRemoteFenChange += () =>
+            _angelHubService.OnLocalFenChange += (string localFen) =>
             {
-                TextBoxConsole.AddLine($"Remote board changed [{_angelHubService.RemoteBoardFEN}]");
+                TextBoxConsole.AddLine($"Local board changed [{localFen}]");
+                DisplayBoardImages();
+            };
+
+            _angelHubService.OnRemoteFenChange += (string remoteFen) =>
+            {
+                TextBoxConsole.AddLine($"Remote board changed [{remoteFen}]");
                 DisplayBoardImages();
             };
 
@@ -459,7 +463,7 @@ namespace DgtCherub
 
             _dgtLiveChess.OnFenRecieved += (obj, eventArgs) =>
             {
-                TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+                //TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
                 _angelHubService.LocalBoardUpdate(eventArgs.ResponseOut);
             };
 
