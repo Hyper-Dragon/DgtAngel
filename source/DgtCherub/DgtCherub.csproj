@@ -27,6 +27,7 @@
     <None Remove="Assets\Audio\Speech-en-01\BatteryCritical-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\BatteryLow-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\BatteryOk-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\Beep-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
@@ -71,6 +72,7 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\BatteryCritical-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\BatteryLow-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\BatteryOk-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\Beep-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />

@@ -35,7 +35,7 @@ namespace DgtCherub.Services
         event Action<string> OnLocalFenChange;
         event Action OnRemoteWatchStarted;
         event Action OnRemoteWatchStopped;
-        event Action<string> OnNewMoveDetected;
+        event Action<string, bool> OnNewMoveDetected;
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
@@ -62,7 +62,7 @@ namespace DgtCherub.Services
         public event Action OnBoardMatchFromMissmatch;
         public event Action OnRemoteWatchStarted;
         public event Action OnRemoteWatchStopped;
-        public event Action<string> OnNewMoveDetected;
+        public event Action<string, bool> OnNewMoveDetected;
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
@@ -341,7 +341,11 @@ namespace DgtCherub.Services
                         
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 
-                    OnNewMoveDetected?.Invoke(LastMove);
+
+                    bool isPlayerTurn = ((IsWhiteOnBottom && remoteBoardState.Board.Turn != TurnCode.WHITE) ||
+                                         (!IsWhiteOnBottom && remoteBoardState.Board.Turn != TurnCode.BLACK));
+
+                    OnNewMoveDetected?.Invoke(LastMove, isPlayerTurn);
                     await Task.Delay(POST_EVENT_DELAY_LAST_MOVE);
                 }
             }

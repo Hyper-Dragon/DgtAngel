@@ -99,6 +99,8 @@ namespace DgtCherub
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CheckBoxIncludeSecs = new System.Windows.Forms.CheckBox();
+            this.CheckBoxPlayerBeep = new System.Windows.Forms.CheckBox();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
@@ -122,6 +124,8 @@ namespace DgtCherub
             // 
             // GroupBox1
             // 
+            this.GroupBox1.Controls.Add(this.CheckBoxPlayerBeep);
+            this.GroupBox1.Controls.Add(this.CheckBoxIncludeSecs);
             this.GroupBox1.Controls.Add(this.ComboBoxMoveVoice);
             this.GroupBox1.Controls.Add(this.Label3);
             this.GroupBox1.Controls.Add(this.Label2);
@@ -132,7 +136,7 @@ namespace DgtCherub
             this.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GroupBox1.Location = new System.Drawing.Point(17, 6);
             this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(124, 144);
+            this.GroupBox1.Size = new System.Drawing.Size(124, 195);
             this.GroupBox1.TabIndex = 1;
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Vol/Voice";
@@ -144,7 +148,7 @@ namespace DgtCherub
             this.ComboBoxMoveVoice.Items.AddRange(new object[] {
             "en-01",
             "en-02"});
-            this.ComboBoxMoveVoice.Location = new System.Drawing.Point(50, 82);
+            this.ComboBoxMoveVoice.Location = new System.Drawing.Point(50, 102);
             this.ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
             this.ComboBoxMoveVoice.Size = new System.Drawing.Size(68, 27);
             this.ComboBoxMoveVoice.TabIndex = 4;
@@ -153,7 +157,7 @@ namespace DgtCherub
             // Label3
             // 
             this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(6, 114);
+            this.Label3.Location = new System.Drawing.Point(6, 140);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(42, 20);
             this.Label3.TabIndex = 59;
@@ -206,7 +210,7 @@ namespace DgtCherub
             // UpDownVolTime
             // 
             this.UpDownVolTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownVolTime.Location = new System.Drawing.Point(74, 112);
+            this.UpDownVolTime.Location = new System.Drawing.Point(74, 138);
             this.UpDownVolTime.Maximum = new decimal(new int[] {
             10,
             0,
@@ -414,7 +418,7 @@ namespace DgtCherub
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel1.Location = new System.Drawing.Point(0, 25);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(716, 445);
+            this.Panel1.Size = new System.Drawing.Size(716, 482);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -433,7 +437,7 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 445);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 482);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -454,7 +458,7 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 437);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 474);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -466,7 +470,7 @@ namespace DgtCherub
             this.CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxPreventSleep.Location = new System.Drawing.Point(23, 187);
+            this.CheckBoxPreventSleep.Location = new System.Drawing.Point(23, 212);
             this.CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
             this.CheckBoxPreventSleep.Size = new System.Drawing.Size(116, 25);
             this.CheckBoxPreventSleep.TabIndex = 7;
@@ -477,7 +481,7 @@ namespace DgtCherub
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 259);
+            this.label5.Location = new System.Drawing.Point(17, 293);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(47, 20);
             this.label5.TabIndex = 61;
@@ -486,7 +490,7 @@ namespace DgtCherub
             // UpDownVoiceDelay
             // 
             this.UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownVoiceDelay.Location = new System.Drawing.Point(96, 257);
+            this.UpDownVoiceDelay.Location = new System.Drawing.Point(94, 294);
             this.UpDownVoiceDelay.Maximum = new decimal(new int[] {
             15,
             0,
@@ -511,7 +515,7 @@ namespace DgtCherub
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 227);
+            this.label4.Location = new System.Drawing.Point(17, 261);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 20);
             this.label4.TabIndex = 59;
@@ -520,7 +524,7 @@ namespace DgtCherub
             // UpDownFontSize
             // 
             this.UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownFontSize.Location = new System.Drawing.Point(96, 225);
+            this.UpDownFontSize.Location = new System.Drawing.Point(94, 262);
             this.UpDownFontSize.Maximum = new decimal(new int[] {
             50,
             0,
@@ -549,7 +553,7 @@ namespace DgtCherub
             this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 363);
+            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 397);
             this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             this.CheckBoxRecieveLog.Size = new System.Drawing.Size(118, 25);
             this.CheckBoxRecieveLog.TabIndex = 12;
@@ -561,7 +565,7 @@ namespace DgtCherub
             // 
             this.ButtonClearConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonClearConsole.Location = new System.Drawing.Point(17, 395);
+            this.ButtonClearConsole.Location = new System.Drawing.Point(17, 429);
             this.ButtonClearConsole.Name = "ButtonClearConsole";
             this.ButtonClearConsole.Size = new System.Drawing.Size(124, 33);
             this.ButtonClearConsole.TabIndex = 12;
@@ -576,7 +580,7 @@ namespace DgtCherub
             this.CheckBoxShowInbound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxShowInbound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxShowInbound.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxShowInbound.Location = new System.Drawing.Point(23, 332);
+            this.CheckBoxShowInbound.Location = new System.Drawing.Point(23, 366);
             this.CheckBoxShowInbound.Name = "CheckBoxShowInbound";
             this.CheckBoxShowInbound.Size = new System.Drawing.Size(118, 25);
             this.CheckBoxShowInbound.TabIndex = 11;
@@ -587,7 +591,7 @@ namespace DgtCherub
             // ButtonRabbitConfig1
             // 
             this.ButtonRabbitConfig1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 289);
+            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 323);
             this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
             this.ButtonRabbitConfig1.TabIndex = 10;
@@ -601,7 +605,7 @@ namespace DgtCherub
             this.CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxOnTop.Location = new System.Drawing.Point(23, 156);
+            this.CheckBoxOnTop.Location = new System.Drawing.Point(23, 234);
             this.CheckBoxOnTop.Name = "CheckBoxOnTop";
             this.CheckBoxOnTop.Size = new System.Drawing.Size(116, 25);
             this.CheckBoxOnTop.TabIndex = 6;
@@ -733,7 +737,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(519, 445);
+            this.TextBoxConsole.Size = new System.Drawing.Size(519, 482);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -753,7 +757,7 @@ namespace DgtCherub
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripStatusLabelLastUpdate,
             this.ToolStripStatusLabelVersion});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 470);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 507);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(716, 26);
             this.StatusStrip.TabIndex = 1;
@@ -977,10 +981,38 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
             // 
+            // CheckBoxIncludeSecs
+            // 
+            this.CheckBoxIncludeSecs.Checked = true;
+            this.CheckBoxIncludeSecs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxIncludeSecs.Location = new System.Drawing.Point(27, 162);
+            this.CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
+            this.CheckBoxIncludeSecs.Size = new System.Drawing.Size(97, 25);
+            this.CheckBoxIncludeSecs.TabIndex = 62;
+            this.CheckBoxIncludeSecs.Text = "Include Secs";
+            this.CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
+            this.CheckBoxIncludeSecs.CheckedChanged += new System.EventHandler(this.CheckBoxIncludeSecs_CheckedChanged);
+            // 
+            // CheckBoxPlayerBeep
+            // 
+            this.CheckBoxPlayerBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxPlayerBeep.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxPlayerBeep.Location = new System.Drawing.Point(27, 75);
+            this.CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
+            this.CheckBoxPlayerBeep.Size = new System.Drawing.Size(97, 25);
+            this.CheckBoxPlayerBeep.TabIndex = 62;
+            this.CheckBoxPlayerBeep.Text = "Player Beep";
+            this.CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
+            this.CheckBoxPlayerBeep.CheckedChanged += new System.EventHandler(this.CheckBoxPlayerBeep_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(716, 496);
+            this.ClientSize = new System.Drawing.Size(716, 533);
             this.Controls.Add(this.Panel1);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.MenuStrip);
@@ -988,7 +1020,7 @@ namespace DgtCherub
             this.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
-            this.MinimumSize = new System.Drawing.Size(420, 543);
+            this.MinimumSize = new System.Drawing.Size(420, 580);
             this.Name = "Form1";
             this.Text = "Cherub";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
@@ -1095,6 +1127,8 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem ChessStatsMenuItem;
         private System.Windows.Forms.CheckBox CheckBoxPreventSleep;
         private System.Windows.Forms.ComboBox ComboBoxMoveVoice;
+        private System.Windows.Forms.CheckBox CheckBoxPlayerBeep;
+        private System.Windows.Forms.CheckBox CheckBoxIncludeSecs;
     }
 }
 
