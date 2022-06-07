@@ -1,0 +1,42 @@
+LETTERS:
+A
+B
+C
+D
+E
+F
+G
+H
+
+NUMBERS:
+1
+2
+3
+4
+5
+6
+7
+8
+
+PIECES:
+Bishop
+King
+Knight
+Pawn
+Queen
+Rook
+
+WORDS:
+Black Wins
+Black Wins by Checkmate
+Black Wins by Resignation
+Castles Long
+Castles Short
+Check
+Game Drawn
+Missing
+Promotes To
+Takes
+White Wins
+White Wins by Checkmate
+White Wins by Resignation

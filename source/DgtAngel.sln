@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{20E36046-6
 	ProjectSection(SolutionItems) = preProject
 		SolutionItems\Docs\DGT Electronic Board DLL.pdf = SolutionItems\Docs\DGT Electronic Board DLL.pdf
 		SolutionItems\Docs\ScratchNotes.txt = SolutionItems\Docs\ScratchNotes.txt
+		VoiceScript-Moves-Real.txt = VoiceScript-Moves-Real.txt
 		SolutionItems\Docs\VoiceScript-Moves.txt = SolutionItems\Docs\VoiceScript-Moves.txt
 		SolutionItems\Docs\VoiceScript-Speech.txt = SolutionItems\Docs\VoiceScript-Speech.txt
 		SolutionItems\Docs\VoiceScript-Time.txt = SolutionItems\Docs\VoiceScript-Time.txt
