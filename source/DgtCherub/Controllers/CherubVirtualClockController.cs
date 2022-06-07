@@ -326,14 +326,14 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            _angelHubService.OnRemoteFenChange += async (string remoteFen) =>
+            _angelHubService.OnRemoteFenChange += async (string remoteFen, string lastMove) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",
                     BoardFen = remoteFen,
                     _angelHubService.IsWhiteOnBottom,
-                    _angelHubService.LastMove,
+                    lastMove,
                     IsGameActive = _angelHubService.RunWhoString != "3",
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
