@@ -123,7 +123,7 @@ namespace DgtCherub.Services
             _dgtEbDllFacade = dgtEbDllFacade;
 
 
-            BoundedChannelOptions processChannelOptions = new(1)
+            BoundedChannelOptions processChannelOptions = new(3)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
