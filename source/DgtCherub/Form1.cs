@@ -900,6 +900,8 @@ namespace DgtCherub
             {
                 "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
+                "en-03" => DgtCherub.Assets.Moves_en_03.ResourceManager,
+                "en-04" => DgtCherub.Assets.Moves_en_04.ResourceManager,
                 _ => DEFAULT_MOVE_VOICE
 
             };

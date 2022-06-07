@@ -31,6 +31,8 @@ namespace DgtCherub
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
+            this.CheckBoxPlayerBeep = new System.Windows.Forms.CheckBox();
+            this.CheckBoxIncludeSecs = new System.Windows.Forms.CheckBox();
             this.ComboBoxMoveVoice = new System.Windows.Forms.ComboBox();
             this.Label3 = new System.Windows.Forms.Label();
             this.Label2 = new System.Windows.Forms.Label();
@@ -99,8 +101,6 @@ namespace DgtCherub
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CheckBoxIncludeSecs = new System.Windows.Forms.CheckBox();
-            this.CheckBoxPlayerBeep = new System.Windows.Forms.CheckBox();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
@@ -141,13 +141,43 @@ namespace DgtCherub
             this.GroupBox1.TabStop = false;
             this.GroupBox1.Text = "Vol/Voice";
             // 
+            // CheckBoxPlayerBeep
+            // 
+            this.CheckBoxPlayerBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxPlayerBeep.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxPlayerBeep.Location = new System.Drawing.Point(27, 75);
+            this.CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
+            this.CheckBoxPlayerBeep.Size = new System.Drawing.Size(97, 25);
+            this.CheckBoxPlayerBeep.TabIndex = 62;
+            this.CheckBoxPlayerBeep.Text = "Player Beep";
+            this.CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
+            this.CheckBoxPlayerBeep.CheckedChanged += new System.EventHandler(this.CheckBoxPlayerBeep_CheckedChanged);
+            // 
+            // CheckBoxIncludeSecs
+            // 
+            this.CheckBoxIncludeSecs.Checked = true;
+            this.CheckBoxIncludeSecs.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxIncludeSecs.Location = new System.Drawing.Point(27, 162);
+            this.CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
+            this.CheckBoxIncludeSecs.Size = new System.Drawing.Size(97, 25);
+            this.CheckBoxIncludeSecs.TabIndex = 62;
+            this.CheckBoxIncludeSecs.Text = "Include Secs";
+            this.CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
+            this.CheckBoxIncludeSecs.CheckedChanged += new System.EventHandler(this.CheckBoxIncludeSecs_CheckedChanged);
+            // 
             // ComboBoxMoveVoice
             // 
             this.ComboBoxMoveVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxMoveVoice.FormattingEnabled = true;
             this.ComboBoxMoveVoice.Items.AddRange(new object[] {
             "en-01",
-            "en-02"});
+            "en-02",
+            "en-03",
+            "en-04"});
             this.ComboBoxMoveVoice.Location = new System.Drawing.Point(50, 102);
             this.ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
             this.ComboBoxMoveVoice.Size = new System.Drawing.Size(68, 27);
@@ -304,7 +334,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 437);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 474);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -344,7 +374,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 437);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 474);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -625,7 +655,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 437);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 474);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -980,34 +1010,6 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(234, 26);
             this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
-            // 
-            // CheckBoxIncludeSecs
-            // 
-            this.CheckBoxIncludeSecs.Checked = true;
-            this.CheckBoxIncludeSecs.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxIncludeSecs.Location = new System.Drawing.Point(27, 162);
-            this.CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
-            this.CheckBoxIncludeSecs.Size = new System.Drawing.Size(97, 25);
-            this.CheckBoxIncludeSecs.TabIndex = 62;
-            this.CheckBoxIncludeSecs.Text = "Include Secs";
-            this.CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
-            this.CheckBoxIncludeSecs.CheckedChanged += new System.EventHandler(this.CheckBoxIncludeSecs_CheckedChanged);
-            // 
-            // CheckBoxPlayerBeep
-            // 
-            this.CheckBoxPlayerBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxPlayerBeep.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxPlayerBeep.Location = new System.Drawing.Point(27, 75);
-            this.CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
-            this.CheckBoxPlayerBeep.Size = new System.Drawing.Size(97, 25);
-            this.CheckBoxPlayerBeep.TabIndex = 62;
-            this.CheckBoxPlayerBeep.Text = "Player Beep";
-            this.CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
-            this.CheckBoxPlayerBeep.CheckedChanged += new System.EventHandler(this.CheckBoxPlayerBeep_CheckedChanged);
             // 
             // Form1
             // 
