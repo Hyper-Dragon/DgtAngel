@@ -122,6 +122,28 @@
             top: 0px;
             left: 0px;
         }
+
+        .last-move {
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            z-index: 100;
+            transform: translate(-50%, -10%);
+        }
+
+        .last-move-content {
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+            color: yellow;
+            align-content:center;
+            text-align:center;
+            font-size: 22vmin;
+        }
+
     </style>
 </head>
 
@@ -152,7 +174,6 @@
                             <h2>
                                 Last Update:&nbsp;<i id='last-update-day'>-</i>&commat;<i id='last-update-time'>-</i>
                             </h2>
-                            <h2>To Play:&nbsp;<i id='is-white-to-play'>-</i></h2>
                         </div>
                     </div>
                 </div>
@@ -161,6 +182,9 @@
                          aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                         <rect width="100%" height="100%" fill="#077" />
                     </svg>
+                    <div id="last-move-box" class="last-move bkg-black-clock">
+                        <b id="last-move-txt" class="last-move-content">---</b>&nbsp;
+                    </div>
                     <div class="row">
                         <div class="col-6 bkg-clock bkg-white-clock d-flex parent">
                             <div class="align-self-center"><b id='white-clock' class="child">0:00:00</b></div>
@@ -217,6 +241,7 @@
         clocksTimer = 0;
         encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
         encodedRemoteFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+        lastRemoteMove = "";
 
 
         function timeRemaining(clockId, diff) {
@@ -250,6 +275,8 @@
 
                         document.getElementById('white-clock').style.color = 'yellow';
                         document.getElementById('black-clock').style.color = 'black';
+
+                        document.getElementById('last-move-box').style.backgroundColor = 'darkslategrey'
                     } else {
                         document.getElementById('is-white-to-play').textContent = "Black To Play";
 
@@ -258,9 +285,12 @@
 
                         document.getElementById('white-clock').style.color = 'black';
                         document.getElementById('black-clock').style.color = 'yellow';
+
+                        document.getElementById('last-move-box').style.backgroundColor = 'lightgrey'
                     }
                 }
             } else {
+                document.getElementById("last-move-txt").textContent = '---';
                 document.getElementById('is-white-to-play').textContent = "No Game";
                 document.getElementById('white-clock').textContent = "0:00:00";
                 document.getElementById('black-clock').textContent = "0:00:00";
@@ -330,6 +360,9 @@
                                     "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnRemoteFenChange":
+                                lastRemoteMove = obj.lastMove;
+                                document.getElementById("last-move-txt").textContent = lastRemoteMove;
+                                
                                 document.getElementById("remote-fen").textContent = obj.BoardFen;
                                 encodedRemoteFen = encodeURIComponent(obj.BoardFen);
 
