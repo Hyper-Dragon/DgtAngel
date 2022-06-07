@@ -134,16 +134,36 @@
             transform: translate(-50%, -10%);
         }
 
+        .last-move-c3 {
+            margin: 0px;
+            padding: 0px;
+            border: 0px;
+            position: absolute;
+            top: 0px;
+            left: 50%;
+            z-index: 100;
+            transform: translate(-50%, -10%);
+            background-color: rgba(255, 255, 255, 0.5);
+            opacity: 0.3;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        }
+        
         .last-move-content {
             margin: 0px;
             padding: 0px;
             border: 0px;
             color: yellow;
-            align-content:center;
-            text-align:center;
+            align-content: center;
+            text-align: center;
             font-size: 22vmin;
         }
 
+        .last-move-content-c3 {
+            color: yellow;
+            align-content: center;
+            text-align: center;
+            font-size: 12vmin;
+        }
     </style>
 </head>
 
@@ -199,7 +219,6 @@
                          aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
                         <rect width="100%" height="100%" fill="#777" />
                     </svg>
-
                     <div class="row">
                         <div class="col-6 d-flex parent">
                             <div>
@@ -213,6 +232,10 @@
                                      src="/CherubVirtualClock/BoardImage/blank" />
                             </div>
                         </div>
+                    </div>
+
+                    <div class="last-move-c3">
+                        <b id="last-move-txt-c3" class="last-move-content-c3">---</b>&nbsp;
                     </div>
                 </div>
             </div>
@@ -276,6 +299,7 @@
                         document.getElementById('white-clock').style.color = 'yellow';
                         document.getElementById('black-clock').style.color = 'black';
 
+
                         document.getElementById('last-move-box').style.backgroundColor = 'darkslategrey'
                     } else {
                         document.getElementById('is-white-to-play').textContent = "Black To Play";
@@ -291,6 +315,7 @@
                 }
             } else {
                 document.getElementById("last-move-txt").textContent = '---';
+                document.getElementById("last-move-txt-c3").textContent = '---';
                 document.getElementById('is-white-to-play').textContent = "No Game";
                 document.getElementById('white-clock').textContent = "0:00:00";
                 document.getElementById('black-clock').textContent = "0:00:00";
@@ -362,7 +387,8 @@
                             case "OnRemoteFenChange":
                                 lastRemoteMove = obj.lastMove;
                                 document.getElementById("last-move-txt").textContent = lastRemoteMove;
-                                
+                                document.getElementById("last-move-txt-c3").textContent = lastRemoteMove;
+
                                 document.getElementById("remote-fen").textContent = obj.BoardFen;
                                 encodedRemoteFen = encodeURIComponent(obj.BoardFen);
 
