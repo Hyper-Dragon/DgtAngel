@@ -902,6 +902,8 @@ namespace DgtCherub
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
                 "en-03" => DgtCherub.Assets.Moves_en_03.ResourceManager,
                 "en-04" => DgtCherub.Assets.Moves_en_04.ResourceManager,
+                "en-05" => DgtCherub.Assets.Moves_en_05.ResourceManager,
+                "en-06" => DgtCherub.Assets.Moves_en_06.ResourceManager,
                 _ => DEFAULT_MOVE_VOICE
 
             };
