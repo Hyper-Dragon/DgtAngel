@@ -35,11 +35,11 @@ namespace DgtCherub.Services
         event Action<string> OnLocalFenChange;
         event Action OnRemoteWatchStarted;
         event Action OnRemoteWatchStopped;
-        event Action<string> OnNewMoveDetected;
+        event Action<string, bool> OnNewMoveDetected;
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
-        event Action<string> OnRemoteFenChange;
+        event Action<string,string> OnRemoteFenChange;
         event Action<string, string> OnNotification;
 
         void LocalBoardUpdate(string fen);
@@ -52,7 +52,7 @@ namespace DgtCherub.Services
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action<string> OnLocalFenChange;
-        public event Action<string> OnRemoteFenChange;
+        public event Action<string,string> OnRemoteFenChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
@@ -62,7 +62,7 @@ namespace DgtCherub.Services
         public event Action OnBoardMatchFromMissmatch;
         public event Action OnRemoteWatchStarted;
         public event Action OnRemoteWatchStopped;
-        public event Action<string> OnNewMoveDetected;
+        public event Action<string, bool> OnNewMoveDetected;
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
@@ -123,7 +123,7 @@ namespace DgtCherub.Services
             _dgtEbDllFacade = dgtEbDllFacade;
 
 
-            BoundedChannelOptions processChannelOptions = new(1)
+            BoundedChannelOptions processChannelOptions = new(3)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,
@@ -341,7 +341,11 @@ namespace DgtCherub.Services
                         
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 
-                    OnNewMoveDetected?.Invoke(remoteBoardState.Board.LastMove);
+
+                    bool isPlayerTurn = ((IsWhiteOnBottom && remoteBoardState.Board.Turn != TurnCode.WHITE) ||
+                                         (!IsWhiteOnBottom && remoteBoardState.Board.Turn != TurnCode.BLACK));
+
+                    OnNewMoveDetected?.Invoke(LastMove, isPlayerTurn);
                     await Task.Delay(POST_EVENT_DELAY_LAST_MOVE);
                 }
             }
@@ -360,11 +364,12 @@ namespace DgtCherub.Services
 
                     //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
                     RemoteBoardFEN = remoteBoardState.Board.FenString;
-
+                    LastMove = remoteBoardState.Board.LastMove;
+                    
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    OnRemoteFenChange?.Invoke(RemoteBoardFEN);
+                    OnRemoteFenChange?.Invoke(RemoteBoardFEN, LastMove);
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
             }

@@ -90,6 +90,15 @@ namespace DgtCherub.Assets {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Beep_AP {
+            get {
+                return ResourceManager.GetStream("Beep_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream CdcStoppedWatching_AP {
             get {
                 return ResourceManager.GetStream("CdcStoppedWatching_AP", resourceCulture);

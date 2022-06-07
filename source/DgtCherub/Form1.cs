@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.0 RC1";
+        private const string VERSION_NUMBER = "0.4.0 UAT-02";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -62,6 +62,7 @@ namespace DgtCherub
         private readonly IBoardRenderer _boardRenderer;
         private readonly ISequentialVoicePlayer _voicePlayeStatus;
         private readonly ISequentialVoicePlayer _voicePlayerMoves;
+        private readonly ISequentialVoicePlayer _voicePlayerMovesNoDrop;
         private readonly ISequentialVoicePlayer _voicePlayerTime;
 
         private int LastFormWidth = 705;
@@ -76,6 +77,9 @@ namespace DgtCherub
 
         private bool EchoInternallMessagesToConsole { get; set; } = true;
         private bool EchoExternalMessagesToConsole { get; set; } = true;
+
+        private bool IncludeSecs { get; set; } = true;
+        private bool PlayerBeepOnly { get; set; } = false;
 
         private readonly bool IsRabbitInstalled = false;
 
@@ -103,7 +107,7 @@ namespace DgtCherub
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
-                     ISequentialVoicePlayer voicePlayerMoves, ISequentialVoicePlayer voicePlayerTime)
+                     ISequentialVoicePlayer voicePlayerMoves, ISequentialVoicePlayer voicePlayerMovesNoDrop, ISequentialVoicePlayer voicePlayerTime)
         {
             _iHost = iHost;
             _logger = logger;
@@ -116,6 +120,12 @@ namespace DgtCherub
             _voicePlayeStatus = voicePlayer;
             _voicePlayerMoves = voicePlayerMoves;
             _voicePlayerTime = voicePlayerTime;
+            _voicePlayerMovesNoDrop = voicePlayerMovesNoDrop;
+
+            _voicePlayeStatus.Start();
+            _voicePlayerMoves.Start();
+            _voicePlayerMovesNoDrop.Start(20);
+            _voicePlayerTime.Start();
 
             InitializeComponent();
 
@@ -166,8 +176,10 @@ namespace DgtCherub
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
-
             UpDownVoiceDelay.Value = _angelHubService.MatcherRemoteTimeDelayMs / 1000;
+
+            CheckBoxIncludeSecs.Checked = IncludeSecs;
+            CheckBoxPlayerBeep.Checked = PlayerBeepOnly;
 
             LinkLabelAbout1.Text = "GitHub Project Page";
             LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
@@ -252,9 +264,9 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnRemoteFenChange += (string remoteFen) =>
+            _angelHubService.OnRemoteFenChange += (string remoteFen, string lastMove) =>
             {
-                TextBoxConsole.AddLine($"Remote board changed [{remoteFen}]");
+                TextBoxConsole.AddLine($"Remote board changed [{remoteFen}] [{lastMove}]");
                 DisplayBoardImages();
             };
 
@@ -300,7 +312,9 @@ namespace DgtCherub
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
             {
-                if (_angelHubService.IsWhiteOnBottom)
+
+                if ((_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
+                    (_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.WhiteClockMsRemaining > 55 * 1000))
                 {
                     _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
@@ -308,7 +322,8 @@ namespace DgtCherub
 
             _angelHubService.OnPlayBlackClockAudio += (audioFilename) =>
             {
-                if (!_angelHubService.IsWhiteOnBottom)
+                if ((!_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
+                     (!_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.BlackClockMsRemaining > 55 * 1000))
                 {
                     _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
                 }
@@ -331,62 +346,85 @@ namespace DgtCherub
                 }
             };
 
-            _angelHubService.OnNewMoveDetected += (moveString) =>
+            _angelHubService.OnNewMoveDetected += (moveString, isPlayerTurn) =>
             {
-                string soundName = "";
-                soundName = moveString switch
+                if (PlayerBeepOnly && isPlayerTurn)
                 {
-                    "O-O" => "Words_CastlesShort",
-                    "O-O-O" => "Words_CastlesLong",
-                    "1/2-1/2" => "Words_GameDrawn",
-                    "1-0" => "Words_WhiteWins",
-                    "0-1" => "Words_BlackWins",
-                    _ => ""
-                };
+                    string soundName = "";
+                    soundName = moveString switch
+                    {
+                        "1/2-1/2" => "Words_GameDrawn",
+                        "1-0" => "Words_WhiteWins",
+                        "0-1" => "Words_BlackWins",
+                        _ => ""
+                    };
 
-                if (!string.IsNullOrEmpty(soundName))
-                {
-                    _voicePlayerMoves.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                    if (!string.IsNullOrEmpty(soundName))
+                    {
+                        _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                    }
+                    else
+                    {
+                        _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
+                    }
                 }
                 else
                 {
-                    List<UnmanagedMemoryStream> playlist = new();
-                    foreach (char ch in moveString.ToCharArray())
+                    string soundName = "";
+                    soundName = moveString switch
                     {
-                        soundName = ch switch
-                        {
-                            'Q' => "Pieces_Queen",
-                            'K' => "Pieces_King",
-                            'N' => "Pieces_Knight",
-                            'B' => "Pieces_Bishop",
-                            'R' => "Pieces_Rook",
-                            'P' => "Pieces_Pawn",
-                            'a' => "Letters_A",
-                            'b' => "Letters_B",
-                            'c' => "Letters_C",
-                            'd' => "Letters_D",
-                            'e' => "Letters_E",
-                            'f' => "Letters_F",
-                            'g' => "Letters_G",
-                            'h' => "Letters_H",
-                            '1' => "Numbers_1",
-                            '2' => "Numbers_2",
-                            '3' => "Numbers_3",
-                            '4' => "Numbers_4",
-                            '5' => "Numbers_5",
-                            '6' => "Numbers_6",
-                            '7' => "Numbers_7",
-                            '8' => "Numbers_8",
-                            'x' => "Words_Takes",
-                            '+' => "Words_Check",
-                            '=' => "Words_PromotesTo",
-                            _ => "Words_Missing",
-                        };
+                        "O-O" => "Words_CastlesShort",
+                        "O-O-O" => "Words_CastlesLong",
+                        "1/2-1/2" => "Words_GameDrawn",
+                        "1-0" => "Words_WhiteWins",
+                        "0-1" => "Words_BlackWins",
+                        _ => ""
+                    };
 
-                        playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                    if (!string.IsNullOrEmpty(soundName))
+                    {
+                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                     }
+                    else
+                    {
+                        List<UnmanagedMemoryStream> playlist = new();
+                        foreach (char ch in moveString.ToCharArray())
+                        {
+                            soundName = ch switch
+                            {
+                                'Q' => "Pieces_Queen",
+                                'K' => "Pieces_King",
+                                'N' => "Pieces_Knight",
+                                'B' => "Pieces_Bishop",
+                                'R' => "Pieces_Rook",
+                                'P' => "Pieces_Pawn",
+                                'a' => "Letters_A",
+                                'b' => "Letters_B",
+                                'c' => "Letters_C",
+                                'd' => "Letters_D",
+                                'e' => "Letters_E",
+                                'f' => "Letters_F",
+                                'g' => "Letters_G",
+                                'h' => "Letters_H",
+                                '1' => "Numbers_1",
+                                '2' => "Numbers_2",
+                                '3' => "Numbers_3",
+                                '4' => "Numbers_4",
+                                '5' => "Numbers_5",
+                                '6' => "Numbers_6",
+                                '7' => "Numbers_7",
+                                '8' => "Numbers_8",
+                                'x' => "Words_Takes",
+                                '+' => "Words_Check",
+                                '=' => "Words_PromotesTo",
+                                _ => "Words_Missing",
+                            };
 
-                    _voicePlayerMoves.Speak(playlist);
+                            playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                        }
+
+                        (PlayerBeepOnly?_voicePlayerMovesNoDrop:_voicePlayerMoves).Speak(playlist);
+                    }
                 }
             };
 
@@ -731,6 +769,7 @@ namespace DgtCherub
         private void UpDownVolMoves_ValueChanged(object sender, EventArgs e)
         {
             _voicePlayerMoves.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
+            _voicePlayerMovesNoDrop.Volume = ((float)((NumericUpDown)sender).Value) / 10f;
             _ = HideCaret(((NumericUpDown)sender).Controls[1].Handle);
         }
 
@@ -861,6 +900,8 @@ namespace DgtCherub
             {
                 "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
+                "en-03" => DgtCherub.Assets.Moves_en_03.ResourceManager,
+                "en-04" => DgtCherub.Assets.Moves_en_04.ResourceManager,
                 _ => DEFAULT_MOVE_VOICE
 
             };
@@ -870,6 +911,18 @@ namespace DgtCherub
         {
             TextBoxConsole.AddLine($"Windows {(((CheckBox)sender).Checked ? "WILL NOT sleep" : "MAY sleep")} while Cherub is running");
             PreventScreensaver(((CheckBox)sender).Checked);
+        }
+
+        private void CheckBoxIncludeSecs_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Time Countdown {(((CheckBox)sender).Checked ? "WILL" : "WILL NOT")} include seconds in the final minute");
+            IncludeSecs = ((CheckBox)sender).Checked;
+        }
+
+        private void CheckBoxPlayerBeep_CheckedChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL NOT" : "WILL")} be vocalised");
+            PlayerBeepOnly = ((CheckBox)sender).Checked;
         }
     }
 }

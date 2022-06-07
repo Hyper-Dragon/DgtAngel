@@ -28,8 +28,6 @@
             color: black;
             position: fixed;
             overflow: hidden;
-            min-height: 100%;
-            max-height: 100%;
             top: 0;
             left: 0;
             right: 0;
@@ -88,7 +86,7 @@
         .board-img {
             padding: 0px;
             background-clip: padding-box;
-            width: min(58vh, 32vw);
+            width: 40vmin;
             height: auto;
         }
 
@@ -109,10 +107,14 @@
         }
 
         .last-move {
-            font-size: 6vw;
+            font-size: min(11vh, 6vw);
             color: yellow;
-            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
-            visibility: hidden;
+            text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            z-index: 100;
         }
 
         .mismatch {
@@ -130,6 +132,10 @@
     <i id="local-fen" hidden="">-</i>
     <i id="is-white-to-play" hidden="">No Game</i>
 
+    <div class="last-move">
+        <b id="last-move">-</b>&nbsp;
+    </div>
+    
     <div class="row">
         <div class="col-6 bkg-clock bkg-white-clock d-flex parent">
             <div class="align-self-center">
@@ -142,7 +148,7 @@
             </div>
         </div>
     </div>
-    
+
     <svg class="bd-placeholder-img"
          width="100%"
          height="100%"
@@ -152,7 +158,7 @@
          focusable="false">
         <rect width="100%" height="100%" fill="#777"></rect>
     </svg>
-    
+
     <div class="row">
         <div class="col-6 d-flex parent">
             <div>
@@ -198,6 +204,7 @@
         clocksTimer = 0;
         encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
         encodedRemoteFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+        lastRemoteMove = "";
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -306,16 +313,19 @@
                             case "OnLocalFenChange":
                                 document.getElementById("local-fen").textContent = obj.BoardFen;
                                 encodedLocalFen = encodeURIComponent(obj.BoardFen);
-                                
+
                                 document.getElementById("local-board-img").src =
                                     "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 document.getElementById("remote-board-img").src =
                                     "/CherubVirtualClock/BoardImageCompareByFen/remote/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 break;
                             case "OnRemoteFenChange":
+                                lastRemoteMove = obj.lastMove;
+                                document.getElementById("last-move").textContent = lastRemoteMove;
+
                                 document.getElementById("remote-fen").textContent = obj.BoardFen;
                                 encodedRemoteFen = encodeURIComponent(obj.BoardFen);
-                                
+
                                 document.getElementById("local-board-img").src =
                                     "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen + "/" + encodedRemoteFen + flip;
                                 document.getElementById("remote-board-img").src =

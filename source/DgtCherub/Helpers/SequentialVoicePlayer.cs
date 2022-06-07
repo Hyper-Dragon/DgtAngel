@@ -9,12 +9,13 @@ namespace DgtCherub.Helpers
         public float Volume { get; set; }
         void Speak(IEnumerable<UnmanagedMemoryStream> clipStreams);
         void Speak(UnmanagedMemoryStream clipStream);
+        public void Start(int queueLength = 1);
     }
 
     public class SequentialVoicePlayer : ISequentialVoicePlayer
     {
         private readonly ILogger _logger;
-        private readonly Channel<IEnumerable<UnmanagedMemoryStream>> playlistChannel;
+        private Channel<IEnumerable<UnmanagedMemoryStream>> playlistChannel;
         private volatile float volume = 0.7f;
         private WaveOutEvent outputDevice = null;
 
@@ -27,8 +28,13 @@ namespace DgtCherub.Helpers
         {
             _logger = logger;
             _logger?.LogTrace($"Creating the Sequential Voice Player");
+        }
 
-            BoundedChannelOptions playlistChannelOptions = new(1)
+        public void Start(int queueLength)
+        {
+            _logger?.LogTrace($"Starting the Sequential Voice Player");
+
+            BoundedChannelOptions playlistChannelOptions = new(queueLength)
             {
                 AllowSynchronousContinuations = true,
                 FullMode = BoundedChannelFullMode.DropOldest,

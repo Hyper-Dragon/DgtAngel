@@ -155,7 +155,8 @@ namespace DgtLiveChessWrapper
             //...and keep picking up board changes until the connection is closed
             while (true)
             {
-                (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.LiveChessFeedResponse feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.LiveChessFeedResponse.Deserialize(await Receive(socket, true));
+                string responseIn = await Receive(socket, true);
+                (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.LiveChessFeedResponse feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.LiveChessFeedResponse.Deserialize(responseIn);
 
                 if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
                 {
