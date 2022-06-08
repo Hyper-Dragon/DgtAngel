@@ -79,7 +79,7 @@ namespace DgtCherub.Helpers
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogError($"Sequential Voice Player Failed with {ex.Message} (Retrying)");
+                    _logger?.LogError($"Sequential Voice Player Failed (Retrying)", ex.Message);
                     Thread.Sleep(5000);
                 }
             }
