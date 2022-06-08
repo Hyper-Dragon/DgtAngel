@@ -177,7 +177,9 @@ namespace DgtCherub
             "en-01",
             "en-02",
             "en-03",
-            "en-04"});
+            "en-04",
+            "en-05",
+            "en-06"});
             this.ComboBoxMoveVoice.Location = new System.Drawing.Point(50, 102);
             this.ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
             this.ComboBoxMoveVoice.Size = new System.Drawing.Size(68, 27);

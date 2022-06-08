@@ -147,6 +147,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Moves-en-04.resx</DependentUpon>
     </Compile>
+    <Compile Update="Assets\Moves-en-05.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Moves-en-05.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Assets\Moves-en-06.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Moves-en-06.resx</DependentUpon>
+    </Compile>
     <Compile Update="Assets\Speech-en-01.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -180,6 +190,14 @@
     <EmbeddedResource Update="Assets\Moves-en-04.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Moves-en-04.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Moves-en-05.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Moves-en-05.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Assets\Moves-en-06.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Moves-en-06.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Assets\Speech-en-01.resx">
       <Generator>ResXFileCodeGenerator</Generator>

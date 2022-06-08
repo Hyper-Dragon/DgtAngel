@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.0 UAT-02";
+        private const string VERSION_NUMBER = "0.4.0 UAT-03";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -902,6 +902,8 @@ namespace DgtCherub
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
                 "en-03" => DgtCherub.Assets.Moves_en_03.ResourceManager,
                 "en-04" => DgtCherub.Assets.Moves_en_04.ResourceManager,
+                "en-05" => DgtCherub.Assets.Moves_en_05.ResourceManager,
+                "en-06" => DgtCherub.Assets.Moves_en_06.ResourceManager,
                 _ => DEFAULT_MOVE_VOICE
 
             };
