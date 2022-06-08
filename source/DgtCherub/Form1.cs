@@ -272,14 +272,14 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnBoardMissmatch += () =>
+            _angelHubService.OnBoardMissmatch += (int mismatchCount) =>
             {
                 TextBoxConsole.AddLine($"The boards DO NOT match", TEXTBOX_MAX_LINES);
 
                 LabelLocalDgt.BackColor = Color.Red;
                 LabelRemoteBoard.BackColor = Color.Red;
 
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.Mismatch_AP);
+                _voicePlayeStatus.Speak(mismatchCount == 2 ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
             _angelHubService.OnRemoteWatchStarted += () =>

@@ -176,5 +176,14 @@ namespace DgtCherub.Assets {
                 return ResourceManager.GetStream("Mismatch_AP", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream NotReplayed_AP {
+            get {
+                return ResourceManager.GetStream("NotReplayed_AP", resourceCulture);
+            }
+        }
     }
 }

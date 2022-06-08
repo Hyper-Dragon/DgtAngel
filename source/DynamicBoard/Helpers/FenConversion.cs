@@ -1,8 +1,8 @@
 ﻿namespace DynamicBoard.Helpers
 {
-    internal class FenConversion
+    public class FenConversion
     {
-        internal static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
+        public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
 

@@ -2,6 +2,7 @@
 using DgtEbDllWrapper;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
+using DynamicBoard.Helpers;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
@@ -29,7 +30,7 @@ namespace DgtCherub.Services
         event Action OnBoardMatch;
         event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
-        event Action OnBoardMissmatch;
+        event Action<int> OnBoardMissmatch;
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
@@ -56,7 +57,7 @@ namespace DgtCherub.Services
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
-        public event Action OnBoardMissmatch;
+        public event Action<int> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
         public event Action OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
@@ -388,12 +389,25 @@ namespace DgtCherub.Services
                 // if they are not the same we can skip as the local position has changed.
                 if (matchCode == CurrentUpdatetMatch.ToString())
                 {
-                    _logger?.LogTrace("POST IN:{MatchCode} OUT:{CurrentUpdatetMatch}", matchCode, CurrentUpdatetMatch);
+                    _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
                     if (RemoteBoardFEN != LocalBoardFEN)
                     {
+                        char[] board1 = FenConversion.FenToCharArray(RemoteBoardFEN);
+                        char[] board2 = FenConversion.FenToCharArray(LocalBoardFEN);
+
+                        //Count the differences between b1 and b2
+                        int diff = 0;
+                        for (int i = 0; i < board1.Length; i++)
+                        {
+                            if (board1[i] != board2[i])
+                            {
+                                diff++;
+                            }
+                        }
+                        
                         IsBoardInSync = false;
-                        OnBoardMissmatch?.Invoke();
+                        OnBoardMissmatch?.Invoke(diff);
                     }
                     else
                     {
@@ -408,7 +422,7 @@ namespace DgtCherub.Services
                 }
                 else
                 {
-                    _logger?.LogTrace("CANX IN:{MatchCode} OUT:{CurrentUpdatetMatch}", matchCode, CurrentUpdatetMatch);
+                    _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 }
             }
         }

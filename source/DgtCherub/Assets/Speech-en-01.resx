@@ -157,4 +157,7 @@
   <data name="Mismatch_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>audio\speech-en-01\mismatch-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="NotReplayed_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\speech-en-01\notreplayed-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
