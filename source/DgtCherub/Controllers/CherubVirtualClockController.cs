@@ -251,7 +251,7 @@ namespace DgtCherub.Controllers
 
             Response.Headers.Add("Content-Type", MIME_EVENT);
 
-            _angelHubService.OnBoardMissmatch += async () =>
+            _angelHubService.OnBoardMissmatch += async (int mismatchCount) =>
             {
                 await SendEventResponse(Response, ConstructMessageOnly("OnBoardMissmatch"));
             };
