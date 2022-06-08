@@ -64,6 +64,8 @@ namespace DgtCherub
 
 
                 //Start everything
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(host.Services.GetRequiredService<Form1>());
             }
         }
