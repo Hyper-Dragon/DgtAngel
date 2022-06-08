@@ -49,14 +49,14 @@ namespace DgtCherub
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "Take it out and get a different warning!")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            _ = app.UseDeveloperExceptionPage()
-                .UseRouting()
-                .UseWebSockets()
-                .UseCors("DevCorsPolicy")
-                .UseEndpoints(endpoints =>
-                {
-                    _ = endpoints.MapControllers();
-                });
+            //_ = app.UseDeveloperExceptionPage()
+            _ = app.UseRouting()
+                   .UseWebSockets()
+                   .UseCors("DevCorsPolicy")
+                   .UseEndpoints(endpoints =>
+                   {
+                       _ = endpoints.MapControllers();
+                   });
         }
     }
 }
