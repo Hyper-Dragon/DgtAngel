@@ -261,6 +261,11 @@ namespace DgtCherub.Controllers
                 await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
             };
 
+            _angelHubService.OnBoardMatchFromMissmatch += async () =>
+            {
+                await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
+            };
+
             //Send on connect
             if (_angelHubService.LocalBoardFEN != "")
             {
