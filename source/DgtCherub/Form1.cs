@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.0 UAT-03";
+        private const string VERSION_NUMBER = "0.4.0 UAT-04";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -80,6 +80,7 @@ namespace DgtCherub
 
         private bool IncludeSecs { get; set; } = true;
         private bool PlayerBeepOnly { get; set; } = false;
+        private bool IsSilentBeep { get; set; } = false;
 
         private readonly bool IsRabbitInstalled = false;
 
@@ -167,7 +168,7 @@ namespace DgtCherub
         {
             SuspendLayout();
 
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 
             //Set Appsettings from the designer values...
             EchoInternallMessagesToConsole = CheckBoxRecieveLog.Checked;
@@ -180,6 +181,7 @@ namespace DgtCherub
 
             CheckBoxIncludeSecs.Checked = IncludeSecs;
             CheckBoxPlayerBeep.Checked = PlayerBeepOnly;
+            CheckboxSilentBeep.Checked = IsSilentBeep;
 
             LinkLabelAbout1.Text = "GitHub Project Page";
             LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
@@ -365,7 +367,10 @@ namespace DgtCherub
                     }
                     else
                     {
-                        _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
+                        if (!IsSilentBeep)
+                        {
+                            _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
+                        }
                     }
                 }
                 else
@@ -923,8 +928,30 @@ namespace DgtCherub
 
         private void CheckBoxPlayerBeep_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL NOT" : "WILL")} be vocalised");
+            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL" : "WILL NOT")} be vocalised"); 
+
+
+            if (((CheckBox)sender).Checked)
+            {
+                TextBoxConsole.AddLine($"{(IsSilentBeep ? "No sound will be played" : "A sound will play instead of the move announcement")}");
+            }
+            
             PlayerBeepOnly = ((CheckBox)sender).Checked;
+        }
+
+        private void CheckboxSilentBeep_CheckedChanged(object sender, EventArgs e)
+        {
+            if (PlayerBeepOnly)
+            {
+                TextBoxConsole.AddLine($"Player moves WILL be vocalised");
+                TextBoxConsole.AddLine($"{(((CheckBox)sender).Checked ? "No sound will be played" : "A sound will play instead of the move announcement")}");
+            } 
+            else
+            {
+                TextBoxConsole.AddLine($"WARNING: Beep Mode is disabled - This option will have no effect");
+            }
+            
+            IsSilentBeep = ((CheckBox)sender).Checked;
         }
     }
 }
