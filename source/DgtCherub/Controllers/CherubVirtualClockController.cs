@@ -1,4 +1,5 @@
-﻿using DgtCherub.Services;
+﻿using DgtCherub.Helpers;
+using DgtCherub.Services;
 using DynamicBoard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -102,7 +103,7 @@ namespace DgtCherub.Controllers
         public ContentResult GetClock(string clock)
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
-            _logger?.LogTrace($"Clock requested",clock);
+            _logger?.LogTrace("Clock requested",clock.SanitiseText());
 
             try
             {
@@ -158,7 +159,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}/{localBoard}/{remoteBoard}")]
         public async Task<FileContentResult> BoardImageCompareByFen(string board, string localBoard, string remoteBoard)
         {
-            _logger?.LogTrace($"Board image requested", $"{localBoard} :: {remoteBoard}");
+            _logger?.LogTrace("Board image requested", $"{localBoard} :: {remoteBoard}".SanitiseText() );
 
             string local = string.IsNullOrEmpty(localBoard) ? HttpUtility.UrlDecode(remoteBoard) : HttpUtility.UrlDecode(localBoard);
             string remote = string.IsNullOrEmpty(remoteBoard) ? HttpUtility.UrlDecode(localBoard) : HttpUtility.UrlDecode(remoteBoard);
@@ -179,7 +180,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
-            _logger?.LogTrace($"Board image requested",board);
+            _logger?.LogTrace("Board image requested",board.SanitiseText());
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -200,7 +201,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImageNoCompare(string board)
         {
-            _logger?.LogTrace($"Board image without compare requested",board);
+            _logger?.LogTrace("Board image without compare requested",board.SanitiseText());
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -221,7 +222,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            _logger?.LogTrace($"Image requested", fileName);
+            _logger?.LogTrace("Image requested", fileName.SanitiseText());
 
             try
             {
@@ -243,7 +244,7 @@ namespace DgtCherub.Controllers
         public async Task GetStuff(string clientUtcMs)
         {
             // http://localhost:37964/CherubVirtualClock/GetStuff
-            _logger?.LogTrace($"Clock client connected running", clientUtcMs);
+            _logger?.LogTrace("Clock client connected running", clientUtcMs.SanitiseText());
 
 
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);

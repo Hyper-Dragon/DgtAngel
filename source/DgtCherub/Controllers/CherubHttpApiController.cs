@@ -22,7 +22,7 @@ namespace DgtCherub.Controllers
         // curl -G  http://127.0.0.1:37964/api/MessageUser/CLI --data-urlencode 'message=Just wanted to say Hiya by GET'
         public object MessageUser(string source = "Unknown", string message = "Message Empty")
         {
-            _logger?.LogDebug($"CherubHttpApiController MessageUser [{source}] [{message}]");
+            _logger?.LogDebug("CherubHttpApiController MessageUser", $"[{source}] [{message}]");
             _appDataService.UserMessageArrived(source, message);
 
             return new { isSuccess = true };
@@ -35,7 +35,7 @@ namespace DgtCherub.Controllers
         // Test: curl -G  http://127.0.0.1:37964/api/AreYouThere
         public object AreYouThere()
         {
-            _logger?.LogDebug($"CherubHttpApiController AreYouThere");
+            _logger?.LogDebug("CherubHttpApiController AreYouThere");
             return new { isSuccess = true };
         }
     }
