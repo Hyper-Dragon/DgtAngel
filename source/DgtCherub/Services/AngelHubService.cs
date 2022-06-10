@@ -30,7 +30,7 @@ namespace DgtCherub.Services
         event Action<string> OnBoardMatch;
         event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
-        event Action<int> OnBoardMissmatch;
+        event Action<int,string,string> OnBoardMissmatch;
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
@@ -57,7 +57,7 @@ namespace DgtCherub.Services
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
-        public event Action<int> OnBoardMissmatch;
+        public event Action<int,string,string> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
         public event Action<string> OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
@@ -72,6 +72,7 @@ namespace DgtCherub.Services
         public bool IsMismatchDetected { get; private set; } = false;
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
         public string LocalBoardFEN { get; private set; }
+        public string LastMatchedPosition { get; private set; }
         public string RemoteBoardFEN { get; private set; }
         public string LastMove { get; private set; }
         public int WhiteClockMsRemaining { get; private set; }
@@ -257,7 +258,7 @@ namespace DgtCherub.Services
                         // Run the matcher straight away to clear any outstanding match requests.
                         // There is no need to match after our moves - issues will be detected by the remote board match
                         CurrentUpdatetMatch = Guid.NewGuid();
-                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), LocalBoardFEN, RemoteBoardFEN, MATCHER_LOCAL_TIME_DELAY_MS));
+                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
                     }
 
                     OnLocalFenChange?.Invoke(LocalBoardFEN);
@@ -368,7 +369,7 @@ namespace DgtCherub.Services
                     LastMove = remoteBoardState.Board.LastMove;
                     
                     CurrentUpdatetMatch = Guid.NewGuid();
-                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), LocalBoardFEN, RemoteBoardFEN, MatcherRemoteTimeDelayMs));
+                    _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
                     OnRemoteFenChange?.Invoke(RemoteBoardFEN, LastMove);
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
@@ -377,7 +378,7 @@ namespace DgtCherub.Services
         }
 
         
-        private async void TestForBoardMatch(string matchCode, string localBoardFEN, string remoteBoardFEN, int matchDelay)
+        private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
             if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
             {
@@ -393,14 +394,15 @@ namespace DgtCherub.Services
                 {
                     _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
-                    if (remoteBoardFEN != localBoardFEN)
+                    if (RemoteBoardFEN != LocalBoardFEN)
                     {
                         IsBoardInSync = false;
-                        OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(localBoardFEN,remoteBoardFEN));
+                        OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN,RemoteBoardFEN),LastMatchedPosition,LocalBoardFEN);
                     }
                     else
                     {
-                        OnBoardMatch?.Invoke(localBoardFEN);
+                        LastMatchedPosition = LocalBoardFEN;
+                        OnBoardMatch?.Invoke(LocalBoardFEN);
 
                         if (!IsBoardInSync)
                         {  

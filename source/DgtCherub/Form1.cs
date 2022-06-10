@@ -272,9 +272,9 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnBoardMissmatch += (int diffCount) =>
+            _angelHubService.OnBoardMissmatch += (int diffCount, string lastLocalFenMatch, string localFen) =>
             {
-                TextBoxConsole.AddLine($"The boards DO NOT match [Diff:{diffCount}]", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLine($"The boards DO NOT match [Diff:{diffCount}] [Last Local Match:{lastLocalFenMatch}]", TEXTBOX_MAX_LINES);
 
                 LabelLocalDgt.BackColor = Color.Red;
                 LabelRemoteBoard.BackColor = Color.Red;
@@ -282,7 +282,7 @@ namespace DgtCherub
                 //If the board difference is a single move and the remote board has not changed since the last match
                 //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
                 //audio
-                _voicePlayeStatus.Speak( (diffCount==2) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
+                _voicePlayeStatus.Speak( (diffCount==2 && lastLocalFenMatch==localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
             _angelHubService.OnRemoteWatchStarted += () =>
