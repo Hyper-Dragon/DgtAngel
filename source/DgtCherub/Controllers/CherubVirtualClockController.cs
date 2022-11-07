@@ -250,13 +250,13 @@ namespace DgtCherub.Controllers
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
 
             Response.Headers.Add("Content-Type", MIME_EVENT);
-
-            _angelHubService.OnBoardMissmatch += async (int mismatchCount) =>
+            
+            _angelHubService.OnBoardMissmatch += async (_,_,_) =>
             {
                 await SendEventResponse(Response, ConstructMessageOnly("OnBoardMissmatch"));
             };
 
-            _angelHubService.OnBoardMatch += async () =>
+            _angelHubService.OnBoardMatch += async (_) =>
             {
                 await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
             };

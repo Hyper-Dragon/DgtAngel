@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.0 UAT-04";
+        private const string VERSION_NUMBER = "0.4.0 UAT-05";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -272,14 +272,17 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnBoardMissmatch += (int mismatchCount) =>
+            _angelHubService.OnBoardMissmatch += (int diffCount, string lastLocalFenMatch, string localFen) =>
             {
-                TextBoxConsole.AddLine($"The boards DO NOT match", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLine($"The boards DO NOT match [Diff:{diffCount}] [Last Local Match:{lastLocalFenMatch}]", TEXTBOX_MAX_LINES);
 
                 LabelLocalDgt.BackColor = Color.Red;
                 LabelRemoteBoard.BackColor = Color.Red;
 
-                _voicePlayeStatus.Speak(mismatchCount == 2 ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
+                //If the board difference is a single move and the remote board has not changed since the last match
+                //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
+                //audio
+                _voicePlayeStatus.Speak( (diffCount==2 && lastLocalFenMatch==localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
             _angelHubService.OnRemoteWatchStarted += () =>
@@ -304,12 +307,12 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
             };
 
-            _angelHubService.OnBoardMatch += () =>
+            _angelHubService.OnBoardMatch += (_) =>
             {
                 LabelLocalDgt.BackColor = BoredLabelsInitialColor;
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
             };
-
+            
             _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>

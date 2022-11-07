@@ -27,10 +27,10 @@ namespace DgtCherub.Services
 
         public int MatcherRemoteTimeDelayMs { get; set; }
 
-        event Action OnBoardMatch;
+        event Action<string> OnBoardMatch;
         event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
-        event Action<int> OnBoardMissmatch;
+        event Action<int,string,string> OnBoardMissmatch;
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
@@ -57,9 +57,9 @@ namespace DgtCherub.Services
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
-        public event Action<int> OnBoardMissmatch;
+        public event Action<int,string,string> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
-        public event Action OnBoardMatch;
+        public event Action<string> OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
         public event Action OnRemoteWatchStarted;
         public event Action OnRemoteWatchStopped;
@@ -72,6 +72,7 @@ namespace DgtCherub.Services
         public bool IsMismatchDetected { get; private set; } = false;
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
         public string LocalBoardFEN { get; private set; }
+        public string LastMatchedPosition { get; private set; }
         public string RemoteBoardFEN { get; private set; }
         public string LastMove { get; private set; }
         public int WhiteClockMsRemaining { get; private set; }
@@ -92,10 +93,10 @@ namespace DgtCherub.Services
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 5000;
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 100;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 300;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
-        private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC / 10;
+        private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS*2;
         private const int POST_EVENT_DELAY_REMOTE_FEN = MS_IN_SEC / 10;
         private const int POST_EVENT_DELAY_CLOCK = MS_IN_SEC / 2;
         private const int POST_EVENT_DELAY_MESSAGE = MS_IN_SEC / 10;
@@ -251,8 +252,9 @@ namespace DgtCherub.Services
                 {
                     LocalBoardFEN = fen;
 
-                    if (!IsBoardInSync && LocalBoardFEN == RemoteBoardFEN)
-                    {
+                    //if (!IsBoardInSync && LocalBoardFEN == RemoteBoardFEN)
+                    //{
+                    if(IsLocalBoardAvailable && IsRemoteBoardAvailable) { 
                         // If the fens match we have caught up to the remote board.
                         // Run the matcher straight away to clear any outstanding match requests.
                         // There is no need to match after our moves - issues will be detected by the remote board match
@@ -376,13 +378,15 @@ namespace DgtCherub.Services
             }
         }
 
+        
         private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
             if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
             {
                 OnBoardMatcherStarted?.Invoke();
+                //IsBoardInSync = false;
 
-                _logger?.LogTrace("MATCHER", $"PRE  IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 await Task.Delay(matchDelay);
 
                 // The match code was captured when the method was called so compare to the outside value and
@@ -393,28 +397,16 @@ namespace DgtCherub.Services
 
                     if (RemoteBoardFEN != LocalBoardFEN)
                     {
-                        char[] board1 = FenConversion.FenToCharArray(RemoteBoardFEN);
-                        char[] board2 = FenConversion.FenToCharArray(LocalBoardFEN);
-
-                        //Count the differences between b1 and b2
-                        int diff = 0;
-                        for (int i = 0; i < board1.Length; i++)
-                        {
-                            if (board1[i] != board2[i])
-                            {
-                                diff++;
-                            }
-                        }
-                        
                         IsBoardInSync = false;
-                        OnBoardMissmatch?.Invoke(diff);
+                        OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN,RemoteBoardFEN),LastMatchedPosition,LocalBoardFEN);
                     }
                     else
                     {
-                        OnBoardMatch?.Invoke();
+                        LastMatchedPosition = LocalBoardFEN;
+                        OnBoardMatch?.Invoke(LocalBoardFEN);
 
                         if (!IsBoardInSync)
-                        {
+                        {  
                             IsBoardInSync = true;
                             OnBoardMatchFromMissmatch?.Invoke();
                         }
