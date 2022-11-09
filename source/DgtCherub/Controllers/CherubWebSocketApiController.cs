@@ -21,6 +21,9 @@ namespace DgtCherub.Controllers
         private readonly ILogger _logger;
         private readonly IAngelHubService _appDataService;
 
+        private const int MSG_LIMIT_SECONDS = 10;
+        private DateTime lastErrorLog = DateTime.MinValue;
+
         public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAngelHubService appData)
         {
             _logger = logger;
@@ -71,10 +74,12 @@ namespace DgtCherub.Controllers
                             break;
                         }
 
+
                         try
                         {
                             // Convert to a string (UTF-8 encoding).
-                            CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count));
+                            string utfMessage = Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count);
+                            CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(utfMessage);
 
 
                             switch (messageIn.MessageType)
@@ -88,10 +93,20 @@ namespace DgtCherub.Controllers
                                         {
                                             case ResponseCode.LOST_VISABILITY:
                                             case ResponseCode.MOVE_LIST_MISSING:
-                                                _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen!");
+                                                if (DateTime.UtcNow > (lastErrorLog.AddSeconds(MSG_LIMIT_SECONDS))) {
+                                                    lastErrorLog = DateTime.UtcNow;
+                                                    _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen.");
+                                                    _appDataService.UserMessageArrived("INGEST", $"Make sure that you are not in focus mode.");
+                                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY);
+                                                }
+
                                                 break;
                                             case ResponseCode.SCRIPT_SCRAPE_ERROR:
                                                 _appDataService.UserMessageArrived("INGEST", $"It looks like the page may have changed...please raise a bug report.");
+                                                break;
+                                            case ResponseCode.PAGE_READ_ERROR:
+                                                _appDataService.UserMessageArrived("INGEST", $"It looks like the page may have changed...please raise a bug report.");
+                                                _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
                                                 break;
                                             case ResponseCode.UNKNOWN_PAGE:
                                                 _appDataService.UserMessageArrived("INGEST", $"Trying to parse an unknown page...please raise a bug report.");
