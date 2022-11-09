@@ -5,8 +5,7 @@
  */
 function IsUrlValid(urlToTest) {
     if (
-        urlToTest.includes("chess.com/game/live/") ||
-        urlToTest.includes("chess.com/play")
+        urlToTest.includes("chess.com/game/live/") 
     ) {
         return true;
     } else {
@@ -41,7 +40,8 @@ function GetRemoteBoardState() {
                     o.style.backgroundImage.split("/").pop().substring(0, 2) +
                     o.className
                         .replace("piece ", "")
-                        .replace(" square-", "")
+                        .replace("square-", "")
+                        .replaceAll(" ", "")
                         .replaceAll("0", "")
             )
             .join(",");
@@ -50,8 +50,16 @@ function GetRemoteBoardState() {
         piecesStringArray = piecesStringOut.split(",");
         while (piecesStringArray.length) {
             var piece = piecesStringArray.pop();
-            board[8 - parseInt(piece[3])][parseInt(piece[2]) - 1] =
+
+            // The class name can be [piece][square] OR [square][piece]
+            // Check if we are starting with a number and parse accordingly
+            if (piece.match(/^\d/)) {
+                board[8 - parseInt(piece[1])][parseInt(piece[0]) - 1] =
+                piece[2] + "" + piece[3];
+             }else{
+                board[8 - parseInt(piece[3])][parseInt(piece[2]) - 1] =
                 piece[0] + "" + piece[1];
+             }
         }
 
         // Now the last move
