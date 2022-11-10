@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace DgtEbDllWrapper
@@ -12,6 +13,31 @@ namespace DgtEbDllWrapper
         typedef int __stdcall F(); 
         typedef int __stdcall FIIC(int, int, const char*);
         */
+
+        internal delegate void CallbackScanFunc(StringBuilder boardFEN);
+
+        [DllImport("dgtebdll.dll",
+                   EntryPoint = "_DGTDLL_RegisterStableBoardFunc",
+                   ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        internal static extern int RegisterStableBoardFunc(CallbackScanFunc func, IntPtr callbackTarget);
+
+        [DllImport("dgtebdll.dll",
+                   EntryPoint = "_DGTDLL_RegisterScanFunc",
+                   ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        internal static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
+
+
+        [DllImport("dgtebdll.dll",
+           EntryPoint = "_DGTDLL_UseFEN",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        internal static extern int UseFEN(bool useFen);
+
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_HideDialog",

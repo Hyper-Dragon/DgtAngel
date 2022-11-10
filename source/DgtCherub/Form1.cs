@@ -4,6 +4,7 @@ using DgtEbDllWrapper;
 using DgtLiveChessWrapper;
 using DynamicBoard;
 using DynamicBoard.Helpers;
+using Fleck;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QRCoder;
@@ -135,8 +136,57 @@ namespace DgtCherub
             //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
             try
             {
-                //_dgtEbDllFacade.Init();
-                //IsRabbitInstalled = true;
+                DgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) =>
+                {
+                    TextBoxConsole.AddLine($"Local board changed [Rabbit] [{e.Fen}]");
+                };
+
+                _dgtEbDllFacade.Init();
+
+
+
+                var server = new WebSocketServer("ws://0.0.0.0:1982");
+                server.RestartAfterListenError = true;
+                server.Start(socket =>
+                {
+                    socket.OnOpen = () => TextBoxConsole.AddLine($"OPEN");
+                    socket.OnClose = () => TextBoxConsole.AddLine($"CLOSE");
+                    socket.OnMessage = message =>
+                    {
+                        int idCount = 1;
+                        string fen = "8/8/8/8/8/8/8/8";
+
+                        if (message != null && message.Contains("call"))
+                        {
+                            if (message.Contains("eboards"))
+                            {
+                                socket.Send("{\"response\":\"call\",\"id\":1,\"param\":[{\"serialnr\":\"24958\",\"source\":\"COM3\",\"state\":\"ACTIVE\",\"battery\":\"30%\",\"comment\":null,\"board\":\"8/8/8/8/8/8/8/8\",\"flipped\":false,\"clock\":null}],\"time\":1668045228634}");
+                            }
+                            else if (message.Contains("subscribe"))
+                            {
+                                socket.Send("{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":1668045228663}");
+                                socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{fen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
+
+                                DgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) =>
+                                {
+                                    TextBoxConsole.AddLine($"Local board changed [SOCKET] [{e.Fen}]");
+                                    socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{e.Fen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
+                                };
+
+                                //Thread.Sleep(60000);
+
+                            }
+
+
+
+                        }
+                    };
+                    
+                });
+
+
+
+                IsRabbitInstalled = true;
             }
             catch (DllNotFoundException)
             {
@@ -157,6 +207,11 @@ namespace DgtCherub
                 hostName = "";
                 thisMachineIpV4Addrs = Array.Empty<string>();
             }
+        }
+
+        private void _dgtEbDllFacade_OnFenChanged(object sender, FenChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
