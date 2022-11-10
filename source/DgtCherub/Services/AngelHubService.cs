@@ -172,6 +172,10 @@ namespace DgtCherub.Services
                     OnRemoteWatchStopped?.Invoke();
                     ResetRemoteBoardState();
                 }
+                else if (messageType == MessageTypeCode.WATCH_STOPPED_MOVES_ONLY)
+                {
+                    OnRemoteWatchStopped?.Invoke();
+                }
             }
             finally { _ = startStopSemaphore.Release(); }
         }
