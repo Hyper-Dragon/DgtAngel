@@ -1,20 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Text;
 using static DgtEbDllWrapper.DgtEbDllAdapter;
 
 namespace DgtEbDllWrapper
 {
-    public sealed class FenChangedEventArgs : EventArgs
-    {
-        public long TimeChangedTicks { get; init; }
-        public string Fen { get; init; }
-    }
-
     public class DgtEbDllFacade : IDgtEbDllFacade
     {
         private string versionString = "";
-
-        public static event EventHandler<FenChangedEventArgs> OnFenChanged;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetRabbitVersionString()
@@ -39,19 +30,10 @@ namespace DgtEbDllWrapper
             DgtEbDllAdapter.HideDialog();
         }
 
-
-        // Note: this method will be called from a different thread!
-        private static void MyCallbackScanFunc(StringBuilder positionFen)
-        {
-            OnFenChanged(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks });
-
-            //OnFenChanged?.Invoke(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks});
-        }
-
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Init()
         {
-            DgtEbDllAdapter.Init(MyCallbackScanFunc);
+            DgtEbDllAdapter.Init();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

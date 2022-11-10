@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using static DgtEbDllWrapper.DgtEbDllImport;
 
 namespace DgtEbDllWrapper
 {
@@ -44,17 +43,9 @@ namespace DgtEbDllWrapper
             return (Result)DgtEbDllImport.EndDisplay(dummy);
         }
 
-        private static void Dummyfunc(StringBuilder positionFen)
+        internal static Result Init()
         {
-        }
-
-        internal static Result Init(CallbackScanFunc func)
-        {
-            var result1 = (Result)DgtEbDllImport.Init();
-            var result2 = (Result)DgtEbDllImport.UseFEN(true);
-            var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(func, IntPtr.Zero);
-
-            return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
+            return (Result)DgtEbDllImport.Init();
         }
 
         /// <summary>

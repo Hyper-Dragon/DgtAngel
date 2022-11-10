@@ -2,8 +2,6 @@
 {
     public interface IDgtEbDllFacade
     {
-        static event EventHandler<FenChangedEventArgs> OnFenChanged;
-
         void DisplayMessage(string message, int time);
         void DisplayForeverMessage(string message);
         void StopForeverMessage();
