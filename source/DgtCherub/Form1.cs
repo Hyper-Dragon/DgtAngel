@@ -31,7 +31,7 @@ namespace DgtCherub
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
-        private const string CHESS_DOT_COM_PLAY_LINK = @"https://chess.com/live";
+        private const string CHESS_DOT_COM_PLAY_LINK = @"https://www.chess.com/play/online";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
         private const string CHESS_DOT_COM_PEGASUS_FORUM = @"https://www.chess.com/clubs/forum/dgt-pegasus-centaur-e-board-users";
         private const string PROJECT_LINK = @"https://hyper-dragon.github.io/DgtAngel/";
@@ -40,7 +40,7 @@ namespace DgtCherub
         private const string PROJECT_CHESS_STATS = @"https://hyper-dragon.github.io/ChessStats/";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
-        private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel/glikmaobiidgennbhhildeajdeljcaie";
+        private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc";
         private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
@@ -847,6 +847,14 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         Alternatively, point your phone at the QR code on the clock tab (don't", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         forget that you will need to open port 37964 on the windows firewall", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         For previous Live board users you will need to update your chrome extension...", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"            Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         Please be aware that because of the way the play board works you must leave", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         the Chrome window open on the descktop.  You do not need to see the board! An ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         audio warning will play if focus is lost.  For the same reason DO NOT use focus mode.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
