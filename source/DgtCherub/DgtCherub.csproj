@@ -120,6 +120,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChessHelpers\ChessHelpers.csproj" />
     <ProjectReference Include="..\DgtAngelShared\DgtAngelShared.csproj" />
     <ProjectReference Include="..\DgtEbDllWrapper\DgtEbDllWrapper.csproj" />
     <ProjectReference Include="..\DgtLiveChessWrapper\DgtLiveChessWrapper.csproj" />

@@ -7,8 +7,10 @@ function IsUrlValid(urlToTest) {
     if (
         urlToTest.includes("chess.com/game/live/") 
     ) {
+        /// console.log(urlToTest+" Test Returns TRUE");
         return true;
     } else {
+        /// console.log(urlToTest+"URL Test Returns FALSE");
         return false;
     }
 }

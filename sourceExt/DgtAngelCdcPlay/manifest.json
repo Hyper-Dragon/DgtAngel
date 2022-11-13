@@ -17,13 +17,11 @@
         "default_icon": "icons/Default/icon-128.png"
     },
     "permissions": [],
-    "host_permissions": ["https://www.chess.com/",
-                         "https://chess.com/"],
+    "host_permissions": ["https://www.chess.com/"],
     "content_scripts": [
         {
             "matches": [
-                "https://www.chess.com/game/live/*",
-                "https://chess.com/game/live/*"
+                "https://www.chess.com/*"
             ],
             "js": [
                 "src/js/shared/globals.js",
