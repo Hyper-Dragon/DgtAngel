@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using System.Windows.Forms;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Controllers
@@ -109,7 +110,7 @@ namespace DgtCherub.Controllers
                                                 _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
                                                 break;
                                             case ResponseCode.UNKNOWN_PAGE:
-                                                _appDataService.UserMessageArrived("INGEST", $"Trying to parse an unknown page...please raise a bug report.");
+                                                _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
                                                 break;
                                             case ResponseCode.GAME_PENDING:
                                             case ResponseCode.GAME_IN_PROGRESS:

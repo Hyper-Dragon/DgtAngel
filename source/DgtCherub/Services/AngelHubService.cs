@@ -40,7 +40,7 @@ namespace DgtCherub.Services
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
-        event Action<string,string> OnRemoteFenChange;
+        event Action<string, string, string> OnRemoteFenChange;
         event Action<string, string> OnNotification;
 
         void LocalBoardUpdate(string fen);
@@ -53,7 +53,7 @@ namespace DgtCherub.Services
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action<string> OnLocalFenChange;
-        public event Action<string,string> OnRemoteFenChange;
+        public event Action<string, string,string> OnRemoteFenChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
@@ -74,6 +74,7 @@ namespace DgtCherub.Services
         public string LocalBoardFEN { get; private set; }
         public string LastMatchedPosition { get; private set; }
         public string RemoteBoardFEN { get; private set; }
+        public string FromRemoteBoardFEN { get; private set; }
         public string LastMove { get; private set; }
         public int WhiteClockMsRemaining { get; private set; }
         public int BlackClockMsRemaining { get; private set; }
@@ -186,8 +187,13 @@ namespace DgtCherub.Services
             _ = localFenProcessChannel.Writer.TryWrite(fen);
         }
 
+        
+
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
+            var tmp = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
+            remoteBoardState.Board.LastMove = tmp.move;
+
             if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
             {
                 _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
@@ -195,7 +201,14 @@ namespace DgtCherub.Services
                 _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
                 _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
             }
-            else if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
+
+            if (!string.IsNullOrEmpty(tmp.ending))
+            {
+                remoteBoardState.State.Code = ResponseCode.GAME_COMPLETED;
+                remoteBoardState.Board.LastMove = tmp.ending;
+            }
+
+            if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
             {
                 if (remoteBoardState.Board.LastMove is "1-0" or
                     "0-1" or
@@ -371,12 +384,13 @@ namespace DgtCherub.Services
 
                     //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
                     RemoteBoardFEN = remoteBoardState.Board.FenString;
+                    FromRemoteBoardFEN = remoteBoardState.Board.LastFenString;
                     LastMove = remoteBoardState.Board.LastMove;
                     
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    OnRemoteFenChange?.Invoke(RemoteBoardFEN, LastMove);
+                    OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove);
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
             }

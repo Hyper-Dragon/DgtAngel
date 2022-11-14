@@ -14,7 +14,6 @@ const messageStateCodes = {
 const boardStateCodes = {
 	UNKNOWN_PAGE: "UNKNOWN_PAGE",
     LOST_VISABILITY: "LOST_VISABILITY",
-    MOVE_LIST_MISSING: "MOVE_LIST_MISSING",
 	GAME_PENDING: "GAME_PENDING",
     GAME_IN_PROGRESS: "GAME_IN_PROGRESS",
 	GAME_COMPLETED: "GAME_COMPLETED",
@@ -70,6 +69,7 @@ function getDefaultRemoteBoard() {
             Turn: "",
             LastMove: "",
             FenString: "",
+            LastFenString: "",
             Clocks: {
                 CaptureTimeMs: 0,
                 WhiteClock: 0,

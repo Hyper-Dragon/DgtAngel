@@ -266,9 +266,9 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnRemoteFenChange += (string remoteFen, string lastMove) =>
+            _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove) =>
             {
-                TextBoxConsole.AddLine($"Remote board changed [{remoteFen}] [{lastMove}]");
+                TextBoxConsole.AddLine($"Remote board changed from [{fromRemoteFen}] to [{toRemoteFen}] [{lastMove}]");
                 DisplayBoardImages();
             };
 
@@ -424,6 +424,7 @@ namespace DgtCherub
                                 '8' => "Numbers_8",
                                 'x' => "Words_Takes",
                                 '+' => "Words_Check",
+                                '#' => "Words_Check",
                                 '=' => "Words_PromotesTo",
                                 _ => "Words_Missing",
                             };

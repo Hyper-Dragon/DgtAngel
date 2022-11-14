@@ -5,7 +5,8 @@
  */
 function IsUrlValid(urlToTest) {
     if (
-        urlToTest.includes("chess.com/game/live/") 
+        urlToTest.includes("chess.com/game/live/") ||
+        urlToTest.includes("chess.com/play/online")
     ) {
         /// console.log(urlToTest+" Test Returns TRUE");
         return true;
@@ -24,14 +25,6 @@ function GetRemoteBoardState() {
         remoteBoard.State.Code = boardStateCodes.LOST_VISABILITY;
         remoteBoard.State.Message =
             "On the play screen the board needs to be visible.";
-        remoteBoard.Board = null;
-        remoteBoard.BoardConnection = null;
-    } else if (
-        Array.from(document.getElementsByClassName("move-list-component"))
-            .length == 0
-    ) {
-        remoteBoard.State.Code = boardStateCodes.MOVE_LIST_MISSING;
-        remoteBoard.State.Message = "The move list is inaccessible.";
         remoteBoard.Board = null;
         remoteBoard.BoardConnection = null;
     } else {
@@ -53,6 +46,10 @@ function GetRemoteBoardState() {
         while (piecesStringArray.length) {
             var piece = piecesStringArray.pop();
 
+            if(piece.length == 6){
+                piece = piece.substring(2);
+            }
+
             // The class name can be [piece][square] OR [square][piece]
             // Check if we are starting with a number and parse accordingly
             if (piece.match(/^\d/)) {
@@ -65,35 +62,35 @@ function GetRemoteBoardState() {
         }
 
         // Now the last move
-        lastMove = "";
-        gameResult = document.getElementsByClassName("game-result");
-
-        //If we have a result grab the text
-        if (gameResult.length > 0) {
-            lastMove = gameResult[0].innerText.trim();
-        } else {
-            //Get all the moves...
-            moveList = Array.from(document.getElementsByClassName("move"));
-
-            // ...and take the last one
-            if (moveList.length > 0) {
-                movePop = moveList.pop();
-                nodePop = Array.from(
-                    movePop.getElementsByClassName("node")
-                ).pop();
-
-                // Check for figurine notation
-                iconFont = nodePop.getElementsByClassName("icon-font-chess");
-
-                if (iconFont.length > 0) {
-                    lastMove =
-                        iconFont[0].attributes["data-figurine"].value +
-                        nodePop.innerText.trim();
-                } else {
-                    lastMove = nodePop.innerText.trim();
-                }
-            }
-        }
+        //lastMove = "";
+        //gameResult = document.getElementsByClassName("game-result");
+//
+        ////If we have a result grab the text
+        //if (gameResult.length > 0) {
+        //    lastMove = gameResult[0].innerText.trim();
+        //} else {
+        //    //Get all the moves...
+        //    moveList = Array.from(document.getElementsByClassName("move"));
+//
+        //    // ...and take the last one
+        //    if (moveList.length > 0) {
+        //        movePop = moveList.pop();
+        //        nodePop = Array.from(
+        //            movePop.getElementsByClassName("node")
+        //        ).pop();
+//
+        //        // Check for figurine notation
+        //        iconFont = nodePop.getElementsByClassName("icon-font-chess");
+//
+        //        if (iconFont.length > 0) {
+        //            lastMove =
+        //                iconFont[0].attributes["data-figurine"].value +
+        //                nodePop.innerText.trim();
+        //        } else {
+        //            lastMove = nodePop.innerText.trim();
+        //        }
+        //    }
+        //}
 
         // Now the clocks....
         whiteClock = document.getElementsByClassName("clock-white")[0];
@@ -126,7 +123,7 @@ function GetRemoteBoardState() {
         remoteBoard.Board.Turn = turn;
         remoteBoard.Board.IsWhiteOnBottom =
             whiteClock.classList.contains("clock-bottom");
-        remoteBoard.Board.LastMove = lastMove;
+        remoteBoard.Board.LastMove = "CALC";
         remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
             whiteClock.innerText
         );
@@ -138,24 +135,32 @@ function GetRemoteBoardState() {
         remoteBoard.BoardConnection.ConMessage = boardMessage;
 
         //Calculate the game state
+
         if (remoteBoard.Board.Turn == turnCodes.NONE) {
-            if (remoteBoard.Board.LastMove == "") {
-                remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
-            } else {
-                remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-            }
-        } else {
-            if (
-                remoteBoard.Board.LastMove == "1-0" ||
-                remoteBoard.Board.LastMove == "0-1" ||
-                remoteBoard.Board.LastMove == "1/2-1-2"
-            ) {
-                remoteBoard.Board.Turn = turnCodes.NONE;
-                remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-            } else {
-                remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
-            }
+            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+        }else{
+            remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
         }
+
+
+        //if (remoteBoard.Board.Turn == turnCodes.NONE) {
+        //    if (remoteBoard.Board.LastMove == "") {
+        //        remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
+        //    } else {
+        //        remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+        //    }
+        //} else {
+        //    if (
+        //        remoteBoard.Board.LastMove == "1-0" ||
+        //        remoteBoard.Board.LastMove == "0-1" ||
+        //        remoteBoard.Board.LastMove == "1/2-1-2"
+        //    ) {
+        //        remoteBoard.Board.Turn = turnCodes.NONE;
+        //        remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+        //    } else {
+        //        remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
+        //    }
+        //}
     }
 
     return remoteBoard;

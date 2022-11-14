@@ -17,6 +17,7 @@ function checkSocketConnection() {
             .then((response) => response.json())
             .then((data) => {
                 try {
+
                     socket = new WebSocket(CLIENT_URL);
 
                     socket.onerror = function (error) {
