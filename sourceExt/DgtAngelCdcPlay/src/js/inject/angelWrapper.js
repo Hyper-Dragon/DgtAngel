@@ -4,13 +4,19 @@
  *
  */
 
-window.addEventListener("beforeunload", function (e) {
-    sendWatchStopped();
+console.log("Always active set");
+Object.defineProperty(document, "visibilityState", {
+    value: "visible",
+    writable: true,
 });
+Object.defineProperty(document, "hidden", { value: false, writable: true });
+document.dispatchEvent(new Event("visibilitychange"));
 
-//Track the last FEN seen
-lastFen = "-";
-currentFen = "-";
+window.addEventListener("beforeunload", function (e) {
+    //if (hasSentStart == true) {
+    sendWatchStopped();
+    //}
+});
 
 setInterval(() => {
     if (document.readyState === "complete") {
@@ -25,23 +31,6 @@ setInterval(() => {
 
                 //Get the board state
                 updateMsg.RemoteBoard = GetRemoteBoardState();
-
-                if (
-                    updateMsg.RemoteBoard != null &&
-                    updateMsg.RemoteBoard.Board != null
-                ) {
-                    updateMsg.RemoteBoard.Board.LastFenString = lastFen;
-                }
-
-                if (currentFen == "-") {
-                    lastFen = "-";
-                    currentFen = updateMsg.RemoteBoard.Board.FenString;
-                } else if (
-                    updateMsg.RemoteBoard.Board.FenString != currentFen
-                ) {
-                    lastFen = currentFen;
-                    currentFen = updateMsg.RemoteBoard.Board.FenString;
-                }
             } else {
                 //This is probably a manifest issue loading the wrong js
                 updateMsg = GetBlankMessage(
@@ -54,8 +43,6 @@ setInterval(() => {
                     "Unsupported page " + window.location.toString();
                 updateMsg.RemoteBoard.Board = null;
                 updateMsg.RemoteBoard.BoardConnection = null;
-                lastFen = "-";
-                currentFen = "-";
             }
         } catch (err) {
             updateMsg = GetBlankMessage(
@@ -67,10 +54,9 @@ setInterval(() => {
             updateMsg.RemoteBoard.State.Message = err.message;
             updateMsg.RemoteBoard.Board = null;
             updateMsg.RemoteBoard.BoardConnection = null;
-            lastFen = "-";
-            currentFen = "-";
         }
 
+        
         //echo the message out for the popup (if it is running)
         chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
 

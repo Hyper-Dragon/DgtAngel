@@ -99,12 +99,41 @@
                 }
             }
 
+            //Check for Castling
+            if(squareDiffCount == 4)
+            {
+                    if (fromBoard[4] == 'k' && toBoard[6] == 'k')
+                    {
+                    squareFrom = "e8";
+                    squareTo = "g8";
+                    
+                    }
+                    else if(fromBoard[4] == 'k' && toBoard[2] == 'k')
+                    {
+                    squareFrom = "e8";
+                    squareTo = "c8";
+                    
+                    }
+                    else if(fromBoard[60] == 'K' && toBoard[62] == 'K')
+                    {
+                    squareFrom = "e1";
+                    squareTo = "g1";
+                }
+                    else if (fromBoard[60] == 'K' && toBoard[58] == 'K')
+                    {
+                    squareFrom = "e1";
+                    squareTo = "c1";
+                } 
+            }
+
+
             promotesTo = enPass == "-" && isPawnMove && !string.IsNullOrEmpty(tmpPromotesTo) ? tmpPromotesTo : "";
 
-            string castle = $"{((toBoard[63] == 'R' && toBoard[60] == 'K') ? "K" : "")}" +
-                            $"{((toBoard[56] == 'R' && toBoard[60] == 'K') ? "Q" : "")}" +
-                            $"{((toBoard[7] == 'r' && toBoard[4] == 'k') ? "k" : "")}" +
-                            $"{((toBoard[0] == 'r' && toBoard[4] == 'k') ? "q" : "")}";
+
+            string castle = $"{((fromBoard[63] == 'R' && fromBoard[60] == 'K') ? "K" : "")}" +
+                            $"{((fromBoard[56] == 'R' && fromBoard[60] == 'K') ? "Q" : "")}" +
+                            $"{((fromBoard[7] == 'r' &&  fromBoard[4] == 'k') ? "k" : "")}" +
+                            $"{((fromBoard[0] == 'r' &&  fromBoard[4] == 'k') ? "q" : "")}";
 
             string inferedFenTailFromPosition = $" {((isWhiteToPlay) ? "w" : "b")} {((string.IsNullOrEmpty(castle) ? "-" : castle))} {enPass} {halfMoveClock} {fullMoveNumber}";
 

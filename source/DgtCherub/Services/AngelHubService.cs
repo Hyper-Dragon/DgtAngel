@@ -191,21 +191,40 @@ namespace DgtCherub.Services
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
-            var tmp = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
-            remoteBoardState.Board.LastMove = tmp.move;
+            //Ignore if we already have the FEN
+            if (this.RemoteBoardFEN != null && this.RemoteBoardFEN == remoteBoardState.Board.FenString) return;
+
+            remoteBoardState.Board.LastFenString = this.RemoteBoardFEN == null ? "" : this.RemoteBoardFEN.ToString();
+
+
+
+            if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastFenString))
+            {
+                var (move, ending) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
+                remoteBoardState.Board.LastMove = move;
+                remoteBoardState.Board.Ending = ending;
+            }
+            else
+            {
+                remoteBoardState.Board.LastMove = "";
+            }
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
             {
                 _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
                 _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
                 _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
-                _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+
+                if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastMove))
+                {
+                    _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                }
             }
 
-            if (!string.IsNullOrEmpty(tmp.ending))
+            if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.Ending))
             {
                 remoteBoardState.State.Code = ResponseCode.GAME_COMPLETED;
-                remoteBoardState.Board.LastMove = tmp.ending;
+                remoteBoardState.Board.LastMove = remoteBoardState.Board.Ending;
             }
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)

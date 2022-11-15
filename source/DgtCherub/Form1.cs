@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.0 UAT-05";
+        private const string VERSION_NUMBER = "0.4.3 PLAY-UAT-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -268,7 +268,7 @@ namespace DgtCherub
 
             _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove) =>
             {
-                TextBoxConsole.AddLine($"Remote board changed from [{fromRemoteFen}] to [{toRemoteFen}] [{lastMove}]");
+                TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}]");
                 DisplayBoardImages();
             };
 
@@ -852,10 +852,6 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         For previous Live board users you will need to update your chrome extension...", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"            Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         Please be aware that because of the way the play board works you must leave", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         the Chrome window open on the descktop.  You do not need to see the board! An ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         audio warning will play if focus is lost.  For the same reason DO NOT use focus mode.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 

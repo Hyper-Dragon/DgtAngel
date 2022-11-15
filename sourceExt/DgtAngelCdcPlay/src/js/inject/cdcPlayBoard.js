@@ -46,7 +46,7 @@ function GetRemoteBoardState() {
         while (piecesStringArray.length) {
             var piece = piecesStringArray.pop();
 
-            if(piece.length == 6){
+            if (piece.length == 6) {
                 piece = piece.substring(2);
             }
 
@@ -54,43 +54,12 @@ function GetRemoteBoardState() {
             // Check if we are starting with a number and parse accordingly
             if (piece.match(/^\d/)) {
                 board[8 - parseInt(piece[1])][parseInt(piece[0]) - 1] =
-                piece[2] + "" + piece[3];
-             }else{
+                    piece[2] + "" + piece[3];
+            } else {
                 board[8 - parseInt(piece[3])][parseInt(piece[2]) - 1] =
-                piece[0] + "" + piece[1];
-             }
+                    piece[0] + "" + piece[1];
+            }
         }
-
-        // Now the last move
-        //lastMove = "";
-        //gameResult = document.getElementsByClassName("game-result");
-//
-        ////If we have a result grab the text
-        //if (gameResult.length > 0) {
-        //    lastMove = gameResult[0].innerText.trim();
-        //} else {
-        //    //Get all the moves...
-        //    moveList = Array.from(document.getElementsByClassName("move"));
-//
-        //    // ...and take the last one
-        //    if (moveList.length > 0) {
-        //        movePop = moveList.pop();
-        //        nodePop = Array.from(
-        //            movePop.getElementsByClassName("node")
-        //        ).pop();
-//
-        //        // Check for figurine notation
-        //        iconFont = nodePop.getElementsByClassName("icon-font-chess");
-//
-        //        if (iconFont.length > 0) {
-        //            lastMove =
-        //                iconFont[0].attributes["data-figurine"].value +
-        //                nodePop.innerText.trim();
-        //        } else {
-        //            lastMove = nodePop.innerText.trim();
-        //        }
-        //    }
-        //}
 
         // Now the clocks....
         whiteClock = document.getElementsByClassName("clock-white")[0];
@@ -138,10 +107,9 @@ function GetRemoteBoardState() {
 
         if (remoteBoard.Board.Turn == turnCodes.NONE) {
             remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-        }else{
+        } else {
             remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
         }
-
 
         //if (remoteBoard.Board.Turn == turnCodes.NONE) {
         //    if (remoteBoard.Board.LastMove == "") {

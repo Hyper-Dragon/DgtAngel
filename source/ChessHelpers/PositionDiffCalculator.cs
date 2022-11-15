@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Chess;
@@ -12,6 +13,8 @@ namespace ChessHelpers
     {
         public static (string move, string ending) CalculateSanFromFen(string fromFen, string toFen)
         {
+            if (string.IsNullOrWhiteSpace(fromFen)) { return (" ",""); }
+
             try
             {
                 var (diffCount, squareFrom, squareTo, fullFromFen, promotesTo) = FenInference.SquareDiff(fromFen, toFen);
@@ -19,7 +22,11 @@ namespace ChessHelpers
                 var board = ChessBoard.LoadFromFen(fullFromFen);
                 board.Move(new Move(squareFrom, squareTo));
 
-                string move = board.MovesToSan.First<string>();
+                string move = board.MovesToSan.FirstOrDefault<string>("");
+
+                //HACK: the library returns ?x?x?? for enpassant - fix to ?x?x??
+                if(move.Length==6 && move[1]=='x' && move[3]=='x') { move = move.Substring(2);  }
+
 
                 string ending = ((!board.IsEndGame) ? 
                                   "": ((board.EndGame != null && board.EndGame.WonSide == null) ? 
@@ -29,7 +36,8 @@ namespace ChessHelpers
                 return (move,ending);
             }
             catch (Exception) { 
-                return ("Err.",""); 
+                //This is missing step betweem 2 FENS so no move to return
+                return (" ",""); 
             }
         }
 

@@ -26,6 +26,24 @@ self.addEventListener("activate", (event) => {
 });
 
 
+//chrome.tabs.onUpdated.addListener( function (tabId, changeInfo, tab) {
+//    if (changeInfo.status === 'complete' && tab.active) {
+//      setTimeout(() => {
+//        chrome.tabs.executeScript(null,  
+//            {func: () => {
+//                console.log("NO HIDE SET");
+//                //Object.defineProperty(document, 'visibilityState', {value: 'visible', writable: true});
+//                //Object.defineProperty(document, 'hidden', {value: false, writable: true});
+//                //document.dispatchEvent(new Event("visibilitychange"));
+//            }}
+//        );
+//      }, 3000); 
+//    }
+//  })
+
+
+
+
 // NOT REQUIRED IN THIS RELEASE
 // ****************************
 // Subscribe to tab events
