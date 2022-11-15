@@ -87,17 +87,17 @@ function GetRemoteBoardState() {
                 .innerText.trim()
                 .replaceAll("\n", "");
         }
-
+        
         remoteBoard.Board.FenString = calculateFen(board);
         remoteBoard.Board.Turn = turn;
         remoteBoard.Board.IsWhiteOnBottom =
             whiteClock.classList.contains("clock-bottom");
         remoteBoard.Board.LastMove = "CALC";
         remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
-            whiteClock.innerText
+            whiteClock.innerText.split(".")[0]
         );
         remoteBoard.Board.Clocks.BlackClock = convertClockStringToMs(
-            blackClock.innerText
+            blackClock.innerText.split(".")[0]
         );
         remoteBoard.Board.Clocks.CaptureTimeMs = new Date().getTime();
         remoteBoard.BoardConnection.BoardState = boardState;
