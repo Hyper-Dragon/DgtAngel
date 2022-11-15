@@ -25,8 +25,9 @@ namespace ChessHelpers
                 string move = board.MovesToSan.FirstOrDefault<string>("");
 
                 //HACK: the library returns ?x?x?? for enpassant - fix to ?x?x??
-                if(move.Length==6 && move[1]=='x' && move[3]=='x') { move = move.Substring(2);  }
+                if(move.Length==6 && move[1]=='x' && move[3]=='x') { move = move[2..];  }
 
+                if (move.Contains("=Q")) {move = move.Replace("=Q", $"={promotesTo.ToUpperInvariant()}"); }
 
                 string ending = ((!board.IsEndGame) ? 
                                   "": ((board.EndGame != null && board.EndGame.WonSide == null) ? 

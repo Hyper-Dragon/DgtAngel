@@ -613,7 +613,7 @@ namespace DgtCherub
         {
             ClearConsole();
         }
-
+            
         private void TabPageBoards_Enter(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Selected the Board Tab...you {(CheckBoxOnTop.Checked ? "will always be on top." : "will not be on top.")}", TEXTBOX_MAX_LINES);
