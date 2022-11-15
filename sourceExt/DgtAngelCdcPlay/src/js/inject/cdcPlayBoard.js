@@ -110,25 +110,6 @@ function GetRemoteBoardState() {
         } else {
             remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
         }
-
-        //if (remoteBoard.Board.Turn == turnCodes.NONE) {
-        //    if (remoteBoard.Board.LastMove == "") {
-        //        remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
-        //    } else {
-        //        remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-        //    }
-        //} else {
-        //    if (
-        //        remoteBoard.Board.LastMove == "1-0" ||
-        //        remoteBoard.Board.LastMove == "0-1" ||
-        //        remoteBoard.Board.LastMove == "1/2-1-2"
-        //    ) {
-        //        remoteBoard.Board.Turn = turnCodes.NONE;
-        //        remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-        //    } else {
-        //        remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
-        //    }
-        //}
     }
 
     return remoteBoard;
