@@ -45,12 +45,6 @@ namespace DgtCherub
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
-        private const decimal DEFAULT_VOLUME = 7;
-
-        // Use 'powercfg -requests' to test if the power settings are set correctly
-        private const bool DEFAULT_PREVENT_SLEEP = true;
-
-        private const int DEFAULT_MOVE_VOICE_INDEX = 1;
         private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
         private System.Resources.ResourceManager VoiceMoveResManager;
 
@@ -164,6 +158,24 @@ namespace DgtCherub
             PreventScreensaver(false);
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
+            DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
+            DgtCherub.Properties.UserSettings.Default.VolTime = UpDownVolTime.Value;
+            DgtCherub.Properties.UserSettings.Default.AlwaysOnTop = CheckBoxOnTop.Checked;
+            DgtCherub.Properties.UserSettings.Default.PreventSleep = CheckBoxPreventSleep.Checked;
+            DgtCherub.Properties.UserSettings.Default.IncludeSeconds = CheckBoxIncludeSecs.Checked;
+            DgtCherub.Properties.UserSettings.Default.BeepMode = CheckBoxPlayerBeep.Checked;
+            DgtCherub.Properties.UserSettings.Default.Silent = CheckboxSilentBeep.Checked;
+            DgtCherub.Properties.UserSettings.Default.FontSize = UpDownFontSize.Value;
+            DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx = ComboBoxMoveVoice.SelectedIndex;
+            DgtCherub.Properties.UserSettings.Default.MatcherDelay = UpDownVoiceDelay.Value;
+            DgtCherub.Properties.UserSettings.Default.Save();
+            
+        }
+        
+
         private void Form1_Load(object sender, EventArgs e)
         {
             SuspendLayout();
@@ -175,13 +187,18 @@ namespace DgtCherub
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
+
+            //Remove the about tab for now (reserved for new content)
+            TabControlSidePanel.TabPages.RemoveAt(0);
+
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
-            UpDownVoiceDelay.Value = _angelHubService.MatcherRemoteTimeDelayMs / 1000;
+            CheckBoxIncludeSecs.Checked = DgtCherub.Properties.UserSettings.Default.IncludeSeconds;
+            CheckBoxPlayerBeep.Checked = DgtCherub.Properties.UserSettings.Default.BeepMode;
+            CheckboxSilentBeep.Checked = DgtCherub.Properties.UserSettings.Default.Silent;
 
-            CheckBoxIncludeSecs.Checked = IncludeSecs;
-            CheckBoxPlayerBeep.Checked = PlayerBeepOnly;
-            CheckboxSilentBeep.Checked = IsSilentBeep;
+            CheckBoxOnTop.Checked = DgtCherub.Properties.UserSettings.Default.AlwaysOnTop;
+            CheckBoxOnTop_CheckedChanged(this, null);
 
             LinkLabelAbout1.Text = "GitHub Project Page";
             LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
@@ -231,12 +248,18 @@ namespace DgtCherub
             }
 
             //Set voice/volume to default
-            UpDownVolStatus.Value = DEFAULT_VOLUME;
-            UpDownVolMoves.Value = DEFAULT_VOLUME;
-            UpDownVolTime.Value = DEFAULT_VOLUME;
+            UpDownVolStatus.Value = DgtCherub.Properties.UserSettings.Default.VolStatus;
+            UpDownVolMoves.Value = DgtCherub.Properties.UserSettings.Default.VolMoves;
+            UpDownVolTime.Value = DgtCherub.Properties.UserSettings.Default.VolTime;
 
-            ComboBoxMoveVoice.SelectedIndex = DEFAULT_MOVE_VOICE_INDEX;
-            VoiceMoveResManager = DEFAULT_MOVE_VOICE;
+            ComboBoxMoveVoice.SelectedIndex = DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx;
+            this.ComboBoxMoveVoice_SelectedValueChanged(this, null);
+
+            UpDownVoiceDelay.Value = DgtCherub.Properties.UserSettings.Default.MatcherDelay;
+            this.UpDownVoiceDelay_ValueChanged(this, null);
+
+            UpDownFontSize.Value = DgtCherub.Properties.UserSettings.Default.FontSize;
+            this.UpDownFontSize_ValueChanged(this, null);
 
             //Hides the caret from up/down boxes
             _ = HideCaret(UpDownVolStatus.Controls[1].Handle);
@@ -244,8 +267,8 @@ namespace DgtCherub
             _ = HideCaret(UpDownVolTime.Controls[1].Handle);
             _ = HideCaret(DomainUpDown.Controls[1].Handle);
 
-            CheckBoxPreventSleep.Checked = DEFAULT_PREVENT_SLEEP;
-            PreventScreensaver(DEFAULT_PREVENT_SLEEP);
+            CheckBoxPreventSleep.Checked = DgtCherub.Properties.UserSettings.Default.PreventSleep;
+            PreventScreensaver(CheckBoxPreventSleep.Checked);
 
             //Make sure this is set
             DoubleBuffered = true;
@@ -605,8 +628,14 @@ namespace DgtCherub
         private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"The Board tab {(CheckBoxOnTop.Checked ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
-            if (!CheckBoxOnTop.Checked)
+            
+            if (CheckBoxOnTop.Checked)
             {
+                this.TopMost = true;
+            }
+            else{
+                this.TopMost = false;
+
                 TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
                                                        $"to see it without Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
             }
@@ -856,8 +885,10 @@ namespace DgtCherub
         }
 
 
-        private void PreventScreensaver(bool preventSleep)
+        private static void PreventScreensaver(bool preventSleep)
         {
+            // Use 'powercfg -requests' to test if the power settings are set correctly
+
             _ = preventSleep
                 ? SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS)
                 : SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
@@ -891,6 +922,7 @@ namespace DgtCherub
 
         }
 
+
         private void UpDownFontSize_ValueChanged(object sender, EventArgs e)
         {
             TextBoxConsole.Font = new Font("Consolas",
@@ -907,9 +939,9 @@ namespace DgtCherub
 
         private void ComboBoxMoveVoice_SelectedValueChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Using Voice {((ComboBox)sender).Text} for move announcements");
+            TextBoxConsole.AddLine($"Using Voice {((ComboBox)this.ComboBoxMoveVoice).Text} for move announcements");
 
-            VoiceMoveResManager = ((ComboBox)sender).Text switch
+            VoiceMoveResManager = ((ComboBox)this.ComboBoxMoveVoice).Text switch
             {
                 "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
@@ -961,5 +993,6 @@ namespace DgtCherub
             
             IsSilentBeep = ((CheckBox)sender).Checked;
         }
+
     }
 }
