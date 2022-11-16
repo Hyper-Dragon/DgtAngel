@@ -181,24 +181,20 @@ namespace DgtCherub.Services
             finally { _ = startStopSemaphore.Release(); }
         }
 
-
         public void LocalBoardUpdate(string fen)
         {
             _ = localFenProcessChannel.Writer.TryWrite(fen);
         }
 
-        
-
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
+            //Always send this
             _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
 
             //Ignore if we already have the FEN
             if (this.RemoteBoardFEN != null && this.RemoteBoardFEN == remoteBoardState.Board.FenString) return;
 
             remoteBoardState.Board.LastFenString = this.RemoteBoardFEN == null ? "" : this.RemoteBoardFEN.ToString();
-
-
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastFenString))
             {
@@ -213,8 +209,7 @@ namespace DgtCherub.Services
             }
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
-            {
-                
+            {              
                 _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
                 _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
 
