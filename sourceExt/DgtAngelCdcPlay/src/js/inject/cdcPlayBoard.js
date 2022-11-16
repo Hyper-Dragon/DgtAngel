@@ -92,7 +92,6 @@ function GetRemoteBoardState() {
         remoteBoard.Board.Turn = turn;
         remoteBoard.Board.IsWhiteOnBottom =
             whiteClock.classList.contains("clock-bottom");
-        remoteBoard.Board.LastMove = "CALC";
         remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
             whiteClock.innerText.split(".")[0]
         );

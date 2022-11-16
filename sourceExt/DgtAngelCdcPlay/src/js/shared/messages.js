@@ -69,9 +69,7 @@ function getDefaultRemoteBoard() {
         Board: {
             IsWhiteOnBottom: true,
             Turn: "",
-            LastMove: "",
             FenString: "",
-            LastFenString: "",
             Clocks: {
                 CaptureTimeMs: 0,
                 WhiteClock: 0,

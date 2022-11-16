@@ -34,7 +34,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             document.getElementById("RemoteBoardTurn").innerText = "-";
             document.getElementById("RemoteBoardIsWhiteOnBottom").innerText =
                 "-";
-            document.getElementById("RemoteBoardLastMove").innerText = "-";
             document.getElementById("RemoteBoardWhiteClock").innerText = "-";
             document.getElementById("RemoteBoardBlackClock").innerText = "-";
             document.getElementById("RemoteBoardCaptureTimeMs").innerText = "-";
@@ -63,13 +62,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 ) {
                     document.getElementById("RemoteBoardFenString").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.FenString;
-                    document.getElementById("RemoteBoardLastMove").innerText =
-                        request.BoardScrapeMsg.RemoteBoard.Board.LastFenString;
                     document.getElementById("RemoteBoardTurn").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.Turn;
                     document.getElementById("RemoteBoardIsWhiteOnBottom").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.IsWhiteOnBottom;
-                        //request.BoardScrapeMsg.RemoteBoard.Board.LastMove;
                     document.getElementById("RemoteBoardWhiteClock").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.Clocks.WhiteClock;
                     document.getElementById("RemoteBoardBlackClock").innerText =
