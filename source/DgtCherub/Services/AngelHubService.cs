@@ -190,7 +190,8 @@ namespace DgtCherub.Services
         {
             //Always send these
             _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-            
+            _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+
             //...and then ignore if we already have the FEN
             if (this.RemoteBoardFEN != null && this.RemoteBoardFEN == remoteBoardState.Board.FenString) return;
 
@@ -214,7 +215,7 @@ namespace DgtCherub.Services
             }
 
             _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
-            _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+            
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastMove))
             {
