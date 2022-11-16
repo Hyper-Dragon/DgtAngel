@@ -191,6 +191,8 @@ namespace DgtCherub.Services
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
+            _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+
             //Ignore if we already have the FEN
             if (this.RemoteBoardFEN != null && this.RemoteBoardFEN == remoteBoardState.Board.FenString) return;
 
@@ -212,7 +214,7 @@ namespace DgtCherub.Services
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
             {
-                _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+                
                 _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
                 _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
 

@@ -64,7 +64,7 @@ function GetRemoteBoardState() {
         // Now the clocks....
         whiteClock = document.getElementsByClassName("clock-white")[0];
         blackClock = document.getElementsByClassName("clock-black")[0];
-        turn = "NONE";
+        turn = turnCodes.NONE;
 
         // Use the clocks to detect the turn
         if (whiteClock.classList.contains("clock-player-turn")) {
@@ -103,8 +103,9 @@ function GetRemoteBoardState() {
         remoteBoard.BoardConnection.ConMessage = boardMessage;
 
         //Calculate the game state
-
-        if (remoteBoard.Board.Turn == turnCodes.NONE) {
+        if (remoteBoard.Board.FenString == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"){
+            remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
+        }else if (remoteBoard.Board.Turn == turnCodes.NONE) {
             remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
         } else {
             remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
