@@ -200,9 +200,10 @@ namespace DgtCherub.Services
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastFenString))
             {
-                var (move, ending) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
+                var (move, ending, turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
                 remoteBoardState.Board.LastMove = move;
                 remoteBoardState.Board.Ending = ending;
+                remoteBoardState.Board.FenTurn = turn;
             }
             else
             {
@@ -373,10 +374,10 @@ namespace DgtCherub.Services
                 _logger?.LogTrace("Processing a move recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 if (LastMove is null || 
-                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}")
+                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.FenString}")
                 {
                     LastMove = remoteBoardState.Board.LastMove;
-                    lastMoveVoiceTest = $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}";
+                    lastMoveVoiceTest = $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.FenString}";
                         
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 

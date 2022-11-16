@@ -48,6 +48,7 @@ namespace DgtAngelShared.Json
         public TurnCode Turn { get; init; }
         public string LastMove { get; set; }
         public string Ending { get; set; }
+        public string FenTurn { get; set; }
         public string FenString { get; init; }
         public string LastFenString { get; set; }
         public Clocks Clocks { get; init; }
