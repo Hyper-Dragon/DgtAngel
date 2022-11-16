@@ -36,6 +36,9 @@ namespace DgtCherub.Controllers
         {
             if (HttpContext.WebSockets.IsWebSocketRequest && isAcceptingConnections)
             {
+                bool isClientVersionDisplayed = false;
+                bool isClientVersionOk = false;
+
                 //Only allow one connection 
                 if (runningSocket != null)
                 {
@@ -75,12 +78,30 @@ namespace DgtCherub.Controllers
                             break;
                         }
 
-
                         try
                         {
                             // Convert to a string (UTF-8 encoding).
                             string utfMessage = Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count);
                             CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(utfMessage);
+
+                            if (!isClientVersionDisplayed) {
+                                _appDataService.UserMessageArrived("INGEST", $"Chrome Extension {messageIn.AngelPluginName}-{messageIn.AngelPluginVersion}");
+                                _appDataService.UserMessageArrived("INGEST", $"       Extension Message Version  {messageIn.AngelMessageVersion}");
+                                isClientVersionDisplayed=true;
+
+                                if (messageIn.AngelMessageVersion == "3.0")
+                                {
+                                    isClientVersionOk = true;
+                                }
+                                else
+                                {
+                                    _appDataService.UserMessageArrived("INGEST", $"INCOMPATIBLE CHROME EXTENSION - PLEASE UPDATE");
+                                }
+                            }
+
+                            //Keep the connection but don't process anything
+                            if (!isClientVersionOk) continue;
+                            
 
 
                             switch (messageIn.MessageType)

@@ -9,10 +9,15 @@ namespace DgtAngelShared.Json
             KEEP_ALIVE, STATE_UPDATED, MESSAGE, WATCH_STARTED, WATCH_STOPPED, WATCH_STOPPED_MOVES_ONLY
         }
 
+        public string AngelPluginName { get; init; }
+        public string AngelPluginVersion { get; init; }
+        public string AngelMessageVersion { get; init; }
+        public ulong MsgTimeMs { get; init; }
         public string Source { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public MessageTypeCode MessageType { get; set; }
         public string Message { get; set; }
         public BoardState RemoteBoard { get; set; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public MessageTypeCode MessageType { get; set; }
     }
 }

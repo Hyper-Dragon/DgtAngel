@@ -1,6 +1,8 @@
 //Set initial values
 document.getElementById("ver").innerText=chrome.runtime.getManifest().version;
 
+document.getElementById("extName").innerText=chrome.runtime.getManifest().name;
+
 document.getElementById("show-msg-button").onclick = function (event) {
     elemSection = document.getElementById("messageSection");
     if (elemSection.hidden) {
