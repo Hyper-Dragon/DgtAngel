@@ -63,7 +63,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     document.getElementById("RemoteBoardFenString").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.FenString;
                     document.getElementById("RemoteBoardTurn").innerText =
-                        request.BoardScrapeMsg.RemoteBoard.Board.Turn;
+                        request.BoardScrapeMsg.RemoteBoard.Board.ClockTurn;
                     document.getElementById("RemoteBoardIsWhiteOnBottom").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.IsWhiteOnBottom;
                     document.getElementById("RemoteBoardWhiteClock").innerText =

@@ -89,7 +89,7 @@ function GetRemoteBoardState() {
         }
         
         remoteBoard.Board.FenString = calculateFen(board);
-        remoteBoard.Board.Turn = turn;
+        remoteBoard.Board.ClockTurn = turn;
         remoteBoard.Board.IsWhiteOnBottom =
             whiteClock.classList.contains("clock-bottom");
         remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
@@ -103,11 +103,22 @@ function GetRemoteBoardState() {
         remoteBoard.BoardConnection.ConMessage = boardMessage;
 
         //Calculate the game state
-        if (remoteBoard.Board.FenString == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"){
+        if (remoteBoard.Board.FenString == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+        {
             remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
-        }else if (remoteBoard.Board.Turn == turnCodes.NONE) {
+            remoteBoard.Board.ClockTurn = turnCodes.WHITE;
+        }
+        else if (remoteBoard.Board.Clocks.WhiteClock == 0 || remoteBoard.Board.Clocks.BlackClock == 0)
+        {
             remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-        } else {
+            remoteBoard.Board.ClockTurn = turnCodes.NONE;
+        }
+        else if (remoteBoard.Board.ClockTurn == turnCodes.NONE) 
+        {
+            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+        } 
+        else 
+        {
             remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
         }
     }
