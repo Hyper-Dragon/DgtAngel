@@ -403,43 +403,47 @@ namespace DgtCherub.Services
             }
         }
 
+        object lockMatcherObj = new object();
 
         private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
-            if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
-            {
-                OnBoardMatcherStarted?.Invoke();
-                //IsBoardInSync = false;
+                if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
+                {
+                    OnBoardMatcherStarted?.Invoke();
+                    //IsBoardInSync = false;
 
-                _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-                await Task.Delay(matchDelay);
+                    _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                    await Task.Delay(matchDelay);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
-                if (matchCode == CurrentUpdatetMatch.ToString())
+                lock (lockMatcherObj)
                 {
-                    _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-
-                    if (RemoteBoardFEN != LocalBoardFEN)
+                    if (matchCode == CurrentUpdatetMatch.ToString())
                     {
-                        IsBoardInSync = false;
-                        OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
+                        _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+
+                        if (RemoteBoardFEN != LocalBoardFEN)
+                        {
+                            IsBoardInSync = false;
+                            OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
+                        }
+                        else
+                        {
+                            LastMatchedPosition = LocalBoardFEN;
+                            OnBoardMatch?.Invoke(LocalBoardFEN);
+
+                            if (!IsBoardInSync)
+                            {
+                                IsBoardInSync = true;
+                                OnBoardMatchFromMissmatch?.Invoke();
+                            }
+                        }
                     }
                     else
                     {
-                        LastMatchedPosition = LocalBoardFEN;
-                        OnBoardMatch?.Invoke(LocalBoardFEN);
-
-                        if (!IsBoardInSync)
-                        {
-                            IsBoardInSync = true;
-                            OnBoardMatchFromMissmatch?.Invoke();
-                        }
+                        _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                     }
-                }
-                else
-                {
-                    _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 }
             }
         }
