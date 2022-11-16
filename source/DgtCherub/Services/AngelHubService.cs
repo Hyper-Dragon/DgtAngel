@@ -94,7 +94,7 @@ namespace DgtCherub.Services
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 5000;
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 300;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 750;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
         private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS * 2;
@@ -431,7 +431,7 @@ namespace DgtCherub.Services
                         else
                         {
                             LastMatchedPosition = LocalBoardFEN;
-                            OnBoardMatch?.Invoke(LocalBoardFEN);
+                            //OnBoardMatch?.Invoke(LocalBoardFEN);
 
                             if (!IsBoardInSync)
                             {
