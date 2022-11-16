@@ -58,7 +58,11 @@ setInterval(() => {
 
         
         //echo the message out for the popup (if it is running)
-        chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
+        chrome.runtime.sendMessage({BoardScrapeMsg: updateMsg}, function (response) {
+            if (chrome.runtime.lastError) {
+                // Do nothing - trap error if popup isn't visible
+            }
+        });
 
         try {
             if (socket != null && socket.readyState == WebSocket.OPEN) {
