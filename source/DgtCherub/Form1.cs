@@ -128,7 +128,8 @@ namespace DgtCherub
 
             if (Process.GetProcessesByName("DGT LiveChess").Length > 0)
             {
-                Console.WriteLine("Process");
+                //TODO: Prep for Live Chess removal update
+                //Console.WriteLine("Process");
             }
             else
             {
@@ -137,8 +138,8 @@ namespace DgtCherub
                 //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
                 try
                 {
-                    _dgtEbDllFacade.Init();
-                    IsRabbitInstalled = true;
+                    //_dgtEbDllFacade.Init();
+                    //IsRabbitInstalled = true;
                 }
                 catch (DllNotFoundException)
                 {
@@ -180,9 +181,9 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.FontSize = UpDownFontSize.Value;
             DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx = ComboBoxMoveVoice.SelectedIndex;
             DgtCherub.Properties.UserSettings.Default.MatcherDelay = UpDownVoiceDelay.Value;
-            DgtCherub.Properties.UserSettings.Default.Save(); 
+            DgtCherub.Properties.UserSettings.Default.Save();
         }
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -261,13 +262,13 @@ namespace DgtCherub
             UpDownVolTime.Value = DgtCherub.Properties.UserSettings.Default.VolTime;
 
             ComboBoxMoveVoice.SelectedIndex = DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx;
-            this.ComboBoxMoveVoice_SelectedValueChanged(this, null);
+            ComboBoxMoveVoice_SelectedValueChanged(this, null);
 
             UpDownVoiceDelay.Value = DgtCherub.Properties.UserSettings.Default.MatcherDelay;
-            this.UpDownVoiceDelay_ValueChanged(this, null);
+            UpDownVoiceDelay_ValueChanged(this, null);
 
             UpDownFontSize.Value = DgtCherub.Properties.UserSettings.Default.FontSize;
-            this.UpDownFontSize_ValueChanged(this, null);
+            UpDownFontSize_ValueChanged(this, null);
 
             //Hides the caret from up/down boxes
             _ = HideCaret(UpDownVolStatus.Controls[1].Handle);
@@ -313,7 +314,7 @@ namespace DgtCherub
                 //If the board difference is a single move and the remote board has not changed since the last match
                 //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
                 //audio
-                _voicePlayeStatus.Speak( (diffCount==2 && lastLocalFenMatch==localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
+                _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
             _angelHubService.OnRemoteWatchStarted += () =>
@@ -343,7 +344,7 @@ namespace DgtCherub
                 LabelLocalDgt.BackColor = BoredLabelsInitialColor;
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
             };
-            
+
             _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
@@ -463,7 +464,7 @@ namespace DgtCherub
                             playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                         }
 
-                        (PlayerBeepOnly?_voicePlayerMovesNoDrop:_voicePlayerMoves).Speak(playlist);
+                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(playlist);
                     }
                 }
             };
@@ -621,7 +622,7 @@ namespace DgtCherub
         {
             ClearConsole();
         }
-            
+
         private void TabPageBoards_Enter(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"Selected the Board Tab...you {(CheckBoxOnTop.Checked ? "will always be on top." : "will not be on top.")}", TEXTBOX_MAX_LINES);
@@ -636,13 +637,14 @@ namespace DgtCherub
         private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"The Board tab {(CheckBoxOnTop.Checked ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
-            
+
             if (CheckBoxOnTop.Checked)
             {
-                this.TopMost = true;
+                TopMost = true;
             }
-            else{
-                this.TopMost = false;
+            else
+            {
+                TopMost = false;
 
                 TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
                                                        $"to see it without Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
@@ -947,9 +949,9 @@ namespace DgtCherub
 
         private void ComboBoxMoveVoice_SelectedValueChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Using Voice {((ComboBox)this.ComboBoxMoveVoice).Text} for move announcements");
+            TextBoxConsole.AddLine($"Using Voice {ComboBoxMoveVoice.Text} for move announcements");
 
-            VoiceMoveResManager = ((ComboBox)this.ComboBoxMoveVoice).Text switch
+            VoiceMoveResManager = ComboBoxMoveVoice.Text switch
             {
                 "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
@@ -976,14 +978,14 @@ namespace DgtCherub
 
         private void CheckBoxPlayerBeep_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL" : "WILL NOT")} be vocalised"); 
+            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL" : "WILL NOT")} be vocalised");
 
 
             if (((CheckBox)sender).Checked)
             {
                 TextBoxConsole.AddLine($"{(IsSilentBeep ? "No sound will be played" : "A sound will play instead of the move announcement")}");
             }
-            
+
             PlayerBeepOnly = ((CheckBox)sender).Checked;
         }
 
@@ -993,12 +995,12 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"Player moves WILL be vocalised");
                 TextBoxConsole.AddLine($"{(((CheckBox)sender).Checked ? "No sound will be played" : "A sound will play instead of the move announcement")}");
-            } 
+            }
             else
             {
                 TextBoxConsole.AddLine($"WARNING: Beep Mode is disabled - This option will have no effect");
             }
-            
+
             IsSilentBeep = ((CheckBox)sender).Checked;
         }
 

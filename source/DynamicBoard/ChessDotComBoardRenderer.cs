@@ -42,7 +42,7 @@ namespace DynamicBoard
 
                 _logger?.LogDebug(message: $"Downloading board image from [{boardUrl}]");
                 Task<System.IO.Stream> responseTask = httpClient.GetStreamAsync(new Uri(boardUrl), canxToken);
-                responseTask.Wait(DL_TIMEOUT);
+                _ = responseTask.Wait(DL_TIMEOUT);
 
                 using Image bmp = Bitmap.FromStream(responseTask.Result);
                 resizedBmpOut = new Bitmap(bmp, new Size(imageSize, imageSize));

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Chess;
+﻿using Chess;
 
 namespace ChessHelpers
 {
@@ -13,33 +6,34 @@ namespace ChessHelpers
     {
         public static (string move, string ending, string turn) CalculateSanFromFen(string fromFen, string toFen)
         {
-            if (string.IsNullOrWhiteSpace(fromFen)) { return (" ","",""); }
+            if (string.IsNullOrWhiteSpace(fromFen)) { return (" ", "", ""); }
 
             try
             {
-                var (diffCount, squareFrom, squareTo, fullFromFen, promotesTo) = FenInference.SquareDiff(fromFen, toFen);
+                (int diffCount, string squareFrom, string squareTo, string fullFromFen, string promotesTo) = FenInference.SquareDiff(fromFen, toFen);
 
-                var board = ChessBoard.LoadFromFen(fullFromFen);
-                board.Move(new Move(squareFrom, squareTo));
+                ChessBoard board = ChessBoard.LoadFromFen(fullFromFen);
+                _ = board.Move(new Move(squareFrom, squareTo));
 
                 string move = board.MovesToSan.FirstOrDefault<string>("");
 
                 //HACK: the library returns ?x?x?? for enpassant - fix to ?x?x??
-                if(move.Length==6 && move[1]=='x' && move[3]=='x') { move = move[2..];  }
+                if (move.Length == 6 && move[1] == 'x' && move[3] == 'x') { move = move[2..]; }
 
-                if (move.Contains("=Q")) {move = move.Replace("=Q", $"={promotesTo.ToUpperInvariant()}"); }
+                if (move.Contains("=Q")) { move = move.Replace("=Q", $"={promotesTo.ToUpperInvariant()}"); }
 
-                string ending = ((!board.IsEndGame) ? 
-                                  "": ((board.EndGame != null && board.EndGame.WonSide == null) ? 
+                string ending = (!board.IsEndGame) ?
+                                  "" : ((board.EndGame != null && board.EndGame.WonSide == null) ?
                                         "1/2-1/2" : ((board.EndGame != null && board.EndGame.WonSide == PieceColor.White) ?
-                                                      "1-0" : "0-1")));
+                                                      "1-0" : "0-1"));
 
                 //Getting the next move so return the opposite
-                return (move,ending, ((board.Turn == PieceColor.White) ? "BLACK" : "WHITE"));
+                return (move, ending, (board.Turn == PieceColor.White) ? "BLACK" : "WHITE");
             }
-            catch (Exception) { 
+            catch (Exception)
+            {
                 //This is missing step betweem 2 FENS so no move to return
-                return (" ","",""); 
+                return (" ", "", "");
             }
         }
 

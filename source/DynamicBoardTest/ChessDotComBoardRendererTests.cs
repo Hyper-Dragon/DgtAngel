@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DynamicBoard;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace DynamicBoard.Tests
+namespace DynamicBoardTest
 {
     [TestClass()]
     public class ChessDotComBoardRendererTests
@@ -15,7 +16,7 @@ namespace DynamicBoard.Tests
         {
             ServiceCollection services = new();
 
-            services.AddLogging(logging => logging.AddConsole())
+            _ = services.AddLogging(logging => logging.AddConsole())
                     .AddHttpClient()
                     .AddSingleton(typeof(IBoardRenderer), typeof(ChessDotComBoardRenderer));
 

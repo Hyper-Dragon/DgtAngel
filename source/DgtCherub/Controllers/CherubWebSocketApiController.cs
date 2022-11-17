@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using System.Windows.Forms;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Controllers
@@ -40,10 +39,7 @@ namespace DgtCherub.Controllers
                 bool isClientVersionOk = false;
 
                 //Only allow one connection 
-                if (runningSocket != null)
-                {
-                    runningSocket.Abort();
-                }
+                runningSocket?.Abort();
 
                 runningSocket = null;
 
@@ -84,10 +80,11 @@ namespace DgtCherub.Controllers
                             string utfMessage = Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count);
                             CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(utfMessage);
 
-                            if (!isClientVersionDisplayed) {
+                            if (!isClientVersionDisplayed)
+                            {
                                 _appDataService.UserMessageArrived("INGEST", $"Chrome Extension {messageIn.AngelPluginName}-{messageIn.AngelPluginVersion}");
                                 _appDataService.UserMessageArrived("INGEST", $"       Extension Message Version  {messageIn.AngelMessageVersion}");
-                                isClientVersionDisplayed=true;
+                                isClientVersionDisplayed = true;
 
                                 if (messageIn.AngelMessageVersion == "3.0")
                                 {
@@ -100,9 +97,10 @@ namespace DgtCherub.Controllers
                             }
 
                             //Keep the connection but don't process anything
-                            if (!isClientVersionOk) continue;
-                            
-
+                            if (!isClientVersionOk)
+                            {
+                                continue;
+                            }
 
                             switch (messageIn.MessageType)
                             {
@@ -115,7 +113,8 @@ namespace DgtCherub.Controllers
                                         {
                                             case ResponseCode.LOST_VISABILITY:
                                             case ResponseCode.MOVE_LIST_MISSING:
-                                                if (DateTime.UtcNow > (lastErrorLog.AddSeconds(MSG_LIMIT_SECONDS))) {
+                                                if (DateTime.UtcNow > lastErrorLog.AddSeconds(MSG_LIMIT_SECONDS))
+                                                {
                                                     lastErrorLog = DateTime.UtcNow;
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen.");
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that you are not in focus mode.");

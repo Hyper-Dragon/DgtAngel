@@ -21,37 +21,37 @@ namespace DgtEbDllWrapper
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ShowCongigDialog()
         {
-            DgtEbDllAdapter.ShowDialog();
+            _ = DgtEbDllAdapter.ShowDialog();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void HideCongigDialog()
         {
-            DgtEbDllAdapter.HideDialog();
+            _ = DgtEbDllAdapter.HideDialog();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Init()
         {
-            DgtEbDllAdapter.Init();
+            _ = DgtEbDllAdapter.Init();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DisplayMessage(string message, int time)
         {
-            DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
+            _ = DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
             Thread.Sleep(time);
-            DgtEbDllAdapter.EndDisplay();
+            _ = DgtEbDllAdapter.EndDisplay();
         }
 
         public void DisplayForeverMessage(string message)
         {
-            DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
+            _ = DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
         }
 
         public void StopForeverMessage()
         {
-            DgtEbDllAdapter.EndDisplay();
+            _ = DgtEbDllAdapter.EndDisplay();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -59,23 +59,23 @@ namespace DgtEbDllWrapper
         {
             new Thread(new ThreadStart(() =>
             {
-                DgtEbDllAdapter.EndDisplay();
+                _ = DgtEbDllAdapter.EndDisplay();
                 Thread.Sleep(1000);
 
                 foreach (string message in messages)
                 {
-                    DgtEbDllAdapter.DisplayClockMessage(message, int.MaxValue);
+                    _ = DgtEbDllAdapter.DisplayClockMessage(message, int.MaxValue);
                     Thread.Sleep(2000);
                 }
 
-                DgtEbDllAdapter.EndDisplay();
+                _ = DgtEbDllAdapter.EndDisplay();
             })).Start();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void SetClock(string whiteClock, string blackClock, int runwho)
         {
-            DgtEbDllAdapter.SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho);
+            _ = DgtEbDllAdapter.SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho);
         }
 
 

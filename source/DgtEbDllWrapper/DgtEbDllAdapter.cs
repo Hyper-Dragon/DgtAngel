@@ -17,10 +17,10 @@ namespace DgtEbDllWrapper
         {
             string resultStr = $"{DgtEbDllImport.GetVersion():000000}";
 
-            return (resultStr.Substring(0, 2),
+            return (resultStr[..2],
                     resultStr.Substring(2, 2),
                     resultStr.Substring(4, 2),
-                    $"DGT Rabbit Version {resultStr.Substring(0, 2)}.{resultStr.Substring(2, 2)} rel. {resultStr.Substring(4, 2)}");
+                    $"DGT Rabbit Version {resultStr[..2]}.{resultStr.Substring(2, 2)} rel. {resultStr.Substring(4, 2)}");
         }
 
         internal static Result ShowDialog()
@@ -54,7 +54,7 @@ namespace DgtEbDllWrapper
         /// <returns>Translated from...23 if the clock is in mode 23, otherwise 0; But don’t rely on this result.</returns>
         internal static Result ClockMode()
         {
-            return ((DgtEbDllImport.ClockMode(dummy) == 23) ? Result.SUCCESS : Result.FAIL);
+            return (DgtEbDllImport.ClockMode(dummy) == 23) ? Result.SUCCESS : Result.FAIL;
         }
 
         internal static Result SetNRun(string whiteClock, string blackClock, RunWho runwho)

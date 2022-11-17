@@ -1,8 +1,8 @@
 ﻿using DgtAngelShared.Json;
 using DgtEbDllWrapper;
+using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
-using DynamicBoard.Helpers;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
@@ -122,7 +122,7 @@ namespace DgtCherub.Services
 
         private string lastMoveVoiceTest = "";
 
-        
+
         public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
@@ -196,18 +196,21 @@ namespace DgtCherub.Services
             _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
 
             //...and then ignore if we already have the FEN
-            if (this.RemoteBoardFEN != null && this.RemoteBoardFEN == remoteBoardState.Board.FenString) return;
+            if (RemoteBoardFEN != null && RemoteBoardFEN == remoteBoardState.Board.FenString)
+            {
+                return;
+            }
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
             {
                 ResetRemoteBoardState(true);
             }
 
-            remoteBoardState.Board.LastFenString = this.RemoteBoardFEN == null ? "" : this.RemoteBoardFEN.ToString();
+            remoteBoardState.Board.LastFenString = RemoteBoardFEN == null ? "" : RemoteBoardFEN.ToString();
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastFenString))
             {
-                var (move, ending, turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
+                (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
                 remoteBoardState.Board.LastMove = move;
                 remoteBoardState.Board.Ending = ending;
                 remoteBoardState.Board.FenTurn = turn == "WHITE" ? TurnCode.WHITE : turn == "BLACK" ? TurnCode.BLACK : TurnCode.UNKNOWN;
@@ -218,7 +221,7 @@ namespace DgtCherub.Services
             }
 
             _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
-            
+
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastMove))
             {
@@ -360,17 +363,17 @@ namespace DgtCherub.Services
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 
                     // If turncode is none then read all moves
-                    bool isPlayerTurn = (remoteBoardState.Board.ClockTurn == TurnCode.NONE ||
+                    bool isPlayerTurn = remoteBoardState.Board.ClockTurn == TurnCode.NONE ||
                                           (IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.WHITE) ||
-                                          (!IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.BLACK));
+                                          (!IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.BLACK);
 
                     OnNewMoveDetected?.Invoke(LastMove, isPlayerTurn);
 
                     if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.Ending))
                     {
-                        if (remoteBoardState.Board.Ending == "1-0" ||
-                            remoteBoardState.Board.Ending == "0-1" ||
-                            remoteBoardState.Board.Ending == "1/2-1/2")
+                        if (remoteBoardState.Board.Ending is "1-0" or
+                            "0-1" or
+                            "1/2-1/2")
                         {
                             OnNewMoveDetected?.Invoke(remoteBoardState.Board.Ending, true);
                         }
@@ -408,13 +411,13 @@ namespace DgtCherub.Services
 
         private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
-                if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
-                {
-                    OnBoardMatcherStarted?.Invoke();
-                    //IsBoardInSync = false;
+            if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
+            {
+                OnBoardMatcherStarted?.Invoke();
+                //IsBoardInSync = false;
 
-                    _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-                    await Task.Delay(matchDelay);
+                _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                await Task.Delay(matchDelay);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.

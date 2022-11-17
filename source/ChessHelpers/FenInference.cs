@@ -2,8 +2,8 @@
 {
     internal class FenInference
     {
-        private readonly static char[] colIdx = "abcdefgh".ToCharArray();
-        private readonly static char[] rowIdx = "87654321".ToCharArray();
+        private static readonly char[] colIdx = "abcdefgh".ToCharArray();
+        private static readonly char[] rowIdx = "87654321".ToCharArray();
         private const string halfMoveClock = "0";
         private const string fullMoveNumber = "1";
         private const int squaresOnBoard = 8;
@@ -33,15 +33,15 @@
                 {
                     int colLeft = col - 1;
                     int colRight = col + 1;
-                    int toIdx = moveToRow * squaresOnBoard + col;
-                    int fromIdx = moveFromRow * squaresOnBoard + col;
-                    int colLeftIdx = moveFromRow * squaresOnBoard + colLeft;
-                    int colRightIdx = moveFromRow * squaresOnBoard + colRight;
+                    int toIdx = (moveToRow * squaresOnBoard) + col;
+                    int fromIdx = (moveFromRow * squaresOnBoard) + col;
+                    int colLeftIdx = (moveFromRow * squaresOnBoard) + colLeft;
+                    int colRightIdx = (moveFromRow * squaresOnBoard) + colRight;
 
                     if (toBoard[toIdx] == movingPiece &&
                         fromBoard[fromIdx] == oppPiece &&
-                        (((colLeft > 0) && ((fromBoard[colLeftIdx] == movingPiece))) ||
-                         ((colRight < squaresOnBoard) && ((fromBoard[colRightIdx] == movingPiece)))))
+                        (((colLeft > 0) && fromBoard[colLeftIdx] == movingPiece) ||
+                         ((colRight < squaresOnBoard) && fromBoard[colRightIdx] == movingPiece)))
                     {
                         enPass = $"{colIdx[col]}{rowIdx[moveToRow]}";
 
@@ -74,7 +74,7 @@
             {
                 for (int col = 0; col < squaresOnBoard; col++)
                 {
-                    if (toBoard[row * squaresOnBoard + col] != fromBoard[row * squaresOnBoard + col])
+                    if (toBoard[(row * squaresOnBoard) + col] != fromBoard[(row * squaresOnBoard) + col])
                     {
                         squareDiffCount++;
 
@@ -83,16 +83,16 @@
                         {
                             string square = $"{colIdx[col]}{rowIdx[row]}";
 
-                            if (toBoard[row * squaresOnBoard + col] == '-')
+                            if (toBoard[(row * squaresOnBoard) + col] == '-')
                             {
                                 squareFrom = square;
-                                isPawnMove = fromBoard[row * squaresOnBoard + col] == 'P' || fromBoard[row * squaresOnBoard + col] == 'p';
+                                isPawnMove = fromBoard[(row * squaresOnBoard) + col] is 'P' or 'p';
                             }
                             else //Must be the To Square
                             {
                                 squareTo = square;
-                                isWhiteToPlay = char.IsUpper(toBoard[row * squaresOnBoard + col]);
-                                tmpPromotesTo = (isWhiteToPlay && row == 0) || (!isWhiteToPlay && row == 7) ? $"{char.ToUpper(toBoard[row * squaresOnBoard + col])}" : "";
+                                isWhiteToPlay = char.IsUpper(toBoard[(row * squaresOnBoard) + col]);
+                                tmpPromotesTo = (isWhiteToPlay && row == 0) || (!isWhiteToPlay && row == 7) ? $"{char.ToUpper(toBoard[(row * squaresOnBoard) + col])}" : "";
                             }
                         }
                     }
@@ -100,30 +100,30 @@
             }
 
             //Check for Castling
-            if(squareDiffCount == 4)
+            if (squareDiffCount == 4)
             {
-                    if (fromBoard[4] == 'k' && toBoard[6] == 'k')
-                    {
+                if (fromBoard[4] == 'k' && toBoard[6] == 'k')
+                {
                     squareFrom = "e8";
                     squareTo = "g8";
-                    
-                    }
-                    else if(fromBoard[4] == 'k' && toBoard[2] == 'k')
-                    {
+
+                }
+                else if (fromBoard[4] == 'k' && toBoard[2] == 'k')
+                {
                     squareFrom = "e8";
                     squareTo = "c8";
-                    
-                    }
-                    else if(fromBoard[60] == 'K' && toBoard[62] == 'K')
-                    {
+
+                }
+                else if (fromBoard[60] == 'K' && toBoard[62] == 'K')
+                {
                     squareFrom = "e1";
                     squareTo = "g1";
                 }
-                    else if (fromBoard[60] == 'K' && toBoard[58] == 'K')
-                    {
+                else if (fromBoard[60] == 'K' && toBoard[58] == 'K')
+                {
                     squareFrom = "e1";
                     squareTo = "c1";
-                } 
+                }
             }
 
 
@@ -132,10 +132,10 @@
 
             string castle = $"{((fromBoard[63] == 'R' && fromBoard[60] == 'K') ? "K" : "")}" +
                             $"{((fromBoard[56] == 'R' && fromBoard[60] == 'K') ? "Q" : "")}" +
-                            $"{((fromBoard[7] == 'r' &&  fromBoard[4] == 'k') ? "k" : "")}" +
-                            $"{((fromBoard[0] == 'r' &&  fromBoard[4] == 'k') ? "q" : "")}";
+                            $"{((fromBoard[7] == 'r' && fromBoard[4] == 'k') ? "k" : "")}" +
+                            $"{((fromBoard[0] == 'r' && fromBoard[4] == 'k') ? "q" : "")}";
 
-            string inferedFenTailFromPosition = $" {((isWhiteToPlay) ? "w" : "b")} {((string.IsNullOrEmpty(castle) ? "-" : castle))} {enPass} {halfMoveClock} {fullMoveNumber}";
+            string inferedFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
 
             return (squareDiffCount, squareFrom, squareTo, $"{fromBoardShortFen.Split(' ')[0]}{inferedFenTailFromPosition}", promotesTo);
         }
