@@ -40,7 +40,7 @@ namespace DgtEbDllWrapper
         //    await doTask();
         //}
 
-        static void MethodA(StringBuilder message)
+        static void MethodA(String message)
         {
             Console.WriteLine("hello");
         }
