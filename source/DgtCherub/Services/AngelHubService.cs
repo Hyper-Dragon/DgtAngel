@@ -115,11 +115,14 @@ namespace DgtCherub.Services
         private readonly Channel<bool> orientationProcessChannel;
         private readonly Channel<(string source, string message)> messageProcessChannel;
 
+        private readonly object matcherLockObj = new();
+
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
         private string lastMoveVoiceTest = "";
 
+        
         public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
@@ -403,8 +406,6 @@ namespace DgtCherub.Services
             }
         }
 
-        object lockMatcherObj = new object();
-
         private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
                 if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
@@ -417,7 +418,7 @@ namespace DgtCherub.Services
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
-                lock (lockMatcherObj)
+                lock (matcherLockObj)
                 {
                     if (matchCode == CurrentUpdatetMatch.ToString())
                     {

@@ -39,7 +39,7 @@ namespace DgtCherub
         private const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
         private const string PROJECT_CHESS_STATS = @"https://hyper-dragon.github.io/ChessStats/";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
-        private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
+        private const string DL_RABBIT = @"https://digitalgametechnology.com/support/software/software-downloads";
         private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc";
         private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
@@ -124,18 +124,27 @@ namespace DgtCherub
 
             InitializeComponent();
 
-            //TODO: Start the Rabbit Plugin if we can...
-            //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-            //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
-            try
+
+
+            if (Process.GetProcessesByName("DGT LiveChess").Length > 0)
             {
-                //_dgtEbDllFacade.Init();
-                //IsRabbitInstalled = true;
+                Console.WriteLine("Process");
             }
-            catch (DllNotFoundException)
+            else
             {
-                _dgtEbDllFacade = null;
-                IsRabbitInstalled = false;
+                //TODO: Start the Rabbit Plugin if we can...
+                //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
+                //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
+                try
+                {
+                    _dgtEbDllFacade.Init();
+                    IsRabbitInstalled = true;
+                }
+                catch (DllNotFoundException)
+                {
+                    _dgtEbDllFacade = null;
+                    IsRabbitInstalled = false;
+                }
             }
 
             // Get Hostname and v4 IP Addrs
@@ -171,8 +180,7 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.FontSize = UpDownFontSize.Value;
             DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx = ComboBoxMoveVoice.SelectedIndex;
             DgtCherub.Properties.UserSettings.Default.MatcherDelay = UpDownVoiceDelay.Value;
-            DgtCherub.Properties.UserSettings.Default.Save();
-            
+            DgtCherub.Properties.UserSettings.Default.Save(); 
         }
         
 
