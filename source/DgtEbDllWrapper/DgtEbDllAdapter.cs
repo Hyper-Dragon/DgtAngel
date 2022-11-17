@@ -27,16 +27,16 @@ namespace DgtEbDllWrapper
 
         static void MethodA(String message)
         {
-            OnFenChanged?.Invoke( null, new FenChangedEventArgs() { Fen=message, TimeChangedTicks=DateTime.UtcNow.Ticks} );
+            OnFenChanged?.Invoke( null, new FenChangedEventArgs() { Fen=message, TimeChangedTicks= DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() } );
             Console.WriteLine("hello");
         }
 
-        internal static Result Init()
-        {
-            return (Result)Init(_callbackInstance);
-        }
+        //internal static Result Init()
+        //{
+        //    return (Result)Init();
+        //}
 
-        internal static Result Init(CallbackScanFunc func)
+        internal static Result Init()
         {
             var result1 = (Result)DgtEbDllImport.Init();
             var result2 = (Result)DgtEbDllImport.UseFEN(true);

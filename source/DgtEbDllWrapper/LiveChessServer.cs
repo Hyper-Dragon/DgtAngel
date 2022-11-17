@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static DgtEbDllWrapper.DgtEbDllAdapter;
@@ -23,7 +24,7 @@ namespace DgtEbDllWrapper
             testme = new DgtEbDllFacade();
             testme.Init();
 
-
+            string lastFenSeen = "8/8/8/8/8/8/8/8";
 
             server.Start(socket =>
             {
@@ -49,9 +50,19 @@ namespace DgtEbDllWrapper
 
                             DgtEbDllAdapter.OnFenChanged += (object sender, FenChangedEventArgs e) =>
                             {
+
                                 //TextBoxConsole.AddLine($"Local board changed [SOCKET] [{e.Fen}]");
-                                socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{e.Fen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
+                                lastFenSeen = e.Fen;
+                                //socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{lastFenSeen}\",\"clock\":null" + "}" + ",\"time\":\""+ DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + "\"}");
                             };
+
+
+                            while (true)
+                            {
+                                //socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{lastFenSeen}\",\"clock\":null" + "}" + ",\"time\":\"" + DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + "\"}");
+                                socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{lastFenSeen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
+                                Thread.Sleep(250);
+                            }
 
                             //Thread.Sleep(60000);
                         }
