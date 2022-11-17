@@ -143,7 +143,7 @@ namespace DgtCherub
                 //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
                 try
                 {
-                    _dgtEbDllFacade.Init();
+                    //_dgtEbDllFacade.Init();
                     IsUsingRabbit = true;
 
                     lv.RunLiveChessServer();

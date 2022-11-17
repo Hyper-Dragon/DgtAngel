@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using static DgtEbDllWrapper.DgtEbDllAdapter;
 using static DgtEbDllWrapper.DgtEbDllImport;
 
@@ -17,14 +19,36 @@ namespace DgtEbDllWrapper
 
         // Note: this method will be called from a different thread!
         public static event EventHandler<FenChangedEventArgs> OnFenChanged;
-        public static void MyCallbackScanFunc(StringBuilder positionFen)
-        {
+
+        //public static void MyCallbackScanFunc(StringBuilder positionFen)
+        //{
             //OnFenChanged(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks });
+        //}
+
+
+        //public delegate void CallbackFunction([MarshalAs(UnmanagedType.LPStr)] String log);
+
+        // add static reference....
+        private static CallbackScanFunc _callbackInstance = new CallbackScanFunc(MethodA); // <==== Added reference to prevent GC!!! 
+
+        //private void loadDllMethods()
+        //{
+        //    // load the delegates => great, it works!
+        //    SetCallbackFunction_Dll = GetDelegate<_SetCallbackFunction_>("SetCallbackFunction");
+        //    // create callback!!!
+        //    SetCallbackFunction(_callbackInstance); // <====== pass the instance here, not the method itself!!!
+        //    await doTask();
+        //}
+
+        static void MethodA(StringBuilder message)
+        {
+            Console.WriteLine("hello");
         }
 
-        internal static Result Init()
+            internal static Result Init()
         {
-            return (Result) Init(MyCallbackScanFunc);
+            
+            return (Result) Init(_callbackInstance);
             //return (Result)DgtEbDllImport.Init(DgtEbDllWrapper.DgtEbDllFacade.MyCallbackScanFunc);
         }
 
@@ -32,7 +56,7 @@ namespace DgtEbDllWrapper
         {
             var result1 = (Result)DgtEbDllImport.Init();
             var result2 = (Result)DgtEbDllImport.UseFEN(true);
-            var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(func, IntPtr.Zero);
+            var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(_callbackInstance, IntPtr.Zero);
 
             //return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
             return Result.SUCCESS;

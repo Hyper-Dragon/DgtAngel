@@ -9,6 +9,7 @@ namespace DgtEbDllWrapper
 {
     public class LiveChessServer
     {
+        private DgtEbDllFacade testme;
         private WebSocketServer server;
 
         public LiveChessServer() { }
@@ -17,7 +18,11 @@ namespace DgtEbDllWrapper
         public void RunLiveChessServer() {
 
             server = new("ws://0.0.0.0:1982") { RestartAfterListenError = true };
-            
+
+            testme = new DgtEbDllFacade();
+            testme.Init();
+
+
             server.Start(socket =>
             {
                 //socket.OnOpen = () => TextBoxConsole.AddLine($"OPEN");
