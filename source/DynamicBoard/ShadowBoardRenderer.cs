@@ -98,18 +98,18 @@ namespace DynamicBoard
                                                         );
 
                     MemoryCacheEntryOptions cacheEntryOptions = new();
-                    cacheEntryOptions.SetPriority(CacheItemPriority.Normal)
+                    _ = cacheEntryOptions.SetPriority(CacheItemPriority.Normal)
                                      .SetSize(1)
                                      .SetSlidingExpiration(TimeSpan.FromMinutes(CACHE_TIME_MINS));
 
                     //Save as byte array and cache image
                     imageOutBytes = boardBmp.ConvertToPngByteArray();
-                    imageCache.Set(cacheKey, imageOutBytes, cacheEntryOptions);
+                    _ = imageCache.Set(cacheKey, imageOutBytes, cacheEntryOptions);
                 }
             }
             catch (Exception ex)
             {
-                _logger?.LogTrace("Rendering board error [{FenString}] [{ExMessage}]",fenString,ex.Message);
+                _logger?.LogTrace("Rendering board error [{FenString}] [{ExMessage}]", fenString, ex.Message);
 
                 using Bitmap bmp = new(imageSize, imageSize);
                 using Graphics g = Graphics.FromImage(bmp);

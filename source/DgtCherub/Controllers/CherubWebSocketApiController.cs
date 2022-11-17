@@ -35,11 +35,11 @@ namespace DgtCherub.Controllers
         {
             if (HttpContext.WebSockets.IsWebSocketRequest && isAcceptingConnections)
             {
+                bool isClientVersionDisplayed = false;
+                bool isClientVersionOk = false;
+
                 //Only allow one connection 
-                if (runningSocket != null)
-                {
-                    runningSocket.Abort();
-                }
+                runningSocket?.Abort();
 
                 runningSocket = null;
 
@@ -74,13 +74,33 @@ namespace DgtCherub.Controllers
                             break;
                         }
 
-
                         try
                         {
                             // Convert to a string (UTF-8 encoding).
                             string utfMessage = Encoding.UTF8.GetString(allBytes.ToArray(), 0, allBytes.Count);
                             CherubApiMessage messageIn = JsonSerializer.Deserialize<CherubApiMessage>(utfMessage);
 
+                            if (!isClientVersionDisplayed)
+                            {
+                                _appDataService.UserMessageArrived("INGEST", $"Chrome Extension {messageIn.AngelPluginName}-{messageIn.AngelPluginVersion}");
+                                _appDataService.UserMessageArrived("INGEST", $"       Extension Message Version  {messageIn.AngelMessageVersion}");
+                                isClientVersionDisplayed = true;
+
+                                if (messageIn.AngelMessageVersion == "3.0")
+                                {
+                                    isClientVersionOk = true;
+                                }
+                                else
+                                {
+                                    _appDataService.UserMessageArrived("INGEST", $"INCOMPATIBLE CHROME EXTENSION - PLEASE UPDATE");
+                                }
+                            }
+
+                            //Keep the connection but don't process anything
+                            if (!isClientVersionOk)
+                            {
+                                continue;
+                            }
 
                             switch (messageIn.MessageType)
                             {
@@ -93,7 +113,8 @@ namespace DgtCherub.Controllers
                                         {
                                             case ResponseCode.LOST_VISABILITY:
                                             case ResponseCode.MOVE_LIST_MISSING:
-                                                if (DateTime.UtcNow > (lastErrorLog.AddSeconds(MSG_LIMIT_SECONDS))) {
+                                                if (DateTime.UtcNow > lastErrorLog.AddSeconds(MSG_LIMIT_SECONDS))
+                                                {
                                                     lastErrorLog = DateTime.UtcNow;
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen.");
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that you are not in focus mode.");
@@ -109,7 +130,7 @@ namespace DgtCherub.Controllers
                                                 _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
                                                 break;
                                             case ResponseCode.UNKNOWN_PAGE:
-                                                _appDataService.UserMessageArrived("INGEST", $"Trying to parse an unknown page...please raise a bug report.");
+                                                _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
                                                 break;
                                             case ResponseCode.GAME_PENDING:
                                             case ResponseCode.GAME_IN_PROGRESS:

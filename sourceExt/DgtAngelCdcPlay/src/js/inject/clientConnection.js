@@ -17,6 +17,7 @@ function checkSocketConnection() {
             .then((response) => response.json())
             .then((data) => {
                 try {
+
                     socket = new WebSocket(CLIENT_URL);
 
                     socket.onerror = function (error) {
@@ -63,7 +64,11 @@ function sendWatchStarted(boardState) {
     SocketSendMessage(startedMsg);
 
     //echo the message out for the popup (if it is running)
-    chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg });
+    chrome.runtime.sendMessage({ BoardScrapeMsg: startedMsg }, function (response) {
+        if (chrome.runtime.lastError) {
+            // Do nothing - trap error if popup isn't visible
+        }
+    });
     NotifyScreen("WATCH STARTED");
 }
 
@@ -77,7 +82,12 @@ function sendWatchStopped() {
         SocketSendMessage(stopMsg);
 
         //echo the message out for the popup (if it is running)
-        chrome.runtime.sendMessage({ BoardScrapeMsg: stopMsg });
+        chrome.runtime.sendMessage({ BoardScrapeMsg: stopMsg }, function (response) {
+            if (chrome.runtime.lastError) {
+                // Do nothing - trap error if popup isn't visible
+            }
+        });
+
         NotifyScreen("WATCH STOPPED");
     }
 }

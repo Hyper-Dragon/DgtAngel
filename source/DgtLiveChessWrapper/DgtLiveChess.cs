@@ -1,4 +1,5 @@
-﻿using System.Net.WebSockets;
+﻿using DgtLiveChessWrapper.DgtLiveChessJson;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace DgtLiveChessWrapper
@@ -111,10 +112,10 @@ namespace DgtLiveChessWrapper
             {
                 //First get a list of eBoards...
                 await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
-                (string eboardsJsonString, DgtLiveChessJson.CallResponse.LiveChessCallResponse eboardsResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.LiveChessCallResponse.Deserialize(await Receive(socket, false));
+                (string eboardsJsonString, LiveChessCallResponse eboardsResponse) = LiveChessCallResponse.Deserialize(await Receive(socket, false));
 
                 //...then find the first active board if we have one...
-                DgtLiveChessJson.CallResponse.LiveChessCallParams activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
+                LiveChessCallParams activeBoard = eboardsResponse.Boards.FirstOrDefault(x => x.ConnectionState == BOARD_CONECTED_STATUS);
 
                 if (activeBoard is null)
                 {
@@ -150,13 +151,13 @@ namespace DgtLiveChessWrapper
 
             //...so set up a feed...
             await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
-            (string feedSetupJsonString, DgtLiveChessJson.CallResponse.LiveChessCallResponse feedSetupResponse) = DgtLiveChessWrapper.DgtLiveChessJson.CallResponse.LiveChessCallResponse.Deserialize(await Receive(socket, true));
+            (string feedSetupJsonString, LiveChessCallResponse feedSetupResponse) = LiveChessCallResponse.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
             while (true)
             {
                 string responseIn = await Receive(socket, true);
-                (string feedMsgJsonString, DgtLiveChessJson.FeedResponse.LiveChessFeedResponse feedMsgResponse) = DgtLiveChessWrapper.DgtLiveChessJson.FeedResponse.LiveChessFeedResponse.Deserialize(responseIn);
+                (string feedMsgJsonString, LiveChessFeedResponse feedMsgResponse) = LiveChessFeedResponse.Deserialize(responseIn);
 
                 if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
                 {
@@ -207,7 +208,7 @@ namespace DgtLiveChessWrapper
             }
             else
             {
-                ms.Seek(0, SeekOrigin.Begin);
+                _ = ms.Seek(0, SeekOrigin.Begin);
                 using StreamReader reader = new(ms, Encoding.UTF8);
                 string response = await reader.ReadToEndAsync();
 

@@ -30,14 +30,14 @@ namespace DgtAngelShared.Json
     public sealed record State
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public ResponseCode Code { get; init; }
+        public ResponseCode Code { get; set; }
         public string Message { get; init; }
     }
 
     public sealed record Boardconnection
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public SiteToBoardConnectionState BoardState { get; init; }
+        public SiteToBoardConnectionState BoardState { get; set; }
         public string ConMessage { get; init; }
     }
 
@@ -45,9 +45,12 @@ namespace DgtAngelShared.Json
     {
         public bool IsWhiteOnBottom { get; init; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public TurnCode Turn { get; init; }
-        public string LastMove { get; init; }
+        public TurnCode ClockTurn { get; init; }
+        public string LastMove { get; set; }
+        public string Ending { get; set; }
+        public TurnCode FenTurn { get; set; }
         public string FenString { get; init; }
+        public string LastFenString { get; set; }
         public Clocks Clocks { get; init; }
     }
 

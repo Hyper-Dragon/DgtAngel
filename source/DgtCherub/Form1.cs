@@ -27,7 +27,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.0 UAT-05";
+        private const string VERSION_NUMBER = "0.4.3 PLAY-UAT-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
@@ -39,18 +39,12 @@ namespace DgtCherub
         private const string PROJECT_RELEASES = @"https://github.com/Hyper-Dragon/DgtAngel/releases";
         private const string PROJECT_CHESS_STATS = @"https://hyper-dragon.github.io/ChessStats/";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
-        private const string DL_RABBIT = @"https://www.digitalgametechnology.com/index.php/support1/dgt-software/dgt-e-board-chess-8x8";
+        private const string DL_RABBIT = @"https://digitalgametechnology.com/support/software/software-downloads";
         private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc";
         private const string PP_CODE = "QNKADKV5BAM5C";
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
-        private const decimal DEFAULT_VOLUME = 7;
-
-        // Use 'powercfg -requests' to test if the power settings are set correctly
-        private const bool DEFAULT_PREVENT_SLEEP = true;
-
-        private const int DEFAULT_MOVE_VOICE_INDEX = 1;
         private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
         private System.Resources.ResourceManager VoiceMoveResManager;
 
@@ -130,18 +124,28 @@ namespace DgtCherub
 
             InitializeComponent();
 
-            //TODO: Start the Rabbit Plugin if we can...
-            //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-            //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
-            try
+
+
+            if (Process.GetProcessesByName("DGT LiveChess").Length > 0)
             {
-                //_dgtEbDllFacade.Init();
-                //IsRabbitInstalled = true;
+                //TODO: Prep for Live Chess removal update
+                //Console.WriteLine("Process");
             }
-            catch (DllNotFoundException)
+            else
             {
-                _dgtEbDllFacade = null;
-                IsRabbitInstalled = false;
+                //TODO: Start the Rabbit Plugin if we can...
+                //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
+                //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
+                try
+                {
+                    //_dgtEbDllFacade.Init();
+                    //IsRabbitInstalled = true;
+                }
+                catch (DllNotFoundException)
+                {
+                    _dgtEbDllFacade = null;
+                    IsRabbitInstalled = false;
+                }
             }
 
             // Get Hostname and v4 IP Addrs
@@ -164,6 +168,23 @@ namespace DgtCherub
             PreventScreensaver(false);
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
+            DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
+            DgtCherub.Properties.UserSettings.Default.VolTime = UpDownVolTime.Value;
+            DgtCherub.Properties.UserSettings.Default.AlwaysOnTop = CheckBoxOnTop.Checked;
+            DgtCherub.Properties.UserSettings.Default.PreventSleep = CheckBoxPreventSleep.Checked;
+            DgtCherub.Properties.UserSettings.Default.IncludeSeconds = CheckBoxIncludeSecs.Checked;
+            DgtCherub.Properties.UserSettings.Default.BeepMode = CheckBoxPlayerBeep.Checked;
+            DgtCherub.Properties.UserSettings.Default.Silent = CheckboxSilentBeep.Checked;
+            DgtCherub.Properties.UserSettings.Default.FontSize = UpDownFontSize.Value;
+            DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx = ComboBoxMoveVoice.SelectedIndex;
+            DgtCherub.Properties.UserSettings.Default.MatcherDelay = UpDownVoiceDelay.Value;
+            DgtCherub.Properties.UserSettings.Default.Save();
+        }
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             SuspendLayout();
@@ -175,13 +196,18 @@ namespace DgtCherub
             EchoExternalMessagesToConsole = CheckBoxShowInbound.Checked;
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
+
+            //Remove the about tab for now (reserved for new content)
+            TabControlSidePanel.TabPages.RemoveAt(0);
+
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
-            UpDownVoiceDelay.Value = _angelHubService.MatcherRemoteTimeDelayMs / 1000;
+            CheckBoxIncludeSecs.Checked = DgtCherub.Properties.UserSettings.Default.IncludeSeconds;
+            CheckBoxPlayerBeep.Checked = DgtCherub.Properties.UserSettings.Default.BeepMode;
+            CheckboxSilentBeep.Checked = DgtCherub.Properties.UserSettings.Default.Silent;
 
-            CheckBoxIncludeSecs.Checked = IncludeSecs;
-            CheckBoxPlayerBeep.Checked = PlayerBeepOnly;
-            CheckboxSilentBeep.Checked = IsSilentBeep;
+            CheckBoxOnTop.Checked = DgtCherub.Properties.UserSettings.Default.AlwaysOnTop;
+            CheckBoxOnTop_CheckedChanged(this, null);
 
             LinkLabelAbout1.Text = "GitHub Project Page";
             LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
@@ -231,12 +257,18 @@ namespace DgtCherub
             }
 
             //Set voice/volume to default
-            UpDownVolStatus.Value = DEFAULT_VOLUME;
-            UpDownVolMoves.Value = DEFAULT_VOLUME;
-            UpDownVolTime.Value = DEFAULT_VOLUME;
+            UpDownVolStatus.Value = DgtCherub.Properties.UserSettings.Default.VolStatus;
+            UpDownVolMoves.Value = DgtCherub.Properties.UserSettings.Default.VolMoves;
+            UpDownVolTime.Value = DgtCherub.Properties.UserSettings.Default.VolTime;
 
-            ComboBoxMoveVoice.SelectedIndex = DEFAULT_MOVE_VOICE_INDEX;
-            VoiceMoveResManager = DEFAULT_MOVE_VOICE;
+            ComboBoxMoveVoice.SelectedIndex = DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx;
+            ComboBoxMoveVoice_SelectedValueChanged(this, null);
+
+            UpDownVoiceDelay.Value = DgtCherub.Properties.UserSettings.Default.MatcherDelay;
+            UpDownVoiceDelay_ValueChanged(this, null);
+
+            UpDownFontSize.Value = DgtCherub.Properties.UserSettings.Default.FontSize;
+            UpDownFontSize_ValueChanged(this, null);
 
             //Hides the caret from up/down boxes
             _ = HideCaret(UpDownVolStatus.Controls[1].Handle);
@@ -244,8 +276,8 @@ namespace DgtCherub
             _ = HideCaret(UpDownVolTime.Controls[1].Handle);
             _ = HideCaret(DomainUpDown.Controls[1].Handle);
 
-            CheckBoxPreventSleep.Checked = DEFAULT_PREVENT_SLEEP;
-            PreventScreensaver(DEFAULT_PREVENT_SLEEP);
+            CheckBoxPreventSleep.Checked = DgtCherub.Properties.UserSettings.Default.PreventSleep;
+            PreventScreensaver(CheckBoxPreventSleep.Checked);
 
             //Make sure this is set
             DoubleBuffered = true;
@@ -266,9 +298,9 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnRemoteFenChange += (string remoteFen, string lastMove) =>
+            _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove) =>
             {
-                TextBoxConsole.AddLine($"Remote board changed [{remoteFen}] [{lastMove}]");
+                TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}]");
                 DisplayBoardImages();
             };
 
@@ -282,7 +314,7 @@ namespace DgtCherub
                 //If the board difference is a single move and the remote board has not changed since the last match
                 //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
                 //audio
-                _voicePlayeStatus.Speak( (diffCount==2 && lastLocalFenMatch==localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
+                _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
             _angelHubService.OnRemoteWatchStarted += () =>
@@ -312,7 +344,7 @@ namespace DgtCherub
                 LabelLocalDgt.BackColor = BoredLabelsInitialColor;
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
             };
-            
+
             _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
@@ -424,6 +456,7 @@ namespace DgtCherub
                                 '8' => "Numbers_8",
                                 'x' => "Words_Takes",
                                 '+' => "Words_Check",
+                                '#' => "Words_Check",
                                 '=' => "Words_PromotesTo",
                                 _ => "Words_Missing",
                             };
@@ -431,7 +464,7 @@ namespace DgtCherub
                             playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                         }
 
-                        (PlayerBeepOnly?_voicePlayerMovesNoDrop:_voicePlayerMoves).Speak(playlist);
+                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(playlist);
                     }
                 }
             };
@@ -604,8 +637,15 @@ namespace DgtCherub
         private void CheckBoxOnTop_CheckedChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"The Board tab {(CheckBoxOnTop.Checked ? "will always be on top." : "will no longer be on top.")}", TEXTBOX_MAX_LINES);
-            if (!CheckBoxOnTop.Checked)
+
+            if (CheckBoxOnTop.Checked)
             {
+                TopMost = true;
+            }
+            else
+            {
+                TopMost = false;
+
                 TextBoxConsole.AddLines(new string[] { $"Keeping the board tab on top is handy when playing since you are able",
                                                        $"to see it without Angel losing focus on the game board."}, TEXTBOX_MAX_LINES);
             }
@@ -851,16 +891,14 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         For previous Live board users you will need to update your chrome extension...", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"            Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         Please be aware that because of the way the play board works you must leave", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         the Chrome window open on the descktop.  You do not need to see the board! An ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         audio warning will play if focus is lost.  For the same reason DO NOT use focus mode.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
 
-        private void PreventScreensaver(bool preventSleep)
+        private static void PreventScreensaver(bool preventSleep)
         {
+            // Use 'powercfg -requests' to test if the power settings are set correctly
+
             _ = preventSleep
                 ? SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS)
                 : SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
@@ -894,6 +932,7 @@ namespace DgtCherub
 
         }
 
+
         private void UpDownFontSize_ValueChanged(object sender, EventArgs e)
         {
             TextBoxConsole.Font = new Font("Consolas",
@@ -910,9 +949,9 @@ namespace DgtCherub
 
         private void ComboBoxMoveVoice_SelectedValueChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Using Voice {((ComboBox)sender).Text} for move announcements");
+            TextBoxConsole.AddLine($"Using Voice {ComboBoxMoveVoice.Text} for move announcements");
 
-            VoiceMoveResManager = ((ComboBox)sender).Text switch
+            VoiceMoveResManager = ComboBoxMoveVoice.Text switch
             {
                 "en-01" => DgtCherub.Assets.Moves_en_01.ResourceManager,
                 "en-02" => DgtCherub.Assets.Moves_en_02.ResourceManager,
@@ -939,14 +978,14 @@ namespace DgtCherub
 
         private void CheckBoxPlayerBeep_CheckedChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL" : "WILL NOT")} be vocalised"); 
+            TextBoxConsole.AddLine($"Player moves {(((CheckBox)sender).Checked ? "WILL" : "WILL NOT")} be vocalised");
 
 
             if (((CheckBox)sender).Checked)
             {
                 TextBoxConsole.AddLine($"{(IsSilentBeep ? "No sound will be played" : "A sound will play instead of the move announcement")}");
             }
-            
+
             PlayerBeepOnly = ((CheckBox)sender).Checked;
         }
 
@@ -956,13 +995,14 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"Player moves WILL be vocalised");
                 TextBoxConsole.AddLine($"{(((CheckBox)sender).Checked ? "No sound will be played" : "A sound will play instead of the move announcement")}");
-            } 
+            }
             else
             {
                 TextBoxConsole.AddLine($"WARNING: Beep Mode is disabled - This option will have no effect");
             }
-            
+
             IsSilentBeep = ((CheckBox)sender).Checked;
         }
+
     }
 }

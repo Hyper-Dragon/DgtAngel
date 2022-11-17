@@ -4,8 +4,18 @@
  *
  */
 
+console.log("Always active set");
+Object.defineProperty(document, "visibilityState", {
+    value: "visible",
+    writable: true,
+});
+Object.defineProperty(document, "hidden", { value: false, writable: true });
+document.dispatchEvent(new Event("visibilitychange"));
+
 window.addEventListener("beforeunload", function (e) {
+    //if (hasSentStart == true) {
     sendWatchStopped();
+    //}
 });
 
 setInterval(() => {
@@ -30,7 +40,7 @@ setInterval(() => {
                 updateMsg.RemoteBoard = getDefaultRemoteBoard();
                 updateMsg.RemoteBoard.State.Code = boardStateCodes.UNKNOWN_PAGE;
                 updateMsg.RemoteBoard.State.Message =
-                    "The loaded plugin does not recognise the the page URL";
+                    "Unsupported page " + window.location.toString();
                 updateMsg.RemoteBoard.Board = null;
                 updateMsg.RemoteBoard.BoardConnection = null;
             }
@@ -46,17 +56,30 @@ setInterval(() => {
             updateMsg.RemoteBoard.BoardConnection = null;
         }
 
+        
         //echo the message out for the popup (if it is running)
-        chrome.runtime.sendMessage({ BoardScrapeMsg: updateMsg });
+        chrome.runtime.sendMessage({BoardScrapeMsg: updateMsg}, function (response) {
+            if (chrome.runtime.lastError) {
+                // Do nothing - trap error if popup isn't visible
+            }
+        });
 
         try {
             if (socket != null && socket.readyState == WebSocket.OPEN) {
-                // if (activeTabId == sender.tab.id) {
-                if (hasSentStart == false) {
-                    sendWatchStarted(updateMsg.RemoteBoard);
-                    NotifyScreen("WATCH STARTED");
+                if (
+                    updateMsg.RemoteBoard.State.Code ==
+                    boardStateCodes.UNKNOWN_PAGE
+                ) {
+                    //if (hasSentStart == true) {
+                    //    sendWatchStopped();
+                    //}
                 } else {
-                    SocketSendMessage(updateMsg);
+                    if (hasSentStart == false) {
+                        sendWatchStarted(updateMsg.RemoteBoard);
+                        NotifyScreen("WATCH STARTED");
+                    } else {
+                        SocketSendMessage(updateMsg);
+                    }
                 }
             }
         } catch (err) {

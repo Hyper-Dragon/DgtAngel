@@ -4,20 +4,19 @@
  *  - Defines supported state codes
  */
 const messageStateCodes = {
-	ERROR_IF_NOT_SET: "ERROR_IF_NOT_SET",
+    ERROR_IF_NOT_SET: "ERROR_IF_NOT_SET",
     WATCH_STARTED: "WATCH_STARTED",
     STATE_UPDATED: "STATE_UPDATED",
     WATCH_STOPPED: "WATCH_STOPPED",
-	KEEP_ALIVE: "KEEP_ALIVE",
+    KEEP_ALIVE: "KEEP_ALIVE",
 };
 
 const boardStateCodes = {
-	UNKNOWN_PAGE: "UNKNOWN_PAGE",
+    UNKNOWN_PAGE: "UNKNOWN_PAGE",
     LOST_VISABILITY: "LOST_VISABILITY",
-    MOVE_LIST_MISSING: "MOVE_LIST_MISSING",
-	GAME_PENDING: "GAME_PENDING",
+    GAME_PENDING: "GAME_PENDING",
     GAME_IN_PROGRESS: "GAME_IN_PROGRESS",
-	GAME_COMPLETED: "GAME_COMPLETED",
+    GAME_COMPLETED: "GAME_COMPLETED",
     PAGE_READ_ERROR: "PAGE_READ_ERROR",
 };
 
@@ -41,6 +40,8 @@ function GetBlankMessage(messageSource, messageType) {
     }
 
     blankMsg = {
+        AngelPluginName: chrome.runtime.getManifest().name,
+        AngelPluginVersion: chrome.runtime.getManifest().version,
         AngelMessageVersion: ANGEL_MESSAGE_VERSION,
         Source: messageSource,
         MessageType: messageType,
@@ -67,8 +68,7 @@ function getDefaultRemoteBoard() {
         },
         Board: {
             IsWhiteOnBottom: true,
-            Turn: "",
-            LastMove: "",
+            ClockTurn: "",
             FenString: "",
             Clocks: {
                 CaptureTimeMs: 0,

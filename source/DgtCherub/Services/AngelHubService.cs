@@ -1,8 +1,8 @@
 ﻿using DgtAngelShared.Json;
 using DgtEbDllWrapper;
+using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
-using DynamicBoard.Helpers;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
@@ -30,7 +30,7 @@ namespace DgtCherub.Services
         event Action<string> OnBoardMatch;
         event Action OnBoardMatcherStarted;
         event Action OnBoardMatchFromMissmatch;
-        event Action<int,string,string> OnBoardMissmatch;
+        event Action<int, string, string> OnBoardMissmatch;
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
@@ -40,7 +40,7 @@ namespace DgtCherub.Services
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
-        event Action<string,string> OnRemoteFenChange;
+        event Action<string, string, string> OnRemoteFenChange;
         event Action<string, string> OnNotification;
 
         void LocalBoardUpdate(string fen);
@@ -53,11 +53,11 @@ namespace DgtCherub.Services
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action<string> OnLocalFenChange;
-        public event Action<string,string> OnRemoteFenChange;
+        public event Action<string, string, string> OnRemoteFenChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
-        public event Action<int,string,string> OnBoardMissmatch;
+        public event Action<int, string, string> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
         public event Action<string> OnBoardMatch;
         public event Action OnBoardMatchFromMissmatch;
@@ -74,6 +74,7 @@ namespace DgtCherub.Services
         public string LocalBoardFEN { get; private set; }
         public string LastMatchedPosition { get; private set; }
         public string RemoteBoardFEN { get; private set; }
+        public string FromRemoteBoardFEN { get; private set; }
         public string LastMove { get; private set; }
         public int WhiteClockMsRemaining { get; private set; }
         public int BlackClockMsRemaining { get; private set; }
@@ -93,10 +94,10 @@ namespace DgtCherub.Services
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 5000;
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 300;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 750;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
-        private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS*2;
+        private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS * 2;
         private const int POST_EVENT_DELAY_REMOTE_FEN = MS_IN_SEC / 10;
         private const int POST_EVENT_DELAY_CLOCK = MS_IN_SEC / 2;
         private const int POST_EVENT_DELAY_MESSAGE = MS_IN_SEC / 10;
@@ -114,11 +115,14 @@ namespace DgtCherub.Services
         private readonly Channel<bool> orientationProcessChannel;
         private readonly Channel<(string source, string message)> messageProcessChannel;
 
+        private readonly object matcherLockObj = new();
+
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
         private string lastMoveVoiceTest = "";
-        
+
+
         public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         {
             _logger = logger;
@@ -180,7 +184,6 @@ namespace DgtCherub.Services
             finally { _ = startStopSemaphore.Release(); }
         }
 
-
         public void LocalBoardUpdate(string fen)
         {
             _ = localFenProcessChannel.Writer.TryWrite(fen);
@@ -188,31 +191,41 @@ namespace DgtCherub.Services
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
-            if (remoteBoardState.State.Code == ResponseCode.GAME_IN_PROGRESS)
+            //Always send these
+            _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
+            _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+
+            //...and then ignore if we already have the FEN
+            if (RemoteBoardFEN != null && RemoteBoardFEN == remoteBoardState.Board.FenString)
             {
-                _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-                _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
-                _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+                return;
+            }
+
+            if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
+            {
+                ResetRemoteBoardState(true);
+            }
+
+            remoteBoardState.Board.LastFenString = RemoteBoardFEN == null ? "" : RemoteBoardFEN.ToString();
+
+            if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastFenString))
+            {
+                (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(remoteBoardState.Board.LastFenString, remoteBoardState.Board.FenString);
+                remoteBoardState.Board.LastMove = move;
+                remoteBoardState.Board.Ending = ending;
+                remoteBoardState.Board.FenTurn = turn == "WHITE" ? TurnCode.WHITE : turn == "BLACK" ? TurnCode.BLACK : TurnCode.UNKNOWN;
+            }
+            else
+            {
+                remoteBoardState.Board.LastMove = "";
+            }
+
+            _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+
+
+            if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastMove))
+            {
                 _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
-            }
-            else if (remoteBoardState.State.Code == ResponseCode.GAME_COMPLETED)
-            {
-                if (remoteBoardState.Board.LastMove is "1-0" or
-                    "0-1" or
-                    "1/2-1/2")
-                {
-                    //ResetRemoteBoardState(true);
-                    _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
-                    _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-                    _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
-                    _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
-                }
-            }
-            else if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
-            {
-                //ResetRemoteBoardState(true);
-                _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-                _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
             }
         }
 
@@ -258,7 +271,8 @@ namespace DgtCherub.Services
 
                     //if (!IsBoardInSync && LocalBoardFEN == RemoteBoardFEN)
                     //{
-                    if(IsLocalBoardAvailable && IsRemoteBoardAvailable) { 
+                    if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
+                    {
                         // If the fens match we have caught up to the remote board.
                         // Run the matcher straight away to clear any outstanding match requests.
                         // There is no need to match after our moves - issues will be detected by the remote board match
@@ -310,15 +324,15 @@ namespace DgtCherub.Services
 
                 // Account for the actual time captured/now if clock running
                 int captureTimeDiffMs = (int)(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
-                TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.Turn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
-                TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.Turn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
+                TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.ClockTurn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
+                TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.ClockTurn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
                 WhiteClockMsRemaining = (int)whiteTimespan.TotalMilliseconds;
                 BlackClockMsRemaining = (int)blackTimespan.TotalMilliseconds;
 
                 string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
                 string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
-                int runWho = remoteBoardState.Board.Turn == TurnCode.WHITE ? 1 : remoteBoardState.Board.Turn == TurnCode.BLACK ? 2 : 0;
+                int runWho = remoteBoardState.Board.ClockTurn == TurnCode.WHITE ? 1 : remoteBoardState.Board.ClockTurn == TurnCode.BLACK ? 2 : 0;
 
                 WhiteClock = whiteClockString;
                 BlackClock = blackClockString;
@@ -340,19 +354,31 @@ namespace DgtCherub.Services
 
                 _logger?.LogTrace("Processing a move recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
-                if (LastMove is null || 
-                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}")
+                if (LastMove is null ||
+                    lastMoveVoiceTest != $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.FenString}")
                 {
                     LastMove = remoteBoardState.Board.LastMove;
-                    lastMoveVoiceTest = $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.Turn}";
-                        
+                    lastMoveVoiceTest = $"{remoteBoardState.Board.LastMove}{remoteBoardState.Board.FenString}";
+
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 
-
-                    bool isPlayerTurn = ((IsWhiteOnBottom && remoteBoardState.Board.Turn != TurnCode.WHITE) ||
-                                         (!IsWhiteOnBottom && remoteBoardState.Board.Turn != TurnCode.BLACK));
+                    // If turncode is none then read all moves
+                    bool isPlayerTurn = remoteBoardState.Board.ClockTurn == TurnCode.NONE ||
+                                          (IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.WHITE) ||
+                                          (!IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.BLACK);
 
                     OnNewMoveDetected?.Invoke(LastMove, isPlayerTurn);
+
+                    if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.Ending))
+                    {
+                        if (remoteBoardState.Board.Ending is "1-0" or
+                            "0-1" or
+                            "1/2-1/2")
+                        {
+                            OnNewMoveDetected?.Invoke(remoteBoardState.Board.Ending, true);
+                        }
+                    }
+
                     await Task.Delay(POST_EVENT_DELAY_LAST_MOVE);
                 }
             }
@@ -371,18 +397,18 @@ namespace DgtCherub.Services
 
                     //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
                     RemoteBoardFEN = remoteBoardState.Board.FenString;
+                    FromRemoteBoardFEN = remoteBoardState.Board.LastFenString;
                     LastMove = remoteBoardState.Board.LastMove;
-                    
+
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    OnRemoteFenChange?.Invoke(RemoteBoardFEN, LastMove);
+                    OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove);
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
             }
         }
 
-        
         private async void TestForBoardMatch(string matchCode, int matchDelay)
         {
             if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
@@ -395,30 +421,33 @@ namespace DgtCherub.Services
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
-                if (matchCode == CurrentUpdatetMatch.ToString())
+                lock (matcherLockObj)
                 {
-                    _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-
-                    if (RemoteBoardFEN != LocalBoardFEN)
+                    if (matchCode == CurrentUpdatetMatch.ToString())
                     {
-                        IsBoardInSync = false;
-                        OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN,RemoteBoardFEN),LastMatchedPosition,LocalBoardFEN);
+                        _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+
+                        if (RemoteBoardFEN != LocalBoardFEN)
+                        {
+                            IsBoardInSync = false;
+                            OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
+                        }
+                        else
+                        {
+                            LastMatchedPosition = LocalBoardFEN;
+                            //OnBoardMatch?.Invoke(LocalBoardFEN);
+
+                            if (!IsBoardInSync)
+                            {
+                                IsBoardInSync = true;
+                                OnBoardMatchFromMissmatch?.Invoke();
+                            }
+                        }
                     }
                     else
                     {
-                        LastMatchedPosition = LocalBoardFEN;
-                        OnBoardMatch?.Invoke(LocalBoardFEN);
-
-                        if (!IsBoardInSync)
-                        {  
-                            IsBoardInSync = true;
-                            OnBoardMatchFromMissmatch?.Invoke();
-                        }
+                        _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                     }
-                }
-                else
-                {
-                    _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                 }
             }
         }

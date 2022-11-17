@@ -5,10 +5,13 @@
  */
 function IsUrlValid(urlToTest) {
     if (
-        urlToTest.includes("chess.com/game/live/") 
+        urlToTest.includes("chess.com/game/live/") ||
+        urlToTest.includes("chess.com/play/online")
     ) {
+        /// console.log(urlToTest+" Test Returns TRUE");
         return true;
     } else {
+        /// console.log(urlToTest+"URL Test Returns FALSE");
         return false;
     }
 }
@@ -22,14 +25,6 @@ function GetRemoteBoardState() {
         remoteBoard.State.Code = boardStateCodes.LOST_VISABILITY;
         remoteBoard.State.Message =
             "On the play screen the board needs to be visible.";
-        remoteBoard.Board = null;
-        remoteBoard.BoardConnection = null;
-    } else if (
-        Array.from(document.getElementsByClassName("move-list-component"))
-            .length == 0
-    ) {
-        remoteBoard.State.Code = boardStateCodes.MOVE_LIST_MISSING;
-        remoteBoard.State.Message = "The move list is inaccessible.";
         remoteBoard.Board = null;
         remoteBoard.BoardConnection = null;
     } else {
@@ -51,52 +46,25 @@ function GetRemoteBoardState() {
         while (piecesStringArray.length) {
             var piece = piecesStringArray.pop();
 
+            if (piece.length == 6) {
+                piece = piece.substring(2);
+            }
+
             // The class name can be [piece][square] OR [square][piece]
             // Check if we are starting with a number and parse accordingly
             if (piece.match(/^\d/)) {
                 board[8 - parseInt(piece[1])][parseInt(piece[0]) - 1] =
-                piece[2] + "" + piece[3];
-             }else{
+                    piece[2] + "" + piece[3];
+            } else {
                 board[8 - parseInt(piece[3])][parseInt(piece[2]) - 1] =
-                piece[0] + "" + piece[1];
-             }
-        }
-
-        // Now the last move
-        lastMove = "";
-        gameResult = document.getElementsByClassName("game-result");
-
-        //If we have a result grab the text
-        if (gameResult.length > 0) {
-            lastMove = gameResult[0].innerText.trim();
-        } else {
-            //Get all the moves...
-            moveList = Array.from(document.getElementsByClassName("move"));
-
-            // ...and take the last one
-            if (moveList.length > 0) {
-                movePop = moveList.pop();
-                nodePop = Array.from(
-                    movePop.getElementsByClassName("node")
-                ).pop();
-
-                // Check for figurine notation
-                iconFont = nodePop.getElementsByClassName("icon-font-chess");
-
-                if (iconFont.length > 0) {
-                    lastMove =
-                        iconFont[0].attributes["data-figurine"].value +
-                        nodePop.innerText.trim();
-                } else {
-                    lastMove = nodePop.innerText.trim();
-                }
+                    piece[0] + "" + piece[1];
             }
         }
 
         // Now the clocks....
         whiteClock = document.getElementsByClassName("clock-white")[0];
         blackClock = document.getElementsByClassName("clock-black")[0];
-        turn = "NONE";
+        turn = turnCodes.NONE;
 
         // Use the clocks to detect the turn
         if (whiteClock.classList.contains("clock-player-turn")) {
@@ -119,40 +87,39 @@ function GetRemoteBoardState() {
                 .innerText.trim()
                 .replaceAll("\n", "");
         }
-
+        
         remoteBoard.Board.FenString = calculateFen(board);
-        remoteBoard.Board.Turn = turn;
+        remoteBoard.Board.ClockTurn = turn;
         remoteBoard.Board.IsWhiteOnBottom =
             whiteClock.classList.contains("clock-bottom");
-        remoteBoard.Board.LastMove = lastMove;
         remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
-            whiteClock.innerText
+            whiteClock.innerText.split(".")[0]
         );
         remoteBoard.Board.Clocks.BlackClock = convertClockStringToMs(
-            blackClock.innerText
+            blackClock.innerText.split(".")[0]
         );
         remoteBoard.Board.Clocks.CaptureTimeMs = new Date().getTime();
         remoteBoard.BoardConnection.BoardState = boardState;
         remoteBoard.BoardConnection.ConMessage = boardMessage;
 
         //Calculate the game state
-        if (remoteBoard.Board.Turn == turnCodes.NONE) {
-            if (remoteBoard.Board.LastMove == "") {
-                remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
-            } else {
-                remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-            }
-        } else {
-            if (
-                remoteBoard.Board.LastMove == "1-0" ||
-                remoteBoard.Board.LastMove == "0-1" ||
-                remoteBoard.Board.LastMove == "1/2-1-2"
-            ) {
-                remoteBoard.Board.Turn = turnCodes.NONE;
-                remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-            } else {
-                remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
-            }
+        if (remoteBoard.Board.FenString == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+        {
+            remoteBoard.State.Code = boardStateCodes.GAME_PENDING;
+            remoteBoard.Board.ClockTurn = turnCodes.WHITE;
+        }
+        else if (remoteBoard.Board.Clocks.WhiteClock == 0 || remoteBoard.Board.Clocks.BlackClock == 0)
+        {
+            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+            remoteBoard.Board.ClockTurn = turnCodes.NONE;
+        }
+        else if (remoteBoard.Board.ClockTurn == turnCodes.NONE) 
+        {
+            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+        } 
+        else 
+        {
+            remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
         }
     }
 

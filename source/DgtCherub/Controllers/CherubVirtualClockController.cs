@@ -103,7 +103,7 @@ namespace DgtCherub.Controllers
         public ContentResult GetClock(string clock)
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
-            _logger?.LogTrace("Clock requested",clock.SanitiseText());
+            _logger?.LogTrace("Clock requested", clock.SanitiseText());
 
             try
             {
@@ -159,7 +159,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}/{localBoard}/{remoteBoard}")]
         public async Task<FileContentResult> BoardImageCompareByFen(string board, string localBoard, string remoteBoard)
         {
-            _logger?.LogTrace("Board image requested", $"{localBoard} :: {remoteBoard}".SanitiseText() );
+            _logger?.LogTrace("Board image requested", $"{localBoard} :: {remoteBoard}".SanitiseText());
 
             string local = string.IsNullOrEmpty(localBoard) ? HttpUtility.UrlDecode(remoteBoard) : HttpUtility.UrlDecode(localBoard);
             string remote = string.IsNullOrEmpty(remoteBoard) ? HttpUtility.UrlDecode(localBoard) : HttpUtility.UrlDecode(remoteBoard);
@@ -180,7 +180,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
-            _logger?.LogTrace("Board image requested",board.SanitiseText());
+            _logger?.LogTrace("Board image requested", board.SanitiseText());
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -201,7 +201,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImageNoCompare(string board)
         {
-            _logger?.LogTrace("Board image without compare requested",board.SanitiseText());
+            _logger?.LogTrace("Board image without compare requested", board.SanitiseText());
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -250,8 +250,8 @@ namespace DgtCherub.Controllers
             int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
 
             Response.Headers.Add("Content-Type", MIME_EVENT);
-            
-            _angelHubService.OnBoardMissmatch += async (_,_,_) =>
+
+            _angelHubService.OnBoardMissmatch += async (_, _, _) =>
             {
                 await SendEventResponse(Response, ConstructMessageOnly("OnBoardMissmatch"));
             };
@@ -332,12 +332,12 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            _angelHubService.OnRemoteFenChange += async (string remoteFen, string lastMove) =>
+            _angelHubService.OnRemoteFenChange += async (string fromRemoteFen, string toRemoteFen, string lastMove) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",
-                    BoardFen = remoteFen,
+                    BoardFen = toRemoteFen,
                     _angelHubService.IsWhiteOnBottom,
                     lastMove,
                     IsGameActive = _angelHubService.RunWhoString != "3",

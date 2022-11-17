@@ -1,6 +1,8 @@
 //Set initial values
 document.getElementById("ver").innerText=chrome.runtime.getManifest().version;
 
+document.getElementById("extName").innerText=chrome.runtime.getManifest().name;
+
 document.getElementById("show-msg-button").onclick = function (event) {
     elemSection = document.getElementById("messageSection");
     if (elemSection.hidden) {
@@ -32,7 +34,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             document.getElementById("RemoteBoardTurn").innerText = "-";
             document.getElementById("RemoteBoardIsWhiteOnBottom").innerText =
                 "-";
-            document.getElementById("RemoteBoardLastMove").innerText = "-";
             document.getElementById("RemoteBoardWhiteClock").innerText = "-";
             document.getElementById("RemoteBoardBlackClock").innerText = "-";
             document.getElementById("RemoteBoardCaptureTimeMs").innerText = "-";
@@ -62,20 +63,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                     document.getElementById("RemoteBoardFenString").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.FenString;
                     document.getElementById("RemoteBoardTurn").innerText =
-                        request.BoardScrapeMsg.RemoteBoard.Board.Turn;
-                    document.getElementById(
-                        "RemoteBoardIsWhiteOnBottom"
-                    ).innerText =
+                        request.BoardScrapeMsg.RemoteBoard.Board.ClockTurn;
+                    document.getElementById("RemoteBoardIsWhiteOnBottom").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.IsWhiteOnBottom;
-                    document.getElementById("RemoteBoardLastMove").innerText =
-                        request.BoardScrapeMsg.RemoteBoard.Board.LastMove;
                     document.getElementById("RemoteBoardWhiteClock").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.Clocks.WhiteClock;
                     document.getElementById("RemoteBoardBlackClock").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.Clocks.BlackClock;
-                    document.getElementById(
-                        "RemoteBoardCaptureTimeMs"
-                    ).innerText =
+                    document.getElementById("RemoteBoardCaptureTimeMs").innerText =
                         request.BoardScrapeMsg.RemoteBoard.Board.Clocks.CaptureTimeMs;
                     document.getElementById("RemoteBoardBoardState").innerText =
                         request.BoardScrapeMsg.RemoteBoard.BoardConnection.BoardState;

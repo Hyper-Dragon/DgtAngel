@@ -351,7 +351,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 502);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 505);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -463,9 +463,9 @@ namespace DgtCherub
             this.Panel1.Controls.Add(this.TabControlSidePanel);
             this.Panel1.Controls.Add(this.TextBoxConsole);
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1.Location = new System.Drawing.Point(0, 28);
+            this.Panel1.Location = new System.Drawing.Point(0, 25);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(716, 510);
+            this.Panel1.Size = new System.Drawing.Size(716, 513);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -484,7 +484,7 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 510);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 513);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -784,7 +784,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(519, 510);
+            this.TextBoxConsole.Size = new System.Drawing.Size(519, 513);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -827,7 +827,7 @@ namespace DgtCherub
             this.LinksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(716, 28);
+            this.MenuStrip.Size = new System.Drawing.Size(716, 25);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -843,7 +843,7 @@ namespace DgtCherub
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
@@ -905,7 +905,7 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 21);
             this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -1042,6 +1042,7 @@ namespace DgtCherub
             this.MinimumSize = new System.Drawing.Size(420, 611);
             this.Name = "Form1";
             this.Text = "Cherub";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
