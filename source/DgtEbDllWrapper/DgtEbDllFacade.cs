@@ -14,8 +14,6 @@ namespace DgtEbDllWrapper
         private static void MyCallbackScanFunc(StringBuilder positionFen)
         {
             OnFenChanged(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks });
-
-            //OnFenChanged?.Invoke(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks});
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
