@@ -27,6 +27,8 @@ namespace DgtCherub
 {
     public partial class Form1 : Form
     {
+        LiveChessServer lv = new LiveChessServer();
+
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.4.4 PLAY-UAT-02";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
@@ -142,6 +144,10 @@ namespace DgtCherub
                 try
                 {
                     _dgtEbDllFacade.Init();
+
+                    
+                    lv.RunLiveChessServer();
+
                     IsUsingRabbit = true;
                 }
                 catch (DllNotFoundException)
