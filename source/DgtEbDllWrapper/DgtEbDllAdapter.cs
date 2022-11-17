@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using static DgtEbDllWrapper.DgtEbDllAdapter;
 using static DgtEbDllWrapper.DgtEbDllImport;
 
 namespace DgtEbDllWrapper
@@ -12,9 +13,19 @@ namespace DgtEbDllWrapper
         private const int dummy = 0;
 
 
+
+
+        // Note: this method will be called from a different thread!
+        public static event EventHandler<FenChangedEventArgs> OnFenChanged;
+        public static void MyCallbackScanFunc(StringBuilder positionFen)
+        {
+            //OnFenChanged(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks });
+        }
+
         internal static Result Init()
         {
-            return (Result)DgtEbDllImport.Init();
+            return (Result) Init(MyCallbackScanFunc);
+            //return (Result)DgtEbDllImport.Init(DgtEbDllWrapper.DgtEbDllFacade.MyCallbackScanFunc);
         }
 
         internal static Result Init(CallbackScanFunc func)
@@ -23,7 +34,8 @@ namespace DgtEbDllWrapper
             var result2 = (Result)DgtEbDllImport.UseFEN(true);
             var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(func, IntPtr.Zero);
 
-            return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
+            //return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
+            return Result.SUCCESS;
         }
 
 

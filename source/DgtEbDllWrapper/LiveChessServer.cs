@@ -16,8 +16,7 @@ namespace DgtEbDllWrapper
 
         public void RunLiveChessServer() {
 
-            server = new("ws://0.0.0.0:1982");
-            server.RestartAfterListenError = true;
+            server = new("ws://0.0.0.0:1982") { RestartAfterListenError = true };
             
             server.Start(socket =>
             {
@@ -40,11 +39,11 @@ namespace DgtEbDllWrapper
                             socket.Send("{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":1668045228663}");
                             socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{fen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
 
-                            DgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) =>
-                            {
-                                //TextBoxConsole.AddLine($"Local board changed [SOCKET] [{e.Fen}]");
-                                socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{e.Fen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
-                            };
+                            //DgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) =>
+                            //{
+                            //    //TextBoxConsole.AddLine($"Local board changed [SOCKET] [{e.Fen}]");
+                            //    socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{e.Fen}\",\"clock\":null" + "}" + ",\"time\":1668045228666" + "}");
+                            //};
 
                             //Thread.Sleep(60000);
                         }

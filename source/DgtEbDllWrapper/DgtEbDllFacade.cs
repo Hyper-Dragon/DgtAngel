@@ -7,14 +7,7 @@ namespace DgtEbDllWrapper
 {
     public class DgtEbDllFacade : IDgtEbDllFacade
     {
-        public static event EventHandler<FenChangedEventArgs> OnFenChanged;
         private string versionString = "";
-
-        // Note: this method will be called from a different thread!
-        private static void MyCallbackScanFunc(StringBuilder positionFen)
-        {
-            OnFenChanged(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks });
-        }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetRabbitVersionString()

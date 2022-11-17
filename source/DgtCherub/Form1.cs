@@ -144,11 +144,9 @@ namespace DgtCherub
                 try
                 {
                     _dgtEbDllFacade.Init();
-
-                    
-                    lv.RunLiveChessServer();
-
                     IsUsingRabbit = true;
+
+                    lv.RunLiveChessServer();
                 }
                 catch (DllNotFoundException)
                 {
@@ -863,16 +861,16 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" Welcome to...                                                                   ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗  ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    Welcome to...                                                                      ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗     ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝     ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with either DGT or Chess.com in any way.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: I think that this release can now be considered a beta version.  I can", TEXTBOX_MAX_LINES, false);
@@ -897,11 +895,11 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         Alternatively, point your phone at the QR code on the clock tab (don't", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         forget that you will need to open port 37964 on the windows firewall", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         For previous Live board users you will need to update your chrome extension...", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"            Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
 
