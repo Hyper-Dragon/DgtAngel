@@ -14,42 +14,26 @@ namespace DgtEbDllWrapper
 
         private const int dummy = 0;
 
-
-
-
         // Note: this method will be called from a different thread!
         public static event EventHandler<FenChangedEventArgs> OnFenChanged;
 
-        //public static void MyCallbackScanFunc(StringBuilder positionFen)
-        //{
-            //OnFenChanged(null, new FenChangedEventArgs() { Fen = positionFen.ToString(), TimeChangedTicks = DateTime.UtcNow.Ticks });
-        //}
-
-
+        
         //public delegate void CallbackFunction([MarshalAs(UnmanagedType.LPStr)] String log);
 
         // add static reference....
-        private static CallbackScanFunc _callbackInstance = new CallbackScanFunc(MethodA); // <==== Added reference to prevent GC!!! 
+        private static readonly CallbackScanFunc _callbackInstance = new(MethodA); // Added reference to prevent Garbage Collection 
 
-        //private void loadDllMethods()
-        //{
-        //    // load the delegates => great, it works!
-        //    SetCallbackFunction_Dll = GetDelegate<_SetCallbackFunction_>("SetCallbackFunction");
-        //    // create callback!!!
-        //    SetCallbackFunction(_callbackInstance); // <====== pass the instance here, not the method itself!!!
-        //    await doTask();
-        //}
+
 
         static void MethodA(String message)
         {
+            OnFenChanged?.Invoke( null, new FenChangedEventArgs() { Fen=message, TimeChangedTicks=DateTime.UtcNow.Ticks} );
             Console.WriteLine("hello");
         }
 
-            internal static Result Init()
+        internal static Result Init()
         {
-            
-            return (Result) Init(_callbackInstance);
-            //return (Result)DgtEbDllImport.Init(DgtEbDllWrapper.DgtEbDllFacade.MyCallbackScanFunc);
+            return (Result)Init(_callbackInstance);
         }
 
         internal static Result Init(CallbackScanFunc func)
@@ -58,8 +42,7 @@ namespace DgtEbDllWrapper
             var result2 = (Result)DgtEbDllImport.UseFEN(true);
             var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(_callbackInstance, IntPtr.Zero);
 
-            //return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
-            return Result.SUCCESS;
+            return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
         }
 
 
@@ -98,11 +81,11 @@ namespace DgtEbDllWrapper
         }
 
 
-    /// <summary>
-    /// Intends to check if the clock is in mode 23, but is not implemented in the board anyway.
-    /// </summary>
-    /// <returns>Translated from...23 if the clock is in mode 23, otherwise 0; But don’t rely on this result.</returns>
-    internal static Result ClockMode()
+        /// <summary>
+        /// Intends to check if the clock is in mode 23, but is not implemented in the board anyway.
+        /// </summary>
+        /// <returns>Translated from...23 if the clock is in mode 23, otherwise 0; But don’t rely on this result.</returns>
+        internal static Result ClockMode()
         {
             return (DgtEbDllImport.ClockMode(dummy) == 23) ? Result.SUCCESS : Result.FAIL;
         }
