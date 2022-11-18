@@ -37,7 +37,7 @@ It looks like a lot but it isn't really.  If you already play on chess.com with 
 
 ### DGT Angel Plugin
 
-This is the Chrome Extension...Just go and download it from the [Google Store](https://chrome.google.com/webstore/detail/dgt-angel/glikmaobiidgennbhhildeajdeljcaie).
+This is the Chrome Extension...Just go and download it from the [Google Store](https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc).
 
 ![DGT Angel](assets/images/RunningExtension.gif "Running Extension")
 
