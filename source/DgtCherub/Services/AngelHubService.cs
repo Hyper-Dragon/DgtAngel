@@ -40,7 +40,7 @@ namespace DgtCherub.Services
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
-        event Action<string, string, string> OnRemoteFenChange;
+        event Action<string, string, string, string, string> OnRemoteFenChange;
         event Action<string, string> OnNotification;
 
         void LocalBoardUpdate(string fen);
@@ -53,7 +53,7 @@ namespace DgtCherub.Services
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action<string> OnLocalFenChange;
-        public event Action<string, string, string> OnRemoteFenChange;
+        public event Action<string, string, string, string, string> OnRemoteFenChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
@@ -363,9 +363,9 @@ namespace DgtCherub.Services
                     OnNotification?.Invoke("LMOVE", $"New move detected '{remoteBoardState.Board.LastMove}'");
 
                     // If turncode is none then read all moves
-                    bool isPlayerTurn = remoteBoardState.Board.ClockTurn == TurnCode.NONE ||
-                                          (IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.WHITE) ||
-                                          (!IsWhiteOnBottom && remoteBoardState.Board.ClockTurn != TurnCode.BLACK);
+                    bool isPlayerTurn = remoteBoardState.Board.FenTurn == TurnCode.NONE ||
+                                          (IsWhiteOnBottom && remoteBoardState.Board.FenTurn != TurnCode.WHITE) ||
+                                          (!IsWhiteOnBottom && remoteBoardState.Board.FenTurn != TurnCode.BLACK);
 
                     OnNewMoveDetected?.Invoke(LastMove, isPlayerTurn);
 
@@ -403,7 +403,9 @@ namespace DgtCherub.Services
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove);
+                    OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove, 
+                                              remoteBoardState.Board.ClockTurn.ToString(), 
+                                              remoteBoardState.Board.FenTurn.ToString());
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
             }
