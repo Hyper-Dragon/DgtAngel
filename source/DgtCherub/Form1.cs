@@ -30,6 +30,7 @@ namespace DgtCherub
         LiveChessServer lv = new LiveChessServer();
 
         private const int TEXTBOX_MAX_LINES = 200;
+
         private const string VERSION_NUMBER = "0.4.4 PLAY-UAT-02";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
@@ -305,9 +306,9 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove) =>
+            _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen) =>
             {
-                TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}]");
+                TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}] [clk={clockFen[..1]}::brd={boardFen[..1]}]");
                 DisplayBoardImages();
             };
 
