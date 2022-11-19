@@ -28,7 +28,7 @@ namespace ChessHelpers
                                                       "1-0" : "0-1"));
 
                 //Getting the next move so return the opposite
-                return (move, ending, (board.Turn == PieceColor.White) ? "BLACK" : "WHITE");
+                return (move, ending, (board.Turn == PieceColor.White) ? "WHITE" : "BLACK");
             }
             catch (Exception)
             {
