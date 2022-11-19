@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
+using System.Text;
 using static DgtEbDllWrapper.DgtEbDllAdapter;
 
 namespace DgtEbDllWrapper

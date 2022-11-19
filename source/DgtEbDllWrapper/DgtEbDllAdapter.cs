@@ -1,4 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using static DgtEbDllWrapper.DgtEbDllAdapter;
+using static DgtEbDllWrapper.DgtEbDllImport;
 
 namespace DgtEbDllWrapper
 {
@@ -8,6 +13,38 @@ namespace DgtEbDllWrapper
         internal enum RunWho { PAUSE_BOTH = 0, RUN_WHITE, RUN_BLACK, RUN_BOTH };
 
         private const int dummy = 0;
+
+        // Note: this method will be called from a different thread!
+        public static event EventHandler<FenChangedEventArgs> OnFenChanged;
+
+        
+        //public delegate void CallbackFunction([MarshalAs(UnmanagedType.LPStr)] String log);
+
+        // add static reference....
+        private static readonly CallbackScanFunc _callbackInstance = new(MethodA); // Added reference to prevent Garbage Collection 
+
+
+
+        static void MethodA(String message)
+        {
+            OnFenChanged?.Invoke( null, new FenChangedEventArgs() { Fen=message, TimeChangedTicks= DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() } );
+            Console.WriteLine("hello");
+        }
+
+        //internal static Result Init()
+        //{
+        //    return (Result)Init();
+        //}
+
+        internal static Result Init()
+        {
+            var result1 = (Result)DgtEbDllImport.Init();
+            var result2 = (Result)DgtEbDllImport.UseFEN(true);
+            var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(_callbackInstance, IntPtr.Zero);
+
+            return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
+        }
+
 
         /// <summary>
         /// Returns the version of the DLL.
@@ -43,10 +80,6 @@ namespace DgtEbDllWrapper
             return (Result)DgtEbDllImport.EndDisplay(dummy);
         }
 
-        internal static Result Init()
-        {
-            return (Result)DgtEbDllImport.Init();
-        }
 
         /// <summary>
         /// Intends to check if the clock is in mode 23, but is not implemented in the board anyway.
