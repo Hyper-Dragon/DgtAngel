@@ -94,7 +94,12 @@ namespace DgtCherub.Services
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 5000;
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 750;
+
+        //TODO: Keep the local matcher times the same for now as splitting
+        //      causes the clocks not to clear the mismatch message
+        //      Raise bug against this (low priority)
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 1500;
+        private const int MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS = 1500;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
         private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS * 2;
@@ -269,15 +274,15 @@ namespace DgtCherub.Services
                 {
                     LocalBoardFEN = fen;
 
-                    //if (!IsBoardInSync && LocalBoardFEN == RemoteBoardFEN)
-                    //{
-                    if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
+                    if (IsLocalBoardAvailable && 
+                       IsRemoteBoardAvailable)
                     {
                         // If the fens match we have caught up to the remote board.
                         // Run the matcher straight away to clear any outstanding match requests.
                         // There is no need to match after our moves - issues will be detected by the remote board match
                         CurrentUpdatetMatch = Guid.NewGuid();
-                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MATCHER_LOCAL_TIME_DELAY_MS));
+                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), 
+                                           IsBoardInSync ? MATCHER_LOCAL_TIME_DELAY_MS: MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS));
                     }
 
                     OnLocalFenChange?.Invoke(LocalBoardFEN);
@@ -423,8 +428,8 @@ namespace DgtCherub.Services
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
-                lock (matcherLockObj)
-                {
+                //lock (matcherLockObj)
+                //{
                     if (matchCode == CurrentUpdatetMatch.ToString())
                     {
                         _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
@@ -450,7 +455,7 @@ namespace DgtCherub.Services
                     {
                         _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
                     }
-                }
+                //}
             }
         }
 
