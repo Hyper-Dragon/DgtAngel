@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DgtEbDllWrapper
+namespace DgtRabbitWrapper.DgtEbDll
 {
     public sealed class FenChangedEventArgs : EventArgs
     {

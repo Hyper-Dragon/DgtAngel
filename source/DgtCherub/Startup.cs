@@ -1,6 +1,6 @@
 ﻿using DgtCherub.Helpers;
 using DgtCherub.Services;
-using DgtEbDllWrapper;
+using DgtRabbitWrapper.DgtEbDll;
 using DgtLiveChessWrapper;
 using DynamicBoard;
 using Microsoft.AspNetCore.Builder;

@@ -1,6 +1,7 @@
 ﻿using DgtCherub.Helpers;
 using DgtCherub.Services;
-using DgtEbDllWrapper;
+using DgtRabbitWrapper;
+using DgtRabbitWrapper.DgtEbDll;
 using DgtLiveChessWrapper;
 using DynamicBoard;
 using DynamicBoard.Helpers;

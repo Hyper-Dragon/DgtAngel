@@ -2,10 +2,10 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static DgtEbDllWrapper.DgtEbDllAdapter;
-using static DgtEbDllWrapper.DgtEbDllImport;
+using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
+using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 
-namespace DgtEbDllWrapper
+namespace DgtRabbitWrapper.DgtEbDll
 {
     internal class DgtEbDllAdapter
     {
@@ -17,7 +17,7 @@ namespace DgtEbDllWrapper
         // Note: this method will be called from a different thread!
         public static event EventHandler<FenChangedEventArgs> OnFenChanged;
 
-        
+
         //public delegate void CallbackFunction([MarshalAs(UnmanagedType.LPStr)] String log);
 
         // add static reference....
@@ -25,9 +25,9 @@ namespace DgtEbDllWrapper
 
 
 
-        static void MethodA(String message)
+        static void MethodA(string message)
         {
-            OnFenChanged?.Invoke( null, new FenChangedEventArgs() { Fen=message, TimeChangedTicks= DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() } );
+            OnFenChanged?.Invoke(null, new FenChangedEventArgs() { Fen = message, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });
             Console.WriteLine("hello");
         }
 
@@ -39,10 +39,10 @@ namespace DgtEbDllWrapper
         internal static Result Init()
         {
             var result1 = (Result)DgtEbDllImport.Init();
-            var result2 = (Result)DgtEbDllImport.UseFEN(true);
-            var result3 = (Result)DgtEbDllImport.RegisterStableBoardFunc(_callbackInstance, IntPtr.Zero);
+            var result2 = (Result)UseFEN(true);
+            var result3 = (Result)RegisterStableBoardFunc(_callbackInstance, IntPtr.Zero);
 
-            return (result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS) ? Result.SUCCESS : Result.FAIL;
+            return result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS ? Result.SUCCESS : Result.FAIL;
         }
 
 
@@ -87,7 +87,7 @@ namespace DgtEbDllWrapper
         /// <returns>Translated from...23 if the clock is in mode 23, otherwise 0; But don’t rely on this result.</returns>
         internal static Result ClockMode()
         {
-            return (DgtEbDllImport.ClockMode(dummy) == 23) ? Result.SUCCESS : Result.FAIL;
+            return DgtEbDllImport.ClockMode(dummy) == 23 ? Result.SUCCESS : Result.FAIL;
         }
 
         internal static Result SetNRun(string whiteClock, string blackClock, RunWho runwho)

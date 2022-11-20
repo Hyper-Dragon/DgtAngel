@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DgtEbDllWrapper
+namespace DgtRabbitWrapper.DgtEbDll
 {
     internal class DgtEbDllImport
     {

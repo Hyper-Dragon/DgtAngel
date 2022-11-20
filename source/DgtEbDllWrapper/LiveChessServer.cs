@@ -1,13 +1,7 @@
-﻿using Fleck;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static DgtEbDllWrapper.DgtEbDllAdapter;
+﻿using DgtRabbitWrapper.DgtEbDll;
+using Fleck;
 
-namespace DgtEbDllWrapper
+namespace DgtRabbitWrapper
 {
     public class LiveChessServer
     {
@@ -50,8 +44,6 @@ namespace DgtEbDllWrapper
 
                             DgtEbDllAdapter.OnFenChanged += (object sender, FenChangedEventArgs e) =>
                             {
-
-                                //TextBoxConsole.AddLine($"Local board changed [SOCKET] [{e.Fen}]");
                                 lastFenSeen = e.Fen;
                                 //socket.Send("{" + $"\"response\":\"feed\",\"id\":{idCount++},\"param\":" + "{" + $"\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"{lastFenSeen}\",\"clock\":null" + "}" + ",\"time\":\""+ DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + "\"}");
                             };

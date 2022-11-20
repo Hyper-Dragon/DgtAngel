@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Text;
-using static DgtEbDllWrapper.DgtEbDllAdapter;
+using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
 
-namespace DgtEbDllWrapper
+namespace DgtRabbitWrapper.DgtEbDll
 {
     public class DgtEbDllFacade : IDgtEbDllFacade
     {
@@ -14,7 +14,7 @@ namespace DgtEbDllWrapper
         {
             if (string.IsNullOrEmpty(versionString))
             {
-                versionString = DgtEbDllAdapter.GetVersion().versionTxt;
+                versionString = GetVersion().versionTxt;
             }
 
             return versionString;
@@ -23,13 +23,13 @@ namespace DgtEbDllWrapper
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ShowCongigDialog()
         {
-            _ = DgtEbDllAdapter.ShowDialog();
+            _ = ShowDialog();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void HideCongigDialog()
         {
-            _ = DgtEbDllAdapter.HideDialog();
+            _ = HideDialog();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -41,19 +41,19 @@ namespace DgtEbDllWrapper
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DisplayMessage(string message, int time)
         {
-            _ = DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
+            _ = DisplayClockMessage($"{message}", int.MaxValue);
             Thread.Sleep(time);
-            _ = DgtEbDllAdapter.EndDisplay();
+            _ = EndDisplay();
         }
 
         public void DisplayForeverMessage(string message)
         {
-            _ = DgtEbDllAdapter.DisplayClockMessage($"{message}", int.MaxValue);
+            _ = DisplayClockMessage($"{message}", int.MaxValue);
         }
 
         public void StopForeverMessage()
         {
-            _ = DgtEbDllAdapter.EndDisplay();
+            _ = EndDisplay();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -61,23 +61,23 @@ namespace DgtEbDllWrapper
         {
             new Thread(new ThreadStart(() =>
             {
-                _ = DgtEbDllAdapter.EndDisplay();
+                _ = EndDisplay();
                 Thread.Sleep(1000);
 
                 foreach (string message in messages)
                 {
-                    _ = DgtEbDllAdapter.DisplayClockMessage(message, int.MaxValue);
+                    _ = DisplayClockMessage(message, int.MaxValue);
                     Thread.Sleep(2000);
                 }
 
-                _ = DgtEbDllAdapter.EndDisplay();
+                _ = EndDisplay();
             })).Start();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void SetClock(string whiteClock, string blackClock, int runwho)
         {
-            _ = DgtEbDllAdapter.SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho);
+            _ = SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho);
         }
 
 
