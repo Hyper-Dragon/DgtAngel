@@ -27,10 +27,10 @@ namespace DgtCherub.Services
 
         public int MatcherRemoteTimeDelayMs { get; set; }
 
-        event Action<string> OnBoardMatch;
+        event Action<long, string> OnBoardMatch;
         event Action OnBoardMatcherStarted;
-        event Action OnBoardMatchFromMissmatch;
-        event Action<int, string, string> OnBoardMissmatch;
+        event Action<long> OnBoardMatchFromMissmatch;
+        event Action<long, int, string, string> OnBoardMissmatch;
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
@@ -57,10 +57,10 @@ namespace DgtCherub.Services
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
-        public event Action<int, string, string> OnBoardMissmatch;
+        public event Action<long, int, string, string> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
-        public event Action<string> OnBoardMatch;
-        public event Action OnBoardMatchFromMissmatch;
+        public event Action<long, string> OnBoardMatch;
+        public event Action<long> OnBoardMatchFromMissmatch;
         public event Action OnRemoteWatchStarted;
         public event Action OnRemoteWatchStopped;
         public event Action<string, bool> OnNewMoveDetected;
@@ -86,7 +86,7 @@ namespace DgtCherub.Services
         public bool IsRemoteBoardAvailable => !string.IsNullOrWhiteSpace(RemoteBoardFEN);
         public bool IsBoardInSync { get; private set; } = true;
         public bool IsRemoteBoardStateActive => (RemoteBoardFEN != "" && WhiteClock != "00:00") || BlackClock != "00:00";
-        private Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
+        private static Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
 
 
         private const int MS_IN_HOUR = 3600000;
@@ -98,8 +98,8 @@ namespace DgtCherub.Services
         //TODO: Keep the local matcher times the same for now as splitting
         //      causes the clocks not to clear the mismatch message
         //      Raise bug against this (low priority)
-        private const int MATCHER_LOCAL_TIME_DELAY_MS = 1500;
-        private const int MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS = 1500;
+        private const int MATCHER_LOCAL_TIME_DELAY_MS = 2000;
+        private const int MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS = 1000;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
         private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS * 2;
@@ -171,7 +171,7 @@ namespace DgtCherub.Services
             try
             {
                 await startStopSemaphore.WaitAsync();
-
+                
                 if (messageType == MessageTypeCode.WATCH_STARTED)
                 {
                     OnRemoteWatchStarted?.Invoke();
@@ -273,19 +273,19 @@ namespace DgtCherub.Services
                 if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
                 {
                     LocalBoardFEN = fen;
+                    OnLocalFenChange?.Invoke(LocalBoardFEN);
 
-                    if (IsLocalBoardAvailable && 
+                    if (IsLocalBoardAvailable &&
                        IsRemoteBoardAvailable)
                     {
                         // If the fens match we have caught up to the remote board.
                         // Run the matcher straight away to clear any outstanding match requests.
                         // There is no need to match after our moves - issues will be detected by the remote board match
                         CurrentUpdatetMatch = Guid.NewGuid();
-                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), 
-                                           IsBoardInSync ? MATCHER_LOCAL_TIME_DELAY_MS: MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS));
+                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
+                                           IsBoardInSync ? MATCHER_LOCAL_TIME_DELAY_MS : MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS));
                     }
 
-                    OnLocalFenChange?.Invoke(LocalBoardFEN);
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
                 }
             }
@@ -400,17 +400,17 @@ namespace DgtCherub.Services
                 {
                     _logger?.LogTrace($"FEN Change");
 
-                    //_dgtEbDllFacade.SetClock(whiteClockString, blackClockString, runWho);
                     RemoteBoardFEN = remoteBoardState.Board.FenString;
                     FromRemoteBoardFEN = remoteBoardState.Board.LastFenString;
                     LastMove = remoteBoardState.Board.LastMove;
 
+                    OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove,
+                                              remoteBoardState.Board.ClockTurn.ToString(),
+                                              remoteBoardState.Board.FenTurn.ToString());
+
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove, 
-                                              remoteBoardState.Board.ClockTurn.ToString(), 
-                                              remoteBoardState.Board.FenTurn.ToString());
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
             }
@@ -430,33 +430,37 @@ namespace DgtCherub.Services
                 // if they are not the same we can skip as the local position has changed.
                 //lock (matcherLockObj)
                 //{
-                    if (matchCode == CurrentUpdatetMatch.ToString())
+                if (matchCode != CurrentUpdatetMatch.ToString()) return;
+                //}
+
+
+                _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+
+                //lock (matcherLockObj)
+                //{
+                    if (RemoteBoardFEN != LocalBoardFEN)
                     {
-                        _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-
-                        if (RemoteBoardFEN != LocalBoardFEN)
-                        {
-                            IsBoardInSync = false;
-                            OnBoardMissmatch?.Invoke(FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
-                        }
-                        else
-                        {
-                            LastMatchedPosition = LocalBoardFEN;
-                            //OnBoardMatch?.Invoke(LocalBoardFEN);
-
-                            if (!IsBoardInSync)
-                            {
-                                IsBoardInSync = true;
-                                OnBoardMatchFromMissmatch?.Invoke();
-                            }
-                        }
+                        IsBoardInSync = false;
+                        OnBoardMissmatch?.Invoke(DateTime.UtcNow.Ticks,FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
                     }
                     else
                     {
-                        _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                        LastMatchedPosition = LocalBoardFEN;
+                        //OnBoardMatch?.Invoke(LocalBoardFEN);
+
+                        if (!IsBoardInSync)
+                        {
+                            IsBoardInSync = true;
+                            OnBoardMatchFromMissmatch?.Invoke(DateTime.UtcNow.Ticks);
+                        }
                     }
                 //}
             }
+            else
+            {
+                _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+            }
+
         }
 
         private static void CalculateNextClockAudio(double clockMs, ref double nextAudioNotBefore, Action<string> onPlayAudio)

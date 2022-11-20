@@ -65,6 +65,8 @@ namespace DgtCherub.Controllers
         private readonly byte[] FavIcon;
         private readonly byte[] SvgLogo;
 
+        private static long LastSeenEventTimeTicks = long.MinValue;
+
         public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAngelHubService appData, IBoardRenderer boardRenderer)
         {
             _logger = logger;
@@ -251,19 +253,31 @@ namespace DgtCherub.Controllers
 
             Response.Headers.Add("Content-Type", MIME_EVENT);
 
-            _angelHubService.OnBoardMissmatch += async (_, _, _) =>
+            _angelHubService.OnBoardMissmatch += async (sentTimeTicks,_,_,_) =>
             {
-                await SendEventResponse(Response, ConstructMessageOnly("OnBoardMissmatch"));
+                if (sentTimeTicks > LastSeenEventTimeTicks)
+                {
+                    LastSeenEventTimeTicks = sentTimeTicks;
+                    await SendEventResponse(Response, ConstructMessageOnly("OnBoardMissmatch"));
+                }
             };
 
-            _angelHubService.OnBoardMatch += async (_) =>
+            _angelHubService.OnBoardMatch += async (sentTimeTicks, _) =>
             {
-                await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
+                if (sentTimeTicks > LastSeenEventTimeTicks)
+                {
+                    LastSeenEventTimeTicks = sentTimeTicks;
+                    await SendEventResponse(Response,ConstructMessageOnly("OnBoardMatch"));
+                }
             };
 
-            _angelHubService.OnBoardMatchFromMissmatch += async () =>
+            _angelHubService.OnBoardMatchFromMissmatch += async (sentTimeTicks) =>
             {
-                await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
+                if (sentTimeTicks > LastSeenEventTimeTicks)
+                {
+                    LastSeenEventTimeTicks = sentTimeTicks;
+                    await SendEventResponse(Response,ConstructMessageOnly("OnBoardMatch"));
+                }
             };
 
             //Send on connect
@@ -376,6 +390,9 @@ namespace DgtCherub.Controllers
                 ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
             });
         }
+
+
+
 
         private static async Task SendEventResponse(HttpResponse responseObject, string jsonMessage)
         {
