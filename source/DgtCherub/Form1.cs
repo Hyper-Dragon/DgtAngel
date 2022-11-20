@@ -312,7 +312,7 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnBoardMissmatch += (int diffCount, string lastLocalFenMatch, string localFen) =>
+            _angelHubService.OnBoardMissmatch += (long timeTicks, int diffCount, string lastLocalFenMatch, string localFen) =>
             {
                 TextBoxConsole.AddLine($"The boards DO NOT match [Diff:{diffCount}] [Last Local Match:{lastLocalFenMatch}]", TEXTBOX_MAX_LINES);
 
@@ -341,13 +341,13 @@ namespace DgtCherub
                 LabelRemoteBoard.BackColor = Color.Yellow;
             };
 
-            _angelHubService.OnBoardMatchFromMissmatch += () =>
+            _angelHubService.OnBoardMatchFromMissmatch += (_) =>
             {
                 TextBoxConsole.AddLine($"The boards now match", TEXTBOX_MAX_LINES);
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
             };
 
-            _angelHubService.OnBoardMatch += (_) =>
+            _angelHubService.OnBoardMatch += (_,_) =>
             {
                 LabelLocalDgt.BackColor = BoredLabelsInitialColor;
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
