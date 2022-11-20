@@ -1,7 +1,17 @@
-﻿namespace DgtEbDllWrapper
+﻿using System;
+
+namespace DgtEbDllWrapper
 {
+    public sealed class FenChangedEventArgs : EventArgs
+    {
+        public long TimeChangedTicks { get; init; }
+        public string Fen { get; init; }
+    }
+
     public interface IDgtEbDllFacade
     {
+        static event EventHandler<FenChangedEventArgs> OnFenChanged;
+
         void DisplayMessage(string message, int time);
         void DisplayForeverMessage(string message);
         void StopForeverMessage();
