@@ -31,7 +31,7 @@ namespace DgtCherub
 
         private const int TEXTBOX_MAX_LINES = 200;
 
-        private const string VERSION_NUMBER = "0.4.4 PLAY-UAT-02";
+        private const string VERSION_NUMBER = "0.4.4 RABBIT-UAT-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
