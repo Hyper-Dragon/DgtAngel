@@ -967,13 +967,13 @@ namespace DgtCherub
         private void UpDownLocalDelay_ValueChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"You have {UpDownLocalDelay.Value} seconds to make your move");
-            _angelHubService.MatcherLocalDelayMs = (int)UpDownLocalDelay.Value * 1000;
+            _angelHubService.MatcherLocalDelayMs = (int)(UpDownLocalDelay.Value * 1000);
         }
 
         private void UpDownFromMismatchDelay_ValueChanged(object sender, EventArgs e)
         {
             TextBoxConsole.AddLine($"When the board is not in sync you have {UpDownFromMismatchDelay.Value} seconds from change to re-check");
-            _angelHubService.FromMismatchDelayMs = (int)UpDownFromMismatchDelay.Value * 1000;
+            _angelHubService.FromMismatchDelayMs = (int)(UpDownFromMismatchDelay.Value * 1000);
         }
 
 
