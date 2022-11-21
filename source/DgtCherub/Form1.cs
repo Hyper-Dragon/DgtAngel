@@ -165,8 +165,11 @@ namespace DgtCherub
                         };
 
                         fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+                        
                         _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
                         _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+
+                        fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}"); 
                         fakeLiveChessServer.RunLiveChessServer();
                     }
                     else
