@@ -133,7 +133,7 @@ namespace DgtCherub.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
         public decimal MatcherDelay {
             get {
                 return ((decimal)(this["MatcherDelay"]));
@@ -157,7 +157,7 @@ namespace DgtCherub.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public decimal MatcherLocalDelay {
             get {
                 return ((decimal)(this["MatcherLocalDelay"]));
@@ -169,7 +169,7 @@ namespace DgtCherub.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public decimal MatcherLocalFromMismatchDelay {
             get {
                 return ((decimal)(this["MatcherLocalFromMismatchDelay"]));

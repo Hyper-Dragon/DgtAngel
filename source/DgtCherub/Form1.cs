@@ -920,12 +920,9 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         the Chrome browser with the 'DTG Angel' plugin installed.  Don't forget", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         to enable your board in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642, danielbaechli and", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         KevinTheChessGnome for their support and feedback and to Fake-Angel for", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Rabbit : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{((Environment.Is64BitProcess) ? "64" : "32")} bit]." : "Using Live Chess.")}", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{((Environment.Is64BitProcess) ? "64" : "32")} bit] is either not installed or Live Chess was running on startup.")}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642, danielbaechli,", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         KevinTheChessGnome, CFossa and MancombSeepgood for their support and feedback ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{(string.IsNullOrEmpty(hostName) ? "NO HOST!" : hostName)}] are [{(string.IsNullOrEmpty(hostName) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
@@ -942,10 +939,14 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         DGT board on the 'Play' interface. To castle move your King 2 squares", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         very, very fast and never move your rook until the move has been", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         acknowledged.  Always pick up your pieces (never slide them).  Keep a", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         mouse handy as CDC sometimes refuses to accept your move on the physical   ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         board.  Finally, if you have the 'ghost move' problem you will need the", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         next release (a pre-release is available from the GitHub page).  Check", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         for news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         mouse handy as CDC sometimes refuses to accept your move on the physical", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         board.  Finally, if you have the 'ghost move' issue open up the Rabbit", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         config and change the 'stableboard' slider on the extra tab.  Check", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         for update news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Rabbit : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{((Environment.Is64BitProcess) ? "64" : "32")} bit]." : "Using Live Chess.")}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{((Environment.Is64BitProcess) ? "64" : "32")} bit] is either not installed or Live Chess was running on startup.")}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
