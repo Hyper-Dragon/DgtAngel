@@ -154,5 +154,29 @@ namespace DgtCherub.Properties {
                 this["MoveVoiceIdx"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public decimal MatcherLocalDelay {
+            get {
+                return ((decimal)(this["MatcherLocalDelay"]));
+            }
+            set {
+                this["MatcherLocalDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public decimal MatcherLocalFromMismatchDelay {
+            get {
+                return ((decimal)(this["MatcherLocalFromMismatchDelay"]));
+            }
+            set {
+                this["MatcherLocalFromMismatchDelay"] = value;
+            }
+        }
     }
 }

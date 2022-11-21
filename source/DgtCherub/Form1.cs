@@ -31,8 +31,7 @@ namespace DgtCherub
         private LiveChessServer fakeLiveChessServer;
 
         private const int TEXTBOX_MAX_LINES = 200;
-
-        private const string VERSION_NUMBER = "0.4.4 RABBIT-UAT-01";
+        private const string VERSION_NUMBER = "0.4.4 RABBIT-EXPR-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
@@ -218,6 +217,8 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.FontSize = UpDownFontSize.Value;
             DgtCherub.Properties.UserSettings.Default.MoveVoiceIdx = ComboBoxMoveVoice.SelectedIndex;
             DgtCherub.Properties.UserSettings.Default.MatcherDelay = UpDownVoiceDelay.Value;
+            DgtCherub.Properties.UserSettings.Default.MatcherLocalDelay = UpDownLocalDelay.Value;
+            DgtCherub.Properties.UserSettings.Default.MatcherLocalFromMismatchDelay = UpDownFromMismatchDelay.Value;
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -303,6 +304,12 @@ namespace DgtCherub
 
             UpDownVoiceDelay.Value = DgtCherub.Properties.UserSettings.Default.MatcherDelay;
             UpDownVoiceDelay_ValueChanged(this, null);
+
+            UpDownLocalDelay.Value = DgtCherub.Properties.UserSettings.Default.MatcherLocalDelay;
+            UpDownLocalDelay_ValueChanged(this, null);
+
+            UpDownFromMismatchDelay.Value = DgtCherub.Properties.UserSettings.Default.MatcherLocalFromMismatchDelay;
+            UpDownFromMismatchDelay_ValueChanged(this, null);
 
             UpDownFontSize.Value = DgtCherub.Properties.UserSettings.Default.FontSize;
             UpDownFontSize_ValueChanged(this, null);
@@ -913,8 +920,9 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         the Chrome browser with the 'DTG Angel' plugin installed.  Don't forget", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         to enable your board in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642 and danielbaechli for", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         their support and feedback and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642, danielbaechli and", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         KevinTheChessGnome for their support and feedback and to Fake-Angel for", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Rabbit : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{((Environment.Is64BitProcess) ? "64" : "32")} bit]." : "Using Live Chess.")}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{((Environment.Is64BitProcess) ? "64" : "32")} bit] is either not installed or Live Chess was running on startup.")}", TEXTBOX_MAX_LINES, false);
@@ -927,9 +935,18 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         For previous Live board users you will need to update your chrome extension...", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         For previous Live board users you will must update your chrome extension...", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"            Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         At the time of this release there were outstanding problems with the", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         DGT board on the 'Play' interface. To castle move your King 2 squares", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         very, very fast and never move your rook until the move has been", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         acknowledged.  Always pick up your pieces (never slide them).  Keep a", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         mouse handy as CDC sometimes refuses to accept your move on the physical   ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         board.  Finally, if you have the 'ghost move' problem you will need the", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         next release (a pre-release is available from the GitHub page).  Check", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         for news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
 
@@ -980,8 +997,20 @@ namespace DgtCherub
 
         private void UpDownVoiceDelay_ValueChanged(object sender, EventArgs e)
         {
-            TextBoxConsole.AddLine($"Remote matcher delay is now {(int)UpDownVoiceDelay.Value} seconds");
+            TextBoxConsole.AddLine($"You have {(int)UpDownVoiceDelay.Value} seconds to make your opponents move");
             _angelHubService.MatcherRemoteTimeDelayMs = (int)UpDownVoiceDelay.Value * 1000;
+        }
+
+        private void UpDownLocalDelay_ValueChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"You have {UpDownLocalDelay.Value} seconds to make your move");
+            _angelHubService.MatcherLocalDelayMs = (int)UpDownLocalDelay.Value * 1000;
+        }
+
+        private void UpDownFromMismatchDelay_ValueChanged(object sender, EventArgs e)
+        {
+            TextBoxConsole.AddLine($"When the board is not in sync you have {UpDownFromMismatchDelay.Value} seconds from change to re-check");
+            _angelHubService.FromMismatchDelayMs = (int)UpDownFromMismatchDelay.Value * 1000;
         }
 
 
@@ -1041,6 +1070,5 @@ namespace DgtCherub
 
             IsSilentBeep = ((CheckBox)sender).Checked;
         }
-
     }
 }
