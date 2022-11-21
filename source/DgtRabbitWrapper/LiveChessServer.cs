@@ -15,7 +15,7 @@ namespace DgtRabbitWrapper
         public int BatteryPct { get; init; }
         public string InitialFEN { get; init; }
 
-        private string lastFenSeen = "8/8/8/8/8/8/8/8";
+        private string lastFenSeen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 
         public LiveChessServer(IDgtEbDllFacade dgtEbDllFacade, int boardSerialNo, int comPort, int batteryPct, string initialFEN)
         {
