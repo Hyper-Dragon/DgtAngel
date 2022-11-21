@@ -906,8 +906,9 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         very, very fast and never move your rook until the move has been", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         acknowledged.  Always pick up your pieces (never slide them).  Keep a", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         mouse handy as CDC sometimes refuses to accept your move on the physical   ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         board.  Finally,if you have the 'ghost move' problem you will need the", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         next release (a pre-release is available from the GitHub page).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         board.  Finally, if you have the 'ghost move' problem you will need the", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         next release (a pre-release is available from the GitHub page).  Check", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         for news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
