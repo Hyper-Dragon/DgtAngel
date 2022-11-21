@@ -26,6 +26,8 @@ namespace DgtCherub.Services
         int WhiteClockMsRemaining { get; }
 
         public int MatcherRemoteTimeDelayMs { get; set; }
+        public int MatcherLocalDelayMs { get; set; }
+        public int FromMismatchDelayMs { get; set; }
 
         event Action<long, string> OnBoardMatch;
         event Action OnBoardMatcherStarted;
@@ -82,6 +84,8 @@ namespace DgtCherub.Services
         public string BlackClock { get; private set; } = "00:00";
         public string RunWhoString { get; private set; } = "0";
         public int MatcherRemoteTimeDelayMs { get; set; } = MATCHER_REMOTE_TIME_DELAY_MS;
+        public int MatcherLocalDelayMs { get; set; } = MATCHER_LOCAL_TIME_DELAY_MS;
+        public int FromMismatchDelayMs { get; set; } = MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS;
         public bool IsLocalBoardAvailable => !string.IsNullOrWhiteSpace(LocalBoardFEN);
         public bool IsRemoteBoardAvailable => !string.IsNullOrWhiteSpace(RemoteBoardFEN);
         public bool IsBoardInSync { get; private set; } = true;
@@ -94,15 +98,11 @@ namespace DgtCherub.Services
         private const int MS_IN_SEC = 1000;
 
         private const int MATCHER_REMOTE_TIME_DELAY_MS = 5000;
-
-        //TODO: Keep the local matcher times the same for now as splitting
-        //      causes the clocks not to clear the mismatch message
-        //      Raise bug against this (low priority)
         private const int MATCHER_LOCAL_TIME_DELAY_MS = 2000;
         private const int MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS = 1000;
 
-        private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC;
-        private const int POST_EVENT_DELAY_LOCAL_FEN = MATCHER_LOCAL_TIME_DELAY_MS * 2;
+        private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC * 1;
+        private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC * 3000;
         private const int POST_EVENT_DELAY_REMOTE_FEN = MS_IN_SEC / 10;
         private const int POST_EVENT_DELAY_CLOCK = MS_IN_SEC / 2;
         private const int POST_EVENT_DELAY_MESSAGE = MS_IN_SEC / 10;
@@ -283,7 +283,7 @@ namespace DgtCherub.Services
                         // There is no need to match after our moves - issues will be detected by the remote board match
                         CurrentUpdatetMatch = Guid.NewGuid();
                         _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
-                                           IsBoardInSync ? MATCHER_LOCAL_TIME_DELAY_MS : MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS));
+                                           IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
                     }
 
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
