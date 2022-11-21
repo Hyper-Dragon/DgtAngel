@@ -36,10 +36,10 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="MatcherLocalDelay" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">2</Value>
     </Setting>
     <Setting Name="MatcherLocalFromMismatchDelay" Type="System.Decimal" Scope="User">
-      <Value Profile="(Default)">2</Value>
+      <Value Profile="(Default)">0.5</Value>
     </Setting>
   </Settings>
 </SettingsFile>

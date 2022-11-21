@@ -558,7 +558,7 @@ namespace DgtCherub
             this.UpDownFromMismatchDelay.TabIndex = 13;
             this.UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownFromMismatchDelay.Value = new decimal(new int[] {
-            2,
+            5,
             0,
             0,
             65536});
@@ -589,10 +589,10 @@ namespace DgtCherub
             this.UpDownLocalDelay.TabIndex = 12;
             this.UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownLocalDelay.Value = new decimal(new int[] {
-            15,
+            2,
             0,
             0,
-            65536});
+            0});
             this.UpDownLocalDelay.ValueChanged += new System.EventHandler(this.UpDownLocalDelay_ValueChanged);
             // 
             // label7
@@ -641,7 +641,7 @@ namespace DgtCherub
             this.UpDownVoiceDelay.TabIndex = 11;
             this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVoiceDelay.Value = new decimal(new int[] {
-            4,
+            5,
             0,
             0,
             0});
