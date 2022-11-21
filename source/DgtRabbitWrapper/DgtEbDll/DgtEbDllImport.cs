@@ -1,7 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DgtEbDllWrapper
+namespace DgtRabbitWrapper.DgtEbDll
 {
     internal class DgtEbDllImport
     {
@@ -12,6 +13,41 @@ namespace DgtEbDllWrapper
         typedef int __stdcall F(); 
         typedef int __stdcall FIIC(int, int, const char*);
         */
+
+        internal delegate void CallbackStatusFunc(string status);
+
+        [DllImport("dgtebdll.dll",
+                   EntryPoint = "_DGTDLL_RegisterStatusFunc",
+                   ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        internal static extern int RegisterStatusFunc(CallbackStatusFunc func, IntPtr callbackTarget);
+
+
+        internal delegate void CallbackScanFunc(string boardFEN);
+
+        [DllImport("dgtebdll.dll",
+                   EntryPoint = "_DGTDLL_RegisterStableBoardFunc",
+                   ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        internal static extern int RegisterStableBoardFunc(CallbackScanFunc func, IntPtr callbackTarget);
+
+        [DllImport("dgtebdll.dll",
+                   EntryPoint = "_DGTDLL_RegisterScanFunc",
+                   ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        internal static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
+
+
+        [DllImport("dgtebdll.dll",
+           EntryPoint = "_DGTDLL_UseFEN",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        internal static extern int UseFEN(bool useFen);
+
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_HideDialog",
@@ -113,8 +149,6 @@ namespace DgtEbDllWrapper
                   8   27 000011E0 _DGTDLL_WriteCOMPortString
                  12   28 00001410 _DGTDLL_WriteDebug
                   9   29 00001290 _DGTDLL_WritePosition
-
-
         */
     }
 }

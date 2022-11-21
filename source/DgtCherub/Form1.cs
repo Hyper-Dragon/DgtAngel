@@ -1,6 +1,7 @@
 ﻿using DgtCherub.Helpers;
 using DgtCherub.Services;
-using DgtEbDllWrapper;
+using DgtRabbitWrapper;
+using DgtRabbitWrapper.DgtEbDll;
 using DgtLiveChessWrapper;
 using DynamicBoard;
 using DynamicBoard.Helpers;
@@ -10,6 +11,7 @@ using QRCoder;
 using System.Diagnostics;
 using System.Drawing;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -26,9 +28,12 @@ namespace DgtCherub
 {
     public partial class Form1 : Form
     {
+        private LiveChessServer fakeLiveChessServer;
+
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.3 PLAY-RC-01";
+        private const string VERSION_NUMBER = "0.4.4 RABBIT-EXPR-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
+        private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
         private const string CHESS_DOT_COM_PLAY_LINK = @"https://www.chess.com/play/online";
@@ -76,7 +81,7 @@ namespace DgtCherub
         private bool PlayerBeepOnly { get; set; } = false;
         private bool IsSilentBeep { get; set; } = false;
 
-        private readonly bool IsRabbitInstalled = false;
+        private readonly bool IsUsingRabbit = false;
 
         // Get Hostname 
         private readonly string hostName;
@@ -126,10 +131,9 @@ namespace DgtCherub
 
 
 
-            if (Process.GetProcessesByName("DGT LiveChess").Length > 0)
+            if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
             {
                 //TODO: Prep for Live Chess removal update
-                //Console.WriteLine("Process");
             }
             else
             {
@@ -138,13 +142,45 @@ namespace DgtCherub
                 //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
                 try
                 {
-                    //_dgtEbDllFacade.Init();
-                    //IsRabbitInstalled = true;
+                    if (_dgtEbDllFacade.Init(_dgtEbDllFacade))
+                    {
+                        IsUsingRabbit = true;
+                        string trackRunwho = "";
+
+                        _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) =>
+                        {
+                            TextBoxConsole.AddLine($"RABBIT: {e.Message}");
+                        };
+
+                        appData.OnClockChange += () =>
+                        {
+                            if (trackRunwho != _angelHubService.RunWhoString)
+                            {
+                                TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
+
+                                trackRunwho = _angelHubService.RunWhoString;
+                                _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, Int32.Parse(_angelHubService.RunWhoString));
+                            }
+                        };
+
+                        fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+                        
+                        _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
+                        _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+
+                        fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}"); 
+                        fakeLiveChessServer.RunLiveChessServer();
+                    }
+                    else
+                    {
+                        _dgtEbDllFacade = null;
+                        IsUsingRabbit = false;
+                    }
                 }
                 catch (DllNotFoundException)
                 {
                     _dgtEbDllFacade = null;
-                    IsRabbitInstalled = false;
+                    IsUsingRabbit = false;
                 }
             }
 
@@ -235,7 +271,7 @@ namespace DgtCherub
             CollapsedWidth = TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height - TabControlSidePanel.Padding.X;
 
             //If no rabbit disable rabbit things..
-            if (!IsRabbitInstalled)
+            if (!IsUsingRabbit)
             {
                 ButtonRabbitConfig1.Visible = false;
                 ButtonRabbitConf2.Visible = false;
@@ -862,16 +898,16 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" Welcome to...                                                                   ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗  ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝ ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($" ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"   Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    Welcome to...                                                                      ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗     ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝    ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"    ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝     ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($" Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with either DGT or Chess.com in any way.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: I think that this release can now be considered a beta version.  I can", TEXTBOX_MAX_LINES, false);
@@ -888,7 +924,8 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         KevinTheChessGnome for their support and feedback and to Fake-Angel for", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Rabbit : {(IsRabbitInstalled ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()}" : "DGT Rabbit is not installed or is not required in this version.")}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Rabbit : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{((Environment.Is64BitProcess) ? "64" : "32")} bit]." : "Using Live Chess.")}", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{((Environment.Is64BitProcess) ? "64" : "32")} bit] is either not installed or Live Chess was running on startup.")}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{(string.IsNullOrEmpty(hostName) ? "NO HOST!" : hostName)}] are [{(string.IsNullOrEmpty(hostName) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
@@ -896,7 +933,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         Alternatively, point your phone at the QR code on the clock tab (don't", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         forget that you will need to open port 37964 on the windows firewall", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         For previous Live board users you will must update your chrome extension...", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"            Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);

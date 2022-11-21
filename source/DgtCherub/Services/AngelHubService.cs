@@ -1,5 +1,5 @@
 ﻿using DgtAngelShared.Json;
-using DgtEbDllWrapper;
+using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
