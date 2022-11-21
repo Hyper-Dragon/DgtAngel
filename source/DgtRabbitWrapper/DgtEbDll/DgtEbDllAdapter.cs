@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 
 namespace DgtRabbitWrapper.DgtEbDll
@@ -12,37 +9,48 @@ namespace DgtRabbitWrapper.DgtEbDll
         internal enum Result { SUCCESS = 0, FAIL };
         internal enum RunWho { PAUSE_BOTH = 0, RUN_WHITE, RUN_BLACK, RUN_BOTH };
 
+        internal static IDgtEbDllFacade NotifyTarget;
         private const int dummy = 0;
-
-        // Note: this method will be called from a different thread!
-        public static event EventHandler<FenChangedEventArgs> OnFenChanged;
 
 
         //public delegate void CallbackFunction([MarshalAs(UnmanagedType.LPStr)] String log);
 
-        // add static reference....
-        private static readonly CallbackScanFunc _callbackInstance = new(MethodA); // Added reference to prevent Garbage Collection 
+        // Added reference to prevent Garbage Collection on callbacks from the DLL
+        private static readonly CallbackStatusFunc _callbackStatusInstance = new(CallbackStatusInstanceMethod);
+        private static readonly CallbackScanFunc _callbackStableBoardInstance = new(CallbackStableBoardInstanceMethod);
 
 
-
-        static void MethodA(string message)
+        static void CallbackStatusInstanceMethod(string message)
         {
-            OnFenChanged?.Invoke(null, new FenChangedEventArgs() { Fen = message, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });
-            Console.WriteLine("hello");
+            NotifyTarget.NotifyOnStatusChanged(new StatusMessageEventArgs(){
+                                                   Message = message,
+                                                   TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                                               });
+
         }
 
-        //internal static Result Init()
-        //{
-        //    return (Result)Init();
-        //}
-
-        internal static Result Init()
+        static void CallbackStableBoardInstanceMethod(string fenString)
         {
-            var result1 = (Result)DgtEbDllImport.Init();
-            var result2 = (Result)UseFEN(true);
-            var result3 = (Result)RegisterStableBoardFunc(_callbackInstance, IntPtr.Zero);
+            NotifyTarget.NotifyOnFenChanged(new FenChangedEventArgs(){
+                                                    FEN = fenString,
+                                                    TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                                                });                     
+        }
 
-            return result1 == Result.SUCCESS && result2 == Result.SUCCESS && result3 == Result.SUCCESS ? Result.SUCCESS : Result.FAIL;
+
+
+        internal static bool Init(IDgtEbDllFacade notifyTarget)
+        {
+            NotifyTarget = notifyTarget;
+            //int __stdcall _DGTDLL_SetGameType(int gameType);
+            var result1 = (Result)DgtEbDllImport.Init();
+            var result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
+            var result3 = (Result)UseFEN(true);
+            var result4 = (Result)RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
+
+            return ((result1 == Result.SUCCESS && result2 == Result.SUCCESS && 
+                     result3 == Result.SUCCESS && result4 == Result.SUCCESS) 
+                     ? true : false);
         }
 
 

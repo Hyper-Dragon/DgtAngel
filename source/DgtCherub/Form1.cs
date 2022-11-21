@@ -28,7 +28,7 @@ namespace DgtCherub
 {
     public partial class Form1 : Form
     {
-        LiveChessServer lv = new LiveChessServer();
+        private LiveChessServer fakeLiveChessServer;
 
         private const int TEXTBOX_MAX_LINES = 200;
 
@@ -133,10 +133,8 @@ namespace DgtCherub
 
 
             if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
-            //    if (Process.GetProcessesByName("DGT LiveChess").Length > 0)
             {
                 //TODO: Prep for Live Chess removal update
-                //Console.WriteLine("Process");
             }
             else
             {
@@ -145,10 +143,35 @@ namespace DgtCherub
                 //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
                 try
                 {
-                    //_dgtEbDllFacade.Init();
-                    IsUsingRabbit = true;
+                    if (_dgtEbDllFacade.Init(_dgtEbDllFacade))
+                    {
+                        IsUsingRabbit = true;
+                        string trackRunwho = "";
 
-                    lv.RunLiveChessServer();
+                        _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) =>
+                        {
+                            TextBoxConsole.AddLine($"RABBIT: {e.Message}");
+                        };
+
+                        appData.OnClockChange += () =>
+                        {
+                            if (trackRunwho != _angelHubService.RunWhoString)
+                            {
+                                TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
+
+                                trackRunwho = _angelHubService.RunWhoString;
+                                _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, Int32.Parse(_angelHubService.RunWhoString));
+                            }
+                        };
+
+                        fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "8/8/8/8/8/8/8/8");
+                        fakeLiveChessServer.RunLiveChessServer();
+                    }
+                    else
+                    {
+                        _dgtEbDllFacade = null;
+                        IsUsingRabbit = false;
+                    }
                 }
                 catch (DllNotFoundException)
                 {

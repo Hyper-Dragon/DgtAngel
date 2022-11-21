@@ -14,7 +14,15 @@ namespace DgtRabbitWrapper.DgtEbDll
         typedef int __stdcall FIIC(int, int, const char*);
         */
 
-        //---------------------------------------------------------------------
+        internal delegate void CallbackStatusFunc(string status);
+
+        [DllImport("dgtebdll.dll",
+                   EntryPoint = "_DGTDLL_RegisterStatusFunc",
+                   ExactSpelling = true,
+                   CharSet = CharSet.Ansi,
+                   CallingConvention = CallingConvention.StdCall)]
+        internal static extern int RegisterStatusFunc(CallbackStatusFunc func, IntPtr callbackTarget);
+
 
         internal delegate void CallbackScanFunc(string boardFEN);
 
@@ -22,14 +30,14 @@ namespace DgtRabbitWrapper.DgtEbDll
                    EntryPoint = "_DGTDLL_RegisterStableBoardFunc",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterStableBoardFunc(CallbackScanFunc func, IntPtr callbackTarget);
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_RegisterScanFunc",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
 
 
@@ -37,57 +45,56 @@ namespace DgtRabbitWrapper.DgtEbDll
            EntryPoint = "_DGTDLL_UseFEN",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
-           CallingConvention = CallingConvention.Cdecl)]
+           CallingConvention = CallingConvention.StdCall)]
         internal static extern int UseFEN(bool useFen);
 
-        //---------------------------------------------------------------------
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_HideDialog",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int HideDialog(int dummy);
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_ShowDialog",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int ShowDialog(int dummy);
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_GetVersion",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int GetVersion();
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_Init",
                    ExactSpelling = true,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int Init();
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_ClockMode",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int ClockMode(int mode);
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_SetNRun",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int SetNRun(StringBuilder wclock, StringBuilder bclock, int runwho);
 
         [DllImport("dgtebdll.dll",
                    EntryPoint = "_DGTDLL_EndDisplay",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int EndDisplay(int dummy);
 
         // _DGTDLL_DisplayClockMessage(char* message, int time);
@@ -95,7 +102,7 @@ namespace DgtRabbitWrapper.DgtEbDll
                    EntryPoint = "_DGTDLL_DisplayClockMessage",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
-                   CallingConvention = CallingConvention.Cdecl)]
+                   CallingConvention = CallingConvention.StdCall)]
         internal static extern int DisplayClockMessage(StringBuilder message, int time);
 
 

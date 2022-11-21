@@ -122,8 +122,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ChessHelpers\ChessHelpers.csproj" />
     <ProjectReference Include="..\DgtAngelShared\DgtAngelShared.csproj" />
-    <ProjectReference Include="..\DgtEbDllWrapper\DgtRabbitWrapper.csproj" />
     <ProjectReference Include="..\DgtLiveChessWrapper\DgtLiveChessWrapper.csproj" />
+    <ProjectReference Include="..\DgtRabbitWrapper\DgtRabbitWrapper.csproj" />
     <ProjectReference Include="..\DynamicBoard\DynamicBoard.csproj" />
   </ItemGroup>
 

@@ -1,13 +1,29 @@
-﻿using System;
+﻿using DgtRabbitWrapper.DgtEbDll;
+using System;
 using System.Runtime.CompilerServices;
-using System.Text;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
 
-namespace DgtRabbitWrapper.DgtEbDll
+namespace DgtRabbitWrapper
 {
     public class DgtEbDllFacade : IDgtEbDllFacade
     {
+        public event EventHandler<FenChangedEventArgs> OnFenChanged;
+        public event EventHandler<StatusMessageEventArgs> OnStatusMessage;
+
         private string versionString = "";
+
+
+        public void NotifyOnStatusChanged(StatusMessageEventArgs message)
+        {
+            OnStatusMessage?.Invoke(null, message);
+        }
+
+        public void NotifyOnFenChanged(FenChangedEventArgs fenChange)
+        {
+            OnFenChanged?.Invoke(null, fenChange);
+        }
+
+
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetRabbitVersionString()
@@ -33,9 +49,9 @@ namespace DgtRabbitWrapper.DgtEbDll
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Init()
+        public bool Init(IDgtEbDllFacade notifyTarget)
         {
-            _ = DgtEbDllAdapter.Init();
+            return DgtEbDllAdapter.Init(notifyTarget);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -80,9 +96,5 @@ namespace DgtRabbitWrapper.DgtEbDll
             _ = SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho);
         }
 
-
-
     }
-
 }
-
