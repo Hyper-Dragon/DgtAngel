@@ -22,19 +22,21 @@ namespace DgtRabbitWrapper.DgtEbDll
 
         static void CallbackStatusInstanceMethod(string message)
         {
-            NotifyTarget.NotifyOnStatusChanged(new StatusMessageEventArgs(){
-                                                   Message = message,
-                                                   TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                                               });
+            NotifyTarget.NotifyOnStatusChanged(new StatusMessageEventArgs()
+            {
+                Message = message,
+                TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            });
 
         }
 
         static void CallbackStableBoardInstanceMethod(string fenString)
         {
-            NotifyTarget.NotifyOnFenChanged(new FenChangedEventArgs(){
-                                                    FEN = fenString,
-                                                    TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                                                });                     
+            NotifyTarget.NotifyOnFenChanged(new FenChangedEventArgs()
+            {
+                FEN = fenString,
+                TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            });
         }
 
 
@@ -48,8 +50,8 @@ namespace DgtRabbitWrapper.DgtEbDll
             var result3 = (Result)UseFEN(true);
             var result4 = (Result)RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
 
-            return ((result1 == Result.SUCCESS && result2 == Result.SUCCESS && 
-                     result3 == Result.SUCCESS && result4 == Result.SUCCESS) 
+            return ((result1 == Result.SUCCESS && result2 == Result.SUCCESS &&
+                     result3 == Result.SUCCESS && result4 == Result.SUCCESS)
                      ? true : false);
         }
 
