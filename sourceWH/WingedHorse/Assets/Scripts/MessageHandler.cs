@@ -9,7 +9,8 @@ public class MessageHandler : MonoBehaviour
     private char[] fenConversionCurrent;
 
     public static ConcurrentQueue<string> SquareDiffQueue = new();
-    
+
+    public static bool IsClockDisplayOn { get; private set; } = false;
     public static string WhiteClock { get; private set; } = "0:00:00";
     public static string BlackClock { get; private set; } = "0:00:00";
     public static string MessageText { get; private set; } = "---";
@@ -44,8 +45,16 @@ public class MessageHandler : MonoBehaviour
         var whiteClockTime = TimeSpan.FromMilliseconds((long.Parse(clockSplit[0])));
         var blackClockTime = TimeSpan.FromMilliseconds((long.Parse(clockSplit[1])));
 
-        WhiteClock = whiteClockTime.ToString(@"h\:mm\:ss");
-        BlackClock = blackClockTime.ToString(@"h\:mm\:ss");
+        if (IsClockDisplayOn)
+        {
+            WhiteClock = whiteClockTime.ToString(@"h\:mm\:ss");
+            BlackClock = blackClockTime.ToString(@"h\:mm\:ss");
+        }
+        else
+        {
+            WhiteClock = whiteClockTime.ToString("---");
+            BlackClock = blackClockTime.ToString("---");
+        }
     }
 
 

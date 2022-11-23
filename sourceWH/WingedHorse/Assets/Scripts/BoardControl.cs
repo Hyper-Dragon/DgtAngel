@@ -11,6 +11,7 @@ public class BoardControl : MonoBehaviour
     private TextMeshPro whiteText;
     private TextMeshPro blackText;
     private bool isWhiteOnBottom = true;
+    private bool isClockDisplayOn = true;
 
     public float rotationStep = 5f;
     public float speedUpModifier = 10f;
@@ -31,9 +32,19 @@ public class BoardControl : MonoBehaviour
     void Update()
     {
         float speedModifier = Input.GetKey(KeyCode.Space) ? speedUpModifier : 1f;
-        
-        whiteClock.text = MessageHandler.WhiteClock;
-        blackClock.text = MessageHandler.BlackClock;
+
+
+        if (isClockDisplayOn)
+        {
+            whiteClock.text = MessageHandler.WhiteClock;
+            blackClock.text = MessageHandler.BlackClock;
+        }
+        else
+        {
+            whiteClock.text = "+++";
+            blackClock.text = "+++";
+        }
+
         whiteText.text = MessageHandler.MessageText;
         blackText.text = MessageHandler.MessageText;
 
@@ -43,6 +54,11 @@ public class BoardControl : MonoBehaviour
             board.transform.Rotate(0, 180f, 0);
             squareTextA1.transform.Rotate(0, 0, 180f);
             squareTextH8.transform.Rotate(0, 0, 180f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isClockDisplayOn = !isClockDisplayOn;
         }
 
         if (Input.GetKey(KeyCode.Q))
