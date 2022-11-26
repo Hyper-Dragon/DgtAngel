@@ -178,5 +178,29 @@ namespace DgtCherub.Properties {
                 this["MatcherLocalFromMismatchDelay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsRabbitDisabled {
+            get {
+                return ((bool)(this["IsRabbitDisabled"]));
+            }
+            set {
+                this["IsRabbitDisabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int StartingWidth {
+            get {
+                return ((int)(this["StartingWidth"]));
+            }
+            set {
+                this["StartingWidth"] = value;
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace DgtRabbitWrapper
         private string broadcastFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
         private readonly ConcurrentQueue<int> closedPortQueue = new();
 
+        private readonly int randomSerialNo = 20000 + Random.Shared.Next(9999);
+
         public LiveChessServer(IDgtEbDllFacade dgtEbDllFacade, int boardSerialNo, int comPort, int batteryPct, string initialFEN)
         {
             _dgtEbDllFacade = dgtEbDllFacade;
@@ -60,7 +62,7 @@ namespace DgtRabbitWrapper
             server = new("ws://0.0.0.0:1982") { RestartAfterListenError = true };
             server.ListenerSocket.NoDelay = true;
 
-            _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) =>
+            _dgtEbDllFacade.OnStableFenChanged += (object sender, FenChangedEventArgs e) =>
             {
                 if (LastFenSeen != e.FEN)
                 {
@@ -106,12 +108,12 @@ namespace DgtRabbitWrapper
                     {
                         if (message.Contains("eboards"))
                         {
-                            SendToSocket(socket, "{\"response\":\"call\",\"id\":1,\"param\":[{\"serialnr\":\"24958\",\"source\":\"COM3\",\"state\":\"ACTIVE\",\"battery\":\"85%\",\"comment\":null,\"board\":\"FENFEN\",\"flipped\":false,\"clock\":null}],\"time\":TIMETIME}".Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                            SendToSocket(socket, "{\"response\":\"call\",\"id\":1,\"param\":[{\"serialnr\":\"BOARDNO\",\"source\":\"COM1\",\"state\":\"ACTIVE\",\"battery\":\"100%\",\"comment\":null,\"board\":\"FENFEN\",\"flipped\":false,\"clock\":null}],\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
                         }
                         else if (message.Contains("subscribe"))
                         {
                             SendToSocket(socket, "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}".Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
-                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}".Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
 
                             string lastSend = "";
                             while (true)
@@ -127,7 +129,7 @@ namespace DgtRabbitWrapper
                                     if (broadcastFEN != lastSend)
                                     {
                                         lastSend = broadcastFEN;
-                                        SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"24958\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("FENFENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                                        SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("BOARDNO",randomSerialNo.ToString()).Replace("FENFENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
                                     }
                                     Thread.Sleep(200);
                                 }

@@ -10,8 +10,9 @@ public class BoardControl : MonoBehaviour
     private TextMeshPro blackClock;
     private TextMeshPro whiteText;
     private TextMeshPro blackText;
-    private bool isWhiteOnBottom = true;
-    private bool isClockDisplayOn = true;
+    
+    private static bool isWhiteOnBottom = true;
+    public static bool isClockDisplayOn = true;
 
     public float rotationStep = 5f;
     public float speedUpModifier = 10f;
@@ -59,6 +60,7 @@ public class BoardControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             isClockDisplayOn = !isClockDisplayOn;
+            GamePreferenceManager.SavePrefs();
         }
 
         if (Input.GetKey(KeyCode.Q))

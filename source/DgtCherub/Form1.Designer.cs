@@ -56,6 +56,7 @@ namespace DgtCherub
             this.Panel1 = new System.Windows.Forms.Panel();
             this.TabControlSidePanel = new System.Windows.Forms.TabControl();
             this.TabPageConfig = new System.Windows.Forms.TabPage();
+            this.CheckBoxNeverUseRabbit = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.UpDownFromMismatchDelay = new System.Windows.Forms.NumericUpDown();
             this.UpDownLocalDelay = new System.Windows.Forms.NumericUpDown();
@@ -68,7 +69,7 @@ namespace DgtCherub
             this.UpDownFontSize = new System.Windows.Forms.NumericUpDown();
             this.CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
             this.ButtonClearConsole = new System.Windows.Forms.Button();
-            this.CheckBoxShowInbound = new System.Windows.Forms.CheckBox();
+            this.CheckBoxDisableRabbit = new System.Windows.Forms.CheckBox();
             this.ButtonRabbitConfig1 = new System.Windows.Forms.Button();
             this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             this.TabPageBoards = new System.Windows.Forms.TabPage();
@@ -325,7 +326,7 @@ namespace DgtCherub
             this.GroupBoxClockTest.Size = new System.Drawing.Size(135, 103);
             this.GroupBoxClockTest.TabIndex = 0;
             this.GroupBoxClockTest.TabStop = false;
-            this.GroupBoxClockTest.Text = "Clock Test";
+            this.GroupBoxClockTest.Text = "DGT 3000 Test";
             // 
             // ButtonSendTestMsg2
             // 
@@ -359,7 +360,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 579);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 619);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -399,7 +400,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 579);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 619);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -473,7 +474,7 @@ namespace DgtCherub
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel1.Location = new System.Drawing.Point(0, 25);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(782, 587);
+            this.Panel1.Size = new System.Drawing.Size(782, 627);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -492,13 +493,14 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 587);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 627);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
             // TabPageConfig
             // 
             this.TabPageConfig.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageConfig.Controls.Add(this.CheckBoxNeverUseRabbit);
             this.TabPageConfig.Controls.Add(this.groupBox2);
             this.TabPageConfig.Controls.Add(this.CheckBoxPreventSleep);
             this.TabPageConfig.Controls.Add(this.label4);
@@ -506,17 +508,32 @@ namespace DgtCherub
             this.TabPageConfig.Controls.Add(this.GroupBox1);
             this.TabPageConfig.Controls.Add(this.CheckBoxRecieveLog);
             this.TabPageConfig.Controls.Add(this.ButtonClearConsole);
-            this.TabPageConfig.Controls.Add(this.CheckBoxShowInbound);
+            this.TabPageConfig.Controls.Add(this.CheckBoxDisableRabbit);
             this.TabPageConfig.Controls.Add(this.ButtonRabbitConfig1);
             this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 579);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 619);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
             this.TabPageConfig.Click += new System.EventHandler(this.TabPageConfig_Click);
+            // 
+            // CheckBoxNeverUseRabbit
+            // 
+            this.CheckBoxNeverUseRabbit.Checked = true;
+            this.CheckBoxNeverUseRabbit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxNeverUseRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxNeverUseRabbit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxNeverUseRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(24, 434);
+            this.CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
+            this.CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(127, 25);
+            this.CheckBoxNeverUseRabbit.TabIndex = 63;
+            this.CheckBoxNeverUseRabbit.Text = "Disable Rabbit";
+            this.CheckBoxNeverUseRabbit.UseVisualStyleBackColor = true;
+            this.CheckBoxNeverUseRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxNeverUseRabbit_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -702,7 +719,7 @@ namespace DgtCherub
             this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 504);
+            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 534);
             this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             this.CheckBoxRecieveLog.Size = new System.Drawing.Size(118, 25);
             this.CheckBoxRecieveLog.TabIndex = 16;
@@ -714,33 +731,33 @@ namespace DgtCherub
             // 
             this.ButtonClearConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonClearConsole.Location = new System.Drawing.Point(17, 539);
+            this.ButtonClearConsole.Location = new System.Drawing.Point(17, 569);
             this.ButtonClearConsole.Name = "ButtonClearConsole";
-            this.ButtonClearConsole.Size = new System.Drawing.Size(124, 33);
+            this.ButtonClearConsole.Size = new System.Drawing.Size(124, 39);
             this.ButtonClearConsole.TabIndex = 16;
             this.ButtonClearConsole.Text = "Clear Console";
             this.ButtonClearConsole.UseVisualStyleBackColor = true;
             this.ButtonClearConsole.Click += new System.EventHandler(this.ButtonClearConsole_Click);
             // 
-            // CheckBoxShowInbound
+            // CheckBoxDisableRabbit
             // 
-            this.CheckBoxShowInbound.Checked = true;
-            this.CheckBoxShowInbound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxShowInbound.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxShowInbound.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxShowInbound.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxShowInbound.Location = new System.Drawing.Point(23, 477);
-            this.CheckBoxShowInbound.Name = "CheckBoxShowInbound";
-            this.CheckBoxShowInbound.Size = new System.Drawing.Size(118, 25);
-            this.CheckBoxShowInbound.TabIndex = 15;
-            this.CheckBoxShowInbound.Text = "Show Inbound";
-            this.CheckBoxShowInbound.UseVisualStyleBackColor = true;
-            this.CheckBoxShowInbound.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
+            this.CheckBoxDisableRabbit.Checked = true;
+            this.CheckBoxDisableRabbit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckBoxDisableRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CheckBoxDisableRabbit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxDisableRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.CheckBoxDisableRabbit.Location = new System.Drawing.Point(23, 507);
+            this.CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
+            this.CheckBoxDisableRabbit.Size = new System.Drawing.Size(118, 25);
+            this.CheckBoxDisableRabbit.TabIndex = 15;
+            this.CheckBoxDisableRabbit.Text = "Show Inbound";
+            this.CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
+            this.CheckBoxDisableRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
             // 
             // ButtonRabbitConfig1
             // 
             this.ButtonRabbitConfig1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 434);
+            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 464);
             this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
             this.ButtonRabbitConfig1.TabIndex = 14;
@@ -774,7 +791,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 579);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 619);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -832,7 +849,7 @@ namespace DgtCherub
             this.LabelRemoteBoard.Name = "LabelRemoteBoard";
             this.LabelRemoteBoard.Size = new System.Drawing.Size(65, 16);
             this.LabelRemoteBoard.TabIndex = 12;
-            this.LabelRemoteBoard.Text = "Chess.com";
+            this.LabelRemoteBoard.Text = "Remote";
             // 
             // LabelLocalDgt
             // 
@@ -855,7 +872,7 @@ namespace DgtCherub
             this.PictureBoxRemote.Location = new System.Drawing.Point(8, 183);
             this.PictureBoxRemote.Name = "PictureBoxRemote";
             this.PictureBoxRemote.Size = new System.Drawing.Size(141, 141);
-            this.PictureBoxRemote.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PictureBoxRemote.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PictureBoxRemote.TabIndex = 14;
             this.PictureBoxRemote.TabStop = false;
             // 
@@ -886,7 +903,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(585, 587);
+            this.TextBoxConsole.Size = new System.Drawing.Size(585, 627);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -906,7 +923,7 @@ namespace DgtCherub
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripStatusLabelLastUpdate,
             this.ToolStripStatusLabelVersion});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 612);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 652);
             this.StatusStrip.Name = "StatusStrip";
             this.StatusStrip.Size = new System.Drawing.Size(782, 26);
             this.StatusStrip.TabIndex = 1;
@@ -1133,7 +1150,7 @@ namespace DgtCherub
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(782, 638);
+            this.ClientSize = new System.Drawing.Size(782, 678);
             this.Controls.Add(this.Panel1);
             this.Controls.Add(this.StatusStrip);
             this.Controls.Add(this.MenuStrip);
@@ -1141,7 +1158,7 @@ namespace DgtCherub
             this.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStrip;
-            this.MinimumSize = new System.Drawing.Size(420, 685);
+            this.MinimumSize = new System.Drawing.Size(420, 725);
             this.Name = "Form1";
             this.Text = "Cherub";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1194,7 +1211,7 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabelVersion;
         private System.Windows.Forms.CheckBox CheckBoxOnTop;
         private System.Windows.Forms.Button ButtonRabbitConfig1;
-        private System.Windows.Forms.CheckBox CheckBoxShowInbound;
+        private System.Windows.Forms.CheckBox CheckBoxDisableRabbit;
         private System.Windows.Forms.LinkLabel LinkLabelAbout1;
         private System.Windows.Forms.TabPage TabPageBoards;
         private System.Windows.Forms.Label LabelRemoteBoard;
@@ -1261,6 +1278,7 @@ namespace DgtCherub
         private System.Windows.Forms.NumericUpDown UpDownLocalDelay;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox CheckBoxNeverUseRabbit;
     }
 }
 
