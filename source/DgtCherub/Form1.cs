@@ -50,6 +50,16 @@ namespace DgtCherub
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
+        const string holegg08 = @"                 '='      '='      '='      '='      '='      '='                    ";
+        const string holegg03 = @"                [___]    [___]    [___]    [___]    [___]    [___]      ************ ";
+        const string holegg01 = @"                   .--._.--.--.__.--.--.__.--.--.__.--.--._.--.                      ";
+        const string holegg07 = @"           jgs  \::./    \::./    \::./    \::./    \::./    \::./                   ";
+        const string holegg05 = @"               |::   |  |::   |  |::   |  |::   |  |::   |  |::   |     * HOLIDAYS * ";
+        const string holegg06 = @"               \::.  /  \::.  /  \::.  /  \::.  /  \::.  /  \::.  /     ************ ";
+        const string holegg02 = @"                 _(_      _Y_      _Y_      _Y_      _Y_      _)_                    ";
+        const string holegg04 = @"                /:' \    /:' \    /:' \    /:' \    /:' \    /:' \      *  HAPPY   * ";
+
+
         private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
         private System.Resources.ResourceManager VoiceMoveResManager;
 
@@ -1018,16 +1028,16 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         config and change the 'stableboard' slider on the extra tab.  Check", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for update news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            if (DateTime.Now.Month == 11 && DateTime.Now.Day > 20)
+            if (DateTime.Now.Month == 12 && DateTime.Now.Day > 20)
             {
-                TextBoxConsole.AddLine(@"                   .--._.--.--.__.--.--.__.--.--.__.--.--._.--.                      ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"                 _(_      _Y_      _Y_      _Y_      _Y_      _)_                    ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"                [___]    [___]    [___]    [___]    [___]    [___]      ************ ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"                /:' \    /:' \    /:' \    /:' \    /:' \    /:' \      *  HAPPY   * ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"               |::   |  |::   |  |::   |  |::   |  |::   |  |::   |     * HOLIDAYS * ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"               \::.  /  \::.  /  \::.  /  \::.  /  \::.  /  \::.  /     ************ ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"           jgs  \::./    \::./    \::./    \::./    \::./    \::./                   ", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine(@"                 '='      '='      '='      '='      '='      '='                    ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg01, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg02, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg03, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg04, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg05, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg06, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg07, TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(holegg08, TEXTBOX_MAX_LINES, false);
                 TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             }
         }
