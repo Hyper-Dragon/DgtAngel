@@ -549,19 +549,38 @@ namespace DgtCherub
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
             {
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcConnected_AP);
-                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                if (IsUsingRabbit)
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.ConnectedToRabbit_AP);
+                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                                                     $"Connected to Rabbit...",
+                                                     $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
+                }
+                else
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcConnected_AP);
+                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Live Chess running [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
+                }
             };
 
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
             {
-                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtConnected_AP);
-                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                if (IsUsingRabbit)
+                {
+                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                                                     $"Verify the Rabbit to board connection in the Rabbit config screen.",
+                                                     $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
+                }
+                else
+                {
+                    PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtConnected_AP);
+                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Board found [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
+                }
             };
 
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
@@ -936,6 +955,20 @@ namespace DgtCherub
             TextBoxConsole.Text = "";
             TextBoxConsole.Update();
 
+            /*
+     __/)     (\__               __/)     (\__
+  ,-'~~(   _   )~~`-.         ,-'~~(   _   )~~`-.
+ /      \/'_`\/      \       /      \/'_`\/      \
+|       /_(_)_\       |     |       /_(_)_\       |
+|     _(/(\_/)\)_     |     |     _(/(\_/)\)_     |
+|    / // \ / \\ \    |     |    / // \ / \\ \    |
+ \  | ``  / \ ''  |  /       \  | ``  / \ ''  |  /
+  \  )   /   \   (  /         \  )   /   \   (  /
+   )/   /     \   \(           )/   /     \   \(
+   '    `-`-'-'    `           '    `-`-'-'    `             
+             */
+
+
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"    Welcome to...                                                                      ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"    ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗     ", TEXTBOX_MAX_LINES, false);
@@ -981,14 +1014,26 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         board.  Finally, if you have the 'ghost move' issue open up the Rabbit", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         config and change the 'stableboard' slider on the extra tab.  Check", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for update news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            if (DateTime.Now.Month == 12 && DateTime.Now.Day > 20)
+            {
+                TextBoxConsole.AddLine(@"                   .--._.--.--.__.--.--.__.--.--.__.--.--._.--.                      ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"                 _(_      _Y_      _Y_      _Y_      _Y_      _)_                    ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"                [___]    [___]    [___]    [___]    [___]    [___]      ************ ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"                /:' \    /:' \    /:' \    /:' \    /:' \    /:' \      *  HAPPY   * ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"               |::   |  |::   |  |::   |  |::   |  |::   |  |::   |     * HOLIDAYS * ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"               \::.  /  \::.  /  \::.  /  \::.  /  \::.  /  \::.  /     ************ ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"           jgs  \::./    \::./    \::./    \::./    \::./    \::./                   ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine(@"                 '='      '='      '='      '='      '='      '='                    ", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            }
             TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{((Environment.Is64BitProcess) ? "64" : "32")} bit]." : $"Using Live Chess. {((DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled) ?"[Rabbit is Always Disabled]":"")}")}", TEXTBOX_MAX_LINES, false);
             if (IsUsingRabbit)
             {
                 TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{((Environment.Is64BitProcess) ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
                 TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
             }
-            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
         private static void PreventScreensaver(bool preventSleep)

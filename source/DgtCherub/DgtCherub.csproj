@@ -30,6 +30,7 @@
     <None Remove="Assets\Audio\Speech-en-01\Beep-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\ConnectedToRabbit-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtConnected-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
@@ -75,6 +76,7 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Beep-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\ConnectedToRabbit-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtConnected-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />

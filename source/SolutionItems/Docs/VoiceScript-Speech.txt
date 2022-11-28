@@ -14,6 +14,7 @@ DgtLcConnected     | Connected to the Live Chess Software.
 DgtLcDisconnected  | Disconnected from the Live Chess Software.
 DgtConnected       | The DGT Board is connected.
 DgtDisconnected    | The DGT Board is disconnected.
+ConnectedToRabbit  | Cherub is connected to Rabbit.  Verify the Rabbit to Board Connection in the Rabbit config screen.
 CdcWatching        | Now watching Chess Dot COM.
 CdcStoppedWatching | No longer watching Chess Dot COM.
 DgtCantFindBoard   | Connected to Live Chess but can't find any active DGTee Boards!

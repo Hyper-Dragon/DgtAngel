@@ -136,6 +136,9 @@
   <data name="CdcWatching_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Audio\Speech-en-01\CdcWatching-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="ConnectedToRabbit_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\speech-en-01\connectedtorabbit-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="DgtCantFindBoard_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Audio\Speech-en-01\DgtCantFindBoard-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
