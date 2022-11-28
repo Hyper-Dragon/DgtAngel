@@ -159,7 +159,7 @@ namespace DgtCherub
             this.CheckboxSilentBeep.Location = new System.Drawing.Point(62, 98);
             this.CheckboxSilentBeep.Name = "CheckboxSilentBeep";
             this.CheckboxSilentBeep.Size = new System.Drawing.Size(61, 25);
-            this.CheckboxSilentBeep.TabIndex = 4;
+            this.CheckboxSilentBeep.TabIndex = 5;
             this.CheckboxSilentBeep.Text = "Silent";
             this.CheckboxSilentBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CheckboxSilentBeep.UseVisualStyleBackColor = true;
@@ -172,7 +172,7 @@ namespace DgtCherub
             this.CheckBoxPlayerBeep.Location = new System.Drawing.Point(27, 75);
             this.CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
             this.CheckBoxPlayerBeep.Size = new System.Drawing.Size(97, 25);
-            this.CheckBoxPlayerBeep.TabIndex = 3;
+            this.CheckBoxPlayerBeep.TabIndex = 4;
             this.CheckBoxPlayerBeep.Text = "Beep Mode";
             this.CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@ namespace DgtCherub
             this.CheckBoxIncludeSecs.Location = new System.Drawing.Point(27, 193);
             this.CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
             this.CheckBoxIncludeSecs.Size = new System.Drawing.Size(97, 25);
-            this.CheckBoxIncludeSecs.TabIndex = 7;
+            this.CheckBoxIncludeSecs.TabIndex = 8;
             this.CheckBoxIncludeSecs.Text = "Include Secs";
             this.CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
@@ -207,7 +207,7 @@ namespace DgtCherub
             this.ComboBoxMoveVoice.Location = new System.Drawing.Point(27, 127);
             this.ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
             this.ComboBoxMoveVoice.Size = new System.Drawing.Size(91, 27);
-            this.ComboBoxMoveVoice.TabIndex = 5;
+            this.ComboBoxMoveVoice.TabIndex = 6;
             this.ComboBoxMoveVoice.SelectedValueChanged += new System.EventHandler(this.ComboBoxMoveVoice_SelectedValueChanged);
             // 
             // Label3
@@ -274,7 +274,7 @@ namespace DgtCherub
             0});
             this.UpDownVolTime.Name = "UpDownVolTime";
             this.UpDownVolTime.Size = new System.Drawing.Size(45, 22);
-            this.UpDownVolTime.TabIndex = 6;
+            this.UpDownVolTime.TabIndex = 7;
             this.UpDownVolTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVolTime.Value = new decimal(new int[] {
             10,
@@ -530,7 +530,7 @@ namespace DgtCherub
             this.CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(24, 434);
             this.CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
             this.CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(127, 25);
-            this.CheckBoxNeverUseRabbit.TabIndex = 63;
+            this.CheckBoxNeverUseRabbit.TabIndex = 15;
             this.CheckBoxNeverUseRabbit.Text = "Disable Rabbit";
             this.CheckBoxNeverUseRabbit.UseVisualStyleBackColor = true;
             this.CheckBoxNeverUseRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxNeverUseRabbit_CheckedChanged);
@@ -572,7 +572,7 @@ namespace DgtCherub
             65536});
             this.UpDownFromMismatchDelay.Name = "UpDownFromMismatchDelay";
             this.UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 22);
-            this.UpDownFromMismatchDelay.TabIndex = 13;
+            this.UpDownFromMismatchDelay.TabIndex = 14;
             this.UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownFromMismatchDelay.Value = new decimal(new int[] {
             5,
@@ -603,7 +603,7 @@ namespace DgtCherub
             65536});
             this.UpDownLocalDelay.Name = "UpDownLocalDelay";
             this.UpDownLocalDelay.Size = new System.Drawing.Size(45, 22);
-            this.UpDownLocalDelay.TabIndex = 12;
+            this.UpDownLocalDelay.TabIndex = 13;
             this.UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownLocalDelay.Value = new decimal(new int[] {
             2,
@@ -655,7 +655,7 @@ namespace DgtCherub
             0});
             this.UpDownVoiceDelay.Name = "UpDownVoiceDelay";
             this.UpDownVoiceDelay.Size = new System.Drawing.Size(45, 22);
-            this.UpDownVoiceDelay.TabIndex = 11;
+            this.UpDownVoiceDelay.TabIndex = 12;
             this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVoiceDelay.Value = new decimal(new int[] {
             5,
@@ -673,7 +673,7 @@ namespace DgtCherub
             this.CheckBoxPreventSleep.Location = new System.Drawing.Point(23, 227);
             this.CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
             this.CheckBoxPreventSleep.Size = new System.Drawing.Size(116, 25);
-            this.CheckBoxPreventSleep.TabIndex = 8;
+            this.CheckBoxPreventSleep.TabIndex = 9;
             this.CheckBoxPreventSleep.Text = "Prevent Sleep";
             this.CheckBoxPreventSleep.UseVisualStyleBackColor = true;
             this.CheckBoxPreventSleep.CheckedChanged += new System.EventHandler(this.CheckBoxPreventSleep_CheckedChanged);
@@ -703,7 +703,7 @@ namespace DgtCherub
             0});
             this.UpDownFontSize.Name = "UpDownFontSize";
             this.UpDownFontSize.Size = new System.Drawing.Size(45, 22);
-            this.UpDownFontSize.TabIndex = 10;
+            this.UpDownFontSize.TabIndex = 11;
             this.UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownFontSize.Value = new decimal(new int[] {
             11,
@@ -722,7 +722,7 @@ namespace DgtCherub
             this.CheckBoxRecieveLog.Location = new System.Drawing.Point(23, 534);
             this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             this.CheckBoxRecieveLog.Size = new System.Drawing.Size(118, 25);
-            this.CheckBoxRecieveLog.TabIndex = 16;
+            this.CheckBoxRecieveLog.TabIndex = 18;
             this.CheckBoxRecieveLog.Text = "Logging On";
             this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
             this.CheckBoxRecieveLog.CheckedChanged += new System.EventHandler(this.CheckBoxRecieveLog_CheckedChanged);
@@ -734,7 +734,7 @@ namespace DgtCherub
             this.ButtonClearConsole.Location = new System.Drawing.Point(17, 569);
             this.ButtonClearConsole.Name = "ButtonClearConsole";
             this.ButtonClearConsole.Size = new System.Drawing.Size(124, 39);
-            this.ButtonClearConsole.TabIndex = 16;
+            this.ButtonClearConsole.TabIndex = 19;
             this.ButtonClearConsole.Text = "Clear Console";
             this.ButtonClearConsole.UseVisualStyleBackColor = true;
             this.ButtonClearConsole.Click += new System.EventHandler(this.ButtonClearConsole_Click);
@@ -749,7 +749,7 @@ namespace DgtCherub
             this.CheckBoxDisableRabbit.Location = new System.Drawing.Point(23, 507);
             this.CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
             this.CheckBoxDisableRabbit.Size = new System.Drawing.Size(118, 25);
-            this.CheckBoxDisableRabbit.TabIndex = 15;
+            this.CheckBoxDisableRabbit.TabIndex = 17;
             this.CheckBoxDisableRabbit.Text = "Show Inbound";
             this.CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
             this.CheckBoxDisableRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
@@ -760,7 +760,7 @@ namespace DgtCherub
             this.ButtonRabbitConfig1.Location = new System.Drawing.Point(17, 464);
             this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
-            this.ButtonRabbitConfig1.TabIndex = 14;
+            this.ButtonRabbitConfig1.TabIndex = 16;
             this.ButtonRabbitConfig1.Text = "Rabbit Config...";
             this.ButtonRabbitConfig1.UseVisualStyleBackColor = true;
             this.ButtonRabbitConfig1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
@@ -774,7 +774,7 @@ namespace DgtCherub
             this.CheckBoxOnTop.Location = new System.Drawing.Point(23, 256);
             this.CheckBoxOnTop.Name = "CheckBoxOnTop";
             this.CheckBoxOnTop.Size = new System.Drawing.Size(116, 25);
-            this.CheckBoxOnTop.TabIndex = 9;
+            this.CheckBoxOnTop.TabIndex = 10;
             this.CheckBoxOnTop.Text = "Always On Top";
             this.CheckBoxOnTop.UseVisualStyleBackColor = true;
             this.CheckBoxOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxOnTop_CheckedChanged);

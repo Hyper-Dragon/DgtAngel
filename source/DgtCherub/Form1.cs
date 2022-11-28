@@ -53,10 +53,11 @@ namespace DgtCherub
         private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
         private System.Resources.ResourceManager VoiceMoveResManager;
 
+        private IDgtEbDllFacade _dgtEbDllFacade;
+
         private readonly IHost _iHost;
         private readonly ILogger _logger;
         private readonly IAngelHubService _angelHubService;
-        private readonly IDgtEbDllFacade _dgtEbDllFacade;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
         private readonly ISequentialVoicePlayer _voicePlayeStatus;
@@ -80,7 +81,7 @@ namespace DgtCherub
         private bool PlayerBeepOnly { get; set; } = false;
         private bool IsSilentBeep { get; set; } = false;
 
-        private readonly bool IsUsingRabbit = false;
+        private bool IsUsingRabbit = false;
 
         // Get Hostname 
         private readonly string hostName;
@@ -128,23 +129,38 @@ namespace DgtCherub
 
             InitializeComponent();
 
+            // Get Hostname and v4 IP Addrs
+            try
+            {
+                hostName = Dns.GetHostName();
+                thisMachineIpV4Addrs = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
+                qrCodeImageDictionary = new Dictionary<string, Bitmap>();
+            }
+            catch
+            {
+                //If this fails don't error - UI Quality of life only
+                hostName = "";
+                thisMachineIpV4Addrs = Array.Empty<string>();
+            }
+        }
+
+        private void StartBoardComms()
+        {
+
             if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
             {
-                //TODO: Prep for Live Chess removal update
+                //If Live Chess is running don't try to start rabbit 
             }
             else if (DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled)
             {
-
+                //If Rabbit is disabled don't try to start rabbit
             }
             else
             {
-                //TODO: Start the Rabbit Plugin if we can...
-                //      add note - is your clock on option 25 and set (play button)  - the time wont work otherwise
-                //      The startup order seems to matter - if you want the clock get a bluetooth connection 1st then plug in the board
                 try
                 {
                     if (_dgtEbDllFacade.Init(_dgtEbDllFacade))
-                    {                        
+                    {
                         IsUsingRabbit = true;
                         string trackRunwho = "";
 
@@ -164,7 +180,7 @@ namespace DgtCherub
                         _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
                         */
 
-                        appData.OnClockChange += () =>
+                        _angelHubService.OnClockChange += () =>
                         {
                             if (trackRunwho != _angelHubService.RunWhoString)
                             {
@@ -176,12 +192,16 @@ namespace DgtCherub
                         };
 
                         fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-                        
+
                         _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
                         _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
 
-                        fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}"); 
+                        fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
                         fakeLiveChessServer.RunLiveChessServer();
+
+                        ButtonRabbitConfig1.Visible = true;
+                        ButtonSendTestMsg1.Visible = true;
+                        ButtonSendTestMsg2.Visible = true;
                     }
                     else
                     {
@@ -195,21 +215,8 @@ namespace DgtCherub
                     IsUsingRabbit = false;
                 }
             }
-
-            // Get Hostname and v4 IP Addrs
-            try
-            {
-                hostName = Dns.GetHostName();
-                thisMachineIpV4Addrs = Dns.GetHostEntry(hostName).AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork).Select(x => x.ToString()).ToArray();
-                qrCodeImageDictionary = new Dictionary<string, Bitmap>();
-            }
-            catch
-            {
-                //If this fails don't error - UI Quality of life only
-                hostName = "";
-                thisMachineIpV4Addrs = Array.Empty<string>();
-            }
         }
+
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -650,6 +657,8 @@ namespace DgtCherub
             //All the Events are set up so we can start watching the local board and running the inbound API
             _ = Task.Run(_dgtLiveChess.PollDgtBoard);
             _ = Task.Run(_iHost.Run);
+
+            StartBoardComms();
         }
 
         //*********************************************//
