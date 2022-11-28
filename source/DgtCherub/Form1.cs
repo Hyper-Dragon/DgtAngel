@@ -46,7 +46,7 @@ namespace DgtCherub
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://digitalgametechnology.com/support/software/software-downloads";
         private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc";
-        private const string PP_CODE = "QNKADKV5BAM5C";
+        private const string PP_CODE = "QNKADKV5BAM5C"; //Not a secret
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
 
