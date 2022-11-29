@@ -25,7 +25,7 @@ public class GamePreferenceManager : MonoBehaviour
 
     public void LoadPrefs()
     {
-        BoardControl.isClockDisplayOn = PlayerPrefs.GetInt(IS_CLOCK_ON)==1?true:false;
+        BoardControl.isClockDisplayOn = PlayerPrefs.GetInt(IS_CLOCK_ON)==1;
     }
 
 }
