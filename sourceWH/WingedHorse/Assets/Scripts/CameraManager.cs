@@ -5,7 +5,8 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     //This is Main Camera in the Scene
-    private Camera mainCamera;
+    public Camera mainCamera;
+    
     private GameObject mainLight;
     private GameObject board;
     private Renderer cameraTarget;
@@ -33,7 +34,7 @@ public class CameraManager : MonoBehaviour
     public float speedUpModifier = 10f;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;

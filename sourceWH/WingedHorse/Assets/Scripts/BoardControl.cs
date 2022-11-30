@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class BoardControl : MonoBehaviour
 {
-    private GameObject board;
+    public  GameObject board;
+    
     private GameObject squareTextA1;
     private GameObject squareTextH8;
     private TextMeshPro whiteClock;
