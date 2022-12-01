@@ -51,11 +51,10 @@ public class CameraManager : MonoBehaviour
         ceilingTiltRight = GameObject.Find("Main Camera/CeilingColliderRight").GetComponent<TiltCollision>();
         ceilingTiltUp = GameObject.Find("Main Camera/CeilingColliderUp").GetComponent<TiltCollision>();
         ceilingTiltDown = GameObject.Find("Main Camera/CeilingColliderDown").GetComponent<TiltCollision>();
-        
-        board = GameObject.Find("Board");
         cameraTarget = GameObject.Find("Board/BaseTarget/Centre").GetComponent<Renderer>();
         cameraBody = GameObject.Find("Main Camera").GetComponent<Rigidbody>();
         cameraTargetPosition = GameObject.Find("CameraTarget").transform.position;
+        board = GameObject.Find("Board");
 
         initialCameraPos = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y,
                                        mainCamera.transform.position.z);

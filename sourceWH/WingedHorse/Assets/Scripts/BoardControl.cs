@@ -61,7 +61,6 @@ public class BoardControl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             isClockDisplayOn = !isClockDisplayOn;
-            GamePreferenceManager.SavePrefs();
         }
 
         if (Input.GetKey(KeyCode.Q))
