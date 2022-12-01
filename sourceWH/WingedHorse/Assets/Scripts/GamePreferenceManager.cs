@@ -12,7 +12,7 @@ public class GamePreferenceManager : MonoBehaviour
     private GameObject squareTextH8;
 
     //Increment this is changing preferences
-    private const int PREF_VERSION_NO = 4;
+    private const int PREF_VERSION_NO = 5;
 
     private const string PREF_VERSION = "PREF_VERSION";
     private const string IS_CLOCK_ON = "IS_CLOCK_ON";
