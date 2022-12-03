@@ -133,7 +133,7 @@ namespace DgtCherub.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
         public decimal MatcherDelay {
             get {
                 return ((decimal)(this["MatcherDelay"]));
@@ -176,6 +176,30 @@ namespace DgtCherub.Properties {
             }
             set {
                 this["MatcherLocalFromMismatchDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool IsRabbitDisabled {
+            get {
+                return ((bool)(this["IsRabbitDisabled"]));
+            }
+            set {
+                this["IsRabbitDisabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int StartingWidth {
+            get {
+                return ((int)(this["StartingWidth"]));
+            }
+            set {
+                this["StartingWidth"] = value;
             }
         }
     }

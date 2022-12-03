@@ -1,12 +1,13 @@
 ﻿using DgtCherub.Helpers;
 using DgtCherub.Services;
-using DgtEbDllWrapper;
+using DgtRabbitWrapper.DgtEbDll;
 using DgtLiveChessWrapper;
 using DynamicBoard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DgtRabbitWrapper;
 
 namespace DgtCherub
 {

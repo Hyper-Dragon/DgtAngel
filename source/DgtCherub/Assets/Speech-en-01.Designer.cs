@@ -117,6 +117,15 @@ namespace DgtCherub.Assets {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream ConnectedToRabbit_AP {
+            get {
+                return ResourceManager.GetStream("ConnectedToRabbit_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream DgtCantFindBoard_AP {
             get {
                 return ResourceManager.GetStream("DgtCantFindBoard_AP", resourceCulture);

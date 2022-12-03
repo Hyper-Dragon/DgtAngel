@@ -1,5 +1,5 @@
 ﻿using DgtAngelShared.Json;
-using DgtEbDllWrapper;
+using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
@@ -102,7 +102,7 @@ namespace DgtCherub.Services
         private const int MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS = 1000;
 
         private const int POST_EVENT_DELAY_LAST_MOVE = MS_IN_SEC * 1;
-        private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC /2;
+        private const int POST_EVENT_DELAY_LOCAL_FEN = MS_IN_SEC / 2;
         private const int POST_EVENT_DELAY_REMOTE_FEN = MS_IN_SEC / 10;
         private const int POST_EVENT_DELAY_CLOCK = MS_IN_SEC / 2;
         private const int POST_EVENT_DELAY_MESSAGE = MS_IN_SEC / 10;

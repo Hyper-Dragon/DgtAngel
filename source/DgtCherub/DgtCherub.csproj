@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Assets\Images\logoAngel.ico</ApplicationIcon>
     <LangVersion>preview</LangVersion>
@@ -30,6 +30,7 @@
     <None Remove="Assets\Audio\Speech-en-01\Beep-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\ConnectedToRabbit-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtConnected-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
@@ -75,6 +76,7 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Beep-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcStoppedWatching-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\CdcWatching-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\ConnectedToRabbit-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtCantFindBoard-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtConnected-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
@@ -122,8 +124,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ChessHelpers\ChessHelpers.csproj" />
     <ProjectReference Include="..\DgtAngelShared\DgtAngelShared.csproj" />
-    <ProjectReference Include="..\DgtEbDllWrapper\DgtEbDllWrapper.csproj" />
     <ProjectReference Include="..\DgtLiveChessWrapper\DgtLiveChessWrapper.csproj" />
+    <ProjectReference Include="..\DgtRabbitWrapper\DgtRabbitWrapper.csproj" />
     <ProjectReference Include="..\DynamicBoard\DynamicBoard.csproj" />
   </ItemGroup>
 

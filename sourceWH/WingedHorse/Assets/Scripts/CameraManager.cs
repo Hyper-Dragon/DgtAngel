@@ -5,7 +5,8 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     //This is Main Camera in the Scene
-    private Camera mainCamera;
+    public Camera mainCamera;
+    
     private GameObject mainLight;
     private GameObject board;
     private Renderer cameraTarget;
@@ -33,7 +34,7 @@ public class CameraManager : MonoBehaviour
     public float speedUpModifier = 10f;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
@@ -50,11 +51,10 @@ public class CameraManager : MonoBehaviour
         ceilingTiltRight = GameObject.Find("Main Camera/CeilingColliderRight").GetComponent<TiltCollision>();
         ceilingTiltUp = GameObject.Find("Main Camera/CeilingColliderUp").GetComponent<TiltCollision>();
         ceilingTiltDown = GameObject.Find("Main Camera/CeilingColliderDown").GetComponent<TiltCollision>();
-        
-        board = GameObject.Find("Board");
         cameraTarget = GameObject.Find("Board/BaseTarget/Centre").GetComponent<Renderer>();
         cameraBody = GameObject.Find("Main Camera").GetComponent<Rigidbody>();
         cameraTargetPosition = GameObject.Find("CameraTarget").transform.position;
+        board = GameObject.Find("Board");
 
         initialCameraPos = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y,
                                        mainCamera.transform.position.z);
