@@ -31,7 +31,7 @@ namespace DgtCherub
         private LiveChessServer fakeLiveChessServer;
 
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.4 RABBIT-EXPR-03";
+        private const string VERSION_NUMBER = "0.4.4 RC-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
@@ -999,14 +999,14 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         machines of others...as a beta your mileage may vary but please report", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         any defects via the links menu.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"PreReq : You will need A DGT Board and the Live Chess Software installed on this", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         machine, just as you would for playing on Chess.com.  You will also need", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         the Chrome browser with the 'DTG Angel' plugin installed.  Don't forget", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         to enable your board in the Chess.com options.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"PreReq : You will need a physical DGT Board and either Live Chess or the Rabbit ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         plug-in installed on this machine.  You will also need the Chrome browser", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         with the 'DTG Angel' plug-in installed.  Don't forget to enable your board", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, er642, danielbaechli,", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         KevinTheChessGnome, CFossa and MancombSeepgood for their support and feedback ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, MancombSeepgood, er642,", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         danielbaechli, KevinTheChessGnome, CFossa and qnuti for their support and ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         testing  and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{(string.IsNullOrEmpty(hostName) ? "NO HOST!" : hostName)}] are [{(string.IsNullOrEmpty(hostName) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
