@@ -17,12 +17,10 @@
         "default_icon": "icons/Default/icon-128.png"
     },
     "permissions": [],
-    "host_permissions": ["https://lichess.org/*",
-                         "https://lichess.org/*"],
+    "host_permissions": ["https://lichess.org/*"],
     "content_scripts": [
         {
             "matches": [
-                "https://lichess.org/*",
                 "https://lichess.org/*"
             ],
             "js": [
