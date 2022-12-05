@@ -24,6 +24,7 @@ namespace DgtCherub.Controllers
         private const int MSG_LIMIT_SECONDS = 10;
         private DateTime lastErrorLog = DateTime.MinValue;
 
+
         public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAngelHubService appData)
         {
             _logger = logger;
@@ -37,6 +38,10 @@ namespace DgtCherub.Controllers
             {
                 bool isClientVersionDisplayed = false;
                 bool isClientVersionOk = false;
+
+                //Initial value set to non-error
+                //Just used to prevent duplicate messages in the console
+                ResponseCode lastErrorSeen = ResponseCode.RUNNING;
 
                 //Only allow one connection 
                 runningSocket?.Abort();
@@ -57,7 +62,7 @@ namespace DgtCherub.Controllers
                         ArraySegment<byte> buffer = new(new byte[RECIEVE_BUFFER_SIZE_BYTES]);
                         WebSocketReceiveResult result;
                         List<byte> allBytes = new();
-
+                        
                         do
                         {
                             result = await webSocket.ReceiveAsync(buffer, CancellationToken.None);
@@ -123,14 +128,29 @@ namespace DgtCherub.Controllers
 
                                                 break;
                                             case ResponseCode.SCRIPT_SCRAPE_ERROR:
-                                                _appDataService.UserMessageArrived("INGEST", $"It looks like the page may have changed...please raise a bug report.");
+                                                if (lastErrorSeen != ResponseCode.SCRIPT_SCRAPE_ERROR)
+                                                {
+                                                    lastErrorSeen = ResponseCode.SCRIPT_SCRAPE_ERROR;
+                                                    _appDataService.UserMessageArrived("INGEST", $"ERROR: It looks like the page may have changed...please raise a bug report.");
+                                                }
+
                                                 break;
                                             case ResponseCode.PAGE_READ_ERROR:
-                                                _appDataService.UserMessageArrived("INGEST", $"It looks like the page may have changed...please raise a bug report.");
-                                                _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
+                                                if (lastErrorSeen != ResponseCode.PAGE_READ_ERROR)
+                                                {
+                                                    lastErrorSeen = ResponseCode.PAGE_READ_ERROR;
+                                                    _appDataService.UserMessageArrived("INGEST", $"ERROR: It looks like the page may have changed...please raise a bug report.");
+                                                    _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
+                                                }
+
                                                 break;
                                             case ResponseCode.UNKNOWN_PAGE:
-                                                _appDataService.UserMessageArrived("INGEST", $"From Angel [{messageIn.RemoteBoard.State.Message}]");
+                                                if (lastErrorSeen != ResponseCode.UNKNOWN_PAGE)
+                                                {
+                                                    lastErrorSeen = ResponseCode.UNKNOWN_PAGE;
+                                                    _appDataService.UserMessageArrived("INGEST", $"ERROR: From Angel [{messageIn.RemoteBoard.State.Message}]");
+                                                }
+
                                                 break;
                                             case ResponseCode.GAME_PENDING:
                                             case ResponseCode.GAME_IN_PROGRESS:
