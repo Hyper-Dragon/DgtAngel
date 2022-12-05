@@ -211,6 +211,8 @@ namespace DgtCherub
                         fakeLiveChessServer.RunLiveChessServer();
 
                         ButtonRabbitConfig1.Visible = true;
+                        ButtonRabbitConf2.Visible = true;
+                        GroupBoxClockTest.Visible = true;
                         ButtonSendTestMsg1.Visible = true;
                         ButtonSendTestMsg2.Visible = true;
                     }
