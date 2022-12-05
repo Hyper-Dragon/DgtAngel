@@ -91,6 +91,7 @@ namespace DgtCherub
             this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StartWingedHorseToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -360,7 +361,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 619);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 616);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -400,7 +401,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 619);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 616);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -472,9 +473,9 @@ namespace DgtCherub
             this.Panel1.Controls.Add(this.TabControlSidePanel);
             this.Panel1.Controls.Add(this.TextBoxConsole);
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1.Location = new System.Drawing.Point(0, 25);
+            this.Panel1.Location = new System.Drawing.Point(0, 28);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(782, 627);
+            this.Panel1.Size = new System.Drawing.Size(782, 624);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -493,7 +494,7 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 627);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 624);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -514,7 +515,7 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(159, 619);
+            this.TabPageConfig.Size = new System.Drawing.Size(159, 616);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -791,7 +792,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 619);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 616);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -903,7 +904,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(585, 627);
+            this.TextBoxConsole.Size = new System.Drawing.Size(585, 624);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -946,7 +947,7 @@ namespace DgtCherub
             this.LinksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(782, 25);
+            this.MenuStrip.Size = new System.Drawing.Size(782, 28);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -958,11 +959,12 @@ namespace DgtCherub
             this.PlayChessToolStripMenuItem,
             this.VirtualClockMenuItem,
             this.VirtualClockWindowlessMenuItem,
+            this.StartWingedHorseToolStripMenu,
             this.ToolStripSeparator1,
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
@@ -1002,6 +1004,14 @@ namespace DgtCherub
             this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
             this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
             // 
+            // StartWingedHorseToolStripMenu
+            // 
+            this.StartWingedHorseToolStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("StartWingedHorseToolStripMenu.Image")));
+            this.StartWingedHorseToolStripMenu.Name = "StartWingedHorseToolStripMenu";
+            this.StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(245, 26);
+            this.StartWingedHorseToolStripMenu.Text = "Start Winged Horse Mode";
+            this.StartWingedHorseToolStripMenu.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
+            // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
@@ -1024,7 +1034,7 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 21);
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
             this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -1279,6 +1289,7 @@ namespace DgtCherub
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox CheckBoxNeverUseRabbit;
+        private System.Windows.Forms.ToolStripMenuItem StartWingedHorseToolStripMenu;
     }
 }
 

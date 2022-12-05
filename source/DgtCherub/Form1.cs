@@ -31,11 +31,12 @@ namespace DgtCherub
         private LiveChessServer fakeLiveChessServer;
 
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.4 RC-01";
+        private const string VERSION_NUMBER = "0.4.4 RC-02";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
+        private const string VIRTUAL_CLOCK_WH_LINK = $"{VIRTUAL_CLOCK_LINK}/CherubVirtualClock/GetClock/WingedHorse";
         private const string CHESS_DOT_COM_PLAY_LINK = @"https://www.chess.com/play/online";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
         private const string CHESS_DOT_COM_PEGASUS_FORUM = @"https://www.chess.com/clubs/forum/dgt-pegasus-centaur-e-board-users";
@@ -913,6 +914,15 @@ namespace DgtCherub
                                       TEXTBOX_MAX_LINES);
         }
 
+        private void StartWingedHorseToolStripMenu_Click(object sender, EventArgs e)
+        {
+            _ = TextBoxConsole.RunProcessWithComments("chrome",
+                          $"--app={VIRTUAL_CLOCK_WH_LINK}",
+                          $"Trying to start Winged Horse Mode in Chrome....",
+                          $"...Winged Horse Mode openend.",
+                          TEXTBOX_MAX_LINES);
+        }
+
         private void DonateViaPayPalMenuItem_Click(object sender, EventArgs e)
         {
             _ = TextBoxConsole.RunProcessWithComments(PP_LINK,
@@ -1175,5 +1185,7 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"         To use Rabbit DO NOT run Live Chess or that will take precedence.");
             }
         }
+
+
     }
 }
