@@ -20,6 +20,7 @@
     "host_permissions": ["https://lichess.org/"],
     "content_scripts": [
         {
+            "exclude_globs": ["https://lichess.org/dgt/play*"],
             "matches": [
                 "https://lichess.org/0*",
                 "https://lichess.org/1*",
