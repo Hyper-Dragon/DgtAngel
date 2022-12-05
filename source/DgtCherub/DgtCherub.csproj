@@ -36,8 +36,12 @@
     <None Remove="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtLcConnected-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\DgtLcDisconnected-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\LichessStoppedWatching-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\LichessWatching-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <None Remove="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\RemoteStoppedWatching-AP.wav" />
+    <None Remove="Assets\Audio\Speech-en-01\RemoteWatching-AP.wav" />
     <None Remove="Assets\Clocks\Any\Scripts\bootstrap5.1.0.bundle.min.js" />
     <None Remove="Assets\Clocks\Any\Style\bootstrap5.1.0.min.css" />
     <None Remove="Assets\Clocks\GreyFixed\Clock.html" />
@@ -82,8 +86,12 @@
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtDisconnected-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcConnected-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\DgtLcDisconnected-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\LichessStoppedWatching-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\LichessWatching-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Match-AP.wav" />
     <EmbeddedResource Include="Assets\Audio\Speech-en-01\Mismatch-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\RemoteStoppedWatching-AP.wav" />
+    <EmbeddedResource Include="Assets\Audio\Speech-en-01\RemoteWatching-AP.wav" />
     <EmbeddedResource Include="Assets\Clocks\Any\Scripts\bootstrap5.1.0.bundle.min.js" />
     <EmbeddedResource Include="Assets\Clocks\Any\Style\bootstrap5.1.0.min.css" />
     <EmbeddedResource Include="Assets\Clocks\GreyFixed\Clock.html" />

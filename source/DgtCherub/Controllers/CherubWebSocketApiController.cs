@@ -123,7 +123,7 @@ namespace DgtCherub.Controllers
                                                     lastErrorLog = DateTime.UtcNow;
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen.");
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that you are not in focus mode.");
-                                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY);
+                                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY, messageIn.AngelPluginName);
                                                 }
 
                                                 break;
@@ -180,11 +180,11 @@ namespace DgtCherub.Controllers
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STARTED:
-                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.RemoteBoard);
+                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.AngelPluginName, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"Angel started watching a remote board.");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
-                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.RemoteBoard);
+                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.AngelPluginName, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"Angel stopped watching the remote board.");
                                     break;
                                 default:
@@ -206,7 +206,7 @@ namespace DgtCherub.Controllers
                     }
                 }
 
-                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED);
+                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED,"");
                 _appDataService.UserMessageArrived("INTERNAL", "Angel has Disconnected");
             }
             else

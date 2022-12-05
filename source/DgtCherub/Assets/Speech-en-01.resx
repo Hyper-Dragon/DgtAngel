@@ -154,6 +154,12 @@
   <data name="DgtLcDisconnected_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Audio\Speech-en-01\DgtLcDisconnected-AP.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="LichessStoppedWatching_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\speech-en-01\lichessstoppedwatching-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LichessWatching_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\speech-en-01\lichesswatching-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Match_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>audio\speech-en-01\match-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -162,5 +168,11 @@
   </data>
   <data name="NotReplayed_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>audio\speech-en-01\notreplayed-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RemoteStoppedWatching_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\speech-en-01\remotestoppedwatching-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RemoteWatching_AP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>audio\speech-en-01\remotewatching-ap.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

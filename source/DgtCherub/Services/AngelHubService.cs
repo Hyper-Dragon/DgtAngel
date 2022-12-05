@@ -36,8 +36,8 @@ namespace DgtCherub.Services
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
-        event Action OnRemoteWatchStarted;
-        event Action OnRemoteWatchStopped;
+        event Action<string> OnRemoteWatchStarted;
+        event Action<string> OnRemoteWatchStopped;
         event Action<string, bool> OnNewMoveDetected;
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
@@ -49,7 +49,7 @@ namespace DgtCherub.Services
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
-        void WatchStateChange(MessageTypeCode messageType, BoardState remoteBoardState = null);
+        void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
     }
 
     public sealed class AngelHubService : IAngelHubService
@@ -63,8 +63,8 @@ namespace DgtCherub.Services
         public event Action OnBoardMatcherStarted;
         public event Action<long, string> OnBoardMatch;
         public event Action<long> OnBoardMatchFromMissmatch;
-        public event Action OnRemoteWatchStarted;
-        public event Action OnRemoteWatchStopped;
+        public event Action<string> OnRemoteWatchStarted;
+        public event Action<string> OnRemoteWatchStopped;
         public event Action<string, bool> OnNewMoveDetected;
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
@@ -166,7 +166,7 @@ namespace DgtCherub.Services
             _ = Task.Run(RunMessageProcessor);
         }
 
-        public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, BoardState remoteBoardState = null)
+        public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null)
         {
             try
             {
@@ -174,16 +174,16 @@ namespace DgtCherub.Services
                 
                 if (messageType == MessageTypeCode.WATCH_STARTED)
                 {
-                    OnRemoteWatchStarted?.Invoke();
+                    OnRemoteWatchStarted?.Invoke(remoteSource);
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED)
                 {
-                    OnRemoteWatchStopped?.Invoke();
+                    OnRemoteWatchStopped?.Invoke(remoteSource);
                     ResetRemoteBoardState();
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED_MOVES_ONLY)
                 {
-                    OnRemoteWatchStopped?.Invoke();
+                    OnRemoteWatchStopped?.Invoke(remoteSource);
                 }
             }
             finally { _ = startStopSemaphore.Release(); }

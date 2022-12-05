@@ -171,6 +171,24 @@ namespace DgtCherub.Assets {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream LichessStoppedWatching_AP {
+            get {
+                return ResourceManager.GetStream("LichessStoppedWatching_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream LichessWatching_AP {
+            get {
+                return ResourceManager.GetStream("LichessWatching_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Match_AP {
             get {
                 return ResourceManager.GetStream("Match_AP", resourceCulture);
@@ -192,6 +210,24 @@ namespace DgtCherub.Assets {
         internal static System.IO.UnmanagedMemoryStream NotReplayed_AP {
             get {
                 return ResourceManager.GetStream("NotReplayed_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream RemoteStoppedWatching_AP {
+            get {
+                return ResourceManager.GetStream("RemoteStoppedWatching_AP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream RemoteWatching_AP {
+            get {
+                return ResourceManager.GetStream("RemoteWatching_AP", resourceCulture);
             }
         }
     }

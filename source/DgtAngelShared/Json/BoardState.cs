@@ -57,7 +57,7 @@ namespace DgtAngelShared.Json
     public sealed record Clocks
     {
         public long CaptureTimeMs { get; init; }
-        public int WhiteClock { get; init; }
-        public int BlackClock { get; init; }
+        public int WhiteClock { get; init; } = 0;
+        public int BlackClock { get; init; } = 0;
     }
 }

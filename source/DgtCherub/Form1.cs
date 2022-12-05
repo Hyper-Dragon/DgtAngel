@@ -406,14 +406,36 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
-            _angelHubService.OnRemoteWatchStarted += () =>
+            _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
             {
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
+                if (remoteSource.Contains("CDC"))
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
+                }
+                else if (remoteSource.Contains("Lichess"))
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
+                }
+                else
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.RemoteWatching_AP);
+                }
             };
 
-            _angelHubService.OnRemoteWatchStopped += () =>
+            _angelHubService.OnRemoteWatchStopped += (remoteSource) =>
             {
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
+                if (remoteSource.Contains("CDC"))
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
+                }
+                else if (remoteSource.Contains("Lichess"))
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessStoppedWatching_AP);
+                }
+                else
+                {
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.RemoteStoppedWatching_AP);
+                }
             };
 
             _angelHubService.OnBoardMatcherStarted += () =>
