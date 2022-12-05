@@ -9,7 +9,7 @@
   <Identity
     Name="65204HyperD.CherubClient"
     Publisher="CN=614551EF-3605-48DD-8BAD-A772D2282EA6"
-    Version="0.4.3.0" />
+    Version="0.4.4.0" />
 
   <Properties>
     <DisplayName>CherubClient</DisplayName>
