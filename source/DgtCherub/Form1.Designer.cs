@@ -109,6 +109,7 @@ namespace DgtCherub
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
@@ -322,7 +323,7 @@ namespace DgtCherub
             this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg1);
             this.GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.GroupBoxClockTest.Location = new System.Drawing.Point(9, 326);
+            this.GroupBoxClockTest.Location = new System.Drawing.Point(9, 343);
             this.GroupBoxClockTest.Name = "GroupBoxClockTest";
             this.GroupBoxClockTest.Size = new System.Drawing.Size(135, 103);
             this.GroupBoxClockTest.TabIndex = 0;
@@ -333,7 +334,7 @@ namespace DgtCherub
             // 
             this.ButtonSendTestMsg2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonSendTestMsg2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonSendTestMsg2.Location = new System.Drawing.Point(7, 65);
+            this.ButtonSendTestMsg2.Location = new System.Drawing.Point(7, 64);
             this.ButtonSendTestMsg2.Name = "ButtonSendTestMsg2";
             this.ButtonSendTestMsg2.Size = new System.Drawing.Size(123, 32);
             this.ButtonSendTestMsg2.TabIndex = 4;
@@ -345,7 +346,7 @@ namespace DgtCherub
             // 
             this.ButtonSendTestMsg1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonSendTestMsg1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonSendTestMsg1.Location = new System.Drawing.Point(6, 26);
+            this.ButtonSendTestMsg1.Location = new System.Drawing.Point(6, 25);
             this.ButtonSendTestMsg1.Name = "ButtonSendTestMsg1";
             this.ButtonSendTestMsg1.Size = new System.Drawing.Size(124, 33);
             this.ButtonSendTestMsg1.TabIndex = 3;
@@ -361,7 +362,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 616);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 619);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -392,6 +393,7 @@ namespace DgtCherub
             // TabPageClock
             // 
             this.TabPageClock.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TabPageClock.Controls.Add(this.button1);
             this.TabPageClock.Controls.Add(this.ButtonWindowless);
             this.TabPageClock.Controls.Add(this.ButtonWindowed);
             this.TabPageClock.Controls.Add(this.DomainUpDown);
@@ -401,7 +403,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 616);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 619);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -410,7 +412,7 @@ namespace DgtCherub
             // 
             this.ButtonWindowless.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonWindowless.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonWindowless.Location = new System.Drawing.Point(15, 225);
+            this.ButtonWindowless.Location = new System.Drawing.Point(15, 224);
             this.ButtonWindowless.Name = "ButtonWindowless";
             this.ButtonWindowless.Size = new System.Drawing.Size(124, 33);
             this.ButtonWindowless.TabIndex = 5;
@@ -460,7 +462,7 @@ namespace DgtCherub
             // 
             this.ButtonRabbitConf2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonRabbitConf2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonRabbitConf2.Location = new System.Drawing.Point(15, 275);
+            this.ButtonRabbitConf2.Location = new System.Drawing.Point(15, 302);
             this.ButtonRabbitConf2.Name = "ButtonRabbitConf2";
             this.ButtonRabbitConf2.Size = new System.Drawing.Size(124, 35);
             this.ButtonRabbitConf2.TabIndex = 2;
@@ -473,9 +475,9 @@ namespace DgtCherub
             this.Panel1.Controls.Add(this.TabControlSidePanel);
             this.Panel1.Controls.Add(this.TextBoxConsole);
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1.Location = new System.Drawing.Point(0, 28);
+            this.Panel1.Location = new System.Drawing.Point(0, 25);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(782, 624);
+            this.Panel1.Size = new System.Drawing.Size(782, 627);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -494,7 +496,7 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 624);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 627);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -792,7 +794,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 616);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 619);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -904,7 +906,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(585, 624);
+            this.TextBoxConsole.Size = new System.Drawing.Size(585, 627);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -947,7 +949,7 @@ namespace DgtCherub
             this.LinksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(782, 28);
+            this.MenuStrip.Size = new System.Drawing.Size(782, 25);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -964,7 +966,7 @@ namespace DgtCherub
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
@@ -1034,7 +1036,7 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 21);
             this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -1156,6 +1158,18 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(234, 26);
             this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
+            // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.button1.Location = new System.Drawing.Point(16, 263);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 33);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Winged Horse...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
             // 
             // Form1
             // 
@@ -1290,6 +1304,7 @@ namespace DgtCherub
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox CheckBoxNeverUseRabbit;
         private System.Windows.Forms.ToolStripMenuItem StartWingedHorseToolStripMenu;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -1185,7 +1185,5 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"         To use Rabbit DO NOT run Live Chess or that will take precedence.");
             }
         }
-
-
     }
 }
