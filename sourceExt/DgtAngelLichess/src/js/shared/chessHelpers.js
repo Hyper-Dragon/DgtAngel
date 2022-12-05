@@ -21,16 +21,16 @@ function calculateFen(board) {
     for (let y = 0; y < board.length; y++) {
         let empty = 0;
         for (let x = 0; x < board[y].length; x++) {
-            let c = board[y][x][0]; 
+            let c = board[y][x][0];
             if (c == "w" || c == "b") {
                 if (empty > 0) {
                     result += empty.toString();
                     empty = 0;
                 }
                 if (c == "w") {
-                    result += board[y][x][1].toUpperCase(); 
+                    result += board[y][x][1].toUpperCase();
                 } else {
-                    result += board[y][x][1].toLowerCase(); 
+                    result += board[y][x][1].toLowerCase();
                 }
             } else {
                 empty += 1;
@@ -49,7 +49,7 @@ function calculateFen(board) {
 
 function convertClockStringToMs(clockTxt) {
     //For the time conversion
-    mulMs = [3600000, 60000, 1000];    
+    mulMs = [3600000, 60000, 1000];
     conTime = 0;
 
     clockTxt
@@ -59,5 +59,9 @@ function convertClockStringToMs(clockTxt) {
             (element) => (conTime += mulMs.pop() * parseFloat(element.trim()))
         );
 
-    return conTime;
+    if (isNaN(conTime)) {
+        return 0;
+    } else {
+        return conTime;
+    }
 }

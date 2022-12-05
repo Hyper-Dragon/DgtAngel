@@ -90,10 +90,6 @@ function GetRemoteBoardState() {
             }
         }
 
-        // Now the clocks....
-        //whiteClock = document.getElementsByClassName("clock-white")[0];
-        //blackClock = document.getElementsByClassName("clock-black")[0];
-
         // Use the clocks to detect the turn
         turn = turnCodes.NONE;
 
@@ -120,14 +116,11 @@ function GetRemoteBoardState() {
         }
 
         boardState = dgtStateCodes.UNKNOWN;
-        boardMessage = "Unavailable.";
+        boardMessage = "Not supported on Lichess";
 
         remoteBoard.Board.FenString = calculateFen(board);
         remoteBoard.Board.ClockTurn = turn;
         remoteBoard.Board.IsWhiteOnBottom = isPlayerWhite;
-
-        remoteBoard.Board.Clocks.WhiteClock = 0;
-        remoteBoard.Board.Clocks.BlackClock = 0; 
 
         if (isPlayerWhite) {
             remoteBoard.Board.Clocks.WhiteClock = convertClockStringToMs(
