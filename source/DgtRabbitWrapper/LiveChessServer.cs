@@ -1,4 +1,5 @@
-﻿using DgtRabbitWrapper.DgtEbDll;
+﻿using ChessHelpers;
+using DgtRabbitWrapper.DgtEbDll;
 using Fleck;
 using System;
 using System.Collections.Concurrent;
@@ -9,11 +10,23 @@ namespace DgtRabbitWrapper
 {
     public sealed class LiveChessServer
     {
+        public enum PlayDropFix { NONE, FROMWHITE, FROMBLACK };
+
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
         private WebSocketServer server;
-
         public event EventHandler<string> OnLiveChessSrvMessage;
 
+        //This is a fix for the play board on CDC...
+        private PlayDropFix _dropFix = PlayDropFix.NONE;
+        public PlayDropFix DropFix
+        {
+            get { return _dropFix; }
+            set
+            {
+                _dropFix = value;
+                OnLiveChessSrvMessage?.Invoke(this, $"'Play' board correction->{_dropFix}");
+            }
+        }
         public int BoardSerialNo { get; init; }
         public int ComPort { get; init; }
         public int BatteryPct { get; init; }
@@ -25,6 +38,8 @@ namespace DgtRabbitWrapper
 
         public long LastUpdateTime { get; private set; } = long.MinValue;
         private string broadcastFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        private string broadcastFenCorrected { get; set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
         private readonly ConcurrentQueue<int> closedPortQueue = new();
 
         private readonly int randomSerialNo = 20000 + Random.Shared.Next(9999);
@@ -67,16 +82,26 @@ namespace DgtRabbitWrapper
                 if (LastFenSeen != e.FEN)
                 {
                     LastFenSeen = e.FEN;
-
-                    // LastUpdateTime = e.TimeChangedTicks;
-                    //  WhiteCount = e.FEN.Where(c => char.IsUpper(c)).Count();
-                    //  BlackCount = e.FEN.Where(c => char.IsLower(c)).Count();
                     KingCount = e.FEN.Where(c => (c == 'k' || c == 'K')).Count();
 
-                    //Don't send boards with no kings - always invalid
+                    //Don't send boards with missing kings - always invalid
+                    //This fixes castling
                     if (KingCount == 2)
                     {
+                        //if the drop fix is setup apply it - otherwise just set the fen
+                        broadcastFenCorrected = DropFix switch
+                        {
+                            PlayDropFix.FROMWHITE => LastFenSeen.GenrateAlwaysValidMovesFEN(true),
+                            PlayDropFix.FROMBLACK => LastFenSeen.GenrateAlwaysValidMovesFEN(false),
+                            _ => LastFenSeen,
+                        };
+
                         broadcastFEN = LastFenSeen;
+
+                        if (broadcastFenCorrected != broadcastFEN)
+                        {
+                            OnLiveChessSrvMessage?.Invoke(this, $"'Play' board fix sending {broadcastFenCorrected}");
+                        }
                     }
                     else
                     {
@@ -129,7 +154,15 @@ namespace DgtRabbitWrapper
                                     if (broadcastFEN != lastSend)
                                     {
                                         lastSend = broadcastFEN;
-                                        SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("BOARDNO",randomSerialNo.ToString()).Replace("FENFENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+
+                                        if (message.ToString().Contains(": 999"))
+                                        {
+                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                                        }
+                                        else
+                                        {
+                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFENFEN", broadcastFenCorrected).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                                        }
                                     }
                                     Thread.Sleep(200);
                                 }

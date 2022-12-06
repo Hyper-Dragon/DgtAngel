@@ -31,7 +31,7 @@ namespace DgtCherub
         private LiveChessServer fakeLiveChessServer;
 
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.4 RABBIT";
+        private const string VERSION_NUMBER = "0.4.5-OMGPLAY-EXPR-01";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
@@ -210,6 +210,30 @@ namespace DgtCherub
                         fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
                         fakeLiveChessServer.RunLiveChessServer();
 
+                        _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
+                        {
+                            //If on CDC set the drop fix mode
+                            
+                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ? 
+                                                          LiveChessServer.PlayDropFix.NONE : 
+                                                          ((_angelHubService.IsWhiteOnBottom) ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                                          LiveChessServer.PlayDropFix.FROMBLACK);
+                        };
+
+                        _angelHubService.OnOrientationFlipped += () => {
+                            //Flip drop fix if the dropfix is applied
+                            fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
+                                                          LiveChessServer.PlayDropFix.NONE :
+                                                          ((_angelHubService.IsWhiteOnBottom) ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                                          LiveChessServer.PlayDropFix.FROMBLACK);
+                        };
+
+                        _angelHubService.OnRemoteDisconnect += () =>
+                        {
+                            fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                        };
+
+
                         ButtonRabbitConfig1.Visible = true;
                         ButtonRabbitConf2.Visible = true;
                         GroupBoxClockTest.Visible = true;
@@ -238,6 +262,10 @@ namespace DgtCherub
             }
         }
 
+        private void _angelHubService_OnOrientationFlipped()
+        {
+            throw new NotImplementedException();
+        }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {

@@ -18,4 +18,8 @@
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ChessHelpers\ChessHelpers.csproj" />
+  </ItemGroup>
+
 </Project>

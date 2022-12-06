@@ -150,7 +150,8 @@ namespace DgtLiveChessWrapper
             }
 
             //...so set up a feed...
-            await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
+            //await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
+            await Send(socket, string.Format(CALL_SUBSCRIBE, 999, ++idCount, watchdSerialNumber));
             (string feedSetupJsonString, LiveChessCallResponse feedSetupResponse) = LiveChessCallResponse.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
