@@ -165,8 +165,44 @@ function GetRemoteBoardState() {
             remoteBoard.Board.Clocks.WhiteClock == 0 ||
             remoteBoard.Board.Clocks.BlackClock == 0
         ) {
-            remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
-            remoteBoard.Board.ClockTurn = turnCodes.NONE;
+
+            try {
+                //if both clocks are zero check if we are playing Stockfish
+                if (
+                    document
+                        .getElementsByTagName("name")[0]
+                        .textContent.toLowerCase()
+                        .includes("stockfish")
+                ) {
+                    //Send fake clock times and turn info when playing against Stockfish 
+                    remoteBoard.Board.Clocks.WhiteClock = (313 * 1000);
+                    remoteBoard.Board.Clocks.BlackClock = (313 * 1000);
+                    remoteBoard.State.Code = boardStateCodes.GAME_IN_PROGRESS;
+
+                    if(document.getElementsByClassName("rclock-turn__text")[0].innerText.toLowerCase().includes("your turn)")){
+                        if(IsWhiteOnBottom){
+                            remoteBoard.Board.ClockTurn = turn.WHITE;        
+                        }else{
+                            remoteBoard.Board.ClockTurn = turn.BLACK;
+                        }
+                    }else{
+                        if(IsWhiteOnBottom){
+                            remoteBoard.Board.ClockTurn = turn.BLACK;        
+                        }else{
+                            remoteBoard.Board.ClockTurn = turn.WHITE;
+                        }
+                    }
+                }else{
+                    //Behaviour as before
+                    remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+                    remoteBoard.Board.ClockTurn = turnCodes.NONE;
+                }
+            } catch (err) {
+                //do nothing if we can't resolve the vs player name
+                remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
+                remoteBoard.Board.ClockTurn = turnCodes.NONE;
+            }
+
         } else if (remoteBoard.Board.ClockTurn == turnCodes.NONE) {
             remoteBoard.State.Code = boardStateCodes.GAME_COMPLETED;
         } else {

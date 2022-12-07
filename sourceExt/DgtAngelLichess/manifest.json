@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "DGT Angel Lichess",
-    "description": "'The ultimate focus mode'...You also need to install the DGT Cherub client software from https://hyper-dragon.github.io/DgtAngel/.",
-    "version": "0.1.0",
+    "description": "'The ultimate focus mode'...You also need to install the Cherub client software from https://hyper-dragon.github.io/DgtAngel/.",
+    "version": "0.1.1",
     "homepage_url": "https://hyper-dragon.github.io/DgtAngel/",
     "icons": {
         "16": "icons/Default/icon-16.png",
@@ -20,7 +20,24 @@
     "host_permissions": ["https://lichess.org/"],
     "content_scripts": [
         {
-            "exclude_globs": ["https://lichess.org/dgt/play*"],
+            "exclude_globs": [
+                    "https://lichess.org/dgt*",
+                    "https://lichess.org/player*",
+                    "https://lichess.org/analysis*",
+                    "https://lichess.org/analysis*",
+                    "https://lichess.org/broadcast*",
+                    "https://lichess.org/training/coordinate*",
+                    "https://lichess.org/practice",
+                    "https://lichess.org/study*",
+                    "https://lichess.org/coach",
+                    "https://lichess.org/training",
+                    "https://lichess.org/streak",
+                    "https://lichess.org/racer",
+                    "https://lichess.org/video",
+                    "https://lichess.org/games/search",
+                    "https://lichess.org/paste",
+                    "https://lichess.org/editor"
+                ],
             "matches": [
                 "https://lichess.org/0*",
                 "https://lichess.org/1*",

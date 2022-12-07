@@ -139,8 +139,12 @@ namespace DgtRabbitWrapper
                         }
                         else if (message.Contains("subscribe"))
                         {
-                            SendToSocket(socket, "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}".Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
-                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                            SendToSocket(socket, "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}"
+                                .Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                            
+                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}"
+                                .Replace("BOARDNO", randomSerialNo.ToString())
+                                .Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
 
                             string lastSend = "";
                             while (true)
@@ -159,11 +163,19 @@ namespace DgtRabbitWrapper
 
                                         if (message.ToString().Contains(": 999"))
                                         {
-                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}"
+                                                .Replace("BOARDNO", randomSerialNo.ToString())
+                                                .Replace("FENFENFEN", broadcastFEN)
+                                                .Replace("TIMETIME", DateTimeOffset.UtcNow
+                                                .ToUnixTimeMilliseconds().ToString()));
                                         }
                                         else
                                         {
-                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFENFEN", broadcastFenCorrected).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
+                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}"
+                                                .Replace("BOARDNO", randomSerialNo.ToString())
+                                                .Replace("FENFENFEN", broadcastFenCorrected)
+                                                .Replace("TIMETIME", DateTimeOffset
+                                                .UtcNow.ToUnixTimeMilliseconds().ToString()));
                                         }
                                     }
                                     Thread.Sleep(200);
