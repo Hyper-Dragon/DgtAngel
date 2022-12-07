@@ -441,10 +441,26 @@ namespace DgtCherub
                 if (remoteSource.Contains("CDC"))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
+
+                    if (!IsUsingRabbit)
+                    {
+                        TextBoxConsole.AddLine("*************************************************************************", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("*PLAYING ON CHESS.COM IN LIVE CHESS MODE IS NOT RECOMMENDED AT THIS TIME*", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("*-To play enable Rabbit mode and restart Cherub - DO NOT run Live Chess-*", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("*************************************************************************", TEXTBOX_MAX_LINES, false);
+                    }
                 }
                 else if (remoteSource.Contains("Lichess"))
                 {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
+                    if (IsUsingRabbit)
+                    {
+                        TextBoxConsole.AddLine("************************************************************************", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("*PLAYING ON LICHESS.ORG IN RABBIT MODE IS NOT SUPPORTED IN THIS VERSION*", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("*-- To play close Cherub, run Live Chess and then start Cherub again --*", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("************************************************************************", TEXTBOX_MAX_LINES, false);
+                    }
+
+                        _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
                 }
                 else
                 {

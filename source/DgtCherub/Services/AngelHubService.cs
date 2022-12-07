@@ -186,6 +186,7 @@ namespace DgtCherub.Services
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED)
                 {
+                    RemoteBoardFEN = "";
                     OnRemoteWatchStopped?.Invoke(remoteSource);
                     OnRemoteDisconnect?.Invoke();
                 }
@@ -256,10 +257,10 @@ namespace DgtCherub.Services
 
         private void ResetRemoteBoardState(bool isGameCompleted = false)
         {
-            if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
-            {
-                OnRemoteDisconnect?.Invoke();
-            }
+            //if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
+            //{
+            //    OnRemoteDisconnect?.Invoke();
+            //}
 
             WhiteClock = "00:00";
             BlackClock = "00:00";
