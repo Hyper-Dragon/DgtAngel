@@ -38,6 +38,7 @@ namespace DgtCherub
         private const string VIRTUAL_CLOCK_LINK = @$"http://127.0.0.1:{VIRTUAL_CLOCK_PORT}";
         private const string VIRTUAL_CLOCK_WH_LINK = $"{VIRTUAL_CLOCK_LINK}/CherubVirtualClock/GetClock/WingedHorse";
         private const string CHESS_DOT_COM_PLAY_LINK = @"https://www.chess.com/play/online";
+        private const string LICHESS_PLAY_LINK = @"https://lichess.org/dgt/play";
         private const string CHESS_DOT_COM_DGT_FORUM = @"https://www.chess.com/clubs/forum/dgt-chess-club";
         private const string CHESS_DOT_COM_PEGASUS_FORUM = @"https://www.chess.com/clubs/forum/dgt-pegasus-centaur-e-board-users";
         private const string PROJECT_LINK = @"https://hyper-dragon.github.io/DgtAngel/";
@@ -46,7 +47,8 @@ namespace DgtCherub
         private const string PROJECT_CHESS_STATS = @"https://hyper-dragon.github.io/ChessStats/";
         private const string DL_LIVE_CHESS = @"http://www.livechesscloud.com/";
         private const string DL_RABBIT = @"https://digitalgametechnology.com/support/software/software-downloads";
-        private const string DL_CHROME_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc";
+        private const string DL_CHROME_CDC_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-cdc-play/mbkgcknkcljokhinimibaminlolgoecc";
+        private const string DL_CHROME_LICHESS_PLUGIN = @"https://chrome.google.com/webstore/detail/dgt-angel-lichess/iapbigkgggibablinlgoabjkfaejlfhi";
         private const string PP_CODE = "QNKADKV5BAM5C"; //Not a secret
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
@@ -855,6 +857,15 @@ namespace DgtCherub
                                                    TEXTBOX_MAX_LINES);
         }
 
+        private void PlayLiChessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = TextBoxConsole.RunProcessWithComments("chrome",
+                                       LICHESS_PLAY_LINK,
+                                       $"Trying to open the Lichess DTG connection page in Chrome....",
+                                       $"...Chess.com openend.",
+                                       TEXTBOX_MAX_LINES);
+        }
+
         private void ChesscomDgtForumsMenuItem_Click(object sender, EventArgs e)
         {
             _ = TextBoxConsole.RunProcessWithComments(CHESS_DOT_COM_DGT_FORUM,
@@ -897,11 +908,20 @@ namespace DgtCherub
 
         private void DgtAngelChromeExtensionMenuItem_Click(object sender, EventArgs e)
         {
-            _ = TextBoxConsole.RunProcessWithComments(DL_CHROME_PLUGIN,
+            _ = TextBoxConsole.RunProcessWithComments(DL_CHROME_CDC_PLUGIN,
                                                   "",
-                                                  $"Trying to open the download page for the Chrome Plugin....",
+                                                  $"Trying to open the download page for the Chess.com Chrome Plugin....",
                                                   $"...the download page opened.",
                                                   TEXTBOX_MAX_LINES);
+        }
+
+        private void DgtAngelLichessToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ = TextBoxConsole.RunProcessWithComments(DL_CHROME_LICHESS_PLUGIN,
+                                      "",
+                                      $"Trying to open the download page for the Lichess.org Chrome Plugin....",
+                                      $"...the download page opened.",
+                                      TEXTBOX_MAX_LINES);
         }
 
         private void DgtLiveChessSoftwareMenuItem_Click(object sender, EventArgs e)

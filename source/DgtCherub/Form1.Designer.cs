@@ -48,6 +48,7 @@ namespace DgtCherub
             this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
             this.PictureBoxLogo = new System.Windows.Forms.PictureBox();
             this.TabPageClock = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.ButtonWindowless = new System.Windows.Forms.Button();
             this.ButtonWindowed = new System.Windows.Forms.Button();
             this.DomainUpDown = new System.Windows.Forms.DomainUpDown();
@@ -109,7 +110,9 @@ namespace DgtCherub
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
+            this.PlayLiChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.DgtAngelLichessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
@@ -408,6 +411,18 @@ namespace DgtCherub
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.button1.Location = new System.Drawing.Point(16, 263);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 33);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Winged Horse...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
+            // 
             // ButtonWindowless
             // 
             this.ButtonWindowless.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -475,9 +490,9 @@ namespace DgtCherub
             this.Panel1.Controls.Add(this.TabControlSidePanel);
             this.Panel1.Controls.Add(this.TextBoxConsole);
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1.Location = new System.Drawing.Point(0, 25);
+            this.Panel1.Location = new System.Drawing.Point(0, 28);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(782, 627);
+            this.Panel1.Size = new System.Drawing.Size(782, 624);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -496,7 +511,7 @@ namespace DgtCherub
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 627);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(192, 624);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -906,7 +921,7 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(585, 627);
+            this.TextBoxConsole.Size = new System.Drawing.Size(585, 624);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
@@ -949,7 +964,7 @@ namespace DgtCherub
             this.LinksToolStripMenuItem});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(782, 25);
+            this.MenuStrip.Size = new System.Drawing.Size(782, 28);
             this.MenuStrip.TabIndex = 2;
             this.MenuStrip.Text = "MenuStrip";
             // 
@@ -959,6 +974,8 @@ namespace DgtCherub
             this.KillLiveChessMenuItem,
             this.ToolStripSeparator2,
             this.PlayChessToolStripMenuItem,
+            this.PlayLiChessToolStripMenuItem,
+            this.toolStripSeparator4,
             this.VirtualClockMenuItem,
             this.VirtualClockWindowlessMenuItem,
             this.StartWingedHorseToolStripMenu,
@@ -966,7 +983,7 @@ namespace DgtCherub
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(53, 24);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
@@ -1036,13 +1053,14 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 21);
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(50, 24);
             this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
             // 
             this.DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DgtAngelChromeExtensionMenuItem,
+            this.DgtAngelLichessToolStripMenuItem,
             this.DgtLiveChessSoftwareMenuItem,
             this.DgtDriversRabbitPluginMenuItem,
             this.toolStripSeparator3,
@@ -1159,17 +1177,26 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
             // 
-            // button1
+            // PlayLiChessToolStripMenuItem
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.button1.Location = new System.Drawing.Point(16, 263);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 33);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Winged Horse...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
+            this.PlayLiChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayLiChessToolStripMenuItem.Image")));
+            this.PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
+            this.PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
+            this.PlayLiChessToolStripMenuItem.Click += new System.EventHandler(this.PlayLiChessToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(242, 6);
+            // 
+            // DgtAngelLichessToolStripMenuItem
+            // 
+            this.DgtAngelLichessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelLichessToolStripMenuItem.Image")));
+            this.DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
+            this.DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.DgtAngelLichessToolStripMenuItem.Text = "DGT Angel Lichess Extension";
+            this.DgtAngelLichessToolStripMenuItem.Click += new System.EventHandler(this.DgtAngelLichessToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -1305,6 +1332,9 @@ namespace DgtCherub
         private System.Windows.Forms.CheckBox CheckBoxNeverUseRabbit;
         private System.Windows.Forms.ToolStripMenuItem StartWingedHorseToolStripMenu;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem PlayLiChessToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem DgtAngelLichessToolStripMenuItem;
     }
 }
 
