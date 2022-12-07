@@ -90,6 +90,8 @@ namespace DgtCherub
             this.KillLiveChessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PlayLiChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StartWingedHorseToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,6 +100,7 @@ namespace DgtCherub
             this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DownloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DgtAngelLichessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtLiveChessSoftwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DgtDriversRabbitPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -110,9 +113,6 @@ namespace DgtCherub
             this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PlayLiChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.DgtAngelLichessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
@@ -365,7 +365,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(159, 619);
+            this.TabPageAbout.Size = new System.Drawing.Size(159, 616);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -406,7 +406,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(159, 619);
+            this.TabPageClock.Size = new System.Drawing.Size(159, 616);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -809,7 +809,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(159, 619);
+            this.TabPageBoards.Size = new System.Drawing.Size(159, 616);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.UseVisualStyleBackColor = true;
@@ -1007,6 +1007,19 @@ namespace DgtCherub
             this.PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
             this.PlayChessToolStripMenuItem.Click += new System.EventHandler(this.PlayChessToolStripMenuItem_Click);
             // 
+            // PlayLiChessToolStripMenuItem
+            // 
+            this.PlayLiChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayLiChessToolStripMenuItem.Image")));
+            this.PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
+            this.PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
+            this.PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
+            this.PlayLiChessToolStripMenuItem.Click += new System.EventHandler(this.PlayLiChessToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(242, 6);
+            // 
             // VirtualClockMenuItem
             // 
             this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
@@ -1074,15 +1087,23 @@ namespace DgtCherub
             // 
             this.DgtAngelChromeExtensionMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelChromeExtensionMenuItem.Image")));
             this.DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
-            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(261, 26);
-            this.DgtAngelChromeExtensionMenuItem.Text = "DGT Angel Chrome Extension";
+            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(249, 26);
+            this.DgtAngelChromeExtensionMenuItem.Text = "Angel Chess.com Extension";
             this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
+            // 
+            // DgtAngelLichessToolStripMenuItem
+            // 
+            this.DgtAngelLichessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelLichessToolStripMenuItem.Image")));
+            this.DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
+            this.DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(249, 26);
+            this.DgtAngelLichessToolStripMenuItem.Text = "Angel Lichess Extension";
+            this.DgtAngelLichessToolStripMenuItem.Click += new System.EventHandler(this.DgtAngelLichessToolStripMenuItem_Click);
             // 
             // DgtLiveChessSoftwareMenuItem
             // 
             this.DgtLiveChessSoftwareMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtLiveChessSoftwareMenuItem.Image")));
             this.DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
-            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(249, 26);
             this.DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
             this.DgtLiveChessSoftwareMenuItem.Click += new System.EventHandler(this.DgtLiveChessSoftwareMenuItem_Click);
             // 
@@ -1090,20 +1111,20 @@ namespace DgtCherub
             // 
             this.DgtDriversRabbitPluginMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtDriversRabbitPluginMenuItem.Image")));
             this.DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
-            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(249, 26);
             this.DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
             this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(258, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(246, 6);
             // 
             // ChessStatsMenuItem
             // 
             this.ChessStatsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChessStatsMenuItem.Image")));
             this.ChessStatsMenuItem.Name = "ChessStatsMenuItem";
-            this.ChessStatsMenuItem.Size = new System.Drawing.Size(261, 26);
+            this.ChessStatsMenuItem.Size = new System.Drawing.Size(249, 26);
             this.ChessStatsMenuItem.Text = "Chess Stats Project Home";
             this.ChessStatsMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.ChessStatsMenuItem.Click += new System.EventHandler(this.ChessStatsMenuItem_Click);
@@ -1119,7 +1140,7 @@ namespace DgtCherub
             this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
             this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
             this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(234, 26);
-            this.DGTAngelToolStripMenuItem.Text = "DGT Angel";
+            this.DGTAngelToolStripMenuItem.Text = "Angel";
             // 
             // ProjectPageMenuItem
             // 
@@ -1176,27 +1197,6 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(234, 26);
             this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
-            // 
-            // PlayLiChessToolStripMenuItem
-            // 
-            this.PlayLiChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayLiChessToolStripMenuItem.Image")));
-            this.PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
-            this.PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(245, 26);
-            this.PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
-            this.PlayLiChessToolStripMenuItem.Click += new System.EventHandler(this.PlayLiChessToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(242, 6);
-            // 
-            // DgtAngelLichessToolStripMenuItem
-            // 
-            this.DgtAngelLichessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelLichessToolStripMenuItem.Image")));
-            this.DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
-            this.DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(261, 26);
-            this.DgtAngelLichessToolStripMenuItem.Text = "DGT Angel Lichess Extension";
-            this.DgtAngelLichessToolStripMenuItem.Click += new System.EventHandler(this.DgtAngelLichessToolStripMenuItem_Click);
             // 
             // Form1
             // 

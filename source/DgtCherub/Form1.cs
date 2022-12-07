@@ -444,20 +444,20 @@ namespace DgtCherub
 
                     if (!IsUsingRabbit)
                     {
-                        TextBoxConsole.AddLine("*************************************************************************", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("*PLAYING ON CHESS.COM IN LIVE CHESS MODE IS NOT RECOMMENDED AT THIS TIME*", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("*-To play enable Rabbit mode and restart Cherub - DO NOT run Live Chess-*", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("*************************************************************************", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("         PLAYING ON CHESS.COM IN LIVE CHESS MODE IS NOT RECOMMENDED AT THIS TIME", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("          To play enable Rabbit mode and restart Cherub - DO NOT run Live Chess ", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
                     }
                 }
                 else if (remoteSource.Contains("Lichess"))
                 {
                     if (IsUsingRabbit)
                     {
-                        TextBoxConsole.AddLine("************************************************************************", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("*PLAYING ON LICHESS.ORG IN RABBIT MODE IS NOT SUPPORTED IN THIS VERSION*", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("*-- To play close Cherub, run Live Chess and then start Cherub again --*", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("************************************************************************", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("         PLAYING ON LICHESS.ORG IN RABBIT MODE IS NOT SUPPORTED IN THIS VERSION", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("            To play close Cherub, run Live Chess and then start Cherub again   ", TEXTBOX_MAX_LINES, false);
+                        TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
                     }
 
                         _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
@@ -1083,15 +1083,15 @@ namespace DgtCherub
             TextBoxConsole.Update();
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"    Welcome to...                                                                      ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"    ██████╗  ██████╗ ████████╗     ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗     ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"    ██╔══██╗██╔════╝ ╚══██╔══╝    ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗    ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"    ██║  ██║██║  ███╗   ██║       ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝    ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"    ██║  ██║██║   ██║   ██║       ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗    ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"    ██████╔╝╚██████╔╝   ██║       ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝    ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"    ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝     ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"                      ██████╗██╗  ██╗███████╗██████╗ ██╗   ██╗██████╗                  ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"                     ██╔════╝██║  ██║██╔════╝██╔══██╗██║   ██║██╔══██╗                 ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"                     ██║     ███████║█████╗  ██████╔╝██║   ██║██████╔╝                 ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"                     ██║     ██╔══██║██╔══╝  ██╔══██╗██║   ██║██╔══██╗                 ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"                     ╚██████╗██║  ██║███████╗██║  ██║╚██████╔╝██████╔╝                 ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"                      ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝                  ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($" Hyper-Dragon :: Version {VERSION_NUMBER} :: {PROJECT_URL}", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with either DGT or Chess.com in any way.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"NOTE   : This project IS NOT affiliated with DGT, Chess.com or Lichess any way.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"WARNING: I think that this release can now be considered a beta version.  I can", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         confidently say that it works not only on my machine but also those", TEXTBOX_MAX_LINES, false);
@@ -1100,12 +1100,12 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"PreReq : You will need a physical DGT Board and either Live Chess or the Rabbit ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         plug-in installed on this machine.  You will also need the Chrome browser", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         with the 'DTG Angel' plug-in installed.  Don't forget to enable your board", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         with an 'Angel' plug-in installed.  Don't forget to enable your board", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         in the Chess.com options.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"Thanks : Thanks go to BaronVonChickenpants, Hamilton53, MancombSeepgood, er642,", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         danielbaechli, KevinTheChessGnome, CFossa and qnuti for their support and ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         testing  and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         testing and to Fake-Angel for the new move voice (en-02).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"V.Clock: IP Addresses for [{(string.IsNullOrEmpty(hostName) ? "NO HOST!" : hostName)}] are [{(string.IsNullOrEmpty(hostName) ? "" : string.Join(',', thisMachineIpV4Addrs))}]", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         The Virtual Clock is available on http://<Your IP>:{VIRTUAL_CLOCK_PORT}/", TEXTBOX_MAX_LINES, false);
@@ -1114,7 +1114,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         forget that you will need to open port 37964 on the windows firewall", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"*** PLAY BOARD/LICHESS CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         For previous Live board users, you must update your Chrome extension to the", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         'Play' version.  Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
@@ -1126,7 +1126,8 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         Workarounds have been applied in Rabbit mode so my advice would be to", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         use that instead of Live Chess.  You should still keep a mouse handy ", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         though, just in case.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         though, just in case.  For the new Lichess Extension you will need to", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         to be in Live Chess mode to play a game.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         Finally, if you have the 'ghost move' issue open up the Rabbit", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         config and change the 'stableboard' slider on the extra tab.  Check", TEXTBOX_MAX_LINES, false);
