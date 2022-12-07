@@ -1084,9 +1084,14 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         At the time of this release there were outstanding problems with the", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         DGT board on the 'Play' interface. To castle move your King 2 squares", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         very, very fast and NEVER move your rook until the move has been", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         acknowledged.  Always pick up your pieces (never slide them).  Keep a", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         mouse handy as CDC sometimes refuses to accept your move on the physical", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         board.  Finally, if you have the 'ghost move' issue open up the Rabbit", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         acknowledged and keep a mouse handy as CDC sometimes refuses to accept", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         your move on the physical board.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         Workarounds have been applied in Rabbit mode so my advice would be to", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         use that insted of Live Chess.  You should still keep a mouse handy ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         though, just in case.", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         Finally, if you have the 'ghost move' issue open up the Rabbit", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         config and change the 'stableboard' slider on the extra tab.  Check", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         for update news on the Chess.com DGT Club forum.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);

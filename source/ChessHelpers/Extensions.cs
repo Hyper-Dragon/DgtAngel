@@ -46,11 +46,13 @@ namespace ChessHelpers
                         {
                             return candidateFen;
                         }
-
-                        
                     }
                 }
 
+                //If we hit this no suitable position was found so just send out 
+                //the normal FEN for now
+                //TODO: We could try adding additional pieces to the board just in case
+                //      there is a position where the king can't be placed anywhere! 
                 return shortFenIn;
             }
             else
