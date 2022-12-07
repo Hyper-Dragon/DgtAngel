@@ -1,4 +1,26 @@
+//Lichess move message...
 
+
+setUp -: {"id":3,"call":"call","param":{"id":1,"method":"setup","param":{"fen":"r2q1rk1/2p2pb1/bpn1P1p1/p3P2p/Bn1P4/2N1B3/PP2N1PP/R2Q1RK1 b - - 0 16"}}} 
+setUp -: Sent. 
+Active game updated. currentGameId: J91FweUP :
+Websocket onmessage with data:{"response":"call","id":3,"param":null,"time":1670401217948} 
+Websocket onmessage with data:{"response":"feed","id":1,"param":{"serialnr":"24958","flipped":false,"board":"r2q1rk1/2p2pb1/bpn1P1p1/p3P2p/Bn1P4/2N1B3/PP2N1PP/R2Q1RK1","start":"r2q1rk1/2p2pb1/bpn1P1p1/p3P2p/Bn1P4/2N1B3/PP2N1PP/R2Q1RK1 b - - 0 16","san":[]},"time":1670401217948} 
+onmessage - san:  
+getLastUCIMove - 31 moves detected. Last one: f5e6 
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------
         //  THIS HAS REAL CLOCK CODE IN IT - check before delete
         //
 
