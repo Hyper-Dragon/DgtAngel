@@ -32,7 +32,7 @@ namespace DgtRabbitWrapper.DgtEbDll
           typedef int __stdcall F(); 
           typedef int __stdcall FIIC(int, int, const char*);
         */
-        
+
         internal delegate void CallbackStatusFunc(string status);
         internal delegate void CallbackStableBoardFunc(string boardFEN);
         internal delegate void CallbackScanFunc(string boardFEN);
@@ -70,7 +70,7 @@ namespace DgtRabbitWrapper.DgtEbDll
         [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterBlackMoveInputFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterBlackMoveInputFunc(CallbackBlackMoveInputFunc func, IntPtr callbackTarget);
         [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterBlackMoveNowFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterBlackMoveNowFunc(CallbackBlackMoveNowFunc func, IntPtr callbackTarget);        
+        internal static extern int RegisterBlackMoveNowFunc(CallbackBlackMoveNowFunc func, IntPtr callbackTarget);
         [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterNewGameFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterNewGameFunc(CallbackNewGameFunc func, IntPtr callbackTarget);
         [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterResultFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
@@ -90,18 +90,18 @@ namespace DgtRabbitWrapper.DgtEbDll
 
 
 
-/*
-        [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
-        [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterAllowTakebacksChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
-        [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterGameTypeChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterGameTypeChangedFunc(CallbackGameTypeChangedFunc func, IntPtr callbackTarget);
-        [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterWhiteTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
-        [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterBlackTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
-*/
+        /*
+                [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+                internal static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
+                [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterAllowTakebacksChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+                internal static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
+                [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterGameTypeChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+                internal static extern int RegisterGameTypeChangedFunc(CallbackGameTypeChangedFunc func, IntPtr callbackTarget);
+                [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterWhiteTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+                internal static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
+                [DllImport("dgtebdll.dll", EntryPoint = "_DGTDLL_RegisterBlackTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+                internal static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
+        */
         //----------------------------------------------------------------------------------
 
         [DllImport("dgtebdll.dll",

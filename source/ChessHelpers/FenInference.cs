@@ -1,6 +1,4 @@
-﻿using Chess;
-
-namespace ChessHelpers
+﻿namespace ChessHelpers
 {
     internal class FenInference
     {

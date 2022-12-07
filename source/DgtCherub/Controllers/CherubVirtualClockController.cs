@@ -253,7 +253,7 @@ namespace DgtCherub.Controllers
 
             Response.Headers.Add("Content-Type", MIME_EVENT);
 
-            _angelHubService.OnBoardMissmatch += async (sentTimeTicks,_,_,_) =>
+            _angelHubService.OnBoardMissmatch += async (sentTimeTicks, _, _, _) =>
             {
                 if (sentTimeTicks > LastSeenEventTimeTicks)
                 {
@@ -267,7 +267,7 @@ namespace DgtCherub.Controllers
                 if (sentTimeTicks > LastSeenEventTimeTicks)
                 {
                     LastSeenEventTimeTicks = sentTimeTicks;
-                    await SendEventResponse(Response,ConstructMessageOnly("OnBoardMatch"));
+                    await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
                 }
             };
 
@@ -276,7 +276,7 @@ namespace DgtCherub.Controllers
                 if (sentTimeTicks > LastSeenEventTimeTicks)
                 {
                     LastSeenEventTimeTicks = sentTimeTicks;
-                    await SendEventResponse(Response,ConstructMessageOnly("OnBoardMatch"));
+                    await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
                 }
             };
 

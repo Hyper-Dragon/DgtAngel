@@ -62,7 +62,7 @@ namespace DgtCherub.Controllers
                         ArraySegment<byte> buffer = new(new byte[RECIEVE_BUFFER_SIZE_BYTES]);
                         WebSocketReceiveResult result;
                         List<byte> allBytes = new();
-                        
+
                         do
                         {
                             result = await webSocket.ReceiveAsync(buffer, CancellationToken.None);
@@ -206,7 +206,7 @@ namespace DgtCherub.Controllers
                     }
                 }
 
-                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED,"");
+                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, "");
                 _appDataService.PluginDisconnect();
                 _appDataService.UserMessageArrived("INTERNAL", "Angel has Disconnected");
             }

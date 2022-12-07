@@ -20,7 +20,7 @@ namespace DgtRabbitWrapper
         private PlayDropFix _dropFix = PlayDropFix.NONE;
         public PlayDropFix DropFix
         {
-            get { return _dropFix; }
+            get => _dropFix;
             set
             {
                 _dropFix = value;
@@ -61,7 +61,7 @@ namespace DgtRabbitWrapper
             try
             {
                 OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
-                clientSocket.Send(message);
+                _ = clientSocket.Send(message);
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace DgtRabbitWrapper
 
         public void RunLiveChessServer()
         {
-            Task.Run(() => { RunLiveChessServerInternal(); });
+            _ = Task.Run(RunLiveChessServerInternal);
         }
 
         private void RunLiveChessServerInternal()
@@ -84,7 +84,7 @@ namespace DgtRabbitWrapper
                 if (LastFenSeen != e.FEN)
                 {
                     LastFenSeen = e.FEN;
-                    KingCount = e.FEN.Where(c => (c == 'k' || c == 'K')).Count();
+                    KingCount = e.FEN.Where(c => c is 'k' or 'K').Count();
 
                     //Don't send boards with missing kings - always invalid
                     //This fixes castling
@@ -141,7 +141,7 @@ namespace DgtRabbitWrapper
                         {
                             SendToSocket(socket, "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}"
                                 .Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
-                            
+
                             SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}"
                                 .Replace("BOARDNO", randomSerialNo.ToString())
                                 .Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
@@ -149,7 +149,7 @@ namespace DgtRabbitWrapper
                             string lastSend = "";
                             while (true)
                             {
-                                _ = closedPortQueue.TryPeek(out var port);
+                                _ = closedPortQueue.TryPeek(out int port);
                                 if (port == socket.ConnectionInfo.ClientPort)
                                 {
                                     _ = closedPortQueue.TryDequeue(out int result);

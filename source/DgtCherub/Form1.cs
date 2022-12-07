@@ -1,8 +1,8 @@
 ﻿using DgtCherub.Helpers;
 using DgtCherub.Services;
+using DgtLiveChessWrapper;
 using DgtRabbitWrapper;
 using DgtRabbitWrapper.DgtEbDll;
-using DgtLiveChessWrapper;
 using DynamicBoard;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Hosting;
@@ -52,15 +52,14 @@ namespace DgtCherub
         private const string PP_CODE = "QNKADKV5BAM5C"; //Not a secret
         private const string PP_LINK = @$"https://www.paypal.com/donate?hosted_button_id={PP_CODE}&source=url";
         private const string GITHUB_SPN_LINK = @"https://github.com/sponsors/Hyper-Dragon";
-
-        const string holegg08 = @"                 '='      '='      '='      '='      '='      '='                    ";
-        const string holegg03 = @"                [___]    [___]    [___]    [___]    [___]    [___]      ************ ";
-        const string holegg01 = @"                   .--._.--.--.__.--.--.__.--.--.__.--.--._.--.                      ";
-        const string holegg07 = @"           jgs  \::./    \::./    \::./    \::./    \::./    \::./                   ";
-        const string holegg05 = @"               |::   |  |::   |  |::   |  |::   |  |::   |  |::   |     * HOLIDAYS * ";
-        const string holegg06 = @"               \::.  /  \::.  /  \::.  /  \::.  /  \::.  /  \::.  /     ************ ";
-        const string holegg02 = @"                 _(_      _Y_      _Y_      _Y_      _Y_      _)_                    ";
-        const string holegg04 = @"                /:' \    /:' \    /:' \    /:' \    /:' \    /:' \      *  HAPPY   * ";
+        private const string holegg08 = @"                 '='      '='      '='      '='      '='      '='                    ";
+        private const string holegg03 = @"                [___]    [___]    [___]    [___]    [___]    [___]      ************ ";
+        private const string holegg01 = @"                   .--._.--.--.__.--.--.__.--.--.__.--.--._.--.                      ";
+        private const string holegg07 = @"           jgs  \::./    \::./    \::./    \::./    \::./    \::./                   ";
+        private const string holegg05 = @"               |::   |  |::   |  |::   |  |::   |  |::   |  |::   |     * HOLIDAYS * ";
+        private const string holegg06 = @"               \::.  /  \::.  /  \::.  /  \::.  /  \::.  /  \::.  /     ************ ";
+        private const string holegg02 = @"                 _(_      _Y_      _Y_      _Y_      _Y_      _)_                    ";
+        private const string holegg04 = @"                /:' \    /:' \    /:' \    /:' \    /:' \    /:' \      *  HAPPY   * ";
 
 
         private readonly System.Resources.ResourceManager DEFAULT_MOVE_VOICE = DgtCherub.Assets.Moves_en_02.ResourceManager;
@@ -200,7 +199,7 @@ namespace DgtCherub
                                 TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
 
                                 trackRunwho = _angelHubService.RunWhoString;
-                                _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, Int32.Parse(_angelHubService.RunWhoString));
+                                _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
                             }
                         };
 
@@ -215,18 +214,19 @@ namespace DgtCherub
                         _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
                         {
                             //If on CDC set the drop fix mode
-                            
-                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ? 
-                                                          LiveChessServer.PlayDropFix.NONE : 
-                                                          ((_angelHubService.IsWhiteOnBottom) ? LiveChessServer.PlayDropFix.FROMWHITE :
+
+                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
+                                                          LiveChessServer.PlayDropFix.NONE :
+                                                          (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
                                                           LiveChessServer.PlayDropFix.FROMBLACK);
                         };
 
-                        _angelHubService.OnOrientationFlipped += () => {
+                        _angelHubService.OnOrientationFlipped += () =>
+                        {
                             //Flip drop fix if the dropfix is applied
                             fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
                                                           LiveChessServer.PlayDropFix.NONE :
-                                                          ((_angelHubService.IsWhiteOnBottom) ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                                          (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
                                                           LiveChessServer.PlayDropFix.FROMBLACK);
                         };
 
@@ -254,10 +254,10 @@ namespace DgtCherub
                     IsUsingRabbit = false;
                 }
 
-                TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{((Environment.Is64BitProcess) ? "64" : "32")} bit]." : $"Using Live Chess. {((DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled) ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, false);
                 if (IsUsingRabbit)
                 {
-                    TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{((Environment.Is64BitProcess) ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
                     TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
                 }
                 TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
@@ -290,7 +290,7 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.MatcherLocalDelay = UpDownLocalDelay.Value;
             DgtCherub.Properties.UserSettings.Default.MatcherLocalFromMismatchDelay = UpDownFromMismatchDelay.Value;
             DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled = CheckBoxNeverUseRabbit.Checked;
-            DgtCherub.Properties.UserSettings.Default.StartingWidth = this.Width;
+            DgtCherub.Properties.UserSettings.Default.StartingWidth = Width;
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -312,7 +312,7 @@ namespace DgtCherub
 
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
-            this.Width = DgtCherub.Properties.UserSettings.Default.StartingWidth;
+            Width = DgtCherub.Properties.UserSettings.Default.StartingWidth;
 
             CheckBoxIncludeSecs.Checked = DgtCherub.Properties.UserSettings.Default.IncludeSeconds;
             CheckBoxPlayerBeep.Checked = DgtCherub.Properties.UserSettings.Default.BeepMode;
@@ -460,7 +460,7 @@ namespace DgtCherub
                         TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
                     }
 
-                        _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
+                    _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
                 }
                 else
                 {
@@ -497,7 +497,7 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
             };
 
-            _angelHubService.OnBoardMatch += (_,_) =>
+            _angelHubService.OnBoardMatch += (_, _) =>
             {
                 LabelLocalDgt.BackColor = BoredLabelsInitialColor;
                 LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
@@ -1270,7 +1270,7 @@ namespace DgtCherub
 
         private void CheckBoxNeverUseRabbit_CheckedChanged(object sender, EventArgs e)
         {
-            if(CheckBoxNeverUseRabbit.Checked) 
+            if (CheckBoxNeverUseRabbit.Checked)
             {
                 TextBoxConsole.AddLine($"WARNING: No attempt will be made to use Rabbit on future restarts");
             }

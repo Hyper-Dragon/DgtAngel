@@ -169,7 +169,7 @@ namespace DgtCherub.Services
             _ = Task.Run(RunMessageProcessor);
         }
 
-        public void PluginDisconnect() 
+        public void PluginDisconnect()
         {
             OnPluginDisconnect?.Invoke();
         }
@@ -179,7 +179,7 @@ namespace DgtCherub.Services
             try
             {
                 await startStopSemaphore.WaitAsync();
-                
+
                 if (messageType == MessageTypeCode.WATCH_STARTED)
                 {
                     OnRemoteWatchStarted?.Invoke(remoteSource);
@@ -440,7 +440,10 @@ namespace DgtCherub.Services
                 // if they are not the same we can skip as the local position has changed.
                 //lock (matcherLockObj)
                 //{
-                if (matchCode != CurrentUpdatetMatch.ToString()) return;
+                if (matchCode != CurrentUpdatetMatch.ToString())
+                {
+                    return;
+                }
                 //}
 
 
@@ -448,22 +451,22 @@ namespace DgtCherub.Services
 
                 //lock (matcherLockObj)
                 //{
-                    if (RemoteBoardFEN != LocalBoardFEN)
-                    {
-                        IsBoardInSync = false;
-                        OnBoardMissmatch?.Invoke(DateTime.UtcNow.Ticks,FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
-                    }
-                    else
-                    {
-                        LastMatchedPosition = LocalBoardFEN;
-                        //OnBoardMatch?.Invoke(LocalBoardFEN);
+                if (RemoteBoardFEN != LocalBoardFEN)
+                {
+                    IsBoardInSync = false;
+                    OnBoardMissmatch?.Invoke(DateTime.UtcNow.Ticks, FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
+                }
+                else
+                {
+                    LastMatchedPosition = LocalBoardFEN;
+                    //OnBoardMatch?.Invoke(LocalBoardFEN);
 
-                        if (!IsBoardInSync)
-                        {
-                            IsBoardInSync = true;
-                            OnBoardMatchFromMissmatch?.Invoke(DateTime.UtcNow.Ticks);
-                        }
+                    if (!IsBoardInSync)
+                    {
+                        IsBoardInSync = true;
+                        OnBoardMatchFromMissmatch?.Invoke(DateTime.UtcNow.Ticks);
                     }
+                }
                 //}
             }
             else

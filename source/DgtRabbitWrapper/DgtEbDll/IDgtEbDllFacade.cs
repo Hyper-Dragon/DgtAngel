@@ -1,5 +1,4 @@
 ﻿using System;
-using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
 
 namespace DgtRabbitWrapper.DgtEbDll
 {

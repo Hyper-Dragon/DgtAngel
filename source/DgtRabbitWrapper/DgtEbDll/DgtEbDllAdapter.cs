@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 
 namespace DgtRabbitWrapper.DgtEbDll
@@ -31,38 +30,51 @@ namespace DgtRabbitWrapper.DgtEbDll
         private static readonly CallbackWhiteMoveInputFunc _callbackWhiteMoveInputFunc = new(CallbackWhiteMoveInputFuncInstanceMethod);
         private static readonly CallbackWhiteMoveNowFunc _callbackWhiteMoveNowFunc = new(CallbackWhiteMoveNowFuncInstanceMethod);
 
-        static void CallbackStatusInstanceMethod(string message) { NotifyTarget.NotifyOnStatusChanged(new StatusMessageEventArgs() { Message = message, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackStableBoardInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackScanInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackBClockFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBClock(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackBlackMoveInputFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBlackMoveInput(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackBlackMoveNowFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBlackMoveNow(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackNewGameFuncInstanceMethod(string data) { NotifyTarget.NotifyOnNewGame(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackResultFuncInstanceMethod(string data) { NotifyTarget.NotifyOnResult(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackStartSetupFuncInstanceMethod(string data) { NotifyTarget.NotifyOnStartSetup(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackStopSetupBTMFuncInstanceMethod(string data) { NotifyTarget.NotifyOnStopSetupBTM(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackStopSetupWTMFuncInstanceMethod(string data) { NotifyTarget.NotifyOnStopSetupWTM(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackWClockFuncInstanceMethod(string data) { NotifyTarget.NotifyOnWClock(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackWhiteMoveInputFuncInstanceMethod(string data) { NotifyTarget.NotifyOnWhiteMoveInput(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
-        static void CallbackWhiteMoveNowFuncInstanceMethod(string data) { NotifyTarget.NotifyOnWhiteMoveNow(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+        private static void CallbackStatusInstanceMethod(string message) { NotifyTarget.NotifyOnStatusChanged(new StatusMessageEventArgs() { Message = message, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
-        
+        private static void CallbackStableBoardInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackScanInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackBClockFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBClock(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackBlackMoveInputFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBlackMoveInput(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackBlackMoveNowFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBlackMoveNow(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackNewGameFuncInstanceMethod(string data) { NotifyTarget.NotifyOnNewGame(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackResultFuncInstanceMethod(string data) { NotifyTarget.NotifyOnResult(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackStartSetupFuncInstanceMethod(string data) { NotifyTarget.NotifyOnStartSetup(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackStopSetupBTMFuncInstanceMethod(string data) { NotifyTarget.NotifyOnStopSetupBTM(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackStopSetupWTMFuncInstanceMethod(string data) { NotifyTarget.NotifyOnStopSetupWTM(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackWClockFuncInstanceMethod(string data) { NotifyTarget.NotifyOnWClock(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackWhiteMoveInputFuncInstanceMethod(string data) { NotifyTarget.NotifyOnWhiteMoveInput(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+        private static void CallbackWhiteMoveNowFuncInstanceMethod(string data) { NotifyTarget.NotifyOnWhiteMoveNow(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+
+
         internal static bool Init(IDgtEbDllFacade notifyTarget)
         {
             NotifyTarget = notifyTarget;
 
-            var result0 = (Result)DgtEbDllImport.Init();
-            var result1 = (Result)RegisterCallbackScanFunc(_callbackSScanInstance, IntPtr.Zero);
-            var result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
-            var result3 = (Result)SetGameType(0);
-            var result4 = (Result)UseSAN(true);
-            var result5 = (Result)SetAutoRotation(false);
-            var result6 = (Result)WriteDebug(false);
-            var result7 = (Result)UseFEN(true);
-            var result8 = (Result)ConfigureAllCallbacks();
+            Result result0 = (Result)DgtEbDllImport.Init();
+            Result result1 = (Result)RegisterCallbackScanFunc(_callbackSScanInstance, IntPtr.Zero);
+            Result result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
+            Result result3 = (Result)SetGameType(0);
+            Result result4 = (Result)UseSAN(true);
+            Result result5 = (Result)SetAutoRotation(false);
+            Result result6 = (Result)WriteDebug(false);
+            Result result7 = (Result)UseFEN(true);
+            _ = ConfigureAllCallbacks();
 
             return result0 == Result.SUCCESS && result1 == Result.SUCCESS && result2 == Result.SUCCESS &&
-                   result3 == Result.SUCCESS && result4 == Result.SUCCESS && result5 == Result.SUCCESS && 
+                   result3 == Result.SUCCESS && result4 == Result.SUCCESS && result5 == Result.SUCCESS &&
                    result6 == Result.SUCCESS && result7 == Result.SUCCESS && result7 == Result.SUCCESS;
         }
 

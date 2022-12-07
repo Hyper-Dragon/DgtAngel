@@ -25,8 +25,8 @@ namespace DgtRabbitWrapper
         private string versionString = "";
 
 
-        public void NotifyOnStatusChanged(StatusMessageEventArgs message){ OnStatusMessage?.Invoke(null, message); }
-        public void NotifyOnStableFenChanged(FenChangedEventArgs fenChange){ OnStableFenChanged?.Invoke(null, fenChange); }
+        public void NotifyOnStatusChanged(StatusMessageEventArgs message) { OnStatusMessage?.Invoke(null, message); }
+        public void NotifyOnStableFenChanged(FenChangedEventArgs fenChange) { OnStableFenChanged?.Invoke(null, fenChange); }
         public void NotifyOnFenChanged(FenChangedEventArgs fenChange) { OnFenChanged?.Invoke(null, fenChange); }
         public void NotifyOnBClock(StatusMessageEventArgs data) { OnBClock?.Invoke(null, data); }
         public void NotifyOnBlackMoveInput(StatusMessageEventArgs data) { OnBlackMoveInput?.Invoke(null, data); }
