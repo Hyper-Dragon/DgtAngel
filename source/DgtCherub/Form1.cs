@@ -228,7 +228,7 @@ namespace DgtCherub
                                                           LiveChessServer.PlayDropFix.FROMBLACK);
                         };
 
-                        _angelHubService.OnRemoteDisconnect += () =>
+                        _angelHubService.OnPluginDisconnect += () =>
                         {
                             fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
                         };
@@ -452,6 +452,7 @@ namespace DgtCherub
 
             _angelHubService.OnRemoteWatchStopped += (remoteSource) =>
             {
+
                 if (remoteSource.Contains("CDC"))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);

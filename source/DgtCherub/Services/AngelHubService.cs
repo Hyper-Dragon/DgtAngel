@@ -44,12 +44,14 @@ namespace DgtCherub.Services
         event Action<string> OnPlayWhiteClockAudio;
         event Action<string, string, string, string, string> OnRemoteFenChange;
         event Action<string, string> OnNotification;
+        event Action OnPluginDisconnect;
 
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
         void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
+        void PluginDisconnect();
     }
 
     public sealed class AngelHubService : IAngelHubService
@@ -69,6 +71,7 @@ namespace DgtCherub.Services
         public event Action<string> OnPlayWhiteClockAudio;
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
+        public event Action OnPluginDisconnect;
 
         public bool IsWhiteOnBottom { get; private set; } = true;
         public bool IsMismatchDetected { get; private set; } = false;
@@ -166,6 +169,11 @@ namespace DgtCherub.Services
             _ = Task.Run(RunMessageProcessor);
         }
 
+        public void PluginDisconnect() 
+        {
+            OnPluginDisconnect?.Invoke();
+        }
+
         public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null)
         {
             try
@@ -179,11 +187,12 @@ namespace DgtCherub.Services
                 else if (messageType == MessageTypeCode.WATCH_STOPPED)
                 {
                     OnRemoteWatchStopped?.Invoke(remoteSource);
-                    ResetRemoteBoardState();
+                    OnRemoteDisconnect?.Invoke();
                 }
                 else if (messageType == MessageTypeCode.WATCH_STOPPED_MOVES_ONLY)
                 {
                     OnRemoteWatchStopped?.Invoke(remoteSource);
+                    OnRemoteDisconnect?.Invoke();
                 }
             }
             finally { _ = startStopSemaphore.Release(); }
@@ -247,10 +256,10 @@ namespace DgtCherub.Services
 
         private void ResetRemoteBoardState(bool isGameCompleted = false)
         {
-            //if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
-            //{
-            //    OnRemoteDisconnect?.Invoke();
-            //}
+            if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
+            {
+                OnRemoteDisconnect?.Invoke();
+            }
 
             WhiteClock = "00:00";
             BlackClock = "00:00";

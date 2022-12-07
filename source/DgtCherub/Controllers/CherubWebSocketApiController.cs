@@ -207,6 +207,7 @@ namespace DgtCherub.Controllers
                 }
 
                 _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED,"");
+                _appDataService.PluginDisconnect();
                 _appDataService.UserMessageArrived("INTERNAL", "Angel has Disconnected");
             }
             else
