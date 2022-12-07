@@ -24,7 +24,9 @@ namespace DgtRabbitWrapper
             set
             {
                 _dropFix = value;
+                OnLiveChessSrvMessage?.Invoke(this, "--------------------------------------------");
                 OnLiveChessSrvMessage?.Invoke(this, $"'Play' board correction->{_dropFix}");
+                OnLiveChessSrvMessage?.Invoke(this, "--------------------------------------------");
             }
         }
         public int BoardSerialNo { get; init; }

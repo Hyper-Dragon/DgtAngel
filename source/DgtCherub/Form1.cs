@@ -1078,7 +1078,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         for this to work).", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"*** PLAY BOARD CHANGE NOTE ***", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         For previous Live board users you must update your Chrome extension to the", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         For previous Live board users, you must update your Chrome extension to the", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         'Play' version.  Go to Links->Downloads->DGT Angel Chrome Extension", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         At the time of this release there were outstanding problems with the", TEXTBOX_MAX_LINES, false);
@@ -1088,7 +1088,7 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"         your move on the physical board.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         Workarounds have been applied in Rabbit mode so my advice would be to", TEXTBOX_MAX_LINES, false);
-            TextBoxConsole.AddLine($"         use that insted of Live Chess.  You should still keep a mouse handy ", TEXTBOX_MAX_LINES, false);
+            TextBoxConsole.AddLine($"         use that instead of Live Chess.  You should still keep a mouse handy ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         though, just in case.", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         ", TEXTBOX_MAX_LINES, false);
             TextBoxConsole.AddLine($"         Finally, if you have the 'ghost move' issue open up the Rabbit", TEXTBOX_MAX_LINES, false);
