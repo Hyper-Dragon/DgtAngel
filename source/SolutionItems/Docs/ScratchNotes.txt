@@ -9,17 +9,6 @@ Websocket onmessage with data:{"response":"feed","id":1,"param":{"serialnr":"249
 onmessage - san:  
 getLastUCIMove - 31 moves detected. Last one: f5e6 
 
-
-
-
-
-
-
-
-
-
-
-
 //-----------------------------------------------------------------------------------------
         //  THIS HAS REAL CLOCK CODE IN IT - check before delete
         //
@@ -64,16 +53,6 @@ getLastUCIMove - 31 moves detected. Last one: f5e6
         }
         */
 
-
-
-
-
-
-
-
-
-
-
         public string FormatClockStringToDGT(string cdcClockString)
         {
             _logger?.LogTrace($"{MethodBase.GetCurrentMethod().ReflectedType.Name} Reformatting {cdcClockString}");
@@ -83,11 +62,6 @@ getLastUCIMove - 31 moves detected. Last one: f5e6
 
             return $"0:{clockParts[0].PadLeft(2, '0')}:{clockParts[1].PadLeft(2, '0')}";
         }
-
-
-
-
-
         
         /// <summary>
         /// Turns the output of document.getElementsByClassName('piece')
