@@ -228,11 +228,11 @@ namespace DgtRabbitWrapper
                                               .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
 
                     //string invertedTurn = (turn == "") ? "" : ((turn == "WHITE") ? "BLACK" : "WHITE");
-                    string invertedTurn = turn;
+                    //string invertedTurn = turn;
 
-                    if (_currentSideToPlay != invertedTurn)
+                    if (_currentSideToPlay != turn)
                     {
-                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Expected [{_currentSideToPlay}] but detected [{invertedTurn}]");
+                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Expected [{_currentSideToPlay}] but detected [{turn}]");
                     }
                     else if (string.IsNullOrEmpty(move))
                     {
