@@ -14,8 +14,8 @@ namespace DgtCherub.Controllers
 {
     public sealed class CherubWebSocketApiController : ControllerBase
     {
-        private const int RECIEVE_BUFFER_SIZE_BYTES = 1024 * 10;
         private bool isAcceptingConnections = true;
+        private const int RECIEVE_BUFFER_SIZE_BYTES = 1024 * 10;
         private static WebSocket runningSocket = null;
 
         private readonly ILogger _logger;
@@ -24,8 +24,9 @@ namespace DgtCherub.Controllers
         private const int MSG_LIMIT_SECONDS = 10;
         private DateTime lastErrorLog = DateTime.MinValue;
 
-
-        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, IAngelHubService appData)
+        
+        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, 
+                                            IAngelHubService appData)
         {
             _logger = logger;
             _appDataService = appData;
@@ -34,7 +35,7 @@ namespace DgtCherub.Controllers
         [HttpGet("/ws")]
         public async Task Get()
         {
-            if (HttpContext.WebSockets.IsWebSocketRequest && isAcceptingConnections)
+            if (HttpContext.WebSockets.IsWebSocketRequest && _appDataService.IsClientInitComplete && isAcceptingConnections)
             {
                 bool isClientVersionDisplayed = false;
                 bool isClientVersionOk = false;

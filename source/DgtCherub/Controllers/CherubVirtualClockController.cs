@@ -346,8 +346,8 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            _angelHubService.OnRemoteFenChange += async (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen) =>
-            {
+            _angelHubService.OnRemoteFenChange += async (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen, string _, bool _) =>
+            {                
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnRemoteFenChange",

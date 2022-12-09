@@ -6,7 +6,7 @@ namespace ChessHelpers
     {
         public static (string move, string ending, string turn) CalculateSanFromFen(string fromFen, string toFen)
         {
-            if (string.IsNullOrWhiteSpace(fromFen)) { return (" ", "", ""); }
+            if (string.IsNullOrWhiteSpace(fromFen)) { return ("", "", ""); }
 
             try
             {
@@ -28,12 +28,12 @@ namespace ChessHelpers
                                                       "1-0" : "0-1"));
 
                 //Getting the next move so return the opposite
-                return (move, ending, (board.Turn == PieceColor.White) ? "WHITE" : "BLACK");
+                return (move.Trim(), ending, (board.Turn == PieceColor.White) ? "WHITE" : "BLACK");
             }
             catch (Exception)
             {
                 //This is missing step betweem 2 FENS so no move to return
-                return (" ", "", "");
+                return ("", "", "");
             }
         }
 

@@ -9,6 +9,7 @@ namespace DgtCherub.Services
 {
     public interface IAngelHubService
     {
+        bool IsClientInitComplete { get; }
         string BlackClock { get; }
         int BlackClockMsRemaining { get; }
         string RemoteBoardFEN { get; }
@@ -29,6 +30,7 @@ namespace DgtCherub.Services
         public int MatcherLocalDelayMs { get; set; }
         public int FromMismatchDelayMs { get; set; }
 
+        event Action OnInitComplete;
         event Action<long, string> OnBoardMatch;
         event Action OnBoardMatcherStarted;
         event Action<long> OnBoardMatchFromMissmatch;
@@ -42,10 +44,11 @@ namespace DgtCherub.Services
         event Action OnOrientationFlipped;
         event Action<string> OnPlayBlackClockAudio;
         event Action<string> OnPlayWhiteClockAudio;
-        event Action<string, string, string, string, string> OnRemoteFenChange;
+        event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
         event Action<string, string> OnNotification;
         event Action OnPluginDisconnect;
 
+        void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetLocalBoardState();
@@ -56,8 +59,9 @@ namespace DgtCherub.Services
 
     public sealed class AngelHubService : IAngelHubService
     {
+        public event Action OnInitComplete;
         public event Action<string> OnLocalFenChange;
-        public event Action<string, string, string, string, string> OnRemoteFenChange;
+        public event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
@@ -73,6 +77,7 @@ namespace DgtCherub.Services
         public event Action<string, string> OnNotification;
         public event Action OnPluginDisconnect;
 
+        public bool IsClientInitComplete { get; private set; } = false;
         public bool IsWhiteOnBottom { get; private set; } = true;
         public bool IsMismatchDetected { get; private set; } = false;
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
@@ -167,6 +172,12 @@ namespace DgtCherub.Services
             _ = Task.Run(RunClockProcessor);
             _ = Task.Run(RunLastMoveProcessor);
             _ = Task.Run(RunMessageProcessor);
+        }
+
+        public void NotifyInitComplete()
+        {
+            IsClientInitComplete = true;
+            OnInitComplete?.Invoke();
         }
 
         public void PluginDisconnect()
@@ -416,8 +427,10 @@ namespace DgtCherub.Services
 
                     OnRemoteFenChange?.Invoke(FromRemoteBoardFEN, RemoteBoardFEN, LastMove,
                                               remoteBoardState.Board.ClockTurn.ToString(),
-                                              remoteBoardState.Board.FenTurn.ToString());
-
+                                              remoteBoardState.Board.FenTurn.ToString(),
+                                              remoteBoardState.BoardConnection.ConMessage,
+                                              remoteBoardState.Board.IsWhiteOnBottom);
+                    
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 

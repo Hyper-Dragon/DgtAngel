@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using QRCoder;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -112,10 +113,14 @@ namespace DgtCherub
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
         private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
         [DllImport("user32")]
+#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
         private static extern bool HideCaret(IntPtr hWnd);
+#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
@@ -209,7 +214,6 @@ namespace DgtCherub
                         _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
 
                         fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
-                        fakeLiveChessServer.RunLiveChessServer();
 
                         _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
                         {
@@ -241,6 +245,9 @@ namespace DgtCherub
                         GroupBoxClockTest.Visible = true;
                         ButtonSendTestMsg1.Visible = true;
                         ButtonSendTestMsg2.Visible = true;
+
+                        //Only do this when rabbit is setup
+                        fakeLiveChessServer.RunLiveChessServer();
                     }
                     else
                     {
@@ -262,12 +269,17 @@ namespace DgtCherub
                 }
                 TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
             }
+
+            //Init complete so notify the hub we can
+            //start accepting external connections 
+            Thread.Sleep(500);
+            _angelHubService.NotifyInitComplete();
         }
 
-        private void _angelHubService_OnOrientationFlipped()
-        {
-            throw new NotImplementedException();
-        }
+        //private void AngelHubService_OnOrientationFlipped()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -417,8 +429,26 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-            _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen) =>
+            _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen, string boardMsg, bool isWhiteOnBottom) =>
             {
+                fakeLiveChessServer.RemoteFEN = toRemoteFen;
+
+                //"DGT: Connected. Your turn.";                
+                if (boardMsg.Contains("Your turn"))
+                {
+                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
+                    else fakeLiveChessServer.SideToPlay = "BLACK";
+
+                    fakeLiveChessServer.BlockSendToRemote = false;
+                }
+                else
+                {
+                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
+                    else fakeLiveChessServer.SideToPlay = "WHITE";
+
+                    fakeLiveChessServer.BlockSendToRemote = true;
+                } 
+                
                 TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}] [clk={clockFen[..1]}::brd={boardFen[..1]}]");
                 DisplayBoardImages();
             };

@@ -13,16 +13,15 @@ namespace ChessHelpers
             // Create a board
             ChessBoard board = ChessBoard.LoadFromFen(fullFen);
 
-            if ((board.IsEndGame && board.EndGame != null && board.EndGame.WonSide == null) ||
-               (isPlayingWhite && board.BlackKingChecked) ||
-               (!isPlayingWhite && board.WhiteKingChecked))
-            {
-                char[] clearedflatFenArray = FenInference.
-                                          FenToCharArray(shortFenIn).
-                                          Select(c => (isPlayingWhite ? char.IsUpper(c) : char.IsLower(c)) ? c : '-').
-                                          ToArray<char>();
+            char[] clearedflatFenArray = FenInference.
+                                         FenToCharArray(shortFenIn).
+                                         Select(c => (isPlayingWhite ? char.IsUpper(c) : char.IsLower(c)) ? c : '-').
+                                         ToArray<char>();
 
-
+            //if ((board.IsEndGame && board.EndGame != null && board.EndGame.WonSide == null) ||
+            //         (isPlayingWhite && board.BlackKingChecked) ||
+            //         (!isPlayingWhite && board.WhiteKingChecked))
+            //{
                 for (int sq = 0; sq < clearedflatFenArray.Length; sq++)
                 {
                     if (clearedflatFenArray[sq] == '-')
@@ -40,21 +39,17 @@ namespace ChessHelpers
                         }
                         else
                         {
-                            return candidateFen;
+                            return candidateFen.Split(" ")[0];
                         }
                     }
                 }
+            //}
 
-                //If we hit this no suitable position was found so just send out 
-                //the normal FEN for now
-                //TODO: We could try adding additional pieces to the board just in case
-                //      there is a position where the king can't be placed anywhere! 
-                return shortFenIn;
-            }
-            else
-            {
-                return shortFenIn;
-            }
+            //If we hit this no suitable position was found so just send out 
+            //the normal FEN for now
+            //TODO: We could try adding additional pieces to the board just in case
+            //      there is a position where the king can't be placed anywhere!
+            return shortFenIn;
         }
 
         public static string ConvertFlatArrayToFen(this char[] flatFenArray, string tail = "")

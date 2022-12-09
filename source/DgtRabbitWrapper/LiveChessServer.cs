@@ -10,14 +10,39 @@ namespace DgtRabbitWrapper
 {
     public sealed class LiveChessServer
     {
-        public enum PlayDropFix { NONE, FROMWHITE, FROMBLACK };
+        private const string FROM_INTERNAL_MSG_ID = ": 999";
+        private const string SERVER_ADDR = "ws://0.0.0.0:1982";
+        private const string CONNECT_01_MSG = "{\"response\":\"call\",\"id\":1,\"param\":[{\"serialnr\":\"BOARDNO\",\"source\":\"COM1\",\"state\":\"ACTIVE\",\"battery\":\"100%\",\"comment\":null,\"board\":\"FENFEN\",\"flipped\":false,\"clock\":null}],\"time\":TIMETIME}";
+        private const string CONNECT_02_MSG = "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}";
+        private const string CONNECT_03_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}";
+        private const string NEWPOS_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
 
-        private readonly IDgtEbDllFacade _dgtEbDllFacade;
-        private WebSocketServer server;
+
+        public enum PlayDropFix { NONE, FROMWHITE, FROMBLACK };
         public event EventHandler<string> OnLiveChessSrvMessage;
 
-        //This is a fix for the play board on CDC...
-        private PlayDropFix _dropFix = PlayDropFix.NONE;
+        public string RemoteFEN { get; set; }
+        public string SideToPlay { get; set; }
+        public bool BlockSendToRemote { get; set; }
+        public int BoardSerialNo { get; init; }
+        public int ComPort { get; init; }
+        public int BatteryPct { get; init; }
+        public string InitialFEN { get; init; }
+        public string LastFenSeen { get; private set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        public int WhiteCount { get; private set; } = 0;
+        public int BlackCount { get; private set; } = 0;
+        public int KingCount { get; private set; } = 0;
+        public long LastUpdateTime { get; private set; } = long.MinValue;
+
+        private readonly ConcurrentQueue<int> _closedPortQueue = new();
+        private readonly int _randomSerialNo = 20000 + Random.Shared.Next(9999);
+        private readonly IDgtEbDllFacade _dgtEbDllFacade;
+
+        private string _broadcastFenCorrected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        private WebSocketServer _server;
+        private string _broadcastFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        private PlayDropFix _dropFix = PlayDropFix.NONE; //This is a fix for the play board on CDC...
+
         public PlayDropFix DropFix
         {
             get => _dropFix;
@@ -29,22 +54,6 @@ namespace DgtRabbitWrapper
                 OnLiveChessSrvMessage?.Invoke(this, "--------------------------------------------");
             }
         }
-        public int BoardSerialNo { get; init; }
-        public int ComPort { get; init; }
-        public int BatteryPct { get; init; }
-        public string InitialFEN { get; init; }
-        public string LastFenSeen { get; private set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-        public int WhiteCount { get; private set; } = 0;
-        public int BlackCount { get; private set; } = 0;
-        public int KingCount { get; private set; } = 0;
-
-        public long LastUpdateTime { get; private set; } = long.MinValue;
-        private string broadcastFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-        private string broadcastFenCorrected { get; set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-
-        private readonly ConcurrentQueue<int> closedPortQueue = new();
-
-        private readonly int randomSerialNo = 20000 + Random.Shared.Next(9999);
 
         public LiveChessServer(IDgtEbDllFacade dgtEbDllFacade, int boardSerialNo, int comPort, int batteryPct, string initialFEN)
         {
@@ -56,11 +65,15 @@ namespace DgtRabbitWrapper
             InitialFEN = initialFEN;
         }
 
-        private void SendToSocket(IWebSocketConnection clientSocket, string message)
+        private void SendToSocket(IWebSocketConnection clientSocket, string message, bool isSendToLog = true)
         {
             try
             {
-                OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
+                if (isSendToLog)
+                {
+                    OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
+                }
+                    
                 _ = clientSocket.Send(message);
             }
             catch (Exception ex)
@@ -74,11 +87,20 @@ namespace DgtRabbitWrapper
             _ = Task.Run(RunLiveChessServerInternal);
         }
 
+        private string FormatMessage(string message, string fen = "")
+        {
+            return message.Replace("BOARDNO", _randomSerialNo.ToString())
+                          .Replace("FENFEN", fen)
+                          .Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                          .ToString());
+        }
+
         private void RunLiveChessServerInternal()
         {
-            server = new("ws://0.0.0.0:1982") { RestartAfterListenError = true };
-            server.ListenerSocket.NoDelay = true;
+            _server = new(SERVER_ADDR) { RestartAfterListenError = true };
+            _server.ListenerSocket.NoDelay = true;
 
+            //Setup connection the Rabbit
             _dgtEbDllFacade.OnStableFenChanged += (object sender, FenChangedEventArgs e) =>
             {
                 if (LastFenSeen != e.FEN)
@@ -91,100 +113,140 @@ namespace DgtRabbitWrapper
                     if (KingCount == 2)
                     {
                         //if the drop fix is setup apply it - otherwise just set the fen
-                        broadcastFenCorrected = DropFix switch
+                        _broadcastFenCorrected = DropFix switch
                         {
                             PlayDropFix.FROMWHITE => LastFenSeen.GenrateAlwaysValidMovesFEN(true),
                             PlayDropFix.FROMBLACK => LastFenSeen.GenrateAlwaysValidMovesFEN(false),
                             _ => LastFenSeen,
                         };
 
-                        broadcastFEN = LastFenSeen;
-
-                        if (broadcastFenCorrected != broadcastFEN)
-                        {
-                            OnLiveChessSrvMessage?.Invoke(this, $"'Play' board fix sending {broadcastFenCorrected}");
-                        }
+                        _broadcastFEN = LastFenSeen;
                     }
                     else
                     {
-                        OnLiveChessSrvMessage?.Invoke(this, "Fen dropped - missing king(s)");
+                        OnLiveChessSrvMessage?.Invoke(this, "FIX:: Dropped fen   -> Missing king(s)");
                         return;
                     }
                 }
             };
 
-            server.Start(socket =>
+            //Start listening for external connections
+            _server.Start(socket =>
             {
-                socket.OnOpen = () => OnLiveChessSrvMessage?.Invoke(this, $"Session START from port {socket.ConnectionInfo.ClientPort}");
-                socket.OnError = (error) => OnLiveChessSrvMessage?.Invoke(this, $"Session ERROR from port {socket.ConnectionInfo.ClientPort} >> {error}");
+                socket.OnOpen = () => OnLiveChessSrvMessage?
+                                            .Invoke(this, $"Session START from port {socket.ConnectionInfo.ClientPort}");
+
+                socket.OnError = (error) => OnLiveChessSrvMessage?
+                                                .Invoke(this, $"Session ERROR from port {socket.ConnectionInfo.ClientPort} >> {error}");
 
                 socket.OnClose = () =>
                 {
                     //The port closing does not close the session thread so queue the port number
                     //(always unique) on the clossing session.  Check in the session loop and if
                     //a session spots its own port it can dequeue it and break. 
-                    closedPortQueue.Enqueue(socket.ConnectionInfo.ClientPort);
-                    OnLiveChessSrvMessage?.Invoke(this, $"Session STOPPED from port {socket.ConnectionInfo.ClientPort}");
+                    _closedPortQueue.Enqueue(socket.ConnectionInfo.ClientPort);
+                    OnLiveChessSrvMessage?
+                            .Invoke(this, $"Session STOPPED from port {socket.ConnectionInfo.ClientPort}");
                 };
 
                 socket.OnMessage = message =>
                 {
-                    OnLiveChessSrvMessage?.Invoke(this, $"IN ::{socket.ConnectionInfo.ClientPort}::{message}");
-
-                    if (message != null && message.Contains("call"))
-                    {
-                        if (message.Contains("eboards"))
-                        {
-                            SendToSocket(socket, "{\"response\":\"call\",\"id\":1,\"param\":[{\"serialnr\":\"BOARDNO\",\"source\":\"COM1\",\"state\":\"ACTIVE\",\"battery\":\"100%\",\"comment\":null,\"board\":\"FENFEN\",\"flipped\":false,\"clock\":null}],\"time\":TIMETIME}".Replace("BOARDNO", randomSerialNo.ToString()).Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
-                        }
-                        else if (message.Contains("subscribe"))
-                        {
-                            SendToSocket(socket, "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}"
-                                .Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
-
-                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}"
-                                .Replace("BOARDNO", randomSerialNo.ToString())
-                                .Replace("FENFEN", broadcastFEN).Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString()));
-
-                            string lastSend = "";
-                            while (true)
-                            {
-                                _ = closedPortQueue.TryPeek(out int port);
-                                if (port == socket.ConnectionInfo.ClientPort)
-                                {
-                                    _ = closedPortQueue.TryDequeue(out int result);
-                                    break;
-                                }
-                                else
-                                {
-                                    if (broadcastFEN != lastSend)
-                                    {
-                                        lastSend = broadcastFEN;
-
-                                        if (message.ToString().Contains(": 999"))
-                                        {
-                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}"
-                                                .Replace("BOARDNO", randomSerialNo.ToString())
-                                                .Replace("FENFENFEN", broadcastFEN)
-                                                .Replace("TIMETIME", DateTimeOffset.UtcNow
-                                                .ToUnixTimeMilliseconds().ToString()));
-                                        }
-                                        else
-                                        {
-                                            SendToSocket(socket, "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFENFEN\"},\"time\":TIMETIME}"
-                                                .Replace("BOARDNO", randomSerialNo.ToString())
-                                                .Replace("FENFENFEN", broadcastFenCorrected)
-                                                .Replace("TIMETIME", DateTimeOffset
-                                                .UtcNow.ToUnixTimeMilliseconds().ToString()));
-                                        }
-                                    }
-                                    Thread.Sleep(200);
-                                }
-                            }
-                        }
-                    }
+                    OnLiveChessSrvMessage?
+                            .Invoke(this, $"IN ::{socket.ConnectionInfo.ClientPort}::{message}");
+                    ProcessMessages(socket, message);
                 };
             });
+        }
+
+        private void ProcessMessages(IWebSocketConnection socket, string message)
+        {
+            if (message != null &&
+                message.Contains("call") &&
+                message.Contains("eboards"))
+            {
+                SendToSocket(socket, FormatMessage(CONNECT_01_MSG, _broadcastFEN));
+            }
+            else if (message != null &&
+                     message.Contains("call") &&
+                     message.Contains("subscribe"))
+            {
+                SendToSocket(socket, FormatMessage(CONNECT_02_MSG));
+                SendToSocket(socket, FormatMessage(CONNECT_03_MSG, _broadcastFEN));
+
+                string lastSend = "";
+                while (true)
+                {
+                    //Check for client disconnect and drop the stream if required
+                    _ = _closedPortQueue.TryPeek(out int port);
+                    if (port == socket.ConnectionInfo.ClientPort)
+                    {
+                        _ = _closedPortQueue.TryDequeue(out _);
+                        break;
+                    }
+                    else
+                    {
+                        lastSend = SendBoardUpdate(socket, message, lastSend);
+                        Thread.Sleep(200);
+                    }
+                }
+            }
+        }
+        
+
+        private string SendBoardUpdate(IWebSocketConnection socket, string message, string lastSend)
+        {
+            //Send the remote board back to CDC to confirm the turn
+            //If we don't it will randomly refuse to accept moves
+            if (!message.ToString().Contains(FROM_INTERNAL_MSG_ID) && DropFix != PlayDropFix.NONE)
+            {
+                SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
+            }
+
+            if (_broadcastFEN != lastSend)
+            {
+                lastSend = _broadcastFEN;
+
+                //Always send the real FEN to Cherub
+                //Always send the real FEN if not in Dropfix mode
+                if (message.ToString().Contains(FROM_INTERNAL_MSG_ID) || DropFix == PlayDropFix.NONE)
+                {
+                    if (_broadcastFenCorrected != _broadcastFEN &&
+                        !message.ToString().Contains(FROM_INTERNAL_MSG_ID))
+                    {
+                        OnLiveChessSrvMessage?.Invoke(this, $"'Play' board fix sending [{_broadcastFenCorrected}]");
+                    }
+
+                    SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFEN));
+                }
+                else
+                {
+                    //Dropfix mode so test if this is a valid move before sending...
+                    string _currentRemoteFen = this.RemoteFEN;
+                    string _currentSideToPlay = this.SideToPlay;
+
+                    var (move, ending, turn) = ChessHelpers.PositionDiffCalculator
+                                              .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
+
+                    //string invertedTurn = (turn == "") ? "" : ((turn == "WHITE") ? "BLACK" : "WHITE");
+                    string invertedTurn = turn;
+
+                    if (_currentSideToPlay != invertedTurn)
+                    {
+                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Expected [{_currentSideToPlay}] but detected [{invertedTurn}]");
+                    }
+                    else if (string.IsNullOrEmpty(move))
+                    {
+                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> No move from [{_currentRemoteFen}] to [{_broadcastFEN}]");
+                    }
+                    else
+                    {
+                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
+                        SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
+                    }
+                }
+            }
+            
+            return lastSend;
         }
     }
 }
