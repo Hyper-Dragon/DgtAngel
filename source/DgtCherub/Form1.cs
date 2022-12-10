@@ -462,7 +462,7 @@ namespace DgtCherub
 
                 //Test for "DGT: Connected. Your turn." in the UI
                 //Language list at the top of this file
-                if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
+                if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)) )
                 {
                     if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
                     else fakeLiveChessServer.SideToPlay = "BLACK";

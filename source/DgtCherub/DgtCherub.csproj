@@ -56,6 +56,7 @@
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.loader.js" />
     <None Remove="Assets\Clocks\WingedHorse\Build\Build.wasm.unityweb" />
     <None Remove="Assets\Clocks\WingedHorse\Clock.html" />
+    <None Remove="Assets\Clocks\WingedHorse\TemplateData\favicon.png" />
     <None Remove="Assets\Clocks\WingedHorse\TemplateData\fullscreen-button.png" />
     <None Remove="Assets\Clocks\WingedHorse\TemplateData\Keyboard.svg" />
     <None Remove="Assets\Clocks\WingedHorse\TemplateData\progress-bar-empty-dark.png" />
@@ -106,6 +107,7 @@
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.loader.js" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Build\Build.wasm.unityweb" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\Clock.html" />
+    <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\favicon.png" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\fullscreen-button.png" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\Keyboard.svg" />
     <EmbeddedResource Include="Assets\Clocks\WingedHorse\TemplateData\progress-bar-empty-dark.png" />
