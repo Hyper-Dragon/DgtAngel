@@ -18,11 +18,11 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 /*
- YOUR TURN LANG
+ YOUR TURN LANGUAGE
 
+English 	Connected. Your turn.
 Dutch		Verbonden. Uw zet.
 Danish	    Tilsluttet. Du er i trækket.
-English 	Connected. Your turn.
 Estonian	Ühendatud. Sinu käik.
 French 	    Conectado. Te toca mover.
 Italy		Connesso. Tocca a te.
@@ -31,10 +31,9 @@ Norwegian	Tilkoblet. Din tur.
 Polish	    Szachownica podłączona. Twój ruch.
 Spain 	    Connecté. À vous de jouer.
 Ukranian	Підключено. Ваш хід.
-  
  */
 
-//TODO: Add Firewall Config
+//Example Firewall Config
 /*
 netsh advfirewall firewall add rule name="Dgt Angel ALLOW Tcp Port 37964" dir=in action=allow protocol=TCP localport=37964
 netsh advfirewall firewall show rule name="Dgt Angel ALLOW Tcp Port 37964"
@@ -46,6 +45,18 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private LiveChessServer fakeLiveChessServer;
+        
+        private readonly string[] YOUR_TURN_LANG = { "Your turn",
+                                                     "Uw zet",
+                                                     "Du er i trækket",
+                                                     "Sinu käik",
+                                                     "Te toca mover",
+                                                     "Tocca a te",
+                                                     "Tavs gājiens",
+                                                     "Din tur",
+                                                     "Twój ruch",
+                                                     "À vous de jouer",
+                                                     "Ваш хід"};
 
         private const int TEXTBOX_MAX_LINES = 200;
         private const string VERSION_NUMBER = "0.4.5-OMGPLAY-EXPR-02";
@@ -449,8 +460,9 @@ namespace DgtCherub
             {
                 fakeLiveChessServer.RemoteFEN = toRemoteFen;
 
-                //"DGT: Connected. Your turn.";                
-                if (boardMsg.Contains("Your turn"))
+                //Test for "DGT: Connected. Your turn." in the UI
+                //Language list at the top of this file
+                if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
                 {
                     if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
                     else fakeLiveChessServer.SideToPlay = "BLACK";
@@ -463,8 +475,8 @@ namespace DgtCherub
                     else fakeLiveChessServer.SideToPlay = "WHITE";
 
                     fakeLiveChessServer.BlockSendToRemote = true;
-                } 
-                
+                }
+
                 TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}] [clk={clockFen[..1]}::brd={boardFen[..1]}]");
                 DisplayBoardImages();
             };
