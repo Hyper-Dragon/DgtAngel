@@ -7,61 +7,13 @@ using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
 {
-    public interface IAngelHubService
-    {
-        bool IsClientInitComplete { get; }
-        string BlackClock { get; }
-        int BlackClockMsRemaining { get; }
-        string RemoteBoardFEN { get; }
-        bool EchoExternalMessagesToConsole { get; }
-        bool IsBoardInSync { get; }
-        bool IsRemoteBoardStateActive { get; }
-        bool IsLocalBoardAvailable { get; }
-        bool IsMismatchDetected { get; }
-        bool IsRemoteBoardAvailable { get; }
-        bool IsWhiteOnBottom { get; }
-        string LastMove { get; }
-        string LocalBoardFEN { get; }
-        string RunWhoString { get; }
-        string WhiteClock { get; }
-        int WhiteClockMsRemaining { get; }
-
-        public int MatcherRemoteTimeDelayMs { get; set; }
-        public int MatcherLocalDelayMs { get; set; }
-        public int FromMismatchDelayMs { get; set; }
-
-        event Action OnInitComplete;
-        event Action<long, string> OnBoardMatch;
-        event Action OnBoardMatcherStarted;
-        event Action<long> OnBoardMatchFromMissmatch;
-        event Action<long, int, string, string> OnBoardMissmatch;
-        event Action OnRemoteDisconnect;
-        event Action OnClockChange;
-        event Action<string> OnLocalFenChange;
-        event Action<string> OnRemoteWatchStarted;
-        event Action<string> OnRemoteWatchStopped;
-        event Action<string, bool> OnNewMoveDetected;
-        event Action OnOrientationFlipped;
-        event Action<string> OnPlayBlackClockAudio;
-        event Action<string> OnPlayWhiteClockAudio;
-        event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
-        event Action<string, string> OnNotification;
-        event Action OnPluginDisconnect;
-
-        void NotifyInitComplete();
-        void LocalBoardUpdate(string fen);
-        void RemoteBoardUpdated(BoardState remoteBoardState);
-        void ResetLocalBoardState();
-        void UserMessageArrived(string source, string message);
-        void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
-        void PluginDisconnect();
-    }
-
+    
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action OnInitComplete;
         public event Action<string> OnLocalFenChange;
         public event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
+        public event Action<string, bool> OnRemoteBoardStatusChange;
         public event Action OnRemoteDisconnect;
         public event Action OnClockChange;
         public event Action OnOrientationFlipped;
@@ -84,6 +36,7 @@ namespace DgtCherub.Services
         public string LocalBoardFEN { get; private set; }
         public string LastMatchedPosition { get; private set; }
         public string RemoteBoardFEN { get; private set; }
+        public string RemoteBoardStatusMessage { get; private set; } = "";
         public string FromRemoteBoardFEN { get; private set; }
         public string LastMove { get; private set; }
         public int WhiteClockMsRemaining { get; private set; }
@@ -282,6 +235,8 @@ namespace DgtCherub.Services
             IsMismatchDetected = false;
             whiteNextClockAudioNotBefore = double.MaxValue;
             blackNextClockAudioNotBefore = double.MaxValue;
+
+            RemoteBoardStatusMessage = "";
         }
 
 
@@ -417,6 +372,7 @@ namespace DgtCherub.Services
                 BoardState remoteBoardState = await remoteFenProcessChannel.Reader.ReadAsync();
                 _logger?.LogTrace("Processing a board recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
+
                 if (RemoteBoardFEN != remoteBoardState.Board.FenString)
                 {
                     _logger?.LogTrace($"FEN Change");
@@ -435,6 +391,13 @@ namespace DgtCherub.Services
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
+                }
+
+                if(RemoteBoardFEN != remoteBoardState.BoardConnection.ConMessage)
+                {
+                    RemoteBoardStatusMessage = remoteBoardState.BoardConnection.ConMessage;
+                    OnRemoteBoardStatusChange?.Invoke(remoteBoardState.BoardConnection.ConMessage,
+                                                     remoteBoardState.Board.IsWhiteOnBottom);
                 }
             }
         }

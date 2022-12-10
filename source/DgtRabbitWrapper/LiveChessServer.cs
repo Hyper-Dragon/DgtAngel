@@ -230,7 +230,11 @@ namespace DgtRabbitWrapper
                     //string invertedTurn = (turn == "") ? "" : ((turn == "WHITE") ? "BLACK" : "WHITE");
                     //string invertedTurn = turn;
 
-                    if (_currentSideToPlay != turn)
+                    if (string.IsNullOrEmpty(move))
+                    {
+                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Invalid Move [{move}]");
+                    }
+                    else if(_currentSideToPlay != turn)
                     {
                         OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Expected [{_currentSideToPlay}] but detected [{turn}]");
                     }
