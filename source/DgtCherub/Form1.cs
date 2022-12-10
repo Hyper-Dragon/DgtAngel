@@ -456,30 +456,35 @@ namespace DgtCherub
                 DisplayBoardImages();
             };
 
-
-            _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
+            //Only need this if the fix is running
+            if (fakeLiveChessServer != null)
             {
-                //Test for "DGT: Connected. Your turn." in the UI
-                //Language list at the top of this file
-                if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
+                _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
                 {
-                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
-                    else fakeLiveChessServer.SideToPlay = "BLACK";
+                    //Test for "DGT: Connected. Your turn." in the UI
+                    //Language list at the top of this file
+                    if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
+                    {
+                        if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
+                        else fakeLiveChessServer.SideToPlay = "BLACK";
 
-                    fakeLiveChessServer.BlockSendToRemote = false;
-                }
-                else
-                {
-                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
-                    else fakeLiveChessServer.SideToPlay = "WHITE";
+                        fakeLiveChessServer.BlockSendToRemote = false;
+                    }
+                    else
+                    {
+                        if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
+                        else fakeLiveChessServer.SideToPlay = "WHITE";
 
-                    fakeLiveChessServer.BlockSendToRemote = true;
-                }
-            };
+                        fakeLiveChessServer.BlockSendToRemote = true;
+                    }
+                };
+            }
 
             _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen, string boardMsg, bool isWhiteOnBottom) =>
             {
-                fakeLiveChessServer.RemoteFEN = toRemoteFen;
+                if(fakeLiveChessServer != null){
+                    fakeLiveChessServer.RemoteFEN = toRemoteFen;
+                }
 
                 TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}] [clk={clockFen[..1]}::brd={boardFen[..1]}]");
                 DisplayBoardImages();

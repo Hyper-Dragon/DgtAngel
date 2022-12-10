@@ -38,9 +38,10 @@ namespace DgtRabbitWrapper
         private readonly int _randomSerialNo = 20000 + Random.Shared.Next(9999);
         private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
-        private string _broadcastFenCorrected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
         private WebSocketServer _server;
-        private string _broadcastFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        private string _broadcastFenCorrected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        //private string _broadcastFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        private string _broadcastFEN = "8/8/8/8/8/8/8/8";
         private PlayDropFix _dropFix = PlayDropFix.NONE; //This is a fix for the play board on CDC...
 
         public PlayDropFix DropFix
