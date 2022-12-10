@@ -17,6 +17,22 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+/*
+ YOUR TURN LANG
+
+Dutch		Verbonden. Uw zet.
+Danish	    Tilsluttet. Du er i trækket.
+English 	Connected. Your turn.
+Estonian	Ühendatud. Sinu käik.
+French 	    Conectado. Te toca mover.
+Italy		Connesso. Tocca a te.
+Latvian	    Savienots. Tavs gājiens.
+Norwegian	Tilkoblet. Din tur.
+Polish	    Szachownica podłączona. Twój ruch.
+Spain 	    Connecté. À vous de jouer.
+Ukranian	Підключено. Ваш хід.
+  
+ */
 
 //TODO: Add Firewall Config
 /*
