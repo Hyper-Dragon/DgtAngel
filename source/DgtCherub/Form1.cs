@@ -245,7 +245,7 @@ namespace DgtCherub
                         _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
                         {
                             //If on CDC set the drop fix mode
-                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
+                        fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
                                                           LiveChessServer.PlayDropFix.NONE :
                                                           (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
                                                           LiveChessServer.PlayDropFix.FROMBLACK);
