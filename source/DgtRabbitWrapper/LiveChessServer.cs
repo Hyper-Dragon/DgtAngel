@@ -66,6 +66,7 @@ namespace DgtRabbitWrapper
             InitialFEN = initialFEN;
         }
 
+
         private void SendToSocket(IWebSocketConnection clientSocket, string message, bool isSendToLog = true)
         {
             try
@@ -138,7 +139,7 @@ namespace DgtRabbitWrapper
                                             .Invoke(this, $"Session START from port {socket.ConnectionInfo.ClientPort}");
 
                 socket.OnError = (error) => OnLiveChessSrvMessage?
-                                                .Invoke(this, $"Session ERROR from port {socket.ConnectionInfo.ClientPort} >> {error}");
+                                            .Invoke(this, $"Session ERROR from port {socket.ConnectionInfo.ClientPort} >> {error}");
 
                 socket.OnClose = () =>
                 {
@@ -187,7 +188,7 @@ namespace DgtRabbitWrapper
                     else
                     {
                         lastSend = SendBoardUpdate(socket, message, lastSend);
-                        Thread.Sleep(200);
+                        Thread.Sleep(800); //reduce messages out
                     }
                 }
             }
@@ -245,6 +246,8 @@ namespace DgtRabbitWrapper
                     }
                     else
                     {
+                        //Make sure that the remote FEN is definatly sent
+                        SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
                         OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
                         SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
                     }

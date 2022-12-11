@@ -155,13 +155,16 @@ namespace DgtLiveChessWrapper
             (string feedSetupJsonString, LiveChessCallResponse feedSetupResponse) = LiveChessCallResponse.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
+            string lastFenSeen = "";
             while (true)
             {
                 string responseIn = await Receive(socket, true);
                 (string feedMsgJsonString, LiveChessFeedResponse feedMsgResponse) = LiveChessFeedResponse.Deserialize(responseIn);
 
-                if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board))
+                if (!string.IsNullOrWhiteSpace(feedMsgResponse.Param.Board) &&
+                    feedMsgResponse.Param.Board != lastFenSeen)
                 {
+                    lastFenSeen = feedMsgResponse.Param.Board;
                     OnFenRecieved?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"{feedMsgResponse.Param.Board}" });
                 }
             }
