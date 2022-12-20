@@ -7,6 +7,8 @@ namespace ChessHelpers
     {
         public static string GenrateAlwaysValidMovesFEN(this string shortFenIn, bool isPlayingWhite)
         {
+            //if(!isPlayingWhite) { return shortFenIn; }
+
             // The side is the opposite of the players...
             string fullFen = $"{shortFenIn} {(isPlayingWhite ? "w" : "b")} - - 0 10";
 
@@ -22,27 +24,30 @@ namespace ChessHelpers
             //         (isPlayingWhite && board.BlackKingChecked) ||
             //         (!isPlayingWhite && board.WhiteKingChecked))
             //{
-                for (int sq = 0; sq < clearedflatFenArray.Length; sq++)
+            for (int sq = ((isPlayingWhite) ? 0 : clearedflatFenArray.Length-1); 
+                (isPlayingWhite && sq < clearedflatFenArray.Length) ||
+                (!isPlayingWhite && sq >= 0 );
+                sq=((isPlayingWhite)? sq+1:sq-1))
+            {
+                if (clearedflatFenArray[sq] == '-')
                 {
-                    if (clearedflatFenArray[sq] == '-')
+                    clearedflatFenArray[sq] = isPlayingWhite ? 'k' : 'K';
+                    string candidateFen = clearedflatFenArray.ConvertFlatArrayToFen($" {(isPlayingWhite ? "w" : "b")} - - 0 10");
+
+                    ChessBoard testBoard = ChessBoard.LoadFromFen(candidateFen);
+
+                    if ((testBoard.IsEndGame && testBoard.EndGame != null && testBoard.EndGame.WonSide == null) ||
+                         (isPlayingWhite && testBoard.BlackKingChecked) ||
+                         (!isPlayingWhite && testBoard.WhiteKingChecked))
                     {
-                        clearedflatFenArray[sq] = isPlayingWhite ? 'k' : 'K';
-                        string candidateFen = clearedflatFenArray.ConvertFlatArrayToFen($" {(isPlayingWhite ? "w" : "b")} - - 0 10");
-
-                        ChessBoard testBoard = ChessBoard.LoadFromFen(candidateFen);
-
-                        if ((testBoard.IsEndGame && testBoard.EndGame != null && testBoard.EndGame.WonSide == null) ||
-                             (isPlayingWhite && testBoard.BlackKingChecked) ||
-                             (!isPlayingWhite && testBoard.WhiteKingChecked))
-                        {
-                            clearedflatFenArray[sq] = '-';
-                        }
-                        else
-                        {
-                            return candidateFen.Split(" ")[0];
-                        }
+                        clearedflatFenArray[sq] = '-';
+                    }
+                    else
+                    {
+                        return candidateFen.Split(" ")[0];
                     }
                 }
+            }
             //}
 
             //If we hit this no suitable position was found so just send out 

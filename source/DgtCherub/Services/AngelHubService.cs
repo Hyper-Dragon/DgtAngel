@@ -70,7 +70,7 @@ namespace DgtCherub.Services
         private const int POST_EVENT_DELAY_ORIENTATION = MS_IN_SEC / 10;
 
         private readonly ILogger _logger;
-        private readonly IDgtEbDllFacade _dgtEbDllFacade;
+        //private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
 
@@ -81,7 +81,7 @@ namespace DgtCherub.Services
         private readonly Channel<bool> orientationProcessChannel;
         private readonly Channel<(string source, string message)> messageProcessChannel;
 
-        private readonly object matcherLockObj = new();
+        //private readonly object matcherLockObj = new();
 
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
@@ -89,10 +89,11 @@ namespace DgtCherub.Services
         private string lastMoveVoiceTest = "";
 
 
-        public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
+        //public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
+        public AngelHubService(ILogger<AngelHubService> logger)
         {
             _logger = logger;
-            _dgtEbDllFacade = dgtEbDllFacade;
+            //_dgtEbDllFacade = dgtEbDllFacade;
 
 
             BoundedChannelOptions processChannelOptions = new(3)

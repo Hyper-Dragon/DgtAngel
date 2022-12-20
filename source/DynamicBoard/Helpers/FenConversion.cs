@@ -24,6 +24,7 @@
         public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
+            fen = fen.Trim().Split(' ')[0];
 
             if (isFlipRequired)
             {

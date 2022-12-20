@@ -245,7 +245,8 @@ namespace DgtCherub
                         _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
                         {
                             //If on CDC set the drop fix mode
-                        fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
+                            fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
                                                           LiveChessServer.PlayDropFix.NONE :
                                                           (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
                                                           LiveChessServer.PlayDropFix.FROMBLACK);
@@ -253,6 +254,7 @@ namespace DgtCherub
 
                         _angelHubService.OnOrientationFlipped += () =>
                         {
+                            //fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
                             //Flip drop fix if the dropfix is applied
                             fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
                                                           LiveChessServer.PlayDropFix.NONE :

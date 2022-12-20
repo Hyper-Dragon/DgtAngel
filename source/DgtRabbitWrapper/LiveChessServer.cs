@@ -16,7 +16,7 @@ namespace DgtRabbitWrapper
         private const string CONNECT_02_MSG = "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}";
         private const string CONNECT_03_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}";
         private const string NEWPOS_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
-
+        private const string NEWPOS__FLIPPED_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":true,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
 
         public enum PlayDropFix { NONE, FROMWHITE, FROMBLACK };
         public event EventHandler<string> OnLiveChessSrvMessage;
@@ -74,9 +74,10 @@ namespace DgtRabbitWrapper
                 if (isSendToLog)
                 {
                     OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
+                    _ = clientSocket.Send(message);
                 }
                     
-                _ = clientSocket.Send(message);
+                //_ = clientSocket.Send(message);
             }
             catch (Exception ex)
             {
@@ -115,12 +116,12 @@ namespace DgtRabbitWrapper
                     if (KingCount == 2)
                     {
                         //if the drop fix is setup apply it - otherwise just set the fen
-                        _broadcastFenCorrected = DropFix switch
-                        {
-                            PlayDropFix.FROMWHITE => LastFenSeen.GenrateAlwaysValidMovesFEN(true),
-                            PlayDropFix.FROMBLACK => LastFenSeen.GenrateAlwaysValidMovesFEN(false),
-                            _ => LastFenSeen,
-                        };
+                        //_broadcastFenCorrected = DropFix switch
+                        //{
+                        //    PlayDropFix.FROMWHITE => LastFenSeen.GenrateAlwaysValidMovesFEN(true),
+                        //    PlayDropFix.FROMBLACK => LastFenSeen.GenrateAlwaysValidMovesFEN(false),
+                        //    _ => LastFenSeen,
+                        //};
 
                         _broadcastFEN = LastFenSeen;
                     }
@@ -199,35 +200,42 @@ namespace DgtRabbitWrapper
         {
             //Send the remote board back to CDC to confirm the turn
             //If we don't it will randomly refuse to accept moves
-            if (!message.ToString().Contains(FROM_INTERNAL_MSG_ID) && DropFix != PlayDropFix.NONE)
-            {
-                SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
-            }
+            //if (!message.ToString().Contains(FROM_INTERNAL_MSG_ID) && DropFix != PlayDropFix.NONE)
+            //{
+            //    SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
+            //}
+//            SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
 
             if (_broadcastFEN != lastSend)
             {
                 lastSend = _broadcastFEN;
 
+                //Dropfix mode so test if this is a valid move before sending...
+                string _currentRemoteFen = this.RemoteFEN;
+                string _currentSideToPlay = this.SideToPlay;
+
+                //Make sure that the remote FEN is definatly sent
+                SendToSocket(socket, FormatMessage(NEWPOS_MSG, _currentRemoteFen), true);
+
                 //Always send the real FEN to Cherub
                 //Always send the real FEN if not in Dropfix mode
                 if (message.ToString().Contains(FROM_INTERNAL_MSG_ID) || DropFix == PlayDropFix.NONE)
                 {
-                    if (_broadcastFenCorrected != _broadcastFEN &&
-                        !message.ToString().Contains(FROM_INTERNAL_MSG_ID))
-                    {
-                        OnLiveChessSrvMessage?.Invoke(this, $"'Play' board fix sending [{_broadcastFenCorrected}]");
-                    }
+                    //if (_broadcastFenCorrected != _broadcastFEN &&
+                    //    !message.ToString().Contains(FROM_INTERNAL_MSG_ID))
+                    //{
+                    //    OnLiveChessSrvMessage?.Invoke(this, $"'Play' board fix sending [{_broadcastFenCorrected}]");
+                    //}
 
                     SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFEN));
                 }
                 else
                 {
-                    //Dropfix mode so test if this is a valid move before sending...
-                    string _currentRemoteFen = this.RemoteFEN;
-                    string _currentSideToPlay = this.SideToPlay;
+
 
                     var (move, ending, turn) = ChessHelpers.PositionDiffCalculator
-                                              .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
+                                               .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
+
 
                     //string invertedTurn = (turn == "") ? "" : ((turn == "WHITE") ? "BLACK" : "WHITE");
                     //string invertedTurn = turn;
@@ -236,20 +244,37 @@ namespace DgtRabbitWrapper
                     {
                         OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Invalid Move [{move}]");
                     }
-                    else if(_currentSideToPlay != turn)
-                    {
-                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Expected [{_currentSideToPlay}] but detected [{turn}]");
-                    }
-                    else if (string.IsNullOrEmpty(move))
-                    {
-                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> No move from [{_currentRemoteFen}] to [{_broadcastFEN}]");
-                    }
+                    //else if(_currentSideToPlay != turn)
+                    //{
+                    //    OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> Expected [{_currentSideToPlay}] but detected [{turn}]");
+                    //}
+                    //else if (string.IsNullOrEmpty(move))
+                    //{
+                    //    OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Dropped fen   -> No move from [{_currentRemoteFen}] to [{_broadcastFEN}]");
+                    //}
                     else
                     {
-                        //Make sure that the remote FEN is definatly sent
-                        SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
-                        OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
-                        SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
+
+
+                        if (turn == "WHITE")
+                        {
+                            _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(false);
+                            OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
+                            //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
+                            SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " w - - 0 1"));
+                        }
+                        else if(turn == "BLACK")
+                        {
+                            _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(true);
+                            OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
+                            //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
+                            SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " b - - 0 1"));
+                        }
+                        else
+                        {
+                            //do nothing
+                        }
+
                     }
                 }
             }
