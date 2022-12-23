@@ -189,8 +189,6 @@ namespace DgtCherub
             // 
             // CheckBoxIncludeSecs
             // 
-            this.CheckBoxIncludeSecs.Checked = true;
-            this.CheckBoxIncludeSecs.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 204);
@@ -215,7 +213,7 @@ namespace DgtCherub
             "en-06"});
             this.ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 135);
             this.ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
-            this.ComboBoxMoveVoice.Size = new System.Drawing.Size(128, 31);
+            this.ComboBoxMoveVoice.Size = new System.Drawing.Size(128, 29);
             this.ComboBoxMoveVoice.TabIndex = 6;
             this.ComboBoxMoveVoice.SelectedValueChanged += new System.EventHandler(this.ComboBoxMoveVoice_SelectedValueChanged);
             // 
@@ -224,7 +222,7 @@ namespace DgtCherub
             this.Label3.AutoSize = true;
             this.Label3.Location = new System.Drawing.Point(15, 175);
             this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(47, 23);
+            this.Label3.Size = new System.Drawing.Size(44, 21);
             this.Label3.TabIndex = 59;
             this.Label3.Text = "Time";
             // 
@@ -233,7 +231,7 @@ namespace DgtCherub
             this.Label2.AutoSize = true;
             this.Label2.Location = new System.Drawing.Point(6, 54);
             this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(59, 23);
+            this.Label2.Size = new System.Drawing.Size(56, 21);
             this.Label2.TabIndex = 58;
             this.Label2.Text = "Moves";
             // 
@@ -242,7 +240,7 @@ namespace DgtCherub
             this.Label1.AutoSize = true;
             this.Label1.Location = new System.Drawing.Point(6, 24);
             this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(56, 23);
+            this.Label1.Size = new System.Drawing.Size(52, 21);
             this.Label1.TabIndex = 57;
             this.Label1.Text = "Status";
             // 
@@ -256,7 +254,7 @@ namespace DgtCherub
             0,
             0});
             this.UpDownVolStatus.Name = "UpDownVolStatus";
-            this.UpDownVolStatus.Size = new System.Drawing.Size(45, 26);
+            this.UpDownVolStatus.Size = new System.Drawing.Size(45, 25);
             this.UpDownVolStatus.TabIndex = 2;
             this.UpDownVolStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVolStatus.Value = new decimal(new int[] {
@@ -282,7 +280,7 @@ namespace DgtCherub
             0,
             0});
             this.UpDownVolTime.Name = "UpDownVolTime";
-            this.UpDownVolTime.Size = new System.Drawing.Size(45, 26);
+            this.UpDownVolTime.Size = new System.Drawing.Size(45, 25);
             this.UpDownVolTime.TabIndex = 7;
             this.UpDownVolTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVolTime.Value = new decimal(new int[] {
@@ -308,7 +306,7 @@ namespace DgtCherub
             0,
             0});
             this.UpDownVolMoves.Name = "UpDownVolMoves";
-            this.UpDownVolMoves.Size = new System.Drawing.Size(45, 26);
+            this.UpDownVolMoves.Size = new System.Drawing.Size(45, 25);
             this.UpDownVolMoves.TabIndex = 3;
             this.UpDownVolMoves.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVolMoves.Value = new decimal(new int[] {
@@ -344,7 +342,7 @@ namespace DgtCherub
             this.ButtonSendTestMsg2.Location = new System.Drawing.Point(34, 65);
             this.ButtonSendTestMsg2.Name = "ButtonSendTestMsg2";
             this.ButtonSendTestMsg2.Size = new System.Drawing.Size(123, 32);
-            this.ButtonSendTestMsg2.TabIndex = 4;
+            this.ButtonSendTestMsg2.TabIndex = 7;
             this.ButtonSendTestMsg2.Text = "Test Message 2";
             this.ButtonSendTestMsg2.UseVisualStyleBackColor = true;
             this.ButtonSendTestMsg2.Click += new System.EventHandler(this.ButtonSendTestMsg2_Click);
@@ -356,7 +354,7 @@ namespace DgtCherub
             this.ButtonSendTestMsg1.Location = new System.Drawing.Point(33, 26);
             this.ButtonSendTestMsg1.Name = "ButtonSendTestMsg1";
             this.ButtonSendTestMsg1.Size = new System.Drawing.Size(124, 33);
-            this.ButtonSendTestMsg1.TabIndex = 3;
+            this.ButtonSendTestMsg1.TabIndex = 6;
             this.ButtonSendTestMsg1.Text = "Test Message 1";
             this.ButtonSendTestMsg1.UseVisualStyleBackColor = true;
             this.ButtonSendTestMsg1.Click += new System.EventHandler(this.ButtonSendTestMsg1_Click);
@@ -369,7 +367,7 @@ namespace DgtCherub
             this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
             this.TabPageAbout.Name = "TabPageAbout";
             this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(333, 621);
+            this.TabPageAbout.Size = new System.Drawing.Size(333, 620);
             this.TabPageAbout.TabIndex = 0;
             this.TabPageAbout.Text = "About";
             this.TabPageAbout.UseVisualStyleBackColor = true;
@@ -409,7 +407,7 @@ namespace DgtCherub
             this.TabPageClock.Location = new System.Drawing.Point(29, 4);
             this.TabPageClock.Name = "TabPageClock";
             this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(333, 621);
+            this.TabPageClock.Size = new System.Drawing.Size(333, 620);
             this.TabPageClock.TabIndex = 3;
             this.TabPageClock.Text = "Clock";
             this.TabPageClock.UseVisualStyleBackColor = true;
@@ -417,11 +415,11 @@ namespace DgtCherub
             // button1
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.button1.Location = new System.Drawing.Point(192, 118);
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.button1.Location = new System.Drawing.Point(196, 118);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(137, 33);
-            this.button1.TabIndex = 6;
+            this.button1.TabIndex = 4;
             this.button1.Text = "Winged Horse...";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
@@ -433,7 +431,7 @@ namespace DgtCherub
             this.ButtonWindowless.Location = new System.Drawing.Point(192, 79);
             this.ButtonWindowless.Name = "ButtonWindowless";
             this.ButtonWindowless.Size = new System.Drawing.Size(137, 33);
-            this.ButtonWindowless.TabIndex = 5;
+            this.ButtonWindowless.TabIndex = 3;
             this.ButtonWindowless.Text = "Windowless...";
             this.ButtonWindowless.UseVisualStyleBackColor = true;
             this.ButtonWindowless.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
@@ -445,7 +443,7 @@ namespace DgtCherub
             this.ButtonWindowed.Location = new System.Drawing.Point(192, 40);
             this.ButtonWindowed.Name = "ButtonWindowed";
             this.ButtonWindowed.Size = new System.Drawing.Size(137, 33);
-            this.ButtonWindowed.TabIndex = 4;
+            this.ButtonWindowed.TabIndex = 2;
             this.ButtonWindowed.Text = "Windowed...";
             this.ButtonWindowed.UseVisualStyleBackColor = true;
             this.ButtonWindowed.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
@@ -456,7 +454,7 @@ namespace DgtCherub
             this.DomainUpDown.Location = new System.Drawing.Point(192, 6);
             this.DomainUpDown.Name = "DomainUpDown";
             this.DomainUpDown.ReadOnly = true;
-            this.DomainUpDown.Size = new System.Drawing.Size(137, 26);
+            this.DomainUpDown.Size = new System.Drawing.Size(137, 25);
             this.DomainUpDown.TabIndex = 1;
             this.DomainUpDown.SelectedItemChanged += new System.EventHandler(this.DomainUpDown_SelectedItemChanged);
             this.DomainUpDown.Click += new System.EventHandler(this.UpDownDomainHideCaret);
@@ -483,7 +481,7 @@ namespace DgtCherub
             this.ButtonRabbitConf2.Location = new System.Drawing.Point(192, 157);
             this.ButtonRabbitConf2.Name = "ButtonRabbitConf2";
             this.ButtonRabbitConf2.Size = new System.Drawing.Size(137, 35);
-            this.ButtonRabbitConf2.TabIndex = 2;
+            this.ButtonRabbitConf2.TabIndex = 5;
             this.ButtonRabbitConf2.Text = "Rabbit Config...";
             this.ButtonRabbitConf2.UseVisualStyleBackColor = true;
             this.ButtonRabbitConf2.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
@@ -495,7 +493,7 @@ namespace DgtCherub
             this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Panel1.Location = new System.Drawing.Point(0, 29);
             this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(1056, 629);
+            this.Panel1.Size = new System.Drawing.Size(1056, 628);
             this.Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -507,14 +505,14 @@ namespace DgtCherub
             this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
             this.TabControlSidePanel.Controls.Add(this.TabPageClock);
             this.TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TabControlSidePanel.HotTrack = true;
             this.TabControlSidePanel.ItemSize = new System.Drawing.Size(82, 25);
             this.TabControlSidePanel.Location = new System.Drawing.Point(0, 0);
             this.TabControlSidePanel.Multiline = true;
             this.TabControlSidePanel.Name = "TabControlSidePanel";
             this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(366, 629);
+            this.TabControlSidePanel.Size = new System.Drawing.Size(366, 628);
             this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabControlSidePanel.TabIndex = 0;
             // 
@@ -529,7 +527,7 @@ namespace DgtCherub
             this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
             this.TabPageConfig.Name = "TabPageConfig";
             this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(333, 621);
+            this.TabPageConfig.Size = new System.Drawing.Size(333, 620);
             this.TabPageConfig.TabIndex = 1;
             this.TabPageConfig.Text = "Config";
             this.TabPageConfig.UseVisualStyleBackColor = true;
@@ -556,7 +554,7 @@ namespace DgtCherub
             this.ButtonClearConsole.Location = new System.Drawing.Point(6, 29);
             this.ButtonClearConsole.Name = "ButtonClearConsole";
             this.ButtonClearConsole.Size = new System.Drawing.Size(124, 39);
-            this.ButtonClearConsole.TabIndex = 19;
+            this.ButtonClearConsole.TabIndex = 11;
             this.ButtonClearConsole.Text = "Clear Console";
             this.ButtonClearConsole.UseVisualStyleBackColor = true;
             this.ButtonClearConsole.Click += new System.EventHandler(this.ButtonClearConsole_Click);
@@ -571,7 +569,7 @@ namespace DgtCherub
             this.CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 113);
             this.CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
             this.CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 25);
-            this.CheckBoxDisableRabbit.TabIndex = 17;
+            this.CheckBoxDisableRabbit.TabIndex = 13;
             this.CheckBoxDisableRabbit.Text = "Show Inbound";
             this.CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
             this.CheckBoxDisableRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
@@ -586,7 +584,7 @@ namespace DgtCherub
             this.CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 144);
             this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             this.CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 25);
-            this.CheckBoxRecieveLog.TabIndex = 18;
+            this.CheckBoxRecieveLog.TabIndex = 14;
             this.CheckBoxRecieveLog.Text = "Logging On";
             this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
             this.CheckBoxRecieveLog.CheckedChanged += new System.EventHandler(this.CheckBoxRecieveLog_CheckedChanged);
@@ -596,7 +594,7 @@ namespace DgtCherub
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 81);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 23);
+            this.label4.Size = new System.Drawing.Size(73, 21);
             this.label4.TabIndex = 59;
             this.label4.Text = "Font Size";
             // 
@@ -615,8 +613,8 @@ namespace DgtCherub
             0,
             0});
             this.UpDownFontSize.Name = "UpDownFontSize";
-            this.UpDownFontSize.Size = new System.Drawing.Size(45, 26);
-            this.UpDownFontSize.TabIndex = 11;
+            this.UpDownFontSize.Size = new System.Drawing.Size(45, 25);
+            this.UpDownFontSize.TabIndex = 12;
             this.UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownFontSize.Value = new decimal(new int[] {
             11,
@@ -646,7 +644,7 @@ namespace DgtCherub
             this.CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(6, 72);
             this.CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
             this.CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(152, 25);
-            this.CheckBoxNeverUseRabbit.TabIndex = 15;
+            this.CheckBoxNeverUseRabbit.TabIndex = 10;
             this.CheckBoxNeverUseRabbit.Text = "Disable Rabbit";
             this.CheckBoxNeverUseRabbit.UseVisualStyleBackColor = true;
             this.CheckBoxNeverUseRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxNeverUseRabbit_CheckedChanged);
@@ -657,7 +655,7 @@ namespace DgtCherub
             this.ButtonRabbitConfig1.Location = new System.Drawing.Point(10, 29);
             this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
-            this.ButtonRabbitConfig1.TabIndex = 16;
+            this.ButtonRabbitConfig1.TabIndex = 9;
             this.ButtonRabbitConfig1.Text = "Rabbit Config...";
             this.ButtonRabbitConfig1.UseVisualStyleBackColor = true;
             this.ButtonRabbitConfig1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
@@ -698,8 +696,8 @@ namespace DgtCherub
             0,
             65536});
             this.UpDownFromMismatchDelay.Name = "UpDownFromMismatchDelay";
-            this.UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 26);
-            this.UpDownFromMismatchDelay.TabIndex = 14;
+            this.UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 25);
+            this.UpDownFromMismatchDelay.TabIndex = 17;
             this.UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownFromMismatchDelay.Value = new decimal(new int[] {
             5,
@@ -729,8 +727,8 @@ namespace DgtCherub
             0,
             65536});
             this.UpDownLocalDelay.Name = "UpDownLocalDelay";
-            this.UpDownLocalDelay.Size = new System.Drawing.Size(45, 26);
-            this.UpDownLocalDelay.TabIndex = 13;
+            this.UpDownLocalDelay.Size = new System.Drawing.Size(45, 25);
+            this.UpDownLocalDelay.TabIndex = 16;
             this.UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownLocalDelay.Value = new decimal(new int[] {
             2,
@@ -744,7 +742,7 @@ namespace DgtCherub
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(7, 84);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(80, 23);
+            this.label7.Size = new System.Drawing.Size(76, 21);
             this.label7.TabIndex = 63;
             this.label7.Text = "From Mis";
             // 
@@ -753,7 +751,7 @@ namespace DgtCherub
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 56);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 23);
+            this.label6.Size = new System.Drawing.Size(46, 21);
             this.label6.TabIndex = 62;
             this.label6.Text = "Local";
             // 
@@ -762,13 +760,14 @@ namespace DgtCherub
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 30);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 23);
+            this.label5.Size = new System.Drawing.Size(64, 21);
             this.label5.TabIndex = 61;
             this.label5.Text = "Remote";
             // 
             // UpDownVoiceDelay
             // 
             this.UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.UpDownVoiceDelay.DecimalPlaces = 1;
             this.UpDownVoiceDelay.Location = new System.Drawing.Point(90, 29);
             this.UpDownVoiceDelay.Maximum = new decimal(new int[] {
             15,
@@ -781,8 +780,8 @@ namespace DgtCherub
             0,
             0});
             this.UpDownVoiceDelay.Name = "UpDownVoiceDelay";
-            this.UpDownVoiceDelay.Size = new System.Drawing.Size(45, 26);
-            this.UpDownVoiceDelay.TabIndex = 12;
+            this.UpDownVoiceDelay.Size = new System.Drawing.Size(45, 25);
+            this.UpDownVoiceDelay.TabIndex = 15;
             this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.UpDownVoiceDelay.Value = new decimal(new int[] {
             5,
@@ -800,7 +799,7 @@ namespace DgtCherub
             this.CheckBoxPreventSleep.Location = new System.Drawing.Point(175, 166);
             this.CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
             this.CheckBoxPreventSleep.Size = new System.Drawing.Size(138, 25);
-            this.CheckBoxPreventSleep.TabIndex = 9;
+            this.CheckBoxPreventSleep.TabIndex = 98;
             this.CheckBoxPreventSleep.Text = "Prevent Sleep";
             this.CheckBoxPreventSleep.UseVisualStyleBackColor = true;
             this.CheckBoxPreventSleep.CheckedChanged += new System.EventHandler(this.CheckBoxPreventSleep_CheckedChanged);
@@ -810,11 +809,11 @@ namespace DgtCherub
             this.CheckBoxOnTop.Checked = true;
             this.CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.CheckBoxOnTop.Location = new System.Drawing.Point(175, 195);
             this.CheckBoxOnTop.Name = "CheckBoxOnTop";
             this.CheckBoxOnTop.Size = new System.Drawing.Size(138, 25);
-            this.CheckBoxOnTop.TabIndex = 10;
+            this.CheckBoxOnTop.TabIndex = 99;
             this.CheckBoxOnTop.Text = "Always On Top";
             this.CheckBoxOnTop.UseVisualStyleBackColor = true;
             this.CheckBoxOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxOnTop_CheckedChanged);
@@ -831,7 +830,7 @@ namespace DgtCherub
             this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
             this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
             this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(333, 621);
+            this.TabPageBoards.Size = new System.Drawing.Size(333, 620);
             this.TabPageBoards.TabIndex = 2;
             this.TabPageBoards.Text = "Boards";
             this.TabPageBoards.Enter += new System.EventHandler(this.TabPageBoards_Enter);
@@ -943,14 +942,14 @@ namespace DgtCherub
             this.TextBoxConsole.Name = "TextBoxConsole";
             this.TextBoxConsole.ReadOnly = true;
             this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(685, 629);
+            this.TextBoxConsole.Size = new System.Drawing.Size(685, 628);
             this.TextBoxConsole.TabIndex = 1;
             this.TextBoxConsole.TabStop = false;
             this.TextBoxConsole.WordWrap = false;
             // 
             // ToolStripStatusLabelLastUpdate
             // 
-            this.ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
             this.ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
             this.ToolStripStatusLabelLastUpdate.Spring = true;
@@ -964,16 +963,16 @@ namespace DgtCherub
             this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripStatusLabelLastUpdate,
             this.ToolStripStatusLabelVersion});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 658);
+            this.StatusStrip.Location = new System.Drawing.Point(0, 657);
             this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(1056, 28);
+            this.StatusStrip.Size = new System.Drawing.Size(1056, 29);
             this.StatusStrip.TabIndex = 1;
             this.StatusStrip.Text = "statusStrip1";
             // 
             // ToolStripStatusLabelVersion
             // 
             this.ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ToolStripStatusLabelVersion.Font = new System.Drawing.Font("Segoe UI", 12.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.ToolStripStatusLabelVersion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
             this.ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
             this.ToolStripStatusLabelVersion.Size = new System.Drawing.Size(79, 23);
             this.ToolStripStatusLabelVersion.Text = "Ver. 0.0.0";
@@ -1006,27 +1005,27 @@ namespace DgtCherub
             this.ExitToolStripMenuItem});
             this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(58, 25);
+            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
             this.TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
             // 
             this.KillLiveChessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("KillLiveChessMenuItem.Image")));
             this.KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
-            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(280, 26);
             this.KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
             this.KillLiveChessMenuItem.Click += new System.EventHandler(this.KillLiveChessMenuItem_Click);
             // 
             // ToolStripSeparator2
             // 
             this.ToolStripSeparator2.Name = "ToolStripSeparator2";
-            this.ToolStripSeparator2.Size = new System.Drawing.Size(263, 6);
+            this.ToolStripSeparator2.Size = new System.Drawing.Size(277, 6);
             // 
             // PlayChessToolStripMenuItem
             // 
             this.PlayChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayChessToolStripMenuItem.Image")));
             this.PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
-            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
             this.PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
             this.PlayChessToolStripMenuItem.Click += new System.EventHandler(this.PlayChessToolStripMenuItem_Click);
             // 
@@ -1034,20 +1033,20 @@ namespace DgtCherub
             // 
             this.PlayLiChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayLiChessToolStripMenuItem.Image")));
             this.PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
-            this.PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
             this.PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
             this.PlayLiChessToolStripMenuItem.Click += new System.EventHandler(this.PlayLiChessToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(263, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(277, 6);
             // 
             // VirtualClockMenuItem
             // 
             this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
             this.VirtualClockMenuItem.Name = "VirtualClockMenuItem";
-            this.VirtualClockMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.VirtualClockMenuItem.Size = new System.Drawing.Size(280, 26);
             this.VirtualClockMenuItem.Text = "Virtual Clock ";
             this.VirtualClockMenuItem.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
             // 
@@ -1055,7 +1054,7 @@ namespace DgtCherub
             // 
             this.VirtualClockWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockWindowlessMenuItem.Image")));
             this.VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
-            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(280, 26);
             this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
             this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
             // 
@@ -1063,20 +1062,20 @@ namespace DgtCherub
             // 
             this.StartWingedHorseToolStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("StartWingedHorseToolStripMenu.Image")));
             this.StartWingedHorseToolStripMenu.Name = "StartWingedHorseToolStripMenu";
-            this.StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(266, 26);
+            this.StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(280, 26);
             this.StartWingedHorseToolStripMenu.Text = "Start Winged Horse Mode";
             this.StartWingedHorseToolStripMenu.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(263, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(277, 6);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ExitToolStripMenuItem.Image")));
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
             this.ExitToolStripMenuItem.Text = "Exit";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -1089,7 +1088,7 @@ namespace DgtCherub
             this.ChesscomPegasusForumsMenuItem});
             this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(58, 25);
+            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
             this.LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -1103,14 +1102,14 @@ namespace DgtCherub
             this.ChessStatsMenuItem});
             this.DownloadsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DownloadsToolStripMenuItem.Image")));
             this.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
-            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
             this.DownloadsToolStripMenuItem.Text = "Downloads";
             // 
             // DgtAngelChromeExtensionMenuItem
             // 
             this.DgtAngelChromeExtensionMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelChromeExtensionMenuItem.Image")));
             this.DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
-            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(285, 26);
             this.DgtAngelChromeExtensionMenuItem.Text = "Angel Chess.com Extension";
             this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
             // 
@@ -1118,7 +1117,7 @@ namespace DgtCherub
             // 
             this.DgtAngelLichessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelLichessToolStripMenuItem.Image")));
             this.DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
-            this.DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             this.DgtAngelLichessToolStripMenuItem.Text = "Angel Lichess Extension";
             this.DgtAngelLichessToolStripMenuItem.Click += new System.EventHandler(this.DgtAngelLichessToolStripMenuItem_Click);
             // 
@@ -1126,7 +1125,7 @@ namespace DgtCherub
             // 
             this.DgtLiveChessSoftwareMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtLiveChessSoftwareMenuItem.Image")));
             this.DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
-            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(285, 26);
             this.DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
             this.DgtLiveChessSoftwareMenuItem.Click += new System.EventHandler(this.DgtLiveChessSoftwareMenuItem_Click);
             // 
@@ -1134,20 +1133,20 @@ namespace DgtCherub
             // 
             this.DgtDriversRabbitPluginMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtDriversRabbitPluginMenuItem.Image")));
             this.DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
-            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(285, 26);
             this.DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
             this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(268, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(282, 6);
             // 
             // ChessStatsMenuItem
             // 
             this.ChessStatsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChessStatsMenuItem.Image")));
             this.ChessStatsMenuItem.Name = "ChessStatsMenuItem";
-            this.ChessStatsMenuItem.Size = new System.Drawing.Size(271, 26);
+            this.ChessStatsMenuItem.Size = new System.Drawing.Size(285, 26);
             this.ChessStatsMenuItem.Text = "Chess Stats Project Home";
             this.ChessStatsMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.ChessStatsMenuItem.Click += new System.EventHandler(this.ChessStatsMenuItem_Click);
@@ -1162,14 +1161,14 @@ namespace DgtCherub
             this.ReleasesMenuItem});
             this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
             this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
-            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
             this.DGTAngelToolStripMenuItem.Text = "Angel";
             // 
             // ProjectPageMenuItem
             // 
             this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
             this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.ProjectPageMenuItem.Size = new System.Drawing.Size(221, 26);
             this.ProjectPageMenuItem.Text = "Project Home";
             this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
             // 
@@ -1177,7 +1176,7 @@ namespace DgtCherub
             // 
             this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
             this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(221, 26);
             this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
             this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
             // 
@@ -1185,7 +1184,7 @@ namespace DgtCherub
             // 
             this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
             this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(221, 26);
             this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
             this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
             // 
@@ -1193,7 +1192,7 @@ namespace DgtCherub
             // 
             this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
             this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(221, 26);
             this.ReportIssuesMenuItem.Text = "Report Issues";
             this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
             // 
@@ -1201,7 +1200,7 @@ namespace DgtCherub
             // 
             this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
             this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(207, 26);
+            this.ReleasesMenuItem.Size = new System.Drawing.Size(221, 26);
             this.ReleasesMenuItem.Text = "Beta Releases";
             this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
             // 
@@ -1209,7 +1208,7 @@ namespace DgtCherub
             // 
             this.ChesscomDgtForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomDgtForumsMenuItem.Image")));
             this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
-            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(264, 26);
             this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Club";
             this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
             // 
@@ -1217,7 +1216,7 @@ namespace DgtCherub
             // 
             this.ChesscomPegasusForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomPegasusForumsMenuItem.Image")));
             this.ChesscomPegasusForumsMenuItem.Name = "ChesscomPegasusForumsMenuItem";
-            this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(250, 26);
+            this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(264, 26);
             this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
             // 
