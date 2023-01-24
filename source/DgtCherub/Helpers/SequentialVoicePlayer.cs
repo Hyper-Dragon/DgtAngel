@@ -73,14 +73,14 @@ namespace DgtCherub.Helpers
 
                             outputDevice.Init(reader);
                             outputDevice.Play();
-                            while (outputDevice.PlaybackState == PlaybackState.Playing) { Thread.Sleep(50); };
+                            while (outputDevice.PlaybackState == PlaybackState.Playing) { await Task.Delay(50); };
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     _logger?.LogError($"Sequential Voice Player Failed (Retrying)", ex.Message);
-                    Thread.Sleep(5000);
+                    await Task.Delay(5000);
                 }
             }
         }
