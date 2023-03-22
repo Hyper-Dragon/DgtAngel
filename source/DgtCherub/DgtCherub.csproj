@@ -141,6 +141,7 @@
     <ProjectReference Include="..\DgtLiveChessWrapper\DgtLiveChessWrapper.csproj" />
     <ProjectReference Include="..\DgtRabbitWrapper\DgtRabbitWrapper.csproj" />
     <ProjectReference Include="..\DynamicBoard\DynamicBoard.csproj" />
+    <ProjectReference Include="..\UciComms\UciComms.csproj" />
   </ItemGroup>
 
   <ItemGroup>
