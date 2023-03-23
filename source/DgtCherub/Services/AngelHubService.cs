@@ -164,6 +164,16 @@ namespace DgtCherub.Services
             finally { _ = startStopSemaphore.Release(); }
         }
 
+
+        bool remoteIgnored = false;
+
+        public async void KillRemoteConnections()
+        {
+            remoteIgnored = true;
+            WatchStateChange(MessageTypeCode.WATCH_STOPPED, "Kibitz Started");
+            ResetRemoteBoardState(true);
+        }
+
         public void LocalBoardUpdate(string fen)
         {
             _ = localFenProcessChannel.Writer.TryWrite(fen);
@@ -171,6 +181,8 @@ namespace DgtCherub.Services
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
+            if (remoteIgnored) return;
+
             //Always send these
             _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
             _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
@@ -210,7 +222,9 @@ namespace DgtCherub.Services
         }
 
         public void UserMessageArrived(string source, string message)
-        {
+        {   
+            if(remoteIgnored) return;
+
             _ = messageProcessChannel.Writer.TryWrite((source, message));
         }
 

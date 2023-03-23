@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{20E36046-6
 		SolutionItems\Docs\DGT Electronic Board DLL.pdf = SolutionItems\Docs\DGT Electronic Board DLL.pdf
 		SolutionItems\Docs\ScratchNotes.txt = SolutionItems\Docs\ScratchNotes.txt
 		SolutionItems\Docs\VoiceScript-Moves-Real.txt = SolutionItems\Docs\VoiceScript-Moves-Real.txt
+		SolutionItems\Docs\UciSpecification.txt = SolutionItems\Docs\UciSpecification.txt
 		SolutionItems\Docs\VoiceScript-Moves.txt = SolutionItems\Docs\VoiceScript-Moves.txt
 		SolutionItems\Docs\VoiceScript-Speech.txt = SolutionItems\Docs\VoiceScript-Speech.txt
 		SolutionItems\Docs\VoiceScript-Time.txt = SolutionItems\Docs\VoiceScript-Time.txt
@@ -52,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessHelpers", "ChessHelper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgtRabbitWrapper", "DgtRabbitWrapper\DgtRabbitWrapper.csproj", "{8C484C7A-8DF4-4A6F-B804-FA7B7A99C398}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UciComms", "UciComms\UciComms.csproj", "{3F78A09E-76D1-4F97-BFCE-4F949BBC2EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UciComms", "UciComms\UciComms.csproj", "{3F78A09E-76D1-4F97-BFCE-4F949BBC2EEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

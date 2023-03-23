@@ -48,6 +48,7 @@ namespace DgtCherub.Services
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
+        public void KillRemoteConnections();
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
         void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);

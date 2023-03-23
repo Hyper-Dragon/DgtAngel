@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UciComms;
 
 namespace DgtCherub
 {
@@ -38,6 +39,7 @@ namespace DgtCherub
             _ = services.AddControllers();
             _ = services.AddLogging();
             _ = services.AddTransient(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
+            _ = services.AddSingleton(typeof(IUciEngineManager), typeof(UciEngineManager));
             _ = services.AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
             _ = services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
             _ = services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));

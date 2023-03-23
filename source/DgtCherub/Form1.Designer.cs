@@ -30,1247 +30,1127 @@ namespace DgtCherub
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.GroupBox1 = new System.Windows.Forms.GroupBox();
-            this.CheckboxSilentBeep = new System.Windows.Forms.CheckBox();
-            this.CheckBoxPlayerBeep = new System.Windows.Forms.CheckBox();
-            this.CheckBoxIncludeSecs = new System.Windows.Forms.CheckBox();
-            this.ComboBoxMoveVoice = new System.Windows.Forms.ComboBox();
-            this.Label3 = new System.Windows.Forms.Label();
-            this.Label2 = new System.Windows.Forms.Label();
-            this.Label1 = new System.Windows.Forms.Label();
-            this.UpDownVolStatus = new System.Windows.Forms.NumericUpDown();
-            this.UpDownVolTime = new System.Windows.Forms.NumericUpDown();
-            this.UpDownVolMoves = new System.Windows.Forms.NumericUpDown();
-            this.GroupBoxClockTest = new System.Windows.Forms.GroupBox();
-            this.ButtonSendTestMsg2 = new System.Windows.Forms.Button();
-            this.ButtonSendTestMsg1 = new System.Windows.Forms.Button();
-            this.TabPageAbout = new System.Windows.Forms.TabPage();
-            this.LinkLabelAbout1 = new System.Windows.Forms.LinkLabel();
-            this.PictureBoxLogo = new System.Windows.Forms.PictureBox();
-            this.TabPageClock = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.ButtonWindowless = new System.Windows.Forms.Button();
-            this.ButtonWindowed = new System.Windows.Forms.Button();
-            this.DomainUpDown = new System.Windows.Forms.DomainUpDown();
-            this.PictureBoxQrCode = new System.Windows.Forms.PictureBox();
-            this.ButtonRabbitConf2 = new System.Windows.Forms.Button();
-            this.Panel1 = new System.Windows.Forms.Panel();
-            this.TabControlSidePanel = new System.Windows.Forms.TabControl();
-            this.TabPageConfig = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.ButtonClearConsole = new System.Windows.Forms.Button();
-            this.CheckBoxDisableRabbit = new System.Windows.Forms.CheckBox();
-            this.CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.UpDownFontSize = new System.Windows.Forms.NumericUpDown();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.CheckBoxNeverUseRabbit = new System.Windows.Forms.CheckBox();
-            this.ButtonRabbitConfig1 = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.UpDownFromMismatchDelay = new System.Windows.Forms.NumericUpDown();
-            this.UpDownLocalDelay = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.UpDownVoiceDelay = new System.Windows.Forms.NumericUpDown();
-            this.CheckBoxPreventSleep = new System.Windows.Forms.CheckBox();
-            this.CheckBoxOnTop = new System.Windows.Forms.CheckBox();
-            this.TabPageBoards = new System.Windows.Forms.TabPage();
-            this.CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
-            this.LabelWhiteClock = new System.Windows.Forms.Label();
-            this.LabelBlackClock = new System.Windows.Forms.Label();
-            this.LabelRemoteBoard = new System.Windows.Forms.Label();
-            this.LabelLocalDgt = new System.Windows.Forms.Label();
-            this.PictureBoxRemote = new System.Windows.Forms.PictureBox();
-            this.PictureBoxLocal = new System.Windows.Forms.PictureBox();
-            this.TextBoxConsole = new System.Windows.Forms.TextBox();
-            this.ToolStripStatusLabelLastUpdate = new System.Windows.Forms.ToolStripStatusLabel();
-            this.StatusStrip = new System.Windows.Forms.StatusStrip();
-            this.ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
-            this.MenuStrip = new System.Windows.Forms.MenuStrip();
-            this.TasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.KillLiveChessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PlayLiChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.StartWingedHorseToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DownloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DgtAngelLichessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DgtLiveChessSoftwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DgtDriversRabbitPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.ChessStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ProjectPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DonateViaGitHubMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DonateViaPayPalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GroupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVolMoves)).BeginInit();
-            this.GroupBoxClockTest.SuspendLayout();
-            this.TabPageAbout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLogo)).BeginInit();
-            this.TabPageClock.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxQrCode)).BeginInit();
-            this.Panel1.SuspendLayout();
-            this.TabControlSidePanel.SuspendLayout();
-            this.TabPageConfig.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownFontSize)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownFromMismatchDelay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownLocalDelay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVoiceDelay)).BeginInit();
-            this.TabPageBoards.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).BeginInit();
-            this.StatusStrip.SuspendLayout();
-            this.MenuStrip.SuspendLayout();
-            this.SuspendLayout();
+            GroupBox1 = new System.Windows.Forms.GroupBox();
+            CheckboxSilentBeep = new System.Windows.Forms.CheckBox();
+            CheckBoxPlayerBeep = new System.Windows.Forms.CheckBox();
+            CheckBoxIncludeSecs = new System.Windows.Forms.CheckBox();
+            ComboBoxMoveVoice = new System.Windows.Forms.ComboBox();
+            Label3 = new System.Windows.Forms.Label();
+            Label2 = new System.Windows.Forms.Label();
+            Label1 = new System.Windows.Forms.Label();
+            UpDownVolStatus = new System.Windows.Forms.NumericUpDown();
+            UpDownVolTime = new System.Windows.Forms.NumericUpDown();
+            UpDownVolMoves = new System.Windows.Forms.NumericUpDown();
+            GroupBoxClockTest = new System.Windows.Forms.GroupBox();
+            ButtonSendTestMsg2 = new System.Windows.Forms.Button();
+            ButtonSendTestMsg1 = new System.Windows.Forms.Button();
+            TabPageOffline = new System.Windows.Forms.TabPage();
+            TabPageClock = new System.Windows.Forms.TabPage();
+            button1 = new System.Windows.Forms.Button();
+            ButtonWindowless = new System.Windows.Forms.Button();
+            ButtonWindowed = new System.Windows.Forms.Button();
+            DomainUpDown = new System.Windows.Forms.DomainUpDown();
+            PictureBoxQrCode = new System.Windows.Forms.PictureBox();
+            ButtonRabbitConf2 = new System.Windows.Forms.Button();
+            Panel1 = new System.Windows.Forms.Panel();
+            TabControlSidePanel = new System.Windows.Forms.TabControl();
+            TabPageConfig = new System.Windows.Forms.TabPage();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            ButtonClearConsole = new System.Windows.Forms.Button();
+            CheckBoxDisableRabbit = new System.Windows.Forms.CheckBox();
+            CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
+            label4 = new System.Windows.Forms.Label();
+            UpDownFontSize = new System.Windows.Forms.NumericUpDown();
+            groupBox3 = new System.Windows.Forms.GroupBox();
+            CheckBoxNeverUseRabbit = new System.Windows.Forms.CheckBox();
+            ButtonRabbitConfig1 = new System.Windows.Forms.Button();
+            groupBox2 = new System.Windows.Forms.GroupBox();
+            UpDownFromMismatchDelay = new System.Windows.Forms.NumericUpDown();
+            UpDownLocalDelay = new System.Windows.Forms.NumericUpDown();
+            label7 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            UpDownVoiceDelay = new System.Windows.Forms.NumericUpDown();
+            CheckBoxPreventSleep = new System.Windows.Forms.CheckBox();
+            CheckBoxOnTop = new System.Windows.Forms.CheckBox();
+            TabPageBoards = new System.Windows.Forms.TabPage();
+            CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
+            LabelWhiteClock = new System.Windows.Forms.Label();
+            LabelBlackClock = new System.Windows.Forms.Label();
+            LabelRemoteBoard = new System.Windows.Forms.Label();
+            LabelLocalDgt = new System.Windows.Forms.Label();
+            PictureBoxRemote = new System.Windows.Forms.PictureBox();
+            PictureBoxLocal = new System.Windows.Forms.PictureBox();
+            TextBoxConsole = new System.Windows.Forms.TextBox();
+            ToolStripStatusLabelLastUpdate = new System.Windows.Forms.ToolStripStatusLabel();
+            StatusStrip = new System.Windows.Forms.StatusStrip();
+            ToolStripStatusLabelVersion = new System.Windows.Forms.ToolStripStatusLabel();
+            MenuStrip = new System.Windows.Forms.MenuStrip();
+            TasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            KillLiveChessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            PlayChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            PlayLiChessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            VirtualClockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            VirtualClockWindowlessMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            StartWingedHorseToolStripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            LinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DownloadsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DgtAngelChromeExtensionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DgtAngelLichessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DgtLiveChessSoftwareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DgtDriversRabbitPluginMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            ChessStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DGTAngelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ProjectPageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DonateViaGitHubMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            DonateViaPayPalMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ReportIssuesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            groupBox5 = new System.Windows.Forms.GroupBox();
+            CheckBoxKibitzerEnabled = new System.Windows.Forms.CheckBox();
+            GroupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)UpDownVolStatus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownVolTime).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownVolMoves).BeginInit();
+            GroupBoxClockTest.SuspendLayout();
+            TabPageOffline.SuspendLayout();
+            TabPageClock.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxQrCode).BeginInit();
+            Panel1.SuspendLayout();
+            TabControlSidePanel.SuspendLayout();
+            TabPageConfig.SuspendLayout();
+            groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)UpDownFontSize).BeginInit();
+            groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)UpDownFromMismatchDelay).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownLocalDelay).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownVoiceDelay).BeginInit();
+            TabPageBoards.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxRemote).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxLocal).BeginInit();
+            StatusStrip.SuspendLayout();
+            MenuStrip.SuspendLayout();
+            groupBox5.SuspendLayout();
+            SuspendLayout();
             // 
             // GroupBox1
             // 
-            this.GroupBox1.Controls.Add(this.CheckboxSilentBeep);
-            this.GroupBox1.Controls.Add(this.CheckBoxPlayerBeep);
-            this.GroupBox1.Controls.Add(this.CheckBoxIncludeSecs);
-            this.GroupBox1.Controls.Add(this.ComboBoxMoveVoice);
-            this.GroupBox1.Controls.Add(this.Label3);
-            this.GroupBox1.Controls.Add(this.Label2);
-            this.GroupBox1.Controls.Add(this.Label1);
-            this.GroupBox1.Controls.Add(this.UpDownVolStatus);
-            this.GroupBox1.Controls.Add(this.UpDownVolTime);
-            this.GroupBox1.Controls.Add(this.UpDownVolMoves);
-            this.GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GroupBox1.Location = new System.Drawing.Point(6, 6);
-            this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(148, 246);
-            this.GroupBox1.TabIndex = 1;
-            this.GroupBox1.TabStop = false;
-            this.GroupBox1.Text = "Vol/Voice";
+            GroupBox1.Controls.Add(CheckboxSilentBeep);
+            GroupBox1.Controls.Add(CheckBoxPlayerBeep);
+            GroupBox1.Controls.Add(CheckBoxIncludeSecs);
+            GroupBox1.Controls.Add(ComboBoxMoveVoice);
+            GroupBox1.Controls.Add(Label3);
+            GroupBox1.Controls.Add(Label2);
+            GroupBox1.Controls.Add(Label1);
+            GroupBox1.Controls.Add(UpDownVolStatus);
+            GroupBox1.Controls.Add(UpDownVolTime);
+            GroupBox1.Controls.Add(UpDownVolMoves);
+            GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            GroupBox1.Location = new System.Drawing.Point(6, 6);
+            GroupBox1.Name = "GroupBox1";
+            GroupBox1.Size = new System.Drawing.Size(148, 246);
+            GroupBox1.TabIndex = 1;
+            GroupBox1.TabStop = false;
+            GroupBox1.Text = "Vol/Voice";
             // 
             // CheckboxSilentBeep
             // 
-            this.CheckboxSilentBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckboxSilentBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckboxSilentBeep.Location = new System.Drawing.Point(63, 104);
-            this.CheckboxSilentBeep.Name = "CheckboxSilentBeep";
-            this.CheckboxSilentBeep.Size = new System.Drawing.Size(71, 25);
-            this.CheckboxSilentBeep.TabIndex = 5;
-            this.CheckboxSilentBeep.Text = "Silent";
-            this.CheckboxSilentBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CheckboxSilentBeep.UseVisualStyleBackColor = true;
-            this.CheckboxSilentBeep.CheckedChanged += new System.EventHandler(this.CheckboxSilentBeep_CheckedChanged);
+            CheckboxSilentBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckboxSilentBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckboxSilentBeep.Location = new System.Drawing.Point(63, 104);
+            CheckboxSilentBeep.Name = "CheckboxSilentBeep";
+            CheckboxSilentBeep.Size = new System.Drawing.Size(71, 25);
+            CheckboxSilentBeep.TabIndex = 5;
+            CheckboxSilentBeep.Text = "Silent";
+            CheckboxSilentBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CheckboxSilentBeep.UseVisualStyleBackColor = true;
+            CheckboxSilentBeep.CheckedChanged += CheckboxSilentBeep_CheckedChanged;
             // 
             // CheckBoxPlayerBeep
             // 
-            this.CheckBoxPlayerBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxPlayerBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxPlayerBeep.Location = new System.Drawing.Point(55, 80);
-            this.CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
-            this.CheckBoxPlayerBeep.Size = new System.Drawing.Size(79, 25);
-            this.CheckBoxPlayerBeep.TabIndex = 4;
-            this.CheckBoxPlayerBeep.Text = "Beep Mode";
-            this.CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
-            this.CheckBoxPlayerBeep.CheckedChanged += new System.EventHandler(this.CheckBoxPlayerBeep_CheckedChanged);
+            CheckBoxPlayerBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxPlayerBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxPlayerBeep.Location = new System.Drawing.Point(55, 80);
+            CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
+            CheckBoxPlayerBeep.Size = new System.Drawing.Size(79, 25);
+            CheckBoxPlayerBeep.TabIndex = 4;
+            CheckBoxPlayerBeep.Text = "Beep Mode";
+            CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
+            CheckBoxPlayerBeep.CheckedChanged += CheckBoxPlayerBeep_CheckedChanged;
             // 
             // CheckBoxIncludeSecs
             // 
-            this.CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 204);
-            this.CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
-            this.CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 25);
-            this.CheckBoxIncludeSecs.TabIndex = 8;
-            this.CheckBoxIncludeSecs.Text = "Include Secs";
-            this.CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
-            this.CheckBoxIncludeSecs.CheckedChanged += new System.EventHandler(this.CheckBoxIncludeSecs_CheckedChanged);
+            CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 204);
+            CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
+            CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 25);
+            CheckBoxIncludeSecs.TabIndex = 8;
+            CheckBoxIncludeSecs.Text = "Include Secs";
+            CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
+            CheckBoxIncludeSecs.CheckedChanged += CheckBoxIncludeSecs_CheckedChanged;
             // 
             // ComboBoxMoveVoice
             // 
-            this.ComboBoxMoveVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxMoveVoice.FormattingEnabled = true;
-            this.ComboBoxMoveVoice.Items.AddRange(new object[] {
-            "en-01",
-            "en-02",
-            "en-03",
-            "en-04",
-            "en-05",
-            "en-06"});
-            this.ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 135);
-            this.ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
-            this.ComboBoxMoveVoice.Size = new System.Drawing.Size(128, 29);
-            this.ComboBoxMoveVoice.TabIndex = 6;
-            this.ComboBoxMoveVoice.SelectedValueChanged += new System.EventHandler(this.ComboBoxMoveVoice_SelectedValueChanged);
+            ComboBoxMoveVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxMoveVoice.FormattingEnabled = true;
+            ComboBoxMoveVoice.Items.AddRange(new object[] { "en-01", "en-02", "en-03", "en-04", "en-05", "en-06" });
+            ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 135);
+            ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
+            ComboBoxMoveVoice.Size = new System.Drawing.Size(128, 29);
+            ComboBoxMoveVoice.TabIndex = 6;
+            ComboBoxMoveVoice.SelectedValueChanged += ComboBoxMoveVoice_SelectedValueChanged;
             // 
             // Label3
             // 
-            this.Label3.AutoSize = true;
-            this.Label3.Location = new System.Drawing.Point(15, 175);
-            this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(44, 21);
-            this.Label3.TabIndex = 59;
-            this.Label3.Text = "Time";
+            Label3.AutoSize = true;
+            Label3.Location = new System.Drawing.Point(15, 175);
+            Label3.Name = "Label3";
+            Label3.Size = new System.Drawing.Size(44, 21);
+            Label3.TabIndex = 59;
+            Label3.Text = "Time";
             // 
             // Label2
             // 
-            this.Label2.AutoSize = true;
-            this.Label2.Location = new System.Drawing.Point(6, 54);
-            this.Label2.Name = "Label2";
-            this.Label2.Size = new System.Drawing.Size(56, 21);
-            this.Label2.TabIndex = 58;
-            this.Label2.Text = "Moves";
+            Label2.AutoSize = true;
+            Label2.Location = new System.Drawing.Point(6, 54);
+            Label2.Name = "Label2";
+            Label2.Size = new System.Drawing.Size(56, 21);
+            Label2.TabIndex = 58;
+            Label2.Text = "Moves";
             // 
             // Label1
             // 
-            this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(6, 24);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(52, 21);
-            this.Label1.TabIndex = 57;
-            this.Label1.Text = "Status";
+            Label1.AutoSize = true;
+            Label1.Location = new System.Drawing.Point(6, 24);
+            Label1.Name = "Label1";
+            Label1.Size = new System.Drawing.Size(52, 21);
+            Label1.TabIndex = 57;
+            Label1.Text = "Status";
             // 
             // UpDownVolStatus
             // 
-            this.UpDownVolStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownVolStatus.Location = new System.Drawing.Point(89, 21);
-            this.UpDownVolStatus.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownVolStatus.Name = "UpDownVolStatus";
-            this.UpDownVolStatus.Size = new System.Drawing.Size(45, 25);
-            this.UpDownVolStatus.TabIndex = 2;
-            this.UpDownVolStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownVolStatus.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownVolStatus.ValueChanged += new System.EventHandler(this.UpDownVolStatus_ValueChanged);
-            this.UpDownVolStatus.Click += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolStatus.DoubleClick += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolStatus.Enter += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolStatus.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolStatus.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolStatus.Leave += new System.EventHandler(this.UpDownVolHideCaret);
+            UpDownVolStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownVolStatus.Location = new System.Drawing.Point(89, 21);
+            UpDownVolStatus.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownVolStatus.Name = "UpDownVolStatus";
+            UpDownVolStatus.Size = new System.Drawing.Size(45, 25);
+            UpDownVolStatus.TabIndex = 2;
+            UpDownVolStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownVolStatus.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownVolStatus.ValueChanged += UpDownVolStatus_ValueChanged;
+            UpDownVolStatus.Click += UpDownVolHideCaret;
+            UpDownVolStatus.DoubleClick += UpDownVolHideCaret;
+            UpDownVolStatus.Enter += UpDownVolHideCaret;
+            UpDownVolStatus.KeyDown += UpDownVolHideCaret;
+            UpDownVolStatus.KeyUp += UpDownVolHideCaret;
+            UpDownVolStatus.Leave += UpDownVolHideCaret;
             // 
             // UpDownVolTime
             // 
-            this.UpDownVolTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownVolTime.Location = new System.Drawing.Point(89, 172);
-            this.UpDownVolTime.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownVolTime.Name = "UpDownVolTime";
-            this.UpDownVolTime.Size = new System.Drawing.Size(45, 25);
-            this.UpDownVolTime.TabIndex = 7;
-            this.UpDownVolTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownVolTime.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownVolTime.ValueChanged += new System.EventHandler(this.UpDownVolTime_ValueChanged);
-            this.UpDownVolTime.Click += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolTime.DoubleClick += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolTime.Enter += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolTime.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolTime.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolTime.Leave += new System.EventHandler(this.UpDownVolHideCaret);
+            UpDownVolTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownVolTime.Location = new System.Drawing.Point(89, 172);
+            UpDownVolTime.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownVolTime.Name = "UpDownVolTime";
+            UpDownVolTime.Size = new System.Drawing.Size(45, 25);
+            UpDownVolTime.TabIndex = 7;
+            UpDownVolTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownVolTime.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownVolTime.ValueChanged += UpDownVolTime_ValueChanged;
+            UpDownVolTime.Click += UpDownVolHideCaret;
+            UpDownVolTime.DoubleClick += UpDownVolHideCaret;
+            UpDownVolTime.Enter += UpDownVolHideCaret;
+            UpDownVolTime.KeyDown += UpDownVolHideCaret;
+            UpDownVolTime.KeyUp += UpDownVolHideCaret;
+            UpDownVolTime.Leave += UpDownVolHideCaret;
             // 
             // UpDownVolMoves
             // 
-            this.UpDownVolMoves.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownVolMoves.Location = new System.Drawing.Point(89, 54);
-            this.UpDownVolMoves.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownVolMoves.Name = "UpDownVolMoves";
-            this.UpDownVolMoves.Size = new System.Drawing.Size(45, 25);
-            this.UpDownVolMoves.TabIndex = 3;
-            this.UpDownVolMoves.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownVolMoves.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownVolMoves.ValueChanged += new System.EventHandler(this.UpDownVolMoves_ValueChanged);
-            this.UpDownVolMoves.Click += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolMoves.DoubleClick += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolMoves.Enter += new System.EventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolMoves.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolMoves.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpDownVolHideCaret);
-            this.UpDownVolMoves.Leave += new System.EventHandler(this.UpDownVolHideCaret);
+            UpDownVolMoves.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownVolMoves.Location = new System.Drawing.Point(89, 54);
+            UpDownVolMoves.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownVolMoves.Name = "UpDownVolMoves";
+            UpDownVolMoves.Size = new System.Drawing.Size(45, 25);
+            UpDownVolMoves.TabIndex = 3;
+            UpDownVolMoves.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownVolMoves.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownVolMoves.ValueChanged += UpDownVolMoves_ValueChanged;
+            UpDownVolMoves.Click += UpDownVolHideCaret;
+            UpDownVolMoves.DoubleClick += UpDownVolHideCaret;
+            UpDownVolMoves.Enter += UpDownVolHideCaret;
+            UpDownVolMoves.KeyDown += UpDownVolHideCaret;
+            UpDownVolMoves.KeyUp += UpDownVolHideCaret;
+            UpDownVolMoves.Leave += UpDownVolHideCaret;
             // 
             // GroupBoxClockTest
             // 
-            this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg2);
-            this.GroupBoxClockTest.Controls.Add(this.ButtonSendTestMsg1);
-            this.GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.GroupBoxClockTest.Location = new System.Drawing.Point(6, 210);
-            this.GroupBoxClockTest.Name = "GroupBoxClockTest";
-            this.GroupBoxClockTest.Size = new System.Drawing.Size(180, 103);
-            this.GroupBoxClockTest.TabIndex = 0;
-            this.GroupBoxClockTest.TabStop = false;
-            this.GroupBoxClockTest.Text = "DGT 3000 Test";
+            GroupBoxClockTest.Controls.Add(ButtonSendTestMsg2);
+            GroupBoxClockTest.Controls.Add(ButtonSendTestMsg1);
+            GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            GroupBoxClockTest.Location = new System.Drawing.Point(6, 210);
+            GroupBoxClockTest.Name = "GroupBoxClockTest";
+            GroupBoxClockTest.Size = new System.Drawing.Size(180, 103);
+            GroupBoxClockTest.TabIndex = 0;
+            GroupBoxClockTest.TabStop = false;
+            GroupBoxClockTest.Text = "DGT 3000 Test";
             // 
             // ButtonSendTestMsg2
             // 
-            this.ButtonSendTestMsg2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSendTestMsg2.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonSendTestMsg2.Location = new System.Drawing.Point(34, 65);
-            this.ButtonSendTestMsg2.Name = "ButtonSendTestMsg2";
-            this.ButtonSendTestMsg2.Size = new System.Drawing.Size(123, 32);
-            this.ButtonSendTestMsg2.TabIndex = 7;
-            this.ButtonSendTestMsg2.Text = "Test Message 2";
-            this.ButtonSendTestMsg2.UseVisualStyleBackColor = true;
-            this.ButtonSendTestMsg2.Click += new System.EventHandler(this.ButtonSendTestMsg2_Click);
+            ButtonSendTestMsg2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonSendTestMsg2.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            ButtonSendTestMsg2.Location = new System.Drawing.Point(34, 65);
+            ButtonSendTestMsg2.Name = "ButtonSendTestMsg2";
+            ButtonSendTestMsg2.Size = new System.Drawing.Size(123, 32);
+            ButtonSendTestMsg2.TabIndex = 7;
+            ButtonSendTestMsg2.Text = "Test Message 2";
+            ButtonSendTestMsg2.UseVisualStyleBackColor = true;
+            ButtonSendTestMsg2.Click += ButtonSendTestMsg2_Click;
             // 
             // ButtonSendTestMsg1
             // 
-            this.ButtonSendTestMsg1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSendTestMsg1.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonSendTestMsg1.Location = new System.Drawing.Point(33, 26);
-            this.ButtonSendTestMsg1.Name = "ButtonSendTestMsg1";
-            this.ButtonSendTestMsg1.Size = new System.Drawing.Size(124, 33);
-            this.ButtonSendTestMsg1.TabIndex = 6;
-            this.ButtonSendTestMsg1.Text = "Test Message 1";
-            this.ButtonSendTestMsg1.UseVisualStyleBackColor = true;
-            this.ButtonSendTestMsg1.Click += new System.EventHandler(this.ButtonSendTestMsg1_Click);
+            ButtonSendTestMsg1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonSendTestMsg1.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            ButtonSendTestMsg1.Location = new System.Drawing.Point(33, 26);
+            ButtonSendTestMsg1.Name = "ButtonSendTestMsg1";
+            ButtonSendTestMsg1.Size = new System.Drawing.Size(124, 33);
+            ButtonSendTestMsg1.TabIndex = 6;
+            ButtonSendTestMsg1.Text = "Test Message 1";
+            ButtonSendTestMsg1.UseVisualStyleBackColor = true;
+            ButtonSendTestMsg1.Click += ButtonSendTestMsg1_Click;
             // 
-            // TabPageAbout
+            // TabPageOffline
             // 
-            this.TabPageAbout.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TabPageAbout.Controls.Add(this.LinkLabelAbout1);
-            this.TabPageAbout.Controls.Add(this.PictureBoxLogo);
-            this.TabPageAbout.Location = new System.Drawing.Point(29, 4);
-            this.TabPageAbout.Name = "TabPageAbout";
-            this.TabPageAbout.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.TabPageAbout.Size = new System.Drawing.Size(333, 620);
-            this.TabPageAbout.TabIndex = 0;
-            this.TabPageAbout.Text = "About";
-            this.TabPageAbout.UseVisualStyleBackColor = true;
-            // 
-            // LinkLabelAbout1
-            // 
-            this.LinkLabelAbout1.AutoEllipsis = true;
-            this.LinkLabelAbout1.LinkArea = new System.Windows.Forms.LinkArea(0, 15);
-            this.LinkLabelAbout1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.LinkLabelAbout1.Location = new System.Drawing.Point(9, 138);
-            this.LinkLabelAbout1.Name = "LinkLabelAbout1";
-            this.LinkLabelAbout1.Size = new System.Drawing.Size(142, 22);
-            this.LinkLabelAbout1.TabIndex = 0;
-            this.LinkLabelAbout1.TabStop = true;
-            this.LinkLabelAbout1.Text = "LinkLabelAbout1";
-            this.LinkLabelAbout1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // PictureBoxLogo
-            // 
-            this.PictureBoxLogo.Image = ((System.Drawing.Image)(resources.GetObject("PictureBoxLogo.Image")));
-            this.PictureBoxLogo.Location = new System.Drawing.Point(7, 3);
-            this.PictureBoxLogo.Name = "PictureBoxLogo";
-            this.PictureBoxLogo.Size = new System.Drawing.Size(142, 133);
-            this.PictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PictureBoxLogo.TabIndex = 1;
-            this.PictureBoxLogo.TabStop = false;
+            TabPageOffline.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TabPageOffline.Controls.Add(groupBox5);
+            TabPageOffline.Location = new System.Drawing.Point(29, 4);
+            TabPageOffline.Name = "TabPageOffline";
+            TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            TabPageOffline.Size = new System.Drawing.Size(333, 620);
+            TabPageOffline.TabIndex = 0;
+            TabPageOffline.Text = "Offline";
+            TabPageOffline.UseVisualStyleBackColor = true;
             // 
             // TabPageClock
             // 
-            this.TabPageClock.Controls.Add(this.button1);
-            this.TabPageClock.Controls.Add(this.ButtonWindowless);
-            this.TabPageClock.Controls.Add(this.ButtonWindowed);
-            this.TabPageClock.Controls.Add(this.DomainUpDown);
-            this.TabPageClock.Controls.Add(this.PictureBoxQrCode);
-            this.TabPageClock.Controls.Add(this.GroupBoxClockTest);
-            this.TabPageClock.Controls.Add(this.ButtonRabbitConf2);
-            this.TabPageClock.Location = new System.Drawing.Point(29, 4);
-            this.TabPageClock.Name = "TabPageClock";
-            this.TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageClock.Size = new System.Drawing.Size(333, 620);
-            this.TabPageClock.TabIndex = 3;
-            this.TabPageClock.Text = "Clock";
-            this.TabPageClock.UseVisualStyleBackColor = true;
+            TabPageClock.Controls.Add(button1);
+            TabPageClock.Controls.Add(ButtonWindowless);
+            TabPageClock.Controls.Add(ButtonWindowed);
+            TabPageClock.Controls.Add(DomainUpDown);
+            TabPageClock.Controls.Add(PictureBoxQrCode);
+            TabPageClock.Controls.Add(GroupBoxClockTest);
+            TabPageClock.Controls.Add(ButtonRabbitConf2);
+            TabPageClock.Location = new System.Drawing.Point(29, 4);
+            TabPageClock.Name = "TabPageClock";
+            TabPageClock.Padding = new System.Windows.Forms.Padding(3);
+            TabPageClock.Size = new System.Drawing.Size(333, 620);
+            TabPageClock.TabIndex = 3;
+            TabPageClock.Text = "Clock";
+            TabPageClock.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.button1.Location = new System.Drawing.Point(196, 118);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(137, 33);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Winged Horse...";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
+            button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            button1.Location = new System.Drawing.Point(196, 118);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(137, 33);
+            button1.TabIndex = 4;
+            button1.Text = "Winged Horse...";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += StartWingedHorseToolStripMenu_Click;
             // 
             // ButtonWindowless
             // 
-            this.ButtonWindowless.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonWindowless.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonWindowless.Location = new System.Drawing.Point(192, 79);
-            this.ButtonWindowless.Name = "ButtonWindowless";
-            this.ButtonWindowless.Size = new System.Drawing.Size(137, 33);
-            this.ButtonWindowless.TabIndex = 3;
-            this.ButtonWindowless.Text = "Windowless...";
-            this.ButtonWindowless.UseVisualStyleBackColor = true;
-            this.ButtonWindowless.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
+            ButtonWindowless.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonWindowless.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            ButtonWindowless.Location = new System.Drawing.Point(192, 79);
+            ButtonWindowless.Name = "ButtonWindowless";
+            ButtonWindowless.Size = new System.Drawing.Size(137, 33);
+            ButtonWindowless.TabIndex = 3;
+            ButtonWindowless.Text = "Windowless...";
+            ButtonWindowless.UseVisualStyleBackColor = true;
+            ButtonWindowless.Click += VirtualClockWindowlessMenuItem_Click;
             // 
             // ButtonWindowed
             // 
-            this.ButtonWindowed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonWindowed.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ButtonWindowed.Location = new System.Drawing.Point(192, 40);
-            this.ButtonWindowed.Name = "ButtonWindowed";
-            this.ButtonWindowed.Size = new System.Drawing.Size(137, 33);
-            this.ButtonWindowed.TabIndex = 2;
-            this.ButtonWindowed.Text = "Windowed...";
-            this.ButtonWindowed.UseVisualStyleBackColor = true;
-            this.ButtonWindowed.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
+            ButtonWindowed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonWindowed.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            ButtonWindowed.Location = new System.Drawing.Point(192, 40);
+            ButtonWindowed.Name = "ButtonWindowed";
+            ButtonWindowed.Size = new System.Drawing.Size(137, 33);
+            ButtonWindowed.TabIndex = 2;
+            ButtonWindowed.Text = "Windowed...";
+            ButtonWindowed.UseVisualStyleBackColor = true;
+            ButtonWindowed.Click += VirtualClockMenuItem_Click;
             // 
             // DomainUpDown
             // 
-            this.DomainUpDown.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.DomainUpDown.Location = new System.Drawing.Point(192, 6);
-            this.DomainUpDown.Name = "DomainUpDown";
-            this.DomainUpDown.ReadOnly = true;
-            this.DomainUpDown.Size = new System.Drawing.Size(137, 25);
-            this.DomainUpDown.TabIndex = 1;
-            this.DomainUpDown.SelectedItemChanged += new System.EventHandler(this.DomainUpDown_SelectedItemChanged);
-            this.DomainUpDown.Click += new System.EventHandler(this.UpDownDomainHideCaret);
-            this.DomainUpDown.DoubleClick += new System.EventHandler(this.UpDownDomainHideCaret);
-            this.DomainUpDown.Enter += new System.EventHandler(this.UpDownDomainHideCaret);
-            this.DomainUpDown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UpDownDomainHideCaret);
-            this.DomainUpDown.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UpDownDomainHideCaret);
-            this.DomainUpDown.Leave += new System.EventHandler(this.UpDownDomainHideCaret);
+            DomainUpDown.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            DomainUpDown.Location = new System.Drawing.Point(192, 6);
+            DomainUpDown.Name = "DomainUpDown";
+            DomainUpDown.ReadOnly = true;
+            DomainUpDown.Size = new System.Drawing.Size(137, 25);
+            DomainUpDown.TabIndex = 1;
+            DomainUpDown.SelectedItemChanged += DomainUpDown_SelectedItemChanged;
+            DomainUpDown.Click += UpDownDomainHideCaret;
+            DomainUpDown.DoubleClick += UpDownDomainHideCaret;
+            DomainUpDown.Enter += UpDownDomainHideCaret;
+            DomainUpDown.KeyDown += UpDownDomainHideCaret;
+            DomainUpDown.KeyUp += UpDownDomainHideCaret;
+            DomainUpDown.Leave += UpDownDomainHideCaret;
             // 
             // PictureBoxQrCode
             // 
-            this.PictureBoxQrCode.Image = ((System.Drawing.Image)(resources.GetObject("PictureBoxQrCode.Image")));
-            this.PictureBoxQrCode.Location = new System.Drawing.Point(6, 9);
-            this.PictureBoxQrCode.Name = "PictureBoxQrCode";
-            this.PictureBoxQrCode.Size = new System.Drawing.Size(180, 180);
-            this.PictureBoxQrCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PictureBoxQrCode.TabIndex = 2;
-            this.PictureBoxQrCode.TabStop = false;
+            PictureBoxQrCode.Image = (System.Drawing.Image)resources.GetObject("PictureBoxQrCode.Image");
+            PictureBoxQrCode.Location = new System.Drawing.Point(6, 9);
+            PictureBoxQrCode.Name = "PictureBoxQrCode";
+            PictureBoxQrCode.Size = new System.Drawing.Size(180, 180);
+            PictureBoxQrCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            PictureBoxQrCode.TabIndex = 2;
+            PictureBoxQrCode.TabStop = false;
             // 
             // ButtonRabbitConf2
             // 
-            this.ButtonRabbitConf2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonRabbitConf2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonRabbitConf2.Location = new System.Drawing.Point(192, 157);
-            this.ButtonRabbitConf2.Name = "ButtonRabbitConf2";
-            this.ButtonRabbitConf2.Size = new System.Drawing.Size(137, 35);
-            this.ButtonRabbitConf2.TabIndex = 5;
-            this.ButtonRabbitConf2.Text = "Rabbit Config...";
-            this.ButtonRabbitConf2.UseVisualStyleBackColor = true;
-            this.ButtonRabbitConf2.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
+            ButtonRabbitConf2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonRabbitConf2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            ButtonRabbitConf2.Location = new System.Drawing.Point(192, 157);
+            ButtonRabbitConf2.Name = "ButtonRabbitConf2";
+            ButtonRabbitConf2.Size = new System.Drawing.Size(137, 35);
+            ButtonRabbitConf2.TabIndex = 5;
+            ButtonRabbitConf2.Text = "Rabbit Config...";
+            ButtonRabbitConf2.UseVisualStyleBackColor = true;
+            ButtonRabbitConf2.Click += ButtonRabbitConfig_Click;
             // 
             // Panel1
             // 
-            this.Panel1.Controls.Add(this.TabControlSidePanel);
-            this.Panel1.Controls.Add(this.TextBoxConsole);
-            this.Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Panel1.Location = new System.Drawing.Point(0, 29);
-            this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(1056, 628);
-            this.Panel1.TabIndex = 0;
+            Panel1.Controls.Add(TabControlSidePanel);
+            Panel1.Controls.Add(TextBoxConsole);
+            Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            Panel1.Location = new System.Drawing.Point(0, 29);
+            Panel1.Name = "Panel1";
+            Panel1.Size = new System.Drawing.Size(1056, 628);
+            Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
             // 
-            this.TabControlSidePanel.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.TabControlSidePanel.CausesValidation = false;
-            this.TabControlSidePanel.Controls.Add(this.TabPageAbout);
-            this.TabControlSidePanel.Controls.Add(this.TabPageConfig);
-            this.TabControlSidePanel.Controls.Add(this.TabPageBoards);
-            this.TabControlSidePanel.Controls.Add(this.TabPageClock);
-            this.TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.TabControlSidePanel.HotTrack = true;
-            this.TabControlSidePanel.ItemSize = new System.Drawing.Size(82, 25);
-            this.TabControlSidePanel.Location = new System.Drawing.Point(0, 0);
-            this.TabControlSidePanel.Multiline = true;
-            this.TabControlSidePanel.Name = "TabControlSidePanel";
-            this.TabControlSidePanel.SelectedIndex = 0;
-            this.TabControlSidePanel.Size = new System.Drawing.Size(366, 628);
-            this.TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.TabControlSidePanel.TabIndex = 0;
+            TabControlSidePanel.Alignment = System.Windows.Forms.TabAlignment.Left;
+            TabControlSidePanel.CausesValidation = false;
+            TabControlSidePanel.Controls.Add(TabPageConfig);
+            TabControlSidePanel.Controls.Add(TabPageBoards);
+            TabControlSidePanel.Controls.Add(TabPageClock);
+            TabControlSidePanel.Controls.Add(TabPageOffline);
+            TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Left;
+            TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            TabControlSidePanel.HotTrack = true;
+            TabControlSidePanel.ItemSize = new System.Drawing.Size(82, 25);
+            TabControlSidePanel.Location = new System.Drawing.Point(0, 0);
+            TabControlSidePanel.Multiline = true;
+            TabControlSidePanel.Name = "TabControlSidePanel";
+            TabControlSidePanel.SelectedIndex = 0;
+            TabControlSidePanel.Size = new System.Drawing.Size(366, 628);
+            TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            TabControlSidePanel.TabIndex = 0;
             // 
             // TabPageConfig
             // 
-            this.TabPageConfig.Controls.Add(this.groupBox4);
-            this.TabPageConfig.Controls.Add(this.groupBox3);
-            this.TabPageConfig.Controls.Add(this.groupBox2);
-            this.TabPageConfig.Controls.Add(this.CheckBoxPreventSleep);
-            this.TabPageConfig.Controls.Add(this.GroupBox1);
-            this.TabPageConfig.Controls.Add(this.CheckBoxOnTop);
-            this.TabPageConfig.Location = new System.Drawing.Point(29, 4);
-            this.TabPageConfig.Name = "TabPageConfig";
-            this.TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageConfig.Size = new System.Drawing.Size(333, 620);
-            this.TabPageConfig.TabIndex = 1;
-            this.TabPageConfig.Text = "Config";
-            this.TabPageConfig.UseVisualStyleBackColor = true;
-            this.TabPageConfig.Click += new System.EventHandler(this.TabPageConfig_Click);
+            TabPageConfig.Controls.Add(groupBox4);
+            TabPageConfig.Controls.Add(groupBox3);
+            TabPageConfig.Controls.Add(groupBox2);
+            TabPageConfig.Controls.Add(CheckBoxPreventSleep);
+            TabPageConfig.Controls.Add(GroupBox1);
+            TabPageConfig.Controls.Add(CheckBoxOnTop);
+            TabPageConfig.Location = new System.Drawing.Point(29, 4);
+            TabPageConfig.Name = "TabPageConfig";
+            TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
+            TabPageConfig.Size = new System.Drawing.Size(333, 620);
+            TabPageConfig.TabIndex = 1;
+            TabPageConfig.Text = "Config";
+            TabPageConfig.UseVisualStyleBackColor = true;
+            TabPageConfig.Click += TabPageConfig_Click;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.ButtonClearConsole);
-            this.groupBox4.Controls.Add(this.CheckBoxDisableRabbit);
-            this.groupBox4.Controls.Add(this.CheckBoxRecieveLog);
-            this.groupBox4.Controls.Add(this.label4);
-            this.groupBox4.Controls.Add(this.UpDownFontSize);
-            this.groupBox4.Location = new System.Drawing.Point(6, 381);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(148, 178);
-            this.groupBox4.TabIndex = 65;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Console";
+            groupBox4.Controls.Add(ButtonClearConsole);
+            groupBox4.Controls.Add(CheckBoxDisableRabbit);
+            groupBox4.Controls.Add(CheckBoxRecieveLog);
+            groupBox4.Controls.Add(label4);
+            groupBox4.Controls.Add(UpDownFontSize);
+            groupBox4.Location = new System.Drawing.Point(6, 381);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new System.Drawing.Size(148, 178);
+            groupBox4.TabIndex = 65;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Console";
             // 
             // ButtonClearConsole
             // 
-            this.ButtonClearConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ButtonClearConsole.Location = new System.Drawing.Point(6, 29);
-            this.ButtonClearConsole.Name = "ButtonClearConsole";
-            this.ButtonClearConsole.Size = new System.Drawing.Size(124, 39);
-            this.ButtonClearConsole.TabIndex = 11;
-            this.ButtonClearConsole.Text = "Clear Console";
-            this.ButtonClearConsole.UseVisualStyleBackColor = true;
-            this.ButtonClearConsole.Click += new System.EventHandler(this.ButtonClearConsole_Click);
+            ButtonClearConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            ButtonClearConsole.Location = new System.Drawing.Point(6, 29);
+            ButtonClearConsole.Name = "ButtonClearConsole";
+            ButtonClearConsole.Size = new System.Drawing.Size(124, 39);
+            ButtonClearConsole.TabIndex = 11;
+            ButtonClearConsole.Text = "Clear Console";
+            ButtonClearConsole.UseVisualStyleBackColor = true;
+            ButtonClearConsole.Click += ButtonClearConsole_Click;
             // 
             // CheckBoxDisableRabbit
             // 
-            this.CheckBoxDisableRabbit.Checked = true;
-            this.CheckBoxDisableRabbit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxDisableRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxDisableRabbit.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxDisableRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 113);
-            this.CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
-            this.CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 25);
-            this.CheckBoxDisableRabbit.TabIndex = 13;
-            this.CheckBoxDisableRabbit.Text = "Show Inbound";
-            this.CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
-            this.CheckBoxDisableRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxShowInbound_CheckedChanged);
+            CheckBoxDisableRabbit.Checked = true;
+            CheckBoxDisableRabbit.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxDisableRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxDisableRabbit.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxDisableRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 113);
+            CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
+            CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 25);
+            CheckBoxDisableRabbit.TabIndex = 13;
+            CheckBoxDisableRabbit.Text = "Show Inbound";
+            CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
+            CheckBoxDisableRabbit.CheckedChanged += CheckBoxShowInbound_CheckedChanged;
             // 
             // CheckBoxRecieveLog
             // 
-            this.CheckBoxRecieveLog.Checked = true;
-            this.CheckBoxRecieveLog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 144);
-            this.CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
-            this.CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 25);
-            this.CheckBoxRecieveLog.TabIndex = 14;
-            this.CheckBoxRecieveLog.Text = "Logging On";
-            this.CheckBoxRecieveLog.UseVisualStyleBackColor = true;
-            this.CheckBoxRecieveLog.CheckedChanged += new System.EventHandler(this.CheckBoxRecieveLog_CheckedChanged);
+            CheckBoxRecieveLog.Checked = true;
+            CheckBoxRecieveLog.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 144);
+            CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
+            CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 25);
+            CheckBoxRecieveLog.TabIndex = 14;
+            CheckBoxRecieveLog.Text = "Logging On";
+            CheckBoxRecieveLog.UseVisualStyleBackColor = true;
+            CheckBoxRecieveLog.CheckedChanged += CheckBoxRecieveLog_CheckedChanged;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 81);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(73, 21);
-            this.label4.TabIndex = 59;
-            this.label4.Text = "Font Size";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(6, 81);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(73, 21);
+            label4.TabIndex = 59;
+            label4.Text = "Font Size";
             // 
             // UpDownFontSize
             // 
-            this.UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownFontSize.Location = new System.Drawing.Point(91, 78);
-            this.UpDownFontSize.Maximum = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            this.UpDownFontSize.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.UpDownFontSize.Name = "UpDownFontSize";
-            this.UpDownFontSize.Size = new System.Drawing.Size(45, 25);
-            this.UpDownFontSize.TabIndex = 12;
-            this.UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownFontSize.Value = new decimal(new int[] {
-            11,
-            0,
-            0,
-            0});
-            this.UpDownFontSize.ValueChanged += new System.EventHandler(this.UpDownFontSize_ValueChanged);
+            UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownFontSize.Location = new System.Drawing.Point(91, 78);
+            UpDownFontSize.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
+            UpDownFontSize.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
+            UpDownFontSize.Name = "UpDownFontSize";
+            UpDownFontSize.Size = new System.Drawing.Size(45, 25);
+            UpDownFontSize.TabIndex = 12;
+            UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownFontSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
+            UpDownFontSize.ValueChanged += UpDownFontSize_ValueChanged;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.CheckBoxNeverUseRabbit);
-            this.groupBox3.Controls.Add(this.ButtonRabbitConfig1);
-            this.groupBox3.Location = new System.Drawing.Point(6, 260);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(148, 115);
-            this.groupBox3.TabIndex = 64;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Rabbit";
+            groupBox3.Controls.Add(CheckBoxNeverUseRabbit);
+            groupBox3.Controls.Add(ButtonRabbitConfig1);
+            groupBox3.Location = new System.Drawing.Point(6, 260);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new System.Drawing.Size(148, 115);
+            groupBox3.TabIndex = 64;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Rabbit";
             // 
             // CheckBoxNeverUseRabbit
             // 
-            this.CheckBoxNeverUseRabbit.Checked = true;
-            this.CheckBoxNeverUseRabbit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxNeverUseRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxNeverUseRabbit.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxNeverUseRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(6, 72);
-            this.CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
-            this.CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(152, 25);
-            this.CheckBoxNeverUseRabbit.TabIndex = 10;
-            this.CheckBoxNeverUseRabbit.Text = "Disable Rabbit";
-            this.CheckBoxNeverUseRabbit.UseVisualStyleBackColor = true;
-            this.CheckBoxNeverUseRabbit.CheckedChanged += new System.EventHandler(this.CheckBoxNeverUseRabbit_CheckedChanged);
+            CheckBoxNeverUseRabbit.Checked = true;
+            CheckBoxNeverUseRabbit.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxNeverUseRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxNeverUseRabbit.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxNeverUseRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(6, 72);
+            CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
+            CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(152, 25);
+            CheckBoxNeverUseRabbit.TabIndex = 10;
+            CheckBoxNeverUseRabbit.Text = "Disable Rabbit";
+            CheckBoxNeverUseRabbit.UseVisualStyleBackColor = true;
+            CheckBoxNeverUseRabbit.CheckedChanged += CheckBoxNeverUseRabbit_CheckedChanged;
             // 
             // ButtonRabbitConfig1
             // 
-            this.ButtonRabbitConfig1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonRabbitConfig1.Location = new System.Drawing.Point(10, 29);
-            this.ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
-            this.ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
-            this.ButtonRabbitConfig1.TabIndex = 9;
-            this.ButtonRabbitConfig1.Text = "Rabbit Config...";
-            this.ButtonRabbitConfig1.UseVisualStyleBackColor = true;
-            this.ButtonRabbitConfig1.Click += new System.EventHandler(this.ButtonRabbitConfig_Click);
+            ButtonRabbitConfig1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonRabbitConfig1.Location = new System.Drawing.Point(10, 29);
+            ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
+            ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
+            ButtonRabbitConfig1.TabIndex = 9;
+            ButtonRabbitConfig1.Text = "Rabbit Config...";
+            ButtonRabbitConfig1.UseVisualStyleBackColor = true;
+            ButtonRabbitConfig1.Click += ButtonRabbitConfig_Click;
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.UpDownFromMismatchDelay);
-            this.groupBox2.Controls.Add(this.UpDownLocalDelay);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.UpDownVoiceDelay);
-            this.groupBox2.Location = new System.Drawing.Point(169, 6);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(148, 115);
-            this.groupBox2.TabIndex = 62;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Delay Timers";
+            groupBox2.Controls.Add(UpDownFromMismatchDelay);
+            groupBox2.Controls.Add(UpDownLocalDelay);
+            groupBox2.Controls.Add(label7);
+            groupBox2.Controls.Add(label6);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(UpDownVoiceDelay);
+            groupBox2.Location = new System.Drawing.Point(169, 6);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new System.Drawing.Size(148, 115);
+            groupBox2.TabIndex = 62;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Delay Timers";
             // 
             // UpDownFromMismatchDelay
             // 
-            this.UpDownFromMismatchDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownFromMismatchDelay.DecimalPlaces = 1;
-            this.UpDownFromMismatchDelay.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.UpDownFromMismatchDelay.Location = new System.Drawing.Point(90, 83);
-            this.UpDownFromMismatchDelay.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownFromMismatchDelay.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.UpDownFromMismatchDelay.Name = "UpDownFromMismatchDelay";
-            this.UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 25);
-            this.UpDownFromMismatchDelay.TabIndex = 17;
-            this.UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownFromMismatchDelay.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.UpDownFromMismatchDelay.ValueChanged += new System.EventHandler(this.UpDownFromMismatchDelay_ValueChanged);
+            UpDownFromMismatchDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownFromMismatchDelay.DecimalPlaces = 1;
+            UpDownFromMismatchDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
+            UpDownFromMismatchDelay.Location = new System.Drawing.Point(90, 83);
+            UpDownFromMismatchDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownFromMismatchDelay.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
+            UpDownFromMismatchDelay.Name = "UpDownFromMismatchDelay";
+            UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 25);
+            UpDownFromMismatchDelay.TabIndex = 17;
+            UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownFromMismatchDelay.Value = new decimal(new int[] { 5, 0, 0, 65536 });
+            UpDownFromMismatchDelay.ValueChanged += UpDownFromMismatchDelay_ValueChanged;
             // 
             // UpDownLocalDelay
             // 
-            this.UpDownLocalDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownLocalDelay.DecimalPlaces = 1;
-            this.UpDownLocalDelay.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
-            this.UpDownLocalDelay.Location = new System.Drawing.Point(90, 55);
-            this.UpDownLocalDelay.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.UpDownLocalDelay.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.UpDownLocalDelay.Name = "UpDownLocalDelay";
-            this.UpDownLocalDelay.Size = new System.Drawing.Size(45, 25);
-            this.UpDownLocalDelay.TabIndex = 16;
-            this.UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownLocalDelay.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.UpDownLocalDelay.ValueChanged += new System.EventHandler(this.UpDownLocalDelay_ValueChanged);
+            UpDownLocalDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownLocalDelay.DecimalPlaces = 1;
+            UpDownLocalDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
+            UpDownLocalDelay.Location = new System.Drawing.Point(90, 55);
+            UpDownLocalDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            UpDownLocalDelay.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
+            UpDownLocalDelay.Name = "UpDownLocalDelay";
+            UpDownLocalDelay.Size = new System.Drawing.Size(45, 25);
+            UpDownLocalDelay.TabIndex = 16;
+            UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownLocalDelay.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            UpDownLocalDelay.ValueChanged += UpDownLocalDelay_ValueChanged;
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 84);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(76, 21);
-            this.label7.TabIndex = 63;
-            this.label7.Text = "From Mis";
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(7, 84);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(76, 21);
+            label7.TabIndex = 63;
+            label7.Text = "From Mis";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 56);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(46, 21);
-            this.label6.TabIndex = 62;
-            this.label6.Text = "Local";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(6, 56);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(46, 21);
+            label6.TabIndex = 62;
+            label6.Text = "Local";
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 30);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 21);
-            this.label5.TabIndex = 61;
-            this.label5.Text = "Remote";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(6, 30);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(64, 21);
+            label5.TabIndex = 61;
+            label5.Text = "Remote";
             // 
             // UpDownVoiceDelay
             // 
-            this.UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.UpDownVoiceDelay.DecimalPlaces = 1;
-            this.UpDownVoiceDelay.Location = new System.Drawing.Point(90, 29);
-            this.UpDownVoiceDelay.Maximum = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-            this.UpDownVoiceDelay.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.UpDownVoiceDelay.Name = "UpDownVoiceDelay";
-            this.UpDownVoiceDelay.Size = new System.Drawing.Size(45, 25);
-            this.UpDownVoiceDelay.TabIndex = 15;
-            this.UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.UpDownVoiceDelay.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.UpDownVoiceDelay.ValueChanged += new System.EventHandler(this.UpDownVoiceDelay_ValueChanged);
+            UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownVoiceDelay.DecimalPlaces = 1;
+            UpDownVoiceDelay.Location = new System.Drawing.Point(90, 29);
+            UpDownVoiceDelay.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
+            UpDownVoiceDelay.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
+            UpDownVoiceDelay.Name = "UpDownVoiceDelay";
+            UpDownVoiceDelay.Size = new System.Drawing.Size(45, 25);
+            UpDownVoiceDelay.TabIndex = 15;
+            UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            UpDownVoiceDelay.Value = new decimal(new int[] { 5, 0, 0, 0 });
+            UpDownVoiceDelay.ValueChanged += UpDownVoiceDelay_ValueChanged;
             // 
             // CheckBoxPreventSleep
             // 
-            this.CheckBoxPreventSleep.Checked = true;
-            this.CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxPreventSleep.Location = new System.Drawing.Point(175, 166);
-            this.CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
-            this.CheckBoxPreventSleep.Size = new System.Drawing.Size(138, 25);
-            this.CheckBoxPreventSleep.TabIndex = 98;
-            this.CheckBoxPreventSleep.Text = "Prevent Sleep";
-            this.CheckBoxPreventSleep.UseVisualStyleBackColor = true;
-            this.CheckBoxPreventSleep.CheckedChanged += new System.EventHandler(this.CheckBoxPreventSleep_CheckedChanged);
+            CheckBoxPreventSleep.Checked = true;
+            CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxPreventSleep.Location = new System.Drawing.Point(175, 166);
+            CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
+            CheckBoxPreventSleep.Size = new System.Drawing.Size(138, 25);
+            CheckBoxPreventSleep.TabIndex = 98;
+            CheckBoxPreventSleep.Text = "Prevent Sleep";
+            CheckBoxPreventSleep.UseVisualStyleBackColor = true;
+            CheckBoxPreventSleep.CheckedChanged += CheckBoxPreventSleep_CheckedChanged;
             // 
             // CheckBoxOnTop
             // 
-            this.CheckBoxOnTop.Checked = true;
-            this.CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxOnTop.Location = new System.Drawing.Point(175, 195);
-            this.CheckBoxOnTop.Name = "CheckBoxOnTop";
-            this.CheckBoxOnTop.Size = new System.Drawing.Size(138, 25);
-            this.CheckBoxOnTop.TabIndex = 99;
-            this.CheckBoxOnTop.Text = "Always On Top";
-            this.CheckBoxOnTop.UseVisualStyleBackColor = true;
-            this.CheckBoxOnTop.CheckedChanged += new System.EventHandler(this.CheckBoxOnTop_CheckedChanged);
+            CheckBoxOnTop.Checked = true;
+            CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxOnTop.Location = new System.Drawing.Point(175, 195);
+            CheckBoxOnTop.Name = "CheckBoxOnTop";
+            CheckBoxOnTop.Size = new System.Drawing.Size(138, 25);
+            CheckBoxOnTop.TabIndex = 99;
+            CheckBoxOnTop.Text = "Always On Top";
+            CheckBoxOnTop.UseVisualStyleBackColor = true;
+            CheckBoxOnTop.CheckedChanged += CheckBoxOnTop_CheckedChanged;
             // 
             // TabPageBoards
             // 
-            this.TabPageBoards.BackColor = System.Drawing.Color.Transparent;
-            this.TabPageBoards.Controls.Add(this.CheckBoxShowConsole);
-            this.TabPageBoards.Controls.Add(this.LabelWhiteClock);
-            this.TabPageBoards.Controls.Add(this.LabelBlackClock);
-            this.TabPageBoards.Controls.Add(this.LabelRemoteBoard);
-            this.TabPageBoards.Controls.Add(this.LabelLocalDgt);
-            this.TabPageBoards.Controls.Add(this.PictureBoxRemote);
-            this.TabPageBoards.Controls.Add(this.PictureBoxLocal);
-            this.TabPageBoards.Location = new System.Drawing.Point(29, 4);
-            this.TabPageBoards.Name = "TabPageBoards";
-            this.TabPageBoards.Size = new System.Drawing.Size(333, 620);
-            this.TabPageBoards.TabIndex = 2;
-            this.TabPageBoards.Text = "Boards";
-            this.TabPageBoards.Enter += new System.EventHandler(this.TabPageBoards_Enter);
-            this.TabPageBoards.Leave += new System.EventHandler(this.TabPageBoards_Leave);
+            TabPageBoards.BackColor = System.Drawing.Color.Transparent;
+            TabPageBoards.Controls.Add(CheckBoxShowConsole);
+            TabPageBoards.Controls.Add(LabelWhiteClock);
+            TabPageBoards.Controls.Add(LabelBlackClock);
+            TabPageBoards.Controls.Add(LabelRemoteBoard);
+            TabPageBoards.Controls.Add(LabelLocalDgt);
+            TabPageBoards.Controls.Add(PictureBoxRemote);
+            TabPageBoards.Controls.Add(PictureBoxLocal);
+            TabPageBoards.Location = new System.Drawing.Point(29, 4);
+            TabPageBoards.Name = "TabPageBoards";
+            TabPageBoards.Size = new System.Drawing.Size(333, 620);
+            TabPageBoards.TabIndex = 2;
+            TabPageBoards.Text = "Boards";
+            TabPageBoards.Enter += TabPageBoards_Enter;
+            TabPageBoards.Leave += TabPageBoards_Leave;
             // 
             // CheckBoxShowConsole
             // 
-            this.CheckBoxShowConsole.Checked = true;
-            this.CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxShowConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CheckBoxShowConsole.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.CheckBoxShowConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.CheckBoxShowConsole.Location = new System.Drawing.Point(106, 582);
-            this.CheckBoxShowConsole.Name = "CheckBoxShowConsole";
-            this.CheckBoxShowConsole.Size = new System.Drawing.Size(122, 25);
-            this.CheckBoxShowConsole.TabIndex = 1;
-            this.CheckBoxShowConsole.Text = "Show Console";
-            this.CheckBoxShowConsole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CheckBoxShowConsole.UseVisualStyleBackColor = true;
-            this.CheckBoxShowConsole.CheckedChanged += new System.EventHandler(this.CheckBoxShowConsole_CheckedChanged);
+            CheckBoxShowConsole.Checked = true;
+            CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxShowConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxShowConsole.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxShowConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            CheckBoxShowConsole.Location = new System.Drawing.Point(106, 582);
+            CheckBoxShowConsole.Name = "CheckBoxShowConsole";
+            CheckBoxShowConsole.Size = new System.Drawing.Size(122, 25);
+            CheckBoxShowConsole.TabIndex = 1;
+            CheckBoxShowConsole.Text = "Show Console";
+            CheckBoxShowConsole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CheckBoxShowConsole.UseVisualStyleBackColor = true;
+            CheckBoxShowConsole.CheckedChanged += CheckBoxShowConsole_CheckedChanged;
             // 
             // LabelWhiteClock
             // 
-            this.LabelWhiteClock.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.LabelWhiteClock.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Pixel);
-            this.LabelWhiteClock.ForeColor = System.Drawing.Color.Black;
-            this.LabelWhiteClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.LabelWhiteClock.Location = new System.Drawing.Point(171, 6);
-            this.LabelWhiteClock.Name = "LabelWhiteClock";
-            this.LabelWhiteClock.Size = new System.Drawing.Size(121, 24);
-            this.LabelWhiteClock.TabIndex = 10;
-            this.LabelWhiteClock.Text = "0:00:00";
-            this.LabelWhiteClock.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            LabelWhiteClock.BackColor = System.Drawing.Color.WhiteSmoke;
+            LabelWhiteClock.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            LabelWhiteClock.ForeColor = System.Drawing.Color.Black;
+            LabelWhiteClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LabelWhiteClock.Location = new System.Drawing.Point(171, 6);
+            LabelWhiteClock.Name = "LabelWhiteClock";
+            LabelWhiteClock.Size = new System.Drawing.Size(121, 24);
+            LabelWhiteClock.TabIndex = 10;
+            LabelWhiteClock.Text = "0:00:00";
+            LabelWhiteClock.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // LabelBlackClock
             // 
-            this.LabelBlackClock.BackColor = System.Drawing.Color.Black;
-            this.LabelBlackClock.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Pixel);
-            this.LabelBlackClock.ForeColor = System.Drawing.Color.White;
-            this.LabelBlackClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.LabelBlackClock.Location = new System.Drawing.Point(171, 288);
-            this.LabelBlackClock.Name = "LabelBlackClock";
-            this.LabelBlackClock.Size = new System.Drawing.Size(121, 26);
-            this.LabelBlackClock.TabIndex = 11;
-            this.LabelBlackClock.Text = "0:00:00";
-            this.LabelBlackClock.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            LabelBlackClock.BackColor = System.Drawing.Color.Black;
+            LabelBlackClock.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            LabelBlackClock.ForeColor = System.Drawing.Color.White;
+            LabelBlackClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LabelBlackClock.Location = new System.Drawing.Point(171, 288);
+            LabelBlackClock.Name = "LabelBlackClock";
+            LabelBlackClock.Size = new System.Drawing.Size(121, 26);
+            LabelBlackClock.TabIndex = 11;
+            LabelBlackClock.Text = "0:00:00";
+            LabelBlackClock.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // LabelRemoteBoard
             // 
-            this.LabelRemoteBoard.BackColor = System.Drawing.Color.Silver;
-            this.LabelRemoteBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LabelRemoteBoard.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.LabelRemoteBoard.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.LabelRemoteBoard.Location = new System.Drawing.Point(43, 288);
-            this.LabelRemoteBoard.Name = "LabelRemoteBoard";
-            this.LabelRemoteBoard.Size = new System.Drawing.Size(122, 26);
-            this.LabelRemoteBoard.TabIndex = 12;
-            this.LabelRemoteBoard.Text = "Remote Board";
+            LabelRemoteBoard.BackColor = System.Drawing.Color.Silver;
+            LabelRemoteBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            LabelRemoteBoard.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            LabelRemoteBoard.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            LabelRemoteBoard.Location = new System.Drawing.Point(43, 288);
+            LabelRemoteBoard.Name = "LabelRemoteBoard";
+            LabelRemoteBoard.Size = new System.Drawing.Size(122, 26);
+            LabelRemoteBoard.TabIndex = 12;
+            LabelRemoteBoard.Text = "Remote Board";
             // 
             // LabelLocalDgt
             // 
-            this.LabelLocalDgt.BackColor = System.Drawing.Color.Silver;
-            this.LabelLocalDgt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LabelLocalDgt.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            this.LabelLocalDgt.Location = new System.Drawing.Point(43, 6);
-            this.LabelLocalDgt.Name = "LabelLocalDgt";
-            this.LabelLocalDgt.Size = new System.Drawing.Size(122, 24);
-            this.LabelLocalDgt.TabIndex = 13;
-            this.LabelLocalDgt.Text = "Local Board";
+            LabelLocalDgt.BackColor = System.Drawing.Color.Silver;
+            LabelLocalDgt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            LabelLocalDgt.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            LabelLocalDgt.Location = new System.Drawing.Point(43, 6);
+            LabelLocalDgt.Name = "LabelLocalDgt";
+            LabelLocalDgt.Size = new System.Drawing.Size(122, 24);
+            LabelLocalDgt.TabIndex = 13;
+            LabelLocalDgt.Text = "Local Board";
             // 
             // PictureBoxRemote
             // 
-            this.PictureBoxRemote.ErrorImage = ((System.Drawing.Image)(resources.GetObject("PictureBoxRemote.ErrorImage")));
-            this.PictureBoxRemote.Image = ((System.Drawing.Image)(resources.GetObject("PictureBoxRemote.Image")));
-            this.PictureBoxRemote.ImageLocation = "";
-            this.PictureBoxRemote.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.PictureBoxRemote.InitialImage = ((System.Drawing.Image)(resources.GetObject("PictureBoxRemote.InitialImage")));
-            this.PictureBoxRemote.Location = new System.Drawing.Point(42, 317);
-            this.PictureBoxRemote.Name = "PictureBoxRemote";
-            this.PictureBoxRemote.Size = new System.Drawing.Size(250, 250);
-            this.PictureBoxRemote.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PictureBoxRemote.TabIndex = 14;
-            this.PictureBoxRemote.TabStop = false;
+            PictureBoxRemote.ErrorImage = (System.Drawing.Image)resources.GetObject("PictureBoxRemote.ErrorImage");
+            PictureBoxRemote.Image = (System.Drawing.Image)resources.GetObject("PictureBoxRemote.Image");
+            PictureBoxRemote.ImageLocation = "";
+            PictureBoxRemote.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            PictureBoxRemote.InitialImage = (System.Drawing.Image)resources.GetObject("PictureBoxRemote.InitialImage");
+            PictureBoxRemote.Location = new System.Drawing.Point(42, 317);
+            PictureBoxRemote.Name = "PictureBoxRemote";
+            PictureBoxRemote.Size = new System.Drawing.Size(250, 250);
+            PictureBoxRemote.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            PictureBoxRemote.TabIndex = 14;
+            PictureBoxRemote.TabStop = false;
             // 
             // PictureBoxLocal
             // 
-            this.PictureBoxLocal.ErrorImage = ((System.Drawing.Image)(resources.GetObject("PictureBoxLocal.ErrorImage")));
-            this.PictureBoxLocal.Image = ((System.Drawing.Image)(resources.GetObject("PictureBoxLocal.Image")));
-            this.PictureBoxLocal.ImageLocation = "";
-            this.PictureBoxLocal.InitialImage = ((System.Drawing.Image)(resources.GetObject("PictureBoxLocal.InitialImage")));
-            this.PictureBoxLocal.Location = new System.Drawing.Point(42, 33);
-            this.PictureBoxLocal.Name = "PictureBoxLocal";
-            this.PictureBoxLocal.Size = new System.Drawing.Size(250, 250);
-            this.PictureBoxLocal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PictureBoxLocal.TabIndex = 15;
-            this.PictureBoxLocal.TabStop = false;
+            PictureBoxLocal.ErrorImage = (System.Drawing.Image)resources.GetObject("PictureBoxLocal.ErrorImage");
+            PictureBoxLocal.Image = (System.Drawing.Image)resources.GetObject("PictureBoxLocal.Image");
+            PictureBoxLocal.ImageLocation = "";
+            PictureBoxLocal.InitialImage = (System.Drawing.Image)resources.GetObject("PictureBoxLocal.InitialImage");
+            PictureBoxLocal.Location = new System.Drawing.Point(42, 33);
+            PictureBoxLocal.Name = "PictureBoxLocal";
+            PictureBoxLocal.Size = new System.Drawing.Size(250, 250);
+            PictureBoxLocal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            PictureBoxLocal.TabIndex = 15;
+            PictureBoxLocal.TabStop = false;
             // 
             // TextBoxConsole
             // 
-            this.TextBoxConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxConsole.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TextBoxConsole.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.TextBoxConsole.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(255)))), ((int)(((byte)(102)))));
-            this.TextBoxConsole.Location = new System.Drawing.Point(368, 0);
-            this.TextBoxConsole.Multiline = true;
-            this.TextBoxConsole.Name = "TextBoxConsole";
-            this.TextBoxConsole.ReadOnly = true;
-            this.TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.TextBoxConsole.Size = new System.Drawing.Size(685, 628);
-            this.TextBoxConsole.TabIndex = 1;
-            this.TextBoxConsole.TabStop = false;
-            this.TextBoxConsole.WordWrap = false;
+            TextBoxConsole.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TextBoxConsole.BackColor = System.Drawing.Color.FromArgb(40, 40, 40);
+            TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            TextBoxConsole.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            TextBoxConsole.ForeColor = System.Drawing.Color.FromArgb(102, 255, 102);
+            TextBoxConsole.Location = new System.Drawing.Point(368, 0);
+            TextBoxConsole.Multiline = true;
+            TextBoxConsole.Name = "TextBoxConsole";
+            TextBoxConsole.ReadOnly = true;
+            TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            TextBoxConsole.Size = new System.Drawing.Size(685, 628);
+            TextBoxConsole.TabIndex = 1;
+            TextBoxConsole.TabStop = false;
+            TextBoxConsole.WordWrap = false;
             // 
             // ToolStripStatusLabelLastUpdate
             // 
-            this.ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            this.ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
-            this.ToolStripStatusLabelLastUpdate.Spring = true;
-            this.ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
-            this.ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
+            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
+            ToolStripStatusLabelLastUpdate.Spring = true;
+            ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
+            ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // StatusStrip
             // 
-            this.StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
-            this.StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripStatusLabelLastUpdate,
-            this.ToolStripStatusLabelVersion});
-            this.StatusStrip.Location = new System.Drawing.Point(0, 657);
-            this.StatusStrip.Name = "StatusStrip";
-            this.StatusStrip.Size = new System.Drawing.Size(1056, 29);
-            this.StatusStrip.TabIndex = 1;
-            this.StatusStrip.Text = "statusStrip1";
+            StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripStatusLabelLastUpdate, ToolStripStatusLabelVersion });
+            StatusStrip.Location = new System.Drawing.Point(0, 657);
+            StatusStrip.Name = "StatusStrip";
+            StatusStrip.Size = new System.Drawing.Size(1056, 29);
+            StatusStrip.TabIndex = 1;
+            StatusStrip.Text = "statusStrip1";
             // 
             // ToolStripStatusLabelVersion
             // 
-            this.ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.ToolStripStatusLabelVersion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
-            this.ToolStripStatusLabelVersion.Size = new System.Drawing.Size(79, 23);
-            this.ToolStripStatusLabelVersion.Text = "Ver. 0.0.0";
-            this.ToolStripStatusLabelVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            ToolStripStatusLabelVersion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
+            ToolStripStatusLabelVersion.Size = new System.Drawing.Size(79, 23);
+            ToolStripStatusLabelVersion.Text = "Ver. 0.0.0";
+            ToolStripStatusLabelVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // MenuStrip
             // 
-            this.MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TasksToolStripMenuItem,
-            this.LinksToolStripMenuItem});
-            this.MenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(1056, 29);
-            this.MenuStrip.TabIndex = 2;
-            this.MenuStrip.Text = "MenuStrip";
+            MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { TasksToolStripMenuItem, LinksToolStripMenuItem });
+            MenuStrip.Location = new System.Drawing.Point(0, 0);
+            MenuStrip.Name = "MenuStrip";
+            MenuStrip.Size = new System.Drawing.Size(1056, 29);
+            MenuStrip.TabIndex = 2;
+            MenuStrip.Text = "MenuStrip";
             // 
             // TasksToolStripMenuItem
             // 
-            this.TasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.KillLiveChessMenuItem,
-            this.ToolStripSeparator2,
-            this.PlayChessToolStripMenuItem,
-            this.PlayLiChessToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.VirtualClockMenuItem,
-            this.VirtualClockWindowlessMenuItem,
-            this.StartWingedHorseToolStripMenu,
-            this.ToolStripSeparator1,
-            this.ExitToolStripMenuItem});
-            this.TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            this.TasksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
-            this.TasksToolStripMenuItem.Text = "Tasks";
+            TasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { KillLiveChessMenuItem, ToolStripSeparator2, PlayChessToolStripMenuItem, PlayLiChessToolStripMenuItem, toolStripSeparator4, VirtualClockMenuItem, VirtualClockWindowlessMenuItem, StartWingedHorseToolStripMenu, ToolStripSeparator1, ExitToolStripMenuItem });
+            TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
+            TasksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
+            TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
             // 
-            this.KillLiveChessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("KillLiveChessMenuItem.Image")));
-            this.KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
-            this.KillLiveChessMenuItem.Size = new System.Drawing.Size(280, 26);
-            this.KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
-            this.KillLiveChessMenuItem.Click += new System.EventHandler(this.KillLiveChessMenuItem_Click);
+            KillLiveChessMenuItem.Image = (System.Drawing.Image)resources.GetObject("KillLiveChessMenuItem.Image");
+            KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
+            KillLiveChessMenuItem.Size = new System.Drawing.Size(280, 26);
+            KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
+            KillLiveChessMenuItem.Click += KillLiveChessMenuItem_Click;
             // 
             // ToolStripSeparator2
             // 
-            this.ToolStripSeparator2.Name = "ToolStripSeparator2";
-            this.ToolStripSeparator2.Size = new System.Drawing.Size(277, 6);
+            ToolStripSeparator2.Name = "ToolStripSeparator2";
+            ToolStripSeparator2.Size = new System.Drawing.Size(277, 6);
             // 
             // PlayChessToolStripMenuItem
             // 
-            this.PlayChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayChessToolStripMenuItem.Image")));
-            this.PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
-            this.PlayChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
-            this.PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
-            this.PlayChessToolStripMenuItem.Click += new System.EventHandler(this.PlayChessToolStripMenuItem_Click);
+            PlayChessToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("PlayChessToolStripMenuItem.Image");
+            PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
+            PlayChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
+            PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
+            PlayChessToolStripMenuItem.Click += PlayChessToolStripMenuItem_Click;
             // 
             // PlayLiChessToolStripMenuItem
             // 
-            this.PlayLiChessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("PlayLiChessToolStripMenuItem.Image")));
-            this.PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
-            this.PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
-            this.PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
-            this.PlayLiChessToolStripMenuItem.Click += new System.EventHandler(this.PlayLiChessToolStripMenuItem_Click);
+            PlayLiChessToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("PlayLiChessToolStripMenuItem.Image");
+            PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
+            PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
+            PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
+            PlayLiChessToolStripMenuItem.Click += PlayLiChessToolStripMenuItem_Click;
             // 
             // toolStripSeparator4
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(277, 6);
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new System.Drawing.Size(277, 6);
             // 
             // VirtualClockMenuItem
             // 
-            this.VirtualClockMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockMenuItem.Image")));
-            this.VirtualClockMenuItem.Name = "VirtualClockMenuItem";
-            this.VirtualClockMenuItem.Size = new System.Drawing.Size(280, 26);
-            this.VirtualClockMenuItem.Text = "Virtual Clock ";
-            this.VirtualClockMenuItem.Click += new System.EventHandler(this.VirtualClockMenuItem_Click);
+            VirtualClockMenuItem.Image = (System.Drawing.Image)resources.GetObject("VirtualClockMenuItem.Image");
+            VirtualClockMenuItem.Name = "VirtualClockMenuItem";
+            VirtualClockMenuItem.Size = new System.Drawing.Size(280, 26);
+            VirtualClockMenuItem.Text = "Virtual Clock ";
+            VirtualClockMenuItem.Click += VirtualClockMenuItem_Click;
             // 
             // VirtualClockWindowlessMenuItem
             // 
-            this.VirtualClockWindowlessMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("VirtualClockWindowlessMenuItem.Image")));
-            this.VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
-            this.VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(280, 26);
-            this.VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
-            this.VirtualClockWindowlessMenuItem.Click += new System.EventHandler(this.VirtualClockWindowlessMenuItem_Click);
+            VirtualClockWindowlessMenuItem.Image = (System.Drawing.Image)resources.GetObject("VirtualClockWindowlessMenuItem.Image");
+            VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
+            VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(280, 26);
+            VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
+            VirtualClockWindowlessMenuItem.Click += VirtualClockWindowlessMenuItem_Click;
             // 
             // StartWingedHorseToolStripMenu
             // 
-            this.StartWingedHorseToolStripMenu.Image = ((System.Drawing.Image)(resources.GetObject("StartWingedHorseToolStripMenu.Image")));
-            this.StartWingedHorseToolStripMenu.Name = "StartWingedHorseToolStripMenu";
-            this.StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(280, 26);
-            this.StartWingedHorseToolStripMenu.Text = "Start Winged Horse Mode";
-            this.StartWingedHorseToolStripMenu.Click += new System.EventHandler(this.StartWingedHorseToolStripMenu_Click);
+            StartWingedHorseToolStripMenu.Image = (System.Drawing.Image)resources.GetObject("StartWingedHorseToolStripMenu.Image");
+            StartWingedHorseToolStripMenu.Name = "StartWingedHorseToolStripMenu";
+            StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(280, 26);
+            StartWingedHorseToolStripMenu.Text = "Start Winged Horse Mode";
+            StartWingedHorseToolStripMenu.Click += StartWingedHorseToolStripMenu_Click;
             // 
             // ToolStripSeparator1
             // 
-            this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(277, 6);
+            ToolStripSeparator1.Name = "ToolStripSeparator1";
+            ToolStripSeparator1.Size = new System.Drawing.Size(277, 6);
             // 
             // ExitToolStripMenuItem
             // 
-            this.ExitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ExitToolStripMenuItem.Image")));
-            this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
-            this.ExitToolStripMenuItem.Text = "Exit";
-            this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            ExitToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("ExitToolStripMenuItem.Image");
+            ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
+            ExitToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
+            ExitToolStripMenuItem.Text = "Exit";
+            ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
             // LinksToolStripMenuItem
             // 
-            this.LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DownloadsToolStripMenuItem,
-            this.DGTAngelToolStripMenuItem,
-            this.ChesscomDgtForumsMenuItem,
-            this.ChesscomPegasusForumsMenuItem});
-            this.LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            this.LinksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
-            this.LinksToolStripMenuItem.Text = "Links";
+            LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { DownloadsToolStripMenuItem, DGTAngelToolStripMenuItem, ChesscomDgtForumsMenuItem, ChesscomPegasusForumsMenuItem });
+            LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
+            LinksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
+            LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
             // 
-            this.DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.DgtAngelChromeExtensionMenuItem,
-            this.DgtAngelLichessToolStripMenuItem,
-            this.DgtLiveChessSoftwareMenuItem,
-            this.DgtDriversRabbitPluginMenuItem,
-            this.toolStripSeparator3,
-            this.ChessStatsMenuItem});
-            this.DownloadsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DownloadsToolStripMenuItem.Image")));
-            this.DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
-            this.DownloadsToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
-            this.DownloadsToolStripMenuItem.Text = "Downloads";
+            DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { DgtAngelChromeExtensionMenuItem, DgtAngelLichessToolStripMenuItem, DgtLiveChessSoftwareMenuItem, DgtDriversRabbitPluginMenuItem, toolStripSeparator3, ChessStatsMenuItem });
+            DownloadsToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("DownloadsToolStripMenuItem.Image");
+            DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
+            DownloadsToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
+            DownloadsToolStripMenuItem.Text = "Downloads";
             // 
             // DgtAngelChromeExtensionMenuItem
             // 
-            this.DgtAngelChromeExtensionMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelChromeExtensionMenuItem.Image")));
-            this.DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
-            this.DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.DgtAngelChromeExtensionMenuItem.Text = "Angel Chess.com Extension";
-            this.DgtAngelChromeExtensionMenuItem.Click += new System.EventHandler(this.DgtAngelChromeExtensionMenuItem_Click);
+            DgtAngelChromeExtensionMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtAngelChromeExtensionMenuItem.Image");
+            DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
+            DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(285, 26);
+            DgtAngelChromeExtensionMenuItem.Text = "Angel Chess.com Extension";
+            DgtAngelChromeExtensionMenuItem.Click += DgtAngelChromeExtensionMenuItem_Click;
             // 
             // DgtAngelLichessToolStripMenuItem
             // 
-            this.DgtAngelLichessToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtAngelLichessToolStripMenuItem.Image")));
-            this.DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
-            this.DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.DgtAngelLichessToolStripMenuItem.Text = "Angel Lichess Extension";
-            this.DgtAngelLichessToolStripMenuItem.Click += new System.EventHandler(this.DgtAngelLichessToolStripMenuItem_Click);
+            DgtAngelLichessToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtAngelLichessToolStripMenuItem.Image");
+            DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
+            DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            DgtAngelLichessToolStripMenuItem.Text = "Angel Lichess Extension";
+            DgtAngelLichessToolStripMenuItem.Click += DgtAngelLichessToolStripMenuItem_Click;
             // 
             // DgtLiveChessSoftwareMenuItem
             // 
-            this.DgtLiveChessSoftwareMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtLiveChessSoftwareMenuItem.Image")));
-            this.DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
-            this.DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
-            this.DgtLiveChessSoftwareMenuItem.Click += new System.EventHandler(this.DgtLiveChessSoftwareMenuItem_Click);
+            DgtLiveChessSoftwareMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtLiveChessSoftwareMenuItem.Image");
+            DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
+            DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(285, 26);
+            DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
+            DgtLiveChessSoftwareMenuItem.Click += DgtLiveChessSoftwareMenuItem_Click;
             // 
             // DgtDriversRabbitPluginMenuItem
             // 
-            this.DgtDriversRabbitPluginMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DgtDriversRabbitPluginMenuItem.Image")));
-            this.DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
-            this.DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
-            this.DgtDriversRabbitPluginMenuItem.Click += new System.EventHandler(this.DgtDriversRabbitPluginMenuItem_Click);
+            DgtDriversRabbitPluginMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtDriversRabbitPluginMenuItem.Image");
+            DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
+            DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(285, 26);
+            DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
+            DgtDriversRabbitPluginMenuItem.Click += DgtDriversRabbitPluginMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(282, 6);
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new System.Drawing.Size(282, 6);
             // 
             // ChessStatsMenuItem
             // 
-            this.ChessStatsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChessStatsMenuItem.Image")));
-            this.ChessStatsMenuItem.Name = "ChessStatsMenuItem";
-            this.ChessStatsMenuItem.Size = new System.Drawing.Size(285, 26);
-            this.ChessStatsMenuItem.Text = "Chess Stats Project Home";
-            this.ChessStatsMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.ChessStatsMenuItem.Click += new System.EventHandler(this.ChessStatsMenuItem_Click);
+            ChessStatsMenuItem.Image = (System.Drawing.Image)resources.GetObject("ChessStatsMenuItem.Image");
+            ChessStatsMenuItem.Name = "ChessStatsMenuItem";
+            ChessStatsMenuItem.Size = new System.Drawing.Size(285, 26);
+            ChessStatsMenuItem.Text = "Chess Stats Project Home";
+            ChessStatsMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            ChessStatsMenuItem.Click += ChessStatsMenuItem_Click;
             // 
             // DGTAngelToolStripMenuItem
             // 
-            this.DGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ProjectPageMenuItem,
-            this.DonateViaGitHubMenuItem,
-            this.DonateViaPayPalMenuItem,
-            this.ReportIssuesMenuItem,
-            this.ReleasesMenuItem});
-            this.DGTAngelToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DGTAngelToolStripMenuItem.Image")));
-            this.DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
-            this.DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
-            this.DGTAngelToolStripMenuItem.Text = "Angel";
+            DGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { ProjectPageMenuItem, DonateViaGitHubMenuItem, DonateViaPayPalMenuItem, ReportIssuesMenuItem, ReleasesMenuItem });
+            DGTAngelToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("DGTAngelToolStripMenuItem.Image");
+            DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
+            DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
+            DGTAngelToolStripMenuItem.Text = "Angel";
             // 
             // ProjectPageMenuItem
             // 
-            this.ProjectPageMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ProjectPageMenuItem.Image")));
-            this.ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            this.ProjectPageMenuItem.Size = new System.Drawing.Size(221, 26);
-            this.ProjectPageMenuItem.Text = "Project Home";
-            this.ProjectPageMenuItem.Click += new System.EventHandler(this.ProjectPageMenuItem_Click);
+            ProjectPageMenuItem.Image = (System.Drawing.Image)resources.GetObject("ProjectPageMenuItem.Image");
+            ProjectPageMenuItem.Name = "ProjectPageMenuItem";
+            ProjectPageMenuItem.Size = new System.Drawing.Size(221, 26);
+            ProjectPageMenuItem.Text = "Project Home";
+            ProjectPageMenuItem.Click += ProjectPageMenuItem_Click;
             // 
             // DonateViaGitHubMenuItem
             // 
-            this.DonateViaGitHubMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaGitHubMenuItem.Image")));
-            this.DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            this.DonateViaGitHubMenuItem.Size = new System.Drawing.Size(221, 26);
-            this.DonateViaGitHubMenuItem.Text = "Donate via GitHub";
-            this.DonateViaGitHubMenuItem.Click += new System.EventHandler(this.DonateViaGitHubMenuItem_Click);
+            DonateViaGitHubMenuItem.Image = (System.Drawing.Image)resources.GetObject("DonateViaGitHubMenuItem.Image");
+            DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
+            DonateViaGitHubMenuItem.Size = new System.Drawing.Size(221, 26);
+            DonateViaGitHubMenuItem.Text = "Donate via GitHub";
+            DonateViaGitHubMenuItem.Click += DonateViaGitHubMenuItem_Click;
             // 
             // DonateViaPayPalMenuItem
             // 
-            this.DonateViaPayPalMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("DonateViaPayPalMenuItem.Image")));
-            this.DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            this.DonateViaPayPalMenuItem.Size = new System.Drawing.Size(221, 26);
-            this.DonateViaPayPalMenuItem.Text = "Donate via PayPal";
-            this.DonateViaPayPalMenuItem.Click += new System.EventHandler(this.DonateViaPayPalMenuItem_Click);
+            DonateViaPayPalMenuItem.Image = (System.Drawing.Image)resources.GetObject("DonateViaPayPalMenuItem.Image");
+            DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
+            DonateViaPayPalMenuItem.Size = new System.Drawing.Size(221, 26);
+            DonateViaPayPalMenuItem.Text = "Donate via PayPal";
+            DonateViaPayPalMenuItem.Click += DonateViaPayPalMenuItem_Click;
             // 
             // ReportIssuesMenuItem
             // 
-            this.ReportIssuesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReportIssuesMenuItem.Image")));
-            this.ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            this.ReportIssuesMenuItem.Size = new System.Drawing.Size(221, 26);
-            this.ReportIssuesMenuItem.Text = "Report Issues";
-            this.ReportIssuesMenuItem.Click += new System.EventHandler(this.ReportIssuesMenuItem_Click);
+            ReportIssuesMenuItem.Image = (System.Drawing.Image)resources.GetObject("ReportIssuesMenuItem.Image");
+            ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
+            ReportIssuesMenuItem.Size = new System.Drawing.Size(221, 26);
+            ReportIssuesMenuItem.Text = "Report Issues";
+            ReportIssuesMenuItem.Click += ReportIssuesMenuItem_Click;
             // 
             // ReleasesMenuItem
             // 
-            this.ReleasesMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ReleasesMenuItem.Image")));
-            this.ReleasesMenuItem.Name = "ReleasesMenuItem";
-            this.ReleasesMenuItem.Size = new System.Drawing.Size(221, 26);
-            this.ReleasesMenuItem.Text = "Beta Releases";
-            this.ReleasesMenuItem.Click += new System.EventHandler(this.ReleasesMenuItem_Click);
+            ReleasesMenuItem.Image = (System.Drawing.Image)resources.GetObject("ReleasesMenuItem.Image");
+            ReleasesMenuItem.Name = "ReleasesMenuItem";
+            ReleasesMenuItem.Size = new System.Drawing.Size(221, 26);
+            ReleasesMenuItem.Text = "Beta Releases";
+            ReleasesMenuItem.Click += ReleasesMenuItem_Click;
             // 
             // ChesscomDgtForumsMenuItem
             // 
-            this.ChesscomDgtForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomDgtForumsMenuItem.Image")));
-            this.ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
-            this.ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(264, 26);
-            this.ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Club";
-            this.ChesscomDgtForumsMenuItem.Click += new System.EventHandler(this.ChesscomDgtForumsMenuItem_Click);
+            ChesscomDgtForumsMenuItem.Image = (System.Drawing.Image)resources.GetObject("ChesscomDgtForumsMenuItem.Image");
+            ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
+            ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(264, 26);
+            ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Club";
+            ChesscomDgtForumsMenuItem.Click += ChesscomDgtForumsMenuItem_Click;
             // 
             // ChesscomPegasusForumsMenuItem
             // 
-            this.ChesscomPegasusForumsMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("ChesscomPegasusForumsMenuItem.Image")));
-            this.ChesscomPegasusForumsMenuItem.Name = "ChesscomPegasusForumsMenuItem";
-            this.ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(264, 26);
-            this.ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
-            this.ChesscomPegasusForumsMenuItem.Click += new System.EventHandler(this.ChesscomPegasusForumsMenuItem_Click);
+            ChesscomPegasusForumsMenuItem.Image = (System.Drawing.Image)resources.GetObject("ChesscomPegasusForumsMenuItem.Image");
+            ChesscomPegasusForumsMenuItem.Name = "ChesscomPegasusForumsMenuItem";
+            ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(264, 26);
+            ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
+            ChesscomPegasusForumsMenuItem.Click += ChesscomPegasusForumsMenuItem_Click;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(CheckBoxKibitzerEnabled);
+            groupBox5.Location = new System.Drawing.Point(3, 3);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new System.Drawing.Size(325, 265);
+            groupBox5.TabIndex = 0;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Kibitzer";
+            // 
+            // CheckBoxKibitzerEnabled
+            // 
+            CheckBoxKibitzerEnabled.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxKibitzerEnabled.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxKibitzerEnabled.Location = new System.Drawing.Point(25, 28);
+            CheckBoxKibitzerEnabled.Name = "CheckBoxKibitzerEnabled";
+            CheckBoxKibitzerEnabled.Size = new System.Drawing.Size(176, 25);
+            CheckBoxKibitzerEnabled.TabIndex = 5;
+            CheckBoxKibitzerEnabled.Text = "Kibitzer Enabled";
+            CheckBoxKibitzerEnabled.UseVisualStyleBackColor = true;
+            CheckBoxKibitzerEnabled.CheckedChanged += CheckBoxKibitzerEnabled_CheckedChanged;
             // 
             // Form1
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1056, 686);
-            this.Controls.Add(this.Panel1);
-            this.Controls.Add(this.StatusStrip);
-            this.Controls.Add(this.MenuStrip);
-            this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.MenuStrip;
-            this.MinimumSize = new System.Drawing.Size(620, 725);
-            this.Name = "Form1";
-            this.Text = "Cherub";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.Shown += new System.EventHandler(this.Form1_Shown);
-            this.GroupBox1.ResumeLayout(false);
-            this.GroupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVolStatus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVolTime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVolMoves)).EndInit();
-            this.GroupBoxClockTest.ResumeLayout(false);
-            this.TabPageAbout.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLogo)).EndInit();
-            this.TabPageClock.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxQrCode)).EndInit();
-            this.Panel1.ResumeLayout(false);
-            this.Panel1.PerformLayout();
-            this.TabControlSidePanel.ResumeLayout(false);
-            this.TabPageConfig.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownFontSize)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownFromMismatchDelay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownLocalDelay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownVoiceDelay)).EndInit();
-            this.TabPageBoards.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxRemote)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxLocal)).EndInit();
-            this.StatusStrip.ResumeLayout(false);
-            this.StatusStrip.PerformLayout();
-            this.MenuStrip.ResumeLayout(false);
-            this.MenuStrip.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            ClientSize = new System.Drawing.Size(1056, 686);
+            Controls.Add(Panel1);
+            Controls.Add(StatusStrip);
+            Controls.Add(MenuStrip);
+            DoubleBuffered = true;
+            Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = MenuStrip;
+            MinimumSize = new System.Drawing.Size(620, 725);
+            Name = "Form1";
+            Text = "Cherub";
+            FormClosing += Form1_FormClosing;
+            FormClosed += Form1_FormClosed;
+            Load += Form1_Load;
+            Shown += Form1_Shown;
+            GroupBox1.ResumeLayout(false);
+            GroupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)UpDownVolStatus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownVolTime).EndInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownVolMoves).EndInit();
+            GroupBoxClockTest.ResumeLayout(false);
+            TabPageOffline.ResumeLayout(false);
+            TabPageClock.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)PictureBoxQrCode).EndInit();
+            Panel1.ResumeLayout(false);
+            Panel1.PerformLayout();
+            TabControlSidePanel.ResumeLayout(false);
+            TabPageConfig.ResumeLayout(false);
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)UpDownFontSize).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)UpDownFromMismatchDelay).EndInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownLocalDelay).EndInit();
+            ((System.ComponentModel.ISupportInitialize)UpDownVoiceDelay).EndInit();
+            TabPageBoards.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)PictureBoxRemote).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PictureBoxLocal).EndInit();
+            StatusStrip.ResumeLayout(false);
+            StatusStrip.PerformLayout();
+            MenuStrip.ResumeLayout(false);
+            MenuStrip.PerformLayout();
+            groupBox5.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -1287,7 +1167,6 @@ namespace DgtCherub
         private System.Windows.Forms.CheckBox CheckBoxOnTop;
         private System.Windows.Forms.Button ButtonRabbitConfig1;
         private System.Windows.Forms.CheckBox CheckBoxDisableRabbit;
-        private System.Windows.Forms.LinkLabel LinkLabelAbout1;
         private System.Windows.Forms.TabPage TabPageBoards;
         private System.Windows.Forms.Label LabelRemoteBoard;
         private System.Windows.Forms.Label LabelLocalDgt;
@@ -1316,8 +1195,7 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem DgtDriversRabbitPluginMenuItem;
         private System.Windows.Forms.ToolStripSeparator ToolStripSeparator2;
         private System.Windows.Forms.GroupBox GroupBoxClockTest;
-        private System.Windows.Forms.TabPage TabPageAbout;
-        private System.Windows.Forms.PictureBox PictureBoxLogo;
+        private System.Windows.Forms.TabPage TabPageOffline;
         private System.Windows.Forms.TabPage TabPageClock;
         private System.Windows.Forms.Panel Panel1;
         private System.Windows.Forms.CheckBox CheckBoxRecieveLog;
@@ -1361,6 +1239,8 @@ namespace DgtCherub
         private System.Windows.Forms.ToolStripMenuItem DgtAngelLichessToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckBox CheckBoxKibitzerEnabled;
     }
 }
 

@@ -16,6 +16,8 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using UciComms;
+using UciComms.Data;
 
 /*
  YOUR TURN LANGUAGE
@@ -45,7 +47,7 @@ namespace DgtCherub
     public partial class Form1 : Form
     {
         private LiveChessServer fakeLiveChessServer;
-        
+
         private readonly string[] YOUR_TURN_LANG = { "Your turn",
                                                      "Uw zet",
                                                      "Du er i trækket",
@@ -100,6 +102,7 @@ namespace DgtCherub
         private readonly IAngelHubService _angelHubService;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
+        private readonly IUciEngineManager _uciEngineManager;
         private readonly ISequentialVoicePlayer _voicePlayeStatus;
         private readonly ISequentialVoicePlayer _voicePlayerMoves;
         private readonly ISequentialVoicePlayer _voicePlayerMovesNoDrop;
@@ -150,7 +153,7 @@ namespace DgtCherub
 #pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
-                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
+                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, IUciEngineManager uciEngineManager, ISequentialVoicePlayer voicePlayer,
                      ISequentialVoicePlayer voicePlayerMoves, ISequentialVoicePlayer voicePlayerMovesNoDrop, ISequentialVoicePlayer voicePlayerTime)
         {
             _iHost = iHost;
@@ -161,6 +164,7 @@ namespace DgtCherub
 
             _dgtEbDllFacade = dgtEbDllFacade;
             _boardRenderer = boardRenderer;
+            _uciEngineManager = uciEngineManager;
             _voicePlayeStatus = voicePlayer;
             _voicePlayerMoves = voicePlayerMoves;
             _voicePlayerTime = voicePlayerTime;
@@ -190,7 +194,6 @@ namespace DgtCherub
 
         private void StartBoardComms()
         {
-
             if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
             {
                 //If Live Chess is running don't try to start rabbit 
@@ -272,28 +275,28 @@ namespace DgtCherub
                             fakeLiveChessServer.RemoteFEN = toRemoteFen;
                         };
 
-                            _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
+                        _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
+                    {
+                        if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
                         {
-                            if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
+                            //Test for "DGT: Connected. Your turn." in the UI
+                            //Language list at the top of this file
+                            if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
                             {
-                                //Test for "DGT: Connected. Your turn." in the UI
-                                //Language list at the top of this file
-                                if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
-                                {
-                                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
-                                    else fakeLiveChessServer.SideToPlay = "BLACK";
+                                if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
+                                else fakeLiveChessServer.SideToPlay = "BLACK";
 
-                                    fakeLiveChessServer.BlockSendToRemote = false;
-                                }
-                                else
-                                {
-                                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
-                                    else fakeLiveChessServer.SideToPlay = "WHITE";
-
-                                    fakeLiveChessServer.BlockSendToRemote = true;
-                                }
+                                fakeLiveChessServer.BlockSendToRemote = false;
                             }
-                        };
+                            else
+                            {
+                                if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
+                                else fakeLiveChessServer.SideToPlay = "WHITE";
+
+                                fakeLiveChessServer.BlockSendToRemote = true;
+                            }
+                        }
+                    };
 
                         ButtonRabbitConfig1.Visible = true;
                         ButtonRabbitConf2.Visible = true;
@@ -374,8 +377,6 @@ namespace DgtCherub
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
 
-            //Remove the about tab for now (reserved for new content)
-            TabControlSidePanel.TabPages.RemoveAt(0);
 
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
@@ -388,18 +389,6 @@ namespace DgtCherub
 
             CheckBoxOnTop.Checked = DgtCherub.Properties.UserSettings.Default.AlwaysOnTop;
             CheckBoxOnTop_CheckedChanged(this, null);
-
-            LinkLabelAbout1.Text = "GitHub Project Page";
-            LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
-            LinkLabelAbout1.Visible = true;
-            LinkLabelAbout1.Click += (object sender, EventArgs e) =>
-            {
-                _ = Process.Start(new ProcessStartInfo
-                {
-                    FileName = $"{PROJECT_URL}",
-                    UseShellExecute = true //required on .Net Core 
-                });
-            };
 
             // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
             BoredLabelsInitialColor = LabelLocalDgt.BackColor;
@@ -819,6 +808,7 @@ namespace DgtCherub
             StartBoardComms();
         }
 
+        
         //*********************************************//
         #region Form Control Events
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -1347,5 +1337,82 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"         To use Rabbit DO NOT run Live Chess or that will take precedence.");
             }
         }
+
+        private void Eng_OnOutputRecieved(object sender, UciResponse e)
+        {
+            if (e is BestMoveResponse)
+            {
+                var bestMove = (BestMoveResponse)e;
+                TextBoxConsole.AddLine($"Best Move: {bestMove.BestMove}", TEXTBOX_MAX_LINES);
+            }
+            else if (e is InfoResponse)
+            {
+                var info = (InfoResponse)e;
+                if ((info.ScoreCp != 0 || info.ScoreMate != 0) && info.Depth > 20)
+                {
+                    TextBoxConsole.AddLine($"Eval: {(info.ScoreMate != 0 ? $"M{info.ScoreMate}" : $"{info.ScoreCp / 100f}")}@{info.Depth}::{info.Pv}", TEXTBOX_MAX_LINES);
+                }
+            }
+            else
+            {
+                //   TextBoxConsole.AddLine($"Engine Response: {e}", TEXTBOX_MAX_LINES);
+            }
+        }
+
+
+
+
+        private void Eng_OnOutputRecievedRaw(object sender, string e)
+        {
+            TextBoxConsole.AddLine($"UCI::{e}");
+        }
+
+        private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                _angelHubService.KillRemoteConnections();
+                TextBoxConsole.AddLine($"KIBITZER:: Turned on - remote board stopped until restart");
+
+                //JUST FOR TESTING **********************************************************************************8
+                _uciEngineManager.RegisterEngine("ENG0", new FileInfo(@"D:\Dropbox\ChessStats\Chess Engines\stockfish_14_win_x64_modern\stockfish_14_x64_modern.exe"));
+
+                var eng = _uciEngineManager.GetEngine("ENG0");
+                eng.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
+                eng.OnErrorRecievedRaw += Eng_OnOutputRecievedRaw;
+                eng.OnInputSentRaw += Eng_OnOutputRecievedRaw;
+
+                eng.OnOutputRecieved += Eng_OnOutputRecieved;
+
+                _uciEngineManager.StartEngine("ENG0");
+                eng.WaitForReady();
+                eng.SetDebug(false);
+
+                _angelHubService.OnLocalFenChange += (string fen) => 
+                {
+                    eng.Stop();
+                    eng.SetPosition($"{fen}  w KQkq - 0 1");
+                    eng.GoInfinite();
+
+                };
+
+                _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen, string boardMsg, bool isWhiteOnBottom) =>
+                {
+                    //This should never happen but if it does kill
+                    //everything....no cheating!
+                    Application.Exit();
+                };
+
+
+                //JUST FOR TESTING **********************************************************************************8
+            }
+            else
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Turned off but restart Cherub for remote board processing");
+            }
+
+
+        }
+
     }
 }
