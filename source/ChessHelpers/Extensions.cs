@@ -24,10 +24,10 @@ namespace ChessHelpers
             //         (isPlayingWhite && board.BlackKingChecked) ||
             //         (!isPlayingWhite && board.WhiteKingChecked))
             //{
-            for (int sq = ((isPlayingWhite) ? 0 : clearedflatFenArray.Length-1); 
+            for (int sq = isPlayingWhite ? 0 : clearedflatFenArray.Length - 1;
                 (isPlayingWhite && sq < clearedflatFenArray.Length) ||
-                (!isPlayingWhite && sq >= 0 );
-                sq=((isPlayingWhite)? sq+1:sq-1))
+                (!isPlayingWhite && sq >= 0);
+                sq = isPlayingWhite ? sq + 1 : sq - 1)
             {
                 if (clearedflatFenArray[sq] == '-')
                 {

@@ -47,7 +47,7 @@ namespace DgtCherub.Helpers
             _ = Task.Run(RunPlaylistProcessor);
         }
 
-        private async void RunPlaylistProcessor()
+        private async Task RunPlaylistProcessor()
         {
             _logger?.LogTrace($"Running Audio Process");
 

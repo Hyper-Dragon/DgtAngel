@@ -176,9 +176,9 @@ namespace DgtLiveChessWrapper
         /// <param name="socket"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        private static async Task Send(ClientWebSocket socket, string data)
+        private static Task Send(ClientWebSocket socket, string data)
         {
-            await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None).ConfigureAwait(false);
+            return socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         /// <summary>

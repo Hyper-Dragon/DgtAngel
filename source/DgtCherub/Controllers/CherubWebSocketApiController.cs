@@ -24,8 +24,8 @@ namespace DgtCherub.Controllers
         private const int MSG_LIMIT_SECONDS = 10;
         private DateTime lastErrorLog = DateTime.MinValue;
 
-        
-        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, 
+
+        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger,
                                             IAngelHubService appData)
         {
             _logger = logger;

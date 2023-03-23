@@ -8,9 +8,7 @@ using DynamicBoard.Helpers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QRCoder;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -283,15 +281,13 @@ namespace DgtCherub
                             //Language list at the top of this file
                             if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
                             {
-                                if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
-                                else fakeLiveChessServer.SideToPlay = "BLACK";
+                                fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "WHITE" : "BLACK";
 
                                 fakeLiveChessServer.BlockSendToRemote = false;
                             }
                             else
                             {
-                                if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
-                                else fakeLiveChessServer.SideToPlay = "WHITE";
+                                fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "BLACK" : "WHITE";
 
                                 fakeLiveChessServer.BlockSendToRemote = true;
                             }
@@ -808,7 +804,7 @@ namespace DgtCherub
             StartBoardComms();
         }
 
-        
+
         //*********************************************//
         #region Form Control Events
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -1340,14 +1336,12 @@ namespace DgtCherub
 
         private void Eng_OnOutputRecieved(object sender, UciResponse e)
         {
-            if (e is BestMoveResponse)
+            if (e is BestMoveResponse bestMove)
             {
-                var bestMove = (BestMoveResponse)e;
                 TextBoxConsole.AddLine($"Best Move: {bestMove.BestMove}", TEXTBOX_MAX_LINES);
             }
-            else if (e is InfoResponse)
+            else if (e is InfoResponse info)
             {
-                var info = (InfoResponse)e;
                 if ((info.ScoreCp != 0 || info.ScoreMate != 0) && info.Depth > 20)
                 {
                     TextBoxConsole.AddLine($"Eval: {(info.ScoreMate != 0 ? $"M{info.ScoreMate}" : $"{info.ScoreCp / 100f}")}@{info.Depth}::{info.Pv}", TEXTBOX_MAX_LINES);
@@ -1369,15 +1363,18 @@ namespace DgtCherub
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
+            //JUST FOR TESTING **********************************************************************************8
+            _uciEngineManager.RegisterEngine("ENG0", new FileInfo(@"D:\Dropbox\ChessStats\Chess Engines\stockfish_14_win_x64_modern\stockfish_14_x64_modern.exe"));
+
+            UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
+
+
             if (((CheckBox)sender).Checked)
             {
                 _angelHubService.KillRemoteConnections();
                 TextBoxConsole.AddLine($"KIBITZER:: Turned on - remote board stopped until restart");
 
-                //JUST FOR TESTING **********************************************************************************8
-                _uciEngineManager.RegisterEngine("ENG0", new FileInfo(@"D:\Dropbox\ChessStats\Chess Engines\stockfish_14_win_x64_modern\stockfish_14_x64_modern.exe"));
 
-                var eng = _uciEngineManager.GetEngine("ENG0");
                 eng.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
                 eng.OnErrorRecievedRaw += Eng_OnOutputRecievedRaw;
                 eng.OnInputSentRaw += Eng_OnOutputRecievedRaw;
@@ -1388,7 +1385,7 @@ namespace DgtCherub
                 eng.WaitForReady();
                 eng.SetDebug(false);
 
-                _angelHubService.OnLocalFenChange += (string fen) => 
+                _angelHubService.OnLocalFenChange += (string fen) =>
                 {
                     eng.Stop();
                     eng.SetPosition($"{fen}  w KQkq - 0 1");
@@ -1408,6 +1405,7 @@ namespace DgtCherub
             }
             else
             {
+                eng.Stop();
                 TextBoxConsole.AddLine($"KIBITZER:: Turned off but restart Cherub for remote board processing");
             }
 

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using UciComms.Data;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Security.AccessControl;
 
 namespace UciComms
 {
@@ -17,11 +18,16 @@ namespace UciComms
         public event EventHandler<string> OnErrorRecievedRaw;
         public event EventHandler<string> OnInputSentRaw;
 
+        private static readonly Regex OptionRegex = new Regex(@"option name (?<name>\S+) type (?<type>\S+)(?: default (?<default>\S+))?(?: min (?<min>\S+))?(?: max (?<max>\S+))?(?: var (?<var>\S+))?");
+
         private Process? RunningProcess { get; set; }
         public FileInfo Executable { get; init; }
-        public bool IsRunning { get { return RunningProcess != null; } }
+        public bool IsRunning => RunningProcess != null;
         public bool IsUciOk { get; private set; } = false;
         public bool IsReady { get; private set; } = false;
+
+        public Dictionary<string, UciOption> Options { get; } = new();
+
 
         public UciChessEngine(FileInfo executable)
         {
@@ -36,7 +42,7 @@ namespace UciComms
             {
                 StartInfo = new ProcessStartInfo()
                 {
-                    FileName = this.Executable.FullName,
+                    FileName = Executable.FullName,
                     UseShellExecute = false,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
@@ -45,13 +51,23 @@ namespace UciComms
                 }
             };
 
-            RunningProcess.OutputDataReceived += (sender, args) => {
+            RunningProcess.OutputDataReceived += (sender, args) =>
+            {
+                if (args == null) return;
+
                 OnOutputRecievedRaw?.Invoke(this, args.Data);
 
-                if (args.Data == "uciok") IsUciOk = true;
-                if (args.Data == "readyok") IsReady = true;
+                if (args.Data == "uciok")
+                {
+                    IsUciOk = true;
+                }
 
-                var response = ParseResponse(args.Data);
+                if (args.Data == "readyok")
+                {
+                    IsReady = true;
+                }
+
+                UciResponse response = ParseResponse(args.Data);
                 if (response != null)
                 {
                     OnOutputRecieved?.Invoke(this, response);
@@ -61,7 +77,7 @@ namespace UciComms
 
             RunningProcess.ErrorDataReceived += (sender, args) => OnErrorRecievedRaw?.Invoke(this, args.Data);
 
-            RunningProcess.Start();
+            _ = RunningProcess.Start();
             RunningProcess.BeginErrorReadLine();
             RunningProcess.BeginOutputReadLine();
 
@@ -91,7 +107,10 @@ namespace UciComms
 
         public void SetOption(string name, string value)
         {
-            SendCommand($"setoption name {name} value {value}");
+            if (Options.ContainsKey(name))
+            {
+                SendCommand($"setoption name {name} value {value}");
+            }
         }
 
         public void SetPosition(string fen)
@@ -101,9 +120,9 @@ namespace UciComms
 
         public void SetDebug(bool debugOn)
         {
-            SendCommand($"debug {(debugOn?"on":"off")}");
+            SendCommand($"debug {(debugOn ? "on" : "off")}");
         }
-        
+
 
         public void SetMoves(string moves)
         {
@@ -126,7 +145,7 @@ namespace UciComms
         {
             while (IsUciOk == false)
             {
-                Task.Delay(100);
+                _ = Task.Delay(100);
             }
         }
 
@@ -134,7 +153,7 @@ namespace UciComms
         {
             while (IsReady == false)
             {
-                Task.Delay(100);
+                _ = Task.Delay(100);
             }
         }
 
@@ -150,7 +169,7 @@ namespace UciComms
         }
 
 
-        public UciResponse ParseResponse(string rawData)
+        public UciResponse? ParseResponse(string rawData)
         {
             if (string.IsNullOrWhiteSpace(rawData))
             {
@@ -159,8 +178,8 @@ namespace UciComms
 
             if (rawData.StartsWith("id"))
             {
-                var parts = rawData.Split(' ');
-                var idResponse = new IdResponse { RawData = rawData };
+                string[] parts = rawData.Split(' ');
+                IdResponse idResponse = new() { RawData = rawData };
 
                 for (int i = 0; i < parts.Length - 1; i++)
                 {
@@ -184,9 +203,35 @@ namespace UciComms
             {
                 return new ReadyOkResponse { RawData = rawData };
             }
+            else if(rawData.StartsWith("option"))
+            {
+                var match = OptionRegex.Match(rawData);
+                if (match.Success)
+                {
+                    var name = match.Groups["name"].Value;
+                    var type = match.Groups["type"].Value;
+                    var defaultVal = match.Groups["default"].Success ? match.Groups["default"].Value : null;
+                    var minVal = match.Groups["min"].Success ? match.Groups["min"].Value : null;
+                    var maxVal = match.Groups["max"].Success ? match.Groups["max"].Value : null;
+                    var varVal = match.Groups["var"].Success ? match.Groups["var"].Value : null;
+
+                    var option = new UciOption(name, type, defaultVal, minVal, maxVal, varVal);
+
+                    if (Options.ContainsKey(name))
+                    {
+                        Options[name] = option;
+                    }
+                    else
+                    {
+                        Options.Add(name, option);
+                    }
+                }
+
+
+            }
             else if (rawData.StartsWith("bestmove"))
             {
-                var splitStr = rawData.Split(' ');
+                string[] splitStr = rawData.Split(' ');
 
                 return new BestMoveResponse
                 {
@@ -197,8 +242,8 @@ namespace UciComms
             }
             else if (rawData.StartsWith("info"))
             {
-                var splitStr = rawData.Split(' ');
-                var infoResponse = new InfoResponse { RawData = rawData };
+                string[] splitStr = rawData.Split(' ');
+                InfoResponse infoResponse = new() { RawData = rawData };
 
                 for (int i = 1; i < splitStr.Length; i++)
                 {
@@ -212,8 +257,15 @@ namespace UciComms
                         case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
                         case "score":
                             i++;
-                            if (splitStr[i] == "cp") infoResponse.ScoreCp = int.Parse(splitStr[++i]);
-                            else if (splitStr[i] == "mate") infoResponse.ScoreMate = int.Parse(splitStr[++i]);
+                            if (splitStr[i] == "cp")
+                            {
+                                infoResponse.ScoreCp = int.Parse(splitStr[++i]);
+                            }
+                            else if (splitStr[i] == "mate")
+                            {
+                                infoResponse.ScoreMate = int.Parse(splitStr[++i]);
+                            }
+
                             if (i + 1 < splitStr.Length && (splitStr[i + 1] == "lowerbound" || splitStr[i + 1] == "upperbound"))
                             {
                                 infoResponse.ScoreBound = splitStr[++i];
@@ -230,7 +282,11 @@ namespace UciComms
                         case "refutation": infoResponse.Refutation = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "currline":
                             infoResponse.CurrLineCpuNr = int.TryParse(splitStr[++i], out int cpuNr) ? cpuNr : 1;
-                            if (infoResponse.CurrLineCpuNr != 1) i++;
+                            if (infoResponse.CurrLineCpuNr != 1)
+                            {
+                                i++;
+                            }
+
                             infoResponse.CurrLine = string.Join(" ", splitStr[i..]); i = splitStr.Length;
                             break;
                     }

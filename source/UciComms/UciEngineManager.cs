@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace UciComms
+﻿namespace UciComms
 {
 
     public sealed class UciEngineManager : IUciEngineManager
@@ -27,7 +22,7 @@ namespace UciComms
 
         public UciChessEngine? GetEngine(string engineRef)
         {
-            UciEngines.TryGetValue(engineRef, out UciChessEngine? value);
+            _ = UciEngines.TryGetValue(engineRef, out UciChessEngine? value);
             return value;
         }
 
@@ -41,7 +36,7 @@ namespace UciComms
             if (UciEngines.TryGetValue(engineRef, out UciChessEngine? value))
             {
                 value?.StopUciEngine();
-                UciEngines.Remove(engineRef);
+                _ = UciEngines.Remove(engineRef);
             }
         }
     }

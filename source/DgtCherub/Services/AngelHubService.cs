@@ -1,5 +1,4 @@
 ﻿using DgtAngelShared.Json;
-using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
@@ -7,7 +6,7 @@ using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
 {
-    
+
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action OnInitComplete;
@@ -139,7 +138,7 @@ namespace DgtCherub.Services
             OnPluginDisconnect?.Invoke();
         }
 
-        public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null)
+        public async Task WatchStateChange(CherubApiMessage.MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null)
         {
             try
             {
@@ -164,13 +163,12 @@ namespace DgtCherub.Services
             finally { _ = startStopSemaphore.Release(); }
         }
 
+        private bool remoteIgnored = false;
 
-        bool remoteIgnored = false;
-
-        public async void KillRemoteConnections()
+        public void KillRemoteConnections()
         {
             remoteIgnored = true;
-            WatchStateChange(MessageTypeCode.WATCH_STOPPED, "Kibitz Started");
+            _ = WatchStateChange(MessageTypeCode.WATCH_STOPPED, "Kibitz Started");
             ResetRemoteBoardState(true);
         }
 
@@ -181,7 +179,10 @@ namespace DgtCherub.Services
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
-            if (remoteIgnored) return;
+            if (remoteIgnored)
+            {
+                return;
+            }
 
             //Always send these
             _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
@@ -222,8 +223,11 @@ namespace DgtCherub.Services
         }
 
         public void UserMessageArrived(string source, string message)
-        {   
-            if(remoteIgnored) return;
+        {
+            if (remoteIgnored)
+            {
+                return;
+            }
 
             _ = messageProcessChannel.Writer.TryWrite((source, message));
         }
@@ -255,7 +259,7 @@ namespace DgtCherub.Services
         }
 
 
-        private async void RunLocalFenProcessor()
+        private async Task RunLocalFenProcessor()
         {
             while (true)
             {
@@ -282,7 +286,7 @@ namespace DgtCherub.Services
             }
         }
 
-        private async void RunMessageProcessor()
+        private async Task RunMessageProcessor()
         {
             while (true)
             {
@@ -296,7 +300,7 @@ namespace DgtCherub.Services
             }
         }
 
-        private async void RunOrientationProcessor()
+        private async Task RunOrientationProcessor()
         {
             while (true)
             {
@@ -311,7 +315,7 @@ namespace DgtCherub.Services
             }
         }
 
-        private async void RunClockProcessor()
+        private async Task RunClockProcessor()
         {
             while (true)
             {
@@ -342,7 +346,7 @@ namespace DgtCherub.Services
             }
         }
 
-        private async void RunLastMoveProcessor()
+        private async Task RunLastMoveProcessor()
         {
             while (true)
             {
@@ -380,7 +384,7 @@ namespace DgtCherub.Services
             }
         }
 
-        private async void RunRemoteFenProcessor()
+        private async Task RunRemoteFenProcessor()
         {
             while (true)
             {
@@ -401,14 +405,14 @@ namespace DgtCherub.Services
                                               remoteBoardState.Board.FenTurn.ToString(),
                                               remoteBoardState.BoardConnection.ConMessage,
                                               remoteBoardState.Board.IsWhiteOnBottom);
-                    
+
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
                     await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
                 }
 
-                if(RemoteBoardFEN != remoteBoardState.BoardConnection.ConMessage)
+                if (RemoteBoardFEN != remoteBoardState.BoardConnection.ConMessage)
                 {
                     RemoteBoardStatusMessage = remoteBoardState.BoardConnection.ConMessage;
                     OnRemoteBoardStatusChange?.Invoke(remoteBoardState.BoardConnection.ConMessage,
@@ -417,7 +421,7 @@ namespace DgtCherub.Services
             }
         }
 
-        private async void TestForBoardMatch(string matchCode, int matchDelay)
+        private async Task TestForBoardMatch(string matchCode, int matchDelay)
         {
             if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
             {
@@ -503,6 +507,11 @@ namespace DgtCherub.Services
                 // Play the audio if required
                 if (!string.IsNullOrEmpty(audioFile)) { onPlayAudio?.Invoke(audioFile); }
             }
+        }
+
+        void IAngelHubService.WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState)
+        {
+            throw new NotImplementedException();
         }
     }
 }

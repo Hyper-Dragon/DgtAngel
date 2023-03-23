@@ -76,7 +76,7 @@ namespace DgtRabbitWrapper
                     OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
                     _ = clientSocket.Send(message);
                 }
-                    
+
                 //_ = clientSocket.Send(message);
             }
             catch (Exception ex)
@@ -194,7 +194,7 @@ namespace DgtRabbitWrapper
                 }
             }
         }
-        
+
 
         private string SendBoardUpdate(IWebSocketConnection socket, string message, string lastSend)
         {
@@ -204,15 +204,15 @@ namespace DgtRabbitWrapper
             //{
             //    SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
             //}
-//            SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
+            //            SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
 
             if (_broadcastFEN != lastSend)
             {
                 lastSend = _broadcastFEN;
 
                 //Dropfix mode so test if this is a valid move before sending...
-                string _currentRemoteFen = this.RemoteFEN;
-                string _currentSideToPlay = this.SideToPlay;
+                string _currentRemoteFen = RemoteFEN;
+                string _currentSideToPlay = SideToPlay;
 
                 //Make sure that the remote FEN is definatly sent
                 SendToSocket(socket, FormatMessage(NEWPOS_MSG, _currentRemoteFen), true);
@@ -233,7 +233,7 @@ namespace DgtRabbitWrapper
                 {
 
 
-                    var (move, ending, turn) = ChessHelpers.PositionDiffCalculator
+                    (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator
                                                .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
 
 
@@ -263,7 +263,7 @@ namespace DgtRabbitWrapper
                             //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
                             SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " w - - 0 1"));
                         }
-                        else if(turn == "BLACK")
+                        else if (turn == "BLACK")
                         {
                             _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(true);
                             OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
@@ -278,7 +278,7 @@ namespace DgtRabbitWrapper
                     }
                 }
             }
-            
+
             return lastSend;
         }
     }
