@@ -18,7 +18,7 @@ namespace UciComms
         public event EventHandler<string> OnErrorRecievedRaw;
         public event EventHandler<string> OnInputSentRaw;
 
-        private static readonly Regex OptionRegex = new Regex(@"option name (?<name>\S+) type (?<type>\S+)(?: default (?<default>\S+))?(?: min (?<min>\S+))?(?: max (?<max>\S+))?(?: var (?<var>\S+))?");
+        private static readonly Regex OptionRegex = new (@"option name (?<name>\S+) type (?<type>\S+)(?: default (?<default>\S+))?(?: min (?<min>\S+))?(?: max (?<max>\S+))?(?: var (?<var>\S+))?");
 
         private Process? RunningProcess { get; set; }
         public FileInfo Executable { get; init; }
