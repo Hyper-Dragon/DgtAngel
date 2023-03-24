@@ -26,6 +26,9 @@ namespace UciComms
         public bool IsUciOk { get; private set; } = false;
         public bool IsReady { get; private set; } = false;
 
+        public string EngineName { get; private set; } = "UNKNOWN";
+        public string EngineAuthor { get; private set; } = "UNKNOWN";
+
         public Dictionary<string, UciOption> Options { get; } = new();
 
 
@@ -70,6 +73,12 @@ namespace UciComms
                 UciResponse response = ParseResponse(args.Data);
                 if (response != null)
                 {
+                    if(response is IdResponse)
+                    {
+                        EngineName = ((IdResponse)response).Name;
+                        EngineAuthor = ((IdResponse)response).Author;
+                    }
+
                     OnOutputRecieved?.Invoke(this, response);
                 }
 
@@ -109,6 +118,7 @@ namespace UciComms
         {
             if (Options.ContainsKey(name))
             {
+                Options[name].VarValue = value;
                 SendCommand($"setoption name {name} value {value}");
             }
         }

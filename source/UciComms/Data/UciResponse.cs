@@ -30,12 +30,12 @@
 
     public class UciOption
     {
-        public string Name { get; }
-        public string Type { get; }
-        public string DefaultValue { get; }
-        public string MinValue { get; }
-        public string MaxValue { get; }
-        public string VarValue { get; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string DefaultValue { get; set; }
+        public string MinValue { get; set; }
+        public string MaxValue { get; set; }
+        public string VarValue { get; set; }
 
         public UciOption(string name, string type, string defaultValue, string minValue, string maxValue, string varValue)
         {
@@ -44,7 +44,7 @@
             DefaultValue = defaultValue;
             MinValue = minValue;
             MaxValue = maxValue;
-            VarValue = varValue;
+            VarValue = varValue ?? defaultValue;
         }
     }
 

@@ -1363,11 +1363,7 @@ namespace DgtCherub
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            //JUST FOR TESTING **********************************************************************************8
-            _uciEngineManager.RegisterEngine("ENG0", new FileInfo(@"D:\Dropbox\ChessStats\Chess Engines\stockfish_14_win_x64_modern\stockfish_14_x64_modern.exe"));
-
             UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
-
 
             if (((CheckBox)sender).Checked)
             {
@@ -1381,9 +1377,7 @@ namespace DgtCherub
 
                 eng.OnOutputRecieved += Eng_OnOutputRecieved;
 
-                _uciEngineManager.StartEngine("ENG0");
-                eng.WaitForReady();
-                eng.SetDebug(false);
+
 
                 _angelHubService.OnLocalFenChange += (string fen) =>
                 {
@@ -1412,5 +1406,52 @@ namespace DgtCherub
 
         }
 
+        private void ButtonEngineConfig_Click(object sender, EventArgs e)
+        {
+            UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
+
+            List<UciOption> uciOptions = eng.Options.Values.ToList();
+            UciOptionsForm form = new(eng.EngineName, uciOptions);
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                List<UciOption> modifiedUciOptions = form.GetModifiedUciOptions();
+                // Use the modifiedUciOptions list as needed
+                foreach (var option in modifiedUciOptions)
+                {
+                    eng.SetOption(option.Name, option.VarValue);
+                }
+            }
+        }
+
+        private void ButtonEngineSelect_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
+
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string selectedFile = openFileDialog.FileName;
+
+                _uciEngineManager.RegisterEngine("ENG0", new FileInfo(selectedFile));
+
+                UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
+
+                eng.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
+                eng.OnErrorRecievedRaw += Eng_OnOutputRecievedRaw;
+                eng.OnInputSentRaw += Eng_OnOutputRecievedRaw;
+
+                eng.OnOutputRecieved += Eng_OnOutputRecieved;
+
+
+
+                _uciEngineManager.StartEngine("ENG0");
+                eng.WaitForReady();
+                eng.SetDebug(false);
+
+
+            }
+        }
     }
 }
