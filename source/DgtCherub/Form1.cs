@@ -1434,9 +1434,19 @@ namespace DgtCherub
             {
                 string selectedFile = openFileDialog.FileName;
 
-                _uciEngineManager.RegisterEngine("ENG0", new FileInfo(selectedFile));
+                //_uciEngineManager.RegisterEngine("ENG0", new FileInfo(selectedFile));
 
                 UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
+
+                if(eng != null)
+                {
+                    _uciEngineManager.UnRegisterEngine("ENG0");
+                }
+
+                _uciEngineManager.RegisterEngine("ENG0", new FileInfo(selectedFile));
+                eng = _uciEngineManager.GetEngine("ENG0");
+
+
 
                 eng.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
                 eng.OnErrorRecievedRaw += Eng_OnOutputRecievedRaw;
@@ -1447,9 +1457,14 @@ namespace DgtCherub
 
 
                 _uciEngineManager.StartEngine("ENG0");
-                eng.WaitForReady();
-                eng.SetDebug(false);
 
+                if (eng.IsUciOk)
+                {
+                    eng.WaitForReady();
+                    eng.SetDebug(false);
+
+                    this.LabelEngine.Text = $"{eng.EngineName}";
+                }
 
             }
         }

@@ -45,8 +45,10 @@ namespace DgtCherub
             ButtonSendTestMsg2 = new System.Windows.Forms.Button();
             ButtonSendTestMsg1 = new System.Windows.Forms.Button();
             TabPageOffline = new System.Windows.Forms.TabPage();
-            groupBox5 = new System.Windows.Forms.GroupBox();
+            LabelEngine = new System.Windows.Forms.Label();
+            ButtonEngingSelect = new System.Windows.Forms.Button();
             ButtonEngineConfig = new System.Windows.Forms.Button();
+            groupBox5 = new System.Windows.Forms.GroupBox();
             CheckBoxKibitzerEnabled = new System.Windows.Forms.CheckBox();
             TabPageClock = new System.Windows.Forms.TabPage();
             button1 = new System.Windows.Forms.Button();
@@ -116,8 +118,6 @@ namespace DgtCherub
             ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ButtonEngingSelect = new System.Windows.Forms.Button();
-            LabelEngine = new System.Windows.Forms.Label();
             GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownVolStatus).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UpDownVolTime).BeginInit();
@@ -342,20 +342,31 @@ namespace DgtCherub
             TabPageOffline.Location = new System.Drawing.Point(29, 4);
             TabPageOffline.Name = "TabPageOffline";
             TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            TabPageOffline.Size = new System.Drawing.Size(333, 625);
+            TabPageOffline.Size = new System.Drawing.Size(333, 620);
             TabPageOffline.TabIndex = 0;
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
             // 
-            // groupBox5
+            // LabelEngine
             // 
-            groupBox5.Controls.Add(CheckBoxKibitzerEnabled);
-            groupBox5.Location = new System.Drawing.Point(4, 128);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(323, 265);
-            groupBox5.TabIndex = 0;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Kibitzer";
+            LabelEngine.BackColor = System.Drawing.Color.Silver;
+            LabelEngine.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            LabelEngine.Location = new System.Drawing.Point(4, 10);
+            LabelEngine.Name = "LabelEngine";
+            LabelEngine.Size = new System.Drawing.Size(324, 38);
+            LabelEngine.TabIndex = 12;
+            LabelEngine.Text = "No Engine Loaded";
+            // 
+            // ButtonEngingSelect
+            // 
+            ButtonEngingSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonEngingSelect.Location = new System.Drawing.Point(59, 60);
+            ButtonEngingSelect.Name = "ButtonEngingSelect";
+            ButtonEngingSelect.Size = new System.Drawing.Size(131, 37);
+            ButtonEngingSelect.TabIndex = 11;
+            ButtonEngingSelect.Text = "Engine Select...";
+            ButtonEngingSelect.UseVisualStyleBackColor = true;
+            ButtonEngingSelect.Click += ButtonEngineSelect_Click;
             // 
             // ButtonEngineConfig
             // 
@@ -367,6 +378,16 @@ namespace DgtCherub
             ButtonEngineConfig.Text = "Engine Config...";
             ButtonEngineConfig.UseVisualStyleBackColor = true;
             ButtonEngineConfig.Click += ButtonEngineConfig_Click;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(CheckBoxKibitzerEnabled);
+            groupBox5.Location = new System.Drawing.Point(4, 128);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new System.Drawing.Size(323, 265);
+            groupBox5.TabIndex = 0;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "Kibitzer";
             // 
             // CheckBoxKibitzerEnabled
             // 
@@ -392,7 +413,7 @@ namespace DgtCherub
             TabPageClock.Location = new System.Drawing.Point(29, 4);
             TabPageClock.Name = "TabPageClock";
             TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            TabPageClock.Size = new System.Drawing.Size(333, 625);
+            TabPageClock.Size = new System.Drawing.Size(333, 620);
             TabPageClock.TabIndex = 3;
             TabPageClock.Text = "Clock";
             TabPageClock.UseVisualStyleBackColor = true;
@@ -478,7 +499,7 @@ namespace DgtCherub
             Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             Panel1.Location = new System.Drawing.Point(0, 29);
             Panel1.Name = "Panel1";
-            Panel1.Size = new System.Drawing.Size(1056, 633);
+            Panel1.Size = new System.Drawing.Size(1056, 628);
             Panel1.TabIndex = 0;
             // 
             // TabControlSidePanel
@@ -497,7 +518,7 @@ namespace DgtCherub
             TabControlSidePanel.Multiline = true;
             TabControlSidePanel.Name = "TabControlSidePanel";
             TabControlSidePanel.SelectedIndex = 0;
-            TabControlSidePanel.Size = new System.Drawing.Size(366, 633);
+            TabControlSidePanel.Size = new System.Drawing.Size(366, 628);
             TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             TabControlSidePanel.TabIndex = 0;
             // 
@@ -512,7 +533,7 @@ namespace DgtCherub
             TabPageConfig.Location = new System.Drawing.Point(29, 4);
             TabPageConfig.Name = "TabPageConfig";
             TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            TabPageConfig.Size = new System.Drawing.Size(333, 625);
+            TabPageConfig.Size = new System.Drawing.Size(333, 620);
             TabPageConfig.TabIndex = 1;
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
@@ -759,7 +780,7 @@ namespace DgtCherub
             TabPageBoards.Controls.Add(PictureBoxLocal);
             TabPageBoards.Location = new System.Drawing.Point(29, 4);
             TabPageBoards.Name = "TabPageBoards";
-            TabPageBoards.Size = new System.Drawing.Size(333, 625);
+            TabPageBoards.Size = new System.Drawing.Size(333, 620);
             TabPageBoards.TabIndex = 2;
             TabPageBoards.Text = "Boards";
             TabPageBoards.Enter += TabPageBoards_Enter;
@@ -869,7 +890,7 @@ namespace DgtCherub
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
             TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            TextBoxConsole.Size = new System.Drawing.Size(685, 633);
+            TextBoxConsole.Size = new System.Drawing.Size(685, 628);
             TextBoxConsole.TabIndex = 1;
             TextBoxConsole.TabStop = false;
             TextBoxConsole.WordWrap = false;
@@ -878,7 +899,7 @@ namespace DgtCherub
             // 
             ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(974, 19);
+            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
             ToolStripStatusLabelLastUpdate.Spring = true;
             ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -888,9 +909,9 @@ namespace DgtCherub
             StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripStatusLabelLastUpdate, ToolStripStatusLabelVersion });
-            StatusStrip.Location = new System.Drawing.Point(0, 662);
+            StatusStrip.Location = new System.Drawing.Point(0, 657);
             StatusStrip.Name = "StatusStrip";
-            StatusStrip.Size = new System.Drawing.Size(1056, 24);
+            StatusStrip.Size = new System.Drawing.Size(1056, 29);
             StatusStrip.TabIndex = 1;
             StatusStrip.Text = "statusStrip1";
             // 
@@ -899,7 +920,7 @@ namespace DgtCherub
             ToolStripStatusLabelVersion.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             ToolStripStatusLabelVersion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
             ToolStripStatusLabelVersion.Name = "ToolStripStatusLabelVersion";
-            ToolStripStatusLabelVersion.Size = new System.Drawing.Size(67, 19);
+            ToolStripStatusLabelVersion.Size = new System.Drawing.Size(79, 23);
             ToolStripStatusLabelVersion.Text = "Ver. 0.0.0";
             ToolStripStatusLabelVersion.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
@@ -918,27 +939,27 @@ namespace DgtCherub
             TasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { KillLiveChessMenuItem, ToolStripSeparator2, PlayChessToolStripMenuItem, PlayLiChessToolStripMenuItem, toolStripSeparator4, VirtualClockMenuItem, VirtualClockWindowlessMenuItem, StartWingedHorseToolStripMenu, ToolStripSeparator1, ExitToolStripMenuItem });
             TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
-            TasksToolStripMenuItem.Size = new System.Drawing.Size(58, 25);
+            TasksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
             TasksToolStripMenuItem.Text = "Tasks";
             // 
             // KillLiveChessMenuItem
             // 
             KillLiveChessMenuItem.Image = (System.Drawing.Image)resources.GetObject("KillLiveChessMenuItem.Image");
             KillLiveChessMenuItem.Name = "KillLiveChessMenuItem";
-            KillLiveChessMenuItem.Size = new System.Drawing.Size(266, 26);
+            KillLiveChessMenuItem.Size = new System.Drawing.Size(280, 26);
             KillLiveChessMenuItem.Text = "Kill The Live Chess Process";
             KillLiveChessMenuItem.Click += KillLiveChessMenuItem_Click;
             // 
             // ToolStripSeparator2
             // 
             ToolStripSeparator2.Name = "ToolStripSeparator2";
-            ToolStripSeparator2.Size = new System.Drawing.Size(263, 6);
+            ToolStripSeparator2.Size = new System.Drawing.Size(277, 6);
             // 
             // PlayChessToolStripMenuItem
             // 
             PlayChessToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("PlayChessToolStripMenuItem.Image");
             PlayChessToolStripMenuItem.Name = "PlayChessToolStripMenuItem";
-            PlayChessToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            PlayChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
             PlayChessToolStripMenuItem.Text = "Play on Chess.Com";
             PlayChessToolStripMenuItem.Click += PlayChessToolStripMenuItem_Click;
             // 
@@ -946,20 +967,20 @@ namespace DgtCherub
             // 
             PlayLiChessToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("PlayLiChessToolStripMenuItem.Image");
             PlayLiChessToolStripMenuItem.Name = "PlayLiChessToolStripMenuItem";
-            PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            PlayLiChessToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
             PlayLiChessToolStripMenuItem.Text = "Play on Lichess.org";
             PlayLiChessToolStripMenuItem.Click += PlayLiChessToolStripMenuItem_Click;
             // 
             // toolStripSeparator4
             // 
             toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new System.Drawing.Size(263, 6);
+            toolStripSeparator4.Size = new System.Drawing.Size(277, 6);
             // 
             // VirtualClockMenuItem
             // 
             VirtualClockMenuItem.Image = (System.Drawing.Image)resources.GetObject("VirtualClockMenuItem.Image");
             VirtualClockMenuItem.Name = "VirtualClockMenuItem";
-            VirtualClockMenuItem.Size = new System.Drawing.Size(266, 26);
+            VirtualClockMenuItem.Size = new System.Drawing.Size(280, 26);
             VirtualClockMenuItem.Text = "Virtual Clock ";
             VirtualClockMenuItem.Click += VirtualClockMenuItem_Click;
             // 
@@ -967,7 +988,7 @@ namespace DgtCherub
             // 
             VirtualClockWindowlessMenuItem.Image = (System.Drawing.Image)resources.GetObject("VirtualClockWindowlessMenuItem.Image");
             VirtualClockWindowlessMenuItem.Name = "VirtualClockWindowlessMenuItem";
-            VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(266, 26);
+            VirtualClockWindowlessMenuItem.Size = new System.Drawing.Size(280, 26);
             VirtualClockWindowlessMenuItem.Text = "Virtual Clock (Windowless)";
             VirtualClockWindowlessMenuItem.Click += VirtualClockWindowlessMenuItem_Click;
             // 
@@ -975,20 +996,20 @@ namespace DgtCherub
             // 
             StartWingedHorseToolStripMenu.Image = (System.Drawing.Image)resources.GetObject("StartWingedHorseToolStripMenu.Image");
             StartWingedHorseToolStripMenu.Name = "StartWingedHorseToolStripMenu";
-            StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(266, 26);
+            StartWingedHorseToolStripMenu.Size = new System.Drawing.Size(280, 26);
             StartWingedHorseToolStripMenu.Text = "Start Winged Horse Mode";
             StartWingedHorseToolStripMenu.Click += StartWingedHorseToolStripMenu_Click;
             // 
             // ToolStripSeparator1
             // 
             ToolStripSeparator1.Name = "ToolStripSeparator1";
-            ToolStripSeparator1.Size = new System.Drawing.Size(263, 6);
+            ToolStripSeparator1.Size = new System.Drawing.Size(277, 6);
             // 
             // ExitToolStripMenuItem
             // 
             ExitToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("ExitToolStripMenuItem.Image");
             ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            ExitToolStripMenuItem.Size = new System.Drawing.Size(266, 26);
+            ExitToolStripMenuItem.Size = new System.Drawing.Size(280, 26);
             ExitToolStripMenuItem.Text = "Exit";
             ExitToolStripMenuItem.Click += ExitToolStripMenuItem_Click;
             // 
@@ -997,7 +1018,7 @@ namespace DgtCherub
             LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { DownloadsToolStripMenuItem, DGTAngelToolStripMenuItem, ChesscomDgtForumsMenuItem, ChesscomPegasusForumsMenuItem });
             LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
-            LinksToolStripMenuItem.Size = new System.Drawing.Size(58, 25);
+            LinksToolStripMenuItem.Size = new System.Drawing.Size(60, 25);
             LinksToolStripMenuItem.Text = "Links";
             // 
             // DownloadsToolStripMenuItem
@@ -1005,14 +1026,14 @@ namespace DgtCherub
             DownloadsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { DgtAngelChromeExtensionMenuItem, DgtAngelLichessToolStripMenuItem, DgtLiveChessSoftwareMenuItem, DgtDriversRabbitPluginMenuItem, toolStripSeparator3, ChessStatsMenuItem });
             DownloadsToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("DownloadsToolStripMenuItem.Image");
             DownloadsToolStripMenuItem.Name = "DownloadsToolStripMenuItem";
-            DownloadsToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            DownloadsToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
             DownloadsToolStripMenuItem.Text = "Downloads";
             // 
             // DgtAngelChromeExtensionMenuItem
             // 
             DgtAngelChromeExtensionMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtAngelChromeExtensionMenuItem.Image");
             DgtAngelChromeExtensionMenuItem.Name = "DgtAngelChromeExtensionMenuItem";
-            DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(271, 26);
+            DgtAngelChromeExtensionMenuItem.Size = new System.Drawing.Size(285, 26);
             DgtAngelChromeExtensionMenuItem.Text = "Angel Chess.com Extension";
             DgtAngelChromeExtensionMenuItem.Click += DgtAngelChromeExtensionMenuItem_Click;
             // 
@@ -1020,7 +1041,7 @@ namespace DgtCherub
             // 
             DgtAngelLichessToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtAngelLichessToolStripMenuItem.Image");
             DgtAngelLichessToolStripMenuItem.Name = "DgtAngelLichessToolStripMenuItem";
-            DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(271, 26);
+            DgtAngelLichessToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
             DgtAngelLichessToolStripMenuItem.Text = "Angel Lichess Extension";
             DgtAngelLichessToolStripMenuItem.Click += DgtAngelLichessToolStripMenuItem_Click;
             // 
@@ -1028,7 +1049,7 @@ namespace DgtCherub
             // 
             DgtLiveChessSoftwareMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtLiveChessSoftwareMenuItem.Image");
             DgtLiveChessSoftwareMenuItem.Name = "DgtLiveChessSoftwareMenuItem";
-            DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(271, 26);
+            DgtLiveChessSoftwareMenuItem.Size = new System.Drawing.Size(285, 26);
             DgtLiveChessSoftwareMenuItem.Text = "DGT Live Chess";
             DgtLiveChessSoftwareMenuItem.Click += DgtLiveChessSoftwareMenuItem_Click;
             // 
@@ -1036,20 +1057,20 @@ namespace DgtCherub
             // 
             DgtDriversRabbitPluginMenuItem.Image = (System.Drawing.Image)resources.GetObject("DgtDriversRabbitPluginMenuItem.Image");
             DgtDriversRabbitPluginMenuItem.Name = "DgtDriversRabbitPluginMenuItem";
-            DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(271, 26);
+            DgtDriversRabbitPluginMenuItem.Size = new System.Drawing.Size(285, 26);
             DgtDriversRabbitPluginMenuItem.Text = "DGT Drivers (Rabbit Plugin)";
             DgtDriversRabbitPluginMenuItem.Click += DgtDriversRabbitPluginMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new System.Drawing.Size(268, 6);
+            toolStripSeparator3.Size = new System.Drawing.Size(282, 6);
             // 
             // ChessStatsMenuItem
             // 
             ChessStatsMenuItem.Image = (System.Drawing.Image)resources.GetObject("ChessStatsMenuItem.Image");
             ChessStatsMenuItem.Name = "ChessStatsMenuItem";
-            ChessStatsMenuItem.Size = new System.Drawing.Size(271, 26);
+            ChessStatsMenuItem.Size = new System.Drawing.Size(285, 26);
             ChessStatsMenuItem.Text = "Chess Stats Project Home";
             ChessStatsMenuItem.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             ChessStatsMenuItem.Click += ChessStatsMenuItem_Click;
@@ -1059,14 +1080,14 @@ namespace DgtCherub
             DGTAngelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { ProjectPageMenuItem, DonateViaGitHubMenuItem, DonateViaPayPalMenuItem, ReportIssuesMenuItem, ReleasesMenuItem });
             DGTAngelToolStripMenuItem.Image = (System.Drawing.Image)resources.GetObject("DGTAngelToolStripMenuItem.Image");
             DGTAngelToolStripMenuItem.Name = "DGTAngelToolStripMenuItem";
-            DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(250, 26);
+            DGTAngelToolStripMenuItem.Size = new System.Drawing.Size(264, 26);
             DGTAngelToolStripMenuItem.Text = "Angel";
             // 
             // ProjectPageMenuItem
             // 
             ProjectPageMenuItem.Image = (System.Drawing.Image)resources.GetObject("ProjectPageMenuItem.Image");
             ProjectPageMenuItem.Name = "ProjectPageMenuItem";
-            ProjectPageMenuItem.Size = new System.Drawing.Size(207, 26);
+            ProjectPageMenuItem.Size = new System.Drawing.Size(221, 26);
             ProjectPageMenuItem.Text = "Project Home";
             ProjectPageMenuItem.Click += ProjectPageMenuItem_Click;
             // 
@@ -1074,7 +1095,7 @@ namespace DgtCherub
             // 
             DonateViaGitHubMenuItem.Image = (System.Drawing.Image)resources.GetObject("DonateViaGitHubMenuItem.Image");
             DonateViaGitHubMenuItem.Name = "DonateViaGitHubMenuItem";
-            DonateViaGitHubMenuItem.Size = new System.Drawing.Size(207, 26);
+            DonateViaGitHubMenuItem.Size = new System.Drawing.Size(221, 26);
             DonateViaGitHubMenuItem.Text = "Donate via GitHub";
             DonateViaGitHubMenuItem.Click += DonateViaGitHubMenuItem_Click;
             // 
@@ -1082,7 +1103,7 @@ namespace DgtCherub
             // 
             DonateViaPayPalMenuItem.Image = (System.Drawing.Image)resources.GetObject("DonateViaPayPalMenuItem.Image");
             DonateViaPayPalMenuItem.Name = "DonateViaPayPalMenuItem";
-            DonateViaPayPalMenuItem.Size = new System.Drawing.Size(207, 26);
+            DonateViaPayPalMenuItem.Size = new System.Drawing.Size(221, 26);
             DonateViaPayPalMenuItem.Text = "Donate via PayPal";
             DonateViaPayPalMenuItem.Click += DonateViaPayPalMenuItem_Click;
             // 
@@ -1090,7 +1111,7 @@ namespace DgtCherub
             // 
             ReportIssuesMenuItem.Image = (System.Drawing.Image)resources.GetObject("ReportIssuesMenuItem.Image");
             ReportIssuesMenuItem.Name = "ReportIssuesMenuItem";
-            ReportIssuesMenuItem.Size = new System.Drawing.Size(207, 26);
+            ReportIssuesMenuItem.Size = new System.Drawing.Size(221, 26);
             ReportIssuesMenuItem.Text = "Report Issues";
             ReportIssuesMenuItem.Click += ReportIssuesMenuItem_Click;
             // 
@@ -1098,7 +1119,7 @@ namespace DgtCherub
             // 
             ReleasesMenuItem.Image = (System.Drawing.Image)resources.GetObject("ReleasesMenuItem.Image");
             ReleasesMenuItem.Name = "ReleasesMenuItem";
-            ReleasesMenuItem.Size = new System.Drawing.Size(207, 26);
+            ReleasesMenuItem.Size = new System.Drawing.Size(221, 26);
             ReleasesMenuItem.Text = "Beta Releases";
             ReleasesMenuItem.Click += ReleasesMenuItem_Click;
             // 
@@ -1106,7 +1127,7 @@ namespace DgtCherub
             // 
             ChesscomDgtForumsMenuItem.Image = (System.Drawing.Image)resources.GetObject("ChesscomDgtForumsMenuItem.Image");
             ChesscomDgtForumsMenuItem.Name = "ChesscomDgtForumsMenuItem";
-            ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(250, 26);
+            ChesscomDgtForumsMenuItem.Size = new System.Drawing.Size(264, 26);
             ChesscomDgtForumsMenuItem.Text = "Chess.com DGT Club";
             ChesscomDgtForumsMenuItem.Click += ChesscomDgtForumsMenuItem_Click;
             // 
@@ -1114,29 +1135,9 @@ namespace DgtCherub
             // 
             ChesscomPegasusForumsMenuItem.Image = (System.Drawing.Image)resources.GetObject("ChesscomPegasusForumsMenuItem.Image");
             ChesscomPegasusForumsMenuItem.Name = "ChesscomPegasusForumsMenuItem";
-            ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(250, 26);
+            ChesscomPegasusForumsMenuItem.Size = new System.Drawing.Size(264, 26);
             ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             ChesscomPegasusForumsMenuItem.Click += ChesscomPegasusForumsMenuItem_Click;
-            // 
-            // ButtonEngingSelect
-            // 
-            ButtonEngingSelect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            ButtonEngingSelect.Location = new System.Drawing.Point(59, 60);
-            ButtonEngingSelect.Name = "ButtonEngingSelect";
-            ButtonEngingSelect.Size = new System.Drawing.Size(131, 37);
-            ButtonEngingSelect.TabIndex = 11;
-            ButtonEngingSelect.Text = "Engine Select...";
-            ButtonEngingSelect.UseVisualStyleBackColor = true;
-            ButtonEngingSelect.Click += ButtonEngineSelect_Click;
-            // 
-            // LabelEngine
-            // 
-            LabelEngine.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            LabelEngine.Location = new System.Drawing.Point(4, 10);
-            LabelEngine.Name = "LabelEngine";
-            LabelEngine.Size = new System.Drawing.Size(324, 38);
-            LabelEngine.TabIndex = 12;
-            LabelEngine.Text = "No Engine Loaded";
             // 
             // Form1
             // 

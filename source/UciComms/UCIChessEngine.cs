@@ -70,13 +70,13 @@ namespace UciComms
                     IsReady = true;
                 }
 
-                UciResponse response = ParseResponse(args.Data);
+                UciResponse? response = ParseResponse(args.Data);
                 if (response != null)
                 {
                     if(response is IdResponse)
                     {
-                        EngineName = ((IdResponse)response).Name;
-                        EngineAuthor = ((IdResponse)response).Author;
+                        EngineName = string.IsNullOrEmpty(((IdResponse)response).Name) ? EngineName : ((IdResponse)response).Name;
+                        EngineAuthor = string.IsNullOrEmpty(((IdResponse)response).Author) ? EngineAuthor : ((IdResponse)response).Author;
                     }
 
                     OnOutputRecieved?.Invoke(this, response);
@@ -84,14 +84,21 @@ namespace UciComms
 
             };
 
-            RunningProcess.ErrorDataReceived += (sender, args) => OnErrorRecievedRaw?.Invoke(this, args.Data);
+            RunningProcess.ErrorDataReceived += (sender, args) => OnErrorRecievedRaw?.Invoke(this, args?.Data ?? "");
 
             _ = RunningProcess.Start();
             RunningProcess.BeginErrorReadLine();
             RunningProcess.BeginOutputReadLine();
 
             SendCommand("uci");
-            WaitForUci();
+
+            if (!WaitForUciOk())
+            {
+                //If message not recieved then the exe isn't a UCI engine so kill the process
+                RunningProcess.Kill();
+                return;
+            }
+
             SendCommand("isready");
             WaitForReady();
             SendCommand("ucinewgame");
@@ -151,12 +158,17 @@ namespace UciComms
 
 
 
-        public void WaitForUci()
+        public bool WaitForUciOk()
         {
-            while (IsUciOk == false)
+            int loop = 0;
+            while (IsUciOk == false && loop < 30)
             {
-                _ = Task.Delay(100);
+                Thread.Sleep(100);
+                //_ = Task.Delay(100);
+                loop++;
             }
+
+            return IsUciOk;
         }
 
         public void WaitForReady()
@@ -195,11 +207,11 @@ namespace UciComms
                 {
                     if (parts[i] == "name")
                     {
-                        idResponse.Name = parts[i + 1];
+                        idResponse.Name = string.Join(" ", parts.Skip(i + 1)).Trim();
                     }
                     else if (parts[i] == "author")
                     {
-                        idResponse.Author = parts[i + 1];
+                        idResponse.Author = string.Join(" ", parts.Skip(i + 1)).Trim();
                     }
                 }
 
