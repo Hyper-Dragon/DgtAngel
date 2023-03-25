@@ -28,6 +28,7 @@
     }
 
 
+    [Serializable]
     public class UciOption
     {
         public string Name { get; set; }

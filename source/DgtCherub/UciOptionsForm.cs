@@ -1,9 +1,34 @@
-﻿using System.Drawing;
+﻿using System.Configuration;
+using System.Drawing;
+using System.Text.Json;
 using System.Windows.Forms;
 using UciComms.Data;
 
+
 namespace DgtCherub
 {
+    public class UciOptionSettings
+    {
+        public Dictionary<string, List<UciOption>> Options { get; set; } = new Dictionary<string, List<UciOption>>();
+
+        public string SerializeSettings()
+        {
+            return JsonSerializer.Serialize(this.Options);
+        }
+
+        public static UciOptionSettings DeserializeSettings(string json)
+        {
+            var settings = new UciOptionSettings();
+
+            if (!string.IsNullOrEmpty(json))
+            {
+                settings.Options = JsonSerializer.Deserialize<Dictionary<string, List<UciOption>>>(json);
+            }
+
+            return settings;
+        }
+    }
+
     public class UciOptionsForm : Form
     {
         private const int CONTROL_OFFSET = 250;

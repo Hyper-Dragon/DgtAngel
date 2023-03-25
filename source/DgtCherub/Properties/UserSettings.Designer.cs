@@ -214,5 +214,17 @@ namespace DgtCherub.Properties {
                 this["LastUciExe"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UciOptions {
+            get {
+                return ((string)(this["UciOptions"]));
+            }
+            set {
+                this["UciOptions"] = value;
+            }
+        }
     }
 }

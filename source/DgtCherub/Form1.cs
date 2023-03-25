@@ -113,8 +113,10 @@ namespace DgtCherub
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
         private bool isEngineActivationRequired = true;
+
         private UciChessEngine currentUciChessEngine;
         private string lastUciExe = "";
+        private UciOptionSettings uciOptionSettings = new();
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
 
@@ -341,6 +343,8 @@ namespace DgtCherub
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            currentUciChessEngine.Stop();
+
             DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
             DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
             DgtCherub.Properties.UserSettings.Default.VolTime = UpDownVolTime.Value;
@@ -357,6 +361,7 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled = CheckBoxNeverUseRabbit.Checked;
             DgtCherub.Properties.UserSettings.Default.StartingWidth = Width;
             DgtCherub.Properties.UserSettings.Default.LastUciExe = lastUciExe;
+            DgtCherub.Properties.UserSettings.Default.UciOptions = uciOptionSettings?.SerializeSettings();
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -366,6 +371,7 @@ namespace DgtCherub
             SuspendLayout();
 
             lastUciExe = DgtCherub.Properties.UserSettings.Default.LastUciExe;
+            uciOptionSettings = UciOptionSettings.DeserializeSettings(DgtCherub.Properties.UserSettings.Default.UciOptions);
 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 
@@ -513,6 +519,12 @@ namespace DgtCherub
                 engine.OnErrorRecievedRaw  += Eng_OnOutputRecievedRaw;
                 engine.OnInputSentRaw      += Eng_OnOutputRecievedRaw;
                 engine.OnOutputRecieved    += Eng_OnOutputRecieved;
+
+
+                if (uciOptionSettings.Options.ContainsKey(currentUciChessEngine.Executable.FullName))
+                {
+                    ApplyUciSettings(uciOptionSettings.Options[currentUciChessEngine.Executable.FullName]);
+                }
 
                 ButtonEngineConfig.Enabled = true;
                 CheckBoxKibitzerEnabled.Enabled = true;
@@ -1439,16 +1451,29 @@ namespace DgtCherub
 
                     currentUciChessEngine.Stop();
 
-                    // Use the modifiedUciOptions list as needed
-                    foreach (var option in modifiedUciOptions)
+                    if (uciOptionSettings.Options.ContainsKey(currentUciChessEngine.Executable.FullName))
                     {
-                        currentUciChessEngine.SetOption(option.Name, option.VarValue);
+                        uciOptionSettings.Options[currentUciChessEngine.Executable.FullName] = modifiedUciOptions;
                     }
+                    else
+                    {
+                        uciOptionSettings.Options.Add(currentUciChessEngine.Executable.FullName, modifiedUciOptions);
+                    }
+
+                    ApplyUciSettings(modifiedUciOptions);
                 }
             }
             catch (Exception ex)
             {
                 TextBoxConsole.AddLine($"UCI: Error setting options {ex.Message}");
+            }
+        }
+
+        private void ApplyUciSettings(List<UciOption> options)
+        {
+            foreach (var option in options)
+            {
+                currentUciChessEngine.SetOption(option.Name, option.VarValue);
             }
         }
 
