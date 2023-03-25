@@ -283,13 +283,11 @@ namespace DgtCherub
                             if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
                             {
                                 fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "WHITE" : "BLACK";
-
                                 fakeLiveChessServer.BlockSendToRemote = false;
                             }
                             else
                             {
                                 fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "BLACK" : "WHITE";
-
                                 fakeLiveChessServer.BlockSendToRemote = true;
                             }
                         }
