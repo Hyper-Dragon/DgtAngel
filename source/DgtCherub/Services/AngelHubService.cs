@@ -2,7 +2,9 @@
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
+using UciComms;
 using static DgtAngelShared.Json.CherubApiMessage;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DgtCherub.Services
 {
@@ -27,6 +29,11 @@ namespace DgtCherub.Services
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
         public event Action OnPluginDisconnect;
+        public event Action<UciChessEngine> OnUciEngineLoaded;
+        public event Action<string> OnUciEngineReleased;
+        public event Action<string> OnUciEngineStartError;
+        public event Action OnKibitzerActivated;
+        public event Action OnKibitzerDeactivated;
 
         public bool IsClientInitComplete { get; private set; } = false;
         public bool IsWhiteOnBottom { get; private set; } = true;
@@ -69,6 +76,7 @@ namespace DgtCherub.Services
         private const int POST_EVENT_DELAY_ORIENTATION = MS_IN_SEC / 10;
 
         private readonly ILogger _logger;
+        private readonly IUciEngineManager _uciEngineManager;
         //private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
@@ -82,16 +90,20 @@ namespace DgtCherub.Services
 
         //private readonly object matcherLockObj = new();
 
+        private UciChessEngine currentUciEngine = null;
+
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
         private string lastMoveVoiceTest = "";
+        private bool isKibitzerRunning = false;
 
 
         //public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
-        public AngelHubService(ILogger<AngelHubService> logger)
+        public AngelHubService(ILogger<AngelHubService> logger, IUciEngineManager uciEngineManager)
         {
             _logger = logger;
+            _uciEngineManager = uciEngineManager;
             //_dgtEbDllFacade = dgtEbDllFacade;
 
 
@@ -126,6 +138,62 @@ namespace DgtCherub.Services
             _ = Task.Run(RunLastMoveProcessor);
             _ = Task.Run(RunMessageProcessor);
         }
+
+        public void SwitchKibitzer(bool turnOn = false)
+        {
+            if(turnOn)
+            {
+                KillRemoteConnections();
+                isKibitzerRunning = true;
+                OnKibitzerActivated();
+            }
+            else
+            {
+                isKibitzerRunning = false;
+                currentUciEngine?.Stop();
+                OnKibitzerDeactivated?.Invoke();
+            }
+        }
+
+        public void LoadEngineAsync(string exePath)
+        {
+            UciChessEngine engSlot1 = _uciEngineManager.GetEngine("KIB_ENG_SLOT_1");
+            UciChessEngine engSlot2 = _uciEngineManager.GetEngine("KIB_ENG_SLOT_2");
+
+            string slotKey = engSlot1 == null ? "KIB_ENG_SLOT_1" : "KIB_ENG_SLOT_2";
+            string slotRemoveKey = engSlot1 == null ? "KIB_ENG_SLOT_2" : "KIB_ENG_SLOT_1";
+
+            _uciEngineManager.RegisterEngine(slotKey, new FileInfo(exePath));
+
+            var engineNew = _uciEngineManager.GetEngine(slotKey);
+            var engineOld = _uciEngineManager.GetEngine(slotRemoveKey);
+
+            try
+            {
+                _uciEngineManager.StartEngine(slotKey);
+
+                if (engineNew.IsUciOk)
+                {
+                    engineNew.WaitForReady();
+                    //eng.SetDebug(false);
+                }
+
+                currentUciEngine = engineNew;
+                OnUciEngineLoaded?.Invoke(engineNew);
+
+                if (engineOld != null)
+                {
+                    OnUciEngineReleased?.Invoke($"{engineOld.EngineName} [{engineOld.EngineAuthor}]");
+                    _uciEngineManager.UnRegisterEngine(slotRemoveKey);
+                }
+            }
+            catch (Exception ex)
+            {
+                _uciEngineManager.UnRegisterEngine(slotKey);
+                OnUciEngineStartError?.Invoke($"Failed to start engine :: {ex.Message} [{exePath}]");
+            }
+        }
+
 
         public void NotifyInitComplete()
         {
@@ -165,7 +233,7 @@ namespace DgtCherub.Services
 
         private bool remoteIgnored = false;
 
-        public void KillRemoteConnections()
+        private void KillRemoteConnections()
         {
             remoteIgnored = true;
             _ = WatchStateChange(MessageTypeCode.WATCH_STOPPED, "Kibitz Started");
@@ -270,6 +338,7 @@ namespace DgtCherub.Services
                     LocalBoardFEN = fen;
                     OnLocalFenChange?.Invoke(LocalBoardFEN);
 
+
                     if (IsLocalBoardAvailable &&
                        IsRemoteBoardAvailable)
                     {
@@ -279,6 +348,13 @@ namespace DgtCherub.Services
                         CurrentUpdatetMatch = Guid.NewGuid();
                         _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
                                            IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
+                    }else if (IsLocalBoardAvailable &&
+                              !IsRemoteBoardAvailable &&
+                              isKibitzerRunning)
+                    {
+                        currentUciEngine?.Stop();
+                        currentUciEngine?.SetPosition($"{fen}  w KQkq - 0 1");
+                        currentUciEngine?.GoInfinite();
                     }
 
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);

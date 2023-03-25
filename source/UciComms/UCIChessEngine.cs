@@ -18,7 +18,7 @@ namespace UciComms
         public event EventHandler<string> OnErrorRecievedRaw;
         public event EventHandler<string> OnInputSentRaw;
 
-        private static readonly Regex OptionRegex = new (@"option name (?<name>\S+) type (?<type>\S+)(?: default (?<default>\S+))?(?: min (?<min>\S+))?(?: max (?<max>\S+))?(?: var (?<var>\S+))?");
+        private static readonly Regex OptionRegex = new(@"option name (?<name>\S+) type (?<type>\S+)(?: default (?<default>\S+))?(?: min (?<min>\S+))?(?: max (?<max>\S+))?(?: var (?<var>\S+))?");
 
         private Process? RunningProcess { get; set; }
         public FileInfo Executable { get; init; }
@@ -73,7 +73,7 @@ namespace UciComms
                 UciResponse? response = ParseResponse(args.Data);
                 if (response != null)
                 {
-                    if(response is IdResponse)
+                    if (response is IdResponse)
                     {
                         EngineName = string.IsNullOrEmpty(((IdResponse)response).Name) ? EngineName : ((IdResponse)response).Name;
                         EngineAuthor = string.IsNullOrEmpty(((IdResponse)response).Author) ? EngineAuthor : ((IdResponse)response).Author;
@@ -86,22 +86,33 @@ namespace UciComms
 
             RunningProcess.ErrorDataReceived += (sender, args) => OnErrorRecievedRaw?.Invoke(this, args?.Data ?? "");
 
-            _ = RunningProcess.Start();
+            try
+            {
+                _ = RunningProcess.Start();
+            }
+            catch (Exception) 
+            {
+                RunningProcess = null;
+                throw;
+            }
+
+
             RunningProcess.BeginErrorReadLine();
             RunningProcess.BeginOutputReadLine();
 
             SendCommand("uci");
-           
+
             if (!WaitForUciOk())
             {
                 //If message not recieved then the exe isn't a UCI engine so kill the process
                 RunningProcess.Kill();
-                return;
+                throw new Exception("Executable is not a UCI engine");
             }
 
             SendCommand("isready");
             WaitForReady();
             SendCommand("ucinewgame");
+
         }
 
         private void SendCommand(string command)
@@ -224,7 +235,7 @@ namespace UciComms
             {
                 return new ReadyOkResponse { RawData = rawData };
             }
-            else if(rawData.StartsWith("option"))
+            else if (rawData.StartsWith("option"))
             {
                 var match = OptionRegex.Match(rawData);
                 if (match.Success)

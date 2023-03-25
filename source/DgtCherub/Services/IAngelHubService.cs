@@ -1,4 +1,5 @@
 ﻿using DgtAngelShared.Json;
+using UciComms;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
@@ -44,14 +45,20 @@ namespace DgtCherub.Services
         event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
         event Action<string, string> OnNotification;
         event Action OnPluginDisconnect;
+        event Action<UciChessEngine> OnUciEngineLoaded;
+        event Action<string> OnUciEngineReleased;
+        event Action<string> OnUciEngineStartError;
+        public event Action OnKibitzerActivated;
+        public event Action OnKibitzerDeactivated;
 
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
-        public void KillRemoteConnections();
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
         void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
         void PluginDisconnect();
+        void LoadEngineAsync(string exePath);
+        void SwitchKibitzer(bool turnOn);
     }
 }

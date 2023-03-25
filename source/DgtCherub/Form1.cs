@@ -100,7 +100,6 @@ namespace DgtCherub
         private readonly IAngelHubService _angelHubService;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
-        private readonly IUciEngineManager _uciEngineManager;
         private readonly ISequentialVoicePlayer _voicePlayeStatus;
         private readonly ISequentialVoicePlayer _voicePlayerMoves;
         private readonly ISequentialVoicePlayer _voicePlayerMovesNoDrop;
@@ -113,6 +112,8 @@ namespace DgtCherub
         private Color BoredLabelsInitialColor = Color.Silver;
         private Image PictureBoxLocalInitialImage;
         private Image PictureBoxRemoteInitialImage;
+        private bool isEngineActivationRequired = true;
+        private UciChessEngine currentUciChessEngine;
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
 
@@ -162,7 +163,6 @@ namespace DgtCherub
 
             _dgtEbDllFacade = dgtEbDllFacade;
             _boardRenderer = boardRenderer;
-            _uciEngineManager = uciEngineManager;
             _voicePlayeStatus = voicePlayer;
             _voicePlayerMoves = voicePlayerMoves;
             _voicePlayerTime = voicePlayerTime;
@@ -462,6 +462,57 @@ namespace DgtCherub
             ClearConsole();
 
             _angelHubService.OnOrientationFlipped += DisplayBoardImages;
+
+            _angelHubService.OnKibitzerActivated += () =>
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Turned ON - RESTART Cherub for online play");
+            };
+
+            _angelHubService.OnKibitzerDeactivated += () =>
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Turned OFF - RESTART Cherub for online play");
+            };
+
+            _angelHubService.OnUciEngineStartError += (string errorMsg) =>
+            {
+                TextBoxConsole.AddLine($"UCI: Engine Start Error:: {errorMsg}");
+
+                if (currentUciChessEngine != null)
+                {
+                    //We still have a loaded engine so enable the buttons
+                    ButtonEngineConfig.Enabled = true;
+                    CheckBoxKibitzerEnabled.Enabled = true;
+                }
+            };
+
+            _angelHubService.OnUciEngineReleased += (string engineName) =>
+            {
+                TextBoxConsole.AddLine($"UCI: Released Engine:: {engineName}");
+            };
+
+            _angelHubService.OnUciEngineLoaded += (UciChessEngine engine) =>
+            {
+                LabelEngine.Text = engine.EngineName;
+                TextBoxConsole.AddLine($"UCI: Loaded Engine:: {engine.EngineName} [{engine.EngineAuthor}]");
+
+                if (currentUciChessEngine != null)
+                {
+                    currentUciChessEngine.OnOutputRecievedRaw -= Eng_OnOutputRecievedRaw;
+                    currentUciChessEngine.OnErrorRecievedRaw -= Eng_OnOutputRecievedRaw;
+                    currentUciChessEngine.OnInputSentRaw -= Eng_OnOutputRecievedRaw;
+                    currentUciChessEngine.OnOutputRecieved -= Eng_OnOutputRecieved;
+                }
+
+                currentUciChessEngine = engine;
+
+                engine.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
+                engine.OnErrorRecievedRaw  += Eng_OnOutputRecievedRaw;
+                engine.OnInputSentRaw      += Eng_OnOutputRecievedRaw;
+                engine.OnOutputRecieved    += Eng_OnOutputRecieved;
+
+                ButtonEngineConfig.Enabled = true;
+                CheckBoxKibitzerEnabled.Enabled = true;
+            };
 
             _angelHubService.OnLocalFenChange += (string localFen) =>
             {
@@ -1216,16 +1267,23 @@ namespace DgtCherub
             {
                 Action updateAction = new(async () =>
                 {
-                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
+                    try
+                    {
+                        ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
 
-                    string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
-                    string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
+                        string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
+                        string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
-                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
-                                                                                   : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                        PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
+                                                                                       : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
 
-                    PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
-                                                                                       : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                        PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
+                                                                                           : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                    }
+                    catch(Exception ex)
+                    {
+                        TextBoxConsole.AddLine($"ERROR:: Image update failed [{ex.Message}]");
+                    }
                 });
 
                 _ = BeginInvoke(updateAction);
@@ -1354,76 +1412,39 @@ namespace DgtCherub
         }
 
 
-
-
         private void Eng_OnOutputRecievedRaw(object sender, string e)
         {
-            TextBoxConsole.AddLine($"UCI::{e}");
+            TextBoxConsole.AddLine($"UCI:: {currentUciChessEngine?.EngineName} :: {e}");
         }
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
-
-            if (((CheckBox)sender).Checked)
-            {
-                _angelHubService.KillRemoteConnections();
-                TextBoxConsole.AddLine($"KIBITZER:: Turned on - remote board stopped until restart");
-
-
-                eng.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
-                eng.OnErrorRecievedRaw += Eng_OnOutputRecievedRaw;
-                eng.OnInputSentRaw += Eng_OnOutputRecievedRaw;
-
-                eng.OnOutputRecieved += Eng_OnOutputRecieved;
-
-
-
-                _angelHubService.OnLocalFenChange += (string fen) =>
-                {
-                    eng.Stop();
-                    eng.SetPosition($"{fen}  w KQkq - 0 1");
-                    eng.GoInfinite();
-
-                };
-
-                _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen, string boardMsg, bool isWhiteOnBottom) =>
-                {
-                    //This should never happen but if it does kill
-                    //everything....no cheating!
-                    Application.Exit();
-                };
-
-
-                //JUST FOR TESTING **********************************************************************************8
-            }
-            else
-            {
-                eng.Stop();
-                TextBoxConsole.AddLine($"KIBITZER:: Turned off but restart Cherub for remote board processing");
-            }
-
-
+            if (currentUciChessEngine != null) _angelHubService.SwitchKibitzer(((CheckBox)sender).Checked);
         }
 
         private void ButtonEngineConfig_Click(object sender, EventArgs e)
         {
-            UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
-
-            List<UciOption> uciOptions = eng.Options.Values.ToList();
-            UciOptionsForm form = new(eng.EngineName, uciOptions);
-
-            if (form.ShowDialog() == DialogResult.OK)
+            try
             {
-                List<UciOption> modifiedUciOptions = form.GetModifiedUciOptions();
+                List<UciOption> uciOptions = currentUciChessEngine.Options.Values.ToList();
+                UciOptionsForm form = new(currentUciChessEngine.EngineName, uciOptions);
 
-                eng.Stop();
-
-                // Use the modifiedUciOptions list as needed
-                foreach (var option in modifiedUciOptions)
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    eng.SetOption(option.Name, option.VarValue);
+                    List<UciOption> modifiedUciOptions = form.GetModifiedUciOptions();
+
+                    currentUciChessEngine.Stop();
+
+                    // Use the modifiedUciOptions list as needed
+                    foreach (var option in modifiedUciOptions)
+                    {
+                        currentUciChessEngine.SetOption(option.Name, option.VarValue);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                TextBoxConsole.AddLine($"UCI: Error setting options {ex.Message}");
             }
         }
 
@@ -1435,40 +1456,20 @@ namespace DgtCherub
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string selectedFile = openFileDialog.FileName;
-
-                //_uciEngineManager.RegisterEngine("ENG0", new FileInfo(selectedFile));
-
-                UciChessEngine eng = _uciEngineManager.GetEngine("ENG0");
-
-                if(eng != null)
-                {
-                    _uciEngineManager.UnRegisterEngine("ENG0");
-                }
-
-                _uciEngineManager.RegisterEngine("ENG0", new FileInfo(selectedFile));
-                eng = _uciEngineManager.GetEngine("ENG0");
+                ButtonEngineConfig.Enabled = false;
+                CheckBoxKibitzerEnabled.Enabled = false;
+                _angelHubService.LoadEngineAsync(openFileDialog.FileName);
+            }
+        }
 
 
-
-                eng.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
-                eng.OnErrorRecievedRaw += Eng_OnOutputRecievedRaw;
-                eng.OnInputSentRaw += Eng_OnOutputRecievedRaw;
-
-                eng.OnOutputRecieved += Eng_OnOutputRecieved;
-
-
-
-                _uciEngineManager.StartEngine("ENG0");
-
-                if (eng.IsUciOk)
-                {
-                    eng.WaitForReady();
-                    eng.SetDebug(false);
-
-                    this.LabelEngine.Text = $"{eng.EngineName}";
-                }
-
+        private void LabelEngine_VisibleChanged(object sender, EventArgs e)
+        {
+            //Try and load the last engine when the 'Offline' tab is selected
+            if (isEngineActivationRequired)
+            {
+                isEngineActivationRequired = false;
+                _angelHubService.LoadEngineAsync(@"C:\Dropbox\ChessStats\Chess Engines\stockfish_14_win_x64_modern\xstockfish_14_x64_modern.exe");
             }
         }
     }

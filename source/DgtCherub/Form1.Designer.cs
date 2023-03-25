@@ -356,6 +356,7 @@ namespace DgtCherub
             LabelEngine.Size = new System.Drawing.Size(324, 38);
             LabelEngine.TabIndex = 12;
             LabelEngine.Text = "No Engine Loaded";
+            LabelEngine.VisibleChanged += LabelEngine_VisibleChanged;
             // 
             // ButtonEngingSelect
             // 
@@ -370,6 +371,7 @@ namespace DgtCherub
             // 
             // ButtonEngineConfig
             // 
+            ButtonEngineConfig.Enabled = false;
             ButtonEngineConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonEngineConfig.Location = new System.Drawing.Point(196, 60);
             ButtonEngineConfig.Name = "ButtonEngineConfig";
@@ -391,6 +393,7 @@ namespace DgtCherub
             // 
             // CheckBoxKibitzerEnabled
             // 
+            CheckBoxKibitzerEnabled.Enabled = false;
             CheckBoxKibitzerEnabled.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxKibitzerEnabled.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckBoxKibitzerEnabled.Location = new System.Drawing.Point(25, 28);
