@@ -91,7 +91,7 @@ namespace UciComms
             RunningProcess.BeginOutputReadLine();
 
             SendCommand("uci");
-
+           
             if (!WaitForUciOk())
             {
                 //If message not recieved then the exe isn't a UCI engine so kill the process
@@ -164,7 +164,6 @@ namespace UciComms
             while (IsUciOk == false && loop < 30)
             {
                 Thread.Sleep(100);
-                //_ = Task.Delay(100);
                 loop++;
             }
 

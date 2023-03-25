@@ -1416,6 +1416,9 @@ namespace DgtCherub
             if (form.ShowDialog() == DialogResult.OK)
             {
                 List<UciOption> modifiedUciOptions = form.GetModifiedUciOptions();
+
+                eng.Stop();
+
                 // Use the modifiedUciOptions list as needed
                 foreach (var option in modifiedUciOptions)
                 {
