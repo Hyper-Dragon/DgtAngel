@@ -114,6 +114,7 @@ namespace DgtCherub
         private Image PictureBoxRemoteInitialImage;
         private bool isEngineActivationRequired = true;
         private UciChessEngine currentUciChessEngine;
+        private string lastUciExe = "";
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
 
@@ -357,6 +358,7 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.MatcherLocalFromMismatchDelay = UpDownFromMismatchDelay.Value;
             DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled = CheckBoxNeverUseRabbit.Checked;
             DgtCherub.Properties.UserSettings.Default.StartingWidth = Width;
+            DgtCherub.Properties.UserSettings.Default.LastUciExe = lastUciExe;
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -364,6 +366,8 @@ namespace DgtCherub
         private void Form1_Load(object sender, EventArgs e)
         {
             SuspendLayout();
+
+            lastUciExe = DgtCherub.Properties.UserSettings.Default.LastUciExe;
 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 
@@ -493,6 +497,8 @@ namespace DgtCherub
             _angelHubService.OnUciEngineLoaded += (UciChessEngine engine) =>
             {
                 LabelEngine.Text = engine.EngineName;
+                lastUciExe = engine.Executable.FullName;
+
                 TextBoxConsole.AddLine($"UCI: Loaded Engine:: {engine.EngineName} [{engine.EngineAuthor}]");
 
                 if (currentUciChessEngine != null)
@@ -1469,7 +1475,7 @@ namespace DgtCherub
             if (isEngineActivationRequired)
             {
                 isEngineActivationRequired = false;
-                _angelHubService.LoadEngineAsync(@"C:\Dropbox\ChessStats\Chess Engines\stockfish_14_win_x64_modern\xstockfish_14_x64_modern.exe");
+                if(!string.IsNullOrEmpty(lastUciExe)) _angelHubService.LoadEngineAsync(lastUciExe);
             }
         }
     }
