@@ -352,15 +352,29 @@ namespace DgtCherub.Services
                               !IsRemoteBoardAvailable &&
                               isKibitzerRunning)
                     {
+                        
+
+                        (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(lastLocalBoardFenForKibitzer, fen);
+                        kibmove = move;
+                        kibend = ending;
+                        kibturn = turn == "WHITE" ? TurnCode.WHITE : turn == "BLACK" ? TurnCode.BLACK : TurnCode.UNKNOWN;
+
                         currentUciEngine?.Stop();
                         currentUciEngine?.SetPosition($"{fen}  w KQkq - 0 1");
                         currentUciEngine?.GoInfinite();
+
+                        lastLocalBoardFenForKibitzer = fen;
                     }
 
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
                 }
             }
         }
+
+        string lastLocalBoardFenForKibitzer = "";
+        TurnCode kibturn;
+        string kibend = "";
+        string kibmove = "";
 
         private async Task RunMessageProcessor()
         {

@@ -54,7 +54,7 @@
         public int Depth { get; set; } = 0;
         public int SelDepth { get; set; } = 0;
         public int Time { get; set; } = 0;
-        public int Nodes { get; set; } = 0;
+        public decimal Nodes { get; set; } = 0;
         public string Pv { get; set; } = string.Empty;
         public int MultiPv { get; set; } = 0;
         public int ScoreCp { get; set; } = 0;

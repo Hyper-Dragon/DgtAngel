@@ -284,7 +284,7 @@ namespace UciComms
                         case "depth": infoResponse.Depth = int.Parse(splitStr[++i]); break;
                         case "seldepth": infoResponse.SelDepth = int.Parse(splitStr[++i]); break;
                         case "time": infoResponse.Time = int.Parse(splitStr[++i]); break;
-                        case "nodes": infoResponse.Nodes = int.Parse(splitStr[++i]); break;
+                        case "nodes": infoResponse.Nodes = decimal.Parse(splitStr[++i]); break;
                         case "pv": infoResponse.Pv = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
                         case "score":

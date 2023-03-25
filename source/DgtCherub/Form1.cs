@@ -343,7 +343,7 @@ namespace DgtCherub
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            currentUciChessEngine.Stop();
+            currentUciChessEngine?.Stop();
 
             DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
             DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
@@ -515,9 +515,9 @@ namespace DgtCherub
 
                 currentUciChessEngine = engine;
 
-                engine.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
-                engine.OnErrorRecievedRaw  += Eng_OnOutputRecievedRaw;
-                engine.OnInputSentRaw      += Eng_OnOutputRecievedRaw;
+                //engine.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
+                //engine.OnErrorRecievedRaw  += Eng_OnOutputRecievedRaw;
+                //engine.OnInputSentRaw      += Eng_OnOutputRecievedRaw;
                 engine.OnOutputRecieved    += Eng_OnOutputRecieved;
 
 
@@ -1412,7 +1412,7 @@ namespace DgtCherub
         {
             if (e is BestMoveResponse bestMove)
             {
-                TextBoxConsole.AddLine($"Best Move: {bestMove.BestMove}", TEXTBOX_MAX_LINES);
+                //TextBoxConsole.AddLine($"Best Move: {bestMove.BestMove}", TEXTBOX_MAX_LINES);
             }
             else if (e is InfoResponse info)
             {
