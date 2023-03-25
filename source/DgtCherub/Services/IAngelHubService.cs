@@ -48,8 +48,9 @@ namespace DgtCherub.Services
         event Action<UciChessEngine> OnUciEngineLoaded;
         event Action<string> OnUciEngineReleased;
         event Action<string> OnUciEngineStartError;
-        public event Action OnKibitzerActivated;
-        public event Action OnKibitzerDeactivated;
+        event Action OnKibitzerActivated;
+        event Action OnKibitzerDeactivated;
+        event Action<string> OnKibitzerFenChange;
 
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);

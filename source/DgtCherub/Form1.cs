@@ -476,6 +476,11 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"KIBITZER:: Turned ON - RESTART Cherub for online play");
             };
 
+            _angelHubService.OnKibitzerFenChange += (string fen) =>
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Running eval for {fen}");
+            };
+            
             _angelHubService.OnKibitzerDeactivated += () =>
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Turned OFF - RESTART Cherub for online play");
@@ -1408,6 +1413,8 @@ namespace DgtCherub
             }
         }
 
+
+        int kibitzerBestScore = 0;
         private void Eng_OnOutputRecieved(object sender, UciResponse e)
         {
             if (e is BestMoveResponse bestMove)
@@ -1418,8 +1425,12 @@ namespace DgtCherub
             {
                 if ((info.ScoreCp != 0 || info.ScoreMate != 0) && info.Depth > 20)
                 {
-                    TextBoxConsole.AddLine($"Eval: {(info.ScoreMate != 0 ? $"M{info.ScoreMate}" : $"{info.ScoreCp / 100f}")}@{info.Depth}::{info.Pv}", TEXTBOX_MAX_LINES);
-                }
+                    if (info.ScoreCp > kibitzerBestScore)
+                    {
+                        TextBoxConsole.AddLine($"Eval: {(info.ScoreMate != 0 ? $"M{info.ScoreMate}" : $"{info.ScoreCp / 100f}")}@{info.Depth}::{info.Pv}", TEXTBOX_MAX_LINES);
+                        kibitzerBestScore = info.ScoreCp;
+                    }
+                    }
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using DgtAngelShared.Json;
+﻿using ChessHelpers;
+using DgtAngelShared.Json;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
@@ -34,6 +35,7 @@ namespace DgtCherub.Services
         public event Action<string> OnUciEngineStartError;
         public event Action OnKibitzerActivated;
         public event Action OnKibitzerDeactivated;
+        public event Action<string> OnKibitzerFenChange;
 
         public bool IsClientInitComplete { get; private set; } = false;
         public bool IsWhiteOnBottom { get; private set; } = true;
@@ -348,28 +350,80 @@ namespace DgtCherub.Services
                         CurrentUpdatetMatch = Guid.NewGuid();
                         _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
                                            IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
-                    }else if (IsLocalBoardAvailable &&
+                    }
+                    else if (IsLocalBoardAvailable &&
                               !IsRemoteBoardAvailable &&
                               isKibitzerRunning)
                     {
-                        
 
-                        (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(lastLocalBoardFenForKibitzer, fen);
-                        kibmove = move;
-                        kibend = ending;
-                        kibturn = turn == "WHITE" ? TurnCode.WHITE : turn == "BLACK" ? TurnCode.BLACK : TurnCode.UNKNOWN;
 
-                        currentUciEngine?.Stop();
-                        currentUciEngine?.SetPosition($"{fen}  w KQkq - 0 1");
-                        currentUciEngine?.GoInfinite();
+                        //(string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(lastLocalBoardFenForKibitzer, fen);
+                        //kibmove = move;
+                        //kibend = ending;
+                        //kibturn = turn == "WHITE" ? TurnCode.WHITE : turn == "BLACK" ? TurnCode.BLACK : TurnCode.UNKNOWN;
+                        //
+                        //currentUciEngine?.Stop();
+                        //currentUciEngine?.SetPosition($"{fen}  w KQkq - 0 1");
+                        //currentUciEngine?.GoInfinite();
+                        //
+                        //if (fen.Contains('k') && fen.Contains('K'))
+                        //{
+                            char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
+                            int whiteCount = clearedflatFenArray.Count(x => char.IsUpper(x));
+                            int blackCount = clearedflatFenArray.Count(x => char.IsLower(x));
 
-                        lastLocalBoardFenForKibitzer = fen;
+
+                            string halfMoveClock = "0";
+                            string fullMoveNumber = "1";
+
+
+                            //promotesTo = enPass == "-" && isPawnMove && !string.IsNullOrEmpty(tmpPromotesTo) ? tmpPromotesTo : "";
+
+                            bool isWhiteToPlay = false;
+
+                            if (whiteCount > kibitzLastWhiteCount)
+                            {
+                                isWhiteToPlay = false;
+                            }
+                            else if (blackCount > kibitzLastBlackCount)
+                            {
+                                isWhiteToPlay = true;
+
+                            }
+
+                            string enPass = "-";
+                            string castle = $"{((clearedflatFenArray[63] == 'R' && clearedflatFenArray[60] == 'K') ? "K" : "")}" +
+                                            $"{((clearedflatFenArray[56] == 'R' && clearedflatFenArray[60] == 'K') ? "Q" : "")}" +
+                                            $"{((clearedflatFenArray[7] == 'r' && clearedflatFenArray[4] == 'k') ? "k" : "")}" +
+                                            $"{((clearedflatFenArray[0] == 'r' && clearedflatFenArray[4] == 'k') ? "q" : "")}";
+
+                            string inferredFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
+                            string joinedFen = $"{fen} {inferredFenTailFromPosition}";
+
+                            currentUciEngine?.Stop();
+
+                            
+
+                            OnKibitzerFenChange?.Invoke(joinedFen);
+
+                            currentUciEngine?.SetPosition(joinedFen);
+                            currentUciEngine?.GoInfinite();
+
+                            kibitzClearedflatFenArray = clearedflatFenArray;
+                            kibitzLastWhiteCount = whiteCount;
+                            kibitzLastBlackCount = blackCount;
+                            lastLocalBoardFenForKibitzer = fen;
+                        //}
                     }
 
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
                 }
             }
         }
+
+        char[] kibitzClearedflatFenArray = Array.Empty<char>();
+        int kibitzLastWhiteCount = 0;
+        int kibitzLastBlackCount = 0;
 
         string lastLocalBoardFenForKibitzer = "";
         TurnCode kibturn;

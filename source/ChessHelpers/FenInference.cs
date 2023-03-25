@@ -1,6 +1,6 @@
 ﻿namespace ChessHelpers
 {
-    internal class FenInference
+    public class FenInference
     {
         private static readonly char[] colIdx = "abcdefgh".ToCharArray();
         private static readonly char[] rowIdx = "87654321".ToCharArray();
