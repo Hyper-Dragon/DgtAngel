@@ -7,7 +7,7 @@ using System.Security.AccessControl;
 
 namespace UciComms
 {
-    public class UciChessEngine
+    public partial class UciChessEngine
     {
         // Subscribe to this events to get the parsed output from the engine
         public event EventHandler<UciResponse> OnOutputRecieved;
@@ -18,7 +18,7 @@ namespace UciComms
         public event EventHandler<string> OnErrorRecievedRaw;
         public event EventHandler<string> OnInputSentRaw;
 
-        private static readonly Regex OptionRegex = new(@"option name (?<name>\S+) type (?<type>\S+)(?: default (?<default>\S+))?(?: min (?<min>\S+))?(?: max (?<max>\S+))?(?: var (?<var>\S+))?");
+        private static readonly Regex OptionRegex = LineIn();
 
         private Process? RunningProcess { get; set; }
         public FileInfo Executable { get; init; }
@@ -106,12 +106,16 @@ namespace UciComms
             {
                 //If message not recieved then the exe isn't a UCI engine so kill the process
                 RunningProcess.Kill();
-                throw new Exception("Executable is not a UCI engine");
+                throw new Exception("Executable is not a UCI engine.");
             }
 
             SendCommand("isready");
-            WaitForReady();
-            SendCommand("ucinewgame");
+            
+            if(!WaitForReady())
+            {
+                RunningProcess.Kill();
+                throw new Exception("UCI engine ready timeout expired.");
+            }
 
         }
 
@@ -143,6 +147,7 @@ namespace UciComms
 
         public void SetPosition(string fen)
         {
+            SendCommand("ucinewgame");
             SendCommand($"position fen {fen}");
         }
 
@@ -167,8 +172,6 @@ namespace UciComms
             SendCommand($"go infinite");
         }
 
-
-
         public bool WaitForUciOk()
         {
             int loop = 0;
@@ -181,12 +184,16 @@ namespace UciComms
             return IsUciOk;
         }
 
-        public void WaitForReady()
+        public bool WaitForReady()
         {
-            while (IsReady == false)
+            int loop = 0;
+            while (IsReady == false && loop < 30)
             {
-                _ = Task.Delay(100);
+                Thread.Sleep(100);
+                loop++;
             }
+
+            return IsReady;
         }
 
         public void Stop()
@@ -247,7 +254,7 @@ namespace UciComms
                     var maxVal = match.Groups["max"].Success ? match.Groups["max"].Value : null;
                     var varVal = match.Groups["var"].Success ? match.Groups["var"].Value : null;
 
-                    var option = new UciOption(name, type, defaultVal, minVal, maxVal, varVal);
+                    var option = new UciOption(name, type, defaultVal ?? "", minVal ?? "", maxVal ?? "", varVal ?? "");
 
                     if (Options.ContainsKey(name))
                     {
@@ -258,8 +265,6 @@ namespace UciComms
                         Options.Add(name, option);
                     }
                 }
-
-
             }
             else if (rawData.StartsWith("bestmove"))
             {
@@ -330,6 +335,7 @@ namespace UciComms
             return null;
         }
 
-
+        [GeneratedRegex("option name (?<name>\\S+) type (?<type>\\S+)(?: default (?<default>\\S+))?(?: min (?<min>\\S+))?(?: max (?<max>\\S+))?(?: var (?<var>\\S+))?")]
+        private static partial Regex LineIn();
     }
 }
