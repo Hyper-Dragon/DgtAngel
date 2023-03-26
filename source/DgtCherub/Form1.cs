@@ -1413,24 +1413,23 @@ namespace DgtCherub
             }
         }
 
-
-        int kibitzerBestScore = 0;
+        string lm = "";
+        Eval eval = new Eval();
         private void Eng_OnOutputRecieved(object sender, UciResponse e)
         {
-            if (e is BestMoveResponse bestMove)
+            if (e is InfoResponse info)
             {
-                //TextBoxConsole.AddLine($"Best Move: {bestMove.BestMove}", TEXTBOX_MAX_LINES);
-            }
-            else if (e is InfoResponse info)
-            {
-                if ((info.ScoreCp != 0 || info.ScoreMate != 0) && info.Depth > 20)
+                if (info.RawData.Contains("multipv 1"))
                 {
-                    if (info.ScoreCp > kibitzerBestScore)
+                    eval.AddLine(info.RawData);
+                    //TextBoxConsole.AddLine($"Eval: {info.RawData}");
+                    if (eval.GetBestMove() != lm)
                     {
-                        TextBoxConsole.AddLine($"Eval: {(info.ScoreMate != 0 ? $"M{info.ScoreMate}" : $"{info.ScoreCp / 100f}")}@{info.Depth}::{info.Pv}", TEXTBOX_MAX_LINES);
-                        kibitzerBestScore = info.ScoreCp;
+                        TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
+                        lm = eval.GetBestMove();
                     }
-                    }
+
+                }
             }
             else
             {

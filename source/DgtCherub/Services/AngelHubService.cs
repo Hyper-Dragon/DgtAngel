@@ -143,7 +143,7 @@ namespace DgtCherub.Services
 
         public void SwitchKibitzer(bool turnOn = false)
         {
-            if(turnOn)
+            if (turnOn)
             {
                 KillRemoteConnections();
                 isKibitzerRunning = true;
@@ -356,7 +356,7 @@ namespace DgtCherub.Services
                               isKibitzerRunning)
                     {
 
-
+                        
                         //(string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(lastLocalBoardFenForKibitzer, fen);
                         //kibmove = move;
                         //kibend = ending;
@@ -368,51 +368,48 @@ namespace DgtCherub.Services
                         //
                         //if (fen.Contains('k') && fen.Contains('K'))
                         //{
-                            char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
-                            int whiteCount = clearedflatFenArray.Count(x => char.IsUpper(x));
-                            int blackCount = clearedflatFenArray.Count(x => char.IsLower(x));
+                        char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
+                        int whiteCount = clearedflatFenArray.Count(x => char.IsUpper(x));
+                        int blackCount = clearedflatFenArray.Count(x => char.IsLower(x));
 
 
-                            string halfMoveClock = "0";
-                            string fullMoveNumber = "1";
+                        string halfMoveClock = "0";
+                        string fullMoveNumber = "1";
 
 
-                            //promotesTo = enPass == "-" && isPawnMove && !string.IsNullOrEmpty(tmpPromotesTo) ? tmpPromotesTo : "";
+                        //promotesTo = enPass == "-" && isPawnMove && !string.IsNullOrEmpty(tmpPromotesTo) ? tmpPromotesTo : "";
 
-                            bool isWhiteToPlay = false;
+                        bool isWhiteToPlay = false;
 
-                            if (whiteCount > kibitzLastWhiteCount)
-                            {
-                                isWhiteToPlay = false;
-                            }
-                            else if (blackCount > kibitzLastBlackCount)
-                            {
-                                isWhiteToPlay = true;
+                        if (whiteCount > kibitzLastWhiteCount)
+                        {
+                            isWhiteToPlay = false;
+                        }
+                        else if (blackCount > kibitzLastBlackCount)
+                        {
+                            isWhiteToPlay = true;
 
-                            }
+                        }
 
-                            string enPass = "-";
-                            string castle = $"{((clearedflatFenArray[63] == 'R' && clearedflatFenArray[60] == 'K') ? "K" : "")}" +
-                                            $"{((clearedflatFenArray[56] == 'R' && clearedflatFenArray[60] == 'K') ? "Q" : "")}" +
-                                            $"{((clearedflatFenArray[7] == 'r' && clearedflatFenArray[4] == 'k') ? "k" : "")}" +
-                                            $"{((clearedflatFenArray[0] == 'r' && clearedflatFenArray[4] == 'k') ? "q" : "")}";
+                        string enPass = "-";
+                        string castle = $"{((clearedflatFenArray[63] == 'R' && clearedflatFenArray[60] == 'K') ? "K" : "")}" +
+                                        $"{((clearedflatFenArray[56] == 'R' && clearedflatFenArray[60] == 'K') ? "Q" : "")}" +
+                                        $"{((clearedflatFenArray[7] == 'r' && clearedflatFenArray[4] == 'k') ? "k" : "")}" +
+                                        $"{((clearedflatFenArray[0] == 'r' && clearedflatFenArray[4] == 'k') ? "q" : "")}";
 
-                            string inferredFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
-                            string joinedFen = $"{fen} {inferredFenTailFromPosition}";
+                        string inferredFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
+                        string joinedFen = $"{fen} {inferredFenTailFromPosition}";
 
-                            currentUciEngine?.Stop();
+                        currentUciEngine?.Stop();
+                        OnKibitzerFenChange?.Invoke(joinedFen);
 
-                            
+                        currentUciEngine?.SetPosition(joinedFen);
+                        currentUciEngine?.GoInfinite();
 
-                            OnKibitzerFenChange?.Invoke(joinedFen);
-
-                            currentUciEngine?.SetPosition(joinedFen);
-                            currentUciEngine?.GoInfinite();
-
-                            kibitzClearedflatFenArray = clearedflatFenArray;
-                            kibitzLastWhiteCount = whiteCount;
-                            kibitzLastBlackCount = blackCount;
-                            lastLocalBoardFenForKibitzer = fen;
+                        kibitzClearedflatFenArray = clearedflatFenArray;
+                        kibitzLastWhiteCount = whiteCount;
+                        kibitzLastBlackCount = blackCount;
+                        lastLocalBoardFenForKibitzer = fen;
                         //}
                     }
 
