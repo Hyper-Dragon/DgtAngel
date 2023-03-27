@@ -4,6 +4,7 @@ using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
 using UciComms;
+using UciComms.Data;
 using static DgtAngelShared.Json.CherubApiMessage;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -36,6 +37,7 @@ namespace DgtCherub.Services
         public event Action OnKibitzerActivated;
         public event Action OnKibitzerDeactivated;
         public event Action<string> OnKibitzerFenChange;
+        public event Action<UciEngineEval> OnBoardEvalChanged;
 
         public bool IsClientInitComplete { get; private set; } = false;
         public bool IsWhiteOnBottom { get; private set; } = true;
@@ -92,7 +94,7 @@ namespace DgtCherub.Services
 
         //private readonly object matcherLockObj = new();
 
-        private UciChessEngine currentUciEngine = null;
+        private UciChessEngine CurrentUciEngine { get; set; } = null;
 
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
@@ -153,7 +155,7 @@ namespace DgtCherub.Services
             else
             {
                 isKibitzerRunning = false;
-                currentUciEngine?.Stop();
+                CurrentUciEngine?.Stop();
                 OnKibitzerDeactivated?.Invoke();
             }
         }
@@ -173,7 +175,7 @@ namespace DgtCherub.Services
 
             try
             {
-                await _uciEngineManager.StartEngineAsync (slotKey);
+                await _uciEngineManager.StartEngineAsync(slotKey);
 
                 if (engineNew.IsUciOk)
                 {
@@ -181,8 +183,10 @@ namespace DgtCherub.Services
                     //eng.SetDebug(false);
                 }
 
-                currentUciEngine = engineNew;
+                CurrentUciEngine.OnBoardEvalChanged -= CurrentUciEngine_OnBoardEvalChanged;
+                CurrentUciEngine = engineNew;
                 OnUciEngineLoaded?.Invoke(engineNew);
+                CurrentUciEngine.OnBoardEvalChanged += CurrentUciEngine_OnBoardEvalChanged;
 
                 if (engineOld != null)
                 {
@@ -197,6 +201,11 @@ namespace DgtCherub.Services
             }
         }
 
+        private void CurrentUciEngine_OnBoardEvalChanged(UciEngineEval eval)
+        {
+            //Echo this to clients so they are ambivalent of the underlying engine running 
+            OnBoardEvalChanged?.Invoke(eval);
+        }
 
         public void NotifyInitComplete()
         {
@@ -357,18 +366,6 @@ namespace DgtCherub.Services
                               isKibitzerRunning)
                     {
 
-                        
-                        //(string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator.CalculateSanFromFen(lastLocalBoardFenForKibitzer, fen);
-                        //kibmove = move;
-                        //kibend = ending;
-                        //kibturn = turn == "WHITE" ? TurnCode.WHITE : turn == "BLACK" ? TurnCode.BLACK : TurnCode.UNKNOWN;
-                        //
-                        //currentUciEngine?.Stop();
-                        //currentUciEngine?.SetPosition($"{fen}  w KQkq - 0 1");
-                        //currentUciEngine?.GoInfinite();
-                        //
-                        //if (fen.Contains('k') && fen.Contains('K'))
-                        //{
                         char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
                         int whiteCount = clearedflatFenArray.Count(x => char.IsUpper(x));
                         int blackCount = clearedflatFenArray.Count(x => char.IsLower(x));
@@ -401,17 +398,16 @@ namespace DgtCherub.Services
                         string inferredFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
                         string joinedFen = $"{fen} {inferredFenTailFromPosition}";
 
-                        currentUciEngine?.Stop();
+                        CurrentUciEngine?.Stop();
                         OnKibitzerFenChange?.Invoke(joinedFen);
 
-                        currentUciEngine?.SetPosition(joinedFen);
-                        currentUciEngine?.GoInfinite();
+                        CurrentUciEngine?.SetPosition(joinedFen);
+                        CurrentUciEngine?.GoInfinite();
 
                         kibitzClearedflatFenArray = clearedflatFenArray;
                         kibitzLastWhiteCount = whiteCount;
                         kibitzLastBlackCount = blackCount;
                         lastLocalBoardFenForKibitzer = fen;
-                        //}
                     }
 
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);

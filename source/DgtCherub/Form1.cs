@@ -1432,7 +1432,7 @@ namespace DgtCherub
         {
             if (CheckBoxKibitzerShowUciIn.Checked)
             {
-                TextBoxConsole.AddLine($"UCI__IN:: {currentUciChessEngine?.EngineName} :: {e}");
+                TextBoxConsole.AddLine($"UCI__IN :: {currentUciChessEngine?.EngineName} :: {e}");
             }
         }
 
@@ -1440,12 +1440,12 @@ namespace DgtCherub
         {
             if (e.Contains("currmove")) { } // DO NOTHING 
             else if (e.Contains("score")) Invoke(() => LabelKibitzerInfo.Text = e);
-            else if (CheckBoxKibitzerShowUciOut.Checked) TextBoxConsole.AddLine($"UCI_OUT:: {currentUciChessEngine?.EngineName} :: {e}");
+            else if (CheckBoxKibitzerShowUciOut.Checked) TextBoxConsole.AddLine($"UCI_OUT :: {currentUciChessEngine?.EngineName} :: {e}");
         }
 
         private void Eng_OnOutputRecievedRawError(object sender, string e)
         {
-            TextBoxConsole.AddLine($"UCI_ERR:: {currentUciChessEngine?.EngineName} :: {e}");
+            TextBoxConsole.AddLine($"UCI_ERR :: {currentUciChessEngine?.EngineName} :: {e}");
         }
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)

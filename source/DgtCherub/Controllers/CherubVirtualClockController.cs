@@ -8,10 +8,13 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Web;
+using UciComms;
+using UciComms.Data;
 using static DgtCherub.Helpers.ResourceLoader;
 
 namespace DgtCherub.Controllers
 {
+    #pragma warning disable AsyncFixer03 // Fire-and-forget async-void methods or delegates
     [Route("[controller]")]
     [Controller]
     public sealed class CherubVirtualClockController : ControllerBase
@@ -280,6 +283,65 @@ namespace DgtCherub.Controllers
                 }
             };
 
+            _angelHubService.OnBoardEvalChanged += async (uciEngineEval) =>
+            {
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnBoardEvalChanged",
+                    uciEngineEval.BestMove,
+                    uciEngineEval.Depth,
+                    //uciEngineEval.TopLines.ToArray(),
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            };
+
+            _angelHubService.OnUciEngineLoaded += async (UciChessEngine engine) =>
+            {
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnUciEngineLoaded",
+                    engine.EngineName,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            };
+
+
+            _angelHubService.OnUciEngineReleased += async (string engineName) =>
+            {
+                //await SendEventResponse(Response, JsonSerializer.Serialize(new
+                //{
+                //    MessageType = "OnUciEngineReleased",
+                //    Name = engineName,
+                //    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                //    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                //}));
+            };
+
+            _angelHubService.OnUciEngineStartError += async (string errorMsg) =>
+            {
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnUciEngineStartError",
+                    Name = errorMsg,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            };
+
+            _angelHubService.OnKibitzerFenChange += async (string fen) =>
+            {
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnKibitzerFenChange",
+                    Name = fen,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            };
+
+
             //Send on connect
             if (_angelHubService.LocalBoardFEN != "")
             {
@@ -396,8 +458,14 @@ namespace DgtCherub.Controllers
 
         private static async Task SendEventResponse(HttpResponse responseObject, string jsonMessage)
         {
-            await responseObject.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes($"data: {jsonMessage}{Environment.NewLine}{Environment.NewLine}"));
-            await responseObject.Body.FlushAsync();
+            try { 
+                await responseObject.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes($"data: {jsonMessage}{Environment.NewLine}{Environment.NewLine}"));
+                await responseObject.Body.FlushAsync();
+            }
+            catch (Exception)
+            {
+                //Do nothing - all these calls are async and the client may have disconnected
+            }
         }
         #endregion
         //*********************************************//

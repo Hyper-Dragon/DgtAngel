@@ -1,5 +1,6 @@
 ﻿using DgtAngelShared.Json;
 using UciComms;
+using UciComms.Data;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
@@ -51,7 +52,7 @@ namespace DgtCherub.Services
         event Action OnKibitzerActivated;
         event Action OnKibitzerDeactivated;
         event Action<string> OnKibitzerFenChange;
-
+        event Action<UciEngineEval> OnBoardEvalChanged;
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);
