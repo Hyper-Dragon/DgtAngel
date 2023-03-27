@@ -159,6 +159,8 @@
                 <br />
                 <span id="uciEval">Local Board Display - Space reserved for a future release!</span>
                 <br />
+                <span id="uciMateIn">Local Board Display - Space reserved for a future release!</span>
+                <br />
                 <span id="uciBestMove">Local Board Display - Space reserved for a future release!</span>
                 <br />
                 <span id="uciDepth">Local Board Display - Space reserved for a future release!</span>
@@ -285,6 +287,7 @@
                         switch (obj.MessageType) {
                             case "OnBoardEvalChanged": {
                                 document.getElementById("uciEval").innerHTML = "Eval " + obj.Eval;
+                                document.getElementById("uciMateIn").innerHTML = "Mate In " + obj.MateIn;
                                 document.getElementById("uciBestMove").innerHTML = "Best Move " + obj.BestMove;
                                 document.getElementById("uciDepth").innerHTML = "Depth " + obj.Depth;
                             }

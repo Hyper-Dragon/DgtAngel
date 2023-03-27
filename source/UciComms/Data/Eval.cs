@@ -1,14 +1,16 @@
 ﻿using System.Collections.Concurrent;
+using System.Threading;
 
 namespace UciComms.Data
 {
-    public record UciEngineEval(int Eval, string BestMove, int Depth, List<string> TopLines);
+    public record UciEngineEval(int Eval, int MateIn, string BestMove, int Depth, List<string> TopLines);
 
     internal sealed class Eval
     {
         private const int TOP_LINES_COUNT = 5;
         private const int BEST_MOVE_LENGTH = 4;
         private const string SCORE_PREFIX = "score cp";
+        private const string MATE_PREFIX = "score mate";
         private const string PV_PREFIX = " pv ";
 
         private readonly ConcurrentQueue<string> lineQueue = new();
@@ -34,11 +36,16 @@ namespace UciComms.Data
             {
                 if (lineQueue.TryDequeue(out var line))
                 {
-                    var score = GetBoardEvalFromLine(line);
+                    var lineVal = GetBoardEvalFromLine(line);
+                    
+                    var score = lineVal.cp;
+                    var mateIn = lineVal.mateIn;
                     var depth = GetDepthFromLine(line);
 
                     if (score != null && depth != null)
                     {
+                        
+
                         var newTopLines = new List<Tuple<int, int, string>>(topLines)
                         {
                             Tuple.Create(score.Value, depth.Value, line)
@@ -82,20 +89,42 @@ namespace UciComms.Data
                                 .Select(t => t.Item3)
                                 .ToList();
 
-
-                return new UciEngineEval(GetBoardEvalFromLine(t.First()) ?? 0,
+                return new UciEngineEval(GetBoardEvalFromLine(t.First()).cp ?? 0,
+                                         GetBoardEvalFromLine(t.First()).mateIn,
                                          GetBestMoveFromLine(t.First()),
                                          GetDepthFromLine(t.First()) ?? 0,
                                          t);
             }
         }
 
-        private static int? GetBoardEvalFromLine(string line)
+        internal void ResetEval()
+        {
+            lock (topLines)
+            {
+                topLines.Clear();
+                bestMove = "";
+                boardEval = 0;
+            }
+        }
+
+        private static (int? cp,int mateIn) GetBoardEvalFromLine(string line)
         {
             var index = line.IndexOf(SCORE_PREFIX);
-            if (index < 0) return null;
-            var score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
-            return score;
+            if (index >= 0)
+            {
+                var score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
+                return (score,0);
+            }
+
+            index = line.IndexOf(MATE_PREFIX); // Check for mate score
+            if (index >= 0)
+            {
+                var mateInX = int.Parse(line[(index + MATE_PREFIX.Length)..].Trim().Split(' ')[0]);
+                var mateScore = mateInX > 0 ? 100000 - mateInX * 10 : -100000 - mateInX * 10;
+                return (mateScore,mateInX);
+            }
+
+            return (null,0);
         }
 
         private static int? GetDepthFromLine(string line)
@@ -115,4 +144,3 @@ namespace UciComms.Data
         }
     }
 }
-

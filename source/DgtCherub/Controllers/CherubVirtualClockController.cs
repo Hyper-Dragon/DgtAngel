@@ -289,6 +289,7 @@ namespace DgtCherub.Controllers
                 {
                     MessageType = "OnBoardEvalChanged",
                     uciEngineEval.Eval,
+                    uciEngineEval.MateIn,
                     uciEngineEval.BestMove,
                     uciEngineEval.Depth,
                     //uciEngineEval.TopLines.ToArray(),
