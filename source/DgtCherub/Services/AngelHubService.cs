@@ -157,7 +157,7 @@ namespace DgtCherub.Services
             }
         }
 
-        public void LoadEngineAsync(string exePath)
+        public async Task LoadEngineAsync(string exePath)
         {
             UciChessEngine engSlot1 = _uciEngineManager.GetEngine("KIB_ENG_SLOT_1");
             UciChessEngine engSlot2 = _uciEngineManager.GetEngine("KIB_ENG_SLOT_2");
@@ -165,14 +165,14 @@ namespace DgtCherub.Services
             string slotKey = engSlot1 == null ? "KIB_ENG_SLOT_1" : "KIB_ENG_SLOT_2";
             string slotRemoveKey = engSlot1 == null ? "KIB_ENG_SLOT_2" : "KIB_ENG_SLOT_1";
 
-            _uciEngineManager.RegisterEngine(slotKey, new FileInfo(exePath));
+            await _uciEngineManager.RegisterEngineAsync(slotKey, new FileInfo(exePath));
 
             var engineNew = _uciEngineManager.GetEngine(slotKey);
             var engineOld = _uciEngineManager.GetEngine(slotRemoveKey);
 
             try
             {
-                _uciEngineManager.StartEngine(slotKey);
+                await _uciEngineManager.StartEngineAsync (slotKey);
 
                 if (engineNew.IsUciOk)
                 {
@@ -186,12 +186,12 @@ namespace DgtCherub.Services
                 if (engineOld != null)
                 {
                     OnUciEngineReleased?.Invoke($"{engineOld.EngineName} [{engineOld.EngineAuthor}]");
-                    _uciEngineManager.UnRegisterEngine(slotRemoveKey);
+                    await _uciEngineManager.UnRegisterEngineAsync(slotRemoveKey);
                 }
             }
             catch (Exception ex)
             {
-                _uciEngineManager.UnRegisterEngine(slotKey);
+                await _uciEngineManager.UnRegisterEngineAsync(slotKey);
                 OnUciEngineStartError?.Invoke($"Failed to start engine :: {ex.Message} [{exePath}]");
             }
         }

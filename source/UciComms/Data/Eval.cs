@@ -2,43 +2,44 @@
 
 namespace UciComms.Data
 {
-    public class Eval
+    public record UciEngineEval(int Eval, string BestMove, int Depth, List<string> TopLines);
+
+    internal sealed class Eval
     {
         private const int TOP_LINES_COUNT = 5;
         private const int BEST_MOVE_LENGTH = 4;
         private const string SCORE_PREFIX = "score cp";
         private const string PV_PREFIX = " pv ";
 
-        private readonly ConcurrentQueue<string> _lineQueue = new();
-        private readonly List<Tuple<int, int, string>> _topLines = new();
-        private string _bestMove;
-        private int _boardEval;
+        private readonly ConcurrentQueue<string> lineQueue = new();
+        private readonly List<Tuple<int, int, string>> topLines = new();
+        private string bestMove;
+        private int boardEval;
 
-        public event EventHandler<string> OnNewBestMove;
-        public event EventHandler<int> OnBoardEvalChanged;
+        public event Action<UciEngineEval> OnBoardEvalChanged;
 
-        public Eval()
+        internal Eval()
         {
             Task.Factory.StartNew(ProcessLines, TaskCreationOptions.LongRunning);
         }
 
-        public void AddLine(string line)
+        internal void AddLine(string line)
         {
-            _lineQueue.Enqueue(line);
+            lineQueue.Enqueue(line);
         }
 
         private void ProcessLines()
         {
             while (true)
             {
-                if (_lineQueue.TryDequeue(out var line))
+                if (lineQueue.TryDequeue(out var line))
                 {
                     var score = GetBoardEvalFromLine(line);
                     var depth = GetDepthFromLine(line);
 
                     if (score != null && depth != null)
                     {
-                        var newTopLines = new List<Tuple<int, int, string>>(_topLines)
+                        var newTopLines = new List<Tuple<int, int, string>>(topLines)
                         {
                             Tuple.Create(score.Value, depth.Value, line)
                         };
@@ -48,21 +49,20 @@ namespace UciComms.Data
                         var newBestMove = GetBestMoveFromLine(line);
                         var newBoardEval = score.Value;
 
-                        lock (_topLines)
+                        lock (topLines)
                         {
-                            _topLines.Clear();
-                            _topLines.AddRange(newTopLines);
+                            topLines.Clear();
+                            topLines.AddRange(newTopLines);
 
-                            if (newBestMove != null && (_bestMove == null || newBestMove != _bestMove))
+                            if (newBestMove != null && (bestMove == null || newBestMove != bestMove))
                             {
-                                _bestMove = newBestMove;
-                                OnNewBestMove?.Invoke(this, _bestMove);
+                                bestMove = newBestMove;
                             }
 
-                            if (newBoardEval != _boardEval)
+                            if (newBoardEval != boardEval)
                             {
-                                _boardEval = newBoardEval;
-                                OnBoardEvalChanged?.Invoke(this, _boardEval);
+                                boardEval = newBoardEval;
+                                OnBoardEvalChanged?.Invoke(GetEval(TOP_LINES_COUNT));
                             }
                         }
                     }
@@ -74,27 +74,19 @@ namespace UciComms.Data
             }
         }
 
-        public int GetBoardEval()
+        internal UciEngineEval GetEval(int count)
         {
-            lock (_topLines)
+            lock (topLines)
             {
-                return _boardEval;
-            }
-        }
+                var t = topLines.Take(count)
+                                .Select(t => t.Item3)
+                                .ToList();
 
-        public List<string> GetTopLines(int count)
-        {
-            lock (_topLines)
-            {
-                return _topLines.Take(count).Select(t => t.Item3).ToList();
-            }
-        }
 
-        public string GetBestMove()
-        {
-            lock (_topLines)
-            {
-                return _bestMove;
+                return new UciEngineEval(GetBoardEvalFromLine(t.First()) ?? 0,
+                                         GetBestMoveFromLine(t.First()),
+                                         GetDepthFromLine(t.First()) ?? 0,
+                                         t);
             }
         }
 
@@ -102,7 +94,7 @@ namespace UciComms.Data
         {
             var index = line.IndexOf(SCORE_PREFIX);
             if (index < 0) return null;
-            var score = int.Parse(line.Substring(index + SCORE_PREFIX.Length).Trim().Split(' ')[0]);
+            var score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
             return score;
         }
 
@@ -121,7 +113,6 @@ namespace UciComms.Data
             var bestMove = line.Substring(index + PV_PREFIX.Length, BEST_MOVE_LENGTH);
             return bestMove;
         }
-
     }
 }
 

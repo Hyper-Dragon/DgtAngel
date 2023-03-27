@@ -45,7 +45,9 @@ namespace DgtCherub
             ButtonSendTestMsg2 = new System.Windows.Forms.Button();
             ButtonSendTestMsg1 = new System.Windows.Forms.Button();
             TabPageOffline = new System.Windows.Forms.TabPage();
+            CheckBoxKibitzerShowUciOut = new System.Windows.Forms.CheckBox();
             LabelEngine = new System.Windows.Forms.Label();
+            CheckBoxKibitzerShowUciIn = new System.Windows.Forms.CheckBox();
             ButtonEngingSelect = new System.Windows.Forms.Button();
             ButtonEngineConfig = new System.Windows.Forms.Button();
             groupBox5 = new System.Windows.Forms.GroupBox();
@@ -118,6 +120,7 @@ namespace DgtCherub
             ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            LabelKibitzerInfo = new System.Windows.Forms.Label();
             GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownVolStatus).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UpDownVolTime).BeginInit();
@@ -335,7 +338,9 @@ namespace DgtCherub
             // TabPageOffline
             // 
             TabPageOffline.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            TabPageOffline.Controls.Add(CheckBoxKibitzerShowUciOut);
             TabPageOffline.Controls.Add(LabelEngine);
+            TabPageOffline.Controls.Add(CheckBoxKibitzerShowUciIn);
             TabPageOffline.Controls.Add(ButtonEngingSelect);
             TabPageOffline.Controls.Add(ButtonEngineConfig);
             TabPageOffline.Controls.Add(groupBox5);
@@ -347,6 +352,17 @@ namespace DgtCherub
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
             // 
+            // CheckBoxKibitzerShowUciOut
+            // 
+            CheckBoxKibitzerShowUciOut.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxKibitzerShowUciOut.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxKibitzerShowUciOut.Location = new System.Drawing.Point(58, 135);
+            CheckBoxKibitzerShowUciOut.Name = "CheckBoxKibitzerShowUciOut";
+            CheckBoxKibitzerShowUciOut.Size = new System.Drawing.Size(268, 33);
+            CheckBoxKibitzerShowUciOut.TabIndex = 7;
+            CheckBoxKibitzerShowUciOut.Text = "Show UCI Raw Output (Debug)";
+            CheckBoxKibitzerShowUciOut.UseVisualStyleBackColor = true;
+            // 
             // LabelEngine
             // 
             LabelEngine.BackColor = System.Drawing.Color.Silver;
@@ -357,6 +373,17 @@ namespace DgtCherub
             LabelEngine.TabIndex = 12;
             LabelEngine.Text = "No Engine Loaded";
             LabelEngine.VisibleChanged += LabelEngine_VisibleChanged;
+            // 
+            // CheckBoxKibitzerShowUciIn
+            // 
+            CheckBoxKibitzerShowUciIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxKibitzerShowUciIn.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxKibitzerShowUciIn.Location = new System.Drawing.Point(58, 103);
+            CheckBoxKibitzerShowUciIn.Name = "CheckBoxKibitzerShowUciIn";
+            CheckBoxKibitzerShowUciIn.Size = new System.Drawing.Size(269, 34);
+            CheckBoxKibitzerShowUciIn.TabIndex = 6;
+            CheckBoxKibitzerShowUciIn.Text = "Show UCI Raw Input (Debug)";
+            CheckBoxKibitzerShowUciIn.UseVisualStyleBackColor = true;
             // 
             // ButtonEngingSelect
             // 
@@ -383,10 +410,11 @@ namespace DgtCherub
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(LabelKibitzerInfo);
             groupBox5.Controls.Add(CheckBoxKibitzerEnabled);
-            groupBox5.Location = new System.Drawing.Point(4, 128);
+            groupBox5.Location = new System.Drawing.Point(4, 175);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(323, 265);
+            groupBox5.Size = new System.Drawing.Size(323, 137);
             groupBox5.TabIndex = 0;
             groupBox5.TabStop = false;
             groupBox5.Text = "Kibitzer";
@@ -1142,6 +1170,13 @@ namespace DgtCherub
             ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             ChesscomPegasusForumsMenuItem.Click += ChesscomPegasusForumsMenuItem_Click;
             // 
+            // LabelKibitzerInfo
+            // 
+            LabelKibitzerInfo.Location = new System.Drawing.Point(54, 56);
+            LabelKibitzerInfo.Name = "LabelKibitzerInfo";
+            LabelKibitzerInfo.Size = new System.Drawing.Size(263, 78);
+            LabelKibitzerInfo.TabIndex = 6;
+            // 
             // Form1
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1285,6 +1320,9 @@ namespace DgtCherub
         private System.Windows.Forms.Button ButtonEngineConfig;
         private System.Windows.Forms.Button ButtonEngingSelect;
         private System.Windows.Forms.Label LabelEngine;
+        private System.Windows.Forms.CheckBox CheckBoxKibitzerShowUciOut;
+        private System.Windows.Forms.CheckBox CheckBoxKibitzerShowUciIn;
+        private System.Windows.Forms.Label LabelKibitzerInfo;
     }
 }
 

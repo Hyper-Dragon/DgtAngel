@@ -226,5 +226,29 @@ namespace DgtCherub.Properties {
                 this["UciOptions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DebugUciIn {
+            get {
+                return ((bool)(this["DebugUciIn"]));
+            }
+            set {
+                this["DebugUciIn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DebugUciOut {
+            get {
+                return ((bool)(this["DebugUciOut"]));
+            }
+            set {
+                this["DebugUciOut"] = value;
+            }
+        }
     }
 }

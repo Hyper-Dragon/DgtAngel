@@ -1,27 +1,27 @@
 ﻿namespace UciComms.Data
 {
-    public abstract class UciResponse
+    public abstract record UciResponse
     {
         public string RawData { get; set; } = string.Empty;
     }
 
-    public class IdResponse : UciResponse
+    public sealed record IdResponse : UciResponse
     {
         public string Name { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
     }
 
-    public class UciOkResponse : UciResponse
+    public sealed record UciOkResponse : UciResponse
     {
 
     }
 
-    public class ReadyOkResponse : UciResponse
+    public sealed record ReadyOkResponse : UciResponse
     {
 
     }
 
-    public class BestMoveResponse : UciResponse
+    public sealed record BestMoveResponse : UciResponse
     {
         public string BestMove { get; set; } = string.Empty;
         public string PonderMove { get; set; } = string.Empty;
@@ -29,7 +29,7 @@
 
 
     [Serializable]
-    public class UciOption
+    public sealed record UciOption
     {
         public string Name { get; set; }
         public string Type { get; set; }
@@ -49,7 +49,7 @@
         }
     }
 
-    public class InfoResponse : UciResponse
+    public sealed record InfoResponse : UciResponse
     {
         public int Depth { get; set; } = 0;
         public int SelDepth { get; set; } = 0;

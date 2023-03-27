@@ -362,6 +362,8 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.StartingWidth = Width;
             DgtCherub.Properties.UserSettings.Default.LastUciExe = lastUciExe;
             DgtCherub.Properties.UserSettings.Default.UciOptions = uciOptionSettings?.SerializeSettings();
+            DgtCherub.Properties.UserSettings.Default.DebugUciIn = CheckBoxKibitzerShowUciIn.Checked;
+            DgtCherub.Properties.UserSettings.Default.DebugUciOut = CheckBoxKibitzerShowUciOut.Checked;
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -372,6 +374,9 @@ namespace DgtCherub
 
             lastUciExe = DgtCherub.Properties.UserSettings.Default.LastUciExe;
             uciOptionSettings = UciOptionSettings.DeserializeSettings(DgtCherub.Properties.UserSettings.Default.UciOptions);
+
+            CheckBoxKibitzerShowUciIn.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciIn;
+            CheckBoxKibitzerShowUciOut.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciOut;
 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 
@@ -480,7 +485,7 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Running eval for {fen}");
             };
-            
+
             _angelHubService.OnKibitzerDeactivated += () =>
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Turned OFF - RESTART Cherub for online play");
@@ -512,19 +517,19 @@ namespace DgtCherub
 
                 if (currentUciChessEngine != null)
                 {
-                    currentUciChessEngine.OnOutputRecievedRaw -= Eng_OnOutputRecievedRaw;
-                    currentUciChessEngine.OnErrorRecievedRaw -= Eng_OnOutputRecievedRaw;
-                    currentUciChessEngine.OnInputSentRaw -= Eng_OnOutputRecievedRaw;
-                    currentUciChessEngine.OnOutputRecieved -= Eng_OnOutputRecieved;
+                    currentUciChessEngine.OnOutputRecievedRaw -= Eng_OnOutputRecievedRawOut;
+                    currentUciChessEngine.OnErrorRecievedRaw -= Eng_OnOutputRecievedRawError;
+                    currentUciChessEngine.OnInputSentRaw -= Eng_OnOutputRecievedRawIn;
+                    //currentUciChessEngine.OnOutputRecieved -= Eng_OnOutputRecieved;
+                    engine.OnBoardEvalChanged -= Engine_OnBoardEvalChanged;
                 }
 
                 currentUciChessEngine = engine;
 
-                //engine.OnOutputRecievedRaw += Eng_OnOutputRecievedRaw;
-                //engine.OnErrorRecievedRaw  += Eng_OnOutputRecievedRaw;
-                //engine.OnInputSentRaw      += Eng_OnOutputRecievedRaw;
-                engine.OnOutputRecieved    += Eng_OnOutputRecieved;
-
+                currentUciChessEngine.OnOutputRecievedRaw += Eng_OnOutputRecievedRawOut;
+                currentUciChessEngine.OnErrorRecievedRaw += Eng_OnOutputRecievedRawError;
+                currentUciChessEngine.OnInputSentRaw += Eng_OnOutputRecievedRawIn;
+                engine.OnBoardEvalChanged += Engine_OnBoardEvalChanged;
 
                 if (uciOptionSettings.Options.ContainsKey(currentUciChessEngine.Executable.FullName))
                 {
@@ -874,6 +879,20 @@ namespace DgtCherub
 
             await Task.Delay(500); //Short delay for the form to fully render
             StartBoardComms();
+        }
+
+        int lasteval = 0;
+        private void Engine_OnBoardEvalChanged(UciEngineEval obj)
+        {
+            if (obj.Depth > 20)
+            {
+                if (lasteval != obj.Eval)
+                {
+                    lasteval = obj.Eval;
+                    //TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
+                    TextBoxConsole.AddLine($"KIBITZER:: {obj.Eval / 100f}cp at depth {obj.Depth} - Best Move {obj.BestMove}");
+                }
+            }
         }
 
 
@@ -1301,7 +1320,7 @@ namespace DgtCherub
                         PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
                                                                                            : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         TextBoxConsole.AddLine($"ERROR:: Image update failed [{ex.Message}]");
                     }
@@ -1413,34 +1432,49 @@ namespace DgtCherub
             }
         }
 
-        string lm = "";
-        Eval eval = new Eval();
-        private void Eng_OnOutputRecieved(object sender, UciResponse e)
-        {
-            if (e is InfoResponse info)
-            {
-                if (info.RawData.Contains("multipv 1"))
-                {
-                    eval.AddLine(info.RawData);
-                    //TextBoxConsole.AddLine($"Eval: {info.RawData}");
-                    if (eval.GetBestMove() != lm)
-                    {
-                        TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
-                        lm = eval.GetBestMove();
-                    }
+        // string lm = "";
+        // Eval eval = new Eval();
+        // private void Eng_OnOutputRecieved(object sender, UciResponse e)
+        // {
+        //     if (e is InfoResponse info)
+        //     {
+        //         if (info.RawData.Contains("multipv 1"))
+        //         {
+        //             eval.AddLine(info.RawData);
+        //             //TextBoxConsole.AddLine($"Eval: {info.RawData}");
+        //             if (eval.GetBestMove() != lm)
+        //             {
+        //                 TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
+        //                 lm = eval.GetBestMove();
+        //             }
+        //
+        //         }
+        //     }
+        //     else
+        //     {
+        //         //   TextBoxConsole.AddLine($"Engine Response: {e}", TEXTBOX_MAX_LINES);
+        //     }
+        // }
 
-                }
-            }
-            else
+
+        private void Eng_OnOutputRecievedRawIn(object sender, string e)
+        {
+            if (CheckBoxKibitzerShowUciIn.Checked)
             {
-                //   TextBoxConsole.AddLine($"Engine Response: {e}", TEXTBOX_MAX_LINES);
+                TextBoxConsole.AddLine($"UCI__IN:: {currentUciChessEngine?.EngineName} :: {e}");
             }
         }
 
-
-        private void Eng_OnOutputRecievedRaw(object sender, string e)
+        private void Eng_OnOutputRecievedRawOut(object sender, string e)
         {
-            TextBoxConsole.AddLine($"UCI:: {currentUciChessEngine?.EngineName} :: {e}");
+            if (e.Contains("currmove")) { } // DO NOTHING 
+            else if (e.Contains("score")) Invoke(() => LabelKibitzerInfo.Text = e);
+            else if (CheckBoxKibitzerShowUciOut.Checked) TextBoxConsole.AddLine($"UCI_OUT:: {currentUciChessEngine?.EngineName} :: {e}");
+        }
+
+        private void Eng_OnOutputRecievedRawError(object sender, string e)
+        {
+            TextBoxConsole.AddLine($"UCI_ERR:: {currentUciChessEngine?.EngineName} :: {e}");
         }
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
@@ -1508,7 +1542,7 @@ namespace DgtCherub
             if (isEngineActivationRequired)
             {
                 isEngineActivationRequired = false;
-                if(!string.IsNullOrEmpty(lastUciExe)) _angelHubService.LoadEngineAsync(lastUciExe);
+                if (!string.IsNullOrEmpty(lastUciExe)) _angelHubService.LoadEngineAsync(lastUciExe);
             }
         }
     }

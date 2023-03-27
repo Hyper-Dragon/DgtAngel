@@ -59,7 +59,7 @@ namespace DgtCherub.Services
         void UserMessageArrived(string source, string message);
         void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
         void PluginDisconnect();
-        void LoadEngineAsync(string exePath);
+        Task LoadEngineAsync(string exePath);
         void SwitchKibitzer(bool turnOn);
     }
 }

@@ -1,13 +1,10 @@
 ﻿using System.Diagnostics;
-using UciComms.Data;
-using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Security.AccessControl;
+using UciComms.Data;
 
 namespace UciComms
 {
-    public partial class UciChessEngine
+    public sealed partial class UciChessEngine
     {
         // Subscribe to this events to get the parsed output from the engine
         public event EventHandler<UciResponse> OnOutputRecieved;
@@ -18,6 +15,8 @@ namespace UciComms
         public event EventHandler<string> OnErrorRecievedRaw;
         public event EventHandler<string> OnInputSentRaw;
 
+        public event Action<UciEngineEval> OnBoardEvalChanged;
+
         private static readonly Regex OptionRegex = LineIn();
 
         private Process? RunningProcess { get; set; }
@@ -26,18 +25,30 @@ namespace UciComms
         public bool IsUciOk { get; private set; } = false;
         public bool IsReady { get; private set; } = false;
 
+        private Eval evaluation = new();
+
+
         public string EngineName { get; private set; } = "UNKNOWN";
         public string EngineAuthor { get; private set; } = "UNKNOWN";
 
         public Dictionary<string, UciOption> Options { get; } = new();
 
 
-        public UciChessEngine(FileInfo executable)
+        internal UciChessEngine(FileInfo executable)
         {
             Executable = executable;
             RunningProcess = null;
+
+            evaluation.OnBoardEvalChanged += Evaluation_OnBoardEvalChanged; 
         }
 
+        private void Evaluation_OnBoardEvalChanged(UciEngineEval obj)
+        {
+            OnBoardEvalChanged?.Invoke(obj);
+        }
+
+        [GeneratedRegex("option name (?<name>\\S+) type (?<type>\\S+)(?: default (?<default>\\S+))?(?: min (?<min>\\S+))?(?: max (?<max>\\S+))?(?: var (?<var>\\S+))?")]
+        private static partial Regex LineIn();
 
         internal void StartUciEngine()
         {
@@ -96,7 +107,6 @@ namespace UciComms
                 throw;
             }
 
-
             RunningProcess.BeginErrorReadLine();
             RunningProcess.BeginOutputReadLine();
 
@@ -116,7 +126,6 @@ namespace UciComms
                 RunningProcess.Kill();
                 throw new Exception("UCI engine ready timeout expired.");
             }
-
         }
 
         private void SendCommand(string command)
@@ -293,6 +302,10 @@ namespace UciComms
                         case "pv": infoResponse.Pv = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
                         case "score":
+
+                            //Send to eval function
+                            evaluation.AddLine(rawData);
+
                             i++;
                             if (splitStr[i] == "cp")
                             {
@@ -334,8 +347,5 @@ namespace UciComms
 
             return null;
         }
-
-        [GeneratedRegex("option name (?<name>\\S+) type (?<type>\\S+)(?: default (?<default>\\S+))?(?: min (?<min>\\S+))?(?: max (?<max>\\S+))?(?: var (?<var>\\S+))?")]
-        private static partial Regex LineIn();
     }
 }

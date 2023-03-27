@@ -1,22 +1,30 @@
-﻿namespace UciComms
+﻿using System.Collections.Concurrent;
+
+namespace UciComms
 {
 
+
+    // Implementing the IUciEngineManager interface to ensure compatibility with existing code
     public sealed class UciEngineManager : IUciEngineManager
     {
-        private readonly Dictionary<string, UciChessEngine> UciEngines = new();
+        // Using a ConcurrentDictionary to ensure thread safety when accessing the UciEngines collection
+        private readonly ConcurrentDictionary<string, UciChessEngine> UciEngines = new();
 
         public UciEngineManager() { }
 
-        public void RegisterEngine(string engineRef, FileInfo engineExecutablePath)
+        // RegisterEngine now returns a Task to allow for async operation
+        public async Task RegisterEngineAsync(string engineRef, FileInfo engineExecutablePath)
         {
-            UciEngines.Add(engineRef, new UciChessEngine(engineExecutablePath));
+            // Adding a new UciChessEngine instance to the UciEngines collection
+            await Task.Run( () => UciEngines.TryAdd(engineRef, new UciChessEngine(engineExecutablePath)) );
         }
 
-        public void StartEngine(string engineRef)
+        // StartEngine now returns a Task to allow for async operation
+        public async Task StartEngineAsync(string engineRef)
         {
             if (UciEngines.TryGetValue(engineRef, out UciChessEngine? value))
             {
-                value?.StartUciEngine();
+                await Task.Run(() => value?.StartUciEngine());
             }
         }
 
@@ -31,12 +39,13 @@
             return UciEngines.ContainsKey(engineRef) && UciEngines[engineRef].IsRunning;
         }
 
-        public void UnRegisterEngine(string engineRef)
+        // UnRegisterEngine now returns a Task to allow for async operation
+        public async Task UnRegisterEngineAsync(string engineRef)
         {
             if (UciEngines.TryGetValue(engineRef, out UciChessEngine? value))
             {
-                value?.StopUciEngine();
-                _ = UciEngines.Remove(engineRef);
+                await Task.Run(() => value?.StopUciEngine());
+                _ = UciEngines.TryRemove(engineRef, out _);
             }
         }
     }

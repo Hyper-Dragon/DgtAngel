@@ -1,11 +1,13 @@
-﻿namespace UciComms
+﻿using UciComms;
+
+namespace UciComms
 {
     public interface IUciEngineManager
     {
-        bool IsEngineRunning(string engineRef);
-        void StartEngine(string engineRef);
         UciChessEngine? GetEngine(string engineRef);
-        void RegisterEngine(string engineRef, FileInfo engineExecutablePath);
-        void UnRegisterEngine(string engineRef);
+        bool IsEngineRunning(string engineRef);
+        Task RegisterEngineAsync(string engineRef, FileInfo engineExecutablePath);
+        Task StartEngineAsync(string engineRef);
+        Task UnRegisterEngineAsync(string engineRef);
     }
 }
