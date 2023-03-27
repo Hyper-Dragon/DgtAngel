@@ -156,6 +156,7 @@ namespace UciComms
 
         public void SetPosition(string fen)
         {
+            evaluation.ResetEval();
             SendCommand("ucinewgame");
             SendCommand($"position fen {fen}");
         }
