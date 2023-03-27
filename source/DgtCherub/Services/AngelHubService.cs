@@ -183,7 +183,7 @@ namespace DgtCherub.Services
                     //eng.SetDebug(false);
                 }
 
-                CurrentUciEngine.OnBoardEvalChanged -= CurrentUciEngine_OnBoardEvalChanged;
+                //CurrentUciEngine.OnBoardEvalChanged -= CurrentUciEngine_OnBoardEvalChanged;
                 CurrentUciEngine = engineNew;
                 OnUciEngineLoaded?.Invoke(engineNew);
                 CurrentUciEngine.OnBoardEvalChanged += CurrentUciEngine_OnBoardEvalChanged;

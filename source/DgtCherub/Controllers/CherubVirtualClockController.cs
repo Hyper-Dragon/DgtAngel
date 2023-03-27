@@ -288,6 +288,7 @@ namespace DgtCherub.Controllers
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnBoardEvalChanged",
+                    uciEngineEval.Eval,
                     uciEngineEval.BestMove,
                     uciEngineEval.Depth,
                     //uciEngineEval.TopLines.ToArray(),
@@ -335,7 +336,7 @@ namespace DgtCherub.Controllers
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnKibitzerFenChange",
-                    Name = fen,
+                    Fen = fen,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 }));

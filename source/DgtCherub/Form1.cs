@@ -1438,8 +1438,9 @@ namespace DgtCherub
 
         private void Eng_OnOutputRecievedRawOut(object sender, string e)
         {
-            if (e.Contains("currmove")) { } // DO NOTHING 
-            else if (e.Contains("score")) Invoke(() => LabelKibitzerInfo.Text = e);
+            if (e == null) { } // DO NOTHING
+            else if (e.Contains("currmove")) { } // DO NOTHING 
+            else if (e.Contains("score")) Invoke(() => { if(!LabelKibitzerInfo.IsDisposed) LabelKibitzerInfo.Text = e; });
             else if (CheckBoxKibitzerShowUciOut.Checked) TextBoxConsole.AddLine($"UCI_OUT :: {currentUciChessEngine?.EngineName} :: {e}");
         }
 

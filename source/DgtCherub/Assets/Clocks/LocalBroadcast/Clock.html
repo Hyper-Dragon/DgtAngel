@@ -156,6 +156,14 @@
         <div class="col-6 info-message d-flex parent">
             <div>
                 <span id="testmsg">Local Board Display - Space reserved for a future release!</span>
+                <br />
+                <span id="uciEval">Local Board Display - Space reserved for a future release!</span>
+                <br />
+                <span id="uciBestMove">Local Board Display - Space reserved for a future release!</span>
+                <br />
+                <span id="uciDepth">Local Board Display - Space reserved for a future release!</span>
+                <br />
+                <span id="uciFen">Local Board Display - Space reserved for a future release!</span>
             </div>
         </div>
     </div>
@@ -275,6 +283,11 @@
                         const obj = JSON.parse(event.data);
 
                         switch (obj.MessageType) {
+                            case "OnBoardEvalChanged": {
+                                document.getElementById("uciEval").innerHTML = "Eval " + obj.Eval;
+                                document.getElementById("uciBestMove").innerHTML = "Best Move " + obj.BestMove;
+                                document.getElementById("uciDepth").innerHTML = "Depth " + obj.Depth;
+                            }
                             case "OnUciEngineLoaded":
                                 document.getElementById("testmsg").innerHTML = "Engine Loaded " + obj.EngineName;
                                 break;
@@ -285,7 +298,7 @@
                                 document.getElementById("testmsg").innerHTML = "Engine Start Error";
                                 break;
                             case "OnKibitzerFenChange":
-                                document.getElementById("testmsg").innerHTML = "Engine FEN Change";
+                                document.getElementById("uciFen").innerHTML = "Analysing FEN " + obj.Fen;
                                 break;
                             case "OnOrientationFlipped":
                                 if (obj.IsWhiteOnBottom) {
