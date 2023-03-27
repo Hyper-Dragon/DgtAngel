@@ -57,7 +57,7 @@ namespace DgtCherub.Services
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
-        void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
+        Task WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
         void PluginDisconnect();
         Task LoadEngineAsync(string exePath);
         void SwitchKibitzer(bool turnOn);

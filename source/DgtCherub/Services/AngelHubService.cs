@@ -141,6 +141,7 @@ namespace DgtCherub.Services
             _ = Task.Run(RunMessageProcessor);
         }
 
+
         public void SwitchKibitzer(bool turnOn = false)
         {
             if (turnOn)
@@ -650,10 +651,7 @@ namespace DgtCherub.Services
             }
         }
 
-        void IAngelHubService.WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
 

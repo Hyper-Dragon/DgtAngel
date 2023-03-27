@@ -181,11 +181,11 @@ namespace DgtCherub.Controllers
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STARTED:
-                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.AngelPluginName, messageIn.RemoteBoard);
+                                    await _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.AngelPluginName, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"Angel started watching a remote board.");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
-                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.AngelPluginName, messageIn.RemoteBoard);
+                                    await _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.AngelPluginName, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"Angel stopped watching the remote board.");
                                     break;
                                 default:

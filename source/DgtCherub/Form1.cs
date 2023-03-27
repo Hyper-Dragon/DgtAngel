@@ -331,11 +331,6 @@ namespace DgtCherub
             _angelHubService.NotifyInitComplete();
         }
 
-        //private void AngelHubService_OnOrientationFlipped()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             PreventScreensaver(false);
@@ -488,7 +483,7 @@ namespace DgtCherub
 
             _angelHubService.OnKibitzerDeactivated += () =>
             {
-                TextBoxConsole.AddLine($"KIBITZER:: Turned OFF - RESTART Cherub for online play");
+                TextBoxConsole.AddLine($"KIBITZER:: Turned OFF");
             };
 
             _angelHubService.OnUciEngineStartError += (string errorMsg) =>
@@ -1432,30 +1427,6 @@ namespace DgtCherub
             }
         }
 
-        // string lm = "";
-        // Eval eval = new Eval();
-        // private void Eng_OnOutputRecieved(object sender, UciResponse e)
-        // {
-        //     if (e is InfoResponse info)
-        //     {
-        //         if (info.RawData.Contains("multipv 1"))
-        //         {
-        //             eval.AddLine(info.RawData);
-        //             //TextBoxConsole.AddLine($"Eval: {info.RawData}");
-        //             if (eval.GetBestMove() != lm)
-        //             {
-        //                 TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
-        //                 lm = eval.GetBestMove();
-        //             }
-        //
-        //         }
-        //     }
-        //     else
-        //     {
-        //         //   TextBoxConsole.AddLine($"Engine Response: {e}", TEXTBOX_MAX_LINES);
-        //     }
-        // }
-
 
         private void Eng_OnOutputRecievedRawIn(object sender, string e)
         {
@@ -1479,7 +1450,20 @@ namespace DgtCherub
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            if (currentUciChessEngine != null) _angelHubService.SwitchKibitzer(((CheckBox)sender).Checked);
+            if (_angelHubService.IsRemoteBoardAvailable && ((CheckBox)sender).Checked)
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Can't enable when the remote board is active.");
+                ((CheckBox)sender).Checked = false;
+            }
+            else if (currentUciChessEngine == null)
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Can't enable without engine running.");
+                ((CheckBox)sender).Checked = false;
+            }
+            else
+            {
+                _angelHubService.SwitchKibitzer(((CheckBox)sender).Checked);
+            }
         }
 
         private void ButtonEngineConfig_Click(object sender, EventArgs e)
