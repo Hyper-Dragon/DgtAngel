@@ -212,8 +212,19 @@ namespace DgtCherub
 
                 if (!string.IsNullOrEmpty(altDllPath) && Directory.Exists(altDllPath))
                 {
+                    TextBoxConsole.AddLine($"RABBIT : Alt board driver search path set to [{altDllPath}]", timeStamp: false);
+                    TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.", timeStamp: false);
+                    TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.", timeStamp: false);
+
                     SetDllDirectory(altDllPath);
                 }
+                else
+                {
+                    TextBoxConsole.AddLine($"RABBIT : No alt driver path set...using native DGT driver.",timeStamp:false); 
+                }
+
+
+                TextBoxConsole.AddLine("---------------------------------------------------------------------------------------", timeStamp: false);
 
                 try
                 {
@@ -1561,6 +1572,10 @@ namespace DgtCherub
 
                 var dir = Path.GetDirectoryName(openFileDialog.FileName);
                 DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = dir;
+                TextBoxConsole.AddLine($"RABBIT:: Alt board driver search path set to [{dir}]");
+                TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.");
+                TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.");
+                TextBoxConsole.AddLine($"         *** RESTART REQUIRED *** to Activte");
             }
         }
 
@@ -1573,6 +1588,7 @@ namespace DgtCherub
                 ButtonSetAltDriver.Enabled = true;
                 ButtonClearAltDriver.Enabled = false;
                 DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = "";
+                TextBoxConsole.AddLine($"RABBIT:: Alt board driver cleared *** RESTART REQUIRED ***");
             }
         }
     }
