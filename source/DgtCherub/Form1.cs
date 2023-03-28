@@ -42,6 +42,7 @@ netsh advfirewall firewall delete rule name="Dgt Angel ALLOW Tcp Port 37964"
 
 namespace DgtCherub
 {
+#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
     public partial class Form1 : Form
     {
         private LiveChessServer fakeLiveChessServer;
@@ -145,19 +146,20 @@ namespace DgtCherub
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
         private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
-#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
         [DllImport("user32")]
-#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
         private static extern bool HideCaret(IntPtr hWnd);
-#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern bool SetDllDirectory(string lpPathName);
+
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
                      IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, IUciEngineManager uciEngineManager, ISequentialVoicePlayer voicePlayer,
                      ISequentialVoicePlayer voicePlayerMoves, ISequentialVoicePlayer voicePlayerMovesNoDrop, ISequentialVoicePlayer voicePlayerTime)
         {
+
             _iHost = iHost;
             _logger = logger;
             _angelHubService = appData;
@@ -205,6 +207,14 @@ namespace DgtCherub
             }
             else
             {
+                //Set an alternate search path for the DGT DLLs - used to configure alternative board drivers
+                string altDllPath = DgtCherub.Properties.UserSettings.Default.AltDgtDllPath;
+
+                if (!string.IsNullOrEmpty(altDllPath) && Directory.Exists(altDllPath))
+                {
+                    SetDllDirectory(altDllPath);
+                }
+
                 try
                 {
                     if (_dgtEbDllFacade.Init(_dgtEbDllFacade))
@@ -369,6 +379,9 @@ namespace DgtCherub
 
             lastUciExe = DgtCherub.Properties.UserSettings.Default.LastUciExe;
             uciOptionSettings = UciOptionSettings.DeserializeSettings(DgtCherub.Properties.UserSettings.Default.UciOptions);
+
+            ButtonSetAltDriver.Enabled = string.IsNullOrEmpty(DgtCherub.Properties.UserSettings.Default.AltDgtDllPath);
+            ButtonClearAltDriver.Enabled = !string.IsNullOrEmpty(DgtCherub.Properties.UserSettings.Default.AltDgtDllPath);
 
             CheckBoxKibitzerShowUciIn.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciIn;
             CheckBoxKibitzerShowUciOut.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciOut;
@@ -1440,7 +1453,7 @@ namespace DgtCherub
         {
             if (e == null) { } // DO NOTHING
             else if (e.Contains("currmove")) { } // DO NOTHING 
-            else if (e.Contains("score")) Invoke(() => { if(!LabelKibitzerInfo.IsDisposed) LabelKibitzerInfo.Text = e; });
+            else if (e.Contains("score")) Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) LabelKibitzerInfo.Text = e; });
             else if (CheckBoxKibitzerShowUciOut.Checked) TextBoxConsole.AddLine($"UCI_OUT :: {currentUciChessEngine?.EngineName} :: {e}");
         }
 
@@ -1528,6 +1541,38 @@ namespace DgtCherub
             {
                 isEngineActivationRequired = false;
                 if (!string.IsNullOrEmpty(lastUciExe)) _angelHubService.LoadEngineAsync(lastUciExe);
+            }
+        }
+
+        private void ButtonSetAltDriver_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new();
+            openFileDialog.Filter = "DGT Board Driver (DGTEBDLL.dll)|DGTEBDLL.dll";
+            openFileDialog.Multiselect = false;
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.CheckPathExists = true;
+
+            DialogResult result = openFileDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                ButtonSetAltDriver.Enabled = false;
+                ButtonClearAltDriver.Enabled = true;
+
+                var dir = Path.GetDirectoryName(openFileDialog.FileName);
+                DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = dir;
+            }
+        }
+
+        private void ButtonClearAltDriver_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                ButtonSetAltDriver.Enabled = true;
+                ButtonClearAltDriver.Enabled = false;
+                DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = "";
             }
         }
     }

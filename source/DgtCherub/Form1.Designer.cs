@@ -51,6 +51,7 @@ namespace DgtCherub
             ButtonEngingSelect = new System.Windows.Forms.Button();
             ButtonEngineConfig = new System.Windows.Forms.Button();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            LabelKibitzerInfo = new System.Windows.Forms.Label();
             CheckBoxKibitzerEnabled = new System.Windows.Forms.CheckBox();
             TabPageClock = new System.Windows.Forms.TabPage();
             button1 = new System.Windows.Forms.Button();
@@ -120,7 +121,8 @@ namespace DgtCherub
             ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            LabelKibitzerInfo = new System.Windows.Forms.Label();
+            ButtonSetAltDriver = new System.Windows.Forms.Button();
+            ButtonClearAltDriver = new System.Windows.Forms.Button();
             GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownVolStatus).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UpDownVolTime).BeginInit();
@@ -419,6 +421,13 @@ namespace DgtCherub
             groupBox5.TabStop = false;
             groupBox5.Text = "Kibitzer";
             // 
+            // LabelKibitzerInfo
+            // 
+            LabelKibitzerInfo.Location = new System.Drawing.Point(54, 56);
+            LabelKibitzerInfo.Name = "LabelKibitzerInfo";
+            LabelKibitzerInfo.Size = new System.Drawing.Size(263, 78);
+            LabelKibitzerInfo.TabIndex = 6;
+            // 
             // CheckBoxKibitzerEnabled
             // 
             CheckBoxKibitzerEnabled.Enabled = false;
@@ -650,11 +659,13 @@ namespace DgtCherub
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(ButtonClearAltDriver);
+            groupBox3.Controls.Add(ButtonSetAltDriver);
             groupBox3.Controls.Add(CheckBoxNeverUseRabbit);
             groupBox3.Controls.Add(ButtonRabbitConfig1);
             groupBox3.Location = new System.Drawing.Point(6, 260);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(148, 115);
+            groupBox3.Size = new System.Drawing.Size(307, 115);
             groupBox3.TabIndex = 64;
             groupBox3.TabStop = false;
             groupBox3.Text = "Rabbit";
@@ -666,7 +677,7 @@ namespace DgtCherub
             CheckBoxNeverUseRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxNeverUseRabbit.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckBoxNeverUseRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(6, 72);
+            CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(6, 78);
             CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
             CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(152, 25);
             CheckBoxNeverUseRabbit.TabIndex = 10;
@@ -1170,12 +1181,28 @@ namespace DgtCherub
             ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             ChesscomPegasusForumsMenuItem.Click += ChesscomPegasusForumsMenuItem_Click;
             // 
-            // LabelKibitzerInfo
+            // ButtonSetAltDriver
             // 
-            LabelKibitzerInfo.Location = new System.Drawing.Point(54, 56);
-            LabelKibitzerInfo.Name = "LabelKibitzerInfo";
-            LabelKibitzerInfo.Size = new System.Drawing.Size(263, 78);
-            LabelKibitzerInfo.TabIndex = 6;
+            ButtonSetAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonSetAltDriver.Location = new System.Drawing.Point(163, 28);
+            ButtonSetAltDriver.Name = "ButtonSetAltDriver";
+            ButtonSetAltDriver.Size = new System.Drawing.Size(135, 37);
+            ButtonSetAltDriver.TabIndex = 11;
+            ButtonSetAltDriver.Text = "Set Alt Driver...";
+            ButtonSetAltDriver.UseVisualStyleBackColor = true;
+            ButtonSetAltDriver.Click += ButtonSetAltDriver_Click;
+            // 
+            // ButtonClearAltDriver
+            // 
+            ButtonClearAltDriver.Enabled = false;
+            ButtonClearAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonClearAltDriver.Location = new System.Drawing.Point(163, 72);
+            ButtonClearAltDriver.Name = "ButtonClearAltDriver";
+            ButtonClearAltDriver.Size = new System.Drawing.Size(135, 37);
+            ButtonClearAltDriver.TabIndex = 12;
+            ButtonClearAltDriver.Text = "Clear Alt Driver";
+            ButtonClearAltDriver.UseVisualStyleBackColor = true;
+            ButtonClearAltDriver.Click += ButtonClearAltDriver_Click;
             // 
             // Form1
             // 
@@ -1323,6 +1350,8 @@ namespace DgtCherub
         private System.Windows.Forms.CheckBox CheckBoxKibitzerShowUciOut;
         private System.Windows.Forms.CheckBox CheckBoxKibitzerShowUciIn;
         private System.Windows.Forms.Label LabelKibitzerInfo;
+        private System.Windows.Forms.Button ButtonClearAltDriver;
+        private System.Windows.Forms.Button ButtonSetAltDriver;
     }
 }
 

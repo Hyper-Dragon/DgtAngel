@@ -250,5 +250,17 @@ namespace DgtCherub.Properties {
                 this["DebugUciOut"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AltDgtDllPath {
+            get {
+                return ((string)(this["AltDgtDllPath"]));
+            }
+            set {
+                this["AltDgtDllPath"] = value;
+            }
+        }
     }
 }
