@@ -28,7 +28,7 @@ namespace DgtRabbitWrapper
         public int ComPort { get; init; }
         public int BatteryPct { get; init; }
         public string InitialFEN { get; init; }
-        public string LastFenSeen { get; private set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        public string LastFenSeen { get; private set; } = "8//8/8/8/8/8/8";//"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
         public int WhiteCount { get; private set; } = 0;
         public int BlackCount { get; private set; } = 0;
         public int KingCount { get; private set; } = 0;
@@ -106,10 +106,10 @@ namespace DgtRabbitWrapper
             //Setup connection the Rabbit
             _dgtEbDllFacade.OnStableFenChanged += (object sender, FenChangedEventArgs e) =>
             {
-                if (LastFenSeen != e.FEN)
+                if (LastFenSeen != e.FEN.Split(' ')[0])
                 {
-                    LastFenSeen = e.FEN;
-                    KingCount = e.FEN.Where(c => c is 'k' or 'K').Count();
+                    LastFenSeen = e.FEN.Split(' ')[0]; //Make sure this is a short FEN
+                    KingCount = LastFenSeen.Where(c => c is 'k' or 'K').Count();
 
                     //Don't send boards with missing kings - always invalid
                     //This fixes castling
