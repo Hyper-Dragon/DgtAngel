@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/sourceNative/DgtAngelNative/Debug
+/sourceNative/DgtAngelNative/x64/Debug
+/sourceNative/DgtAngelNative/DgtAngelNative.vcxproj
+/sourceNative/DgtAngelNative/DgtAngelNative.vcxproj.filters
+/sourceNative/DgtAngelNative/DgtAngelNative.vcxproj.user
+/sourceNative/.vs/DgtAngelNative
+/sourceNative/x64/Debug
