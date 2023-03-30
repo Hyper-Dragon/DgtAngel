@@ -41,8 +41,10 @@ namespace DgtRabbitWrapper.DgtEbDll
 
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStatusFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterStatusFunc(CallbackStatusFunc func, IntPtr callbackTarget);
+        
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStableBoardFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterStableBoardFunc(CallbackStableBoardFunc func, IntPtr callbackTarget);
+        
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterScanFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         internal static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
 
