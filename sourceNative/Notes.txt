@@ -8,8 +8,7 @@ cd .\vcpkg\
 
 
 
-  protoc --proto_path=[full path where exist file[ProtobufTypes.proto] --cpp_out=[full path where exist file[ProtobufTypes.proto] [full path where exist file[ProtobufTypes.proto]/ProtobufTypes.proto
-
+C:\vcpkg\installed\x86-windows\tools\protobuf\protoc.exe .\dgtdll.proto --csharp_out=.\csharp\ --cpp_out=.\cpp\ -I=C:\vcpkg\installed\x86-windows\include\ --proto_path=.
 
 
 
