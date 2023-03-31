@@ -1,0 +1,16 @@
+git clone https://github.com/Microsoft/vcpkg.git
+cd .\vcpkg\
+.\bootstrap-vcpkg.bat
+.\bootstrap-vcpkg.bat -disableMetrics
+.\vcpkg --vcpkg-root .  integrate install
+.\vcpkg install protobuf
+.\vcpkg list
+
+
+
+  protoc --proto_path=[full path where exist file[ProtobufTypes.proto] --cpp_out=[full path where exist file[ProtobufTypes.proto] [full path where exist file[ProtobufTypes.proto]/ProtobufTypes.proto
+
+
+
+
+

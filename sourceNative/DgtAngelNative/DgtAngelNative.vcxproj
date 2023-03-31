@@ -141,10 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dgtdll.pb.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dgtdll.pb.cc" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp" />
   </ItemGroup>
