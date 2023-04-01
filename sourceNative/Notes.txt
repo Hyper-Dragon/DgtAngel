@@ -6,10 +6,19 @@ cd .\vcpkg\
 .\vcpkg install protobuf
 .\vcpkg list
 
+install grpc
 
 
 C:\vcpkg\installed\x86-windows\tools\protobuf\protoc.exe .\dgtdll.proto --csharp_out=.\csharp\ --cpp_out=.\cpp\ -I=C:\vcpkg\installed\x86-windows\include\ --proto_path=.
+C:\vcpkg\installed\x86-windows\tools\protobuf\protoc.exe .\dgtdll.proto --grpc_out=. --plugin=protoc-gen-grpc=C:\vcpkg\installed\x64-windows\tools\grpc\grpc_cpp_plugin.exe
 
 
+https://github.com/fullstorydev/grpcurl/releases
+.\grpcurl -plaintext -proto .\dgtdll.proto -d '{}' localhost:5105 dgt.DGTDLL/GetVersion
+.\grpcurl -plaintext -proto .\dgtdll.proto -d '{}' localhost:5105 dgt.DGTDLL/GetVersion
 
 
+.\grpcurl -plaintext -proto .\dgtdll.proto  describe dgt.DGTDLL.GetVersion
+
+dgt.DGTDLL.GetVersion is a method:
+rpc GetVersion ( .dgt.Empty ) returns ( .dgt.IntResponse );

@@ -1,5 +1,11 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
+#include <memory>
+#include <grpcpp/grpcpp.h>
+#include <google/protobuf/empty.pb.h>
+#include "dgtdll.pb.h"
+#include "dgtdll.grpc.pb.h"
+
 
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
@@ -31,7 +37,42 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 
 extern "C" {
-	__declspec(dllexport) int _DGTDLL_GetVersion() { return (version_major * 10000) + (version_minor * 100) + version_release; }
+	__declspec(dllexport) int _DGTDLL_GetVersion() { 
+		
+		// create a channel to a gRPC server
+		std::shared_ptr<grpc::Channel> channel =
+			grpc::CreateChannel("localhost:5105", grpc::InsecureChannelCredentials());
+
+		// Create a stub for the service.
+		std::unique_ptr<dgt::DGTDLL::Stub> stub = dgt::DGTDLL::NewStub(channel);
+		
+		// Create an Empty request message.
+		dgt::Empty request;
+
+		// Create a context for the RPC.
+		grpc::ClientContext context;
+
+		// Call the GetVersion RPC method.
+		dgt::IntResponse response;
+
+		grpc::Status status = stub->GetVersion(&context, request, &response);
+
+		// Check if the call was successful.
+		if (status.ok()) {
+			// Use the response message.
+			//std::cout << "Version: " << response.value() << std::endl;
+			//return response.value();
+			return 0;
+		}
+		else {
+			// Handle the error.
+			//std::cerr << "RPC failed: " << status.error_message() << std::endl;
+			return 1;
+		}
+
+
+		//return (version_major * 10000) + (version_minor * 100) + version_release; 
+	}
 	__declspec(dllexport) int _DGTDLL_GetWxWidgetsVersion() { return 0; }
 	__declspec(dllexport) int _DGTDLL_Init() { return 0; }
 	__declspec(dllexport) int _DGTDLL_Exit() { return 0; }
