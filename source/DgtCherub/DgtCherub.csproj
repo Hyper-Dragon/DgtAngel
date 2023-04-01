@@ -68,6 +68,7 @@
     <None Remove="Assets\Clocks\WingedHorse\TemplateData\unity-logo-light.png" />
     <None Remove="Assets\Clocks\WingedHorse\TemplateData\webgl-logo.png" />
     <None Remove="Assets\Clocks\WingedHorse\TemplateData\WingedHorse.png" />
+    <None Remove="Protos\dgtdll.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -130,6 +131,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
+    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.49.0" />
     <PackageReference Include="NAudio" Version="2.1.0" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
     <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
@@ -239,6 +242,10 @@
   <ItemGroup>
     <Folder Include="Assets\Audio\Moves-en-01\" />
     <Folder Include="Assets\Audio\Time-en-01\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\dgtdll.proto" />
   </ItemGroup>
 
   <ItemGroup>

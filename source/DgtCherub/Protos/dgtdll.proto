@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcServiceDgtTest";
+
+package dgt;
+
+service DGTDLL {
+  rpc GetVersion (Empty) returns (IntResponse) {}
+  rpc GetWxWidgetsVersion (Empty) returns (IntResponse) {}
+  rpc Init (Empty) returns (IntResponse) {}
+  rpc Exit (Empty) returns (IntResponse) {}
+  rpc ShowDialog (IntRequest) returns (IntResponse) {}
+  rpc HideDialog (IntRequest) returns (IntResponse) {}
+  rpc WriteCOMPort (IntRequest) returns (IntResponse) {}
+  rpc WriteCOMPortString (StringRequest) returns (IntResponse) {}
+  rpc WritePosition (StringRequest) returns (IntResponse) {}
+  rpc PlayWhiteMove (StringRequest) returns (IntResponse) {}
+  rpc PlayBlackMove (StringRequest) returns (IntResponse) {}
+  rpc WriteDebug (BoolRequest) returns (IntResponse) {}
+  rpc DisplayClockMessage (ClockMessageRequest) returns (IntResponse) {}
+  rpc EndDisplay (IntRequest) returns (IntResponse) {}
+  rpc SetNRun (SetNRunRequest) returns (IntResponse) {}
+  rpc ClockMode (IntRequest) returns (IntResponse) {}
+  rpc SetAutoRotation (BoolRequest) returns (IntResponse) {}
+  rpc UseFEN (BoolRequest) returns (IntResponse) {}
+  rpc UseSAN (BoolRequest) returns (IntResponse) {}
+  rpc SetGameType (IntRequest) returns (IntResponse) {}
+  rpc AllowTakebacks (BoolRequest) returns (IntResponse) {}
+  rpc RegisterCallbacks (Empty) returns (stream CallbackResponse) {}
+}
+
+message Empty {}
+
+message IntRequest {
+  int32 value = 1;
+}
+
+message BoolRequest {
+  bool value = 1;
+}
+
+message StringRequest {
+  string value = 1;
+}
+
+message ClockMessageRequest {
+  string message = 1;
+  int32 time = 2;
+}
+
+message SetNRunRequest {
+  string param1 = 1;
+  string param2 = 2;
+  int32 time = 3;
+}
+
+message IntResponse {
+  int32 value = 1;
+}
+
+message CallbackResponse {
+  string callback_name = 1;
+  oneof callback_data {
+    string string_data = 2;
+    int32 int_data = 3;
+    bool bool_data = 4;
+    CallbackIIC iic_data = 5;
+  }
+}
+
+message CallbackIIC {
+  int32 param1 = 1;
+  int32 param2 = 2;
+  string param3 = 3;
+}

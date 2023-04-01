@@ -4,11 +4,15 @@ using DgtLiveChessWrapper;
 using DgtRabbitWrapper;
 using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard;
+using GrpcServiceDgtTest.Services;
+using Grpc.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UciComms;
+using Microsoft.Extensions.Hosting;
+
 
 namespace DgtCherub
 {
@@ -30,11 +34,13 @@ namespace DgtCherub
                 options.AddPolicy("DevCorsPolicy", builder =>
                 {
                     _ = builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
                 });
             });
 
+
+            _ = services.AddGrpc();
             _ = services.AddHttpClient();
             _ = services.AddControllers();
             _ = services.AddLogging();
@@ -52,6 +58,10 @@ namespace DgtCherub
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "Take it out and get a different warning!")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            //var credentials = ServerCredentials.Insecure;
+            //var dgtService = new DgtService();
+
             //_ = app.UseDeveloperExceptionPage()
             _ = app.UseRouting()
                    .UseWebSockets()
@@ -59,6 +69,7 @@ namespace DgtCherub
                    .UseEndpoints(endpoints =>
                    {
                        _ = endpoints.MapControllers();
+                       _ = endpoints.MapGrpcService<DgtService>();
                    });
         }
     }

@@ -1,5 +1,6 @@
 using DgtCherub.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.NetworkInformation;
@@ -56,11 +57,22 @@ namespace DgtCherub
 
                 //Set up DI
                 IHost host = Host.CreateDefaultBuilder(Array.Empty<string>())
-                   .ConfigureWebHostDefaults(webBuilder =>
-                   {
-                       _ = webBuilder.UseStartup<Startup>()
-                                 .UseUrls($"http://0.0.0.0:{CHERUB_API_LISTEN_PORT}");
-                   }).UseConsoleLifetime().Build();
+                    .ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        webBuilder.ConfigureKestrel(options =>
+                        {
+                            options.ListenAnyIP(CHERUB_API_LISTEN_PORT, listenOptions =>
+                            {
+                                listenOptions.Protocols = HttpProtocols.Http1;
+                            });
+                            options.ListenAnyIP(37965, listenOptions =>
+                            {
+                                listenOptions.Protocols = HttpProtocols.Http2;
+                            });
+                        });
+                        _ = webBuilder.UseStartup<Startup>()
+                                      .UseUrls($"http://0.0.0.0:{CHERUB_API_LISTEN_PORT}");
+                    }).UseConsoleLifetime().Build();
 
 
                 //Start everything

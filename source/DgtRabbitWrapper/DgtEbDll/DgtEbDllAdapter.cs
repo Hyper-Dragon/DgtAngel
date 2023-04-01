@@ -63,8 +63,6 @@ namespace DgtRabbitWrapper.DgtEbDll
         {
             NotifyTarget = notifyTarget;
 
-            Result result99 = (Result)DgtEbDllImport.GetVersion();
-
             Result result0 = (Result)DgtEbDllImport.Init();
             Result result1 = (Result)RegisterCallbackScanFunc(_callbackSScanInstance, IntPtr.Zero);
             Result result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
