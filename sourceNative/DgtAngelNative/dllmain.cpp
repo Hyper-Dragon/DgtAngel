@@ -61,8 +61,8 @@ extern "C" {
 		if (status.ok()) {
 			// Use the response message.
 			//std::cout << "Version: " << response.value() << std::endl;
-			//return response.value();
-			return 0;
+			return response.value();
+			//return 0;
 		}
 		else {
 			// Handle the error.
