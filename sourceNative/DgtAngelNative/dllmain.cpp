@@ -13,13 +13,15 @@ typedef int __stdcall F();
 typedef int __stdcall FIIC(int, int, const char*);
 
 // Global variables for the channel and stub
+const char* CHERUB_GRPC_LISTEN_PORT = "localhost:37965";
+
 std::shared_ptr<grpc::Channel> g_channel;
 std::unique_ptr<dgt::DGTDLL::Stub> g_stub;
 
 // Function to reconnect the channel if needed
 void ReconnectChannelIfNecessary() {
 	if (g_channel->GetState(true) == GRPC_CHANNEL_READY) {
-		g_channel = grpc::CreateChannel("localhost:5105", grpc::InsecureChannelCredentials());
+		g_channel = grpc::CreateChannel(CHERUB_GRPC_LISTEN_PORT, grpc::InsecureChannelCredentials());
 		g_stub = dgt::DGTDLL::NewStub(g_channel);
 	}
 }

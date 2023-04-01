@@ -22,3 +22,12 @@ https://github.com/fullstorydev/grpcurl/releases
 
 dgt.DGTDLL.GetVersion is a method:
 rpc GetVersion ( .dgt.Empty ) returns ( .dgt.IntResponse );
+
+
+- TO TEST
+./grpcurl -plaintext -proto dgtdll.proto -d '{}' localhost:37965 dgt.DGTDLL/GetVersion
+
+netstat -aon | Select-String '37965'
+
+Test-NetConnection -ComputerName localhost -Port 37964
+Test-NetConnection -ComputerName localhost -Port 37965

@@ -18,6 +18,7 @@ namespace DgtCherub
         {
             const string APP_GUID = "9fba0717-36d6-470b-a7c7-5e7b2491b91d"; //This is not a secret...Just used for the mutex
             const int CHERUB_API_LISTEN_PORT = 37964;
+            const int CHERUB_GRPC_LISTEN_PORT = 37965;
 
             // Make sure we only have one instance running...
             using Mutex mutex = new(false, "Global\\" + APP_GUID);
@@ -65,7 +66,7 @@ namespace DgtCherub
                             {
                                 listenOptions.Protocols = HttpProtocols.Http1;
                             });
-                            options.ListenAnyIP(37965, listenOptions =>
+                            options.ListenAnyIP(CHERUB_GRPC_LISTEN_PORT, listenOptions =>
                             {
                                 listenOptions.Protocols = HttpProtocols.Http2;
                             });
