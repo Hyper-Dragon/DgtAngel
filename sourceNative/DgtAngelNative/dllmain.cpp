@@ -6,6 +6,12 @@
 #include "dgtdll.pb.h"
 #include "dgtdll.grpc.pb.h"
 
+typedef int __stdcall FC(const char*);
+typedef int __stdcall FI(int);
+typedef int __stdcall FB(bool);
+typedef int __stdcall F();
+typedef int __stdcall FIIC(int, int, const char*);
+
 // Global variables for the channel and stub
 std::shared_ptr<grpc::Channel> g_channel;
 std::unique_ptr<dgt::DGTDLL::Stub> g_stub;
@@ -18,11 +24,21 @@ void ReconnectChannelIfNecessary() {
 	}
 }
 
-typedef int __stdcall FC(const char*);
-typedef int __stdcall FI(int);
-typedef int __stdcall FB(bool);
-typedef int __stdcall F();
-typedef int __stdcall FIIC(int, int, const char*);
+template <typename RequestType>
+int PerformGrpcCall(const std::function<grpc::Status(grpc::ClientContext&, RequestType&, dgt::IntResponse&)>& call) {
+	try {
+		ReconnectChannelIfNecessary();
+		RequestType request;
+		dgt::IntResponse response;
+		grpc::ClientContext context;
+		call(context, request, response);
+		return response.value();
+	}
+	catch (const std::exception& e) {
+		return 1;
+		//return grpc::Status(grpc::StatusCode::UNKNOWN, e.what());
+	}
+}
 
 
 BOOL APIENTRY DllMain(HMODULE hModule,
@@ -47,52 +63,230 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 
 extern "C" {
-	__declspec(dllexport) int _DGTDLL_GetVersion() { 
-		
-		// Reconnect the channel if necessary
-		ReconnectChannelIfNecessary();
-		
-		// Create an Empty request message.
-		dgt::Empty request;
+	__declspec(dllexport) int _DGTDLL_GetVersion() {
+		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
+			return g_stub->GetVersion(&context, request, &response);
+		};
 
-		// Create a context for the RPC.
-		grpc::ClientContext context;
-
-		// Call the GetVersion RPC method.
-		dgt::IntResponse response;
-
-		grpc::Status status = g_stub->GetVersion(&context, request, &response);
-
-		// Check if the call was successful.
-		if (status.ok()) {
-			// Use the response message.
-			return response.value();
-		}
-		else {
-			// Handle the error.
-			return 1;
-		}
+		return PerformGrpcCall<dgt::Empty>(call);
 	}
-	__declspec(dllexport) int _DGTDLL_GetWxWidgetsVersion() { return 0; }
-	__declspec(dllexport) int _DGTDLL_Init() { return 0; }
-	__declspec(dllexport) int _DGTDLL_Exit() { return 0; }
-	__declspec(dllexport) int _DGTDLL_ShowDialog(int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_HideDialog(int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_WriteCOMPort(int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_WriteCOMPortString(const char*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_WritePosition(const char*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_PlayWhiteMove(const char*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_PlayBlackMove(const char*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_WriteDebug(bool) { return 0; }
-	__declspec(dllexport) int _DGTDLL_DisplayClockMessage(const char*, int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_EndDisplay(int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_SetNRun(const char*, const char*, int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_ClockMode(int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_SetAutoRotation(bool) { return 0; }
-	__declspec(dllexport) int _DGTDLL_UseFEN(bool) { return 0; }
-	__declspec(dllexport) int _DGTDLL_UseSAN(bool) { return 0; }
-	__declspec(dllexport) int _DGTDLL_SetGameType(int) { return 0; }
-	__declspec(dllexport) int _DGTDLL_AllowTakebacks(bool) { return 0; }
+
+	__declspec(dllexport) int _DGTDLL_GetWxWidgetsVersion() {
+		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
+			return g_stub->GetWxWidgetsVersion(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::Empty>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_Init() {
+		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
+			return g_stub->Init(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::Empty>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_Exit() {
+		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
+			return g_stub->Exit(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::Empty>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_ShowDialog(int val) {
+		dgt::IntRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::IntRequest& request, dgt::IntResponse& response) {
+			return g_stub->ShowDialog(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::IntRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_HideDialog(int val) {
+		dgt::IntRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::IntRequest& request, dgt::IntResponse& response) {
+			return g_stub->HideDialog(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::IntRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_WriteCOMPort(int val) {
+		dgt::IntRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::IntRequest& request, dgt::IntResponse& response) {
+			return g_stub->WriteCOMPort(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::IntRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_WriteCOMPortString(const char* val) {
+		dgt::StringRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::StringRequest& request, dgt::IntResponse& response) {
+			return g_stub->WriteCOMPortString(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::StringRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_WritePosition(const char* val) {
+		dgt::StringRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::StringRequest& request, dgt::IntResponse& response) {
+			return g_stub->WritePosition(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::StringRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_PlayWhiteMove(const char* val) {
+		dgt::StringRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::StringRequest& request, dgt::IntResponse& response) {
+			return g_stub->PlayWhiteMove(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::StringRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_PlayBlackMove(const char* val) {
+		dgt::StringRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::StringRequest& request, dgt::IntResponse& response) {
+			return g_stub->PlayBlackMove(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::StringRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_WriteDebug(bool val) {
+		dgt::BoolRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::BoolRequest& request, dgt::IntResponse& response) {
+			return g_stub->WriteDebug(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::BoolRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_DisplayClockMessage(const char* val1, int val2) {
+		dgt::ClockMessageRequest request;
+		request.set_message(val1);
+		request.set_time(val2);
+
+		auto call = [](grpc::ClientContext& context, const dgt::ClockMessageRequest& request, dgt::IntResponse& response) {
+			return g_stub->DisplayClockMessage(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::ClockMessageRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_EndDisplay(int val) {
+		dgt::IntRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::IntRequest& request, dgt::IntResponse& response) {
+			return g_stub->EndDisplay(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::IntRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
+		dgt::SetNRunRequest request;
+		request.set_param1(val1);
+		request.set_param2(val2);
+		request.set_time(val3);
+
+		auto call = [](grpc::ClientContext& context, const dgt::SetNRunRequest& request, dgt::IntResponse& response) {
+			return g_stub->SetNRun(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::SetNRunRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_ClockMode(int val) {
+		dgt::IntRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::IntRequest& request, dgt::IntResponse& response) {
+			return g_stub->ClockMode(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::IntRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_SetAutoRotation(bool val) {
+		dgt::BoolRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::BoolRequest& request, dgt::IntResponse& response) {
+			return g_stub->SetAutoRotation(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::BoolRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_UseFEN(bool val) {
+		dgt::BoolRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::BoolRequest& request, dgt::IntResponse& response) {
+			return g_stub->UseFEN(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::BoolRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_UseSAN(bool val) {
+		dgt::BoolRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::BoolRequest& request, dgt::IntResponse& response) {
+			return g_stub->UseSAN(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::BoolRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_SetGameType(int val) {
+		dgt::IntRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::IntRequest& request, dgt::IntResponse& response) {
+			return g_stub->SetGameType(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::IntRequest>(call);
+	}
+
+	__declspec(dllexport) int _DGTDLL_AllowTakebacks(bool val) {
+		dgt::BoolRequest request;
+		request.set_value(val);
+
+		auto call = [](grpc::ClientContext& context, const dgt::BoolRequest& request, dgt::IntResponse& response) {
+			return g_stub->AllowTakebacks(&context, request, &response);
+		};
+
+		return PerformGrpcCall<dgt::BoolRequest>(call);
+	}
+
+
+	//Callback methods below...
 	__declspec(dllexport) int _DGTDLL_RegisterStatusFunc(FC*) { return 0; }
 	__declspec(dllexport) int _DGTDLL_RegisterScanFunc(FC*) { return 0; }
 	__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC*) { return 0; }
