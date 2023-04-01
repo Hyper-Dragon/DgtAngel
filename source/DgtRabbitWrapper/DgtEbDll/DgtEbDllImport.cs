@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DgtRabbitWrapper.DgtEbDll
 {
-    internal class DgtEbDllImport
+    public class DgtEbDllImport
     {
         /*
           Calls Not Wrapped 
@@ -35,76 +35,76 @@ namespace DgtRabbitWrapper.DgtEbDll
 
         private const string DGT_EB_DLL = @"dgtebdll.dll";
 
-        internal delegate void CallbackStatusFunc(string status);
-        internal delegate void CallbackStableBoardFunc(string boardFEN);
-        internal delegate void CallbackScanFunc(string boardFEN);
+        public delegate void CallbackStatusFunc(string status);
+        public delegate void CallbackStableBoardFunc(string boardFEN);
+        public delegate void CallbackScanFunc(string boardFEN);
 
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStatusFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterStatusFunc(CallbackStatusFunc func, IntPtr callbackTarget);
+        public static extern int RegisterStatusFunc(CallbackStatusFunc func, IntPtr callbackTarget);
         
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStableBoardFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterStableBoardFunc(CallbackStableBoardFunc func, IntPtr callbackTarget);
+        public static extern int RegisterStableBoardFunc(CallbackStableBoardFunc func, IntPtr callbackTarget);
         
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterScanFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
+        public static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
 
         //--------------------------------------------------------------------------------------
 
-        internal delegate void CallbackBClockFunc(string clock);
-        internal delegate void CallbackBlackMoveInputFunc(string move);
-        internal delegate void CallbackBlackMoveNowFunc(string move);
-        internal delegate void CallbackNewGameFunc(string game);
-        internal delegate void CallbackResultFunc(string result);
-        internal delegate void CallbackStartSetupFunc(string message);
-        internal delegate void CallbackStopSetupBTMFunc(string message);
-        internal delegate void CallbackStopSetupWTMFunc(string message);
-        internal delegate void CallbackWClockFunc(string clock);
-        internal delegate void CallbackWhiteMoveInputFunc(string move);
-        internal delegate void CallbackWhiteMoveNowFunc(string move);
+        public delegate void CallbackBClockFunc(string clock);
+        public delegate void CallbackBlackMoveInputFunc(string move);
+        public delegate void CallbackBlackMoveNowFunc(string move);
+        public delegate void CallbackNewGameFunc(string game);
+        public delegate void CallbackResultFunc(string result);
+        public delegate void CallbackStartSetupFunc(string message);
+        public delegate void CallbackStopSetupBTMFunc(string message);
+        public delegate void CallbackStopSetupWTMFunc(string message);
+        public delegate void CallbackWClockFunc(string clock);
+        public delegate void CallbackWhiteMoveInputFunc(string move);
+        public delegate void CallbackWhiteMoveNowFunc(string move);
 
 
-        //internal delegate void CallbackMagicPieceFunc(string VERIFY);
-        //internal delegate void CallbackAllowTakebacksChangedFunc(string VERIFY);
-        //internal delegate void CallbackGameTypeChangedFunc(string VERIFY);
-        //internal delegate void CallbackBlackTakebackFunc(string VERIFY);
-        //internal delegate void CallbackWhiteTakebackFunc(string VERIFY);
+        //public delegate void CallbackMagicPieceFunc(string VERIFY);
+        //public delegate void CallbackAllowTakebacksChangedFunc(string VERIFY);
+        //public delegate void CallbackGameTypeChangedFunc(string VERIFY);
+        //public delegate void CallbackBlackTakebackFunc(string VERIFY);
+        //public delegate void CallbackWhiteTakebackFunc(string VERIFY);
 
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBClockFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterBClockFunc(CallbackBClockFunc func, IntPtr callbackTarget);
+        public static extern int RegisterBClockFunc(CallbackBClockFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBlackMoveInputFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterBlackMoveInputFunc(CallbackBlackMoveInputFunc func, IntPtr callbackTarget);
+        public static extern int RegisterBlackMoveInputFunc(CallbackBlackMoveInputFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBlackMoveNowFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterBlackMoveNowFunc(CallbackBlackMoveNowFunc func, IntPtr callbackTarget);
+        public static extern int RegisterBlackMoveNowFunc(CallbackBlackMoveNowFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterNewGameFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterNewGameFunc(CallbackNewGameFunc func, IntPtr callbackTarget);
+        public static extern int RegisterNewGameFunc(CallbackNewGameFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterResultFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterResultFunc(CallbackResultFunc func, IntPtr callbackTarget);
+        public static extern int RegisterResultFunc(CallbackResultFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStartSetupFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterStartSetupFunc(CallbackStartSetupFunc func, IntPtr callbackTarget);
+        public static extern int RegisterStartSetupFunc(CallbackStartSetupFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStopSetupBTMFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterStopSetupBTMFunc(CallbackStopSetupBTMFunc func, IntPtr callbackTarget);
+        public static extern int RegisterStopSetupBTMFunc(CallbackStopSetupBTMFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStopSetupWTMFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterStopSetupWTMFunc(CallbackStopSetupWTMFunc func, IntPtr callbackTarget);
+        public static extern int RegisterStopSetupWTMFunc(CallbackStopSetupWTMFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterWClockFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterWClockFunc(CallbackWClockFunc func, IntPtr callbackTarget);
+        public static extern int RegisterWClockFunc(CallbackWClockFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterWhiteMoveInputFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterWhiteMoveInputFunc(CallbackWhiteMoveInputFunc func, IntPtr callbackTarget);
+        public static extern int RegisterWhiteMoveInputFunc(CallbackWhiteMoveInputFunc func, IntPtr callbackTarget);
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterWhiteMoveNowFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-        internal static extern int RegisterWhiteMoveNowFunc(CallbackWhiteMoveNowFunc func, IntPtr callbackTarget);
+        public static extern int RegisterWhiteMoveNowFunc(CallbackWhiteMoveNowFunc func, IntPtr callbackTarget);
 
 
 
         /*
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                internal static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
+                public static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterAllowTakebacksChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                internal static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
+                public static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterGameTypeChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                internal static extern int RegisterGameTypeChangedFunc(CallbackGameTypeChangedFunc func, IntPtr callbackTarget);
+                public static extern int RegisterGameTypeChangedFunc(CallbackGameTypeChangedFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterWhiteTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                internal static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
+                public static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBlackTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                internal static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
+                public static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
         */
         //----------------------------------------------------------------------------------
 
@@ -113,14 +113,14 @@ namespace DgtRabbitWrapper.DgtEbDll
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int UseFEN(bool useFen);
+        public static extern int UseFEN(bool useFen);
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_WriteDebug",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int WriteDebug(bool isDebugOn);
+        public static extern int WriteDebug(bool isDebugOn);
 
 
         //
@@ -133,21 +133,21 @@ namespace DgtRabbitWrapper.DgtEbDll
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int SetAutoRotation(bool allowAutoRotate);
+        public static extern int SetAutoRotation(bool allowAutoRotate);
 
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_UseSAN",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
-        internal static extern int UseSAN(bool useSan);
+        public static extern int UseSAN(bool useSan);
 
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_SetGameType",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
-        internal static extern int SetGameType(int gameType);
+        public static extern int SetGameType(int gameType);
 
 
 
@@ -156,48 +156,48 @@ namespace DgtRabbitWrapper.DgtEbDll
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int HideDialog(int dummy);
+        public static extern int HideDialog(int dummy);
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_ShowDialog",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int ShowDialog(int dummy);
+        public static extern int ShowDialog(int dummy);
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_GetVersion",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int GetVersion();
+        public static extern int GetVersion();
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_Init",
                    ExactSpelling = true,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int Init();
+        public static extern int Init();
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_ClockMode",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int ClockMode(int mode);
+        public static extern int ClockMode(int mode);
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_SetNRun",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int SetNRun(StringBuilder wclock, StringBuilder bclock, int runwho);
+        public static extern int SetNRun(StringBuilder wclock, StringBuilder bclock, int runwho);
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_EndDisplay",
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int EndDisplay(int dummy);
+        public static extern int EndDisplay(int dummy);
 
         // _DGTDLL_DisplayClockMessage(char* message, int time);
         [DllImport(DGT_EB_DLL,
@@ -205,7 +205,7 @@ namespace DgtRabbitWrapper.DgtEbDll
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        internal static extern int DisplayClockMessage(StringBuilder message, int time);
+        public static extern int DisplayClockMessage(StringBuilder message, int time);
 
     }
 }
