@@ -6,17 +6,23 @@
 #include "dgtdll.pb.h"
 #include "dgtdll.grpc.pb.h"
 
+// Global variables for the channel and stub
+std::shared_ptr<grpc::Channel> g_channel;
+std::unique_ptr<dgt::DGTDLL::Stub> g_stub;
+
+// Function to reconnect the channel if needed
+void ReconnectChannelIfNecessary() {
+	if (g_channel->GetState(true) == GRPC_CHANNEL_READY) {
+		g_channel = grpc::CreateChannel("localhost:5105", grpc::InsecureChannelCredentials());
+		g_stub = dgt::DGTDLL::NewStub(g_channel);
+	}
+}
 
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
 typedef int __stdcall FB(bool);
 typedef int __stdcall F();
 typedef int __stdcall FIIC(int, int, const char*);
-
-int version_major = 2;
-int version_minor = 0;
-int version_release = 7;
-
 
 
 BOOL APIENTRY DllMain(HMODULE hModule,
@@ -27,6 +33,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
+		// Initialize the channel and stub
+		g_channel = grpc::CreateChannel("localhost:5105", grpc::InsecureChannelCredentials());
+		g_stub = dgt::DGTDLL::NewStub(g_channel);
+		break;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 	case DLL_PROCESS_DETACH:
@@ -39,12 +49,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 extern "C" {
 	__declspec(dllexport) int _DGTDLL_GetVersion() { 
 		
-		// create a channel to a gRPC server
-		std::shared_ptr<grpc::Channel> channel =
-			grpc::CreateChannel("localhost:5105", grpc::InsecureChannelCredentials());
-
-		// Create a stub for the service.
-		std::unique_ptr<dgt::DGTDLL::Stub> stub = dgt::DGTDLL::NewStub(channel);
+		// Reconnect the channel if necessary
+		ReconnectChannelIfNecessary();
 		
 		// Create an Empty request message.
 		dgt::Empty request;
@@ -55,23 +61,17 @@ extern "C" {
 		// Call the GetVersion RPC method.
 		dgt::IntResponse response;
 
-		grpc::Status status = stub->GetVersion(&context, request, &response);
+		grpc::Status status = g_stub->GetVersion(&context, request, &response);
 
 		// Check if the call was successful.
 		if (status.ok()) {
 			// Use the response message.
-			//std::cout << "Version: " << response.value() << std::endl;
 			return response.value();
-			//return 0;
 		}
 		else {
 			// Handle the error.
-			//std::cerr << "RPC failed: " << status.error_message() << std::endl;
 			return 1;
 		}
-
-
-		//return (version_major * 10000) + (version_minor * 100) + version_release; 
 	}
 	__declspec(dllexport) int _DGTDLL_GetWxWidgetsVersion() { return 0; }
 	__declspec(dllexport) int _DGTDLL_Init() { return 0; }
