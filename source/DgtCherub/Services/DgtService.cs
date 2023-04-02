@@ -175,5 +175,14 @@ namespace GrpcServiceDgtTest.Services
             });
         }
 
+
+
+        //Callbacks...
+
+        public override Task RegisterCallbacks(Empty request, IServerStreamWriter<CallbackResponse> responseStream, ServerCallContext context)
+        {
+            return base.RegisterCallbacks(request, responseStream, context);
+        }
+
     }
 }

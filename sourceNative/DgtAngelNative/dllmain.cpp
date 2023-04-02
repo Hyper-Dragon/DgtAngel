@@ -43,7 +43,40 @@ void LogMessage(const std::string& message) {
 	}
 }
 
-// Function to reconnect the channel if needed
+// Function to reconnect the channel i// Global variable for callbacks
+std::map<std::string, void*> g_callbacks;
+
+// Function to register a callback
+void RegisterCallback(const std::string& name, void* func) {
+	g_callbacks[name] = func;
+}
+
+// Function to perform a callback
+template <typename... Args>
+void PerformCallback(const std::string& name, Args... args) {
+	auto it = g_callbacks.find(name);
+	if (it != g_callbacks.end()) {
+		auto func = reinterpret_cast<void(*)(Args...)>(it->second);
+		func(args...);
+	}
+}
+
+// Function to handle callbacks from the server
+void HandleCallbacks() {
+	grpc::ClientContext context;
+	dgt::Empty request;
+	std::unique_ptr<grpc::ClientReader<dgt::CallbackResponse>> reader(g_stub->RegisterCallbacks(&context, request));
+
+	dgt::CallbackResponse response;
+	while (reader->Read(&response)) {
+		const std::string& callback_name = response.callback_name();
+		if (callback_name == "StableBoard") {
+			PerformCallback<const char*>(callback_name, response.string_data().c_str());
+		}
+		// ... (handle other callbacks)
+	}
+}
+
 void ReconnectChannelIfNecessary() {
 	if (g_channel->GetState(true) == GRPC_CHANNEL_READY) {
 		g_channel = grpc::CreateChannel(CHERUB_GRPC_LISTEN_PORT, grpc::InsecureChannelCredentials());
@@ -82,6 +115,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		// Initialize the log file
 		InitializeLogFile();
 		LogMessage("DLL_PROCESS_ATTACH"); // Log the event
+
+		// Start a thread to handle callbacks from the server
+		std::thread(HandleCallbacks).detach();
+
 		break;
 	case DLL_THREAD_ATTACH:
 		LogMessage("DLL_THREAD_ATTACH"); // Log the event
@@ -366,9 +403,16 @@ extern "C" {
 
 
 	//Callback methods below...
+	
+	__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC* func) {
+		LogMessage("Called " + std::string(__func__));
+		RegisterCallback("StableBoard", reinterpret_cast<void*>(func));
+		return 0;
+	}
+
+	
 	__declspec(dllexport) int _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
 	__declspec(dllexport) int _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
 	__declspec(dllexport) int _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
 	__declspec(dllexport) int _DGTDLL_RegisterBClockFunc(FC*) { LogMessage("Called " + std::string(__func__));return 0; }
 	__declspec(dllexport) int _DGTDLL_RegisterResultFunc(FC*) { LogMessage("Called " + std::string(__func__));return 0; }
