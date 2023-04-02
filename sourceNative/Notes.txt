@@ -31,3 +31,8 @@ netstat -aon | Select-String '37965'
 
 Test-NetConnection -ComputerName localhost -Port 37964
 Test-NetConnection -ComputerName localhost -Port 37965
+
+
+
+DEBUG...........
+ Set-Item -Path "env:DGTDLL_LOG_PATH" -Value "<the path>\blah.log"

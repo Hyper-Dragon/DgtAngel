@@ -5,6 +5,8 @@
 #include <google/protobuf/empty.pb.h>
 #include "dgtdll.pb.h"
 #include "dgtdll.grpc.pb.h"
+#include <fstream> // Include for file I/O
+#include <cstdlib> // Include for getenv()
 
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
@@ -17,6 +19,29 @@ const char* CHERUB_GRPC_LISTEN_PORT = "localhost:37965";
 
 std::shared_ptr<grpc::Channel> g_channel;
 std::unique_ptr<dgt::DGTDLL::Stub> g_stub;
+
+// Global variables for logging
+std::ofstream g_log_file;
+const char* LOG_ENV_VAR = "DGTDLL_LOG_PATH";
+bool g_logging_enabled = false;
+
+// Function to initialize the log file
+void InitializeLogFile() {
+	char* log_path = nullptr;
+	std::size_t len;
+	if (_dupenv_s(&log_path, &len, LOG_ENV_VAR) == 0 && log_path != nullptr) {
+		g_log_file.open(log_path, std::ios::app);
+		g_logging_enabled = g_log_file.is_open();
+		std::free(log_path);
+	}
+}
+
+// Function to log messages to the file
+void LogMessage(const std::string& message) {
+	if (g_logging_enabled) {
+		g_log_file << message << std::endl;
+	}
+}
 
 // Function to reconnect the channel if needed
 void ReconnectChannelIfNecessary() {
@@ -37,8 +62,8 @@ int PerformGrpcCall(const std::function<grpc::Status(grpc::ClientContext&, Reque
 		return response.value();
 	}
 	catch (const std::exception& e) {
+		LogMessage("Exception: " + std::string(e.what())); // Log exception message
 		return 1;
-		//return grpc::Status(grpc::StatusCode::UNKNOWN, e.what());
 	}
 }
 
@@ -53,10 +78,22 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		// Initialize the channel and stub
 		g_channel = grpc::CreateChannel("localhost:5105", grpc::InsecureChannelCredentials());
 		g_stub = dgt::DGTDLL::NewStub(g_channel);
+
+		// Initialize the log file
+		InitializeLogFile();
+		LogMessage("DLL_PROCESS_ATTACH"); // Log the event
 		break;
 	case DLL_THREAD_ATTACH:
+		LogMessage("DLL_THREAD_ATTACH"); // Log the event
+		break;
 	case DLL_THREAD_DETACH:
+		LogMessage("DLL_THREAD_DETACH"); // Log the event
+		break;
 	case DLL_PROCESS_DETACH:
+		LogMessage("DLL_PROCESS_DETACH"); // Log the event
+		if (g_logging_enabled) {
+			g_log_file.close();
+		}
 		break;
 	}
 	return TRUE;
