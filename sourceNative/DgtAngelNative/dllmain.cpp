@@ -101,6 +101,8 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 extern "C" {
 	__declspec(dllexport) int _DGTDLL_GetVersion() {
+		LogMessage("Called " + std::string(__func__));
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->GetVersion(&context, request, &response);
 		};
@@ -109,6 +111,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_GetWxWidgetsVersion() {
+		LogMessage("Called " + std::string(__func__));
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->GetWxWidgetsVersion(&context, request, &response);
 		};
@@ -117,6 +121,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_Init() {
+		LogMessage("Called " + std::string(__func__));
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->Init(&context, request, &response);
 		};
@@ -125,6 +131,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_Exit() {
+		LogMessage("Called " + std::string(__func__));
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->Exit(&context, request, &response);
 		};
@@ -133,6 +141,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_ShowDialog(int val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::IntRequest request;
 		request.set_value(val);
 
@@ -144,6 +154,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_HideDialog(int val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::IntRequest request;
 		request.set_value(val);
 
@@ -155,6 +167,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_WriteCOMPort(int val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::IntRequest request;
 		request.set_value(val);
 
@@ -166,6 +180,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_WriteCOMPortString(const char* val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::StringRequest request;
 		request.set_value(val);
 
@@ -177,6 +193,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_WritePosition(const char* val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::StringRequest request;
 		request.set_value(val);
 
@@ -188,6 +206,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_PlayWhiteMove(const char* val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::StringRequest request;
 		request.set_value(val);
 
@@ -199,6 +219,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_PlayBlackMove(const char* val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::StringRequest request;
 		request.set_value(val);
 
@@ -210,6 +232,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_WriteDebug(bool val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::BoolRequest request;
 		request.set_value(val);
 
@@ -221,6 +245,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_DisplayClockMessage(const char* val1, int val2) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::ClockMessageRequest request;
 		request.set_message(val1);
 		request.set_time(val2);
@@ -233,6 +259,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_EndDisplay(int val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::IntRequest request;
 		request.set_value(val);
 
@@ -244,6 +272,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::SetNRunRequest request;
 		request.set_param1(val1);
 		request.set_param2(val2);
@@ -257,6 +287,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_ClockMode(int val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::IntRequest request;
 		request.set_value(val);
 
@@ -268,6 +300,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_SetAutoRotation(bool val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::BoolRequest request;
 		request.set_value(val);
 
@@ -279,6 +313,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_UseFEN(bool val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::BoolRequest request;
 		request.set_value(val);
 
@@ -290,6 +326,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_UseSAN(bool val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::BoolRequest request;
 		request.set_value(val);
 
@@ -301,6 +339,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_SetGameType(int val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::IntRequest request;
 		request.set_value(val);
 
@@ -312,6 +352,8 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int _DGTDLL_AllowTakebacks(bool val) {
+		LogMessage("Called " + std::string(__func__));
+
 		dgt::BoolRequest request;
 		request.set_value(val);
 
@@ -324,23 +366,23 @@ extern "C" {
 
 
 	//Callback methods below...
-	__declspec(dllexport) int _DGTDLL_RegisterStatusFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterScanFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterWClockFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterBClockFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterResultFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterNewGameFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterWhiteMoveInputFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterBlackMoveInputFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterWhiteTakebackFunc(F*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterBlackTakebackFunc(F*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterWhiteMoveNowFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterBlackMoveNowFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterStartSetupFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterStopSetupWTMFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterStopSetupBTMFunc(FC*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterGameTypeChangedFunc(FI*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterAllowTakebacksChangedFunc(FB*) { return 0; }
-	__declspec(dllexport) int _DGTDLL_RegisterMagicPieceFunc(FIIC*) { return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterBClockFunc(FC*) { LogMessage("Called " + std::string(__func__));return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterResultFunc(FC*) { LogMessage("Called " + std::string(__func__));return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterNewGameFunc(FC*) {LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterWhiteMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterBlackMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterWhiteTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterBlackTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterWhiteMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterBlackMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterStartSetupFunc(FC*) { LogMessage("Called " + std::string(__func__));  return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterStopSetupWTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterStopSetupBTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterGameTypeChangedFunc(FI*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterAllowTakebacksChangedFunc(FB*) { LogMessage("Called " + std::string(__func__)); return 0; }
+	__declspec(dllexport) int _DGTDLL_RegisterMagicPieceFunc(FIIC*) { LogMessage("Called " + std::string(__func__)); return 0; }
 }
