@@ -10,7 +10,6 @@ namespace DgtRabbitWrapper.DgtEbDll
           Calls Not Wrapped 
           -----------------
           _DGTDLL_AllowTakebacks
-          _DGTDLL_ChessBase_131e2d0711b4d50e
           _DGTDLL_Exit
           _DGTDLL_GetWxWidgetsVersion
           _DGTDLL_PlayBlackMove
@@ -18,7 +17,6 @@ namespace DgtRabbitWrapper.DgtEbDll
           _DGTDLL_SetAutoRotation
           _DGTDLL_SetGameType
           _DGTDLL_UseSAN
-          _DGTDLL_WoodIn3_9c7b9ce70ec6a882
           _DGTDLL_WriteCOMPort
           _DGTDLL_WriteCOMPortString
           _DGTDLL_WriteDebug
@@ -150,7 +148,6 @@ namespace DgtRabbitWrapper.DgtEbDll
         public static extern int SetGameType(int gameType);
 
 
-
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_HideDialog",
                    ExactSpelling = true,
@@ -199,7 +196,7 @@ namespace DgtRabbitWrapper.DgtEbDll
                    CallingConvention = CallingConvention.StdCall)]
         public static extern int EndDisplay(int dummy);
 
-        // _DGTDLL_DisplayClockMessage(char* message, int time);
+
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_DisplayClockMessage",
                    ExactSpelling = true,
@@ -207,5 +204,61 @@ namespace DgtRabbitWrapper.DgtEbDll
                    CallingConvention = CallingConvention.StdCall)]
         public static extern int DisplayClockMessage(StringBuilder message, int time);
 
+
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_AllowTakebacks",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int AllowTakebacks(bool val);
+        
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_Exit",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int Exit();
+        
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_GetWxWidgetsVersion",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int GetWxWidgetsVersion();
+        
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_PlayBlackMove",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int PlayBlackMove(StringBuilder move);
+        
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_PlayWhiteMove",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int PlayWhiteMove(StringBuilder move);
+                      
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_WriteCOMPort",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int WriteCOMPort(int val);
+        
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_WriteCOMPortString",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int WriteCOMPortString(StringBuilder val);
+        
+        [DllImport(DGT_EB_DLL,
+           EntryPoint = "_DGTDLL_WritePosition",
+           ExactSpelling = true,
+           CharSet = CharSet.Ansi,
+           CallingConvention = CallingConvention.StdCall)]
+        public static extern int WritePosition(StringBuilder pos);
     }
 }
