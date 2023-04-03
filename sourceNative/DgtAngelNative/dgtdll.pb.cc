@@ -259,7 +259,7 @@ const char descriptor_table_protodef_dgtdll_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "ol_data\030\004 \001(\010H\000\022$\n\010iic_data\030\005 \001(\0132\020.dgt."
   "CallbackIICH\000B\017\n\rcallback_data\"=\n\013Callba"
   "ckIIC\022\016\n\006param1\030\001 \001(\005\022\016\n\006param2\030\002 \001(\005\022\016\n"
-  "\006param3\030\003 \001(\t2\224\t\n\006DGTDLL\022,\n\nGetVersion\022\n"
+  "\006param3\030\003 \001(\t2\234\t\n\006DGTDLL\022,\n\nGetVersion\022\n"
   ".dgt.Empty\032\020.dgt.IntResponse\"\000\0225\n\023GetWxW"
   "idgetsVersion\022\n.dgt.Empty\032\020.dgt.IntRespo"
   "nse\"\000\022&\n\004Init\022\n.dgt.Empty\032\020.dgt.IntRespo"
@@ -287,12 +287,13 @@ const char descriptor_table_protodef_dgtdll_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "\032\020.dgt.IntResponse\"\000\0222\n\013SetGameType\022\017.dg"
   "t.IntRequest\032\020.dgt.IntResponse\"\000\0226\n\016Allo"
   "wTakebacks\022\020.dgt.BoolRequest\032\020.dgt.IntRe"
-  "sponse\"\000\022:\n\021RegisterCallbacks\022\n.dgt.Empt"
-  "y\032\025.dgt.CallbackResponse\"\0000\001b\006proto3"
+  "sponse\"\000\022B\n\021RegisterCallbacks\022\022.dgt.Stri"
+  "ngRequest\032\025.dgt.CallbackResponse\"\0000\001B\025\252\002"
+  "\022GrpcServiceDgtTestb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_dgtdll_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_dgtdll_2eproto = {
-    false, false, 1676, descriptor_table_protodef_dgtdll_2eproto,
+    false, false, 1707, descriptor_table_protodef_dgtdll_2eproto,
     "dgtdll.proto",
     &descriptor_table_dgtdll_2eproto_once, nullptr, 0, 9,
     schemas, file_default_instances, TableStruct_dgtdll_2eproto::offsets,

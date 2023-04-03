@@ -26,7 +26,7 @@ service DGTDLL {
   rpc UseSAN (BoolRequest) returns (IntResponse) {}
   rpc SetGameType (IntRequest) returns (IntResponse) {}
   rpc AllowTakebacks (BoolRequest) returns (IntResponse) {}
-  rpc RegisterCallbacks (Empty) returns (stream CallbackResponse) {}
+  rpc RegisterCallbacks (StringRequest) returns (stream CallbackResponse) {}
 }
 
 message Empty {}

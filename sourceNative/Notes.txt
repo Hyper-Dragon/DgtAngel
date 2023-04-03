@@ -35,4 +35,9 @@ Test-NetConnection -ComputerName localhost -Port 37965
 
 
 DEBUG...........
- Set-Item -Path "env:DGTDLL_LOG_PATH" -Value "<the path>\blah.log"
+ Set-Item -Path "env:DGTDLL_LOG_PATH" -Value ".\AngelNative.log"
+
+
+ ./grpcurl -plaintext -proto ./dgtdll.proto -d '{"value": "StableBoard"}' localhost:37965 dgt.DGTDLL/RegisterCallbacks
+
+ ./grpcurl -plaintext -proto ./dgtdll.proto -d '{"value": "StableBoard"}' localhost:37965 dgt.DGTDLL/RegisterCallbacks

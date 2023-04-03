@@ -560,19 +560,19 @@ void DGTDLL::Stub::async::AllowTakebacks(::grpc::ClientContext* context, const :
   return result;
 }
 
-::grpc::ClientReader< ::dgt::CallbackResponse>* DGTDLL::Stub::RegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+::grpc::ClientReader< ::dgt::CallbackResponse>* DGTDLL::Stub::RegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request) {
   return ::grpc::internal::ClientReaderFactory< ::dgt::CallbackResponse>::Create(channel_.get(), rpcmethod_RegisterCallbacks_, context, request);
 }
 
-void DGTDLL::Stub::async::RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::CallbackResponse>* reactor) {
+void DGTDLL::Stub::async::RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::grpc::ClientReadReactor< ::dgt::CallbackResponse>* reactor) {
   ::grpc::internal::ClientCallbackReaderFactory< ::dgt::CallbackResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterCallbacks_, context, request, reactor);
 }
 
-::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* DGTDLL::Stub::AsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* DGTDLL::Stub::AsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
   return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::CallbackResponse>::Create(channel_.get(), cq, rpcmethod_RegisterCallbacks_, context, request, true, tag);
 }
 
-::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* DGTDLL::Stub::PrepareAsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* DGTDLL::Stub::PrepareAsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
   return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::CallbackResponse>::Create(channel_.get(), cq, rpcmethod_RegisterCallbacks_, context, request, false, nullptr);
 }
 
@@ -790,10 +790,10 @@ DGTDLL::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       DGTDLL_method_names[21],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
-      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::CallbackResponse>(
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::StringRequest, ::dgt::CallbackResponse>(
           [](DGTDLL::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::dgt::Empty* req,
+             const ::dgt::StringRequest* req,
              ::grpc::ServerWriter<::dgt::CallbackResponse>* writer) {
                return service->RegisterCallbacks(ctx, req, writer);
              }, this)));
@@ -949,7 +949,7 @@ DGTDLL::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status DGTDLL::Service::RegisterCallbacks(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::CallbackResponse>* writer) {
+::grpc::Status DGTDLL::Service::RegisterCallbacks(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::grpc::ServerWriter< ::dgt::CallbackResponse>* writer) {
   (void) context;
   (void) request;
   (void) writer;
