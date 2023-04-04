@@ -488,7 +488,7 @@ extern "C" {
 				//int result = callback(message);
 				//int result = func(message);
 				//int result = 
-					CallCallbackFunction("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+					//CallCallbackFunction("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 				//LogMessage("Callback result: " + std::to_string(result));
 			}
 			else {
