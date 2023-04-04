@@ -14,6 +14,10 @@
 #include <iomanip>
 #include <sstream>
 
+//typedef int(__fastcall* FC)(const char*);
+
+//typedef int(__stdcall FC)(const char*);
+//typedef int(__stdcall* FC)(const char*);
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
 typedef int __stdcall FB(bool);
@@ -34,6 +38,10 @@ void BlockUntilInitComplete() {
 	}
 }
 
+void MessageBoxThread() {
+	MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
+}
+
 // Global variables for logging
 std::ofstream g_log_file;
 const char* LOG_ENV_VAR = "DGTDLL_LOG_PATH";
@@ -42,7 +50,7 @@ bool g_logging_enabled = false;
 // Function to log messages to the file
 void LogMessage(const std::string& message) {
 	if (g_logging_enabled) {
-		g_log_file << message << std::endl;
+		g_log_file << message + "\n" << std::flush;
 	}
 }
 
@@ -109,6 +117,8 @@ void DllInitThread()
 	isInitComplete = true;
 }
 
+//std::thread messageBoxThread;
+
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
@@ -119,6 +129,11 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	case DLL_PROCESS_ATTACH:
 		// Start a separate thread to initialize the DLL
 		std::thread(DllInitThread).detach();
+		//BlockUntilInitComplete();
+
+		//if (!messageBoxThread.joinable()) {
+		//	messageBoxThread = std::thread(MessageBoxThread);
+		//}
 
 		LogMessage(">>STARTED   :: DLL_PROCESS_ATTACH"); // Log the event
 		LogMessage(">>COMPLETED :: DLL_PROCESS_ATTACH"); // Log the event
@@ -131,6 +146,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		break;
 	case DLL_PROCESS_DETACH:
 		LogMessage(">>DLL_PROCESS_DETACH"); // Log the event
+
+		//if (messageBoxThread.joinable()) {
+		//	messageBoxThread.join();
+		//}
 
 		if (lpReserved == NULL) {
 			// This means the DLL is being unloaded due to the process exiting
@@ -151,7 +170,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 }
 
 extern "C" {
-	__declspec(dllexport) int _DGTDLL_GetVersion() {
+	__declspec(dllexport) int __stdcall _DGTDLL_GetVersion() {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -162,7 +181,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::Empty>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_GetWxWidgetsVersion() {
+	__declspec(dllexport) int __stdcall _DGTDLL_GetWxWidgetsVersion() {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -173,7 +192,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::Empty>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_Init() {
+	__declspec(dllexport) int __stdcall __stdcall _DGTDLL_Init() {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -184,7 +203,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::Empty>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_Exit() {
+	__declspec(dllexport) int __stdcall _DGTDLL_Exit() {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -195,7 +214,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::Empty>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_ShowDialog(int val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_ShowDialog(int val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -209,7 +228,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::IntRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_HideDialog(int val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_HideDialog(int val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -223,7 +242,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::IntRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_WriteCOMPort(int val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_WriteCOMPort(int val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -237,7 +256,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::IntRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_WriteCOMPortString(const char* val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_WriteCOMPortString(const char* val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -251,7 +270,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::StringRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_WritePosition(const char* val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_WritePosition(const char* val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -265,7 +284,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::StringRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_PlayWhiteMove(const char* val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_PlayWhiteMove(const char* val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -279,7 +298,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::StringRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_PlayBlackMove(const char* val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_PlayBlackMove(const char* val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -293,7 +312,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::StringRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_WriteDebug(bool val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_WriteDebug(bool val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -307,7 +326,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::BoolRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_DisplayClockMessage(const char* val1, int val2) {
+	__declspec(dllexport) int __stdcall _DGTDLL_DisplayClockMessage(const char* val1, int val2) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -322,7 +341,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::ClockMessageRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_EndDisplay(int val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_EndDisplay(int val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -336,7 +355,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::IntRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
+	__declspec(dllexport) int __stdcall _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
 		BlockUntilInitComplete(); 
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -352,7 +371,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::SetNRunRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_ClockMode(int val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_ClockMode(int val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -366,7 +385,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::IntRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_SetAutoRotation(bool val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_SetAutoRotation(bool val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -380,7 +399,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::BoolRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_UseFEN(bool val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_UseFEN(bool val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -394,7 +413,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::BoolRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_UseSAN(bool val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_UseSAN(bool val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -408,7 +427,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::BoolRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_SetGameType(int val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_SetGameType(int val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -422,7 +441,7 @@ extern "C" {
 		return PerformGrpcCall<dgt::IntRequest>(call);
 	}
 
-	__declspec(dllexport) int _DGTDLL_AllowTakebacks(bool val) {
+	__declspec(dllexport) int __stdcall _DGTDLL_AllowTakebacks(bool val) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
@@ -440,52 +459,104 @@ extern "C" {
 	//Callback methods below...
 
 	// Declare a function that takes a callback function as a parameter
-	void call_callback(FC callback) {
+
+
+// Define a critical section
+	CRITICAL_SECTION cs;
+
+	void call_callback(FC* func) {
 		LogMessage("Called " + std::string(__func__));
 
-		const char* message = "8/8/8/8/8/8/8/8";
+		const char* message = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
+		// Enter the critical section
+		//EnterCriticalSection(&cs);
 
 		while (true) {
-			int result = callback(message);
-
-			LogMessage("Callback result: " + std::to_string(result));
+			if (func != nullptr) {
+				//int result = callback(message);
+				//int result = func(message);
+				//LogMessage("Callback result: " + std::to_string(result));
+			}
+			else {
+				LogMessage("Callback function is null");
+			}
 			std::this_thread::sleep_for(std::chrono::seconds(2));
 		}
+
+		// Leave the critical section
+		//LeaveCriticalSection(&cs);
 	}
 
-	__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC* func) {
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
-		// Show a message box with some text and an OK button
-		MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
+		if (func == nullptr) {
+			LogMessage("Error: Function pointer is null");
+			return 1; // Indicate an error
+		}
 
 		// Create a detached thread that calls the call_callback function
 		std::thread(call_callback, func).detach();
 
 		LogMessage("Callback thread started");
-		
+
+		// Show a message box with some text and an OK button
+		//MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
+
 		// Return 0 to indicate success
 		LogMessage(">>Completed " + std::string(__func__));
 		return 0;
 	}
 
-	__declspec(dllexport) int _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterBClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterResultFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterNewGameFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterWhiteMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterBlackMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterWhiteTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterBlackTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterWhiteMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterBlackMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterStartSetupFunc(FC*) { LogMessage("Called " + std::string(__func__));  return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterStopSetupWTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterStopSetupBTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterGameTypeChangedFunc(FI*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterAllowTakebacksChangedFunc(FB*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int _DGTDLL_RegisterMagicPieceFunc(FIIC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+
+	//__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC* func) {
+	//	BlockUntilInitComplete();
+	//	LogMessage(">>Called " + std::string(__func__));
+	//
+	//	//std::thread messageBoxThread(MessageBoxThread);
+	//	//messageBoxThread.detach();
+	//
+	//	// Show a message box with some text and an OK button
+	//	//MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
+	//
+	//	// Create a detached thread that calls the call_callback function
+	//	std::thread(call_callback, func).detach();
+	//
+	//	//while (true) {
+	//	//
+	//	//		std::this_thread::sleep_for(std::chrono::seconds(2));
+	//	//}
+	//	//MessageBoxThread();
+	//
+	//	LogMessage("Callback thread started");
+	//	
+	//	// Show a message box with some text and an OK button
+	//	//MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
+	//
+	//	// Return 0 to indicate success
+	//	LogMessage(">>Completed " + std::string(__func__));
+	//	return 0;
+	//}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterResultFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterNewGameFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStartSetupFunc(FC*) { LogMessage("Called " + std::string(__func__));  return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStopSetupWTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStopSetupBTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterGameTypeChangedFunc(FI*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterAllowTakebacksChangedFunc(FB*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterMagicPieceFunc(FIIC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 }
