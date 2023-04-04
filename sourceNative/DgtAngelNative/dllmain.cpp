@@ -18,6 +18,7 @@
 
 //typedef int(__stdcall FC)(const char*);
 //typedef int(__stdcall* FC)(const char*);
+//typedef int __stdcall FC(const char*);
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
 typedef int __stdcall FB(bool);
@@ -460,9 +461,19 @@ extern "C" {
 
 	// Declare a function that takes a callback function as a parameter
 
+		// Declare a global variable to store the callback function pointer
+	FC* g_callbackFuncPtr = nullptr;
+
+		// Function in the DLL that calls the callback function
+	void CallCallbackFunction(const char* str) {
+		if (g_callbackFuncPtr != nullptr) {
+			// Call the callback function with the string argument
+			g_callbackFuncPtr(str);
+		}
+	}
 
 // Define a critical section
-	CRITICAL_SECTION cs;
+	//CRITICAL_SECTION cs;
 
 	void call_callback(FC* func) {
 		LogMessage("Called " + std::string(__func__));
@@ -476,6 +487,8 @@ extern "C" {
 			if (func != nullptr) {
 				//int result = callback(message);
 				//int result = func(message);
+				//int result = 
+					CallCallbackFunction("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 				//LogMessage("Callback result: " + std::to_string(result));
 			}
 			else {
@@ -489,6 +502,12 @@ extern "C" {
 	}
 
 
+
+
+
+
+
+
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
@@ -497,6 +516,9 @@ extern "C" {
 			LogMessage("Error: Function pointer is null");
 			return 1; // Indicate an error
 		}
+
+		g_callbackFuncPtr = func;
+		//CallCallbackFunction("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
 		// Create a detached thread that calls the call_callback function
 		std::thread(call_callback, func).detach();
