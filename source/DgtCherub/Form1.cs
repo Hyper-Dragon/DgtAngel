@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QRCoder;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -195,6 +196,97 @@ namespace DgtCherub
             }
         }
 
+
+        private Dictionary<Control, (Rectangle Bounds, Font StoredFont, Padding StoredPadding, Padding StoredMargins)> originalControlData = new();
+
+        private void ApplyScaling(Form form, float scale)
+        {
+            this.SuspendLayout();
+
+            if (scale == 1.0f)
+            {
+                // Revert to original bounds and font sizes
+                foreach (var control in originalControlData.Keys)
+                {
+                    if (control.Name == "TextBoxConsole") continue;
+
+                    control.Bounds = originalControlData[control].Bounds;
+                    control.Font = originalControlData[control].StoredFont;
+                    control.Padding = originalControlData[control].StoredPadding;
+                    control.Margin = originalControlData[control].StoredMargins;
+                }
+            }
+            else
+            {
+                if (originalControlData.Count == 0)
+                {
+                    // Store the original bounds and font sizes of all controls
+                    foreach (Control control in form.Controls)
+                    {
+                        StoreOriginalData(control);
+                    }
+                }
+
+                // Apply scaling
+                foreach (var control in originalControlData.Keys)
+                {
+                    if (control.Name == "TextBoxConsole") continue;
+
+                    Rectangle originalBounds = originalControlData[control].Bounds;
+                    Font originalFont = originalControlData[control].StoredFont;
+                    Padding originalPadding = originalControlData[control].StoredPadding;
+                    Padding originalMargin = originalControlData[control].StoredMargins;
+
+                    control.Bounds = new Rectangle(
+                        (int)(originalBounds.X * scale),
+                        (int)(originalBounds.Y * scale),
+                        (int)(originalBounds.Width * scale),
+                        (int)(originalBounds.Height * scale));
+
+                    control.Padding = new Padding(
+                        (int)(originalPadding.Left * scale),
+                        (int)(originalPadding.Top * scale),
+                        (int)(originalPadding.Right * scale),
+                        (int)(originalPadding.Bottom * scale));
+
+                    control.Margin = new Padding(
+                        (int)(originalMargin.Left * scale),
+                        (int)(originalMargin.Top * scale),
+                        (int)(originalMargin.Right * scale),
+                        (int)(originalMargin.Bottom * scale));
+
+                    float fontSize = scale switch
+                    {
+                        0.75f => 6,
+                        1.3f => 14,
+                        1.5f => 16,
+                        1.7f => 18,
+                        2.0f => 20,
+                        _ => originalFont.Size
+                    };
+
+                    control.Font = new Font(originalFont.FontFamily,
+                                                fontSize,
+                                                originalFont.Style);
+                }
+            }
+
+            this.ResumeLayout(true);
+
+            TextBoxConsole.Location = new Point(TabPageConfig.Width + 40, TextBoxConsole.Location.Y);
+            TextBoxConsole.Width = this.ClientSize.Width - TextBoxConsole.Location.X;
+        }
+
+        private void StoreOriginalData(Control control)
+        {
+            originalControlData[control] = (control.Bounds, control.Font, control.Padding, control.Margin);
+
+            foreach (Control child in control.Controls)
+            {
+                StoreOriginalData(child);
+            }
+        }
+
         private void StartBoardComms()
         {
             if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
@@ -220,7 +312,7 @@ namespace DgtCherub
                 }
                 else
                 {
-                    TextBoxConsole.AddLine($"RABBIT : No alt driver path set...using native DGT driver.",timeStamp:false); 
+                    TextBoxConsole.AddLine($"RABBIT : No alt driver path set...using native DGT driver.", timeStamp: false);
                 }
 
 
@@ -380,6 +472,7 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.UciOptions = uciOptionSettings?.SerializeSettings();
             DgtCherub.Properties.UserSettings.Default.DebugUciIn = CheckBoxKibitzerShowUciIn.Checked;
             DgtCherub.Properties.UserSettings.Default.DebugUciOut = CheckBoxKibitzerShowUciOut.Checked;
+            DgtCherub.Properties.UserSettings.Default.GuiScaleIndex = ComboBoxScale.SelectedIndex;
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -397,7 +490,7 @@ namespace DgtCherub
             CheckBoxKibitzerShowUciIn.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciIn;
             CheckBoxKibitzerShowUciOut.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciOut;
 
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             //Set Appsettings from the designer values...
             EchoInternallMessagesToConsole = CheckBoxRecieveLog.Checked;
@@ -486,6 +579,9 @@ namespace DgtCherub
             DoubleBuffered = true;
 
             Update();
+
+            ComboBoxScale.SelectedIndex = DgtCherub.Properties.UserSettings.Default.GuiScaleIndex;
+
             ResumeLayout();
         }
 
@@ -1590,6 +1686,12 @@ namespace DgtCherub
                 DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = "";
                 TextBoxConsole.AddLine($"RABBIT:: Alt board driver cleared *** RESTART REQUIRED ***");
             }
+        }
+
+        private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            float newScale = float.Parse((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex].ToString());
+            ApplyScaling(this, newScale);
         }
     }
 }

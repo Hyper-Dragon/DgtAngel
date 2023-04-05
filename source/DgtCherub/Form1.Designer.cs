@@ -63,6 +63,8 @@ namespace DgtCherub
             Panel1 = new System.Windows.Forms.Panel();
             TabControlSidePanel = new System.Windows.Forms.TabControl();
             TabPageConfig = new System.Windows.Forms.TabPage();
+            LabelScale = new System.Windows.Forms.Label();
+            ComboBoxScale = new System.Windows.Forms.ComboBox();
             groupBox4 = new System.Windows.Forms.GroupBox();
             ButtonClearConsole = new System.Windows.Forms.Button();
             CheckBoxDisableRabbit = new System.Windows.Forms.CheckBox();
@@ -70,6 +72,8 @@ namespace DgtCherub
             label4 = new System.Windows.Forms.Label();
             UpDownFontSize = new System.Windows.Forms.NumericUpDown();
             groupBox3 = new System.Windows.Forms.GroupBox();
+            ButtonClearAltDriver = new System.Windows.Forms.Button();
+            ButtonSetAltDriver = new System.Windows.Forms.Button();
             CheckBoxNeverUseRabbit = new System.Windows.Forms.CheckBox();
             ButtonRabbitConfig1 = new System.Windows.Forms.Button();
             groupBox2 = new System.Windows.Forms.GroupBox();
@@ -121,8 +125,6 @@ namespace DgtCherub
             ReleasesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomDgtForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ChesscomPegasusForumsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ButtonSetAltDriver = new System.Windows.Forms.Button();
-            ButtonClearAltDriver = new System.Windows.Forms.Button();
             GroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownVolStatus).BeginInit();
             ((System.ComponentModel.ISupportInitialize)UpDownVolTime).BeginInit();
@@ -462,9 +464,9 @@ namespace DgtCherub
             // 
             button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            button1.Location = new System.Drawing.Point(196, 118);
+            button1.Location = new System.Drawing.Point(192, 118);
             button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(137, 33);
+            button1.Size = new System.Drawing.Size(135, 33);
             button1.TabIndex = 4;
             button1.Text = "Winged Horse...";
             button1.UseVisualStyleBackColor = true;
@@ -564,6 +566,8 @@ namespace DgtCherub
             // 
             // TabPageConfig
             // 
+            TabPageConfig.Controls.Add(LabelScale);
+            TabPageConfig.Controls.Add(ComboBoxScale);
             TabPageConfig.Controls.Add(groupBox4);
             TabPageConfig.Controls.Add(groupBox3);
             TabPageConfig.Controls.Add(groupBox2);
@@ -578,6 +582,27 @@ namespace DgtCherub
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
             TabPageConfig.Click += TabPageConfig_Click;
+            // 
+            // LabelScale
+            // 
+            LabelScale.AutoSize = true;
+            LabelScale.Location = new System.Drawing.Point(176, 149);
+            LabelScale.Name = "LabelScale";
+            LabelScale.Size = new System.Drawing.Size(46, 21);
+            LabelScale.TabIndex = 101;
+            LabelScale.Text = "Scale\r\n";
+            // 
+            // ComboBoxScale
+            // 
+            ComboBoxScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxScale.FormattingEnabled = true;
+            ComboBoxScale.Items.AddRange(new object[] { "0.75", "1.0", "1.3", "1.5", "1.7", "2.0" });
+            ComboBoxScale.Location = new System.Drawing.Point(245, 145);
+            ComboBoxScale.MaxDropDownItems = 6;
+            ComboBoxScale.Name = "ComboBoxScale";
+            ComboBoxScale.Size = new System.Drawing.Size(59, 29);
+            ComboBoxScale.TabIndex = 100;
+            ComboBoxScale.SelectedIndexChanged += ComboBoxScale_SelectedIndexChanged;
             // 
             // groupBox4
             // 
@@ -669,6 +694,29 @@ namespace DgtCherub
             groupBox3.TabIndex = 64;
             groupBox3.TabStop = false;
             groupBox3.Text = "Rabbit";
+            // 
+            // ButtonClearAltDriver
+            // 
+            ButtonClearAltDriver.Enabled = false;
+            ButtonClearAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonClearAltDriver.Location = new System.Drawing.Point(163, 72);
+            ButtonClearAltDriver.Name = "ButtonClearAltDriver";
+            ButtonClearAltDriver.Size = new System.Drawing.Size(135, 37);
+            ButtonClearAltDriver.TabIndex = 12;
+            ButtonClearAltDriver.Text = "Clear Alt Driver";
+            ButtonClearAltDriver.UseVisualStyleBackColor = true;
+            ButtonClearAltDriver.Click += ButtonClearAltDriver_Click;
+            // 
+            // ButtonSetAltDriver
+            // 
+            ButtonSetAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonSetAltDriver.Location = new System.Drawing.Point(163, 28);
+            ButtonSetAltDriver.Name = "ButtonSetAltDriver";
+            ButtonSetAltDriver.Size = new System.Drawing.Size(135, 37);
+            ButtonSetAltDriver.TabIndex = 11;
+            ButtonSetAltDriver.Text = "Set Alt Driver...";
+            ButtonSetAltDriver.UseVisualStyleBackColor = true;
+            ButtonSetAltDriver.Click += ButtonSetAltDriver_Click;
             // 
             // CheckBoxNeverUseRabbit
             // 
@@ -788,7 +836,7 @@ namespace DgtCherub
             CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
             CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxPreventSleep.Location = new System.Drawing.Point(175, 166);
+            CheckBoxPreventSleep.Location = new System.Drawing.Point(175, 180);
             CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
             CheckBoxPreventSleep.Size = new System.Drawing.Size(138, 25);
             CheckBoxPreventSleep.TabIndex = 98;
@@ -802,7 +850,7 @@ namespace DgtCherub
             CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
             CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxOnTop.Location = new System.Drawing.Point(175, 195);
+            CheckBoxOnTop.Location = new System.Drawing.Point(175, 209);
             CheckBoxOnTop.Name = "CheckBoxOnTop";
             CheckBoxOnTop.Size = new System.Drawing.Size(138, 25);
             CheckBoxOnTop.TabIndex = 99;
@@ -932,7 +980,7 @@ namespace DgtCherub
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
             TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            TextBoxConsole.Size = new System.Drawing.Size(685, 628);
+            TextBoxConsole.Size = new System.Drawing.Size(688, 628);
             TextBoxConsole.TabIndex = 1;
             TextBoxConsole.TabStop = false;
             TextBoxConsole.WordWrap = false;
@@ -1181,29 +1229,6 @@ namespace DgtCherub
             ChesscomPegasusForumsMenuItem.Text = "Chess.com Pegasus Club";
             ChesscomPegasusForumsMenuItem.Click += ChesscomPegasusForumsMenuItem_Click;
             // 
-            // ButtonSetAltDriver
-            // 
-            ButtonSetAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            ButtonSetAltDriver.Location = new System.Drawing.Point(163, 28);
-            ButtonSetAltDriver.Name = "ButtonSetAltDriver";
-            ButtonSetAltDriver.Size = new System.Drawing.Size(135, 37);
-            ButtonSetAltDriver.TabIndex = 11;
-            ButtonSetAltDriver.Text = "Set Alt Driver...";
-            ButtonSetAltDriver.UseVisualStyleBackColor = true;
-            ButtonSetAltDriver.Click += ButtonSetAltDriver_Click;
-            // 
-            // ButtonClearAltDriver
-            // 
-            ButtonClearAltDriver.Enabled = false;
-            ButtonClearAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            ButtonClearAltDriver.Location = new System.Drawing.Point(163, 72);
-            ButtonClearAltDriver.Name = "ButtonClearAltDriver";
-            ButtonClearAltDriver.Size = new System.Drawing.Size(135, 37);
-            ButtonClearAltDriver.TabIndex = 12;
-            ButtonClearAltDriver.Text = "Clear Alt Driver";
-            ButtonClearAltDriver.UseVisualStyleBackColor = true;
-            ButtonClearAltDriver.Click += ButtonClearAltDriver_Click;
-            // 
             // Form1
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1236,6 +1261,7 @@ namespace DgtCherub
             Panel1.PerformLayout();
             TabControlSidePanel.ResumeLayout(false);
             TabPageConfig.ResumeLayout(false);
+            TabPageConfig.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownFontSize).EndInit();
@@ -1352,6 +1378,8 @@ namespace DgtCherub
         private System.Windows.Forms.Label LabelKibitzerInfo;
         private System.Windows.Forms.Button ButtonClearAltDriver;
         private System.Windows.Forms.Button ButtonSetAltDriver;
+        private System.Windows.Forms.ComboBox ComboBoxScale;
+        private System.Windows.Forms.Label LabelScale;
     }
 }
 

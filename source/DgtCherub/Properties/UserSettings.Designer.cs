@@ -262,5 +262,17 @@ namespace DgtCherub.Properties {
                 this["AltDgtDllPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int GuiScaleIndex {
+            get {
+                return ((int)(this["GuiScaleIndex"]));
+            }
+            set {
+                this["GuiScaleIndex"] = value;
+            }
+        }
     }
 }
