@@ -113,38 +113,60 @@ struct IntResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 IntResponseDefaultTypeInternal _IntResponse_default_instance_;
-PROTOBUF_CONSTEXPR CallbackResponse::CallbackResponse(
+PROTOBUF_CONSTEXPR BoolResponse::BoolResponse(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.callback_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.callback_data_)*/{}
-  , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_._oneof_case_)*/{}} {}
-struct CallbackResponseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CallbackResponseDefaultTypeInternal()
+    /*decltype(_impl_.value_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct BoolResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BoolResponseDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CallbackResponseDefaultTypeInternal() {}
+  ~BoolResponseDefaultTypeInternal() {}
   union {
-    CallbackResponse _instance;
+    BoolResponse _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CallbackResponseDefaultTypeInternal _CallbackResponse_default_instance_;
-PROTOBUF_CONSTEXPR CallbackIIC::CallbackIIC(
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BoolResponseDefaultTypeInternal _BoolResponse_default_instance_;
+PROTOBUF_CONSTEXPR StringResponse::StringResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.value_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct StringResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR StringResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~StringResponseDefaultTypeInternal() {}
+  union {
+    StringResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StringResponseDefaultTypeInternal _StringResponse_default_instance_;
+PROTOBUF_CONSTEXPR EmptyResponse::EmptyResponse(
+    ::_pbi::ConstantInitialized) {}
+struct EmptyResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EmptyResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EmptyResponseDefaultTypeInternal() {}
+  union {
+    EmptyResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EmptyResponseDefaultTypeInternal _EmptyResponse_default_instance_;
+PROTOBUF_CONSTEXPR CallbackIICResponse::CallbackIICResponse(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.param3_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.param1_)*/0
   , /*decltype(_impl_.param2_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct CallbackIICDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CallbackIICDefaultTypeInternal()
+struct CallbackIICResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CallbackIICResponseDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CallbackIICDefaultTypeInternal() {}
+  ~CallbackIICResponseDefaultTypeInternal() {}
   union {
-    CallbackIIC _instance;
+    CallbackIICResponse _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CallbackIICDefaultTypeInternal _CallbackIIC_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CallbackIICResponseDefaultTypeInternal _CallbackIICResponse_default_instance_;
 }  // namespace dgt
-static ::_pb::Metadata file_level_metadata_dgtdll_2eproto[9];
+static ::_pb::Metadata file_level_metadata_dgtdll_2eproto[11];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_dgtdll_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_dgtdll_2eproto = nullptr;
 
@@ -201,26 +223,34 @@ const uint32_t TableStruct_dgtdll_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::dgt::IntResponse, _impl_.value_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackResponse, _internal_metadata_),
-  ~0u,  // no _extensions_
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackResponse, _impl_._oneof_case_[0]),
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackResponse, _impl_.callback_name_),
-  ::_pbi::kInvalidFieldOffsetTag,
-  ::_pbi::kInvalidFieldOffsetTag,
-  ::_pbi::kInvalidFieldOffsetTag,
-  ::_pbi::kInvalidFieldOffsetTag,
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackResponse, _impl_.callback_data_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIIC, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::dgt::BoolResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIIC, _impl_.param1_),
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIIC, _impl_.param2_),
-  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIIC, _impl_.param3_),
+  PROTOBUF_FIELD_OFFSET(::dgt::BoolResponse, _impl_.value_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::dgt::StringResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::dgt::StringResponse, _impl_.value_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::dgt::EmptyResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIICResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIICResponse, _impl_.param1_),
+  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIICResponse, _impl_.param2_),
+  PROTOBUF_FIELD_OFFSET(::dgt::CallbackIICResponse, _impl_.param3_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::dgt::Empty)},
@@ -230,8 +260,10 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 27, -1, -1, sizeof(::dgt::ClockMessageRequest)},
   { 35, -1, -1, sizeof(::dgt::SetNRunRequest)},
   { 44, -1, -1, sizeof(::dgt::IntResponse)},
-  { 51, -1, -1, sizeof(::dgt::CallbackResponse)},
-  { 63, -1, -1, sizeof(::dgt::CallbackIIC)},
+  { 51, -1, -1, sizeof(::dgt::BoolResponse)},
+  { 58, -1, -1, sizeof(::dgt::StringResponse)},
+  { 65, -1, -1, sizeof(::dgt::EmptyResponse)},
+  { 71, -1, -1, sizeof(::dgt::CallbackIICResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -242,8 +274,10 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::dgt::_ClockMessageRequest_default_instance_._instance,
   &::dgt::_SetNRunRequest_default_instance_._instance,
   &::dgt::_IntResponse_default_instance_._instance,
-  &::dgt::_CallbackResponse_default_instance_._instance,
-  &::dgt::_CallbackIIC_default_instance_._instance,
+  &::dgt::_BoolResponse_default_instance_._instance,
+  &::dgt::_StringResponse_default_instance_._instance,
+  &::dgt::_EmptyResponse_default_instance_._instance,
+  &::dgt::_CallbackIICResponse_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_dgtdll_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -253,49 +287,76 @@ const char descriptor_table_protodef_dgtdll_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "4\n\023ClockMessageRequest\022\017\n\007message\030\001 \001(\t\022"
   "\014\n\004time\030\002 \001(\005\">\n\016SetNRunRequest\022\016\n\006param"
   "1\030\001 \001(\t\022\016\n\006param2\030\002 \001(\t\022\014\n\004time\030\003 \001(\005\"\034\n"
-  "\013IntResponse\022\r\n\005value\030\001 \001(\005\"\240\001\n\020Callback"
-  "Response\022\025\n\rcallback_name\030\001 \001(\t\022\025\n\013strin"
-  "g_data\030\002 \001(\tH\000\022\022\n\010int_data\030\003 \001(\005H\000\022\023\n\tbo"
-  "ol_data\030\004 \001(\010H\000\022$\n\010iic_data\030\005 \001(\0132\020.dgt."
-  "CallbackIICH\000B\017\n\rcallback_data\"=\n\013Callba"
-  "ckIIC\022\016\n\006param1\030\001 \001(\005\022\016\n\006param2\030\002 \001(\005\022\016\n"
-  "\006param3\030\003 \001(\t2\234\t\n\006DGTDLL\022,\n\nGetVersion\022\n"
-  ".dgt.Empty\032\020.dgt.IntResponse\"\000\0225\n\023GetWxW"
-  "idgetsVersion\022\n.dgt.Empty\032\020.dgt.IntRespo"
-  "nse\"\000\022&\n\004Init\022\n.dgt.Empty\032\020.dgt.IntRespo"
-  "nse\"\000\022&\n\004Exit\022\n.dgt.Empty\032\020.dgt.IntRespo"
-  "nse\"\000\0221\n\nShowDialog\022\017.dgt.IntRequest\032\020.d"
-  "gt.IntResponse\"\000\0221\n\nHideDialog\022\017.dgt.Int"
-  "Request\032\020.dgt.IntResponse\"\000\0223\n\014WriteCOMP"
-  "ort\022\017.dgt.IntRequest\032\020.dgt.IntResponse\"\000"
-  "\022<\n\022WriteCOMPortString\022\022.dgt.StringReque"
-  "st\032\020.dgt.IntResponse\"\000\0227\n\rWritePosition\022"
+  "\013IntResponse\022\r\n\005value\030\001 \001(\005\"\035\n\014BoolRespo"
+  "nse\022\r\n\005value\030\001 \001(\010\"\037\n\016StringResponse\022\r\n\005"
+  "value\030\001 \001(\t\"\017\n\rEmptyResponse\"E\n\023Callback"
+  "IICResponse\022\016\n\006param1\030\001 \001(\005\022\016\n\006param2\030\002 "
+  "\001(\005\022\016\n\006param3\030\003 \001(\t2\221\022\n\006DGTDLL\022,\n\nGetVer"
+  "sion\022\n.dgt.Empty\032\020.dgt.IntResponse\"\000\0225\n\023"
+  "GetWxWidgetsVersion\022\n.dgt.Empty\032\020.dgt.In"
+  "tResponse\"\000\022&\n\004Init\022\n.dgt.Empty\032\020.dgt.In"
+  "tResponse\"\000\022&\n\004Exit\022\n.dgt.Empty\032\020.dgt.In"
+  "tResponse\"\000\0221\n\nShowDialog\022\017.dgt.IntReque"
+  "st\032\020.dgt.IntResponse\"\000\0221\n\nHideDialog\022\017.d"
+  "gt.IntRequest\032\020.dgt.IntResponse\"\000\0223\n\014Wri"
+  "teCOMPort\022\017.dgt.IntRequest\032\020.dgt.IntResp"
+  "onse\"\000\022<\n\022WriteCOMPortString\022\022.dgt.Strin"
+  "gRequest\032\020.dgt.IntResponse\"\000\0227\n\rWritePos"
+  "ition\022\022.dgt.StringRequest\032\020.dgt.IntRespo"
+  "nse\"\000\0227\n\rPlayWhiteMove\022\022.dgt.StringReque"
+  "st\032\020.dgt.IntResponse\"\000\0227\n\rPlayBlackMove\022"
   "\022.dgt.StringRequest\032\020.dgt.IntResponse\"\000\022"
-  "7\n\rPlayWhiteMove\022\022.dgt.StringRequest\032\020.d"
-  "gt.IntResponse\"\000\0227\n\rPlayBlackMove\022\022.dgt."
-  "StringRequest\032\020.dgt.IntResponse\"\000\0222\n\nWri"
-  "teDebug\022\020.dgt.BoolRequest\032\020.dgt.IntRespo"
-  "nse\"\000\022C\n\023DisplayClockMessage\022\030.dgt.Clock"
-  "MessageRequest\032\020.dgt.IntResponse\"\000\0221\n\nEn"
-  "dDisplay\022\017.dgt.IntRequest\032\020.dgt.IntRespo"
-  "nse\"\000\0222\n\007SetNRun\022\023.dgt.SetNRunRequest\032\020."
-  "dgt.IntResponse\"\000\0220\n\tClockMode\022\017.dgt.Int"
-  "Request\032\020.dgt.IntResponse\"\000\0227\n\017SetAutoRo"
-  "tation\022\020.dgt.BoolRequest\032\020.dgt.IntRespon"
-  "se\"\000\022.\n\006UseFEN\022\020.dgt.BoolRequest\032\020.dgt.I"
-  "ntResponse\"\000\022.\n\006UseSAN\022\020.dgt.BoolRequest"
-  "\032\020.dgt.IntResponse\"\000\0222\n\013SetGameType\022\017.dg"
-  "t.IntRequest\032\020.dgt.IntResponse\"\000\0226\n\016Allo"
-  "wTakebacks\022\020.dgt.BoolRequest\032\020.dgt.IntRe"
-  "sponse\"\000\022B\n\021RegisterCallbacks\022\022.dgt.Stri"
-  "ngRequest\032\025.dgt.CallbackResponse\"\0000\001B\025\252\002"
-  "\022GrpcServiceDgtTestb\006proto3"
+  "2\n\nWriteDebug\022\020.dgt.BoolRequest\032\020.dgt.In"
+  "tResponse\"\000\022C\n\023DisplayClockMessage\022\030.dgt"
+  ".ClockMessageRequest\032\020.dgt.IntResponse\"\000"
+  "\0221\n\nEndDisplay\022\017.dgt.IntRequest\032\020.dgt.In"
+  "tResponse\"\000\0222\n\007SetNRun\022\023.dgt.SetNRunRequ"
+  "est\032\020.dgt.IntResponse\"\000\0220\n\tClockMode\022\017.d"
+  "gt.IntRequest\032\020.dgt.IntResponse\"\000\0227\n\017Set"
+  "AutoRotation\022\020.dgt.BoolRequest\032\020.dgt.Int"
+  "Response\"\000\022.\n\006UseFEN\022\020.dgt.BoolRequest\032\020"
+  ".dgt.IntResponse\"\000\022.\n\006UseSAN\022\020.dgt.BoolR"
+  "equest\032\020.dgt.IntResponse\"\000\0222\n\013SetGameTyp"
+  "e\022\017.dgt.IntRequest\032\020.dgt.IntResponse\"\000\0226"
+  "\n\016AllowTakebacks\022\020.dgt.BoolRequest\032\020.dgt"
+  ".IntResponse\"\000\0229\n\022RegisterStatusFunc\022\n.d"
+  "gt.Empty\032\023.dgt.StringResponse\"\0000\001\0227\n\020Reg"
+  "isterScanFunc\022\n.dgt.Empty\032\023.dgt.StringRe"
+  "sponse\"\0000\001\022>\n\027RegisterStableBoardFunc\022\n."
+  "dgt.Empty\032\023.dgt.StringResponse\"\0000\001\0229\n\022Re"
+  "gisterWClockFunc\022\n.dgt.Empty\032\023.dgt.Strin"
+  "gResponse\"\0000\001\0229\n\022RegisterBClockFunc\022\n.dg"
+  "t.Empty\032\023.dgt.StringResponse\"\0000\001\0229\n\022Regi"
+  "sterResultFunc\022\n.dgt.Empty\032\023.dgt.StringR"
+  "esponse\"\0000\001\022:\n\023RegisterNewGameFunc\022\n.dgt"
+  ".Empty\032\023.dgt.StringResponse\"\0000\001\022A\n\032Regis"
+  "terWhiteMoveInputFunc\022\n.dgt.Empty\032\023.dgt."
+  "StringResponse\"\0000\001\022A\n\032RegisterBlackMoveI"
+  "nputFunc\022\n.dgt.Empty\032\023.dgt.StringRespons"
+  "e\"\0000\001\022\?\n\031RegisterWhiteTakebackFunc\022\n.dgt"
+  ".Empty\032\022.dgt.EmptyResponse\"\0000\001\022\?\n\031Regist"
+  "erBlackTakebackFunc\022\n.dgt.Empty\032\022.dgt.Em"
+  "ptyResponse\"\0000\001\022\?\n\030RegisterWhiteMoveNowF"
+  "unc\022\n.dgt.Empty\032\023.dgt.StringResponse\"\0000\001"
+  "\022\?\n\030RegisterBlackMoveNowFunc\022\n.dgt.Empty"
+  "\032\023.dgt.StringResponse\"\0000\001\022=\n\026RegisterSta"
+  "rtSetupFunc\022\n.dgt.Empty\032\023.dgt.StringResp"
+  "onse\"\0000\001\022\?\n\030RegisterStopSetupWTMFunc\022\n.d"
+  "gt.Empty\032\023.dgt.StringResponse\"\0000\001\022\?\n\030Reg"
+  "isterStopSetupBTMFunc\022\n.dgt.Empty\032\023.dgt."
+  "StringResponse\"\0000\001\022\?\n\033RegisterGameTypeCh"
+  "angedFunc\022\n.dgt.Empty\032\020.dgt.IntResponse\""
+  "\0000\001\022F\n!RegisterAllowTakebacksChangedFunc"
+  "\022\n.dgt.Empty\032\021.dgt.BoolResponse\"\0000\001\022B\n\026R"
+  "egisterMagicPieceFunc\022\n.dgt.Empty\032\030.dgt."
+  "CallbackIICResponse\"\0000\001B\021\252\002\016DgtGrpcServi"
+  "ceb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_dgtdll_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_dgtdll_2eproto = {
-    false, false, 1707, descriptor_table_protodef_dgtdll_2eproto,
+    false, false, 2770, descriptor_table_protodef_dgtdll_2eproto,
     "dgtdll.proto",
-    &descriptor_table_dgtdll_2eproto_once, nullptr, 0, 9,
+    &descriptor_table_dgtdll_2eproto_once, nullptr, 0, 11,
     schemas, file_default_instances, TableStruct_dgtdll_2eproto::offsets,
     file_level_metadata_dgtdll_2eproto, file_level_enum_descriptors_dgtdll_2eproto,
     file_level_service_descriptors_dgtdll_2eproto,
@@ -1597,99 +1658,40 @@ void IntResponse::InternalSwap(IntResponse* other) {
 
 // ===================================================================
 
-class CallbackResponse::_Internal {
+class BoolResponse::_Internal {
  public:
-  static const ::dgt::CallbackIIC& iic_data(const CallbackResponse* msg);
 };
 
-const ::dgt::CallbackIIC&
-CallbackResponse::_Internal::iic_data(const CallbackResponse* msg) {
-  return *msg->_impl_.callback_data_.iic_data_;
-}
-void CallbackResponse::set_allocated_iic_data(::dgt::CallbackIIC* iic_data) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  clear_callback_data();
-  if (iic_data) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(iic_data);
-    if (message_arena != submessage_arena) {
-      iic_data = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, iic_data, submessage_arena);
-    }
-    set_has_iic_data();
-    _impl_.callback_data_.iic_data_ = iic_data;
-  }
-  // @@protoc_insertion_point(field_set_allocated:dgt.CallbackResponse.iic_data)
-}
-CallbackResponse::CallbackResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+BoolResponse::BoolResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:dgt.CallbackResponse)
+  // @@protoc_insertion_point(arena_constructor:dgt.BoolResponse)
 }
-CallbackResponse::CallbackResponse(const CallbackResponse& from)
+BoolResponse::BoolResponse(const BoolResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  CallbackResponse* const _this = this; (void)_this;
+  BoolResponse* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.callback_name_){}
-    , decltype(_impl_.callback_data_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-    , /*decltype(_impl_._oneof_case_)*/{}};
+      decltype(_impl_.value_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.callback_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.callback_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_callback_name().empty()) {
-    _this->_impl_.callback_name_.Set(from._internal_callback_name(), 
-      _this->GetArenaForAllocation());
-  }
-  clear_has_callback_data();
-  switch (from.callback_data_case()) {
-    case kStringData: {
-      _this->_internal_set_string_data(from._internal_string_data());
-      break;
-    }
-    case kIntData: {
-      _this->_internal_set_int_data(from._internal_int_data());
-      break;
-    }
-    case kBoolData: {
-      _this->_internal_set_bool_data(from._internal_bool_data());
-      break;
-    }
-    case kIicData: {
-      _this->_internal_mutable_iic_data()->::dgt::CallbackIIC::MergeFrom(
-          from._internal_iic_data());
-      break;
-    }
-    case CALLBACK_DATA_NOT_SET: {
-      break;
-    }
-  }
-  // @@protoc_insertion_point(copy_constructor:dgt.CallbackResponse)
+  _this->_impl_.value_ = from._impl_.value_;
+  // @@protoc_insertion_point(copy_constructor:dgt.BoolResponse)
 }
 
-inline void CallbackResponse::SharedCtor(
+inline void BoolResponse::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.callback_name_){}
-    , decltype(_impl_.callback_data_){}
+      decltype(_impl_.value_){false}
     , /*decltype(_impl_._cached_size_)*/{}
-    , /*decltype(_impl_._oneof_case_)*/{}
   };
-  _impl_.callback_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.callback_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  clear_has_callback_data();
 }
 
-CallbackResponse::~CallbackResponse() {
-  // @@protoc_insertion_point(destructor:dgt.CallbackResponse)
+BoolResponse::~BoolResponse() {
+  // @@protoc_insertion_point(destructor:dgt.BoolResponse)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -1697,104 +1699,34 @@ CallbackResponse::~CallbackResponse() {
   SharedDtor();
 }
 
-inline void CallbackResponse::SharedDtor() {
+inline void BoolResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.callback_name_.Destroy();
-  if (has_callback_data()) {
-    clear_callback_data();
-  }
 }
 
-void CallbackResponse::SetCachedSize(int size) const {
+void BoolResponse::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void CallbackResponse::clear_callback_data() {
-// @@protoc_insertion_point(one_of_clear_start:dgt.CallbackResponse)
-  switch (callback_data_case()) {
-    case kStringData: {
-      _impl_.callback_data_.string_data_.Destroy();
-      break;
-    }
-    case kIntData: {
-      // No need to clear
-      break;
-    }
-    case kBoolData: {
-      // No need to clear
-      break;
-    }
-    case kIicData: {
-      if (GetArenaForAllocation() == nullptr) {
-        delete _impl_.callback_data_.iic_data_;
-      }
-      break;
-    }
-    case CALLBACK_DATA_NOT_SET: {
-      break;
-    }
-  }
-  _impl_._oneof_case_[0] = CALLBACK_DATA_NOT_SET;
-}
-
-
-void CallbackResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:dgt.CallbackResponse)
+void BoolResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:dgt.BoolResponse)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.callback_name_.ClearToEmpty();
-  clear_callback_data();
+  _impl_.value_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* CallbackResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* BoolResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string callback_name = 1;
+      // bool value = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_callback_name();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "dgt.CallbackResponse.callback_name"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string string_data = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_string_data();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "dgt.CallbackResponse.string_data"));
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 int_data = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _internal_set_int_data(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // bool bool_data = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
-          _internal_set_bool_data(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .dgt.CallbackIIC iic_data = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
-          ptr = ctx->ParseMessage(_internal_mutable_iic_data(), ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1822,174 +1754,81 @@ failure:
 #undef CHK_
 }
 
-uint8_t* CallbackResponse::_InternalSerialize(
+uint8_t* BoolResponse::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:dgt.CallbackResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:dgt.BoolResponse)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string callback_name = 1;
-  if (!this->_internal_callback_name().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_callback_name().data(), static_cast<int>(this->_internal_callback_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "dgt.CallbackResponse.callback_name");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_callback_name(), target);
-  }
-
-  // string string_data = 2;
-  if (_internal_has_string_data()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_string_data().data(), static_cast<int>(this->_internal_string_data().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "dgt.CallbackResponse.string_data");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_string_data(), target);
-  }
-
-  // int32 int_data = 3;
-  if (_internal_has_int_data()) {
+  // bool value = 1;
+  if (this->_internal_value() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_int_data(), target);
-  }
-
-  // bool bool_data = 4;
-  if (_internal_has_bool_data()) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_bool_data(), target);
-  }
-
-  // .dgt.CallbackIIC iic_data = 5;
-  if (_internal_has_iic_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(5, _Internal::iic_data(this),
-        _Internal::iic_data(this).GetCachedSize(), target, stream);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_value(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:dgt.CallbackResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:dgt.BoolResponse)
   return target;
 }
 
-size_t CallbackResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:dgt.CallbackResponse)
+size_t BoolResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:dgt.BoolResponse)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string callback_name = 1;
-  if (!this->_internal_callback_name().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_callback_name());
+  // bool value = 1;
+  if (this->_internal_value() != 0) {
+    total_size += 1 + 1;
   }
 
-  switch (callback_data_case()) {
-    // string string_data = 2;
-    case kStringData: {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-          this->_internal_string_data());
-      break;
-    }
-    // int32 int_data = 3;
-    case kIntData: {
-      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_int_data());
-      break;
-    }
-    // bool bool_data = 4;
-    case kBoolData: {
-      total_size += 1 + 1;
-      break;
-    }
-    // .dgt.CallbackIIC iic_data = 5;
-    case kIicData: {
-      total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-          *_impl_.callback_data_.iic_data_);
-      break;
-    }
-    case CALLBACK_DATA_NOT_SET: {
-      break;
-    }
-  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CallbackResponse::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BoolResponse::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    CallbackResponse::MergeImpl
+    BoolResponse::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CallbackResponse::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BoolResponse::GetClassData() const { return &_class_data_; }
 
 
-void CallbackResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<CallbackResponse*>(&to_msg);
-  auto& from = static_cast<const CallbackResponse&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:dgt.CallbackResponse)
+void BoolResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<BoolResponse*>(&to_msg);
+  auto& from = static_cast<const BoolResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:dgt.BoolResponse)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_callback_name().empty()) {
-    _this->_internal_set_callback_name(from._internal_callback_name());
-  }
-  switch (from.callback_data_case()) {
-    case kStringData: {
-      _this->_internal_set_string_data(from._internal_string_data());
-      break;
-    }
-    case kIntData: {
-      _this->_internal_set_int_data(from._internal_int_data());
-      break;
-    }
-    case kBoolData: {
-      _this->_internal_set_bool_data(from._internal_bool_data());
-      break;
-    }
-    case kIicData: {
-      _this->_internal_mutable_iic_data()->::dgt::CallbackIIC::MergeFrom(
-          from._internal_iic_data());
-      break;
-    }
-    case CALLBACK_DATA_NOT_SET: {
-      break;
-    }
+  if (from._internal_value() != 0) {
+    _this->_internal_set_value(from._internal_value());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void CallbackResponse::CopyFrom(const CallbackResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:dgt.CallbackResponse)
+void BoolResponse::CopyFrom(const BoolResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:dgt.BoolResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool CallbackResponse::IsInitialized() const {
+bool BoolResponse::IsInitialized() const {
   return true;
 }
 
-void CallbackResponse::InternalSwap(CallbackResponse* other) {
+void BoolResponse::InternalSwap(BoolResponse* other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.callback_name_, lhs_arena,
-      &other->_impl_.callback_name_, rhs_arena
-  );
-  swap(_impl_.callback_data_, other->_impl_.callback_data_);
-  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
+  swap(_impl_.value_, other->_impl_.value_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata CallbackResponse::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata BoolResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
       file_level_metadata_dgtdll_2eproto[7]);
@@ -1997,19 +1836,262 @@ void CallbackResponse::InternalSwap(CallbackResponse* other) {
 
 // ===================================================================
 
-class CallbackIIC::_Internal {
+class StringResponse::_Internal {
  public:
 };
 
-CallbackIIC::CallbackIIC(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+StringResponse::StringResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:dgt.CallbackIIC)
+  // @@protoc_insertion_point(arena_constructor:dgt.StringResponse)
 }
-CallbackIIC::CallbackIIC(const CallbackIIC& from)
+StringResponse::StringResponse(const StringResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  CallbackIIC* const _this = this; (void)_this;
+  StringResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.value_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.value_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.value_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_value().empty()) {
+    _this->_impl_.value_.Set(from._internal_value(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:dgt.StringResponse)
+}
+
+inline void StringResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.value_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.value_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.value_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+StringResponse::~StringResponse() {
+  // @@protoc_insertion_point(destructor:dgt.StringResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void StringResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.value_.Destroy();
+}
+
+void StringResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void StringResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:dgt.StringResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.value_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* StringResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string value = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_value();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "dgt.StringResponse.value"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* StringResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dgt.StringResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string value = 1;
+  if (!this->_internal_value().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_value().data(), static_cast<int>(this->_internal_value().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "dgt.StringResponse.value");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_value(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dgt.StringResponse)
+  return target;
+}
+
+size_t StringResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:dgt.StringResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string value = 1;
+  if (!this->_internal_value().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_value());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData StringResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    StringResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*StringResponse::GetClassData() const { return &_class_data_; }
+
+
+void StringResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<StringResponse*>(&to_msg);
+  auto& from = static_cast<const StringResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:dgt.StringResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_value().empty()) {
+    _this->_internal_set_value(from._internal_value());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void StringResponse::CopyFrom(const StringResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:dgt.StringResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool StringResponse::IsInitialized() const {
+  return true;
+}
+
+void StringResponse::InternalSwap(StringResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.value_, lhs_arena,
+      &other->_impl_.value_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata StringResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
+      file_level_metadata_dgtdll_2eproto[8]);
+}
+
+// ===================================================================
+
+class EmptyResponse::_Internal {
+ public:
+};
+
+EmptyResponse::EmptyResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:dgt.EmptyResponse)
+}
+EmptyResponse::EmptyResponse(const EmptyResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  EmptyResponse* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:dgt.EmptyResponse)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData EmptyResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*EmptyResponse::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata EmptyResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
+      file_level_metadata_dgtdll_2eproto[9]);
+}
+
+// ===================================================================
+
+class CallbackIICResponse::_Internal {
+ public:
+};
+
+CallbackIICResponse::CallbackIICResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:dgt.CallbackIICResponse)
+}
+CallbackIICResponse::CallbackIICResponse(const CallbackIICResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CallbackIICResponse* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.param3_){}
     , decltype(_impl_.param1_){}
@@ -2028,10 +2110,10 @@ CallbackIIC::CallbackIIC(const CallbackIIC& from)
   ::memcpy(&_impl_.param1_, &from._impl_.param1_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.param2_) -
     reinterpret_cast<char*>(&_impl_.param1_)) + sizeof(_impl_.param2_));
-  // @@protoc_insertion_point(copy_constructor:dgt.CallbackIIC)
+  // @@protoc_insertion_point(copy_constructor:dgt.CallbackIICResponse)
 }
 
-inline void CallbackIIC::SharedCtor(
+inline void CallbackIICResponse::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
@@ -2047,8 +2129,8 @@ inline void CallbackIIC::SharedCtor(
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
-CallbackIIC::~CallbackIIC() {
-  // @@protoc_insertion_point(destructor:dgt.CallbackIIC)
+CallbackIICResponse::~CallbackIICResponse() {
+  // @@protoc_insertion_point(destructor:dgt.CallbackIICResponse)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -2056,17 +2138,17 @@ CallbackIIC::~CallbackIIC() {
   SharedDtor();
 }
 
-inline void CallbackIIC::SharedDtor() {
+inline void CallbackIICResponse::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.param3_.Destroy();
 }
 
-void CallbackIIC::SetCachedSize(int size) const {
+void CallbackIICResponse::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void CallbackIIC::Clear() {
-// @@protoc_insertion_point(message_clear_start:dgt.CallbackIIC)
+void CallbackIICResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:dgt.CallbackIICResponse)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -2078,7 +2160,7 @@ void CallbackIIC::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* CallbackIIC::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* CallbackIICResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
@@ -2106,7 +2188,7 @@ const char* CallbackIIC::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
           auto str = _internal_mutable_param3();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "dgt.CallbackIIC.param3"));
+          CHK_(::_pbi::VerifyUTF8(str, "dgt.CallbackIICResponse.param3"));
         } else
           goto handle_unusual;
         continue;
@@ -2133,9 +2215,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* CallbackIIC::_InternalSerialize(
+uint8_t* CallbackIICResponse::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:dgt.CallbackIIC)
+  // @@protoc_insertion_point(serialize_to_array_start:dgt.CallbackIICResponse)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -2156,7 +2238,7 @@ uint8_t* CallbackIIC::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_param3().data(), static_cast<int>(this->_internal_param3().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "dgt.CallbackIIC.param3");
+      "dgt.CallbackIICResponse.param3");
     target = stream->WriteStringMaybeAliased(
         3, this->_internal_param3(), target);
   }
@@ -2165,12 +2247,12 @@ uint8_t* CallbackIIC::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:dgt.CallbackIIC)
+  // @@protoc_insertion_point(serialize_to_array_end:dgt.CallbackIICResponse)
   return target;
 }
 
-size_t CallbackIIC::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:dgt.CallbackIIC)
+size_t CallbackIICResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:dgt.CallbackIICResponse)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -2197,17 +2279,17 @@ size_t CallbackIIC::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CallbackIIC::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CallbackIICResponse::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    CallbackIIC::MergeImpl
+    CallbackIICResponse::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CallbackIIC::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CallbackIICResponse::GetClassData() const { return &_class_data_; }
 
 
-void CallbackIIC::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<CallbackIIC*>(&to_msg);
-  auto& from = static_cast<const CallbackIIC&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:dgt.CallbackIIC)
+void CallbackIICResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CallbackIICResponse*>(&to_msg);
+  auto& from = static_cast<const CallbackIICResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:dgt.CallbackIICResponse)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -2224,18 +2306,18 @@ void CallbackIIC::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void CallbackIIC::CopyFrom(const CallbackIIC& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:dgt.CallbackIIC)
+void CallbackIICResponse::CopyFrom(const CallbackIICResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:dgt.CallbackIICResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool CallbackIIC::IsInitialized() const {
+bool CallbackIICResponse::IsInitialized() const {
   return true;
 }
 
-void CallbackIIC::InternalSwap(CallbackIIC* other) {
+void CallbackIICResponse::InternalSwap(CallbackIICResponse* other) {
   using std::swap;
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
@@ -2245,17 +2327,17 @@ void CallbackIIC::InternalSwap(CallbackIIC* other) {
       &other->_impl_.param3_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CallbackIIC, _impl_.param2_)
-      + sizeof(CallbackIIC::_impl_.param2_)
-      - PROTOBUF_FIELD_OFFSET(CallbackIIC, _impl_.param1_)>(
+      PROTOBUF_FIELD_OFFSET(CallbackIICResponse, _impl_.param2_)
+      + sizeof(CallbackIICResponse::_impl_.param2_)
+      - PROTOBUF_FIELD_OFFSET(CallbackIICResponse, _impl_.param1_)>(
           reinterpret_cast<char*>(&_impl_.param1_),
           reinterpret_cast<char*>(&other->_impl_.param1_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata CallbackIIC::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata CallbackIICResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
-      file_level_metadata_dgtdll_2eproto[8]);
+      file_level_metadata_dgtdll_2eproto[10]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2289,13 +2371,21 @@ template<> PROTOBUF_NOINLINE ::dgt::IntResponse*
 Arena::CreateMaybeMessage< ::dgt::IntResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::dgt::IntResponse >(arena);
 }
-template<> PROTOBUF_NOINLINE ::dgt::CallbackResponse*
-Arena::CreateMaybeMessage< ::dgt::CallbackResponse >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::dgt::CallbackResponse >(arena);
+template<> PROTOBUF_NOINLINE ::dgt::BoolResponse*
+Arena::CreateMaybeMessage< ::dgt::BoolResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::dgt::BoolResponse >(arena);
 }
-template<> PROTOBUF_NOINLINE ::dgt::CallbackIIC*
-Arena::CreateMaybeMessage< ::dgt::CallbackIIC >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::dgt::CallbackIIC >(arena);
+template<> PROTOBUF_NOINLINE ::dgt::StringResponse*
+Arena::CreateMaybeMessage< ::dgt::StringResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::dgt::StringResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::dgt::EmptyResponse*
+Arena::CreateMaybeMessage< ::dgt::EmptyResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::dgt::EmptyResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::dgt::CallbackIICResponse*
+Arena::CreateMaybeMessage< ::dgt::CallbackIICResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::dgt::CallbackIICResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

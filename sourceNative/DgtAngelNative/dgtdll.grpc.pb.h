@@ -27,3617 +27,6316 @@
 
 namespace dgt {
 
-    class DGTDLL final {
-    public:
-        static constexpr char const* service_full_name() {
-            return "dgt.DGTDLL";
-        }
-        class StubInterface {
-        public:
-            virtual ~StubInterface() {}
-            virtual ::grpc::Status GetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncGetVersionRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncGetVersionRaw(context, request, cq));
-            }
-            virtual ::grpc::Status GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncGetWxWidgetsVersionRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncGetWxWidgetsVersionRaw(context, request, cq));
-            }
-            virtual ::grpc::Status Init(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncInitRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncInitRaw(context, request, cq));
-            }
-            virtual ::grpc::Status Exit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncExitRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncExitRaw(context, request, cq));
-            }
-            virtual ::grpc::Status ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncShowDialogRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncShowDialogRaw(context, request, cq));
-            }
-            virtual ::grpc::Status HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncHideDialogRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncHideDialogRaw(context, request, cq));
-            }
-            virtual ::grpc::Status WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWriteCOMPortRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortRaw(context, request, cq));
-            }
-            virtual ::grpc::Status WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWriteCOMPortStringRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortStringRaw(context, request, cq));
-            }
-            virtual ::grpc::Status WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWritePositionRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWritePositionRaw(context, request, cq));
-            }
-            virtual ::grpc::Status PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncPlayWhiteMoveRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncPlayWhiteMoveRaw(context, request, cq));
-            }
-            virtual ::grpc::Status PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncPlayBlackMoveRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncPlayBlackMoveRaw(context, request, cq));
-            }
-            virtual ::grpc::Status WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWriteDebugRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWriteDebugRaw(context, request, cq));
-            }
-            virtual ::grpc::Status DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncDisplayClockMessageRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncDisplayClockMessageRaw(context, request, cq));
-            }
-            virtual ::grpc::Status EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncEndDisplayRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncEndDisplayRaw(context, request, cq));
-            }
-            virtual ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetNRunRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
-            }
-            virtual ::grpc::Status ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncClockModeRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncClockModeRaw(context, request, cq));
-            }
-            virtual ::grpc::Status SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetAutoRotationRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetAutoRotationRaw(context, request, cq));
-            }
-            virtual ::grpc::Status UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncUseFENRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncUseFENRaw(context, request, cq));
-            }
-            virtual ::grpc::Status UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncUseSANRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncUseSANRaw(context, request, cq));
-            }
-            virtual ::grpc::Status SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetGameTypeRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetGameTypeRaw(context, request, cq));
-            }
-            virtual ::grpc::Status AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncAllowTakebacksRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncAllowTakebacksRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::CallbackResponse>> RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest& request) {
-                return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::CallbackResponse>>(RegisterCallbacksRaw(context, request));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackResponse>> AsyncRegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
-                return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackResponse>>(AsyncRegisterCallbacksRaw(context, request, cq, tag));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackResponse>> PrepareAsyncRegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackResponse>>(PrepareAsyncRegisterCallbacksRaw(context, request, cq));
-            }
-            class async_interface {
-            public:
-                virtual ~async_interface() {}
-                virtual void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-                virtual void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-                virtual void RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::grpc::ClientReadReactor< ::dgt::CallbackResponse>* reactor) = 0;
-            };
-            typedef class async_interface experimental_async_interface;
-            virtual class async_interface* async() { return nullptr; }
-            class async_interface* experimental_async() { return async(); }
-        private:
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
-            virtual ::grpc::ClientReaderInterface< ::dgt::CallbackResponse>* RegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request) = 0;
-            virtual ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackResponse>* AsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
-            virtual ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackResponse>* PrepareAsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
-        };
-        class Stub final : public StubInterface {
-        public:
-            Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-            ::grpc::Status GetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncGetVersionRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncGetVersionRaw(context, request, cq));
-            }
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncGetWxWidgetsVersionRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncGetWxWidgetsVersionRaw(context, request, cq));
-            }
-            ::grpc::Status Init(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncInitRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncInitRaw(context, request, cq));
-            }
-            ::grpc::Status Exit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncExitRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncExitRaw(context, request, cq));
-            }
-            ::grpc::Status ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncShowDialogRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncShowDialogRaw(context, request, cq));
-            }
-            ::grpc::Status HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncHideDialogRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncHideDialogRaw(context, request, cq));
-            }
-            ::grpc::Status WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWriteCOMPortRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortRaw(context, request, cq));
-            }
-            ::grpc::Status WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWriteCOMPortStringRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortStringRaw(context, request, cq));
-            }
-            ::grpc::Status WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWritePositionRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWritePositionRaw(context, request, cq));
-            }
-            ::grpc::Status PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncPlayWhiteMoveRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncPlayWhiteMoveRaw(context, request, cq));
-            }
-            ::grpc::Status PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncPlayBlackMoveRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncPlayBlackMoveRaw(context, request, cq));
-            }
-            ::grpc::Status WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWriteDebugRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWriteDebugRaw(context, request, cq));
-            }
-            ::grpc::Status DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncDisplayClockMessageRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncDisplayClockMessageRaw(context, request, cq));
-            }
-            ::grpc::Status EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncEndDisplayRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncEndDisplayRaw(context, request, cq));
-            }
-            ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetNRunRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
-            }
-            ::grpc::Status ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncClockModeRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncClockModeRaw(context, request, cq));
-            }
-            ::grpc::Status SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetAutoRotationRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetAutoRotationRaw(context, request, cq));
-            }
-            ::grpc::Status UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncUseFENRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncUseFENRaw(context, request, cq));
-            }
-            ::grpc::Status UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncUseSANRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncUseSANRaw(context, request, cq));
-            }
-            ::grpc::Status SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetGameTypeRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetGameTypeRaw(context, request, cq));
-            }
-            ::grpc::Status AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncAllowTakebacksRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncAllowTakebacksRaw(context, request, cq));
-            }
-            std::unique_ptr< ::grpc::ClientReader< ::dgt::CallbackResponse>> RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest& request) {
-                return std::unique_ptr< ::grpc::ClientReader< ::dgt::CallbackResponse>>(RegisterCallbacksRaw(context, request));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackResponse>> AsyncRegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
-                return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackResponse>>(AsyncRegisterCallbacksRaw(context, request, cq, tag));
-            }
-            std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackResponse>> PrepareAsyncRegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-                return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackResponse>>(PrepareAsyncRegisterCallbacksRaw(context, request, cq));
-            }
-            class async final :
-                public StubInterface::async_interface {
-            public:
-                void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-                void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-                void RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::grpc::ClientReadReactor< ::dgt::CallbackResponse>* reactor) override;
-            private:
-                friend class Stub;
-                explicit async(Stub* stub) : stub_(stub) { }
-                Stub* stub() { return stub_; }
-                Stub* stub_;
-            };
-            class async* async() override { return &async_stub_; }
-
-        private:
-            std::shared_ptr< ::grpc::ChannelInterface> channel_;
-            class async async_stub_ { this };
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
-            ::grpc::ClientReader< ::dgt::CallbackResponse>* RegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request) override;
-            ::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* AsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq, void* tag) override;
-            ::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* PrepareAsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
-            const ::grpc::internal::RpcMethod rpcmethod_GetVersion_;
-            const ::grpc::internal::RpcMethod rpcmethod_GetWxWidgetsVersion_;
-            const ::grpc::internal::RpcMethod rpcmethod_Init_;
-            const ::grpc::internal::RpcMethod rpcmethod_Exit_;
-            const ::grpc::internal::RpcMethod rpcmethod_ShowDialog_;
-            const ::grpc::internal::RpcMethod rpcmethod_HideDialog_;
-            const ::grpc::internal::RpcMethod rpcmethod_WriteCOMPort_;
-            const ::grpc::internal::RpcMethod rpcmethod_WriteCOMPortString_;
-            const ::grpc::internal::RpcMethod rpcmethod_WritePosition_;
-            const ::grpc::internal::RpcMethod rpcmethod_PlayWhiteMove_;
-            const ::grpc::internal::RpcMethod rpcmethod_PlayBlackMove_;
-            const ::grpc::internal::RpcMethod rpcmethod_WriteDebug_;
-            const ::grpc::internal::RpcMethod rpcmethod_DisplayClockMessage_;
-            const ::grpc::internal::RpcMethod rpcmethod_EndDisplay_;
-            const ::grpc::internal::RpcMethod rpcmethod_SetNRun_;
-            const ::grpc::internal::RpcMethod rpcmethod_ClockMode_;
-            const ::grpc::internal::RpcMethod rpcmethod_SetAutoRotation_;
-            const ::grpc::internal::RpcMethod rpcmethod_UseFEN_;
-            const ::grpc::internal::RpcMethod rpcmethod_UseSAN_;
-            const ::grpc::internal::RpcMethod rpcmethod_SetGameType_;
-            const ::grpc::internal::RpcMethod rpcmethod_AllowTakebacks_;
-            const ::grpc::internal::RpcMethod rpcmethod_RegisterCallbacks_;
-        };
-        static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-
-        class Service : public ::grpc::Service {
-        public:
-            Service();
-            virtual ~Service();
-            virtual ::grpc::Status GetVersion(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status Init(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status Exit(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status ShowDialog(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status HideDialog(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status WriteCOMPort(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status WriteCOMPortString(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status WritePosition(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status PlayWhiteMove(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status PlayBlackMove(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status WriteDebug(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status DisplayClockMessage(::grpc::ServerContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status EndDisplay(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status SetNRun(::grpc::ServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status ClockMode(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status SetAutoRotation(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status UseFEN(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status UseSAN(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status SetGameType(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status AllowTakebacks(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
-            virtual ::grpc::Status RegisterCallbacks(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::grpc::ServerWriter< ::dgt::CallbackResponse>* writer);
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_GetVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_GetVersion() {
-                ::grpc::Service::MarkMethodAsync(0);
-            }
-            ~WithAsyncMethod_GetVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestGetVersion(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_GetWxWidgetsVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_GetWxWidgetsVersion() {
-                ::grpc::Service::MarkMethodAsync(1);
-            }
-            ~WithAsyncMethod_GetWxWidgetsVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestGetWxWidgetsVersion(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_Init : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_Init() {
-                ::grpc::Service::MarkMethodAsync(2);
-            }
-            ~WithAsyncMethod_Init() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestInit(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_Exit : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_Exit() {
-                ::grpc::Service::MarkMethodAsync(3);
-            }
-            ~WithAsyncMethod_Exit() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestExit(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_ShowDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_ShowDialog() {
-                ::grpc::Service::MarkMethodAsync(4);
-            }
-            ~WithAsyncMethod_ShowDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestShowDialog(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_HideDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_HideDialog() {
-                ::grpc::Service::MarkMethodAsync(5);
-            }
-            ~WithAsyncMethod_HideDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestHideDialog(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_WriteCOMPort : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_WriteCOMPort() {
-                ::grpc::Service::MarkMethodAsync(6);
-            }
-            ~WithAsyncMethod_WriteCOMPort() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWriteCOMPort(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_WriteCOMPortString : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_WriteCOMPortString() {
-                ::grpc::Service::MarkMethodAsync(7);
-            }
-            ~WithAsyncMethod_WriteCOMPortString() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWriteCOMPortString(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_WritePosition : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_WritePosition() {
-                ::grpc::Service::MarkMethodAsync(8);
-            }
-            ~WithAsyncMethod_WritePosition() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWritePosition(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_PlayWhiteMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_PlayWhiteMove() {
-                ::grpc::Service::MarkMethodAsync(9);
-            }
-            ~WithAsyncMethod_PlayWhiteMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestPlayWhiteMove(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_PlayBlackMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_PlayBlackMove() {
-                ::grpc::Service::MarkMethodAsync(10);
-            }
-            ~WithAsyncMethod_PlayBlackMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestPlayBlackMove(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_WriteDebug : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_WriteDebug() {
-                ::grpc::Service::MarkMethodAsync(11);
-            }
-            ~WithAsyncMethod_WriteDebug() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWriteDebug(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_DisplayClockMessage : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_DisplayClockMessage() {
-                ::grpc::Service::MarkMethodAsync(12);
-            }
-            ~WithAsyncMethod_DisplayClockMessage() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestDisplayClockMessage(::grpc::ServerContext* context, ::dgt::ClockMessageRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_EndDisplay : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_EndDisplay() {
-                ::grpc::Service::MarkMethodAsync(13);
-            }
-            ~WithAsyncMethod_EndDisplay() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestEndDisplay(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_SetNRun : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_SetNRun() {
-                ::grpc::Service::MarkMethodAsync(14);
-            }
-            ~WithAsyncMethod_SetNRun() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestSetNRun(::grpc::ServerContext* context, ::dgt::SetNRunRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_ClockMode : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_ClockMode() {
-                ::grpc::Service::MarkMethodAsync(15);
-            }
-            ~WithAsyncMethod_ClockMode() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestClockMode(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_SetAutoRotation : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_SetAutoRotation() {
-                ::grpc::Service::MarkMethodAsync(16);
-            }
-            ~WithAsyncMethod_SetAutoRotation() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestSetAutoRotation(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_UseFEN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_UseFEN() {
-                ::grpc::Service::MarkMethodAsync(17);
-            }
-            ~WithAsyncMethod_UseFEN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestUseFEN(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_UseSAN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_UseSAN() {
-                ::grpc::Service::MarkMethodAsync(18);
-            }
-            ~WithAsyncMethod_UseSAN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestUseSAN(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_SetGameType : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_SetGameType() {
-                ::grpc::Service::MarkMethodAsync(19);
-            }
-            ~WithAsyncMethod_SetGameType() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestSetGameType(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_AllowTakebacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_AllowTakebacks() {
-                ::grpc::Service::MarkMethodAsync(20);
-            }
-            ~WithAsyncMethod_AllowTakebacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestAllowTakebacks(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithAsyncMethod_RegisterCallbacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithAsyncMethod_RegisterCallbacks() {
-                ::grpc::Service::MarkMethodAsync(21);
-            }
-            ~WithAsyncMethod_RegisterCallbacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status RegisterCallbacks(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackResponse>* /*writer*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestRegisterCallbacks(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncWriter< ::dgt::CallbackResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncServerStreaming(21, context, request, writer, new_call_cq, notification_cq, tag);
-            }
-        };
-        typedef WithAsyncMethod_GetVersion<WithAsyncMethod_GetWxWidgetsVersion<WithAsyncMethod_Init<WithAsyncMethod_Exit<WithAsyncMethod_ShowDialog<WithAsyncMethod_HideDialog<WithAsyncMethod_WriteCOMPort<WithAsyncMethod_WriteCOMPortString<WithAsyncMethod_WritePosition<WithAsyncMethod_PlayWhiteMove<WithAsyncMethod_PlayBlackMove<WithAsyncMethod_WriteDebug<WithAsyncMethod_DisplayClockMessage<WithAsyncMethod_EndDisplay<WithAsyncMethod_SetNRun<WithAsyncMethod_ClockMode<WithAsyncMethod_SetAutoRotation<WithAsyncMethod_UseFEN<WithAsyncMethod_UseSAN<WithAsyncMethod_SetGameType<WithAsyncMethod_AllowTakebacks<WithAsyncMethod_RegisterCallbacks<Service > > > > > > > > > > > > > > > > > > > > > > AsyncService;
-        template <class BaseClass>
-        class WithCallbackMethod_GetVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_GetVersion() {
-                ::grpc::Service::MarkMethodCallback(0,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->GetVersion(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_GetVersion(
-                ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_GetVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* GetVersion(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_GetWxWidgetsVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_GetWxWidgetsVersion() {
-                ::grpc::Service::MarkMethodCallback(1,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->GetWxWidgetsVersion(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_GetWxWidgetsVersion(
-                ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_GetWxWidgetsVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* GetWxWidgetsVersion(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_Init : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_Init() {
-                ::grpc::Service::MarkMethodCallback(2,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->Init(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_Init(
-                ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_Init() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* Init(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_Exit : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_Exit() {
-                ::grpc::Service::MarkMethodCallback(3,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->Exit(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_Exit(
-                ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_Exit() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* Exit(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_ShowDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_ShowDialog() {
-                ::grpc::Service::MarkMethodCallback(4,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->ShowDialog(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_ShowDialog(
-                ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_ShowDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* ShowDialog(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_HideDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_HideDialog() {
-                ::grpc::Service::MarkMethodCallback(5,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->HideDialog(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_HideDialog(
-                ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_HideDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* HideDialog(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_WriteCOMPort : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_WriteCOMPort() {
-                ::grpc::Service::MarkMethodCallback(6,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->WriteCOMPort(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_WriteCOMPort(
-                ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_WriteCOMPort() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WriteCOMPort(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_WriteCOMPortString : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_WriteCOMPortString() {
-                ::grpc::Service::MarkMethodCallback(7,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->WriteCOMPortString(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_WriteCOMPortString(
-                ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_WriteCOMPortString() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WriteCOMPortString(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_WritePosition : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_WritePosition() {
-                ::grpc::Service::MarkMethodCallback(8,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->WritePosition(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_WritePosition(
-                ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_WritePosition() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WritePosition(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_PlayWhiteMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_PlayWhiteMove() {
-                ::grpc::Service::MarkMethodCallback(9,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->PlayWhiteMove(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_PlayWhiteMove(
-                ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_PlayWhiteMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* PlayWhiteMove(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_PlayBlackMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_PlayBlackMove() {
-                ::grpc::Service::MarkMethodCallback(10,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->PlayBlackMove(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_PlayBlackMove(
-                ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_PlayBlackMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* PlayBlackMove(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_WriteDebug : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_WriteDebug() {
-                ::grpc::Service::MarkMethodCallback(11,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->WriteDebug(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_WriteDebug(
-                ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_WriteDebug() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WriteDebug(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_DisplayClockMessage : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_DisplayClockMessage() {
-                ::grpc::Service::MarkMethodCallback(12,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::ClockMessageRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response) { return this->DisplayClockMessage(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_DisplayClockMessage(
-                ::grpc::MessageAllocator< ::dgt::ClockMessageRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::ClockMessageRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_DisplayClockMessage() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* DisplayClockMessage(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_EndDisplay : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_EndDisplay() {
-                ::grpc::Service::MarkMethodCallback(13,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->EndDisplay(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_EndDisplay(
-                ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_EndDisplay() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* EndDisplay(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_SetNRun : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_SetNRun() {
-                ::grpc::Service::MarkMethodCallback(14,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response) { return this->SetNRun(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_SetNRun(
-                ::grpc::MessageAllocator< ::dgt::SetNRunRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_SetNRun() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* SetNRun(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_ClockMode : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_ClockMode() {
-                ::grpc::Service::MarkMethodCallback(15,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->ClockMode(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_ClockMode(
-                ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_ClockMode() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* ClockMode(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_SetAutoRotation : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_SetAutoRotation() {
-                ::grpc::Service::MarkMethodCallback(16,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->SetAutoRotation(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_SetAutoRotation(
-                ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_SetAutoRotation() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* SetAutoRotation(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_UseFEN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_UseFEN() {
-                ::grpc::Service::MarkMethodCallback(17,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->UseFEN(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_UseFEN(
-                ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_UseFEN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* UseFEN(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_UseSAN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_UseSAN() {
-                ::grpc::Service::MarkMethodCallback(18,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->UseSAN(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_UseSAN(
-                ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_UseSAN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* UseSAN(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_SetGameType : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_SetGameType() {
-                ::grpc::Service::MarkMethodCallback(19,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->SetGameType(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_SetGameType(
-                ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_SetGameType() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* SetGameType(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_AllowTakebacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_AllowTakebacks() {
-                ::grpc::Service::MarkMethodCallback(20,
-                    new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->AllowTakebacks(context, request, response); }));
-            }
-            void SetMessageAllocatorFor_AllowTakebacks(
-                ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
-                ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(20);
-                static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
-                    ->SetMessageAllocator(allocator);
-            }
-            ~WithCallbackMethod_AllowTakebacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* AllowTakebacks(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithCallbackMethod_RegisterCallbacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithCallbackMethod_RegisterCallbacks() {
-                ::grpc::Service::MarkMethodCallback(21,
-                    new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::StringRequest, ::dgt::CallbackResponse>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request) { return this->RegisterCallbacks(context, request); }));
-            }
-            ~WithCallbackMethod_RegisterCallbacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status RegisterCallbacks(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackResponse>* /*writer*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerWriteReactor< ::dgt::CallbackResponse>* RegisterCallbacks(
-                ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/) {
-                return nullptr;
-            }
-        };
-        typedef WithCallbackMethod_GetVersion<WithCallbackMethod_GetWxWidgetsVersion<WithCallbackMethod_Init<WithCallbackMethod_Exit<WithCallbackMethod_ShowDialog<WithCallbackMethod_HideDialog<WithCallbackMethod_WriteCOMPort<WithCallbackMethod_WriteCOMPortString<WithCallbackMethod_WritePosition<WithCallbackMethod_PlayWhiteMove<WithCallbackMethod_PlayBlackMove<WithCallbackMethod_WriteDebug<WithCallbackMethod_DisplayClockMessage<WithCallbackMethod_EndDisplay<WithCallbackMethod_SetNRun<WithCallbackMethod_ClockMode<WithCallbackMethod_SetAutoRotation<WithCallbackMethod_UseFEN<WithCallbackMethod_UseSAN<WithCallbackMethod_SetGameType<WithCallbackMethod_AllowTakebacks<WithCallbackMethod_RegisterCallbacks<Service > > > > > > > > > > > > > > > > > > > > > > CallbackService;
-        typedef CallbackService ExperimentalCallbackService;
-        template <class BaseClass>
-        class WithGenericMethod_GetVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_GetVersion() {
-                ::grpc::Service::MarkMethodGeneric(0);
-            }
-            ~WithGenericMethod_GetVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_GetWxWidgetsVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_GetWxWidgetsVersion() {
-                ::grpc::Service::MarkMethodGeneric(1);
-            }
-            ~WithGenericMethod_GetWxWidgetsVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_Init : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_Init() {
-                ::grpc::Service::MarkMethodGeneric(2);
-            }
-            ~WithGenericMethod_Init() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_Exit : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_Exit() {
-                ::grpc::Service::MarkMethodGeneric(3);
-            }
-            ~WithGenericMethod_Exit() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_ShowDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_ShowDialog() {
-                ::grpc::Service::MarkMethodGeneric(4);
-            }
-            ~WithGenericMethod_ShowDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_HideDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_HideDialog() {
-                ::grpc::Service::MarkMethodGeneric(5);
-            }
-            ~WithGenericMethod_HideDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_WriteCOMPort : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_WriteCOMPort() {
-                ::grpc::Service::MarkMethodGeneric(6);
-            }
-            ~WithGenericMethod_WriteCOMPort() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_WriteCOMPortString : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_WriteCOMPortString() {
-                ::grpc::Service::MarkMethodGeneric(7);
-            }
-            ~WithGenericMethod_WriteCOMPortString() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_WritePosition : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_WritePosition() {
-                ::grpc::Service::MarkMethodGeneric(8);
-            }
-            ~WithGenericMethod_WritePosition() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_PlayWhiteMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_PlayWhiteMove() {
-                ::grpc::Service::MarkMethodGeneric(9);
-            }
-            ~WithGenericMethod_PlayWhiteMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_PlayBlackMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_PlayBlackMove() {
-                ::grpc::Service::MarkMethodGeneric(10);
-            }
-            ~WithGenericMethod_PlayBlackMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_WriteDebug : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_WriteDebug() {
-                ::grpc::Service::MarkMethodGeneric(11);
-            }
-            ~WithGenericMethod_WriteDebug() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_DisplayClockMessage : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_DisplayClockMessage() {
-                ::grpc::Service::MarkMethodGeneric(12);
-            }
-            ~WithGenericMethod_DisplayClockMessage() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_EndDisplay : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_EndDisplay() {
-                ::grpc::Service::MarkMethodGeneric(13);
-            }
-            ~WithGenericMethod_EndDisplay() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_SetNRun : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_SetNRun() {
-                ::grpc::Service::MarkMethodGeneric(14);
-            }
-            ~WithGenericMethod_SetNRun() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_ClockMode : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_ClockMode() {
-                ::grpc::Service::MarkMethodGeneric(15);
-            }
-            ~WithGenericMethod_ClockMode() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_SetAutoRotation : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_SetAutoRotation() {
-                ::grpc::Service::MarkMethodGeneric(16);
-            }
-            ~WithGenericMethod_SetAutoRotation() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_UseFEN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_UseFEN() {
-                ::grpc::Service::MarkMethodGeneric(17);
-            }
-            ~WithGenericMethod_UseFEN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_UseSAN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_UseSAN() {
-                ::grpc::Service::MarkMethodGeneric(18);
-            }
-            ~WithGenericMethod_UseSAN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_SetGameType : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_SetGameType() {
-                ::grpc::Service::MarkMethodGeneric(19);
-            }
-            ~WithGenericMethod_SetGameType() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_AllowTakebacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_AllowTakebacks() {
-                ::grpc::Service::MarkMethodGeneric(20);
-            }
-            ~WithGenericMethod_AllowTakebacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithGenericMethod_RegisterCallbacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithGenericMethod_RegisterCallbacks() {
-                ::grpc::Service::MarkMethodGeneric(21);
-            }
-            ~WithGenericMethod_RegisterCallbacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status RegisterCallbacks(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackResponse>* /*writer*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_GetVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_GetVersion() {
-                ::grpc::Service::MarkMethodRaw(0);
-            }
-            ~WithRawMethod_GetVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestGetVersion(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_GetWxWidgetsVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_GetWxWidgetsVersion() {
-                ::grpc::Service::MarkMethodRaw(1);
-            }
-            ~WithRawMethod_GetWxWidgetsVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestGetWxWidgetsVersion(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_Init : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_Init() {
-                ::grpc::Service::MarkMethodRaw(2);
-            }
-            ~WithRawMethod_Init() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestInit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_Exit : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_Exit() {
-                ::grpc::Service::MarkMethodRaw(3);
-            }
-            ~WithRawMethod_Exit() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestExit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_ShowDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_ShowDialog() {
-                ::grpc::Service::MarkMethodRaw(4);
-            }
-            ~WithRawMethod_ShowDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestShowDialog(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_HideDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_HideDialog() {
-                ::grpc::Service::MarkMethodRaw(5);
-            }
-            ~WithRawMethod_HideDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestHideDialog(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_WriteCOMPort : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_WriteCOMPort() {
-                ::grpc::Service::MarkMethodRaw(6);
-            }
-            ~WithRawMethod_WriteCOMPort() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWriteCOMPort(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_WriteCOMPortString : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_WriteCOMPortString() {
-                ::grpc::Service::MarkMethodRaw(7);
-            }
-            ~WithRawMethod_WriteCOMPortString() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWriteCOMPortString(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_WritePosition : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_WritePosition() {
-                ::grpc::Service::MarkMethodRaw(8);
-            }
-            ~WithRawMethod_WritePosition() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWritePosition(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_PlayWhiteMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_PlayWhiteMove() {
-                ::grpc::Service::MarkMethodRaw(9);
-            }
-            ~WithRawMethod_PlayWhiteMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestPlayWhiteMove(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_PlayBlackMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_PlayBlackMove() {
-                ::grpc::Service::MarkMethodRaw(10);
-            }
-            ~WithRawMethod_PlayBlackMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestPlayBlackMove(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_WriteDebug : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_WriteDebug() {
-                ::grpc::Service::MarkMethodRaw(11);
-            }
-            ~WithRawMethod_WriteDebug() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestWriteDebug(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_DisplayClockMessage : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_DisplayClockMessage() {
-                ::grpc::Service::MarkMethodRaw(12);
-            }
-            ~WithRawMethod_DisplayClockMessage() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestDisplayClockMessage(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_EndDisplay : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_EndDisplay() {
-                ::grpc::Service::MarkMethodRaw(13);
-            }
-            ~WithRawMethod_EndDisplay() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestEndDisplay(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_SetNRun : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_SetNRun() {
-                ::grpc::Service::MarkMethodRaw(14);
-            }
-            ~WithRawMethod_SetNRun() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestSetNRun(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_ClockMode : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_ClockMode() {
-                ::grpc::Service::MarkMethodRaw(15);
-            }
-            ~WithRawMethod_ClockMode() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestClockMode(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_SetAutoRotation : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_SetAutoRotation() {
-                ::grpc::Service::MarkMethodRaw(16);
-            }
-            ~WithRawMethod_SetAutoRotation() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestSetAutoRotation(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_UseFEN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_UseFEN() {
-                ::grpc::Service::MarkMethodRaw(17);
-            }
-            ~WithRawMethod_UseFEN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestUseFEN(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_UseSAN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_UseSAN() {
-                ::grpc::Service::MarkMethodRaw(18);
-            }
-            ~WithRawMethod_UseSAN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestUseSAN(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_SetGameType : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_SetGameType() {
-                ::grpc::Service::MarkMethodRaw(19);
-            }
-            ~WithRawMethod_SetGameType() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestSetGameType(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_AllowTakebacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_AllowTakebacks() {
-                ::grpc::Service::MarkMethodRaw(20);
-            }
-            ~WithRawMethod_AllowTakebacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestAllowTakebacks(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawMethod_RegisterCallbacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawMethod_RegisterCallbacks() {
-                ::grpc::Service::MarkMethodRaw(21);
-            }
-            ~WithRawMethod_RegisterCallbacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status RegisterCallbacks(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackResponse>* /*writer*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            void RequestRegisterCallbacks(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void* tag) {
-                ::grpc::Service::RequestAsyncServerStreaming(21, context, request, writer, new_call_cq, notification_cq, tag);
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_GetVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_GetVersion() {
-                ::grpc::Service::MarkMethodRawCallback(0,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetVersion(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_GetVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* GetVersion(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_GetWxWidgetsVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_GetWxWidgetsVersion() {
-                ::grpc::Service::MarkMethodRawCallback(1,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetWxWidgetsVersion(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_GetWxWidgetsVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* GetWxWidgetsVersion(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_Init : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_Init() {
-                ::grpc::Service::MarkMethodRawCallback(2,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Init(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_Init() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* Init(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_Exit : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_Exit() {
-                ::grpc::Service::MarkMethodRawCallback(3,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Exit(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_Exit() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* Exit(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_ShowDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_ShowDialog() {
-                ::grpc::Service::MarkMethodRawCallback(4,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowDialog(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_ShowDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* ShowDialog(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_HideDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_HideDialog() {
-                ::grpc::Service::MarkMethodRawCallback(5,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->HideDialog(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_HideDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* HideDialog(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_WriteCOMPort : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_WriteCOMPort() {
-                ::grpc::Service::MarkMethodRawCallback(6,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WriteCOMPort(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_WriteCOMPort() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WriteCOMPort(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_WriteCOMPortString : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_WriteCOMPortString() {
-                ::grpc::Service::MarkMethodRawCallback(7,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WriteCOMPortString(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_WriteCOMPortString() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WriteCOMPortString(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_WritePosition : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_WritePosition() {
-                ::grpc::Service::MarkMethodRawCallback(8,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WritePosition(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_WritePosition() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WritePosition(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_PlayWhiteMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_PlayWhiteMove() {
-                ::grpc::Service::MarkMethodRawCallback(9,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->PlayWhiteMove(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_PlayWhiteMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* PlayWhiteMove(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_PlayBlackMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_PlayBlackMove() {
-                ::grpc::Service::MarkMethodRawCallback(10,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->PlayBlackMove(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_PlayBlackMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* PlayBlackMove(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_WriteDebug : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_WriteDebug() {
-                ::grpc::Service::MarkMethodRawCallback(11,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WriteDebug(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_WriteDebug() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* WriteDebug(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_DisplayClockMessage : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_DisplayClockMessage() {
-                ::grpc::Service::MarkMethodRawCallback(12,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DisplayClockMessage(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_DisplayClockMessage() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* DisplayClockMessage(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_EndDisplay : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_EndDisplay() {
-                ::grpc::Service::MarkMethodRawCallback(13,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->EndDisplay(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_EndDisplay() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* EndDisplay(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_SetNRun : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_SetNRun() {
-                ::grpc::Service::MarkMethodRawCallback(14,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetNRun(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_SetNRun() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* SetNRun(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_ClockMode : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_ClockMode() {
-                ::grpc::Service::MarkMethodRawCallback(15,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ClockMode(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_ClockMode() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* ClockMode(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_SetAutoRotation : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_SetAutoRotation() {
-                ::grpc::Service::MarkMethodRawCallback(16,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetAutoRotation(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_SetAutoRotation() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* SetAutoRotation(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_UseFEN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_UseFEN() {
-                ::grpc::Service::MarkMethodRawCallback(17,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UseFEN(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_UseFEN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* UseFEN(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_UseSAN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_UseSAN() {
-                ::grpc::Service::MarkMethodRawCallback(18,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UseSAN(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_UseSAN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* UseSAN(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_SetGameType : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_SetGameType() {
-                ::grpc::Service::MarkMethodRawCallback(19,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetGameType(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_SetGameType() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* SetGameType(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_AllowTakebacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_AllowTakebacks() {
-                ::grpc::Service::MarkMethodRawCallback(20,
-                    new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AllowTakebacks(context, request, response); }));
-            }
-            ~WithRawCallbackMethod_AllowTakebacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerUnaryReactor* AllowTakebacks(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithRawCallbackMethod_RegisterCallbacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithRawCallbackMethod_RegisterCallbacks() {
-                ::grpc::Service::MarkMethodRawCallback(21,
-                    new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-                        [this](
-                            ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterCallbacks(context, request); }));
-            }
-            ~WithRawCallbackMethod_RegisterCallbacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable synchronous version of this method
-            ::grpc::Status RegisterCallbacks(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackResponse>* /*writer*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterCallbacks(
-                ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/) {
-                return nullptr;
-            }
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_GetVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_GetVersion() {
-                ::grpc::Service::MarkMethodStreamed(0,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::Empty, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedGetVersion(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_GetVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedGetVersion(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_GetWxWidgetsVersion : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_GetWxWidgetsVersion() {
-                ::grpc::Service::MarkMethodStreamed(1,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::Empty, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedGetWxWidgetsVersion(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_GetWxWidgetsVersion() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedGetWxWidgetsVersion(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_Init : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_Init() {
-                ::grpc::Service::MarkMethodStreamed(2,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::Empty, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedInit(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_Init() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedInit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_Exit : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_Exit() {
-                ::grpc::Service::MarkMethodStreamed(3,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::Empty, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::Empty, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedExit(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_Exit() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedExit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_ShowDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_ShowDialog() {
-                ::grpc::Service::MarkMethodStreamed(4,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedShowDialog(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_ShowDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedShowDialog(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_HideDialog : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_HideDialog() {
-                ::grpc::Service::MarkMethodStreamed(5,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedHideDialog(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_HideDialog() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedHideDialog(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_WriteCOMPort : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_WriteCOMPort() {
-                ::grpc::Service::MarkMethodStreamed(6,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedWriteCOMPort(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_WriteCOMPort() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedWriteCOMPort(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_WriteCOMPortString : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_WriteCOMPortString() {
-                ::grpc::Service::MarkMethodStreamed(7,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedWriteCOMPortString(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_WriteCOMPortString() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedWriteCOMPortString(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_WritePosition : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_WritePosition() {
-                ::grpc::Service::MarkMethodStreamed(8,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedWritePosition(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_WritePosition() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedWritePosition(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_PlayWhiteMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_PlayWhiteMove() {
-                ::grpc::Service::MarkMethodStreamed(9,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedPlayWhiteMove(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_PlayWhiteMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedPlayWhiteMove(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_PlayBlackMove : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_PlayBlackMove() {
-                ::grpc::Service::MarkMethodStreamed(10,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::StringRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedPlayBlackMove(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_PlayBlackMove() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedPlayBlackMove(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_WriteDebug : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_WriteDebug() {
-                ::grpc::Service::MarkMethodStreamed(11,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedWriteDebug(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_WriteDebug() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedWriteDebug(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_DisplayClockMessage : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_DisplayClockMessage() {
-                ::grpc::Service::MarkMethodStreamed(12,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::ClockMessageRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::ClockMessageRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedDisplayClockMessage(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_DisplayClockMessage() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedDisplayClockMessage(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::ClockMessageRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_EndDisplay : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_EndDisplay() {
-                ::grpc::Service::MarkMethodStreamed(13,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedEndDisplay(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_EndDisplay() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedEndDisplay(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_SetNRun : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_SetNRun() {
-                ::grpc::Service::MarkMethodStreamed(14,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::SetNRunRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::SetNRunRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedSetNRun(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_SetNRun() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedSetNRun(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::SetNRunRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_ClockMode : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_ClockMode() {
-                ::grpc::Service::MarkMethodStreamed(15,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedClockMode(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_ClockMode() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedClockMode(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_SetAutoRotation : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_SetAutoRotation() {
-                ::grpc::Service::MarkMethodStreamed(16,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedSetAutoRotation(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_SetAutoRotation() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedSetAutoRotation(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_UseFEN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_UseFEN() {
-                ::grpc::Service::MarkMethodStreamed(17,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedUseFEN(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_UseFEN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedUseFEN(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_UseSAN : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_UseSAN() {
-                ::grpc::Service::MarkMethodStreamed(18,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedUseSAN(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_UseSAN() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedUseSAN(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_SetGameType : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_SetGameType() {
-                ::grpc::Service::MarkMethodStreamed(19,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::IntRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedSetGameType(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_SetGameType() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedSetGameType(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        template <class BaseClass>
-        class WithStreamedUnaryMethod_AllowTakebacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithStreamedUnaryMethod_AllowTakebacks() {
-                ::grpc::Service::MarkMethodStreamed(20,
-                    new ::grpc::internal::StreamedUnaryHandler<
-                    ::dgt::BoolRequest, ::dgt::IntResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerUnaryStreamer<
-                            ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
-                                return this->StreamedAllowTakebacks(context,
-                                streamer);
-                        }));
-            }
-            ~WithStreamedUnaryMethod_AllowTakebacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with streamed unary
-            virtual ::grpc::Status StreamedAllowTakebacks(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest, ::dgt::IntResponse>* server_unary_streamer) = 0;
-        };
-        typedef WithStreamedUnaryMethod_GetVersion<WithStreamedUnaryMethod_GetWxWidgetsVersion<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Exit<WithStreamedUnaryMethod_ShowDialog<WithStreamedUnaryMethod_HideDialog<WithStreamedUnaryMethod_WriteCOMPort<WithStreamedUnaryMethod_WriteCOMPortString<WithStreamedUnaryMethod_WritePosition<WithStreamedUnaryMethod_PlayWhiteMove<WithStreamedUnaryMethod_PlayBlackMove<WithStreamedUnaryMethod_WriteDebug<WithStreamedUnaryMethod_DisplayClockMessage<WithStreamedUnaryMethod_EndDisplay<WithStreamedUnaryMethod_SetNRun<WithStreamedUnaryMethod_ClockMode<WithStreamedUnaryMethod_SetAutoRotation<WithStreamedUnaryMethod_UseFEN<WithStreamedUnaryMethod_UseSAN<WithStreamedUnaryMethod_SetGameType<WithStreamedUnaryMethod_AllowTakebacks<Service > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
-        template <class BaseClass>
-        class WithSplitStreamingMethod_RegisterCallbacks : public BaseClass {
-        private:
-            void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-        public:
-            WithSplitStreamingMethod_RegisterCallbacks() {
-                ::grpc::Service::MarkMethodStreamed(21,
-                    new ::grpc::internal::SplitServerStreamingHandler<
-                    ::dgt::StringRequest, ::dgt::CallbackResponse>(
-                        [this](::grpc::ServerContext* context,
-                            ::grpc::ServerSplitStreamer<
-                            ::dgt::StringRequest, ::dgt::CallbackResponse>* streamer) {
-                                return this->StreamedRegisterCallbacks(context,
-                                streamer);
-                        }));
-            }
-            ~WithSplitStreamingMethod_RegisterCallbacks() override {
-                BaseClassMustBeDerivedFromService(this);
-            }
-            // disable regular version of this method
-            ::grpc::Status RegisterCallbacks(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackResponse>* /*writer*/) override {
-                abort();
-                return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-            }
-            // replace default version of method with split streamed
-            virtual ::grpc::Status StreamedRegisterCallbacks(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::StringRequest, ::dgt::CallbackResponse>* server_split_streamer) = 0;
-        };
-        typedef WithSplitStreamingMethod_RegisterCallbacks<Service > SplitStreamedService;
-        typedef WithStreamedUnaryMethod_GetVersion<WithStreamedUnaryMethod_GetWxWidgetsVersion<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Exit<WithStreamedUnaryMethod_ShowDialog<WithStreamedUnaryMethod_HideDialog<WithStreamedUnaryMethod_WriteCOMPort<WithStreamedUnaryMethod_WriteCOMPortString<WithStreamedUnaryMethod_WritePosition<WithStreamedUnaryMethod_PlayWhiteMove<WithStreamedUnaryMethod_PlayBlackMove<WithStreamedUnaryMethod_WriteDebug<WithStreamedUnaryMethod_DisplayClockMessage<WithStreamedUnaryMethod_EndDisplay<WithStreamedUnaryMethod_SetNRun<WithStreamedUnaryMethod_ClockMode<WithStreamedUnaryMethod_SetAutoRotation<WithStreamedUnaryMethod_UseFEN<WithStreamedUnaryMethod_UseSAN<WithStreamedUnaryMethod_SetGameType<WithStreamedUnaryMethod_AllowTakebacks<WithSplitStreamingMethod_RegisterCallbacks<Service > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+class DGTDLL final {
+ public:
+  static constexpr char const* service_full_name() {
+    return "dgt.DGTDLL";
+  }
+  class StubInterface {
+   public:
+    virtual ~StubInterface() {}
+    virtual ::grpc::Status GetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncGetVersionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncGetVersionRaw(context, request, cq));
+    }
+    virtual ::grpc::Status GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncGetWxWidgetsVersionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncGetWxWidgetsVersionRaw(context, request, cq));
+    }
+    virtual ::grpc::Status Init(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncInitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncInitRaw(context, request, cq));
+    }
+    virtual ::grpc::Status Exit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncExitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncExitRaw(context, request, cq));
+    }
+    virtual ::grpc::Status ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncShowDialogRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncShowDialogRaw(context, request, cq));
+    }
+    virtual ::grpc::Status HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncHideDialogRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncHideDialogRaw(context, request, cq));
+    }
+    virtual ::grpc::Status WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWriteCOMPortRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortRaw(context, request, cq));
+    }
+    virtual ::grpc::Status WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWriteCOMPortStringRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortStringRaw(context, request, cq));
+    }
+    virtual ::grpc::Status WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWritePositionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWritePositionRaw(context, request, cq));
+    }
+    virtual ::grpc::Status PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncPlayWhiteMoveRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncPlayWhiteMoveRaw(context, request, cq));
+    }
+    virtual ::grpc::Status PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncPlayBlackMoveRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncPlayBlackMoveRaw(context, request, cq));
+    }
+    virtual ::grpc::Status WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncWriteDebugRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncWriteDebugRaw(context, request, cq));
+    }
+    virtual ::grpc::Status DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncDisplayClockMessageRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncDisplayClockMessageRaw(context, request, cq));
+    }
+    virtual ::grpc::Status EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncEndDisplayRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncEndDisplayRaw(context, request, cq));
+    }
+    virtual ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetNRunRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
+    }
+    virtual ::grpc::Status ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncClockModeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncClockModeRaw(context, request, cq));
+    }
+    virtual ::grpc::Status SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetAutoRotationRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetAutoRotationRaw(context, request, cq));
+    }
+    virtual ::grpc::Status UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncUseFENRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncUseFENRaw(context, request, cq));
+    }
+    virtual ::grpc::Status UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncUseSANRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncUseSANRaw(context, request, cq));
+    }
+    virtual ::grpc::Status SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetGameTypeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetGameTypeRaw(context, request, cq));
+    }
+    virtual ::grpc::Status AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncAllowTakebacksRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncAllowTakebacksRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterStatusFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterStatusFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterStatusFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterScanFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterScanFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterScanFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterStableBoardFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterStableBoardFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterStableBoardFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterWClockFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterWClockFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterWClockFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterBClockFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterBClockFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterBClockFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterResultFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterResultFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterResultFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterNewGameFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterNewGameFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterNewGameFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterWhiteMoveInputFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterWhiteMoveInputFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterWhiteMoveInputFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterBlackMoveInputFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterBlackMoveInputFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterBlackMoveInputFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::EmptyResponse>> RegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::EmptyResponse>>(RegisterWhiteTakebackFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>> AsyncRegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>>(AsyncRegisterWhiteTakebackFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>> PrepareAsyncRegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>>(PrepareAsyncRegisterWhiteTakebackFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::EmptyResponse>> RegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::EmptyResponse>>(RegisterBlackTakebackFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>> AsyncRegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>>(AsyncRegisterBlackTakebackFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>> PrepareAsyncRegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>>(PrepareAsyncRegisterBlackTakebackFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterWhiteMoveNowFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterWhiteMoveNowFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterWhiteMoveNowFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterBlackMoveNowFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterBlackMoveNowFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterBlackMoveNowFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterStartSetupFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterStartSetupFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterStartSetupFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterStopSetupWTMFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterStopSetupWTMFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterStopSetupWTMFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>> RegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::StringResponse>>(RegisterStopSetupBTMFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> AsyncRegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(AsyncRegisterStopSetupBTMFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>> PrepareAsyncRegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>>(PrepareAsyncRegisterStopSetupBTMFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::IntResponse>> RegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::IntResponse>>(RegisterGameTypeChangedFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::IntResponse>> AsyncRegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::IntResponse>>(AsyncRegisterGameTypeChangedFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::IntResponse>> PrepareAsyncRegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::IntResponse>>(PrepareAsyncRegisterGameTypeChangedFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::BoolResponse>> RegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::BoolResponse>>(RegisterAllowTakebacksChangedFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::BoolResponse>> AsyncRegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::BoolResponse>>(AsyncRegisterAllowTakebacksChangedFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::BoolResponse>> PrepareAsyncRegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::BoolResponse>>(PrepareAsyncRegisterAllowTakebacksChangedFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::CallbackIICResponse>> RegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReaderInterface< ::dgt::CallbackIICResponse>>(RegisterMagicPieceFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackIICResponse>> AsyncRegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackIICResponse>>(AsyncRegisterMagicPieceFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackIICResponse>> PrepareAsyncRegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackIICResponse>>(PrepareAsyncRegisterMagicPieceFuncRaw(context, request, cq));
+    }
+    class async_interface {
+     public:
+      virtual ~async_interface() {}
+      virtual void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void RegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::EmptyResponse>* reactor) = 0;
+      virtual void RegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::EmptyResponse>* reactor) = 0;
+      virtual void RegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) = 0;
+      virtual void RegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::IntResponse>* reactor) = 0;
+      virtual void RegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::BoolResponse>* reactor) = 0;
+      virtual void RegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::CallbackIICResponse>* reactor) = 0;
     };
+    typedef class async_interface experimental_async_interface;
+    virtual class async_interface* async() { return nullptr; }
+    class async_interface* experimental_async() { return async(); }
+   private:
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::EmptyResponse>* RegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>* AsyncRegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>* PrepareAsyncRegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::EmptyResponse>* RegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>* AsyncRegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::EmptyResponse>* PrepareAsyncRegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::StringResponse>* RegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* AsyncRegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::StringResponse>* PrepareAsyncRegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::IntResponse>* RegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::IntResponse>* AsyncRegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::IntResponse>* PrepareAsyncRegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::BoolResponse>* RegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::BoolResponse>* AsyncRegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::BoolResponse>* PrepareAsyncRegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientReaderInterface< ::dgt::CallbackIICResponse>* RegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackIICResponse>* AsyncRegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
+    virtual ::grpc::ClientAsyncReaderInterface< ::dgt::CallbackIICResponse>* PrepareAsyncRegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+  };
+  class Stub final : public StubInterface {
+   public:
+    Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
+    ::grpc::Status GetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncGetVersionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncGetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncGetVersionRaw(context, request, cq));
+    }
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncGetWxWidgetsVersionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncGetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncGetWxWidgetsVersionRaw(context, request, cq));
+    }
+    ::grpc::Status Init(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncInitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncInit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncInitRaw(context, request, cq));
+    }
+    ::grpc::Status Exit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncExitRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncExit(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncExitRaw(context, request, cq));
+    }
+    ::grpc::Status ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncShowDialogRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncShowDialogRaw(context, request, cq));
+    }
+    ::grpc::Status HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncHideDialogRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncHideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncHideDialogRaw(context, request, cq));
+    }
+    ::grpc::Status WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWriteCOMPortRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortRaw(context, request, cq));
+    }
+    ::grpc::Status WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWriteCOMPortStringRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWriteCOMPortStringRaw(context, request, cq));
+    }
+    ::grpc::Status WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWritePositionRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWritePositionRaw(context, request, cq));
+    }
+    ::grpc::Status PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncPlayWhiteMoveRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncPlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncPlayWhiteMoveRaw(context, request, cq));
+    }
+    ::grpc::Status PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncPlayBlackMoveRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncPlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncPlayBlackMoveRaw(context, request, cq));
+    }
+    ::grpc::Status WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncWriteDebugRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncWriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncWriteDebugRaw(context, request, cq));
+    }
+    ::grpc::Status DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncDisplayClockMessageRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncDisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncDisplayClockMessageRaw(context, request, cq));
+    }
+    ::grpc::Status EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncEndDisplayRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncEndDisplayRaw(context, request, cq));
+    }
+    ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetNRunRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
+    }
+    ::grpc::Status ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncClockModeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncClockModeRaw(context, request, cq));
+    }
+    ::grpc::Status SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetAutoRotationRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetAutoRotationRaw(context, request, cq));
+    }
+    ::grpc::Status UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncUseFENRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncUseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncUseFENRaw(context, request, cq));
+    }
+    ::grpc::Status UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncUseSANRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncUseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncUseSANRaw(context, request, cq));
+    }
+    ::grpc::Status SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetGameTypeRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetGameTypeRaw(context, request, cq));
+    }
+    ::grpc::Status AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::dgt::IntResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncAllowTakebacksRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncAllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncAllowTakebacksRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterStatusFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterStatusFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterStatusFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterScanFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterScanFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterScanFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterStableBoardFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterStableBoardFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterStableBoardFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterWClockFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterWClockFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterWClockFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterBClockFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterBClockFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterBClockFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterResultFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterResultFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterResultFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterNewGameFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterNewGameFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterNewGameFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterWhiteMoveInputFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterWhiteMoveInputFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterWhiteMoveInputFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterBlackMoveInputFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterBlackMoveInputFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterBlackMoveInputFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::EmptyResponse>> RegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::EmptyResponse>>(RegisterWhiteTakebackFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>> AsyncRegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>>(AsyncRegisterWhiteTakebackFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>> PrepareAsyncRegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>>(PrepareAsyncRegisterWhiteTakebackFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::EmptyResponse>> RegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::EmptyResponse>>(RegisterBlackTakebackFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>> AsyncRegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>>(AsyncRegisterBlackTakebackFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>> PrepareAsyncRegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>>(PrepareAsyncRegisterBlackTakebackFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterWhiteMoveNowFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterWhiteMoveNowFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterWhiteMoveNowFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterBlackMoveNowFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterBlackMoveNowFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterBlackMoveNowFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterStartSetupFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterStartSetupFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterStartSetupFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterStopSetupWTMFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterStopSetupWTMFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterStopSetupWTMFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>> RegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::StringResponse>>(RegisterStopSetupBTMFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> AsyncRegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(AsyncRegisterStopSetupBTMFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>> PrepareAsyncRegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::StringResponse>>(PrepareAsyncRegisterStopSetupBTMFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::IntResponse>> RegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::IntResponse>>(RegisterGameTypeChangedFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::IntResponse>> AsyncRegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::IntResponse>>(AsyncRegisterGameTypeChangedFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::IntResponse>> PrepareAsyncRegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::IntResponse>>(PrepareAsyncRegisterGameTypeChangedFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::BoolResponse>> RegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::BoolResponse>>(RegisterAllowTakebacksChangedFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::BoolResponse>> AsyncRegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::BoolResponse>>(AsyncRegisterAllowTakebacksChangedFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::BoolResponse>> PrepareAsyncRegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::BoolResponse>>(PrepareAsyncRegisterAllowTakebacksChangedFuncRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientReader< ::dgt::CallbackIICResponse>> RegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+      return std::unique_ptr< ::grpc::ClientReader< ::dgt::CallbackIICResponse>>(RegisterMagicPieceFuncRaw(context, request));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>> AsyncRegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>>(AsyncRegisterMagicPieceFuncRaw(context, request, cq, tag));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>> PrepareAsyncRegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>>(PrepareAsyncRegisterMagicPieceFuncRaw(context, request, cq));
+    }
+    class async final :
+      public StubInterface::async_interface {
+     public:
+      void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetWxWidgetsVersion(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void Init(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void Exit(::grpc::ClientContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void ShowDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void HideDialog(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteCOMPort(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteCOMPortString(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void WritePosition(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void PlayWhiteMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void PlayBlackMove(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void WriteDebug(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void UseFEN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void UseSAN(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void SetGameType(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
+      void AllowTakebacks(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void RegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::EmptyResponse>* reactor) override;
+      void RegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::EmptyResponse>* reactor) override;
+      void RegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) override;
+      void RegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::IntResponse>* reactor) override;
+      void RegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::BoolResponse>* reactor) override;
+      void RegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::CallbackIICResponse>* reactor) override;
+     private:
+      friend class Stub;
+      explicit async(Stub* stub): stub_(stub) { }
+      Stub* stub() { return stub_; }
+      Stub* stub_;
+    };
+    class async* async() override { return &async_stub_; }
+
+   private:
+    std::shared_ptr< ::grpc::ChannelInterface> channel_;
+    class async async_stub_{this};
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncGetVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncGetWxWidgetsVersionRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncInitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncExitRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncShowDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncHideDialogRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWriteCOMPortStringRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWritePositionRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncPlayWhiteMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncPlayBlackMoveRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncWriteDebugRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncUseFENRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncUseSANRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetGameTypeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncAllowTakebacksRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::EmptyResponse>* RegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* AsyncRegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* PrepareAsyncRegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::EmptyResponse>* RegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* AsyncRegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* PrepareAsyncRegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::StringResponse>* RegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* AsyncRegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::StringResponse>* PrepareAsyncRegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::IntResponse>* RegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::IntResponse>* AsyncRegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::IntResponse>* PrepareAsyncRegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::BoolResponse>* RegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::BoolResponse>* AsyncRegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::BoolResponse>* PrepareAsyncRegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientReader< ::dgt::CallbackIICResponse>* RegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) override;
+    ::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>* AsyncRegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) override;
+    ::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>* PrepareAsyncRegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) override;
+    const ::grpc::internal::RpcMethod rpcmethod_GetVersion_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetWxWidgetsVersion_;
+    const ::grpc::internal::RpcMethod rpcmethod_Init_;
+    const ::grpc::internal::RpcMethod rpcmethod_Exit_;
+    const ::grpc::internal::RpcMethod rpcmethod_ShowDialog_;
+    const ::grpc::internal::RpcMethod rpcmethod_HideDialog_;
+    const ::grpc::internal::RpcMethod rpcmethod_WriteCOMPort_;
+    const ::grpc::internal::RpcMethod rpcmethod_WriteCOMPortString_;
+    const ::grpc::internal::RpcMethod rpcmethod_WritePosition_;
+    const ::grpc::internal::RpcMethod rpcmethod_PlayWhiteMove_;
+    const ::grpc::internal::RpcMethod rpcmethod_PlayBlackMove_;
+    const ::grpc::internal::RpcMethod rpcmethod_WriteDebug_;
+    const ::grpc::internal::RpcMethod rpcmethod_DisplayClockMessage_;
+    const ::grpc::internal::RpcMethod rpcmethod_EndDisplay_;
+    const ::grpc::internal::RpcMethod rpcmethod_SetNRun_;
+    const ::grpc::internal::RpcMethod rpcmethod_ClockMode_;
+    const ::grpc::internal::RpcMethod rpcmethod_SetAutoRotation_;
+    const ::grpc::internal::RpcMethod rpcmethod_UseFEN_;
+    const ::grpc::internal::RpcMethod rpcmethod_UseSAN_;
+    const ::grpc::internal::RpcMethod rpcmethod_SetGameType_;
+    const ::grpc::internal::RpcMethod rpcmethod_AllowTakebacks_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterStatusFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterScanFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterStableBoardFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterWClockFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterBClockFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterResultFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterNewGameFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterWhiteMoveInputFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterBlackMoveInputFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterWhiteTakebackFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterBlackTakebackFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterWhiteMoveNowFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterBlackMoveNowFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterStartSetupFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterStopSetupWTMFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterStopSetupBTMFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterGameTypeChangedFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterAllowTakebacksChangedFunc_;
+    const ::grpc::internal::RpcMethod rpcmethod_RegisterMagicPieceFunc_;
+  };
+  static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
+
+  class Service : public ::grpc::Service {
+   public:
+    Service();
+    virtual ~Service();
+    virtual ::grpc::Status GetVersion(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status Init(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status Exit(::grpc::ServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status ShowDialog(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status HideDialog(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status WriteCOMPort(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status WriteCOMPortString(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status WritePosition(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status PlayWhiteMove(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status PlayBlackMove(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status WriteDebug(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status DisplayClockMessage(::grpc::ServerContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status EndDisplay(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status SetNRun(::grpc::ServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status ClockMode(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status SetAutoRotation(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status UseFEN(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status UseSAN(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status SetGameType(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status AllowTakebacks(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterScanFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterResultFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::EmptyResponse>* writer);
+    virtual ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::EmptyResponse>* writer);
+    virtual ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer);
+    virtual ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::IntResponse>* writer);
+    virtual ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::BoolResponse>* writer);
+    virtual ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* writer);
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_GetVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetVersion() {
+      ::grpc::Service::MarkMethodAsync(0);
+    }
+    ~WithAsyncMethod_GetVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetVersion(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_GetWxWidgetsVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetWxWidgetsVersion() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_GetWxWidgetsVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetWxWidgetsVersion(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_Init : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_Init() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_Init() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInit(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_Exit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_Exit() {
+      ::grpc::Service::MarkMethodAsync(3);
+    }
+    ~WithAsyncMethod_Exit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestExit(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_ShowDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_ShowDialog() {
+      ::grpc::Service::MarkMethodAsync(4);
+    }
+    ~WithAsyncMethod_ShowDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestShowDialog(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_HideDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_HideDialog() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_HideDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestHideDialog(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_WriteCOMPort : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_WriteCOMPort() {
+      ::grpc::Service::MarkMethodAsync(6);
+    }
+    ~WithAsyncMethod_WriteCOMPort() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWriteCOMPort(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_WriteCOMPortString : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_WriteCOMPortString() {
+      ::grpc::Service::MarkMethodAsync(7);
+    }
+    ~WithAsyncMethod_WriteCOMPortString() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWriteCOMPortString(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_WritePosition : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_WritePosition() {
+      ::grpc::Service::MarkMethodAsync(8);
+    }
+    ~WithAsyncMethod_WritePosition() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWritePosition(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_PlayWhiteMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_PlayWhiteMove() {
+      ::grpc::Service::MarkMethodAsync(9);
+    }
+    ~WithAsyncMethod_PlayWhiteMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestPlayWhiteMove(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_PlayBlackMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_PlayBlackMove() {
+      ::grpc::Service::MarkMethodAsync(10);
+    }
+    ~WithAsyncMethod_PlayBlackMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestPlayBlackMove(::grpc::ServerContext* context, ::dgt::StringRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_WriteDebug : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_WriteDebug() {
+      ::grpc::Service::MarkMethodAsync(11);
+    }
+    ~WithAsyncMethod_WriteDebug() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWriteDebug(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_DisplayClockMessage : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_DisplayClockMessage() {
+      ::grpc::Service::MarkMethodAsync(12);
+    }
+    ~WithAsyncMethod_DisplayClockMessage() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDisplayClockMessage(::grpc::ServerContext* context, ::dgt::ClockMessageRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_EndDisplay : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_EndDisplay() {
+      ::grpc::Service::MarkMethodAsync(13);
+    }
+    ~WithAsyncMethod_EndDisplay() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestEndDisplay(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_SetNRun : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SetNRun() {
+      ::grpc::Service::MarkMethodAsync(14);
+    }
+    ~WithAsyncMethod_SetNRun() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetNRun(::grpc::ServerContext* context, ::dgt::SetNRunRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_ClockMode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_ClockMode() {
+      ::grpc::Service::MarkMethodAsync(15);
+    }
+    ~WithAsyncMethod_ClockMode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestClockMode(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_SetAutoRotation : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SetAutoRotation() {
+      ::grpc::Service::MarkMethodAsync(16);
+    }
+    ~WithAsyncMethod_SetAutoRotation() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetAutoRotation(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UseFEN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UseFEN() {
+      ::grpc::Service::MarkMethodAsync(17);
+    }
+    ~WithAsyncMethod_UseFEN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUseFEN(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UseSAN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UseSAN() {
+      ::grpc::Service::MarkMethodAsync(18);
+    }
+    ~WithAsyncMethod_UseSAN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUseSAN(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_SetGameType : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SetGameType() {
+      ::grpc::Service::MarkMethodAsync(19);
+    }
+    ~WithAsyncMethod_SetGameType() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetGameType(::grpc::ServerContext* context, ::dgt::IntRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_AllowTakebacks : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_AllowTakebacks() {
+      ::grpc::Service::MarkMethodAsync(20);
+    }
+    ~WithAsyncMethod_AllowTakebacks() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAllowTakebacks(::grpc::ServerContext* context, ::dgt::BoolRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterStatusFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterStatusFunc() {
+      ::grpc::Service::MarkMethodAsync(21);
+    }
+    ~WithAsyncMethod_RegisterStatusFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStatusFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(21, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterScanFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterScanFunc() {
+      ::grpc::Service::MarkMethodAsync(22);
+    }
+    ~WithAsyncMethod_RegisterScanFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterScanFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterScanFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(22, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterStableBoardFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterStableBoardFunc() {
+      ::grpc::Service::MarkMethodAsync(23);
+    }
+    ~WithAsyncMethod_RegisterStableBoardFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStableBoardFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(23, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterWClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterWClockFunc() {
+      ::grpc::Service::MarkMethodAsync(24);
+    }
+    ~WithAsyncMethod_RegisterWClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWClockFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(24, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterBClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterBClockFunc() {
+      ::grpc::Service::MarkMethodAsync(25);
+    }
+    ~WithAsyncMethod_RegisterBClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBClockFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(25, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterResultFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterResultFunc() {
+      ::grpc::Service::MarkMethodAsync(26);
+    }
+    ~WithAsyncMethod_RegisterResultFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterResultFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterResultFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(26, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterNewGameFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterNewGameFunc() {
+      ::grpc::Service::MarkMethodAsync(27);
+    }
+    ~WithAsyncMethod_RegisterNewGameFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterNewGameFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(27, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterWhiteMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterWhiteMoveInputFunc() {
+      ::grpc::Service::MarkMethodAsync(28);
+    }
+    ~WithAsyncMethod_RegisterWhiteMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWhiteMoveInputFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(28, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterBlackMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterBlackMoveInputFunc() {
+      ::grpc::Service::MarkMethodAsync(29);
+    }
+    ~WithAsyncMethod_RegisterBlackMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBlackMoveInputFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(29, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterWhiteTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterWhiteTakebackFunc() {
+      ::grpc::Service::MarkMethodAsync(30);
+    }
+    ~WithAsyncMethod_RegisterWhiteTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWhiteTakebackFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::EmptyResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(30, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterBlackTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterBlackTakebackFunc() {
+      ::grpc::Service::MarkMethodAsync(31);
+    }
+    ~WithAsyncMethod_RegisterBlackTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBlackTakebackFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::EmptyResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(31, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterWhiteMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterWhiteMoveNowFunc() {
+      ::grpc::Service::MarkMethodAsync(32);
+    }
+    ~WithAsyncMethod_RegisterWhiteMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWhiteMoveNowFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(32, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterBlackMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterBlackMoveNowFunc() {
+      ::grpc::Service::MarkMethodAsync(33);
+    }
+    ~WithAsyncMethod_RegisterBlackMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBlackMoveNowFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(33, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterStartSetupFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterStartSetupFunc() {
+      ::grpc::Service::MarkMethodAsync(34);
+    }
+    ~WithAsyncMethod_RegisterStartSetupFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStartSetupFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(34, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterStopSetupWTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterStopSetupWTMFunc() {
+      ::grpc::Service::MarkMethodAsync(35);
+    }
+    ~WithAsyncMethod_RegisterStopSetupWTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStopSetupWTMFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(35, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterStopSetupBTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterStopSetupBTMFunc() {
+      ::grpc::Service::MarkMethodAsync(36);
+    }
+    ~WithAsyncMethod_RegisterStopSetupBTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStopSetupBTMFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::StringResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(36, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterGameTypeChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterGameTypeChangedFunc() {
+      ::grpc::Service::MarkMethodAsync(37);
+    }
+    ~WithAsyncMethod_RegisterGameTypeChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::IntResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterGameTypeChangedFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::IntResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(37, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterAllowTakebacksChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterAllowTakebacksChangedFunc() {
+      ::grpc::Service::MarkMethodAsync(38);
+    }
+    ~WithAsyncMethod_RegisterAllowTakebacksChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::BoolResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterAllowTakebacksChangedFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::BoolResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(38, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_RegisterMagicPieceFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_RegisterMagicPieceFunc() {
+      ::grpc::Service::MarkMethodAsync(39);
+    }
+    ~WithAsyncMethod_RegisterMagicPieceFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterMagicPieceFunc(::grpc::ServerContext* context, ::dgt::Empty* request, ::grpc::ServerAsyncWriter< ::dgt::CallbackIICResponse>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(39, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_GetVersion<WithAsyncMethod_GetWxWidgetsVersion<WithAsyncMethod_Init<WithAsyncMethod_Exit<WithAsyncMethod_ShowDialog<WithAsyncMethod_HideDialog<WithAsyncMethod_WriteCOMPort<WithAsyncMethod_WriteCOMPortString<WithAsyncMethod_WritePosition<WithAsyncMethod_PlayWhiteMove<WithAsyncMethod_PlayBlackMove<WithAsyncMethod_WriteDebug<WithAsyncMethod_DisplayClockMessage<WithAsyncMethod_EndDisplay<WithAsyncMethod_SetNRun<WithAsyncMethod_ClockMode<WithAsyncMethod_SetAutoRotation<WithAsyncMethod_UseFEN<WithAsyncMethod_UseSAN<WithAsyncMethod_SetGameType<WithAsyncMethod_AllowTakebacks<WithAsyncMethod_RegisterStatusFunc<WithAsyncMethod_RegisterScanFunc<WithAsyncMethod_RegisterStableBoardFunc<WithAsyncMethod_RegisterWClockFunc<WithAsyncMethod_RegisterBClockFunc<WithAsyncMethod_RegisterResultFunc<WithAsyncMethod_RegisterNewGameFunc<WithAsyncMethod_RegisterWhiteMoveInputFunc<WithAsyncMethod_RegisterBlackMoveInputFunc<WithAsyncMethod_RegisterWhiteTakebackFunc<WithAsyncMethod_RegisterBlackTakebackFunc<WithAsyncMethod_RegisterWhiteMoveNowFunc<WithAsyncMethod_RegisterBlackMoveNowFunc<WithAsyncMethod_RegisterStartSetupFunc<WithAsyncMethod_RegisterStopSetupWTMFunc<WithAsyncMethod_RegisterStopSetupBTMFunc<WithAsyncMethod_RegisterGameTypeChangedFunc<WithAsyncMethod_RegisterAllowTakebacksChangedFunc<WithAsyncMethod_RegisterMagicPieceFunc<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithCallbackMethod_GetVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetVersion() {
+      ::grpc::Service::MarkMethodCallback(0,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->GetVersion(context, request, response); }));}
+    void SetMessageAllocatorFor_GetVersion(
+        ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetVersion(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_GetWxWidgetsVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetWxWidgetsVersion() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->GetWxWidgetsVersion(context, request, response); }));}
+    void SetMessageAllocatorFor_GetWxWidgetsVersion(
+        ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetWxWidgetsVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetWxWidgetsVersion(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_Init : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_Init() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->Init(context, request, response); }));}
+    void SetMessageAllocatorFor_Init(
+        ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_Init() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Init(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_Exit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_Exit() {
+      ::grpc::Service::MarkMethodCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request, ::dgt::IntResponse* response) { return this->Exit(context, request, response); }));}
+    void SetMessageAllocatorFor_Exit(
+        ::grpc::MessageAllocator< ::dgt::Empty, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::Empty, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_Exit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Exit(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_ShowDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_ShowDialog() {
+      ::grpc::Service::MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->ShowDialog(context, request, response); }));}
+    void SetMessageAllocatorFor_ShowDialog(
+        ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_ShowDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ShowDialog(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_HideDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_HideDialog() {
+      ::grpc::Service::MarkMethodCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->HideDialog(context, request, response); }));}
+    void SetMessageAllocatorFor_HideDialog(
+        ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_HideDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* HideDialog(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_WriteCOMPort : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_WriteCOMPort() {
+      ::grpc::Service::MarkMethodCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->WriteCOMPort(context, request, response); }));}
+    void SetMessageAllocatorFor_WriteCOMPort(
+        ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_WriteCOMPort() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WriteCOMPort(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_WriteCOMPortString : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_WriteCOMPortString() {
+      ::grpc::Service::MarkMethodCallback(7,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->WriteCOMPortString(context, request, response); }));}
+    void SetMessageAllocatorFor_WriteCOMPortString(
+        ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_WriteCOMPortString() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WriteCOMPortString(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_WritePosition : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_WritePosition() {
+      ::grpc::Service::MarkMethodCallback(8,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->WritePosition(context, request, response); }));}
+    void SetMessageAllocatorFor_WritePosition(
+        ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_WritePosition() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WritePosition(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_PlayWhiteMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_PlayWhiteMove() {
+      ::grpc::Service::MarkMethodCallback(9,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->PlayWhiteMove(context, request, response); }));}
+    void SetMessageAllocatorFor_PlayWhiteMove(
+        ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_PlayWhiteMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* PlayWhiteMove(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_PlayBlackMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_PlayBlackMove() {
+      ::grpc::Service::MarkMethodCallback(10,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::StringRequest* request, ::dgt::IntResponse* response) { return this->PlayBlackMove(context, request, response); }));}
+    void SetMessageAllocatorFor_PlayBlackMove(
+        ::grpc::MessageAllocator< ::dgt::StringRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::StringRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_PlayBlackMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* PlayBlackMove(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_WriteDebug : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_WriteDebug() {
+      ::grpc::Service::MarkMethodCallback(11,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->WriteDebug(context, request, response); }));}
+    void SetMessageAllocatorFor_WriteDebug(
+        ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(11);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_WriteDebug() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WriteDebug(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_DisplayClockMessage : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_DisplayClockMessage() {
+      ::grpc::Service::MarkMethodCallback(12,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::ClockMessageRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response) { return this->DisplayClockMessage(context, request, response); }));}
+    void SetMessageAllocatorFor_DisplayClockMessage(
+        ::grpc::MessageAllocator< ::dgt::ClockMessageRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(12);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::ClockMessageRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_DisplayClockMessage() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* DisplayClockMessage(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_EndDisplay : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_EndDisplay() {
+      ::grpc::Service::MarkMethodCallback(13,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->EndDisplay(context, request, response); }));}
+    void SetMessageAllocatorFor_EndDisplay(
+        ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(13);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_EndDisplay() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* EndDisplay(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_SetNRun : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SetNRun() {
+      ::grpc::Service::MarkMethodCallback(14,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response) { return this->SetNRun(context, request, response); }));}
+    void SetMessageAllocatorFor_SetNRun(
+        ::grpc::MessageAllocator< ::dgt::SetNRunRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SetNRun() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetNRun(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_ClockMode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_ClockMode() {
+      ::grpc::Service::MarkMethodCallback(15,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->ClockMode(context, request, response); }));}
+    void SetMessageAllocatorFor_ClockMode(
+        ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(15);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_ClockMode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ClockMode(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_SetAutoRotation : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SetAutoRotation() {
+      ::grpc::Service::MarkMethodCallback(16,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->SetAutoRotation(context, request, response); }));}
+    void SetMessageAllocatorFor_SetAutoRotation(
+        ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(16);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SetAutoRotation() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetAutoRotation(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UseFEN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UseFEN() {
+      ::grpc::Service::MarkMethodCallback(17,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->UseFEN(context, request, response); }));}
+    void SetMessageAllocatorFor_UseFEN(
+        ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(17);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UseFEN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UseFEN(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UseSAN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UseSAN() {
+      ::grpc::Service::MarkMethodCallback(18,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->UseSAN(context, request, response); }));}
+    void SetMessageAllocatorFor_UseSAN(
+        ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(18);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UseSAN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UseSAN(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_SetGameType : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SetGameType() {
+      ::grpc::Service::MarkMethodCallback(19,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response) { return this->SetGameType(context, request, response); }));}
+    void SetMessageAllocatorFor_SetGameType(
+        ::grpc::MessageAllocator< ::dgt::IntRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(19);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::IntRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SetGameType() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetGameType(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_AllowTakebacks : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AllowTakebacks() {
+      ::grpc::Service::MarkMethodCallback(20,
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response) { return this->AllowTakebacks(context, request, response); }));}
+    void SetMessageAllocatorFor_AllowTakebacks(
+        ::grpc::MessageAllocator< ::dgt::BoolRequest, ::dgt::IntResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(20);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::BoolRequest, ::dgt::IntResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AllowTakebacks() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AllowTakebacks(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterStatusFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterStatusFunc() {
+      ::grpc::Service::MarkMethodCallback(21,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterStatusFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterStatusFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterStatusFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterScanFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterScanFunc() {
+      ::grpc::Service::MarkMethodCallback(22,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterScanFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterScanFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterScanFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterScanFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterStableBoardFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterStableBoardFunc() {
+      ::grpc::Service::MarkMethodCallback(23,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterStableBoardFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterStableBoardFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterStableBoardFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterWClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterWClockFunc() {
+      ::grpc::Service::MarkMethodCallback(24,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterWClockFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterWClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterWClockFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterBClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterBClockFunc() {
+      ::grpc::Service::MarkMethodCallback(25,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterBClockFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterBClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterBClockFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterResultFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterResultFunc() {
+      ::grpc::Service::MarkMethodCallback(26,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterResultFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterResultFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterResultFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterResultFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterNewGameFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterNewGameFunc() {
+      ::grpc::Service::MarkMethodCallback(27,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterNewGameFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterNewGameFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterNewGameFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterWhiteMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterWhiteMoveInputFunc() {
+      ::grpc::Service::MarkMethodCallback(28,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterWhiteMoveInputFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterWhiteMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterWhiteMoveInputFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterBlackMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterBlackMoveInputFunc() {
+      ::grpc::Service::MarkMethodCallback(29,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterBlackMoveInputFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterBlackMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterBlackMoveInputFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterWhiteTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterWhiteTakebackFunc() {
+      ::grpc::Service::MarkMethodCallback(30,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::EmptyResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterWhiteTakebackFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterWhiteTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::EmptyResponse>* RegisterWhiteTakebackFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterBlackTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterBlackTakebackFunc() {
+      ::grpc::Service::MarkMethodCallback(31,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::EmptyResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterBlackTakebackFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterBlackTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::EmptyResponse>* RegisterBlackTakebackFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterWhiteMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterWhiteMoveNowFunc() {
+      ::grpc::Service::MarkMethodCallback(32,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterWhiteMoveNowFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterWhiteMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterWhiteMoveNowFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterBlackMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterBlackMoveNowFunc() {
+      ::grpc::Service::MarkMethodCallback(33,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterBlackMoveNowFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterBlackMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterBlackMoveNowFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterStartSetupFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterStartSetupFunc() {
+      ::grpc::Service::MarkMethodCallback(34,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterStartSetupFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterStartSetupFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterStartSetupFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterStopSetupWTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterStopSetupWTMFunc() {
+      ::grpc::Service::MarkMethodCallback(35,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterStopSetupWTMFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterStopSetupWTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterStopSetupWTMFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterStopSetupBTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterStopSetupBTMFunc() {
+      ::grpc::Service::MarkMethodCallback(36,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::StringResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterStopSetupBTMFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterStopSetupBTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::StringResponse>* RegisterStopSetupBTMFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterGameTypeChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterGameTypeChangedFunc() {
+      ::grpc::Service::MarkMethodCallback(37,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::IntResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterGameTypeChangedFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterGameTypeChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::IntResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::IntResponse>* RegisterGameTypeChangedFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterAllowTakebacksChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterAllowTakebacksChangedFunc() {
+      ::grpc::Service::MarkMethodCallback(38,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::BoolResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterAllowTakebacksChangedFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterAllowTakebacksChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::BoolResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::BoolResponse>* RegisterAllowTakebacksChangedFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_RegisterMagicPieceFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_RegisterMagicPieceFunc() {
+      ::grpc::Service::MarkMethodCallback(39,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::dgt::Empty, ::dgt::CallbackIICResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::dgt::Empty* request) { return this->RegisterMagicPieceFunc(context, request); }));
+    }
+    ~WithCallbackMethod_RegisterMagicPieceFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::dgt::CallbackIICResponse>* RegisterMagicPieceFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::Empty* /*request*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_GetVersion<WithCallbackMethod_GetWxWidgetsVersion<WithCallbackMethod_Init<WithCallbackMethod_Exit<WithCallbackMethod_ShowDialog<WithCallbackMethod_HideDialog<WithCallbackMethod_WriteCOMPort<WithCallbackMethod_WriteCOMPortString<WithCallbackMethod_WritePosition<WithCallbackMethod_PlayWhiteMove<WithCallbackMethod_PlayBlackMove<WithCallbackMethod_WriteDebug<WithCallbackMethod_DisplayClockMessage<WithCallbackMethod_EndDisplay<WithCallbackMethod_SetNRun<WithCallbackMethod_ClockMode<WithCallbackMethod_SetAutoRotation<WithCallbackMethod_UseFEN<WithCallbackMethod_UseSAN<WithCallbackMethod_SetGameType<WithCallbackMethod_AllowTakebacks<WithCallbackMethod_RegisterStatusFunc<WithCallbackMethod_RegisterScanFunc<WithCallbackMethod_RegisterStableBoardFunc<WithCallbackMethod_RegisterWClockFunc<WithCallbackMethod_RegisterBClockFunc<WithCallbackMethod_RegisterResultFunc<WithCallbackMethod_RegisterNewGameFunc<WithCallbackMethod_RegisterWhiteMoveInputFunc<WithCallbackMethod_RegisterBlackMoveInputFunc<WithCallbackMethod_RegisterWhiteTakebackFunc<WithCallbackMethod_RegisterBlackTakebackFunc<WithCallbackMethod_RegisterWhiteMoveNowFunc<WithCallbackMethod_RegisterBlackMoveNowFunc<WithCallbackMethod_RegisterStartSetupFunc<WithCallbackMethod_RegisterStopSetupWTMFunc<WithCallbackMethod_RegisterStopSetupBTMFunc<WithCallbackMethod_RegisterGameTypeChangedFunc<WithCallbackMethod_RegisterAllowTakebacksChangedFunc<WithCallbackMethod_RegisterMagicPieceFunc<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > CallbackService;
+  typedef CallbackService ExperimentalCallbackService;
+  template <class BaseClass>
+  class WithGenericMethod_GetVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetVersion() {
+      ::grpc::Service::MarkMethodGeneric(0);
+    }
+    ~WithGenericMethod_GetVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_GetWxWidgetsVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetWxWidgetsVersion() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_GetWxWidgetsVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_Init : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_Init() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_Init() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_Exit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_Exit() {
+      ::grpc::Service::MarkMethodGeneric(3);
+    }
+    ~WithGenericMethod_Exit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_ShowDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_ShowDialog() {
+      ::grpc::Service::MarkMethodGeneric(4);
+    }
+    ~WithGenericMethod_ShowDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_HideDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_HideDialog() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_HideDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_WriteCOMPort : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_WriteCOMPort() {
+      ::grpc::Service::MarkMethodGeneric(6);
+    }
+    ~WithGenericMethod_WriteCOMPort() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_WriteCOMPortString : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_WriteCOMPortString() {
+      ::grpc::Service::MarkMethodGeneric(7);
+    }
+    ~WithGenericMethod_WriteCOMPortString() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_WritePosition : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_WritePosition() {
+      ::grpc::Service::MarkMethodGeneric(8);
+    }
+    ~WithGenericMethod_WritePosition() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_PlayWhiteMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_PlayWhiteMove() {
+      ::grpc::Service::MarkMethodGeneric(9);
+    }
+    ~WithGenericMethod_PlayWhiteMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_PlayBlackMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_PlayBlackMove() {
+      ::grpc::Service::MarkMethodGeneric(10);
+    }
+    ~WithGenericMethod_PlayBlackMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_WriteDebug : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_WriteDebug() {
+      ::grpc::Service::MarkMethodGeneric(11);
+    }
+    ~WithGenericMethod_WriteDebug() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_DisplayClockMessage : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_DisplayClockMessage() {
+      ::grpc::Service::MarkMethodGeneric(12);
+    }
+    ~WithGenericMethod_DisplayClockMessage() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_EndDisplay : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_EndDisplay() {
+      ::grpc::Service::MarkMethodGeneric(13);
+    }
+    ~WithGenericMethod_EndDisplay() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SetNRun : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SetNRun() {
+      ::grpc::Service::MarkMethodGeneric(14);
+    }
+    ~WithGenericMethod_SetNRun() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_ClockMode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_ClockMode() {
+      ::grpc::Service::MarkMethodGeneric(15);
+    }
+    ~WithGenericMethod_ClockMode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SetAutoRotation : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SetAutoRotation() {
+      ::grpc::Service::MarkMethodGeneric(16);
+    }
+    ~WithGenericMethod_SetAutoRotation() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UseFEN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UseFEN() {
+      ::grpc::Service::MarkMethodGeneric(17);
+    }
+    ~WithGenericMethod_UseFEN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UseSAN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UseSAN() {
+      ::grpc::Service::MarkMethodGeneric(18);
+    }
+    ~WithGenericMethod_UseSAN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SetGameType : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SetGameType() {
+      ::grpc::Service::MarkMethodGeneric(19);
+    }
+    ~WithGenericMethod_SetGameType() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_AllowTakebacks : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_AllowTakebacks() {
+      ::grpc::Service::MarkMethodGeneric(20);
+    }
+    ~WithGenericMethod_AllowTakebacks() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterStatusFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterStatusFunc() {
+      ::grpc::Service::MarkMethodGeneric(21);
+    }
+    ~WithGenericMethod_RegisterStatusFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterScanFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterScanFunc() {
+      ::grpc::Service::MarkMethodGeneric(22);
+    }
+    ~WithGenericMethod_RegisterScanFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterScanFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterStableBoardFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterStableBoardFunc() {
+      ::grpc::Service::MarkMethodGeneric(23);
+    }
+    ~WithGenericMethod_RegisterStableBoardFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterWClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterWClockFunc() {
+      ::grpc::Service::MarkMethodGeneric(24);
+    }
+    ~WithGenericMethod_RegisterWClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterBClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterBClockFunc() {
+      ::grpc::Service::MarkMethodGeneric(25);
+    }
+    ~WithGenericMethod_RegisterBClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterResultFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterResultFunc() {
+      ::grpc::Service::MarkMethodGeneric(26);
+    }
+    ~WithGenericMethod_RegisterResultFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterResultFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterNewGameFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterNewGameFunc() {
+      ::grpc::Service::MarkMethodGeneric(27);
+    }
+    ~WithGenericMethod_RegisterNewGameFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterWhiteMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterWhiteMoveInputFunc() {
+      ::grpc::Service::MarkMethodGeneric(28);
+    }
+    ~WithGenericMethod_RegisterWhiteMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterBlackMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterBlackMoveInputFunc() {
+      ::grpc::Service::MarkMethodGeneric(29);
+    }
+    ~WithGenericMethod_RegisterBlackMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterWhiteTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterWhiteTakebackFunc() {
+      ::grpc::Service::MarkMethodGeneric(30);
+    }
+    ~WithGenericMethod_RegisterWhiteTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterBlackTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterBlackTakebackFunc() {
+      ::grpc::Service::MarkMethodGeneric(31);
+    }
+    ~WithGenericMethod_RegisterBlackTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterWhiteMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterWhiteMoveNowFunc() {
+      ::grpc::Service::MarkMethodGeneric(32);
+    }
+    ~WithGenericMethod_RegisterWhiteMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterBlackMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterBlackMoveNowFunc() {
+      ::grpc::Service::MarkMethodGeneric(33);
+    }
+    ~WithGenericMethod_RegisterBlackMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterStartSetupFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterStartSetupFunc() {
+      ::grpc::Service::MarkMethodGeneric(34);
+    }
+    ~WithGenericMethod_RegisterStartSetupFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterStopSetupWTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterStopSetupWTMFunc() {
+      ::grpc::Service::MarkMethodGeneric(35);
+    }
+    ~WithGenericMethod_RegisterStopSetupWTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterStopSetupBTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterStopSetupBTMFunc() {
+      ::grpc::Service::MarkMethodGeneric(36);
+    }
+    ~WithGenericMethod_RegisterStopSetupBTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterGameTypeChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterGameTypeChangedFunc() {
+      ::grpc::Service::MarkMethodGeneric(37);
+    }
+    ~WithGenericMethod_RegisterGameTypeChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::IntResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterAllowTakebacksChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterAllowTakebacksChangedFunc() {
+      ::grpc::Service::MarkMethodGeneric(38);
+    }
+    ~WithGenericMethod_RegisterAllowTakebacksChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::BoolResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_RegisterMagicPieceFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_RegisterMagicPieceFunc() {
+      ::grpc::Service::MarkMethodGeneric(39);
+    }
+    ~WithGenericMethod_RegisterMagicPieceFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetVersion() {
+      ::grpc::Service::MarkMethodRaw(0);
+    }
+    ~WithRawMethod_GetVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetVersion(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_GetWxWidgetsVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetWxWidgetsVersion() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_GetWxWidgetsVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetWxWidgetsVersion(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_Init : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_Init() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_Init() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestInit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_Exit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_Exit() {
+      ::grpc::Service::MarkMethodRaw(3);
+    }
+    ~WithRawMethod_Exit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestExit(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_ShowDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_ShowDialog() {
+      ::grpc::Service::MarkMethodRaw(4);
+    }
+    ~WithRawMethod_ShowDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestShowDialog(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_HideDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_HideDialog() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_HideDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestHideDialog(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_WriteCOMPort : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_WriteCOMPort() {
+      ::grpc::Service::MarkMethodRaw(6);
+    }
+    ~WithRawMethod_WriteCOMPort() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWriteCOMPort(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_WriteCOMPortString : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_WriteCOMPortString() {
+      ::grpc::Service::MarkMethodRaw(7);
+    }
+    ~WithRawMethod_WriteCOMPortString() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWriteCOMPortString(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_WritePosition : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_WritePosition() {
+      ::grpc::Service::MarkMethodRaw(8);
+    }
+    ~WithRawMethod_WritePosition() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWritePosition(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_PlayWhiteMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_PlayWhiteMove() {
+      ::grpc::Service::MarkMethodRaw(9);
+    }
+    ~WithRawMethod_PlayWhiteMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestPlayWhiteMove(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_PlayBlackMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_PlayBlackMove() {
+      ::grpc::Service::MarkMethodRaw(10);
+    }
+    ~WithRawMethod_PlayBlackMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestPlayBlackMove(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_WriteDebug : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_WriteDebug() {
+      ::grpc::Service::MarkMethodRaw(11);
+    }
+    ~WithRawMethod_WriteDebug() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestWriteDebug(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(11, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_DisplayClockMessage : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_DisplayClockMessage() {
+      ::grpc::Service::MarkMethodRaw(12);
+    }
+    ~WithRawMethod_DisplayClockMessage() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDisplayClockMessage(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(12, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_EndDisplay : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_EndDisplay() {
+      ::grpc::Service::MarkMethodRaw(13);
+    }
+    ~WithRawMethod_EndDisplay() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestEndDisplay(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(13, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SetNRun : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SetNRun() {
+      ::grpc::Service::MarkMethodRaw(14);
+    }
+    ~WithRawMethod_SetNRun() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetNRun(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_ClockMode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_ClockMode() {
+      ::grpc::Service::MarkMethodRaw(15);
+    }
+    ~WithRawMethod_ClockMode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestClockMode(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(15, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SetAutoRotation : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SetAutoRotation() {
+      ::grpc::Service::MarkMethodRaw(16);
+    }
+    ~WithRawMethod_SetAutoRotation() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetAutoRotation(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(16, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UseFEN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UseFEN() {
+      ::grpc::Service::MarkMethodRaw(17);
+    }
+    ~WithRawMethod_UseFEN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUseFEN(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(17, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UseSAN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UseSAN() {
+      ::grpc::Service::MarkMethodRaw(18);
+    }
+    ~WithRawMethod_UseSAN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUseSAN(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(18, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SetGameType : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SetGameType() {
+      ::grpc::Service::MarkMethodRaw(19);
+    }
+    ~WithRawMethod_SetGameType() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSetGameType(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(19, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_AllowTakebacks : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_AllowTakebacks() {
+      ::grpc::Service::MarkMethodRaw(20);
+    }
+    ~WithRawMethod_AllowTakebacks() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAllowTakebacks(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(20, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterStatusFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterStatusFunc() {
+      ::grpc::Service::MarkMethodRaw(21);
+    }
+    ~WithRawMethod_RegisterStatusFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStatusFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(21, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterScanFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterScanFunc() {
+      ::grpc::Service::MarkMethodRaw(22);
+    }
+    ~WithRawMethod_RegisterScanFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterScanFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterScanFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(22, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterStableBoardFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterStableBoardFunc() {
+      ::grpc::Service::MarkMethodRaw(23);
+    }
+    ~WithRawMethod_RegisterStableBoardFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStableBoardFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(23, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterWClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterWClockFunc() {
+      ::grpc::Service::MarkMethodRaw(24);
+    }
+    ~WithRawMethod_RegisterWClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWClockFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(24, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterBClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterBClockFunc() {
+      ::grpc::Service::MarkMethodRaw(25);
+    }
+    ~WithRawMethod_RegisterBClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBClockFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(25, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterResultFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterResultFunc() {
+      ::grpc::Service::MarkMethodRaw(26);
+    }
+    ~WithRawMethod_RegisterResultFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterResultFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterResultFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(26, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterNewGameFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterNewGameFunc() {
+      ::grpc::Service::MarkMethodRaw(27);
+    }
+    ~WithRawMethod_RegisterNewGameFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterNewGameFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(27, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterWhiteMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterWhiteMoveInputFunc() {
+      ::grpc::Service::MarkMethodRaw(28);
+    }
+    ~WithRawMethod_RegisterWhiteMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWhiteMoveInputFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(28, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterBlackMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterBlackMoveInputFunc() {
+      ::grpc::Service::MarkMethodRaw(29);
+    }
+    ~WithRawMethod_RegisterBlackMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBlackMoveInputFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(29, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterWhiteTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterWhiteTakebackFunc() {
+      ::grpc::Service::MarkMethodRaw(30);
+    }
+    ~WithRawMethod_RegisterWhiteTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWhiteTakebackFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(30, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterBlackTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterBlackTakebackFunc() {
+      ::grpc::Service::MarkMethodRaw(31);
+    }
+    ~WithRawMethod_RegisterBlackTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBlackTakebackFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(31, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterWhiteMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterWhiteMoveNowFunc() {
+      ::grpc::Service::MarkMethodRaw(32);
+    }
+    ~WithRawMethod_RegisterWhiteMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterWhiteMoveNowFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(32, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterBlackMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterBlackMoveNowFunc() {
+      ::grpc::Service::MarkMethodRaw(33);
+    }
+    ~WithRawMethod_RegisterBlackMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterBlackMoveNowFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(33, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterStartSetupFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterStartSetupFunc() {
+      ::grpc::Service::MarkMethodRaw(34);
+    }
+    ~WithRawMethod_RegisterStartSetupFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStartSetupFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(34, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterStopSetupWTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterStopSetupWTMFunc() {
+      ::grpc::Service::MarkMethodRaw(35);
+    }
+    ~WithRawMethod_RegisterStopSetupWTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStopSetupWTMFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(35, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterStopSetupBTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterStopSetupBTMFunc() {
+      ::grpc::Service::MarkMethodRaw(36);
+    }
+    ~WithRawMethod_RegisterStopSetupBTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterStopSetupBTMFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(36, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterGameTypeChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterGameTypeChangedFunc() {
+      ::grpc::Service::MarkMethodRaw(37);
+    }
+    ~WithRawMethod_RegisterGameTypeChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::IntResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterGameTypeChangedFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(37, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterAllowTakebacksChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterAllowTakebacksChangedFunc() {
+      ::grpc::Service::MarkMethodRaw(38);
+    }
+    ~WithRawMethod_RegisterAllowTakebacksChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::BoolResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterAllowTakebacksChangedFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(38, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_RegisterMagicPieceFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_RegisterMagicPieceFunc() {
+      ::grpc::Service::MarkMethodRaw(39);
+    }
+    ~WithRawMethod_RegisterMagicPieceFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestRegisterMagicPieceFunc(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncWriter< ::grpc::ByteBuffer>* writer, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncServerStreaming(39, context, request, writer, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_GetVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetVersion() {
+      ::grpc::Service::MarkMethodRawCallback(0,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetVersion(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetVersion(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_GetWxWidgetsVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetWxWidgetsVersion() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetWxWidgetsVersion(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetWxWidgetsVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetWxWidgetsVersion(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_Init : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_Init() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Init(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_Init() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Init(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_Exit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_Exit() {
+      ::grpc::Service::MarkMethodRawCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Exit(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_Exit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Exit(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_ShowDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_ShowDialog() {
+      ::grpc::Service::MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ShowDialog(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_ShowDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ShowDialog(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_HideDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_HideDialog() {
+      ::grpc::Service::MarkMethodRawCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->HideDialog(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_HideDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* HideDialog(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_WriteCOMPort : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_WriteCOMPort() {
+      ::grpc::Service::MarkMethodRawCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WriteCOMPort(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_WriteCOMPort() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WriteCOMPort(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_WriteCOMPortString : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_WriteCOMPortString() {
+      ::grpc::Service::MarkMethodRawCallback(7,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WriteCOMPortString(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_WriteCOMPortString() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WriteCOMPortString(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_WritePosition : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_WritePosition() {
+      ::grpc::Service::MarkMethodRawCallback(8,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WritePosition(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_WritePosition() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WritePosition(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_PlayWhiteMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_PlayWhiteMove() {
+      ::grpc::Service::MarkMethodRawCallback(9,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->PlayWhiteMove(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_PlayWhiteMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* PlayWhiteMove(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_PlayBlackMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_PlayBlackMove() {
+      ::grpc::Service::MarkMethodRawCallback(10,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->PlayBlackMove(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_PlayBlackMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* PlayBlackMove(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_WriteDebug : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_WriteDebug() {
+      ::grpc::Service::MarkMethodRawCallback(11,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->WriteDebug(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_WriteDebug() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* WriteDebug(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_DisplayClockMessage : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_DisplayClockMessage() {
+      ::grpc::Service::MarkMethodRawCallback(12,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DisplayClockMessage(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_DisplayClockMessage() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* DisplayClockMessage(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_EndDisplay : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_EndDisplay() {
+      ::grpc::Service::MarkMethodRawCallback(13,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->EndDisplay(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_EndDisplay() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* EndDisplay(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_SetNRun : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SetNRun() {
+      ::grpc::Service::MarkMethodRawCallback(14,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetNRun(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SetNRun() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetNRun(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_ClockMode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_ClockMode() {
+      ::grpc::Service::MarkMethodRawCallback(15,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ClockMode(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_ClockMode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ClockMode(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_SetAutoRotation : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SetAutoRotation() {
+      ::grpc::Service::MarkMethodRawCallback(16,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetAutoRotation(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SetAutoRotation() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetAutoRotation(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UseFEN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UseFEN() {
+      ::grpc::Service::MarkMethodRawCallback(17,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UseFEN(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UseFEN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UseFEN(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UseSAN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UseSAN() {
+      ::grpc::Service::MarkMethodRawCallback(18,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UseSAN(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UseSAN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UseSAN(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_SetGameType : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SetGameType() {
+      ::grpc::Service::MarkMethodRawCallback(19,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SetGameType(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SetGameType() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SetGameType(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_AllowTakebacks : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_AllowTakebacks() {
+      ::grpc::Service::MarkMethodRawCallback(20,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AllowTakebacks(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_AllowTakebacks() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AllowTakebacks(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterStatusFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterStatusFunc() {
+      ::grpc::Service::MarkMethodRawCallback(21,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterStatusFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterStatusFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterStatusFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterScanFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterScanFunc() {
+      ::grpc::Service::MarkMethodRawCallback(22,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterScanFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterScanFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterScanFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterScanFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterStableBoardFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterStableBoardFunc() {
+      ::grpc::Service::MarkMethodRawCallback(23,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterStableBoardFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterStableBoardFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterStableBoardFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterWClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterWClockFunc() {
+      ::grpc::Service::MarkMethodRawCallback(24,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterWClockFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterWClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterWClockFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterBClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterBClockFunc() {
+      ::grpc::Service::MarkMethodRawCallback(25,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterBClockFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterBClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterBClockFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterResultFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterResultFunc() {
+      ::grpc::Service::MarkMethodRawCallback(26,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterResultFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterResultFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterResultFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterResultFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterNewGameFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterNewGameFunc() {
+      ::grpc::Service::MarkMethodRawCallback(27,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterNewGameFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterNewGameFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterNewGameFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterWhiteMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterWhiteMoveInputFunc() {
+      ::grpc::Service::MarkMethodRawCallback(28,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterWhiteMoveInputFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterWhiteMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterWhiteMoveInputFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterBlackMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterBlackMoveInputFunc() {
+      ::grpc::Service::MarkMethodRawCallback(29,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterBlackMoveInputFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterBlackMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterBlackMoveInputFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterWhiteTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterWhiteTakebackFunc() {
+      ::grpc::Service::MarkMethodRawCallback(30,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterWhiteTakebackFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterWhiteTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterWhiteTakebackFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterBlackTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterBlackTakebackFunc() {
+      ::grpc::Service::MarkMethodRawCallback(31,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterBlackTakebackFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterBlackTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterBlackTakebackFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterWhiteMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterWhiteMoveNowFunc() {
+      ::grpc::Service::MarkMethodRawCallback(32,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterWhiteMoveNowFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterWhiteMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterWhiteMoveNowFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterBlackMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterBlackMoveNowFunc() {
+      ::grpc::Service::MarkMethodRawCallback(33,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterBlackMoveNowFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterBlackMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterBlackMoveNowFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterStartSetupFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterStartSetupFunc() {
+      ::grpc::Service::MarkMethodRawCallback(34,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterStartSetupFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterStartSetupFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterStartSetupFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterStopSetupWTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterStopSetupWTMFunc() {
+      ::grpc::Service::MarkMethodRawCallback(35,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterStopSetupWTMFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterStopSetupWTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterStopSetupWTMFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterStopSetupBTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterStopSetupBTMFunc() {
+      ::grpc::Service::MarkMethodRawCallback(36,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterStopSetupBTMFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterStopSetupBTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterStopSetupBTMFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterGameTypeChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterGameTypeChangedFunc() {
+      ::grpc::Service::MarkMethodRawCallback(37,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterGameTypeChangedFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterGameTypeChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::IntResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterGameTypeChangedFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterAllowTakebacksChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterAllowTakebacksChangedFunc() {
+      ::grpc::Service::MarkMethodRawCallback(38,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterAllowTakebacksChangedFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterAllowTakebacksChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::BoolResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterAllowTakebacksChangedFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_RegisterMagicPieceFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_RegisterMagicPieceFunc() {
+      ::grpc::Service::MarkMethodRawCallback(39,
+          new ::grpc::internal::CallbackServerStreamingHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const::grpc::ByteBuffer* request) { return this->RegisterMagicPieceFunc(context, request); }));
+    }
+    ~WithRawCallbackMethod_RegisterMagicPieceFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerWriteReactor< ::grpc::ByteBuffer>* RegisterMagicPieceFunc(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetVersion() {
+      ::grpc::Service::MarkMethodStreamed(0,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::Empty, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::Empty, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedGetVersion(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetVersion(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_GetWxWidgetsVersion : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetWxWidgetsVersion() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::Empty, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::Empty, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedGetWxWidgetsVersion(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetWxWidgetsVersion() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetWxWidgetsVersion(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetWxWidgetsVersion(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_Init : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_Init() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::Empty, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::Empty, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedInit(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_Init() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status Init(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedInit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_Exit : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_Exit() {
+      ::grpc::Service::MarkMethodStreamed(3,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::Empty, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::Empty, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedExit(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_Exit() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status Exit(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedExit(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::Empty,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_ShowDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_ShowDialog() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedShowDialog(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_ShowDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status ShowDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedShowDialog(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_HideDialog : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_HideDialog() {
+      ::grpc::Service::MarkMethodStreamed(5,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedHideDialog(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_HideDialog() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status HideDialog(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedHideDialog(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_WriteCOMPort : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_WriteCOMPort() {
+      ::grpc::Service::MarkMethodStreamed(6,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedWriteCOMPort(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_WriteCOMPort() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status WriteCOMPort(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedWriteCOMPort(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_WriteCOMPortString : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_WriteCOMPortString() {
+      ::grpc::Service::MarkMethodStreamed(7,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedWriteCOMPortString(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_WriteCOMPortString() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status WriteCOMPortString(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedWriteCOMPortString(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_WritePosition : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_WritePosition() {
+      ::grpc::Service::MarkMethodStreamed(8,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedWritePosition(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_WritePosition() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status WritePosition(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedWritePosition(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_PlayWhiteMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_PlayWhiteMove() {
+      ::grpc::Service::MarkMethodStreamed(9,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedPlayWhiteMove(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_PlayWhiteMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status PlayWhiteMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedPlayWhiteMove(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_PlayBlackMove : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_PlayBlackMove() {
+      ::grpc::Service::MarkMethodStreamed(10,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::StringRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::StringRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedPlayBlackMove(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_PlayBlackMove() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status PlayBlackMove(::grpc::ServerContext* /*context*/, const ::dgt::StringRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedPlayBlackMove(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::StringRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_WriteDebug : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_WriteDebug() {
+      ::grpc::Service::MarkMethodStreamed(11,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedWriteDebug(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_WriteDebug() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status WriteDebug(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedWriteDebug(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_DisplayClockMessage : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_DisplayClockMessage() {
+      ::grpc::Service::MarkMethodStreamed(12,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::ClockMessageRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::ClockMessageRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedDisplayClockMessage(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_DisplayClockMessage() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status DisplayClockMessage(::grpc::ServerContext* /*context*/, const ::dgt::ClockMessageRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedDisplayClockMessage(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::ClockMessageRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_EndDisplay : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_EndDisplay() {
+      ::grpc::Service::MarkMethodStreamed(13,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedEndDisplay(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_EndDisplay() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status EndDisplay(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedEndDisplay(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SetNRun : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SetNRun() {
+      ::grpc::Service::MarkMethodStreamed(14,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::SetNRunRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::SetNRunRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedSetNRun(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SetNRun() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSetNRun(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::SetNRunRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_ClockMode : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_ClockMode() {
+      ::grpc::Service::MarkMethodStreamed(15,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedClockMode(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_ClockMode() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status ClockMode(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedClockMode(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SetAutoRotation : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SetAutoRotation() {
+      ::grpc::Service::MarkMethodStreamed(16,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedSetAutoRotation(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SetAutoRotation() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SetAutoRotation(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSetAutoRotation(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UseFEN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UseFEN() {
+      ::grpc::Service::MarkMethodStreamed(17,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedUseFEN(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UseFEN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UseFEN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUseFEN(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UseSAN : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UseSAN() {
+      ::grpc::Service::MarkMethodStreamed(18,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedUseSAN(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UseSAN() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UseSAN(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUseSAN(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SetGameType : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SetGameType() {
+      ::grpc::Service::MarkMethodStreamed(19,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::IntRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::IntRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedSetGameType(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SetGameType() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SetGameType(::grpc::ServerContext* /*context*/, const ::dgt::IntRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSetGameType(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::IntRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AllowTakebacks : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AllowTakebacks() {
+      ::grpc::Service::MarkMethodStreamed(20,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::dgt::BoolRequest, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::dgt::BoolRequest, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedAllowTakebacks(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AllowTakebacks() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AllowTakebacks(::grpc::ServerContext* /*context*/, const ::dgt::BoolRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAllowTakebacks(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::BoolRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_GetVersion<WithStreamedUnaryMethod_GetWxWidgetsVersion<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Exit<WithStreamedUnaryMethod_ShowDialog<WithStreamedUnaryMethod_HideDialog<WithStreamedUnaryMethod_WriteCOMPort<WithStreamedUnaryMethod_WriteCOMPortString<WithStreamedUnaryMethod_WritePosition<WithStreamedUnaryMethod_PlayWhiteMove<WithStreamedUnaryMethod_PlayBlackMove<WithStreamedUnaryMethod_WriteDebug<WithStreamedUnaryMethod_DisplayClockMessage<WithStreamedUnaryMethod_EndDisplay<WithStreamedUnaryMethod_SetNRun<WithStreamedUnaryMethod_ClockMode<WithStreamedUnaryMethod_SetAutoRotation<WithStreamedUnaryMethod_UseFEN<WithStreamedUnaryMethod_UseSAN<WithStreamedUnaryMethod_SetGameType<WithStreamedUnaryMethod_AllowTakebacks<Service > > > > > > > > > > > > > > > > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterStatusFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterStatusFunc() {
+      ::grpc::Service::MarkMethodStreamed(21,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterStatusFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterStatusFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterStatusFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterStatusFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterScanFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterScanFunc() {
+      ::grpc::Service::MarkMethodStreamed(22,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterScanFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterScanFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterScanFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterScanFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterStableBoardFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterStableBoardFunc() {
+      ::grpc::Service::MarkMethodStreamed(23,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterStableBoardFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterStableBoardFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterStableBoardFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterStableBoardFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterWClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterWClockFunc() {
+      ::grpc::Service::MarkMethodStreamed(24,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterWClockFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterWClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterWClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterWClockFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterBClockFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterBClockFunc() {
+      ::grpc::Service::MarkMethodStreamed(25,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterBClockFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterBClockFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterBClockFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterBClockFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterResultFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterResultFunc() {
+      ::grpc::Service::MarkMethodStreamed(26,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterResultFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterResultFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterResultFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterResultFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterNewGameFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterNewGameFunc() {
+      ::grpc::Service::MarkMethodStreamed(27,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterNewGameFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterNewGameFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterNewGameFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterNewGameFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterWhiteMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterWhiteMoveInputFunc() {
+      ::grpc::Service::MarkMethodStreamed(28,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterWhiteMoveInputFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterWhiteMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterWhiteMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterWhiteMoveInputFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterBlackMoveInputFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterBlackMoveInputFunc() {
+      ::grpc::Service::MarkMethodStreamed(29,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterBlackMoveInputFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterBlackMoveInputFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterBlackMoveInputFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterBlackMoveInputFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterWhiteTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterWhiteTakebackFunc() {
+      ::grpc::Service::MarkMethodStreamed(30,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::EmptyResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::EmptyResponse>* streamer) {
+                       return this->StreamedRegisterWhiteTakebackFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterWhiteTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterWhiteTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterWhiteTakebackFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::EmptyResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterBlackTakebackFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterBlackTakebackFunc() {
+      ::grpc::Service::MarkMethodStreamed(31,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::EmptyResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::EmptyResponse>* streamer) {
+                       return this->StreamedRegisterBlackTakebackFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterBlackTakebackFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterBlackTakebackFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::EmptyResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterBlackTakebackFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::EmptyResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterWhiteMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterWhiteMoveNowFunc() {
+      ::grpc::Service::MarkMethodStreamed(32,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterWhiteMoveNowFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterWhiteMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterWhiteMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterWhiteMoveNowFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterBlackMoveNowFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterBlackMoveNowFunc() {
+      ::grpc::Service::MarkMethodStreamed(33,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterBlackMoveNowFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterBlackMoveNowFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterBlackMoveNowFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterBlackMoveNowFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterStartSetupFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterStartSetupFunc() {
+      ::grpc::Service::MarkMethodStreamed(34,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterStartSetupFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterStartSetupFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterStartSetupFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterStartSetupFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterStopSetupWTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterStopSetupWTMFunc() {
+      ::grpc::Service::MarkMethodStreamed(35,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterStopSetupWTMFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterStopSetupWTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterStopSetupWTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterStopSetupWTMFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterStopSetupBTMFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterStopSetupBTMFunc() {
+      ::grpc::Service::MarkMethodStreamed(36,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::StringResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::StringResponse>* streamer) {
+                       return this->StreamedRegisterStopSetupBTMFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterStopSetupBTMFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterStopSetupBTMFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::StringResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterStopSetupBTMFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::StringResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterGameTypeChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterGameTypeChangedFunc() {
+      ::grpc::Service::MarkMethodStreamed(37,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::IntResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::IntResponse>* streamer) {
+                       return this->StreamedRegisterGameTypeChangedFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterGameTypeChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterGameTypeChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::IntResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterGameTypeChangedFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::IntResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterAllowTakebacksChangedFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterAllowTakebacksChangedFunc() {
+      ::grpc::Service::MarkMethodStreamed(38,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::BoolResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::BoolResponse>* streamer) {
+                       return this->StreamedRegisterAllowTakebacksChangedFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterAllowTakebacksChangedFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::BoolResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterAllowTakebacksChangedFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::BoolResponse>* server_split_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithSplitStreamingMethod_RegisterMagicPieceFunc : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithSplitStreamingMethod_RegisterMagicPieceFunc() {
+      ::grpc::Service::MarkMethodStreamed(39,
+        new ::grpc::internal::SplitServerStreamingHandler<
+          ::dgt::Empty, ::dgt::CallbackIICResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerSplitStreamer<
+                     ::dgt::Empty, ::dgt::CallbackIICResponse>* streamer) {
+                       return this->StreamedRegisterMagicPieceFunc(context,
+                         streamer);
+                  }));
+    }
+    ~WithSplitStreamingMethod_RegisterMagicPieceFunc() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status RegisterMagicPieceFunc(::grpc::ServerContext* /*context*/, const ::dgt::Empty* /*request*/, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* /*writer*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with split streamed
+    virtual ::grpc::Status StreamedRegisterMagicPieceFunc(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::dgt::Empty,::dgt::CallbackIICResponse>* server_split_streamer) = 0;
+  };
+  typedef WithSplitStreamingMethod_RegisterStatusFunc<WithSplitStreamingMethod_RegisterScanFunc<WithSplitStreamingMethod_RegisterStableBoardFunc<WithSplitStreamingMethod_RegisterWClockFunc<WithSplitStreamingMethod_RegisterBClockFunc<WithSplitStreamingMethod_RegisterResultFunc<WithSplitStreamingMethod_RegisterNewGameFunc<WithSplitStreamingMethod_RegisterWhiteMoveInputFunc<WithSplitStreamingMethod_RegisterBlackMoveInputFunc<WithSplitStreamingMethod_RegisterWhiteTakebackFunc<WithSplitStreamingMethod_RegisterBlackTakebackFunc<WithSplitStreamingMethod_RegisterWhiteMoveNowFunc<WithSplitStreamingMethod_RegisterBlackMoveNowFunc<WithSplitStreamingMethod_RegisterStartSetupFunc<WithSplitStreamingMethod_RegisterStopSetupWTMFunc<WithSplitStreamingMethod_RegisterStopSetupBTMFunc<WithSplitStreamingMethod_RegisterGameTypeChangedFunc<WithSplitStreamingMethod_RegisterAllowTakebacksChangedFunc<WithSplitStreamingMethod_RegisterMagicPieceFunc<Service > > > > > > > > > > > > > > > > > > > SplitStreamedService;
+  typedef WithStreamedUnaryMethod_GetVersion<WithStreamedUnaryMethod_GetWxWidgetsVersion<WithStreamedUnaryMethod_Init<WithStreamedUnaryMethod_Exit<WithStreamedUnaryMethod_ShowDialog<WithStreamedUnaryMethod_HideDialog<WithStreamedUnaryMethod_WriteCOMPort<WithStreamedUnaryMethod_WriteCOMPortString<WithStreamedUnaryMethod_WritePosition<WithStreamedUnaryMethod_PlayWhiteMove<WithStreamedUnaryMethod_PlayBlackMove<WithStreamedUnaryMethod_WriteDebug<WithStreamedUnaryMethod_DisplayClockMessage<WithStreamedUnaryMethod_EndDisplay<WithStreamedUnaryMethod_SetNRun<WithStreamedUnaryMethod_ClockMode<WithStreamedUnaryMethod_SetAutoRotation<WithStreamedUnaryMethod_UseFEN<WithStreamedUnaryMethod_UseSAN<WithStreamedUnaryMethod_SetGameType<WithStreamedUnaryMethod_AllowTakebacks<WithSplitStreamingMethod_RegisterStatusFunc<WithSplitStreamingMethod_RegisterScanFunc<WithSplitStreamingMethod_RegisterStableBoardFunc<WithSplitStreamingMethod_RegisterWClockFunc<WithSplitStreamingMethod_RegisterBClockFunc<WithSplitStreamingMethod_RegisterResultFunc<WithSplitStreamingMethod_RegisterNewGameFunc<WithSplitStreamingMethod_RegisterWhiteMoveInputFunc<WithSplitStreamingMethod_RegisterBlackMoveInputFunc<WithSplitStreamingMethod_RegisterWhiteTakebackFunc<WithSplitStreamingMethod_RegisterBlackTakebackFunc<WithSplitStreamingMethod_RegisterWhiteMoveNowFunc<WithSplitStreamingMethod_RegisterBlackMoveNowFunc<WithSplitStreamingMethod_RegisterStartSetupFunc<WithSplitStreamingMethod_RegisterStopSetupWTMFunc<WithSplitStreamingMethod_RegisterStopSetupBTMFunc<WithSplitStreamingMethod_RegisterGameTypeChangedFunc<WithSplitStreamingMethod_RegisterAllowTakebacksChangedFunc<WithSplitStreamingMethod_RegisterMagicPieceFunc<Service > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > StreamedService;
+};
 
 }  // namespace dgt
 

@@ -43,7 +43,25 @@ static const char* DGTDLL_method_names[] = {
   "/dgt.DGTDLL/UseSAN",
   "/dgt.DGTDLL/SetGameType",
   "/dgt.DGTDLL/AllowTakebacks",
-  "/dgt.DGTDLL/RegisterCallbacks",
+  "/dgt.DGTDLL/RegisterStatusFunc",
+  "/dgt.DGTDLL/RegisterScanFunc",
+  "/dgt.DGTDLL/RegisterStableBoardFunc",
+  "/dgt.DGTDLL/RegisterWClockFunc",
+  "/dgt.DGTDLL/RegisterBClockFunc",
+  "/dgt.DGTDLL/RegisterResultFunc",
+  "/dgt.DGTDLL/RegisterNewGameFunc",
+  "/dgt.DGTDLL/RegisterWhiteMoveInputFunc",
+  "/dgt.DGTDLL/RegisterBlackMoveInputFunc",
+  "/dgt.DGTDLL/RegisterWhiteTakebackFunc",
+  "/dgt.DGTDLL/RegisterBlackTakebackFunc",
+  "/dgt.DGTDLL/RegisterWhiteMoveNowFunc",
+  "/dgt.DGTDLL/RegisterBlackMoveNowFunc",
+  "/dgt.DGTDLL/RegisterStartSetupFunc",
+  "/dgt.DGTDLL/RegisterStopSetupWTMFunc",
+  "/dgt.DGTDLL/RegisterStopSetupBTMFunc",
+  "/dgt.DGTDLL/RegisterGameTypeChangedFunc",
+  "/dgt.DGTDLL/RegisterAllowTakebacksChangedFunc",
+  "/dgt.DGTDLL/RegisterMagicPieceFunc",
 };
 
 std::unique_ptr< DGTDLL::Stub> DGTDLL::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -74,7 +92,25 @@ DGTDLL::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, co
   , rpcmethod_UseSAN_(DGTDLL_method_names[18], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SetGameType_(DGTDLL_method_names[19], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_AllowTakebacks_(DGTDLL_method_names[20], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_RegisterCallbacks_(DGTDLL_method_names[21], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterStatusFunc_(DGTDLL_method_names[21], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterScanFunc_(DGTDLL_method_names[22], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterStableBoardFunc_(DGTDLL_method_names[23], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterWClockFunc_(DGTDLL_method_names[24], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterBClockFunc_(DGTDLL_method_names[25], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterResultFunc_(DGTDLL_method_names[26], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterNewGameFunc_(DGTDLL_method_names[27], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterWhiteMoveInputFunc_(DGTDLL_method_names[28], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterBlackMoveInputFunc_(DGTDLL_method_names[29], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterWhiteTakebackFunc_(DGTDLL_method_names[30], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterBlackTakebackFunc_(DGTDLL_method_names[31], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterWhiteMoveNowFunc_(DGTDLL_method_names[32], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterBlackMoveNowFunc_(DGTDLL_method_names[33], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterStartSetupFunc_(DGTDLL_method_names[34], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterStopSetupWTMFunc_(DGTDLL_method_names[35], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterStopSetupBTMFunc_(DGTDLL_method_names[36], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterGameTypeChangedFunc_(DGTDLL_method_names[37], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterAllowTakebacksChangedFunc_(DGTDLL_method_names[38], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_RegisterMagicPieceFunc_(DGTDLL_method_names[39], options.suffix_for_stats(),::grpc::internal::RpcMethod::SERVER_STREAMING, channel)
   {}
 
 ::grpc::Status DGTDLL::Stub::GetVersion(::grpc::ClientContext* context, const ::dgt::Empty& request, ::dgt::IntResponse* response) {
@@ -560,20 +596,308 @@ void DGTDLL::Stub::async::AllowTakebacks(::grpc::ClientContext* context, const :
   return result;
 }
 
-::grpc::ClientReader< ::dgt::CallbackResponse>* DGTDLL::Stub::RegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request) {
-  return ::grpc::internal::ClientReaderFactory< ::dgt::CallbackResponse>::Create(channel_.get(), rpcmethod_RegisterCallbacks_, context, request);
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterStatusFunc_, context, request);
 }
 
-void DGTDLL::Stub::async::RegisterCallbacks(::grpc::ClientContext* context, const ::dgt::StringRequest* request, ::grpc::ClientReadReactor< ::dgt::CallbackResponse>* reactor) {
-  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::CallbackResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterCallbacks_, context, request, reactor);
+void DGTDLL::Stub::async::RegisterStatusFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterStatusFunc_, context, request, reactor);
 }
 
-::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* DGTDLL::Stub::AsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq, void* tag) {
-  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::CallbackResponse>::Create(channel_.get(), cq, rpcmethod_RegisterCallbacks_, context, request, true, tag);
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStatusFunc_, context, request, true, tag);
 }
 
-::grpc::ClientAsyncReader< ::dgt::CallbackResponse>* DGTDLL::Stub::PrepareAsyncRegisterCallbacksRaw(::grpc::ClientContext* context, const ::dgt::StringRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::CallbackResponse>::Create(channel_.get(), cq, rpcmethod_RegisterCallbacks_, context, request, false, nullptr);
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterStatusFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStatusFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterScanFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterScanFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterScanFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterScanFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterScanFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterScanFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterStableBoardFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterStableBoardFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterStableBoardFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStableBoardFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterStableBoardFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStableBoardFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterWClockFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterWClockFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterWClockFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWClockFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterWClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWClockFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterBClockFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterBClockFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterBClockFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBClockFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterBClockFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBClockFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterResultFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterResultFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterResultFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterResultFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterResultFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterResultFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterNewGameFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterNewGameFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterNewGameFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterNewGameFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterNewGameFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterNewGameFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterWhiteMoveInputFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterWhiteMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterWhiteMoveInputFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWhiteMoveInputFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterWhiteMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWhiteMoveInputFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterBlackMoveInputFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterBlackMoveInputFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterBlackMoveInputFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBlackMoveInputFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterBlackMoveInputFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBlackMoveInputFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::EmptyResponse>* DGTDLL::Stub::RegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::EmptyResponse>::Create(channel_.get(), rpcmethod_RegisterWhiteTakebackFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterWhiteTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::EmptyResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::EmptyResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterWhiteTakebackFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* DGTDLL::Stub::AsyncRegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::EmptyResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWhiteTakebackFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* DGTDLL::Stub::PrepareAsyncRegisterWhiteTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::EmptyResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWhiteTakebackFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::EmptyResponse>* DGTDLL::Stub::RegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::EmptyResponse>::Create(channel_.get(), rpcmethod_RegisterBlackTakebackFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterBlackTakebackFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::EmptyResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::EmptyResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterBlackTakebackFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* DGTDLL::Stub::AsyncRegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::EmptyResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBlackTakebackFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::EmptyResponse>* DGTDLL::Stub::PrepareAsyncRegisterBlackTakebackFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::EmptyResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBlackTakebackFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterWhiteMoveNowFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterWhiteMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterWhiteMoveNowFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWhiteMoveNowFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterWhiteMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterWhiteMoveNowFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterBlackMoveNowFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterBlackMoveNowFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterBlackMoveNowFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBlackMoveNowFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterBlackMoveNowFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterBlackMoveNowFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterStartSetupFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterStartSetupFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterStartSetupFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStartSetupFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterStartSetupFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStartSetupFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterStopSetupWTMFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterStopSetupWTMFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterStopSetupWTMFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStopSetupWTMFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterStopSetupWTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStopSetupWTMFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::StringResponse>* DGTDLL::Stub::RegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), rpcmethod_RegisterStopSetupBTMFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterStopSetupBTMFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::StringResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::StringResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterStopSetupBTMFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::AsyncRegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStopSetupBTMFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::StringResponse>* DGTDLL::Stub::PrepareAsyncRegisterStopSetupBTMFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::StringResponse>::Create(channel_.get(), cq, rpcmethod_RegisterStopSetupBTMFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::IntResponse>* DGTDLL::Stub::RegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::IntResponse>::Create(channel_.get(), rpcmethod_RegisterGameTypeChangedFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterGameTypeChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::IntResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::IntResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterGameTypeChangedFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::IntResponse>* DGTDLL::Stub::AsyncRegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::IntResponse>::Create(channel_.get(), cq, rpcmethod_RegisterGameTypeChangedFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::IntResponse>* DGTDLL::Stub::PrepareAsyncRegisterGameTypeChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::IntResponse>::Create(channel_.get(), cq, rpcmethod_RegisterGameTypeChangedFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::BoolResponse>* DGTDLL::Stub::RegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::BoolResponse>::Create(channel_.get(), rpcmethod_RegisterAllowTakebacksChangedFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterAllowTakebacksChangedFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::BoolResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::BoolResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterAllowTakebacksChangedFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::BoolResponse>* DGTDLL::Stub::AsyncRegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::BoolResponse>::Create(channel_.get(), cq, rpcmethod_RegisterAllowTakebacksChangedFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::BoolResponse>* DGTDLL::Stub::PrepareAsyncRegisterAllowTakebacksChangedFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::BoolResponse>::Create(channel_.get(), cq, rpcmethod_RegisterAllowTakebacksChangedFunc_, context, request, false, nullptr);
+}
+
+::grpc::ClientReader< ::dgt::CallbackIICResponse>* DGTDLL::Stub::RegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request) {
+  return ::grpc::internal::ClientReaderFactory< ::dgt::CallbackIICResponse>::Create(channel_.get(), rpcmethod_RegisterMagicPieceFunc_, context, request);
+}
+
+void DGTDLL::Stub::async::RegisterMagicPieceFunc(::grpc::ClientContext* context, const ::dgt::Empty* request, ::grpc::ClientReadReactor< ::dgt::CallbackIICResponse>* reactor) {
+  ::grpc::internal::ClientCallbackReaderFactory< ::dgt::CallbackIICResponse>::Create(stub_->channel_.get(), stub_->rpcmethod_RegisterMagicPieceFunc_, context, request, reactor);
+}
+
+::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>* DGTDLL::Stub::AsyncRegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::CallbackIICResponse>::Create(channel_.get(), cq, rpcmethod_RegisterMagicPieceFunc_, context, request, true, tag);
+}
+
+::grpc::ClientAsyncReader< ::dgt::CallbackIICResponse>* DGTDLL::Stub::PrepareAsyncRegisterMagicPieceFuncRaw(::grpc::ClientContext* context, const ::dgt::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncReaderFactory< ::dgt::CallbackIICResponse>::Create(channel_.get(), cq, rpcmethod_RegisterMagicPieceFunc_, context, request, false, nullptr);
 }
 
 DGTDLL::Service::Service() {
@@ -790,12 +1114,192 @@ DGTDLL::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       DGTDLL_method_names[21],
       ::grpc::internal::RpcMethod::SERVER_STREAMING,
-      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::StringRequest, ::dgt::CallbackResponse>(
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
           [](DGTDLL::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::dgt::StringRequest* req,
-             ::grpc::ServerWriter<::dgt::CallbackResponse>* writer) {
-               return service->RegisterCallbacks(ctx, req, writer);
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterStatusFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[22],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterScanFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[23],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterStableBoardFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[24],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterWClockFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[25],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterBClockFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[26],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterResultFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[27],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterNewGameFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[28],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterWhiteMoveInputFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[29],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterBlackMoveInputFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[30],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::EmptyResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::EmptyResponse>* writer) {
+               return service->RegisterWhiteTakebackFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[31],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::EmptyResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::EmptyResponse>* writer) {
+               return service->RegisterBlackTakebackFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[32],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterWhiteMoveNowFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[33],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterBlackMoveNowFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[34],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterStartSetupFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[35],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterStopSetupWTMFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[36],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::StringResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::StringResponse>* writer) {
+               return service->RegisterStopSetupBTMFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[37],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::IntResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::IntResponse>* writer) {
+               return service->RegisterGameTypeChangedFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[38],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::BoolResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::BoolResponse>* writer) {
+               return service->RegisterAllowTakebacksChangedFunc(ctx, req, writer);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      DGTDLL_method_names[39],
+      ::grpc::internal::RpcMethod::SERVER_STREAMING,
+      new ::grpc::internal::ServerStreamingHandler< DGTDLL::Service, ::dgt::Empty, ::dgt::CallbackIICResponse>(
+          [](DGTDLL::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::dgt::Empty* req,
+             ::grpc::ServerWriter<::dgt::CallbackIICResponse>* writer) {
+               return service->RegisterMagicPieceFunc(ctx, req, writer);
              }, this)));
 }
 
@@ -949,7 +1453,133 @@ DGTDLL::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status DGTDLL::Service::RegisterCallbacks(::grpc::ServerContext* context, const ::dgt::StringRequest* request, ::grpc::ServerWriter< ::dgt::CallbackResponse>* writer) {
+::grpc::Status DGTDLL::Service::RegisterStatusFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterScanFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterStableBoardFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterWClockFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterBClockFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterResultFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterNewGameFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterWhiteMoveInputFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterBlackMoveInputFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterWhiteTakebackFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::EmptyResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterBlackTakebackFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::EmptyResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterWhiteMoveNowFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterBlackMoveNowFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterStartSetupFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterStopSetupWTMFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterStopSetupBTMFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::StringResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterGameTypeChangedFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::IntResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterAllowTakebacksChangedFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::BoolResponse>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status DGTDLL::Service::RegisterMagicPieceFunc(::grpc::ServerContext* context, const ::dgt::Empty* request, ::grpc::ServerWriter< ::dgt::CallbackIICResponse>* writer) {
   (void) context;
   (void) request;
   (void) writer;

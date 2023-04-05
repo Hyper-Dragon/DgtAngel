@@ -1,11 +1,11 @@
 ﻿using DgtRabbitWrapper.DgtEbDll;
 using Grpc.Core;
-using GrpcServiceDgtTest;
+using DgtGrpcService;
 using NAudio.Gui;
 using System.Text;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 
-namespace GrpcServiceDgtTest.Services
+namespace DgtGrpcService.Services
 {
     public class DgtService : DGTDLL.DGTDLLBase
     {
@@ -189,39 +189,39 @@ namespace GrpcServiceDgtTest.Services
         static string currFen = "8/8/8/8/8/8/8/8";
         static string lastFen = "dummy";
 
-        public override async Task<Task> RegisterCallbacks(StringRequest request, IServerStreamWriter<CallbackResponse> responseStream, ServerCallContext context)
-        {
-            //Remove - reset on new con for testing
-            currFen = "8/8/8/8/8/8/8/8";
-            lastFen = "dummy";
-
-            switch (request.Value)
-            {
-                case "StableBoard":
-                    DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
-
-                    // loop indefinitely, sending messages to the client whenever the callback fires
-                    while (!context.CancellationToken.IsCancellationRequested)
-                    {
-                        // generate a response message and send it to the client
-                        if (currFen != lastFen)
-                        {
-                            var message = new CallbackResponse { CallbackName = "StableBoard", StringData = currFen };
-                            await responseStream.WriteAsync(message);
-                            currFen = lastFen;
-                        }
-
-                        await Task.Delay(1000);
-                    }
-                    break;
-
-                default:
-                    // handle other callback types here
-                    return base.RegisterCallbacks(request, responseStream, context);
-            }
-
-            // the response stream has been closed, so return a completed task
-            return Task.CompletedTask;
-        }
+        //public override async Task<Task> RegisterCallbacks(StringRequest request, IServerStreamWriter<CallbackResponse> responseStream, ServerCallContext context)
+        //{
+        //    //Remove - reset on new con for testing
+        //    currFen = "8/8/8/8/8/8/8/8";
+        //    lastFen = "dummy";
+        //
+        //    switch (request.Value)
+        //    {
+        //        case "StableBoard":
+        //            DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
+        //
+        //            // loop indefinitely, sending messages to the client whenever the callback fires
+        //            while (!context.CancellationToken.IsCancellationRequested)
+        //            {
+        //                // generate a response message and send it to the client
+        //                if (currFen != lastFen)
+        //                {
+        //                    var message = new CallbackResponse { CallbackName = "StableBoard", StringData = currFen };
+        //                    await responseStream.WriteAsync(message);
+        //                    currFen = lastFen;
+        //                }
+        //
+        //                await Task.Delay(1000);
+        //            }
+        //            break;
+        //
+        //        default:
+        //            // handle other callback types here
+        //            return base.RegisterCallbacks(request, responseStream, context);
+        //    }
+        //
+        //    // the response stream has been closed, so return a completed task
+        //    return Task.CompletedTask;
+        //}
     }
 }

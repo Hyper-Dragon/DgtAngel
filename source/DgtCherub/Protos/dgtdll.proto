@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "GrpcServiceDgtTest";
+option csharp_namespace = "DgtGrpcService";
 
 package dgt;
 
@@ -26,7 +26,25 @@ service DGTDLL {
   rpc UseSAN (BoolRequest) returns (IntResponse) {}
   rpc SetGameType (IntRequest) returns (IntResponse) {}
   rpc AllowTakebacks (BoolRequest) returns (IntResponse) {}
-  rpc RegisterCallbacks (StringRequest) returns (stream CallbackResponse) {}
+  rpc RegisterStatusFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterScanFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterStableBoardFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterWClockFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterBClockFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterResultFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterNewGameFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterWhiteMoveInputFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterBlackMoveInputFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterWhiteTakebackFunc (Empty) returns (stream EmptyResponse) {}
+  rpc RegisterBlackTakebackFunc (Empty) returns (stream EmptyResponse) {}
+  rpc RegisterWhiteMoveNowFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterBlackMoveNowFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterStartSetupFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterStopSetupWTMFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterStopSetupBTMFunc (Empty) returns (stream StringResponse) {}
+  rpc RegisterGameTypeChangedFunc (Empty) returns (stream IntResponse) {}
+  rpc RegisterAllowTakebacksChangedFunc (Empty) returns (stream BoolResponse) {}
+  rpc RegisterMagicPieceFunc (Empty) returns (stream CallbackIICResponse) {}
 }
 
 message Empty {}
@@ -58,17 +76,17 @@ message IntResponse {
   int32 value = 1;
 }
 
-message CallbackResponse {
-  string callback_name = 1;
-  oneof callback_data {
-    string string_data = 2;
-    int32 int_data = 3;
-    bool bool_data = 4;
-    CallbackIIC iic_data = 5;
-  }
+message BoolResponse {
+  bool value = 1;
 }
 
-message CallbackIIC {
+message StringResponse {
+  string value = 1;
+}
+
+message EmptyResponse {}
+
+message CallbackIICResponse {
   int32 param1 = 1;
   int32 param2 = 2;
   string param3 = 3;

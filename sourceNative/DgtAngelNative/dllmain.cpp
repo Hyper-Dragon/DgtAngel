@@ -14,16 +14,23 @@
 #include <iomanip>
 #include <sstream>
 
-//typedef int(__fastcall* FC)(const char*);
-
-//typedef int(__stdcall FC)(const char*);
-//typedef int(__stdcall* FC)(const char*);
-//typedef int __stdcall FC(const char*);
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
 typedef int __stdcall FB(bool);
 typedef int __stdcall F();
 typedef int __stdcall FIIC(int, int, const char*);
+
+
+struct CallbackInfo {
+	std::string name;
+	void* func;
+};
+
+
+std::vector<CallbackInfo> g_callbacks;
+std::mutex g_callback_mutex;
+
+
 
 // Global variables for the channel and stub
 const char* CHERUB_GRPC_LISTEN_PORT = "localhost:37965";
@@ -31,26 +38,30 @@ const char* CHERUB_GRPC_LISTEN_PORT = "localhost:37965";
 std::shared_ptr<grpc::Channel> g_channel;
 std::unique_ptr<dgt::DGTDLL::Stub> g_stub;
 
+// Declare a mutex to synchronize access to g_log_file
+std::mutex g_log_mutex;
+
 static bool isInitComplete = false;
 
 void BlockUntilInitComplete() {
-	while (!isInitComplete) {
-		Sleep(100);
-	}
+	//while (!isInitComplete) {
+	//	Sleep(100);
+	//}
 }
 
-void MessageBoxThread() {
-	MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
-}
 
 // Global variables for logging
 std::ofstream g_log_file;
 const char* LOG_ENV_VAR = "DGTDLL_LOG_PATH";
 bool g_logging_enabled = false;
 
+
+
 // Function to log messages to the file
 void LogMessage(const std::string& message) {
 	if (g_logging_enabled) {
+		// Lock the mutex to ensure exclusive access to g_log_file
+		std::lock_guard<std::mutex> lock(g_log_mutex);
 		g_log_file << message + "\n" << std::flush;
 	}
 }
@@ -75,7 +86,7 @@ void InitializeLogFile() {
 	std::string datetime_str(buffer);
 
 	LogMessage("------------------------------------");
-	LogMessage("ANGEL NATIVE - ["+datetime_str+"]");
+	LogMessage("ANGEL NATIVE - [" + datetime_str + "]");
 	LogMessage("------------------------------------");
 }
 
@@ -109,8 +120,8 @@ int PerformGrpcCall(const std::function<grpc::Status(grpc::ClientContext&, Reque
 void DllInitThread()
 {
 	// Initialize the channel and stub
-	g_channel = grpc::CreateChannel(CHERUB_GRPC_LISTEN_PORT, grpc::InsecureChannelCredentials());
-	g_stub = dgt::DGTDLL::NewStub(g_channel);
+	//g_channel = grpc::CreateChannel(CHERUB_GRPC_LISTEN_PORT, grpc::InsecureChannelCredentials());
+	//g_stub = dgt::DGTDLL::NewStub(g_channel);
 
 	// Initialize the log file
 	InitializeLogFile();
@@ -118,7 +129,6 @@ void DllInitThread()
 	isInitComplete = true;
 }
 
-//std::thread messageBoxThread;
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
@@ -128,29 +138,28 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
+
+		// Initialize the channel and stub
+		g_channel = grpc::CreateChannel(CHERUB_GRPC_LISTEN_PORT, grpc::InsecureChannelCredentials());
+		g_stub = dgt::DGTDLL::NewStub(g_channel);
+
 		// Start a separate thread to initialize the DLL
 		std::thread(DllInitThread).detach();
-		//BlockUntilInitComplete();
-
-		//if (!messageBoxThread.joinable()) {
-		//	messageBoxThread = std::thread(MessageBoxThread);
-		//}
+		BlockUntilInitComplete();
 
 		LogMessage(">>STARTED   :: DLL_PROCESS_ATTACH"); // Log the event
 		LogMessage(">>COMPLETED :: DLL_PROCESS_ATTACH"); // Log the event
 		break;
 	case DLL_THREAD_ATTACH:
 		LogMessage(">>DLL_THREAD_ATTACH"); // Log the event
+		// Initialize the critical section
 		break;
 	case DLL_THREAD_DETACH:
 		LogMessage(">>DLL_THREAD_DETACH"); // Log the event
+		// Delete the critical section
 		break;
 	case DLL_PROCESS_DETACH:
 		LogMessage(">>DLL_PROCESS_DETACH"); // Log the event
-
-		//if (messageBoxThread.joinable()) {
-		//	messageBoxThread.join();
-		//}
 
 		if (lpReserved == NULL) {
 			// This means the DLL is being unloaded due to the process exiting
@@ -357,7 +366,7 @@ extern "C" {
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
-		BlockUntilInitComplete(); 
+		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
 		dgt::SetNRunRequest request;
@@ -457,112 +466,8 @@ extern "C" {
 	}
 
 
-	//Callback methods below...
 
-	// Declare a function that takes a callback function as a parameter
-
-		// Declare a global variable to store the callback function pointer
-	FC* g_callbackFuncPtr = nullptr;
-
-		// Function in the DLL that calls the callback function
-	void CallCallbackFunction(const char* str) {
-		if (g_callbackFuncPtr != nullptr) {
-			// Call the callback function with the string argument
-			g_callbackFuncPtr(str);
-		}
-	}
-
-// Define a critical section
-	//CRITICAL_SECTION cs;
-
-	void call_callback(FC* func) {
-		LogMessage("Called " + std::string(__func__));
-
-		const char* message = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-
-		// Enter the critical section
-		//EnterCriticalSection(&cs);
-
-		while (true) {
-			if (func != nullptr) {
-				//int result = callback(message);
-				//int result = func(message);
-				//int result = 
-					//CallCallbackFunction("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-				//LogMessage("Callback result: " + std::to_string(result));
-			}
-			else {
-				LogMessage("Callback function is null");
-			}
-			std::this_thread::sleep_for(std::chrono::seconds(2));
-		}
-
-		// Leave the critical section
-		//LeaveCriticalSection(&cs);
-	}
-
-
-
-
-
-
-
-
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
-		BlockUntilInitComplete();
-		LogMessage(">>Called " + std::string(__func__));
-
-		if (func == nullptr) {
-			LogMessage("Error: Function pointer is null");
-			return 1; // Indicate an error
-		}
-
-		g_callbackFuncPtr = func;
-		//CallCallbackFunction("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-
-		// Create a detached thread that calls the call_callback function
-		std::thread(call_callback, func).detach();
-
-		LogMessage("Callback thread started");
-
-		// Show a message box with some text and an OK button
-		//MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
-
-		// Return 0 to indicate success
-		LogMessage(">>Completed " + std::string(__func__));
-		return 0;
-	}
-
-
-	//__declspec(dllexport) int _DGTDLL_RegisterStableBoardFunc(FC* func) {
-	//	BlockUntilInitComplete();
-	//	LogMessage(">>Called " + std::string(__func__));
-	//
-	//	//std::thread messageBoxThread(MessageBoxThread);
-	//	//messageBoxThread.detach();
-	//
-	//	// Show a message box with some text and an OK button
-	//	//MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
-	//
-	//	// Create a detached thread that calls the call_callback function
-	//	std::thread(call_callback, func).detach();
-	//
-	//	//while (true) {
-	//	//
-	//	//		std::this_thread::sleep_for(std::chrono::seconds(2));
-	//	//}
-	//	//MessageBoxThread();
-	//
-	//	LogMessage("Callback thread started");
-	//	
-	//	// Show a message box with some text and an OK button
-	//	//MessageBox(NULL, L"Prevent this DLL from being unloaded", L"Stayin Alive", MB_OK);
-	//
-	//	// Return 0 to indicate success
-	//	LogMessage(">>Completed " + std::string(__func__));
-	//	return 0;
-	//}
-
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
@@ -582,3 +487,5 @@ extern "C" {
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterAllowTakebacksChangedFunc(FB*) { LogMessage("Called " + std::string(__func__)); return 1; }
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterMagicPieceFunc(FIIC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 }
+
+

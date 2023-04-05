@@ -49,18 +49,21 @@ namespace dgt {
 class BoolRequest;
 struct BoolRequestDefaultTypeInternal;
 extern BoolRequestDefaultTypeInternal _BoolRequest_default_instance_;
-class CallbackIIC;
-struct CallbackIICDefaultTypeInternal;
-extern CallbackIICDefaultTypeInternal _CallbackIIC_default_instance_;
-class CallbackResponse;
-struct CallbackResponseDefaultTypeInternal;
-extern CallbackResponseDefaultTypeInternal _CallbackResponse_default_instance_;
+class BoolResponse;
+struct BoolResponseDefaultTypeInternal;
+extern BoolResponseDefaultTypeInternal _BoolResponse_default_instance_;
+class CallbackIICResponse;
+struct CallbackIICResponseDefaultTypeInternal;
+extern CallbackIICResponseDefaultTypeInternal _CallbackIICResponse_default_instance_;
 class ClockMessageRequest;
 struct ClockMessageRequestDefaultTypeInternal;
 extern ClockMessageRequestDefaultTypeInternal _ClockMessageRequest_default_instance_;
 class Empty;
 struct EmptyDefaultTypeInternal;
 extern EmptyDefaultTypeInternal _Empty_default_instance_;
+class EmptyResponse;
+struct EmptyResponseDefaultTypeInternal;
+extern EmptyResponseDefaultTypeInternal _EmptyResponse_default_instance_;
 class IntRequest;
 struct IntRequestDefaultTypeInternal;
 extern IntRequestDefaultTypeInternal _IntRequest_default_instance_;
@@ -73,17 +76,22 @@ extern SetNRunRequestDefaultTypeInternal _SetNRunRequest_default_instance_;
 class StringRequest;
 struct StringRequestDefaultTypeInternal;
 extern StringRequestDefaultTypeInternal _StringRequest_default_instance_;
+class StringResponse;
+struct StringResponseDefaultTypeInternal;
+extern StringResponseDefaultTypeInternal _StringResponse_default_instance_;
 }  // namespace dgt
 PROTOBUF_NAMESPACE_OPEN
 template<> ::dgt::BoolRequest* Arena::CreateMaybeMessage<::dgt::BoolRequest>(Arena*);
-template<> ::dgt::CallbackIIC* Arena::CreateMaybeMessage<::dgt::CallbackIIC>(Arena*);
-template<> ::dgt::CallbackResponse* Arena::CreateMaybeMessage<::dgt::CallbackResponse>(Arena*);
+template<> ::dgt::BoolResponse* Arena::CreateMaybeMessage<::dgt::BoolResponse>(Arena*);
+template<> ::dgt::CallbackIICResponse* Arena::CreateMaybeMessage<::dgt::CallbackIICResponse>(Arena*);
 template<> ::dgt::ClockMessageRequest* Arena::CreateMaybeMessage<::dgt::ClockMessageRequest>(Arena*);
 template<> ::dgt::Empty* Arena::CreateMaybeMessage<::dgt::Empty>(Arena*);
+template<> ::dgt::EmptyResponse* Arena::CreateMaybeMessage<::dgt::EmptyResponse>(Arena*);
 template<> ::dgt::IntRequest* Arena::CreateMaybeMessage<::dgt::IntRequest>(Arena*);
 template<> ::dgt::IntResponse* Arena::CreateMaybeMessage<::dgt::IntResponse>(Arena*);
 template<> ::dgt::SetNRunRequest* Arena::CreateMaybeMessage<::dgt::SetNRunRequest>(Arena*);
 template<> ::dgt::StringRequest* Arena::CreateMaybeMessage<::dgt::StringRequest>(Arena*);
+template<> ::dgt::StringResponse* Arena::CreateMaybeMessage<::dgt::StringResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace dgt {
 
@@ -1148,24 +1156,24 @@ class IntResponse final :
 };
 // -------------------------------------------------------------------
 
-class CallbackResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.CallbackResponse) */ {
+class BoolResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.BoolResponse) */ {
  public:
-  inline CallbackResponse() : CallbackResponse(nullptr) {}
-  ~CallbackResponse() override;
-  explicit PROTOBUF_CONSTEXPR CallbackResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline BoolResponse() : BoolResponse(nullptr) {}
+  ~BoolResponse() override;
+  explicit PROTOBUF_CONSTEXPR BoolResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  CallbackResponse(const CallbackResponse& from);
-  CallbackResponse(CallbackResponse&& from) noexcept
-    : CallbackResponse() {
+  BoolResponse(const BoolResponse& from);
+  BoolResponse(BoolResponse&& from) noexcept
+    : BoolResponse() {
     *this = ::std::move(from);
   }
 
-  inline CallbackResponse& operator=(const CallbackResponse& from) {
+  inline BoolResponse& operator=(const BoolResponse& from) {
     CopyFrom(from);
     return *this;
   }
-  inline CallbackResponse& operator=(CallbackResponse&& from) noexcept {
+  inline BoolResponse& operator=(BoolResponse&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -1188,28 +1196,20 @@ class CallbackResponse final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const CallbackResponse& default_instance() {
+  static const BoolResponse& default_instance() {
     return *internal_default_instance();
   }
-  enum CallbackDataCase {
-    kStringData = 2,
-    kIntData = 3,
-    kBoolData = 4,
-    kIicData = 5,
-    CALLBACK_DATA_NOT_SET = 0,
-  };
-
-  static inline const CallbackResponse* internal_default_instance() {
-    return reinterpret_cast<const CallbackResponse*>(
-               &_CallbackResponse_default_instance_);
+  static inline const BoolResponse* internal_default_instance() {
+    return reinterpret_cast<const BoolResponse*>(
+               &_BoolResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     7;
 
-  friend void swap(CallbackResponse& a, CallbackResponse& b) {
+  friend void swap(BoolResponse& a, BoolResponse& b) {
     a.Swap(&b);
   }
-  inline void Swap(CallbackResponse* other) {
+  inline void Swap(BoolResponse* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -1222,7 +1222,7 @@ class CallbackResponse final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(CallbackResponse* other) {
+  void UnsafeArenaSwap(BoolResponse* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -1230,14 +1230,14 @@ class CallbackResponse final :
 
   // implements Message ----------------------------------------------
 
-  CallbackResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<CallbackResponse>(arena);
+  BoolResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<BoolResponse>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const CallbackResponse& from);
+  void CopyFrom(const BoolResponse& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const CallbackResponse& from) {
-    CallbackResponse::MergeImpl(*this, from);
+  void MergeFrom( const BoolResponse& from) {
+    BoolResponse::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -1255,15 +1255,15 @@ class CallbackResponse final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(CallbackResponse* other);
+  void InternalSwap(BoolResponse* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "dgt.CallbackResponse";
+    return "dgt.BoolResponse";
   }
   protected:
-  explicit CallbackResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit BoolResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -1277,141 +1277,51 @@ class CallbackResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kCallbackNameFieldNumber = 1,
-    kStringDataFieldNumber = 2,
-    kIntDataFieldNumber = 3,
-    kBoolDataFieldNumber = 4,
-    kIicDataFieldNumber = 5,
+    kValueFieldNumber = 1,
   };
-  // string callback_name = 1;
-  void clear_callback_name();
-  const std::string& callback_name() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_callback_name(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_callback_name();
-  PROTOBUF_NODISCARD std::string* release_callback_name();
-  void set_allocated_callback_name(std::string* callback_name);
+  // bool value = 1;
+  void clear_value();
+  bool value() const;
+  void set_value(bool value);
   private:
-  const std::string& _internal_callback_name() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_callback_name(const std::string& value);
-  std::string* _internal_mutable_callback_name();
+  bool _internal_value() const;
+  void _internal_set_value(bool value);
   public:
 
-  // string string_data = 2;
-  bool has_string_data() const;
-  private:
-  bool _internal_has_string_data() const;
-  public:
-  void clear_string_data();
-  const std::string& string_data() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_string_data(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_string_data();
-  PROTOBUF_NODISCARD std::string* release_string_data();
-  void set_allocated_string_data(std::string* string_data);
-  private:
-  const std::string& _internal_string_data() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_string_data(const std::string& value);
-  std::string* _internal_mutable_string_data();
-  public:
-
-  // int32 int_data = 3;
-  bool has_int_data() const;
-  private:
-  bool _internal_has_int_data() const;
-  public:
-  void clear_int_data();
-  int32_t int_data() const;
-  void set_int_data(int32_t value);
-  private:
-  int32_t _internal_int_data() const;
-  void _internal_set_int_data(int32_t value);
-  public:
-
-  // bool bool_data = 4;
-  bool has_bool_data() const;
-  private:
-  bool _internal_has_bool_data() const;
-  public:
-  void clear_bool_data();
-  bool bool_data() const;
-  void set_bool_data(bool value);
-  private:
-  bool _internal_bool_data() const;
-  void _internal_set_bool_data(bool value);
-  public:
-
-  // .dgt.CallbackIIC iic_data = 5;
-  bool has_iic_data() const;
-  private:
-  bool _internal_has_iic_data() const;
-  public:
-  void clear_iic_data();
-  const ::dgt::CallbackIIC& iic_data() const;
-  PROTOBUF_NODISCARD ::dgt::CallbackIIC* release_iic_data();
-  ::dgt::CallbackIIC* mutable_iic_data();
-  void set_allocated_iic_data(::dgt::CallbackIIC* iic_data);
-  private:
-  const ::dgt::CallbackIIC& _internal_iic_data() const;
-  ::dgt::CallbackIIC* _internal_mutable_iic_data();
-  public:
-  void unsafe_arena_set_allocated_iic_data(
-      ::dgt::CallbackIIC* iic_data);
-  ::dgt::CallbackIIC* unsafe_arena_release_iic_data();
-
-  void clear_callback_data();
-  CallbackDataCase callback_data_case() const;
-  // @@protoc_insertion_point(class_scope:dgt.CallbackResponse)
+  // @@protoc_insertion_point(class_scope:dgt.BoolResponse)
  private:
   class _Internal;
-  void set_has_string_data();
-  void set_has_int_data();
-  void set_has_bool_data();
-  void set_has_iic_data();
-
-  inline bool has_callback_data() const;
-  inline void clear_has_callback_data();
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr callback_name_;
-    union CallbackDataUnion {
-      constexpr CallbackDataUnion() : _constinit_{} {}
-        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
-      ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr string_data_;
-      int32_t int_data_;
-      bool bool_data_;
-      ::dgt::CallbackIIC* iic_data_;
-    } callback_data_;
+    bool value_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    uint32_t _oneof_case_[1];
-
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_dgtdll_2eproto;
 };
 // -------------------------------------------------------------------
 
-class CallbackIIC final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.CallbackIIC) */ {
+class StringResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.StringResponse) */ {
  public:
-  inline CallbackIIC() : CallbackIIC(nullptr) {}
-  ~CallbackIIC() override;
-  explicit PROTOBUF_CONSTEXPR CallbackIIC(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline StringResponse() : StringResponse(nullptr) {}
+  ~StringResponse() override;
+  explicit PROTOBUF_CONSTEXPR StringResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  CallbackIIC(const CallbackIIC& from);
-  CallbackIIC(CallbackIIC&& from) noexcept
-    : CallbackIIC() {
+  StringResponse(const StringResponse& from);
+  StringResponse(StringResponse&& from) noexcept
+    : StringResponse() {
     *this = ::std::move(from);
   }
 
-  inline CallbackIIC& operator=(const CallbackIIC& from) {
+  inline StringResponse& operator=(const StringResponse& from) {
     CopyFrom(from);
     return *this;
   }
-  inline CallbackIIC& operator=(CallbackIIC&& from) noexcept {
+  inline StringResponse& operator=(StringResponse&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -1434,20 +1344,20 @@ class CallbackIIC final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const CallbackIIC& default_instance() {
+  static const StringResponse& default_instance() {
     return *internal_default_instance();
   }
-  static inline const CallbackIIC* internal_default_instance() {
-    return reinterpret_cast<const CallbackIIC*>(
-               &_CallbackIIC_default_instance_);
+  static inline const StringResponse* internal_default_instance() {
+    return reinterpret_cast<const StringResponse*>(
+               &_StringResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     8;
 
-  friend void swap(CallbackIIC& a, CallbackIIC& b) {
+  friend void swap(StringResponse& a, StringResponse& b) {
     a.Swap(&b);
   }
-  inline void Swap(CallbackIIC* other) {
+  inline void Swap(StringResponse* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -1460,7 +1370,7 @@ class CallbackIIC final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(CallbackIIC* other) {
+  void UnsafeArenaSwap(StringResponse* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -1468,14 +1378,14 @@ class CallbackIIC final :
 
   // implements Message ----------------------------------------------
 
-  CallbackIIC* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<CallbackIIC>(arena);
+  StringResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<StringResponse>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const CallbackIIC& from);
+  void CopyFrom(const StringResponse& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const CallbackIIC& from) {
-    CallbackIIC::MergeImpl(*this, from);
+  void MergeFrom( const StringResponse& from) {
+    StringResponse::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -1493,15 +1403,286 @@ class CallbackIIC final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(CallbackIIC* other);
+  void InternalSwap(StringResponse* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "dgt.CallbackIIC";
+    return "dgt.StringResponse";
   }
   protected:
-  explicit CallbackIIC(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit StringResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kValueFieldNumber = 1,
+  };
+  // string value = 1;
+  void clear_value();
+  const std::string& value() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_value(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_value();
+  PROTOBUF_NODISCARD std::string* release_value();
+  void set_allocated_value(std::string* value);
+  private:
+  const std::string& _internal_value() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_value(const std::string& value);
+  std::string* _internal_mutable_value();
+  public:
+
+  // @@protoc_insertion_point(class_scope:dgt.StringResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr value_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_dgtdll_2eproto;
+};
+// -------------------------------------------------------------------
+
+class EmptyResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:dgt.EmptyResponse) */ {
+ public:
+  inline EmptyResponse() : EmptyResponse(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR EmptyResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  EmptyResponse(const EmptyResponse& from);
+  EmptyResponse(EmptyResponse&& from) noexcept
+    : EmptyResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline EmptyResponse& operator=(const EmptyResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EmptyResponse& operator=(EmptyResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EmptyResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EmptyResponse* internal_default_instance() {
+    return reinterpret_cast<const EmptyResponse*>(
+               &_EmptyResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(EmptyResponse& a, EmptyResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(EmptyResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EmptyResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EmptyResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<EmptyResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const EmptyResponse& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const EmptyResponse& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "dgt.EmptyResponse";
+  }
+  protected:
+  explicit EmptyResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:dgt.EmptyResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_dgtdll_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CallbackIICResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.CallbackIICResponse) */ {
+ public:
+  inline CallbackIICResponse() : CallbackIICResponse(nullptr) {}
+  ~CallbackIICResponse() override;
+  explicit PROTOBUF_CONSTEXPR CallbackIICResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CallbackIICResponse(const CallbackIICResponse& from);
+  CallbackIICResponse(CallbackIICResponse&& from) noexcept
+    : CallbackIICResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline CallbackIICResponse& operator=(const CallbackIICResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CallbackIICResponse& operator=(CallbackIICResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CallbackIICResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CallbackIICResponse* internal_default_instance() {
+    return reinterpret_cast<const CallbackIICResponse*>(
+               &_CallbackIICResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(CallbackIICResponse& a, CallbackIICResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CallbackIICResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CallbackIICResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CallbackIICResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CallbackIICResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CallbackIICResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CallbackIICResponse& from) {
+    CallbackIICResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CallbackIICResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "dgt.CallbackIICResponse";
+  }
+  protected:
+  explicit CallbackIICResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -1551,7 +1732,7 @@ class CallbackIIC final :
   void _internal_set_param2(int32_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:dgt.CallbackIIC)
+  // @@protoc_insertion_point(class_scope:dgt.CallbackIICResponse)
  private:
   class _Internal;
 
@@ -1904,374 +2085,166 @@ inline void IntResponse::set_value(int32_t value) {
 
 // -------------------------------------------------------------------
 
-// CallbackResponse
+// BoolResponse
 
-// string callback_name = 1;
-inline void CallbackResponse::clear_callback_name() {
-  _impl_.callback_name_.ClearToEmpty();
+// bool value = 1;
+inline void BoolResponse::clear_value() {
+  _impl_.value_ = false;
 }
-inline const std::string& CallbackResponse::callback_name() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackResponse.callback_name)
-  return _internal_callback_name();
+inline bool BoolResponse::_internal_value() const {
+  return _impl_.value_;
+}
+inline bool BoolResponse::value() const {
+  // @@protoc_insertion_point(field_get:dgt.BoolResponse.value)
+  return _internal_value();
+}
+inline void BoolResponse::_internal_set_value(bool value) {
+  
+  _impl_.value_ = value;
+}
+inline void BoolResponse::set_value(bool value) {
+  _internal_set_value(value);
+  // @@protoc_insertion_point(field_set:dgt.BoolResponse.value)
+}
+
+// -------------------------------------------------------------------
+
+// StringResponse
+
+// string value = 1;
+inline void StringResponse::clear_value() {
+  _impl_.value_.ClearToEmpty();
+}
+inline const std::string& StringResponse::value() const {
+  // @@protoc_insertion_point(field_get:dgt.StringResponse.value)
+  return _internal_value();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void CallbackResponse::set_callback_name(ArgT0&& arg0, ArgT... args) {
+void StringResponse::set_value(ArgT0&& arg0, ArgT... args) {
  
- _impl_.callback_name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:dgt.CallbackResponse.callback_name)
+ _impl_.value_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:dgt.StringResponse.value)
 }
-inline std::string* CallbackResponse::mutable_callback_name() {
-  std::string* _s = _internal_mutable_callback_name();
-  // @@protoc_insertion_point(field_mutable:dgt.CallbackResponse.callback_name)
+inline std::string* StringResponse::mutable_value() {
+  std::string* _s = _internal_mutable_value();
+  // @@protoc_insertion_point(field_mutable:dgt.StringResponse.value)
   return _s;
 }
-inline const std::string& CallbackResponse::_internal_callback_name() const {
-  return _impl_.callback_name_.Get();
+inline const std::string& StringResponse::_internal_value() const {
+  return _impl_.value_.Get();
 }
-inline void CallbackResponse::_internal_set_callback_name(const std::string& value) {
+inline void StringResponse::_internal_set_value(const std::string& value) {
   
-  _impl_.callback_name_.Set(value, GetArenaForAllocation());
+  _impl_.value_.Set(value, GetArenaForAllocation());
 }
-inline std::string* CallbackResponse::_internal_mutable_callback_name() {
+inline std::string* StringResponse::_internal_mutable_value() {
   
-  return _impl_.callback_name_.Mutable(GetArenaForAllocation());
+  return _impl_.value_.Mutable(GetArenaForAllocation());
 }
-inline std::string* CallbackResponse::release_callback_name() {
-  // @@protoc_insertion_point(field_release:dgt.CallbackResponse.callback_name)
-  return _impl_.callback_name_.Release();
+inline std::string* StringResponse::release_value() {
+  // @@protoc_insertion_point(field_release:dgt.StringResponse.value)
+  return _impl_.value_.Release();
 }
-inline void CallbackResponse::set_allocated_callback_name(std::string* callback_name) {
-  if (callback_name != nullptr) {
+inline void StringResponse::set_allocated_value(std::string* value) {
+  if (value != nullptr) {
     
   } else {
     
   }
-  _impl_.callback_name_.SetAllocated(callback_name, GetArenaForAllocation());
+  _impl_.value_.SetAllocated(value, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.callback_name_.IsDefault()) {
-    _impl_.callback_name_.Set("", GetArenaForAllocation());
+  if (_impl_.value_.IsDefault()) {
+    _impl_.value_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:dgt.CallbackResponse.callback_name)
+  // @@protoc_insertion_point(field_set_allocated:dgt.StringResponse.value)
 }
 
-// string string_data = 2;
-inline bool CallbackResponse::_internal_has_string_data() const {
-  return callback_data_case() == kStringData;
-}
-inline bool CallbackResponse::has_string_data() const {
-  return _internal_has_string_data();
-}
-inline void CallbackResponse::set_has_string_data() {
-  _impl_._oneof_case_[0] = kStringData;
-}
-inline void CallbackResponse::clear_string_data() {
-  if (_internal_has_string_data()) {
-    _impl_.callback_data_.string_data_.Destroy();
-    clear_has_callback_data();
-  }
-}
-inline const std::string& CallbackResponse::string_data() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackResponse.string_data)
-  return _internal_string_data();
-}
-template <typename ArgT0, typename... ArgT>
-inline void CallbackResponse::set_string_data(ArgT0&& arg0, ArgT... args) {
-  if (!_internal_has_string_data()) {
-    clear_callback_data();
-    set_has_string_data();
-    _impl_.callback_data_.string_data_.InitDefault();
-  }
-  _impl_.callback_data_.string_data_.Set( static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:dgt.CallbackResponse.string_data)
-}
-inline std::string* CallbackResponse::mutable_string_data() {
-  std::string* _s = _internal_mutable_string_data();
-  // @@protoc_insertion_point(field_mutable:dgt.CallbackResponse.string_data)
-  return _s;
-}
-inline const std::string& CallbackResponse::_internal_string_data() const {
-  if (_internal_has_string_data()) {
-    return _impl_.callback_data_.string_data_.Get();
-  }
-  return ::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited();
-}
-inline void CallbackResponse::_internal_set_string_data(const std::string& value) {
-  if (!_internal_has_string_data()) {
-    clear_callback_data();
-    set_has_string_data();
-    _impl_.callback_data_.string_data_.InitDefault();
-  }
-  _impl_.callback_data_.string_data_.Set(value, GetArenaForAllocation());
-}
-inline std::string* CallbackResponse::_internal_mutable_string_data() {
-  if (!_internal_has_string_data()) {
-    clear_callback_data();
-    set_has_string_data();
-    _impl_.callback_data_.string_data_.InitDefault();
-  }
-  return _impl_.callback_data_.string_data_.Mutable(      GetArenaForAllocation());
-}
-inline std::string* CallbackResponse::release_string_data() {
-  // @@protoc_insertion_point(field_release:dgt.CallbackResponse.string_data)
-  if (_internal_has_string_data()) {
-    clear_has_callback_data();
-    return _impl_.callback_data_.string_data_.Release();
-  } else {
-    return nullptr;
-  }
-}
-inline void CallbackResponse::set_allocated_string_data(std::string* string_data) {
-  if (has_callback_data()) {
-    clear_callback_data();
-  }
-  if (string_data != nullptr) {
-    set_has_string_data();
-    _impl_.callback_data_.string_data_.InitAllocated(string_data, GetArenaForAllocation());
-  }
-  // @@protoc_insertion_point(field_set_allocated:dgt.CallbackResponse.string_data)
-}
-
-// int32 int_data = 3;
-inline bool CallbackResponse::_internal_has_int_data() const {
-  return callback_data_case() == kIntData;
-}
-inline bool CallbackResponse::has_int_data() const {
-  return _internal_has_int_data();
-}
-inline void CallbackResponse::set_has_int_data() {
-  _impl_._oneof_case_[0] = kIntData;
-}
-inline void CallbackResponse::clear_int_data() {
-  if (_internal_has_int_data()) {
-    _impl_.callback_data_.int_data_ = 0;
-    clear_has_callback_data();
-  }
-}
-inline int32_t CallbackResponse::_internal_int_data() const {
-  if (_internal_has_int_data()) {
-    return _impl_.callback_data_.int_data_;
-  }
-  return 0;
-}
-inline void CallbackResponse::_internal_set_int_data(int32_t value) {
-  if (!_internal_has_int_data()) {
-    clear_callback_data();
-    set_has_int_data();
-  }
-  _impl_.callback_data_.int_data_ = value;
-}
-inline int32_t CallbackResponse::int_data() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackResponse.int_data)
-  return _internal_int_data();
-}
-inline void CallbackResponse::set_int_data(int32_t value) {
-  _internal_set_int_data(value);
-  // @@protoc_insertion_point(field_set:dgt.CallbackResponse.int_data)
-}
-
-// bool bool_data = 4;
-inline bool CallbackResponse::_internal_has_bool_data() const {
-  return callback_data_case() == kBoolData;
-}
-inline bool CallbackResponse::has_bool_data() const {
-  return _internal_has_bool_data();
-}
-inline void CallbackResponse::set_has_bool_data() {
-  _impl_._oneof_case_[0] = kBoolData;
-}
-inline void CallbackResponse::clear_bool_data() {
-  if (_internal_has_bool_data()) {
-    _impl_.callback_data_.bool_data_ = false;
-    clear_has_callback_data();
-  }
-}
-inline bool CallbackResponse::_internal_bool_data() const {
-  if (_internal_has_bool_data()) {
-    return _impl_.callback_data_.bool_data_;
-  }
-  return false;
-}
-inline void CallbackResponse::_internal_set_bool_data(bool value) {
-  if (!_internal_has_bool_data()) {
-    clear_callback_data();
-    set_has_bool_data();
-  }
-  _impl_.callback_data_.bool_data_ = value;
-}
-inline bool CallbackResponse::bool_data() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackResponse.bool_data)
-  return _internal_bool_data();
-}
-inline void CallbackResponse::set_bool_data(bool value) {
-  _internal_set_bool_data(value);
-  // @@protoc_insertion_point(field_set:dgt.CallbackResponse.bool_data)
-}
-
-// .dgt.CallbackIIC iic_data = 5;
-inline bool CallbackResponse::_internal_has_iic_data() const {
-  return callback_data_case() == kIicData;
-}
-inline bool CallbackResponse::has_iic_data() const {
-  return _internal_has_iic_data();
-}
-inline void CallbackResponse::set_has_iic_data() {
-  _impl_._oneof_case_[0] = kIicData;
-}
-inline void CallbackResponse::clear_iic_data() {
-  if (_internal_has_iic_data()) {
-    if (GetArenaForAllocation() == nullptr) {
-      delete _impl_.callback_data_.iic_data_;
-    }
-    clear_has_callback_data();
-  }
-}
-inline ::dgt::CallbackIIC* CallbackResponse::release_iic_data() {
-  // @@protoc_insertion_point(field_release:dgt.CallbackResponse.iic_data)
-  if (_internal_has_iic_data()) {
-    clear_has_callback_data();
-    ::dgt::CallbackIIC* temp = _impl_.callback_data_.iic_data_;
-    if (GetArenaForAllocation() != nullptr) {
-      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.callback_data_.iic_data_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::dgt::CallbackIIC& CallbackResponse::_internal_iic_data() const {
-  return _internal_has_iic_data()
-      ? *_impl_.callback_data_.iic_data_
-      : reinterpret_cast< ::dgt::CallbackIIC&>(::dgt::_CallbackIIC_default_instance_);
-}
-inline const ::dgt::CallbackIIC& CallbackResponse::iic_data() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackResponse.iic_data)
-  return _internal_iic_data();
-}
-inline ::dgt::CallbackIIC* CallbackResponse::unsafe_arena_release_iic_data() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:dgt.CallbackResponse.iic_data)
-  if (_internal_has_iic_data()) {
-    clear_has_callback_data();
-    ::dgt::CallbackIIC* temp = _impl_.callback_data_.iic_data_;
-    _impl_.callback_data_.iic_data_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void CallbackResponse::unsafe_arena_set_allocated_iic_data(::dgt::CallbackIIC* iic_data) {
-  clear_callback_data();
-  if (iic_data) {
-    set_has_iic_data();
-    _impl_.callback_data_.iic_data_ = iic_data;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:dgt.CallbackResponse.iic_data)
-}
-inline ::dgt::CallbackIIC* CallbackResponse::_internal_mutable_iic_data() {
-  if (!_internal_has_iic_data()) {
-    clear_callback_data();
-    set_has_iic_data();
-    _impl_.callback_data_.iic_data_ = CreateMaybeMessage< ::dgt::CallbackIIC >(GetArenaForAllocation());
-  }
-  return _impl_.callback_data_.iic_data_;
-}
-inline ::dgt::CallbackIIC* CallbackResponse::mutable_iic_data() {
-  ::dgt::CallbackIIC* _msg = _internal_mutable_iic_data();
-  // @@protoc_insertion_point(field_mutable:dgt.CallbackResponse.iic_data)
-  return _msg;
-}
-
-inline bool CallbackResponse::has_callback_data() const {
-  return callback_data_case() != CALLBACK_DATA_NOT_SET;
-}
-inline void CallbackResponse::clear_has_callback_data() {
-  _impl_._oneof_case_[0] = CALLBACK_DATA_NOT_SET;
-}
-inline CallbackResponse::CallbackDataCase CallbackResponse::callback_data_case() const {
-  return CallbackResponse::CallbackDataCase(_impl_._oneof_case_[0]);
-}
 // -------------------------------------------------------------------
 
-// CallbackIIC
+// EmptyResponse
+
+// -------------------------------------------------------------------
+
+// CallbackIICResponse
 
 // int32 param1 = 1;
-inline void CallbackIIC::clear_param1() {
+inline void CallbackIICResponse::clear_param1() {
   _impl_.param1_ = 0;
 }
-inline int32_t CallbackIIC::_internal_param1() const {
+inline int32_t CallbackIICResponse::_internal_param1() const {
   return _impl_.param1_;
 }
-inline int32_t CallbackIIC::param1() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackIIC.param1)
+inline int32_t CallbackIICResponse::param1() const {
+  // @@protoc_insertion_point(field_get:dgt.CallbackIICResponse.param1)
   return _internal_param1();
 }
-inline void CallbackIIC::_internal_set_param1(int32_t value) {
+inline void CallbackIICResponse::_internal_set_param1(int32_t value) {
   
   _impl_.param1_ = value;
 }
-inline void CallbackIIC::set_param1(int32_t value) {
+inline void CallbackIICResponse::set_param1(int32_t value) {
   _internal_set_param1(value);
-  // @@protoc_insertion_point(field_set:dgt.CallbackIIC.param1)
+  // @@protoc_insertion_point(field_set:dgt.CallbackIICResponse.param1)
 }
 
 // int32 param2 = 2;
-inline void CallbackIIC::clear_param2() {
+inline void CallbackIICResponse::clear_param2() {
   _impl_.param2_ = 0;
 }
-inline int32_t CallbackIIC::_internal_param2() const {
+inline int32_t CallbackIICResponse::_internal_param2() const {
   return _impl_.param2_;
 }
-inline int32_t CallbackIIC::param2() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackIIC.param2)
+inline int32_t CallbackIICResponse::param2() const {
+  // @@protoc_insertion_point(field_get:dgt.CallbackIICResponse.param2)
   return _internal_param2();
 }
-inline void CallbackIIC::_internal_set_param2(int32_t value) {
+inline void CallbackIICResponse::_internal_set_param2(int32_t value) {
   
   _impl_.param2_ = value;
 }
-inline void CallbackIIC::set_param2(int32_t value) {
+inline void CallbackIICResponse::set_param2(int32_t value) {
   _internal_set_param2(value);
-  // @@protoc_insertion_point(field_set:dgt.CallbackIIC.param2)
+  // @@protoc_insertion_point(field_set:dgt.CallbackIICResponse.param2)
 }
 
 // string param3 = 3;
-inline void CallbackIIC::clear_param3() {
+inline void CallbackIICResponse::clear_param3() {
   _impl_.param3_.ClearToEmpty();
 }
-inline const std::string& CallbackIIC::param3() const {
-  // @@protoc_insertion_point(field_get:dgt.CallbackIIC.param3)
+inline const std::string& CallbackIICResponse::param3() const {
+  // @@protoc_insertion_point(field_get:dgt.CallbackIICResponse.param3)
   return _internal_param3();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void CallbackIIC::set_param3(ArgT0&& arg0, ArgT... args) {
+void CallbackIICResponse::set_param3(ArgT0&& arg0, ArgT... args) {
  
  _impl_.param3_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:dgt.CallbackIIC.param3)
+  // @@protoc_insertion_point(field_set:dgt.CallbackIICResponse.param3)
 }
-inline std::string* CallbackIIC::mutable_param3() {
+inline std::string* CallbackIICResponse::mutable_param3() {
   std::string* _s = _internal_mutable_param3();
-  // @@protoc_insertion_point(field_mutable:dgt.CallbackIIC.param3)
+  // @@protoc_insertion_point(field_mutable:dgt.CallbackIICResponse.param3)
   return _s;
 }
-inline const std::string& CallbackIIC::_internal_param3() const {
+inline const std::string& CallbackIICResponse::_internal_param3() const {
   return _impl_.param3_.Get();
 }
-inline void CallbackIIC::_internal_set_param3(const std::string& value) {
+inline void CallbackIICResponse::_internal_set_param3(const std::string& value) {
   
   _impl_.param3_.Set(value, GetArenaForAllocation());
 }
-inline std::string* CallbackIIC::_internal_mutable_param3() {
+inline std::string* CallbackIICResponse::_internal_mutable_param3() {
   
   return _impl_.param3_.Mutable(GetArenaForAllocation());
 }
-inline std::string* CallbackIIC::release_param3() {
-  // @@protoc_insertion_point(field_release:dgt.CallbackIIC.param3)
+inline std::string* CallbackIICResponse::release_param3() {
+  // @@protoc_insertion_point(field_release:dgt.CallbackIICResponse.param3)
   return _impl_.param3_.Release();
 }
-inline void CallbackIIC::set_allocated_param3(std::string* param3) {
+inline void CallbackIICResponse::set_allocated_param3(std::string* param3) {
   if (param3 != nullptr) {
     
   } else {
@@ -2283,12 +2256,16 @@ inline void CallbackIIC::set_allocated_param3(std::string* param3) {
     _impl_.param3_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:dgt.CallbackIIC.param3)
+  // @@protoc_insertion_point(field_set_allocated:dgt.CallbackIICResponse.param3)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
