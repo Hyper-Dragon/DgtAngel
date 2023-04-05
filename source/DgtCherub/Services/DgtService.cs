@@ -13,7 +13,8 @@ namespace DgtGrpcService.Services
 
         public override Task<IntResponse> Init(Empty request, ServerCallContext context)
         {
-            return Task.FromResult(new IntResponse{ 
+            return Task.FromResult(new IntResponse
+            {
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Init()
             });
         }
@@ -46,7 +47,7 @@ namespace DgtGrpcService.Services
             return Task.FromResult(new IntResponse
             {
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetAutoRotation(request.Value)
-            }); 
+            });
         }
 
         public override Task<IntResponse> UseSAN(BoolRequest request, ServerCallContext context)
@@ -54,14 +55,14 @@ namespace DgtGrpcService.Services
             return Task.FromResult(new IntResponse
             {
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.UseSAN(request.Value)
-            }); 
+            });
         }
         public override Task<IntResponse> SetGameType(IntRequest request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
             {
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetGameType(request.Value)
-            }); 
+            });
         }
         public override Task<IntResponse> HideDialog(IntRequest request, ServerCallContext context)
         {
@@ -104,12 +105,12 @@ namespace DgtGrpcService.Services
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.EndDisplay(request.Value)
             });
         }
-        
+
         public override Task<IntResponse> DisplayClockMessage(ClockMessageRequest request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.DisplayClockMessage(new StringBuilder(request.Message),request.Time)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.DisplayClockMessage(new StringBuilder(request.Message), request.Time)
             });
         }
 
@@ -179,15 +180,38 @@ namespace DgtGrpcService.Services
         }
 
 
-
-        //Callbacks...
+        private static IServerStreamWriter<DgtGrpcService.StringResponse> StableBoardResponseStream;
         private static readonly CallbackStableBoardFunc _callbackStableBoardInstance = new(CallbackStableBoardInstanceMethod);
-        private static void CallbackStableBoardInstanceMethod(string fenString) {
-            currFen = fenString;    
-            }
+        private static void CallbackStableBoardInstanceMethod(string fenString) 
+        {
+            StableBoardResponseStream.WriteAsync(new DgtGrpcService.StringResponse { Value = fenString });
+        }
 
         static string currFen = "8/8/8/8/8/8/8/8";
         static string lastFen = "dummy";
+
+        public override Task RegisterStableBoardFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.StringResponse> responseStream, ServerCallContext context)
+        {
+            StableBoardResponseStream = responseStream;
+            DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
+            
+            return Task.CompletedTask;
+        }
+
+
+        //public override Task<TResult> RegisterStableBoard(Empty request, ServerCallContext context)
+        //{
+        //
+        //}
+        //
+        ////Callbacks...
+        //private static readonly CallbackStableBoardFunc _callbackStableBoardInstance = new(CallbackStableBoardInstanceMethod);
+        //private static void CallbackStableBoardInstanceMethod(string fenString) {
+        //    currFen = fenString;    
+        //    }
+        //
+        //static string currFen = "8/8/8/8/8/8/8/8";
+        //static string lastFen = "dummy";
 
         //public override async Task<Task> RegisterCallbacks(StringRequest request, IServerStreamWriter<CallbackResponse> responseStream, ServerCallContext context)
         //{
