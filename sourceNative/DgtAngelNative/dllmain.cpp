@@ -22,10 +22,9 @@ typedef int __stdcall FIIC(int, int, const char*);
 
 
 struct CallbackInfo {
-	std::string name;
+	std::string grpc_event_name;
 	void* func;
 };
-
 
 std::vector<CallbackInfo> g_callbacks;
 std::mutex g_callback_mutex;
@@ -114,6 +113,39 @@ int PerformGrpcCall(const std::function<grpc::Status(grpc::ClientContext&, Reque
 	catch (const std::exception& e) {
 		LogMessage("  Exception: " + std::string(e.what())); // Log exception message
 		return 1;
+	}
+}
+
+void CallRegisteredCallbacks(const std::string& grpc_event_name, const google::protobuf::Any& event_data) {
+	std::lock_guard<std::mutex> lock(g_callback_mutex);
+
+	for (const auto& callback_info : g_callbacks) {
+		if (callback_info.grpc_event_name == grpc_event_name) {
+			// Call the appropriate function pointer based on the event data type
+			if (event_data.Is<dgt::StringResponse>()) {
+				dgt::StringResponse string_response;
+				event_data.UnpackTo(&string_response);
+				reinterpret_cast<FC*>(callback_info.func)(string_response.value().c_str());
+			}
+			else if (event_data.Is<dgt::IntResponse>()) {
+				dgt::IntResponse int_response;
+				event_data.UnpackTo(&int_response);
+				reinterpret_cast<FI*>(callback_info.func)(int_response.value());
+			}
+			else if (event_data.Is<dgt::BoolResponse>()) {
+				dgt::BoolResponse bool_response;
+				event_data.UnpackTo(&bool_response);
+				reinterpret_cast<FB*>(callback_info.func)(bool_response.value());
+			}
+			else if (event_data.Is<dgt::Empty>()) {
+				reinterpret_cast<F*>(callback_info.func)();
+			}
+			else if (event_data.Is<dgt::CallbackIICResponse>()) {
+				dgt::CallbackIICResponse iic_response;
+				event_data.UnpackTo(&iic_response);
+				reinterpret_cast<FIIC*>(callback_info.func)(iic_response.param1(), iic_response.param2(), iic_response.param3().c_str());
+			}
+		}
 	}
 }
 
@@ -467,7 +499,55 @@ extern "C" {
 
 
 
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
+		LogMessage("Called " + std::string(__func__));
+
+		std::lock_guard<std::mutex> lock(g_callback_mutex);
+		g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
+
+
+
+
+		// Create a gRPC client and connect to the server
+		//std::shared_ptr<grpc::Channel> channel = grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
+		//std::unique_ptr<StableBoardService::Stub> stub = StableBoardService::NewStub(channel);
+
+		// Create an empty request message
+		dgt::Empty empty_request;
+
+		// Create a stream context to receive the response stream
+		grpc::ClientContext context;
+		std::unique_ptr<grpc::ClientReader<dgt::StringResponse>> reader = g_stub->RegisterStableBoardFunc(&context, empty_request);
+
+		// Loop through the stream to read all the responses
+		dgt::StringResponse response;
+
+		while (true) {
+			if (reader->Read(&response)) {
+				std::cout << "Received response: " << response.value() << std::endl;
+			}
+			Sleep(100);
+			//else {
+			//	// Handle any errors or timeouts that may occur during the reading process
+			//	std::cerr << "Error while reading response." << std::endl;
+			//	break;
+			//}
+		}
+
+		//while (reader->Read(&response)) {
+		//	// Process the response
+		//	std::cout << "Received response: " << response.value() << std::endl;
+		//}
+
+		// Check if there are any errors
+		grpc::Status status = reader->Finish();
+		if (!status.ok()) {
+			std::cerr << "Error: " << status.error_code() << ": " << status.error_message() << std::endl;
+		}
+
+		return 0;
+	}
+
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
