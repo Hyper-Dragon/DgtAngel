@@ -502,30 +502,44 @@ extern "C" {
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
 		LogMessage("Called " + std::string(__func__));
 
-		std::lock_guard<std::mutex> lock(g_callback_mutex);
-		g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
+		std::thread t([func]() {
 
-		ReconnectChannelIfNecessary();
+			static FC* s_func = nullptr;
+			s_func = func;
 
-		// Create an empty request message
-		dgt::Empty empty_request;
+			//std::lock_guard<std::mutex> lock(g_callback_mutex);
+			//g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
 
-		// Create a stream context to receive the response stream
-		grpc::ClientContext context;
-		std::unique_ptr<grpc::ClientReader<dgt::StringResponse>> reader = g_stub->RegisterStableBoardFunc(&context, empty_request);
+			ReconnectChannelIfNecessary();
 
-		// Loop through the stream to read all the responses
-		dgt::StringResponse response;
+			// Create an empty request message
+			dgt::Empty empty_request;
 
-		while (true) {
-			if (reader->Read(&response)) {
-				const char* responseChars = response.value().c_str();
+			// Create a stream context to receive the response stream
+			grpc::ClientContext context;
+			std::unique_ptr<grpc::ClientReader<dgt::StringResponse>> reader = g_stub->RegisterStableBoardFunc(&context, empty_request);
 
-				LogMessage("Received response: " + response.value());
-				int callbackResponse = func(responseChars);
+			// Loop through the stream to read all the responses
+			dgt::StringResponse response;
+
+			while (true) {
+				if (reader->Read(&response)) {
+					const char* responseChars = response.value().c_str();
+
+					LogMessage("Received response: " + response.value());
+					int callbackResponse = s_func(responseChars);
+				}
+				Sleep(100);
 			}
-			Sleep(100);
-		}
+			});
+
+		t.detach();
+
+
+		//while (true) {
+		//	Sleep(1000);
+		//}
+
 
 		return 0;
 	}
