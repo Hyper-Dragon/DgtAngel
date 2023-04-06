@@ -4,6 +4,9 @@ using DgtGrpcService;
 using NAudio.Gui;
 using System.Text;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
+using Microsoft.AspNetCore.Rewrite;
+using Google.Protobuf.WellKnownTypes;
+using System.Collections.Concurrent;
 
 namespace DgtGrpcService.Services
 {
@@ -180,72 +183,30 @@ namespace DgtGrpcService.Services
         }
 
 
-        private static IServerStreamWriter<DgtGrpcService.StringResponse> StableBoardResponseStream;
+        private static ConcurrentQueue<string> queue = new();
         private static readonly CallbackStableBoardFunc _callbackStableBoardInstance = new(CallbackStableBoardInstanceMethod);
         private static void CallbackStableBoardInstanceMethod(string fenString) 
         {
-            StableBoardResponseStream.WriteAsync(new DgtGrpcService.StringResponse { Value = fenString });
+            queue.Enqueue(fenString[..]);
         }
-
-        static string currFen = "8/8/8/8/8/8/8/8";
-        static string lastFen = "dummy";
-
-        public override Task RegisterStableBoardFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.StringResponse> responseStream, ServerCallContext context)
+        
+        public override async Task RegisterStableBoardFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.StringResponse> responseStream, ServerCallContext context)
         {
-            StableBoardResponseStream = responseStream;
-            DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
-            
-            return Task.CompletedTask;
+            //Register the callback function with the DgtRabbitWrapper
+            _ = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(
+                _callbackStableBoardInstance,
+                IntPtr.Zero
+            );
+
+            while (!context.CancellationToken.IsCancellationRequested)
+            {
+                while (queue.TryDequeue(out string val))
+                {
+                    await responseStream.WriteAsync(new DgtGrpcService.StringResponse { Value = val });
+                }
+                
+                await Task.Delay(1000); // Gotta look busy
+            }
         }
-
-
-        //public override Task<TResult> RegisterStableBoard(Empty request, ServerCallContext context)
-        //{
-        //
-        //}
-        //
-        ////Callbacks...
-        //private static readonly CallbackStableBoardFunc _callbackStableBoardInstance = new(CallbackStableBoardInstanceMethod);
-        //private static void CallbackStableBoardInstanceMethod(string fenString) {
-        //    currFen = fenString;    
-        //    }
-        //
-        //static string currFen = "8/8/8/8/8/8/8/8";
-        //static string lastFen = "dummy";
-
-        //public override async Task<Task> RegisterCallbacks(StringRequest request, IServerStreamWriter<CallbackResponse> responseStream, ServerCallContext context)
-        //{
-        //    //Remove - reset on new con for testing
-        //    currFen = "8/8/8/8/8/8/8/8";
-        //    lastFen = "dummy";
-        //
-        //    switch (request.Value)
-        //    {
-        //        case "StableBoard":
-        //            DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(_callbackStableBoardInstance, IntPtr.Zero);
-        //
-        //            // loop indefinitely, sending messages to the client whenever the callback fires
-        //            while (!context.CancellationToken.IsCancellationRequested)
-        //            {
-        //                // generate a response message and send it to the client
-        //                if (currFen != lastFen)
-        //                {
-        //                    var message = new CallbackResponse { CallbackName = "StableBoard", StringData = currFen };
-        //                    await responseStream.WriteAsync(message);
-        //                    currFen = lastFen;
-        //                }
-        //
-        //                await Task.Delay(1000);
-        //            }
-        //            break;
-        //
-        //        default:
-        //            // handle other callback types here
-        //            return base.RegisterCallbacks(request, responseStream, context);
-        //    }
-        //
-        //    // the response stream has been closed, so return a completed task
-        //    return Task.CompletedTask;
-        //}
     }
 }

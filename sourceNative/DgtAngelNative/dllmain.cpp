@@ -505,12 +505,7 @@ extern "C" {
 		std::lock_guard<std::mutex> lock(g_callback_mutex);
 		g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
 
-
-
-
-		// Create a gRPC client and connect to the server
-		//std::shared_ptr<grpc::Channel> channel = grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
-		//std::unique_ptr<StableBoardService::Stub> stub = StableBoardService::NewStub(channel);
+		ReconnectChannelIfNecessary();
 
 		// Create an empty request message
 		dgt::Empty empty_request;
@@ -524,25 +519,12 @@ extern "C" {
 
 		while (true) {
 			if (reader->Read(&response)) {
-				std::cout << "Received response: " << response.value() << std::endl;
+				const char* responseChars = response.value().c_str();
+
+				LogMessage("Received response: " + response.value());
+				int callbackResponse = func(responseChars);
 			}
 			Sleep(100);
-			//else {
-			//	// Handle any errors or timeouts that may occur during the reading process
-			//	std::cerr << "Error while reading response." << std::endl;
-			//	break;
-			//}
-		}
-
-		//while (reader->Read(&response)) {
-		//	// Process the response
-		//	std::cout << "Received response: " << response.value() << std::endl;
-		//}
-
-		// Check if there are any errors
-		grpc::Status status = reader->Finish();
-		if (!status.ok()) {
-			std::cerr << "Error: " << status.error_code() << ": " << status.error_message() << std::endl;
 		}
 
 		return 0;
