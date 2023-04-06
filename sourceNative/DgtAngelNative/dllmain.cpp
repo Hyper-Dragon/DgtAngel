@@ -499,13 +499,24 @@ extern "C" {
 
 
 
+	FC* s_func = nullptr;
+
+
+	void SetCallback(FC* callback)
+	{
+		s_func = callback;
+	}
+
+
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
 		LogMessage("Called " + std::string(__func__));
 
-		std::thread t([func]() {
+		_DGTDLL_UseFEN(true);
 
-			static FC* s_func = nullptr;
-			s_func = func;
+		SetCallback(func);
+
+		std::thread t([]() {
+			
 
 			//std::lock_guard<std::mutex> lock(g_callback_mutex);
 			//g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
@@ -524,10 +535,30 @@ extern "C" {
 
 			while (true) {
 				if (reader->Read(&response)) {
-					const char* responseChars = response.value().c_str();
+					//const char* responseChars = response.value().c_str();
 
 					LogMessage("Received response: " + response.value());
-					int callbackResponse = s_func(responseChars);
+
+					if (s_func != nullptr)
+					{
+						try {
+							std::string responseStr = response.value();
+							const char* responseChars = responseStr.c_str();
+							char* copiedChars = new char[responseStr.length() + 1];
+							strcpy_s(copiedChars, responseStr.length() + 1, responseChars);
+							int callbackResponse = s_func(copiedChars);
+							delete[] copiedChars;
+
+							//std::string responseStr = response.value();
+							//const char* responseChars = responseStr.c_str();
+							//int callbackResponse = s_func(responseChars);
+							//int callbackResponse = s_func(responseChars);
+							//s_func("8/8/8/8/8/8/8/8");
+						}
+						catch (...) {
+							LogMessage("Exception in callback");
+						}
+					}
 				}
 				Sleep(100);
 			}
