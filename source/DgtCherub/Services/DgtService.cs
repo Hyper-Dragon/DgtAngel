@@ -1,18 +1,59 @@
-﻿using DgtRabbitWrapper.DgtEbDll;
+﻿using DgtGrpcService;
 using Grpc.Core;
-using DgtGrpcService;
-using NAudio.Gui;
 using System.Text;
+using EbDllInternal = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
-using Microsoft.AspNetCore.Rewrite;
-using Google.Protobuf.WellKnownTypes;
-using System.Collections.Concurrent;
 
-namespace DgtGrpcService.Services
+namespace DgtCherub.Services
 {
     public class DgtService : DGTDLL.DGTDLLBase
     {
-        //DgtRabbitWrapper.DgtEbDll.DgtEbDllImport dgtEbDllImport = new DgtRabbitWrapper.DgtEbDll.DgtEbDllImport();
+        //private readonly DgtRabbitWrapper.DgtEbDll.DgtEbDllImport _dgtEbDllImport;
+
+        private event EventHandler<string> RegisteredStableBoardEvent;
+        private event EventHandler<string> RegisteredStatusEvent;
+        private event EventHandler<string> RegisteredScanEvent;
+        private event EventHandler<string> RegisteredWClockEvent;
+        private event EventHandler<string> RegisteredBClockEvent;
+        private event EventHandler<string> RegisteredResultEvent;
+        private event EventHandler<string> RegisteredNewGameEvent;
+        private event EventHandler<string> RegisteredWhiteMoveInputEvent;
+        private event EventHandler<string> RegisteredBlackMoveInputEvent;
+        private event EventHandler<string> RegisteredWhiteMoveNowEvent;
+        private event EventHandler<string> RegisteredBlackMoveNowEvent;
+        private event EventHandler<string> RegisteredStartSetupEvent;
+        private event EventHandler<string> RegisteredStopSetupWTMEvent;
+        private event EventHandler<string> RegisteredStopSetupBTMEvent;
+
+        private event EventHandler<int> RegisteredGameTypeChangedEvent;
+        private event EventHandler<bool> RegisteredAllowTakebacksChangedEvent;
+        //private event EventHandler<string>  RegisteredMagicPieceEvent;
+        private event EventHandler RegisteredWhiteTakebackEvent;
+        private event EventHandler RegisteredBlackTakebackEvent;
+
+        public DgtService() : base()
+        {
+            _ = EbDllInternal.RegisterStableBoardFunc(new CallbackStableBoardFunc(x => { RegisteredStableBoardEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterStatusFunc(new CallbackStatusFunc(x => { RegisteredScanEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterCallbackScanFunc(new CallbackScanFunc(x => { RegisteredScanEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterWClockFunc(new CallbackWClockFunc(x => { RegisteredWClockEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterBClockFunc(new CallbackBClockFunc(x => { RegisteredBClockEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterResultFunc(new CallbackResultFunc(x => { RegisteredResultEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterNewGameFunc(new CallbackNewGameFunc(x => { RegisteredNewGameEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterWhiteMoveInputFunc(new CallbackWhiteMoveInputFunc(x => { RegisteredWhiteMoveInputEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterBlackMoveInputFunc(new CallbackBlackMoveInputFunc(x => { RegisteredBlackMoveInputEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterWhiteMoveNowFunc(new CallbackWhiteMoveNowFunc(x => { RegisteredWhiteMoveNowEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterBlackMoveNowFunc(new CallbackBlackMoveNowFunc(x => { RegisteredBlackMoveNowEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterStartSetupFunc(new CallbackStartSetupFunc(x => { RegisteredStartSetupEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterStopSetupWTMFunc(new CallbackStopSetupWTMFunc(x => { RegisteredStopSetupWTMEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterStopSetupBTMFunc(new CallbackStopSetupBTMFunc(x => { RegisteredStopSetupBTMEvent?.Invoke(null, x); }), nint.Zero);
+
+            _ = EbDllInternal.RegisterGameTypeChangedFunc(new CallbackGameTypeChangedFunc(x => { RegisteredGameTypeChangedEvent?.Invoke(null, x); }), nint.Zero);
+            _ = EbDllInternal.RegisterAllowTakebacksChangedFunc(new CallbackAllowTakebacksChangedFunc(x => { RegisteredAllowTakebacksChangedEvent?.Invoke(null, x); }), nint.Zero);
+            //_ = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterMagicPieceFunc           (new CallbackMagicPieceFunc(x => { RegisteredStopSetupBTMEvent?.Invoke(null, x); }), IntPtr.Zero);
+            _ = EbDllInternal.RegisterWhiteTakebackFunc(new CallbackWhiteTakebackFunc(() => { RegisteredWhiteTakebackEvent?.Invoke(null, null); }), nint.Zero);
+            _ = EbDllInternal.RegisterBlackTakebackFunc(new CallbackBlackTakebackFunc(() => { RegisteredBlackTakebackEvent?.Invoke(null, null); }), nint.Zero);
+        }
 
         public override Task<IntResponse> Init(Empty request, ServerCallContext context)
         {
@@ -183,30 +224,118 @@ namespace DgtGrpcService.Services
         }
 
 
-        private static ConcurrentQueue<string> queue = new();
-        private static readonly CallbackStableBoardFunc _callbackStableBoardInstance = new(CallbackStableBoardInstanceMethod);
-        private static void CallbackStableBoardInstanceMethod(string fenString) 
+        private async Task StringEventWriter(IServerStreamWriter<StringResponse> responseStream, ServerCallContext context, EventHandler<string> eventHandler)
         {
-            queue.Enqueue(fenString[..]);
-        }
-        
-        public override async Task RegisterStableBoardFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.StringResponse> responseStream, ServerCallContext context)
-        {
-            //Register the callback function with the DgtRabbitWrapper
-            _ = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.RegisterStableBoardFunc(
-                _callbackStableBoardInstance,
-                IntPtr.Zero
-            );
+            // Create a TaskCompletionSource to signal when a new event is received
+            TaskCompletionSource<bool> tcs = new();
 
-            while (!context.CancellationToken.IsCancellationRequested)
+            // Define the event handler that will be called when a new event is raised
+            void StringEventHandler(object sender, string stringOut)
             {
-                while (queue.TryDequeue(out string val))
+                // Write the fenString to the response stream and complete the task
+                _ = responseStream.WriteAsync(new StringResponse { Value = stringOut })
+                    .ContinueWith(_ => tcs.TrySetResult(true), TaskScheduler.Default);
+            }
+
+            // Subscribe to the event
+            eventHandler += StringEventHandler;
+
+            try
+            {
+                // Loop while the client connection is still active
+                while (!context.CancellationToken.IsCancellationRequested)
                 {
-                    await responseStream.WriteAsync(new DgtGrpcService.StringResponse { Value = val });
+                    // Block until the task completion source is signaled (i.e., a new event is received)
+                    _ = await tcs.Task;
+                    tcs = new TaskCompletionSource<bool>();
                 }
-                
-                await Task.Delay(1000); // Gotta look busy
+            }
+            finally
+            {
+                // Unsubscribe from the event
+                eventHandler -= StringEventHandler;
             }
         }
+
+
+
+        public override Task RegisterStatusFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredStatusEvent(sender, stringOut));
+        }
+
+        public override Task RegisterStableBoardFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredStableBoardEvent(sender, stringOut));
+        }
+
+        public override Task RegisterScanFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredScanEvent(sender, stringOut));
+        }
+
+        public override Task RegisterWClockFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredWClockEvent(sender, stringOut));
+        }
+
+        public override Task RegisterBClockFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredBClockEvent(sender, stringOut));
+        }
+
+        public override Task RegisterResultFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredResultEvent(sender, stringOut));
+        }
+
+        public override Task RegisterNewGameFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredNewGameEvent(sender, stringOut));
+        }
+
+        public override Task RegisterWhiteMoveInputFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredWhiteMoveInputEvent(sender, stringOut));
+        }
+
+        public override Task RegisterBlackMoveInputFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredBlackMoveInputEvent(sender, stringOut));
+        }
+
+        public override Task RegisterWhiteMoveNowFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredWhiteMoveNowEvent(sender, stringOut));
+        }
+
+        public override Task RegisterBlackMoveNowFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredBlackMoveNowEvent(sender, stringOut));
+        }
+
+        public override Task RegisterStartSetupFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredStartSetupEvent(sender, stringOut));
+        }
+
+        public override Task RegisterStopSetupWTMFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredStopSetupWTMEvent(sender, stringOut));
+        }
+
+        public override Task RegisterStopSetupBTMFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
+        {
+            return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredStopSetupBTMEvent(sender, stringOut));
+        }
+
+
+        /*
+              public override Task RegisterGameTypeChangedFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.IntResponse> responseStream, ServerCallContext context) { return StringEventWriter(responseStream, context, (sender, stringOut) => DummyEvent(sender, stringOut)); }
+              public override Task RegisterAllowTakebacksChangedFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.BoolResponse> responseStream, ServerCallContext context) { return StringEventWriter(responseStream, context, (sender, stringOut) => DummyEvent(sender, stringOut)); }
+              public override Task RegisterMagicPieceFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.CallbackIICResponse> responseStream, ServerCallContext context) { return StringEventWriter(responseStream, context, (sender, stringOut) => DummyEvent(sender, stringOut)); }
+              public override Task RegisterWhiteTakebackFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.EmptyResponse> responseStream, ServerCallContext context) { return StringEventWriter(responseStream, context, (sender, stringOut) => DummyEvent(sender, stringOut)); }
+              public override Task RegisterBlackTakebackFunc(DgtGrpcService.Empty request, IServerStreamWriter<DgtGrpcService.EmptyResponse> responseStream, ServerCallContext context) { return StringEventWriter(responseStream, context, (sender, stringOut) => DummyEvent(sender, stringOut)); }
+        */
     }
 }

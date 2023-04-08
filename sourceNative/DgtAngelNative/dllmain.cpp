@@ -515,62 +515,74 @@ extern "C" {
 
 		SetCallback(func);
 
-		std::thread t([]() {
-			
+		std::thread t([]()
+			{
+				//std::lock_guard<std::mutex> lock(g_callback_mutex);
+				//g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
 
-			//std::lock_guard<std::mutex> lock(g_callback_mutex);
-			//g_callbacks.push_back({ "StableBoard", reinterpret_cast<void*>(func) });
+				ReconnectChannelIfNecessary();
 
-			ReconnectChannelIfNecessary();
+				// Create an empty request message
+				dgt::Empty empty_request;
 
-			// Create an empty request message
-			dgt::Empty empty_request;
+				// Create a stream context to receive the response stream
+				grpc::ClientContext context;
+				std::unique_ptr<grpc::ClientReader<dgt::StringResponse>> reader = g_stub->RegisterStableBoardFunc(&context, empty_request);
 
-			// Create a stream context to receive the response stream
-			grpc::ClientContext context;
-			std::unique_ptr<grpc::ClientReader<dgt::StringResponse>> reader = g_stub->RegisterStableBoardFunc(&context, empty_request);
+				// Loop through the stream to read all the responses
+				dgt::StringResponse response;
 
-			// Loop through the stream to read all the responses
-			dgt::StringResponse response;
+				while (true) {
+					if (reader->Read(&response)) {
+						std::string responseStr = response.value();
+						const char* responseChars = responseStr.c_str();
+						std::shared_ptr<char[]> copiedChars(new char[responseStr.length() + 1]);
+						strcpy_s(copiedChars.get(), responseStr.length() + 1, responseChars);
+						std::shared_ptr<char> responseCharPtr(copiedChars, copiedChars.get());
+						LogMessage("Received response: " + responseStr);
 
-			while (true) {
-				if (reader->Read(&response)) {
-					//const char* responseChars = response.value().c_str();
-
-					LogMessage("Received response: " + response.value());
-
-					if (s_func != nullptr)
-					{
-						try {
-							std::string responseStr = response.value();
-							const char* responseChars = responseStr.c_str();
-							char* copiedChars = new char[responseStr.length() + 1];
-							strcpy_s(copiedChars, responseStr.length() + 1, responseChars);
-							int callbackResponse = s_func(copiedChars);
-							delete[] copiedChars;
-
-							//std::string responseStr = response.value();
-							//const char* responseChars = responseStr.c_str();
-							//int callbackResponse = s_func(responseChars);
-							//int callbackResponse = s_func(responseChars);
-							//s_func("8/8/8/8/8/8/8/8");
-						}
-						catch (...) {
-							LogMessage("Exception in callback");
+						if (s_func != nullptr) {
+							try {
+								std::shared_ptr<char[]> copiedChars(new char[responseStr.length() + 1]);
+								strcpy_s(copiedChars.get(), responseStr.length() + 1, responseChars);
+								std::shared_ptr<const char> responseCharPtr(copiedChars.get());
+								int callbackResponse = s_func(responseCharPtr.get());
+							}
+							catch (...) {
+								LogMessage("Exception in callback");
+							}
 						}
 					}
+					Sleep(100);
 				}
-				Sleep(100);
-			}
 			});
 
-		t.detach();
-
-
 		//while (true) {
-		//	Sleep(1000);
+		//	if (reader->Read(&response)) {
+		//		//const char* responseChars = response.value().c_str();
+		//
+		//		LogMessage("Received response: " + response.value());
+		//
+		//		if (s_func != nullptr)
+		//		{
+		//			try {
+		//				std::string responseStr = response.value();
+		//				const char* responseChars = responseStr.c_str();
+		//				char* copiedChars = new char[responseStr.length() + 1];
+		//				strcpy_s(copiedChars, responseStr.length() + 1, responseChars);
+		//				int callbackResponse = s_func(copiedChars);
+		//				//delete[] copiedChars;
+		//			}
+		//			catch (...) {
+		//				LogMessage("Exception in callback");
+		//			}
+		//		}
+		//	}
+		//	Sleep(100);
 		//}
+		//});
 
+		t.detach();
 
 		return 0;
 	}

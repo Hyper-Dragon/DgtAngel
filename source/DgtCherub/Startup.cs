@@ -4,7 +4,6 @@ using DgtLiveChessWrapper;
 using DgtRabbitWrapper;
 using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard;
-using DgtGrpcService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

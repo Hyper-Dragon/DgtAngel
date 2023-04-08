@@ -62,10 +62,10 @@ namespace DgtRabbitWrapper.DgtEbDll
 
 
         //public delegate void CallbackMagicPieceFunc(string VERIFY);
-        //public delegate void CallbackAllowTakebacksChangedFunc(string VERIFY);
-        //public delegate void CallbackGameTypeChangedFunc(string VERIFY);
-        //public delegate void CallbackBlackTakebackFunc(string VERIFY);
-        //public delegate void CallbackWhiteTakebackFunc(string VERIFY);
+        public delegate void CallbackAllowTakebacksChangedFunc(bool isTakebackAllowed);
+        public delegate void CallbackGameTypeChangedFunc(int gameType);
+        public delegate void CallbackBlackTakebackFunc();
+        public delegate void CallbackWhiteTakebackFunc();
 
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBClockFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern int RegisterBClockFunc(CallbackBClockFunc func, IntPtr callbackTarget);
@@ -92,9 +92,9 @@ namespace DgtRabbitWrapper.DgtEbDll
 
 
 
-        /*
-                [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                public static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
+
+                //[DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+                //public static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterAllowTakebacksChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
                 public static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterGameTypeChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
@@ -103,8 +103,7 @@ namespace DgtRabbitWrapper.DgtEbDll
                 public static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
                 [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBlackTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
                 public static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
-        */
-        //----------------------------------------------------------------------------------
+
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_UseFEN",
