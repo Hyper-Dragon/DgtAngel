@@ -122,6 +122,16 @@ namespace DgtCherub
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
 
+        private readonly Dictionary<Control, (Rectangle Bounds,
+                                              Font StoredFont,
+                                              Padding StoredPadding,
+                                              Padding StoredMargins,
+                                              int StoredWidth,
+                                              int StoredHeight,
+                                              Size StoredItemSize)> originalControlData = new();
+
+        private int originalFormHeight;
+
         private bool EchoInternallMessagesToConsole { get; set; } = true;
         private bool EchoExternalMessagesToConsole { get; set; } = true;
         private bool IncludeSecs { get; set; } = true;
@@ -196,138 +206,84 @@ namespace DgtCherub
             }
         }
 
-
-        private Dictionary<Control, (Rectangle Bounds,
-                                     Font StoredFont,
-                                     Padding StoredPadding,
-                                     Padding StoredMargins,
-                                     int StoredWidth,
-                                     int StoredHeight,
-                                     int MinSize,
-                                     Size StoredItemSize)> originalControlData = new();
-
         private void ApplyScaling(Form form, float scale)
         {
             this.SuspendLayout();
 
-            if (scale == 1.0f)
+            // Apply scaling
+            foreach (var control in originalControlData.Keys)
             {
-                // Revert to original bounds and font sizes
-                foreach (var control in originalControlData.Keys)
+                if (control.Name == "TextBoxConsole") continue;
+
+                Rectangle originalBounds = originalControlData[control].Bounds;
+                Font originalFont = originalControlData[control].StoredFont;
+                Padding originalPadding = originalControlData[control].StoredPadding;
+                Padding originalMargin = originalControlData[control].StoredMargins;
+                int originalWidth = originalControlData[control].StoredWidth;
+                int originalHeight = originalControlData[control].StoredHeight;
+                Size originalTabItemSize = originalControlData[control].StoredItemSize;
+
+                control.Bounds = new Rectangle(
+                    (int)(originalBounds.X * scale),
+                    (int)(originalBounds.Y * scale),
+                    (int)(originalBounds.Width * scale),
+                    (int)(originalBounds.Height * scale));
+
+                control.Padding = new Padding(
+                    (int)(originalPadding.Left * scale),
+                    (int)(originalPadding.Top * scale),
+                    (int)(originalPadding.Right * scale),
+                    (int)(originalPadding.Bottom * scale));
+
+                control.Margin = new Padding(
+                    (int)(originalMargin.Left * scale),
+                    (int)(originalMargin.Top * scale),
+                    (int)(originalMargin.Right * scale),
+                    (int)(originalMargin.Bottom * scale));
+
+                float fontSize = scale switch
                 {
-                    if (control.Name == "TextBoxConsole") continue;
+                    0.75f => 6,
+                    1.0f => 10,
+                    1.3f => 14,
+                    1.5f => 16,
+                    1.7f => 18,
+                    2.0f => 20,
+                    _ => originalFont.Size
+                };
 
-                    control.Bounds = originalControlData[control].Bounds;
-                    control.Font = originalControlData[control].StoredFont;
-                    control.Padding = originalControlData[control].StoredPadding;
-                    control.Margin = originalControlData[control].StoredMargins;
+                control.Font = new Font(originalFont.FontFamily,
+                                        fontSize,
+                                        originalFont.Style);
 
-                    if (control.GetType().Equals(typeof(TabControl)))
-                    {
-                        ((TabControl)control).ItemSize = originalControlData[control].StoredItemSize;
-                    }
-                    else if (control.GetType().Equals(typeof(MenuStrip)))
-                    {
-                        MenuStrip.Height = originalControlData[MenuStrip].StoredHeight;
-                        MenuStrip.Font = originalControlData[MenuStrip].StoredFont;
-                    }
-                    else if (control.GetType().Equals(typeof(StatusStrip)))
-                    {
-                        StatusStrip.Height = originalControlData[StatusStrip].StoredHeight;
-                        StatusStrip.Font = originalControlData[StatusStrip].StoredFont;
-                    }
-                    else if (control.GetType().Equals(typeof(Form)))
-                    {
-                        this.MinimumSize = new Size(this.MinimumSize.Width, originalControlData[control].MinSize);
-                    }
+                if (control.GetType().Equals(typeof(TabControl)))
+                {
+                    ((TabControl)control).ItemSize = new Size((int)((float)originalTabItemSize.Width * scale),
+                                                              (int)((float)originalTabItemSize.Height * scale));
                 }
-            }
-            else
-            {
-                if (originalControlData.Count == 0)
+                else if (control.GetType().Equals(typeof(MenuStrip)))
                 {
-                    // Store the original bounds and font sizes of all controls
-                    foreach (Control control in form.Controls)
-                    {
-                        StoreOriginalData(control);
-                    }
-
-                    StoreOriginalData(MenuStrip);
-                    StoreOriginalData(StatusStrip);
-                    StoreOriginalData(this);
+                    MenuStrip.Height = (int)((float)originalControlData[control].StoredHeight * scale);
                 }
-
-                // Apply scaling
-                foreach (var control in originalControlData.Keys)
+                else if (control.GetType().Equals(typeof(StatusStrip)))
                 {
-                    if (control.Name == "TextBoxConsole") continue;
+                    control.Height = (int)((float)originalControlData[control].StoredHeight * scale);
 
-                    Rectangle originalBounds = originalControlData[control].Bounds;
-                    Font originalFont = originalControlData[control].StoredFont;
-                    Padding originalPadding = originalControlData[control].StoredPadding;
-                    Padding originalMargin = originalControlData[control].StoredMargins;
-                    int originalWidth = originalControlData[control].StoredWidth;
-                    int originalHeight = originalControlData[control].StoredHeight;
-                    Size originalTabItemSize = originalControlData[control].StoredItemSize;
-
-                    control.Bounds = new Rectangle(
-                        (int)(originalBounds.X * scale),
-                        (int)(originalBounds.Y * scale),
-                        (int)(originalBounds.Width * scale),
-                        (int)(originalBounds.Height * scale));
-
-                    control.Padding = new Padding(
-                        (int)(originalPadding.Left * scale),
-                        (int)(originalPadding.Top * scale),
-                        (int)(originalPadding.Right * scale),
-                        (int)(originalPadding.Bottom * scale));
-
-                    control.Margin = new Padding(
-                        (int)(originalMargin.Left * scale),
-                        (int)(originalMargin.Top * scale),
-                        (int)(originalMargin.Right * scale),
-                        (int)(originalMargin.Bottom * scale));
-
-                    float fontSize = scale switch
+                    foreach (ToolStripItem item in ((StatusStrip)control).Items)
                     {
-                        0.75f => 6,
-                        1.3f => 14,
-                        1.5f => 16,
-                        1.7f => 18,
-                        2.0f => 20,
-                        _ => originalFont.Size
-                    };
-
-                    control.Font = new Font(originalFont.FontFamily,
-                                                fontSize,
-                                                originalFont.Style);
-
-                    if (control.GetType().Equals(typeof(TabControl)))
-                    {
-                        ((TabControl)control).ItemSize = new Size((int)((float)originalTabItemSize.Width * scale),
-                                                                  (int)((float)originalTabItemSize.Height * scale));
-                    }
-                    else if (control.GetType().Equals(typeof(MenuStrip)))
-                    {
-                        MenuStrip.Height = (int)((float)originalControlData[control].StoredHeight * scale);
-                    }
-                    else if (control.GetType().Equals(typeof(StatusStrip)))
-                    {
-                        StatusStrip.Height = (int)((float)originalControlData[control].StoredHeight * scale);
-                    }
-                    else if (control.GetType().Equals(typeof(Form)))
-                    {
-                        this.MinimumSize = new Size(this.MinimumSize.Width, (int)((float)originalControlData[control].MinSize * scale));
+                        if (item is ToolStripStatusLabel label) label.Font = control.Font;
                     }
                 }
             }
 
+            this.Update();
 
+            TextBoxConsole.Location = new Point(TabControlSidePanel.Width, TextBoxConsole.Location.Y);
+            TextBoxConsole.Width = this.Width - TextBoxConsole.Location.X;
+
+            this.MinimumSize = new Size(TextBoxConsole.Location.X, (int)((float)originalFormHeight * scale));
 
             this.ResumeLayout(true);
-
-            TextBoxConsole.Location = new Point(TabPageConfig.Width + 40, TextBoxConsole.Location.Y);
-            TextBoxConsole.Width = this.ClientSize.Width - TextBoxConsole.Location.X;
         }
 
         private void StoreOriginalData(Control control)
@@ -338,7 +294,6 @@ namespace DgtCherub
                                             control.Margin,
                                             control.Width,
                                             control.Height,
-                                            control.MinimumSize.Height,
                                             (control as TabControl)?.ItemSize ?? new Size(0, 0));
 
             foreach (Control child in control.Controls)
@@ -640,6 +595,18 @@ namespace DgtCherub
 
             Update();
 
+            // Store the original bounds and font sizes of all controls
+            foreach (Control control in this.Controls)
+            {
+                StoreOriginalData(control);
+            }
+
+            StoreOriginalData(MenuStrip);
+            StoreOriginalData(StatusStrip);
+
+            originalFormHeight = this.MinimumSize.Height;
+
+            //This will cause ApplyScale to be called
             ComboBoxScale.SelectedIndex = DgtCherub.Properties.UserSettings.Default.GuiScaleIndex;
 
             ResumeLayout();

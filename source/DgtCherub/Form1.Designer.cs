@@ -991,7 +991,7 @@ namespace DgtCherub
             ToolStripStatusLabelLastUpdate.AutoSize = false;
             ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(923, 23);
+            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
             ToolStripStatusLabelLastUpdate.Spring = true;
             ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1247,7 +1247,7 @@ namespace DgtCherub
             Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = MenuStrip;
-            MinimumSize = new System.Drawing.Size(620, 725);
+            MinimumSize = new System.Drawing.Size(1074, 733);
             Name = "Form1";
             Text = "Cherub";
             FormClosing += Form1_FormClosing;
