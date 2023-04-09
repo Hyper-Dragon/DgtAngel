@@ -348,10 +348,10 @@ namespace DgtCherub
             TabPageOffline.Controls.Add(ButtonEngingSelect);
             TabPageOffline.Controls.Add(ButtonEngineConfig);
             TabPageOffline.Controls.Add(groupBox5);
-            TabPageOffline.Location = new System.Drawing.Point(29, 4);
+            TabPageOffline.Location = new System.Drawing.Point(49, 4);
             TabPageOffline.Name = "TabPageOffline";
             TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            TabPageOffline.Size = new System.Drawing.Size(333, 620);
+            TabPageOffline.Size = new System.Drawing.Size(313, 620);
             TabPageOffline.TabIndex = 0;
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
@@ -452,10 +452,10 @@ namespace DgtCherub
             TabPageClock.Controls.Add(PictureBoxQrCode);
             TabPageClock.Controls.Add(GroupBoxClockTest);
             TabPageClock.Controls.Add(ButtonRabbitConf2);
-            TabPageClock.Location = new System.Drawing.Point(29, 4);
+            TabPageClock.Location = new System.Drawing.Point(49, 4);
             TabPageClock.Name = "TabPageClock";
             TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            TabPageClock.Size = new System.Drawing.Size(333, 620);
+            TabPageClock.Size = new System.Drawing.Size(313, 620);
             TabPageClock.TabIndex = 3;
             TabPageClock.Text = "Clock";
             TabPageClock.UseVisualStyleBackColor = true;
@@ -869,9 +869,9 @@ namespace DgtCherub
             TabPageBoards.Controls.Add(LabelLocalDgt);
             TabPageBoards.Controls.Add(PictureBoxRemote);
             TabPageBoards.Controls.Add(PictureBoxLocal);
-            TabPageBoards.Location = new System.Drawing.Point(29, 4);
+            TabPageBoards.Location = new System.Drawing.Point(49, 4);
             TabPageBoards.Name = "TabPageBoards";
-            TabPageBoards.Size = new System.Drawing.Size(333, 620);
+            TabPageBoards.Size = new System.Drawing.Size(313, 620);
             TabPageBoards.TabIndex = 2;
             TabPageBoards.Text = "Boards";
             TabPageBoards.Enter += TabPageBoards_Enter;
@@ -988,15 +988,17 @@ namespace DgtCherub
             // 
             // ToolStripStatusLabelLastUpdate
             // 
+            ToolStripStatusLabelLastUpdate.AutoSize = false;
             ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
+            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(923, 23);
             ToolStripStatusLabelLastUpdate.Spring = true;
             ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // StatusStrip
             // 
+            StatusStrip.AutoSize = false;
             StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripStatusLabelLastUpdate, ToolStripStatusLabelVersion });
@@ -1017,6 +1019,8 @@ namespace DgtCherub
             // 
             // MenuStrip
             // 
+            MenuStrip.AutoSize = false;
+            MenuStrip.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             MenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { TasksToolStripMenuItem, LinksToolStripMenuItem });
             MenuStrip.Location = new System.Drawing.Point(0, 0);
@@ -1027,6 +1031,7 @@ namespace DgtCherub
             // 
             // TasksToolStripMenuItem
             // 
+            TasksToolStripMenuItem.AutoSize = false;
             TasksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { KillLiveChessMenuItem, ToolStripSeparator2, PlayChessToolStripMenuItem, PlayLiChessToolStripMenuItem, toolStripSeparator4, VirtualClockMenuItem, VirtualClockWindowlessMenuItem, StartWingedHorseToolStripMenu, ToolStripSeparator1, ExitToolStripMenuItem });
             TasksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             TasksToolStripMenuItem.Name = "TasksToolStripMenuItem";
@@ -1106,6 +1111,7 @@ namespace DgtCherub
             // 
             // LinksToolStripMenuItem
             // 
+            LinksToolStripMenuItem.AutoSize = false;
             LinksToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { DownloadsToolStripMenuItem, DGTAngelToolStripMenuItem, ChesscomDgtForumsMenuItem, ChesscomPegasusForumsMenuItem });
             LinksToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             LinksToolStripMenuItem.Name = "LinksToolStripMenuItem";
@@ -1280,7 +1286,6 @@ namespace DgtCherub
             MenuStrip.ResumeLayout(false);
             MenuStrip.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

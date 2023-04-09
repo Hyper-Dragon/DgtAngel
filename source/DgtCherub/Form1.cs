@@ -197,12 +197,13 @@ namespace DgtCherub
         }
 
 
-        private Dictionary<Control, (Rectangle Bounds, 
-                                     Font StoredFont, 
-                                     Padding StoredPadding, 
-                                     Padding StoredMargins, 
+        private Dictionary<Control, (Rectangle Bounds,
+                                     Font StoredFont,
+                                     Padding StoredPadding,
+                                     Padding StoredMargins,
                                      int StoredWidth,
-                                     int StoredHeight,   
+                                     int StoredHeight,
+                                     int MinSize,
                                      Size StoredItemSize)> originalControlData = new();
 
         private void ApplyScaling(Form form, float scale)
@@ -225,6 +226,20 @@ namespace DgtCherub
                     {
                         ((TabControl)control).ItemSize = originalControlData[control].StoredItemSize;
                     }
+                    else if (control.GetType().Equals(typeof(MenuStrip)))
+                    {
+                        MenuStrip.Height = originalControlData[MenuStrip].StoredHeight;
+                        MenuStrip.Font = originalControlData[MenuStrip].StoredFont;
+                    }
+                    else if (control.GetType().Equals(typeof(StatusStrip)))
+                    {
+                        StatusStrip.Height = originalControlData[StatusStrip].StoredHeight;
+                        StatusStrip.Font = originalControlData[StatusStrip].StoredFont;
+                    }
+                    else if (control.GetType().Equals(typeof(Form)))
+                    {
+                        this.MinimumSize = new Size(this.MinimumSize.Width, originalControlData[control].MinSize);
+                    }
                 }
             }
             else
@@ -236,6 +251,10 @@ namespace DgtCherub
                     {
                         StoreOriginalData(control);
                     }
+
+                    StoreOriginalData(MenuStrip);
+                    StoreOriginalData(StatusStrip);
+                    StoreOriginalData(this);
                 }
 
                 // Apply scaling
@@ -269,12 +288,6 @@ namespace DgtCherub
                         (int)(originalMargin.Right * scale),
                         (int)(originalMargin.Bottom * scale));
 
-                    if (control.GetType().Equals(typeof(TabControl)))
-                    {
-                        ((TabControl)control).ItemSize = new Size((int) ((float)originalTabItemSize.Width * scale),
-                                                                  (int) ((float) originalTabItemSize.Height * scale));
-                    }
-
                     float fontSize = scale switch
                     {
                         0.75f => 6,
@@ -288,8 +301,28 @@ namespace DgtCherub
                     control.Font = new Font(originalFont.FontFamily,
                                                 fontSize,
                                                 originalFont.Style);
+
+                    if (control.GetType().Equals(typeof(TabControl)))
+                    {
+                        ((TabControl)control).ItemSize = new Size((int)((float)originalTabItemSize.Width * scale),
+                                                                  (int)((float)originalTabItemSize.Height * scale));
+                    }
+                    else if (control.GetType().Equals(typeof(MenuStrip)))
+                    {
+                        MenuStrip.Height = (int)((float)originalControlData[control].StoredHeight * scale);
+                    }
+                    else if (control.GetType().Equals(typeof(StatusStrip)))
+                    {
+                        StatusStrip.Height = (int)((float)originalControlData[control].StoredHeight * scale);
+                    }
+                    else if (control.GetType().Equals(typeof(Form)))
+                    {
+                        this.MinimumSize = new Size(this.MinimumSize.Width, (int)((float)originalControlData[control].MinSize * scale));
+                    }
                 }
             }
+
+
 
             this.ResumeLayout(true);
 
@@ -299,13 +332,14 @@ namespace DgtCherub
 
         private void StoreOriginalData(Control control)
         {
-            originalControlData[control] = (control.Bounds, 
-                                            control.Font, 
-                                            control.Padding, 
+            originalControlData[control] = (control.Bounds,
+                                            control.Font,
+                                            control.Padding,
                                             control.Margin,
                                             control.Width,
                                             control.Height,
-                                            (control as TabControl)?.ItemSize ?? new Size(0,0));
+                                            control.MinimumSize.Height,
+                                            (control as TabControl)?.ItemSize ?? new Size(0, 0));
 
             foreach (Control child in control.Controls)
             {
