@@ -197,7 +197,13 @@ namespace DgtCherub
         }
 
 
-        private Dictionary<Control, (Rectangle Bounds, Font StoredFont, Padding StoredPadding, Padding StoredMargins)> originalControlData = new();
+        private Dictionary<Control, (Rectangle Bounds, 
+                                     Font StoredFont, 
+                                     Padding StoredPadding, 
+                                     Padding StoredMargins, 
+                                     int StoredWidth,
+                                     int StoredHeight,   
+                                     Size StoredItemSize)> originalControlData = new();
 
         private void ApplyScaling(Form form, float scale)
         {
@@ -214,6 +220,11 @@ namespace DgtCherub
                     control.Font = originalControlData[control].StoredFont;
                     control.Padding = originalControlData[control].StoredPadding;
                     control.Margin = originalControlData[control].StoredMargins;
+
+                    if (control.GetType().Equals(typeof(TabControl)))
+                    {
+                        ((TabControl)control).ItemSize = originalControlData[control].StoredItemSize;
+                    }
                 }
             }
             else
@@ -236,6 +247,9 @@ namespace DgtCherub
                     Font originalFont = originalControlData[control].StoredFont;
                     Padding originalPadding = originalControlData[control].StoredPadding;
                     Padding originalMargin = originalControlData[control].StoredMargins;
+                    int originalWidth = originalControlData[control].StoredWidth;
+                    int originalHeight = originalControlData[control].StoredHeight;
+                    Size originalTabItemSize = originalControlData[control].StoredItemSize;
 
                     control.Bounds = new Rectangle(
                         (int)(originalBounds.X * scale),
@@ -254,6 +268,12 @@ namespace DgtCherub
                         (int)(originalMargin.Top * scale),
                         (int)(originalMargin.Right * scale),
                         (int)(originalMargin.Bottom * scale));
+
+                    if (control.GetType().Equals(typeof(TabControl)))
+                    {
+                        ((TabControl)control).ItemSize = new Size((int) ((float)originalTabItemSize.Width * scale),
+                                                                  (int) ((float) originalTabItemSize.Height * scale));
+                    }
 
                     float fontSize = scale switch
                     {
@@ -279,7 +299,13 @@ namespace DgtCherub
 
         private void StoreOriginalData(Control control)
         {
-            originalControlData[control] = (control.Bounds, control.Font, control.Padding, control.Margin);
+            originalControlData[control] = (control.Bounds, 
+                                            control.Font, 
+                                            control.Padding, 
+                                            control.Margin,
+                                            control.Width,
+                                            control.Height,
+                                            (control as TabControl)?.ItemSize ?? new Size(0,0));
 
             foreach (Control child in control.Controls)
             {

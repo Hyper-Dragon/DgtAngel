@@ -555,10 +555,11 @@ namespace DgtCherub
             TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Left;
             TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             TabControlSidePanel.HotTrack = true;
-            TabControlSidePanel.ItemSize = new System.Drawing.Size(82, 25);
+            TabControlSidePanel.ItemSize = new System.Drawing.Size(100, 45);
             TabControlSidePanel.Location = new System.Drawing.Point(0, 0);
             TabControlSidePanel.Multiline = true;
             TabControlSidePanel.Name = "TabControlSidePanel";
+            TabControlSidePanel.Padding = new System.Drawing.Point(2, 2);
             TabControlSidePanel.SelectedIndex = 0;
             TabControlSidePanel.Size = new System.Drawing.Size(366, 628);
             TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -574,10 +575,10 @@ namespace DgtCherub
             TabPageConfig.Controls.Add(CheckBoxPreventSleep);
             TabPageConfig.Controls.Add(GroupBox1);
             TabPageConfig.Controls.Add(CheckBoxOnTop);
-            TabPageConfig.Location = new System.Drawing.Point(29, 4);
+            TabPageConfig.Location = new System.Drawing.Point(49, 4);
             TabPageConfig.Name = "TabPageConfig";
             TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            TabPageConfig.Size = new System.Drawing.Size(333, 620);
+            TabPageConfig.Size = new System.Drawing.Size(313, 620);
             TabPageConfig.TabIndex = 1;
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
