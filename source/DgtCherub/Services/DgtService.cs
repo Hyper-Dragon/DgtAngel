@@ -166,7 +166,6 @@ namespace DgtCherub.Services
             });
         }
 
-
         public override Task<IntResponse> Exit(Empty request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
@@ -174,7 +173,6 @@ namespace DgtCherub.Services
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Exit()
             });
         }
-
 
         public override Task<IntResponse> GetWxWidgetsVersion(Empty request, ServerCallContext context)
         {
@@ -223,7 +221,6 @@ namespace DgtCherub.Services
             });
         }
 
-
         private async Task StringEventWriter(IServerStreamWriter<StringResponse> responseStream, ServerCallContext context, EventHandler<string> eventHandler)
         {
             // Create a TaskCompletionSource to signal when a new event is received
@@ -256,9 +253,6 @@ namespace DgtCherub.Services
                 eventHandler -= StringEventHandler;
             }
         }
-
-
-
         public override Task RegisterStatusFunc(Empty request, IServerStreamWriter<StringResponse> responseStream, ServerCallContext context)
         {
             return StringEventWriter(responseStream, context, (sender, stringOut) => RegisteredStatusEvent(sender, stringOut));
