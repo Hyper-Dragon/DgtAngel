@@ -129,7 +129,7 @@ namespace DgtCherub
                                               int StoredWidth,
                                               int StoredHeight,
                                               Size StoredItemSize)> originalControlData = new();
-
+        private float originalTabPanelWidth;
         private int originalFormHeight;
 
         private bool EchoInternallMessagesToConsole { get; set; } = true;
@@ -208,6 +208,7 @@ namespace DgtCherub
 
         private void ApplyScaling(Form form, float scale)
         {
+            this.Hide();
             this.SuspendLayout();
 
             // Apply scaling
@@ -276,14 +277,11 @@ namespace DgtCherub
                 }
             }
 
-            this.Update();
-
-            TextBoxConsole.Location = new Point(TabControlSidePanel.Width, TextBoxConsole.Location.Y);
-            TextBoxConsole.Width = this.Width - TextBoxConsole.Location.X;
-
-            this.MinimumSize = new Size(TextBoxConsole.Location.X, (int)((float)originalFormHeight * scale));
+            TableLayoutPanel.ColumnStyles[0].Width = originalTabPanelWidth * scale;
+            this.MinimumSize = new Size((int)(originalTabPanelWidth * scale), (int)((float)originalFormHeight * scale));
 
             this.ResumeLayout(true);
+            this.Show();
         }
 
         private void StoreOriginalData(Control control)
@@ -593,8 +591,6 @@ namespace DgtCherub
             //Make sure this is set
             DoubleBuffered = true;
 
-            Update();
-
             // Store the original bounds and font sizes of all controls
             foreach (Control control in this.Controls)
             {
@@ -604,7 +600,9 @@ namespace DgtCherub
             StoreOriginalData(MenuStrip);
             StoreOriginalData(StatusStrip);
 
+            originalTabPanelWidth = TableLayoutPanel.ColumnStyles[0].Width;
             originalFormHeight = this.MinimumSize.Height;
+
 
             //This will cause ApplyScale to be called
             ComboBoxScale.SelectedIndex = DgtCherub.Properties.UserSettings.Default.GuiScaleIndex;
@@ -1038,6 +1036,8 @@ namespace DgtCherub
         }
 
 
+        int ConsolePreHideWidth;
+
         //*********************************************//
         #region Form Control Events
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -1047,6 +1047,8 @@ namespace DgtCherub
             if (CheckBoxShowConsole.Checked)
             {
                 TextBoxConsole.Visible = true;
+                this.Width = ConsolePreHideWidth;
+
                 MinimumSize = InitialMinSize;
                 MaximumSize = InitialMaxSize;
                 Width = LastFormWidth;
@@ -1058,7 +1060,11 @@ namespace DgtCherub
             {
                 WindowState = FormWindowState.Normal;
                 LastFormWidth = Width;
+
+                //ConsolePreHideWidth = this.Width;
+                //this.Width = (int) originalTabPanelWidth;
                 TextBoxConsole.Visible = false;
+
                 MinimumSize = new Size(CollapsedWidth, MinimumSize.Height);
                 MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
                 Width = CollapsedWidth;
@@ -1067,7 +1073,6 @@ namespace DgtCherub
                 ToolStripStatusLabelVersion.Visible = false;
             }
 
-            Update();
             ResumeLayout();
         }
 
