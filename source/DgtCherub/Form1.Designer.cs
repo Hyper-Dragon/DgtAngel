@@ -247,7 +247,7 @@ namespace DgtCherub
             groupBox4.Controls.Add(UpDownFontSize);
             groupBox4.Location = new System.Drawing.Point(6, 381);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(148, 178);
+            groupBox4.Size = new System.Drawing.Size(148, 197);
             groupBox4.TabIndex = 65;
             groupBox4.TabStop = false;
             groupBox4.Text = "Console";
@@ -273,7 +273,7 @@ namespace DgtCherub
             CheckBoxDisableRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 113);
             CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
-            CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 25);
+            CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 33);
             CheckBoxDisableRabbit.TabIndex = 13;
             CheckBoxDisableRabbit.Text = "Show Inbound";
             CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
@@ -288,7 +288,7 @@ namespace DgtCherub
             CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 144);
             CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
-            CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 25);
+            CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 38);
             CheckBoxRecieveLog.TabIndex = 14;
             CheckBoxRecieveLog.Text = "Logging On";
             CheckBoxRecieveLog.UseVisualStyleBackColor = true;
@@ -713,7 +713,7 @@ namespace DgtCherub
             LabelRemoteBoard.Name = "LabelRemoteBoard";
             LabelRemoteBoard.Size = new System.Drawing.Size(122, 26);
             LabelRemoteBoard.TabIndex = 12;
-            LabelRemoteBoard.Text = "Remote Board";
+            LabelRemoteBoard.Text = "Remote";
             // 
             // LabelLocalDgt
             // 
@@ -724,7 +724,7 @@ namespace DgtCherub
             LabelLocalDgt.Name = "LabelLocalDgt";
             LabelLocalDgt.Size = new System.Drawing.Size(122, 24);
             LabelLocalDgt.TabIndex = 13;
-            LabelLocalDgt.Text = "Local Board";
+            LabelLocalDgt.Text = "Local";
             // 
             // PictureBoxRemote
             // 
