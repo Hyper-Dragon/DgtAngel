@@ -222,6 +222,7 @@ namespace DgtCherub
             groupBox6.Controls.Add(CheckBoxOnTop);
             groupBox6.Controls.Add(ComboBoxScale);
             groupBox6.Controls.Add(CheckBoxPreventSleep);
+            groupBox6.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox6.Location = new System.Drawing.Point(169, 127);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new System.Drawing.Size(164, 152);
@@ -232,6 +233,7 @@ namespace DgtCherub
             // LabelScale
             // 
             LabelScale.AutoSize = true;
+            LabelScale.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             LabelScale.Location = new System.Drawing.Point(37, 98);
             LabelScale.Name = "LabelScale";
             LabelScale.Size = new System.Drawing.Size(46, 21);
@@ -286,6 +288,7 @@ namespace DgtCherub
             groupBox4.Controls.Add(CheckBoxRecieveLog);
             groupBox4.Controls.Add(label4);
             groupBox4.Controls.Add(UpDownFontSize);
+            groupBox4.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox4.Location = new System.Drawing.Point(6, 406);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new System.Drawing.Size(148, 197);
@@ -296,6 +299,7 @@ namespace DgtCherub
             // ButtonClearConsole
             // 
             ButtonClearConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonClearConsole.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             ButtonClearConsole.Location = new System.Drawing.Point(6, 29);
             ButtonClearConsole.Name = "ButtonClearConsole";
@@ -338,6 +342,7 @@ namespace DgtCherub
             // label4
             // 
             label4.AutoSize = true;
+            label4.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             label4.Location = new System.Drawing.Point(6, 81);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(73, 21);
@@ -347,6 +352,7 @@ namespace DgtCherub
             // UpDownFontSize
             // 
             UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownFontSize.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownFontSize.Location = new System.Drawing.Point(89, 82);
             UpDownFontSize.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             UpDownFontSize.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
@@ -363,6 +369,7 @@ namespace DgtCherub
             groupBox3.Controls.Add(ButtonSetAltDriver);
             groupBox3.Controls.Add(CheckBoxNeverUseRabbit);
             groupBox3.Controls.Add(ButtonRabbitConfig1);
+            groupBox3.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox3.Location = new System.Drawing.Point(6, 285);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new System.Drawing.Size(327, 115);
@@ -374,6 +381,7 @@ namespace DgtCherub
             // 
             ButtonClearAltDriver.Enabled = false;
             ButtonClearAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonClearAltDriver.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ButtonClearAltDriver.Location = new System.Drawing.Point(186, 72);
             ButtonClearAltDriver.Name = "ButtonClearAltDriver";
             ButtonClearAltDriver.Size = new System.Drawing.Size(135, 37);
@@ -385,6 +393,7 @@ namespace DgtCherub
             // ButtonSetAltDriver
             // 
             ButtonSetAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonSetAltDriver.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ButtonSetAltDriver.Location = new System.Drawing.Point(186, 28);
             ButtonSetAltDriver.Name = "ButtonSetAltDriver";
             ButtonSetAltDriver.Size = new System.Drawing.Size(135, 37);
@@ -411,6 +420,7 @@ namespace DgtCherub
             // ButtonRabbitConfig1
             // 
             ButtonRabbitConfig1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ButtonRabbitConfig1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ButtonRabbitConfig1.Location = new System.Drawing.Point(10, 29);
             ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
@@ -427,6 +437,7 @@ namespace DgtCherub
             groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(UpDownVoiceDelay);
+            groupBox2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox2.Location = new System.Drawing.Point(169, 6);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new System.Drawing.Size(164, 115);
@@ -438,6 +449,7 @@ namespace DgtCherub
             // 
             UpDownFromMismatchDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownFromMismatchDelay.DecimalPlaces = 1;
+            UpDownFromMismatchDelay.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownFromMismatchDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
             UpDownFromMismatchDelay.Location = new System.Drawing.Point(113, 82);
             UpDownFromMismatchDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -453,6 +465,7 @@ namespace DgtCherub
             // 
             UpDownLocalDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownLocalDelay.DecimalPlaces = 1;
+            UpDownLocalDelay.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownLocalDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
             UpDownLocalDelay.Location = new System.Drawing.Point(113, 54);
             UpDownLocalDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
@@ -467,6 +480,7 @@ namespace DgtCherub
             // label7
             // 
             label7.AutoSize = true;
+            label7.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             label7.Location = new System.Drawing.Point(7, 84);
             label7.Name = "label7";
             label7.Size = new System.Drawing.Size(76, 21);
@@ -476,6 +490,7 @@ namespace DgtCherub
             // label6
             // 
             label6.AutoSize = true;
+            label6.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             label6.Location = new System.Drawing.Point(6, 56);
             label6.Name = "label6";
             label6.Size = new System.Drawing.Size(46, 21);
@@ -485,6 +500,7 @@ namespace DgtCherub
             // label5
             // 
             label5.AutoSize = true;
+            label5.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             label5.Location = new System.Drawing.Point(6, 30);
             label5.Name = "label5";
             label5.Size = new System.Drawing.Size(64, 21);
@@ -495,6 +511,7 @@ namespace DgtCherub
             // 
             UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownVoiceDelay.DecimalPlaces = 1;
+            UpDownVoiceDelay.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownVoiceDelay.Location = new System.Drawing.Point(113, 28);
             UpDownVoiceDelay.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
             UpDownVoiceDelay.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
@@ -518,6 +535,7 @@ namespace DgtCherub
             GroupBox1.Controls.Add(UpDownVolTime);
             GroupBox1.Controls.Add(UpDownVolMoves);
             GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            GroupBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             GroupBox1.Location = new System.Drawing.Point(6, 6);
             GroupBox1.Name = "GroupBox1";
             GroupBox1.Size = new System.Drawing.Size(148, 273);
@@ -529,9 +547,9 @@ namespace DgtCherub
             // 
             CheckboxSilentBeep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckboxSilentBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckboxSilentBeep.Location = new System.Drawing.Point(63, 104);
+            CheckboxSilentBeep.Location = new System.Drawing.Point(63, 111);
             CheckboxSilentBeep.Name = "CheckboxSilentBeep";
-            CheckboxSilentBeep.Size = new System.Drawing.Size(71, 25);
+            CheckboxSilentBeep.Size = new System.Drawing.Size(71, 27);
             CheckboxSilentBeep.TabIndex = 4;
             CheckboxSilentBeep.Text = "Silent";
             CheckboxSilentBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -555,7 +573,7 @@ namespace DgtCherub
             // 
             CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 204);
+            CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 218);
             CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
             CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 25);
             CheckBoxIncludeSecs.TabIndex = 7;
@@ -569,7 +587,7 @@ namespace DgtCherub
             ComboBoxMoveVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxMoveVoice.FormattingEnabled = true;
             ComboBoxMoveVoice.Items.AddRange(new object[] { "en-01", "en-02", "en-03", "en-04", "en-05", "en-06" });
-            ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 135);
+            ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 149);
             ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
             ComboBoxMoveVoice.Size = new System.Drawing.Size(128, 29);
             ComboBoxMoveVoice.TabIndex = 5;
@@ -578,7 +596,8 @@ namespace DgtCherub
             // Label3
             // 
             Label3.AutoSize = true;
-            Label3.Location = new System.Drawing.Point(15, 175);
+            Label3.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            Label3.Location = new System.Drawing.Point(15, 189);
             Label3.Name = "Label3";
             Label3.Size = new System.Drawing.Size(44, 21);
             Label3.TabIndex = 59;
@@ -587,24 +606,27 @@ namespace DgtCherub
             // Label2
             // 
             Label2.AutoSize = true;
+            Label2.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             Label2.Location = new System.Drawing.Point(6, 54);
             Label2.Name = "Label2";
-            Label2.Size = new System.Drawing.Size(56, 21);
+            Label2.Size = new System.Drawing.Size(59, 23);
             Label2.TabIndex = 58;
             Label2.Text = "Moves";
             // 
             // Label1
             // 
             Label1.AutoSize = true;
+            Label1.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             Label1.Location = new System.Drawing.Point(6, 24);
             Label1.Name = "Label1";
-            Label1.Size = new System.Drawing.Size(52, 21);
+            Label1.Size = new System.Drawing.Size(56, 23);
             Label1.TabIndex = 57;
             Label1.Text = "Status";
             // 
             // UpDownVolStatus
             // 
             UpDownVolStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownVolStatus.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownVolStatus.Location = new System.Drawing.Point(89, 21);
             UpDownVolStatus.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolStatus.Name = "UpDownVolStatus";
@@ -623,7 +645,8 @@ namespace DgtCherub
             // UpDownVolTime
             // 
             UpDownVolTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            UpDownVolTime.Location = new System.Drawing.Point(89, 172);
+            UpDownVolTime.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            UpDownVolTime.Location = new System.Drawing.Point(89, 186);
             UpDownVolTime.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolTime.Name = "UpDownVolTime";
             UpDownVolTime.Size = new System.Drawing.Size(45, 25);
@@ -641,6 +664,7 @@ namespace DgtCherub
             // UpDownVolMoves
             // 
             UpDownVolMoves.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            UpDownVolMoves.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownVolMoves.Location = new System.Drawing.Point(89, 54);
             UpDownVolMoves.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolMoves.Name = "UpDownVolMoves";
@@ -850,7 +874,7 @@ namespace DgtCherub
             GroupBoxClockTest.Controls.Add(ButtonSendTestMsg2);
             GroupBoxClockTest.Controls.Add(ButtonSendTestMsg1);
             GroupBoxClockTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            GroupBoxClockTest.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             GroupBoxClockTest.Location = new System.Drawing.Point(6, 210);
             GroupBoxClockTest.Name = "GroupBoxClockTest";
             GroupBoxClockTest.Size = new System.Drawing.Size(180, 103);
@@ -971,6 +995,7 @@ namespace DgtCherub
             // 
             groupBox5.Controls.Add(LabelKibitzerInfo);
             groupBox5.Controls.Add(CheckBoxKibitzerEnabled);
+            groupBox5.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox5.Location = new System.Drawing.Point(4, 175);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new System.Drawing.Size(323, 137);
