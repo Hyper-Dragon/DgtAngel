@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using UciComms;
 using UciComms.Data;
+using static System.Net.Mime.MediaTypeNames;
 
 /*
  YOUR TURN LANGUAGE
@@ -111,8 +112,8 @@ namespace DgtCherub
         private Size InitialMinSize = new(420, 420);
         private Size InitialMaxSize = new(0, 0);
         private Color BoredLabelsInitialColor = Color.Silver;
-        private Image PictureBoxLocalInitialImage;
-        private Image PictureBoxRemoteInitialImage;
+        private System.Drawing.Image PictureBoxLocalInitialImage;
+        private System.Drawing.Image PictureBoxRemoteInitialImage;
         private bool isEngineActivationRequired = true;
 
         private UciChessEngine currentUciChessEngine;
@@ -207,6 +208,17 @@ namespace DgtCherub
 
         private void ApplyScaling(Form form, float scale)
         {
+            float fontSize = scale switch
+            {
+                0.75f => 6,
+                1.0f => 10,
+                1.3f => 14,
+                1.5f => 16,
+                1.7f => 18,
+                2.0f => 20,
+                _ => throw new NotImplementedException()
+            };
+
             Hide();
             SuspendLayout();
 
@@ -244,17 +256,6 @@ namespace DgtCherub
                     (int)(originalMargin.Right * scale),
                     (int)(originalMargin.Bottom * scale));
 
-                float fontSize = scale switch
-                {
-                    0.75f => 6,
-                    1.0f => 10,
-                    1.3f => 14,
-                    1.5f => 16,
-                    1.7f => 18,
-                    2.0f => 20,
-                    _ => throw new NotImplementedException()
-                };
-
                 control.Font = new Font(originalFont.FontFamily,
                                         fontSize,
                                         originalFont.Style);
@@ -282,39 +283,47 @@ namespace DgtCherub
                 }
             }
 
-            foreach (var menuItem in MenuStrip.Items)
+            foreach (var toolStripMenuItem in MenuStrip.Items.OfType<ToolStripMenuItem>())
             {
-                float fontSize = scale switch
-                {
-                    0.75f => 6,
-                    1.0f => 10,
-                    1.3f => 14,
-                    1.5f => 16,
-                    1.7f => 18,
-                    2.0f => 20,
-                    _ => throw new NotImplementedException()
-                };
+                toolStripMenuItem.AutoSize = true;
+                toolStripMenuItem.Font = new Font(toolStripMenuItem.Font.FontFamily,
+                                                  fontSize,
+                                                  toolStripMenuItem.Font.Style);
 
-                
-
-                if (menuItem is ToolStripMenuItem toolStripMenuItem)
-                {
-                    toolStripMenuItem.AutoSize = true;
-                    toolStripMenuItem.Font = new Font(toolStripMenuItem.Font.FontFamily,
-                                                      fontSize,
-                                                      toolStripMenuItem.Font.Style);
-
-                    for (int i = 0; i < toolStripMenuItem.DropDownItems.Count; i++)
+                toolStripMenuItem.DropDownItems
+                    .OfType<ToolStripMenuItem>()
+                    .ToList()
+                    .ForEach(subMenuItem =>
                     {
-                        var ddItem = toolStripMenuItem.DropDownItems[i];
-                        
+                        subMenuItem.AutoSize = true;
+                        subMenuItem.Font = new Font(subMenuItem.Font.FontFamily,
+                                                    fontSize,
+                                                    subMenuItem.Font.Style);
+
+                        subMenuItem.DropDownItems
+                            .OfType<ToolStripDropDownItem>()
+                            .ToList()
+                            .ForEach(ddItem =>
+                            {
+                                ddItem.AutoSize = true;
+                                ddItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                                ddItem.Font = new Font(ddItem.Font.FontFamily,
+                                                       fontSize,
+                                                       ddItem.Font.Style);
+                            });
+                    });
+
+                toolStripMenuItem.DropDownItems
+                    .OfType<ToolStripDropDownItem>()
+                    .ToList()
+                    .ForEach(ddItem =>
+                    {
                         ddItem.AutoSize = true;
                         ddItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
                         ddItem.Font = new Font(ddItem.Font.FontFamily,
                                                fontSize,
                                                ddItem.Font.Style);
-                    }
-                }
+                    });
             }
 
 
@@ -1188,7 +1197,7 @@ namespace DgtCherub
         {
             if (MessageBox.Show("Are you sure you want to exit?", "Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Application.Exit();
+                System.Windows.Forms.Application.Exit();
             }
         }
         #endregion
