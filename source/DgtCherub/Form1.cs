@@ -1085,8 +1085,6 @@ namespace DgtCherub
             }
         }
 
-        private readonly int ConsolePreHideWidth;
-
         //*********************************************//
         #region Form Control Events
         private void CheckBoxShowConsole_CheckedChanged(object sender, EventArgs e)
@@ -1095,34 +1093,21 @@ namespace DgtCherub
 
             if (CheckBoxShowConsole.Checked)
             {
+                WindowState = FormWindowState.Normal;
                 TextBoxConsole.Visible = true;
-                Width = ConsolePreHideWidth;
-                MinimumSize = InitialMinSize;
                 MaximumSize = new Size(0, 0);
-                Width = LastFormWidth;
-                MaximizeBox = true;
-                MinimizeBox = true;
+                Width = this.Width + TextBoxConsole.Width;
                 ToolStripStatusLabelVersion.Visible = true;
             }
             else
             {
                 WindowState = FormWindowState.Normal;
-                LastFormWidth = Width;
-
-                //ConsolePreHideWidth = this.Width;
-                //this.Width = (int) originalTabPanelWidth;
                 TextBoxConsole.Visible = false;
-
-                //MinimumSize = new Size(CollapsedWidth, MinimumSize.Height);
                 MaximumSize = new Size(this.MinimumSize.Width, Screen.PrimaryScreen.Bounds.Height);
-                Width = this.MinimumSize.Width;
-                //Height = this.MinimumSize.Height;
-
-                MaximizeBox = false;
-                MinimizeBox = false;
                 ToolStripStatusLabelVersion.Visible = false;
             }
 
+            Update();
             ResumeLayout();
         }
 
@@ -1785,6 +1770,7 @@ namespace DgtCherub
 
         private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
         {
+            CheckBoxShowConsole.Checked = true;
             float newScale = float.Parse((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex].ToString());
             ApplyScaling(newScale);
         }
