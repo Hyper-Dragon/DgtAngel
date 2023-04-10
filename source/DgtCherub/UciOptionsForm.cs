@@ -68,6 +68,16 @@ namespace DgtCherub
             Font textFont = new("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             int yOffset = 15;
 
+
+            Panel panel = new Panel
+            {
+                Location = new System.Drawing.Point(0, 0),
+                Size = new System.Drawing.Size(800,600),
+                AutoScroll = true
+            };
+            Controls.Add(panel);
+
+
             foreach (UciOption option in _uciOptions)
             {
                 if (option.DefaultValue == null || option.VarValue == null)
@@ -76,65 +86,82 @@ namespace DgtCherub
                 }
 
                 Label label = new() { Text = option.Name, Height = 35, Font = textFont, Width = CONTROL_OFFSET - 10, Location = new System.Drawing.Point(10, yOffset) };
-                Controls.Add(label);
+                panel.Controls.Add(label);
 
                 Control control = null;
 
-                switch (option.Type)
+                try
                 {
-                    case "spin":
-                        NumericUpDown numericUpDown = new()
-                        {
-                            Font = textFont,
-                            Minimum = int.Parse(option.MinValue),
-                            Maximum = int.Parse(option.MaxValue),
-                            Value = int.Parse(option.VarValue),
-                            Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
-                        };
-                        control = numericUpDown;
-                        _spinDefaults.Add((control as NumericUpDown, int.Parse(option.DefaultValue)));
-                        break;
-                    case "check":
-                        CheckBox checkBox = new()
-                        {
-                            Font = textFont,
-                            Checked = bool.Parse(option.VarValue),
-                            Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
-                        };
-                        control = checkBox;
-                        _checkDefaults.Add((control as CheckBox, bool.Parse(option.DefaultValue)));
-                        break;
-                    case "button":
-                        Button button = new()
-                        {
-                            Font = textFont,
-                            Text = option.Name,
-                            Enabled = false,
-                            Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
-                        };
-                        control = button;
-                        break;
-                    case "string":
-                        TextBox textBox = new()
-                        {
-                            Font = textFont,
-                            Text = option.VarValue,
-                            Width = 300,
-                            Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
-                        };
-                        control = textBox;
-                        _stringDefaults.Add((control as TextBox, option.DefaultValue));
-                        break;
+                    switch (option.Type)
+                    {
+                        case "spin":
+                            NumericUpDown numericUpDown = new()
+                            {
+                                Font = textFont,
+                                Minimum = int.Parse(option.MinValue),
+                                Maximum = int.Parse(option.MaxValue),
+                                Value = int.Parse(string.IsNullOrEmpty(option.VarValue) ? option.MinValue : option.VarValue),
+                                Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
+                            };
+                            control = numericUpDown;
+                            _spinDefaults.Add((control as NumericUpDown, int.Parse(option.DefaultValue)));
+                            break;
+                        case "check":
+                            CheckBox checkBox = new()
+                            {
+                                Font = textFont,
+                                Checked = bool.Parse(option.VarValue),
+                                Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
+                            };
+                            control = checkBox;
+                            _checkDefaults.Add((control as CheckBox, bool.Parse(option.DefaultValue)));
+                            break;
+                        case "button":
+                            Button button = new()
+                            {
+                                Font = textFont,
+                                Text = option.Name,
+                                Enabled = false,
+                                Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
+                            };
+                            control = button;
+                            break;
+                        case "string":
+                            TextBox textBox = new()
+                            {
+                                Font = textFont,
+                                Text = option.VarValue,
+                                Width = 300,
+                                Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
+                            };
+                            control = textBox;
+                            _stringDefaults.Add((control as TextBox, option.DefaultValue));
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Label errLabel = new()
+                    {
+                        Font = textFont,
+                        Text = $"ERR:{ex.Message}",
+                        Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
+                    };
+
+                    control = errLabel;
                 }
 
-                if (control != null)
-                {
-                    _controls.Add(option.Name, control);
-                    Controls.Add(control);
-                }
+
+                _controls.Add(option.Name, control);
+                panel.Controls.Add(control);
+
 
                 yOffset += 40;
             }
+
+            //yOffset = 15 + panel.AutoScrollPosition.Y;
+
+            yOffset = 650;
 
             _saveButton = new Button
             {

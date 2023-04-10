@@ -84,7 +84,7 @@ namespace UciComms
                     IsReady = true;
                 }
 
-                UciResponse? response = ParseResponse(args.Data);
+                UciResponse? response = ParseResponse(args?.Data ?? "");
                 if (response != null)
                 {
                     if (response is IdResponse)
