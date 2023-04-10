@@ -252,7 +252,7 @@ namespace DgtCherub
                     1.5f => 16,
                     1.7f => 18,
                     2.0f => 20,
-                    _ => originalFont.Size
+                    _ => throw new NotImplementedException()
                 };
 
                 control.Font = new Font(originalFont.FontFamily,
@@ -282,8 +282,44 @@ namespace DgtCherub
                 }
             }
 
+            foreach (var menuItem in MenuStrip.Items)
+            {
+                float fontSize = scale switch
+                {
+                    0.75f => 6,
+                    1.0f => 10,
+                    1.3f => 14,
+                    1.5f => 16,
+                    1.7f => 18,
+                    2.0f => 20,
+                    _ => throw new NotImplementedException()
+                };
+
+                
+
+                if (menuItem is ToolStripMenuItem toolStripMenuItem)
+                {
+                    toolStripMenuItem.AutoSize = true;
+                    toolStripMenuItem.Font = new Font(toolStripMenuItem.Font.FontFamily,
+                                                      fontSize,
+                                                      toolStripMenuItem.Font.Style);
+
+                    for (int i = 0; i < toolStripMenuItem.DropDownItems.Count; i++)
+                    {
+                        var ddItem = toolStripMenuItem.DropDownItems[i];
+                        
+                        ddItem.AutoSize = true;
+                        ddItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                        ddItem.Font = new Font(ddItem.Font.FontFamily,
+                                               fontSize,
+                                               ddItem.Font.Style);
+                    }
+                }
+            }
+
+
             TableLayoutPanel.ColumnStyles[0].Width = originalTabPanelWidth * scale;
-            MinimumSize = new Size((int)(originalTabPanelWidth * scale), (int)(originalFormHeight * scale));
+            MinimumSize = new Size((int)((originalTabPanelWidth + TableLayoutPanel.Padding.Horizontal + 13) * scale), (int)(originalFormHeight * scale));
 
             ResumeLayout(true);
             Show();
@@ -1052,9 +1088,8 @@ namespace DgtCherub
             {
                 TextBoxConsole.Visible = true;
                 Width = ConsolePreHideWidth;
-
                 MinimumSize = InitialMinSize;
-                MaximumSize = InitialMaxSize;
+                MaximumSize = new Size(0, 0);
                 Width = LastFormWidth;
                 MaximizeBox = true;
                 MinimizeBox = true;
@@ -1069,9 +1104,11 @@ namespace DgtCherub
                 //this.Width = (int) originalTabPanelWidth;
                 TextBoxConsole.Visible = false;
 
-                MinimumSize = new Size(CollapsedWidth, MinimumSize.Height);
-                MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
-                Width = CollapsedWidth;
+                //MinimumSize = new Size(CollapsedWidth, MinimumSize.Height);
+                MaximumSize = new Size(this.MinimumSize.Width, Screen.PrimaryScreen.Bounds.Height);
+                Width = this.MinimumSize.Width;
+                //Height = this.MinimumSize.Height;
+
                 MaximizeBox = false;
                 MinimizeBox = false;
                 ToolStripStatusLabelVersion.Visible = false;

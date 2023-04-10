@@ -997,7 +997,7 @@ namespace DgtCherub
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
             TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            TextBoxConsole.Size = new System.Drawing.Size(680, 622);
+            TextBoxConsole.Size = new System.Drawing.Size(650, 622);
             TextBoxConsole.TabIndex = 1;
             TextBoxConsole.TabStop = false;
             TextBoxConsole.WordWrap = false;
@@ -1041,6 +1041,7 @@ namespace DgtCherub
             MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { TasksToolStripMenuItem, LinksToolStripMenuItem });
             MenuStrip.Location = new System.Drawing.Point(0, 0);
             MenuStrip.Name = "MenuStrip";
+            MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
             MenuStrip.Size = new System.Drawing.Size(1056, 29);
             MenuStrip.TabIndex = 2;
             MenuStrip.Text = "MenuStrip";
