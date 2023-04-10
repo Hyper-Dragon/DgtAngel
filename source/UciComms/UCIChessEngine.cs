@@ -303,18 +303,21 @@ namespace UciComms
                         case "pv": infoResponse.Pv = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
                         case "score":
-
                             //Send to eval function
                             evaluation.AddLine(rawData);
+
+                            bool isWhiteTurn = true;
 
                             i++;
                             if (splitStr[i] == "cp")
                             {
-                                infoResponse.ScoreCp = int.Parse(splitStr[++i]);
+                                int scoreCp = int.Parse(splitStr[++i]);
+                                infoResponse.ScoreCp = (isWhiteTurn ? scoreCp : -scoreCp);
                             }
                             else if (splitStr[i] == "mate")
                             {
-                                infoResponse.ScoreMate = int.Parse(splitStr[++i]);
+                                int scoreMate = int.Parse(splitStr[++i]);
+                                infoResponse.ScoreMate = (isWhiteTurn ? scoreMate : -scoreMate);
                             }
 
                             if (i + 1 < splitStr.Length && (splitStr[i + 1] == "lowerbound" || splitStr[i + 1] == "upperbound"))
