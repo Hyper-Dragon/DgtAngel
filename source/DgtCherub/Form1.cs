@@ -206,7 +206,7 @@ namespace DgtCherub
             }
         }
 
-        private void ApplyScaling(Form form, float scale)
+        private void ApplyScaling(float scale)
         {
             float fontSize = scale switch
             {
@@ -1786,7 +1786,7 @@ namespace DgtCherub
         private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             float newScale = float.Parse((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex].ToString());
-            ApplyScaling(this, newScale);
+            ApplyScaling(newScale);
         }
     }
 }

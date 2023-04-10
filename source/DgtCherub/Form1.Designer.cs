@@ -34,8 +34,11 @@ namespace DgtCherub
             TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             TabControlSidePanel = new System.Windows.Forms.TabControl();
             TabPageConfig = new System.Windows.Forms.TabPage();
+            groupBox6 = new System.Windows.Forms.GroupBox();
             LabelScale = new System.Windows.Forms.Label();
+            CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             ComboBoxScale = new System.Windows.Forms.ComboBox();
+            CheckBoxPreventSleep = new System.Windows.Forms.CheckBox();
             groupBox4 = new System.Windows.Forms.GroupBox();
             ButtonClearConsole = new System.Windows.Forms.Button();
             CheckBoxDisableRabbit = new System.Windows.Forms.CheckBox();
@@ -54,7 +57,6 @@ namespace DgtCherub
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
             UpDownVoiceDelay = new System.Windows.Forms.NumericUpDown();
-            CheckBoxPreventSleep = new System.Windows.Forms.CheckBox();
             GroupBox1 = new System.Windows.Forms.GroupBox();
             CheckboxSilentBeep = new System.Windows.Forms.CheckBox();
             CheckBoxPlayerBeep = new System.Windows.Forms.CheckBox();
@@ -66,7 +68,6 @@ namespace DgtCherub
             UpDownVolStatus = new System.Windows.Forms.NumericUpDown();
             UpDownVolTime = new System.Windows.Forms.NumericUpDown();
             UpDownVolMoves = new System.Windows.Forms.NumericUpDown();
-            CheckBoxOnTop = new System.Windows.Forms.CheckBox();
             TabPageBoards = new System.Windows.Forms.TabPage();
             CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
             LabelWhiteClock = new System.Windows.Forms.Label();
@@ -130,6 +131,7 @@ namespace DgtCherub
             TableLayoutPanel.SuspendLayout();
             TabControlSidePanel.SuspendLayout();
             TabPageConfig.SuspendLayout();
+            groupBox6.SuspendLayout();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownFontSize).BeginInit();
             groupBox3.SuspendLayout();
@@ -165,7 +167,7 @@ namespace DgtCherub
             // TableLayoutPanel
             // 
             TableLayoutPanel.ColumnCount = 2;
-            TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 400F));
+            TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 410F));
             TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             TableLayoutPanel.Controls.Add(TabControlSidePanel, 0, 0);
             TableLayoutPanel.Controls.Add(TextBoxConsole, 1, 0);
@@ -194,49 +196,88 @@ namespace DgtCherub
             TabControlSidePanel.Name = "TabControlSidePanel";
             TabControlSidePanel.Padding = new System.Drawing.Point(2, 2);
             TabControlSidePanel.SelectedIndex = 0;
-            TabControlSidePanel.Size = new System.Drawing.Size(394, 622);
+            TabControlSidePanel.Size = new System.Drawing.Size(404, 622);
             TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             TabControlSidePanel.TabIndex = 2;
             // 
             // TabPageConfig
             // 
-            TabPageConfig.Controls.Add(LabelScale);
-            TabPageConfig.Controls.Add(ComboBoxScale);
+            TabPageConfig.Controls.Add(groupBox6);
             TabPageConfig.Controls.Add(groupBox4);
             TabPageConfig.Controls.Add(groupBox3);
             TabPageConfig.Controls.Add(groupBox2);
-            TabPageConfig.Controls.Add(CheckBoxPreventSleep);
             TabPageConfig.Controls.Add(GroupBox1);
-            TabPageConfig.Controls.Add(CheckBoxOnTop);
             TabPageConfig.Location = new System.Drawing.Point(49, 4);
             TabPageConfig.Name = "TabPageConfig";
             TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            TabPageConfig.Size = new System.Drawing.Size(341, 614);
+            TabPageConfig.Size = new System.Drawing.Size(351, 614);
             TabPageConfig.TabIndex = 1;
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
             TabPageConfig.Click += TabPageConfig_Click;
             // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(LabelScale);
+            groupBox6.Controls.Add(CheckBoxOnTop);
+            groupBox6.Controls.Add(ComboBoxScale);
+            groupBox6.Controls.Add(CheckBoxPreventSleep);
+            groupBox6.Location = new System.Drawing.Point(169, 127);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new System.Drawing.Size(164, 152);
+            groupBox6.TabIndex = 102;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "GUI";
+            // 
             // LabelScale
             // 
             LabelScale.AutoSize = true;
-            LabelScale.Location = new System.Drawing.Point(176, 144);
+            LabelScale.Location = new System.Drawing.Point(37, 98);
             LabelScale.Name = "LabelScale";
-            LabelScale.Size = new System.Drawing.Size(65, 21);
+            LabelScale.Size = new System.Drawing.Size(46, 21);
             LabelScale.TabIndex = 101;
-            LabelScale.Text = "UI Scale\r\n";
+            LabelScale.Text = "Scale\r\n";
+            LabelScale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // CheckBoxOnTop
+            // 
+            CheckBoxOnTop.Checked = true;
+            CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxOnTop.Location = new System.Drawing.Point(6, 59);
+            CheckBoxOnTop.Name = "CheckBoxOnTop";
+            CheckBoxOnTop.Size = new System.Drawing.Size(152, 25);
+            CheckBoxOnTop.TabIndex = 20;
+            CheckBoxOnTop.Text = "Always On Top";
+            CheckBoxOnTop.UseVisualStyleBackColor = true;
+            CheckBoxOnTop.CheckedChanged += CheckBoxOnTop_CheckedChanged;
             // 
             // ComboBoxScale
             // 
             ComboBoxScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxScale.FormattingEnabled = true;
             ComboBoxScale.Items.AddRange(new object[] { "0.75", "1.0", "1.3", "1.5", "1.7", "2.0" });
-            ComboBoxScale.Location = new System.Drawing.Point(254, 141);
+            ComboBoxScale.Location = new System.Drawing.Point(99, 95);
             ComboBoxScale.MaxDropDownItems = 6;
             ComboBoxScale.Name = "ComboBoxScale";
             ComboBoxScale.Size = new System.Drawing.Size(59, 29);
             ComboBoxScale.TabIndex = 100;
             ComboBoxScale.SelectedIndexChanged += ComboBoxScale_SelectedIndexChanged;
+            // 
+            // CheckBoxPreventSleep
+            // 
+            CheckBoxPreventSleep.Checked = true;
+            CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxPreventSleep.Location = new System.Drawing.Point(7, 28);
+            CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
+            CheckBoxPreventSleep.Size = new System.Drawing.Size(151, 25);
+            CheckBoxPreventSleep.TabIndex = 19;
+            CheckBoxPreventSleep.Text = "Prevent Sleep";
+            CheckBoxPreventSleep.UseVisualStyleBackColor = true;
+            CheckBoxPreventSleep.CheckedChanged += CheckBoxPreventSleep_CheckedChanged;
             // 
             // groupBox4
             // 
@@ -245,7 +286,7 @@ namespace DgtCherub
             groupBox4.Controls.Add(CheckBoxRecieveLog);
             groupBox4.Controls.Add(label4);
             groupBox4.Controls.Add(UpDownFontSize);
-            groupBox4.Location = new System.Drawing.Point(6, 381);
+            groupBox4.Location = new System.Drawing.Point(6, 406);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new System.Drawing.Size(148, 197);
             groupBox4.TabIndex = 65;
@@ -258,8 +299,8 @@ namespace DgtCherub
             ButtonClearConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             ButtonClearConsole.Location = new System.Drawing.Point(6, 29);
             ButtonClearConsole.Name = "ButtonClearConsole";
-            ButtonClearConsole.Size = new System.Drawing.Size(124, 39);
-            ButtonClearConsole.TabIndex = 11;
+            ButtonClearConsole.Size = new System.Drawing.Size(128, 39);
+            ButtonClearConsole.TabIndex = 12;
             ButtonClearConsole.Text = "Clear Console";
             ButtonClearConsole.UseVisualStyleBackColor = true;
             ButtonClearConsole.Click += ButtonClearConsole_Click;
@@ -274,7 +315,7 @@ namespace DgtCherub
             CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 113);
             CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
             CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 33);
-            CheckBoxDisableRabbit.TabIndex = 13;
+            CheckBoxDisableRabbit.TabIndex = 14;
             CheckBoxDisableRabbit.Text = "Show Inbound";
             CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
             CheckBoxDisableRabbit.CheckedChanged += CheckBoxShowInbound_CheckedChanged;
@@ -289,7 +330,7 @@ namespace DgtCherub
             CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 144);
             CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
             CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 38);
-            CheckBoxRecieveLog.TabIndex = 14;
+            CheckBoxRecieveLog.TabIndex = 15;
             CheckBoxRecieveLog.Text = "Logging On";
             CheckBoxRecieveLog.UseVisualStyleBackColor = true;
             CheckBoxRecieveLog.CheckedChanged += CheckBoxRecieveLog_CheckedChanged;
@@ -306,12 +347,12 @@ namespace DgtCherub
             // UpDownFontSize
             // 
             UpDownFontSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            UpDownFontSize.Location = new System.Drawing.Point(91, 78);
+            UpDownFontSize.Location = new System.Drawing.Point(89, 82);
             UpDownFontSize.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             UpDownFontSize.Minimum = new decimal(new int[] { 5, 0, 0, 0 });
             UpDownFontSize.Name = "UpDownFontSize";
             UpDownFontSize.Size = new System.Drawing.Size(45, 25);
-            UpDownFontSize.TabIndex = 12;
+            UpDownFontSize.TabIndex = 13;
             UpDownFontSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownFontSize.Value = new decimal(new int[] { 11, 0, 0, 0 });
             UpDownFontSize.ValueChanged += UpDownFontSize_ValueChanged;
@@ -322,9 +363,9 @@ namespace DgtCherub
             groupBox3.Controls.Add(ButtonSetAltDriver);
             groupBox3.Controls.Add(CheckBoxNeverUseRabbit);
             groupBox3.Controls.Add(ButtonRabbitConfig1);
-            groupBox3.Location = new System.Drawing.Point(6, 260);
+            groupBox3.Location = new System.Drawing.Point(6, 285);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(319, 115);
+            groupBox3.Size = new System.Drawing.Size(327, 115);
             groupBox3.TabIndex = 64;
             groupBox3.TabStop = false;
             groupBox3.Text = "Rabbit";
@@ -333,10 +374,10 @@ namespace DgtCherub
             // 
             ButtonClearAltDriver.Enabled = false;
             ButtonClearAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            ButtonClearAltDriver.Location = new System.Drawing.Point(172, 72);
+            ButtonClearAltDriver.Location = new System.Drawing.Point(186, 72);
             ButtonClearAltDriver.Name = "ButtonClearAltDriver";
             ButtonClearAltDriver.Size = new System.Drawing.Size(135, 37);
-            ButtonClearAltDriver.TabIndex = 12;
+            ButtonClearAltDriver.TabIndex = 11;
             ButtonClearAltDriver.Text = "Clear Alt Driver";
             ButtonClearAltDriver.UseVisualStyleBackColor = true;
             ButtonClearAltDriver.Click += ButtonClearAltDriver_Click;
@@ -344,10 +385,10 @@ namespace DgtCherub
             // ButtonSetAltDriver
             // 
             ButtonSetAltDriver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            ButtonSetAltDriver.Location = new System.Drawing.Point(172, 28);
+            ButtonSetAltDriver.Location = new System.Drawing.Point(186, 28);
             ButtonSetAltDriver.Name = "ButtonSetAltDriver";
             ButtonSetAltDriver.Size = new System.Drawing.Size(135, 37);
-            ButtonSetAltDriver.TabIndex = 11;
+            ButtonSetAltDriver.TabIndex = 10;
             ButtonSetAltDriver.Text = "Set Alt Driver...";
             ButtonSetAltDriver.UseVisualStyleBackColor = true;
             ButtonSetAltDriver.Click += ButtonSetAltDriver_Click;
@@ -362,7 +403,7 @@ namespace DgtCherub
             CheckBoxNeverUseRabbit.Location = new System.Drawing.Point(6, 78);
             CheckBoxNeverUseRabbit.Name = "CheckBoxNeverUseRabbit";
             CheckBoxNeverUseRabbit.Size = new System.Drawing.Size(152, 25);
-            CheckBoxNeverUseRabbit.TabIndex = 10;
+            CheckBoxNeverUseRabbit.TabIndex = 9;
             CheckBoxNeverUseRabbit.Text = "Disable Rabbit";
             CheckBoxNeverUseRabbit.UseVisualStyleBackColor = true;
             CheckBoxNeverUseRabbit.CheckedChanged += CheckBoxNeverUseRabbit_CheckedChanged;
@@ -373,7 +414,7 @@ namespace DgtCherub
             ButtonRabbitConfig1.Location = new System.Drawing.Point(10, 29);
             ButtonRabbitConfig1.Name = "ButtonRabbitConfig1";
             ButtonRabbitConfig1.Size = new System.Drawing.Size(124, 37);
-            ButtonRabbitConfig1.TabIndex = 9;
+            ButtonRabbitConfig1.TabIndex = 8;
             ButtonRabbitConfig1.Text = "Rabbit Config...";
             ButtonRabbitConfig1.UseVisualStyleBackColor = true;
             ButtonRabbitConfig1.Click += ButtonRabbitConfig_Click;
@@ -388,7 +429,7 @@ namespace DgtCherub
             groupBox2.Controls.Add(UpDownVoiceDelay);
             groupBox2.Location = new System.Drawing.Point(169, 6);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(156, 115);
+            groupBox2.Size = new System.Drawing.Size(164, 115);
             groupBox2.TabIndex = 62;
             groupBox2.TabStop = false;
             groupBox2.Text = "Delay Timers";
@@ -398,12 +439,12 @@ namespace DgtCherub
             UpDownFromMismatchDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownFromMismatchDelay.DecimalPlaces = 1;
             UpDownFromMismatchDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            UpDownFromMismatchDelay.Location = new System.Drawing.Point(99, 82);
+            UpDownFromMismatchDelay.Location = new System.Drawing.Point(113, 82);
             UpDownFromMismatchDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownFromMismatchDelay.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             UpDownFromMismatchDelay.Name = "UpDownFromMismatchDelay";
             UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 25);
-            UpDownFromMismatchDelay.TabIndex = 17;
+            UpDownFromMismatchDelay.TabIndex = 18;
             UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownFromMismatchDelay.Value = new decimal(new int[] { 5, 0, 0, 65536 });
             UpDownFromMismatchDelay.ValueChanged += UpDownFromMismatchDelay_ValueChanged;
@@ -413,12 +454,12 @@ namespace DgtCherub
             UpDownLocalDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownLocalDelay.DecimalPlaces = 1;
             UpDownLocalDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            UpDownLocalDelay.Location = new System.Drawing.Point(99, 54);
+            UpDownLocalDelay.Location = new System.Drawing.Point(113, 54);
             UpDownLocalDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownLocalDelay.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             UpDownLocalDelay.Name = "UpDownLocalDelay";
             UpDownLocalDelay.Size = new System.Drawing.Size(45, 25);
-            UpDownLocalDelay.TabIndex = 16;
+            UpDownLocalDelay.TabIndex = 17;
             UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownLocalDelay.Value = new decimal(new int[] { 2, 0, 0, 0 });
             UpDownLocalDelay.ValueChanged += UpDownLocalDelay_ValueChanged;
@@ -454,29 +495,15 @@ namespace DgtCherub
             // 
             UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownVoiceDelay.DecimalPlaces = 1;
-            UpDownVoiceDelay.Location = new System.Drawing.Point(99, 28);
+            UpDownVoiceDelay.Location = new System.Drawing.Point(113, 28);
             UpDownVoiceDelay.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
             UpDownVoiceDelay.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             UpDownVoiceDelay.Name = "UpDownVoiceDelay";
             UpDownVoiceDelay.Size = new System.Drawing.Size(45, 25);
-            UpDownVoiceDelay.TabIndex = 15;
+            UpDownVoiceDelay.TabIndex = 16;
             UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownVoiceDelay.Value = new decimal(new int[] { 5, 0, 0, 0 });
             UpDownVoiceDelay.ValueChanged += UpDownVoiceDelay_ValueChanged;
-            // 
-            // CheckBoxPreventSleep
-            // 
-            CheckBoxPreventSleep.Checked = true;
-            CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
-            CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxPreventSleep.Location = new System.Drawing.Point(175, 180);
-            CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
-            CheckBoxPreventSleep.Size = new System.Drawing.Size(138, 25);
-            CheckBoxPreventSleep.TabIndex = 98;
-            CheckBoxPreventSleep.Text = "Prevent Sleep";
-            CheckBoxPreventSleep.UseVisualStyleBackColor = true;
-            CheckBoxPreventSleep.CheckedChanged += CheckBoxPreventSleep_CheckedChanged;
             // 
             // GroupBox1
             // 
@@ -493,7 +520,7 @@ namespace DgtCherub
             GroupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             GroupBox1.Location = new System.Drawing.Point(6, 6);
             GroupBox1.Name = "GroupBox1";
-            GroupBox1.Size = new System.Drawing.Size(148, 246);
+            GroupBox1.Size = new System.Drawing.Size(148, 273);
             GroupBox1.TabIndex = 1;
             GroupBox1.TabStop = false;
             GroupBox1.Text = "Vol/Voice";
@@ -505,7 +532,7 @@ namespace DgtCherub
             CheckboxSilentBeep.Location = new System.Drawing.Point(63, 104);
             CheckboxSilentBeep.Name = "CheckboxSilentBeep";
             CheckboxSilentBeep.Size = new System.Drawing.Size(71, 25);
-            CheckboxSilentBeep.TabIndex = 5;
+            CheckboxSilentBeep.TabIndex = 4;
             CheckboxSilentBeep.Text = "Silent";
             CheckboxSilentBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CheckboxSilentBeep.UseVisualStyleBackColor = true;
@@ -518,7 +545,7 @@ namespace DgtCherub
             CheckBoxPlayerBeep.Location = new System.Drawing.Point(55, 80);
             CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
             CheckBoxPlayerBeep.Size = new System.Drawing.Size(79, 25);
-            CheckBoxPlayerBeep.TabIndex = 4;
+            CheckBoxPlayerBeep.TabIndex = 3;
             CheckBoxPlayerBeep.Text = "Beep Mode";
             CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CheckBoxPlayerBeep.UseVisualStyleBackColor = true;
@@ -531,7 +558,7 @@ namespace DgtCherub
             CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 204);
             CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
             CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 25);
-            CheckBoxIncludeSecs.TabIndex = 8;
+            CheckBoxIncludeSecs.TabIndex = 7;
             CheckBoxIncludeSecs.Text = "Include Secs";
             CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
@@ -545,7 +572,7 @@ namespace DgtCherub
             ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 135);
             ComboBoxMoveVoice.Name = "ComboBoxMoveVoice";
             ComboBoxMoveVoice.Size = new System.Drawing.Size(128, 29);
-            ComboBoxMoveVoice.TabIndex = 6;
+            ComboBoxMoveVoice.TabIndex = 5;
             ComboBoxMoveVoice.SelectedValueChanged += ComboBoxMoveVoice_SelectedValueChanged;
             // 
             // Label3
@@ -582,7 +609,7 @@ namespace DgtCherub
             UpDownVolStatus.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolStatus.Name = "UpDownVolStatus";
             UpDownVolStatus.Size = new System.Drawing.Size(45, 25);
-            UpDownVolStatus.TabIndex = 2;
+            UpDownVolStatus.TabIndex = 1;
             UpDownVolStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownVolStatus.Value = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolStatus.ValueChanged += UpDownVolStatus_ValueChanged;
@@ -600,7 +627,7 @@ namespace DgtCherub
             UpDownVolTime.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolTime.Name = "UpDownVolTime";
             UpDownVolTime.Size = new System.Drawing.Size(45, 25);
-            UpDownVolTime.TabIndex = 7;
+            UpDownVolTime.TabIndex = 6;
             UpDownVolTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownVolTime.Value = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolTime.ValueChanged += UpDownVolTime_ValueChanged;
@@ -618,7 +645,7 @@ namespace DgtCherub
             UpDownVolMoves.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolMoves.Name = "UpDownVolMoves";
             UpDownVolMoves.Size = new System.Drawing.Size(45, 25);
-            UpDownVolMoves.TabIndex = 3;
+            UpDownVolMoves.TabIndex = 2;
             UpDownVolMoves.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownVolMoves.Value = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownVolMoves.ValueChanged += UpDownVolMoves_ValueChanged;
@@ -628,20 +655,6 @@ namespace DgtCherub
             UpDownVolMoves.KeyDown += UpDownVolHideCaret;
             UpDownVolMoves.KeyUp += UpDownVolHideCaret;
             UpDownVolMoves.Leave += UpDownVolHideCaret;
-            // 
-            // CheckBoxOnTop
-            // 
-            CheckBoxOnTop.Checked = true;
-            CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
-            CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxOnTop.Location = new System.Drawing.Point(175, 209);
-            CheckBoxOnTop.Name = "CheckBoxOnTop";
-            CheckBoxOnTop.Size = new System.Drawing.Size(138, 25);
-            CheckBoxOnTop.TabIndex = 99;
-            CheckBoxOnTop.Text = "Always On Top";
-            CheckBoxOnTop.UseVisualStyleBackColor = true;
-            CheckBoxOnTop.CheckedChanged += CheckBoxOnTop_CheckedChanged;
             // 
             // TabPageBoards
             // 
@@ -655,7 +668,7 @@ namespace DgtCherub
             TabPageBoards.Controls.Add(PictureBoxLocal);
             TabPageBoards.Location = new System.Drawing.Point(49, 4);
             TabPageBoards.Name = "TabPageBoards";
-            TabPageBoards.Size = new System.Drawing.Size(341, 614);
+            TabPageBoards.Size = new System.Drawing.Size(351, 614);
             TabPageBoards.TabIndex = 2;
             TabPageBoards.Text = "Boards";
             TabPageBoards.Enter += TabPageBoards_Enter;
@@ -765,7 +778,7 @@ namespace DgtCherub
             TabPageClock.Location = new System.Drawing.Point(49, 4);
             TabPageClock.Name = "TabPageClock";
             TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            TabPageClock.Size = new System.Drawing.Size(341, 614);
+            TabPageClock.Size = new System.Drawing.Size(351, 614);
             TabPageClock.TabIndex = 3;
             TabPageClock.Text = "Clock";
             TabPageClock.UseVisualStyleBackColor = true;
@@ -893,7 +906,7 @@ namespace DgtCherub
             TabPageOffline.Location = new System.Drawing.Point(49, 4);
             TabPageOffline.Name = "TabPageOffline";
             TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            TabPageOffline.Size = new System.Drawing.Size(341, 614);
+            TabPageOffline.Size = new System.Drawing.Size(351, 614);
             TabPageOffline.TabIndex = 0;
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
@@ -905,7 +918,7 @@ namespace DgtCherub
             CheckBoxKibitzerShowUciOut.Location = new System.Drawing.Point(58, 135);
             CheckBoxKibitzerShowUciOut.Name = "CheckBoxKibitzerShowUciOut";
             CheckBoxKibitzerShowUciOut.Size = new System.Drawing.Size(268, 33);
-            CheckBoxKibitzerShowUciOut.TabIndex = 7;
+            CheckBoxKibitzerShowUciOut.TabIndex = 4;
             CheckBoxKibitzerShowUciOut.Text = "Show UCI Raw Output (Debug)";
             CheckBoxKibitzerShowUciOut.UseVisualStyleBackColor = true;
             // 
@@ -927,7 +940,7 @@ namespace DgtCherub
             CheckBoxKibitzerShowUciIn.Location = new System.Drawing.Point(58, 103);
             CheckBoxKibitzerShowUciIn.Name = "CheckBoxKibitzerShowUciIn";
             CheckBoxKibitzerShowUciIn.Size = new System.Drawing.Size(269, 34);
-            CheckBoxKibitzerShowUciIn.TabIndex = 6;
+            CheckBoxKibitzerShowUciIn.TabIndex = 3;
             CheckBoxKibitzerShowUciIn.Text = "Show UCI Raw Input (Debug)";
             CheckBoxKibitzerShowUciIn.UseVisualStyleBackColor = true;
             // 
@@ -937,7 +950,7 @@ namespace DgtCherub
             ButtonEngingSelect.Location = new System.Drawing.Point(13, 60);
             ButtonEngingSelect.Name = "ButtonEngingSelect";
             ButtonEngingSelect.Size = new System.Drawing.Size(151, 37);
-            ButtonEngingSelect.TabIndex = 11;
+            ButtonEngingSelect.TabIndex = 1;
             ButtonEngingSelect.Text = "Engine Select...";
             ButtonEngingSelect.UseVisualStyleBackColor = true;
             ButtonEngingSelect.Click += ButtonEngineSelect_Click;
@@ -949,7 +962,7 @@ namespace DgtCherub
             ButtonEngineConfig.Location = new System.Drawing.Point(170, 60);
             ButtonEngineConfig.Name = "ButtonEngineConfig";
             ButtonEngineConfig.Size = new System.Drawing.Size(157, 37);
-            ButtonEngineConfig.TabIndex = 10;
+            ButtonEngineConfig.TabIndex = 2;
             ButtonEngineConfig.Text = "Engine Config...";
             ButtonEngineConfig.UseVisualStyleBackColor = true;
             ButtonEngineConfig.Click += ButtonEngineConfig_Click;
@@ -992,7 +1005,7 @@ namespace DgtCherub
             TextBoxConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             TextBoxConsole.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             TextBoxConsole.ForeColor = System.Drawing.Color.FromArgb(102, 255, 102);
-            TextBoxConsole.Location = new System.Drawing.Point(403, 3);
+            TextBoxConsole.Location = new System.Drawing.Point(413, 3);
             TextBoxConsole.Multiline = true;
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
@@ -1276,7 +1289,8 @@ namespace DgtCherub
             TableLayoutPanel.PerformLayout();
             TabControlSidePanel.ResumeLayout(false);
             TabPageConfig.ResumeLayout(false);
-            TabPageConfig.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownFontSize).EndInit();
@@ -1403,6 +1417,7 @@ namespace DgtCherub
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label LabelKibitzerInfo;
         private System.Windows.Forms.CheckBox CheckBoxKibitzerEnabled;
+        private System.Windows.Forms.GroupBox groupBox6;
     }
 }
 
