@@ -39,7 +39,7 @@ namespace UciComms
             Executable = executable;
             RunningProcess = null;
 
-            evaluation.OnBoardEvalChanged += Evaluation_OnBoardEvalChanged; 
+            evaluation.OnBoardEvalChanged += Evaluation_OnBoardEvalChanged;
         }
 
         private void Evaluation_OnBoardEvalChanged(UciEngineEval obj)
@@ -67,7 +67,10 @@ namespace UciComms
 
             RunningProcess.OutputDataReceived += (sender, args) =>
             {
-                if (args == null) return;
+                if (args == null)
+                {
+                    return;
+                }
 
                 OnOutputRecievedRaw?.Invoke(this, args.Data);
 
@@ -101,7 +104,7 @@ namespace UciComms
             {
                 _ = RunningProcess.Start();
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 RunningProcess = null;
                 throw;
@@ -120,8 +123,8 @@ namespace UciComms
             }
 
             SendCommand("isready");
-            
-            if(!WaitForReady())
+
+            if (!WaitForReady())
             {
                 RunningProcess.Kill();
                 throw new Exception("UCI engine ready timeout expired.");
@@ -254,17 +257,17 @@ namespace UciComms
             }
             else if (rawData.StartsWith("option"))
             {
-                var match = OptionRegex.Match(rawData);
+                Match match = OptionRegex.Match(rawData);
                 if (match.Success)
                 {
-                    var name = match.Groups["name"].Value;
-                    var type = match.Groups["type"].Value;
-                    var defaultVal = match.Groups["default"].Success ? match.Groups["default"].Value : null;
-                    var minVal = match.Groups["min"].Success ? match.Groups["min"].Value : null;
-                    var maxVal = match.Groups["max"].Success ? match.Groups["max"].Value : null;
-                    var varVal = match.Groups["var"].Success ? match.Groups["var"].Value : null;
+                    string name = match.Groups["name"].Value;
+                    string type = match.Groups["type"].Value;
+                    string? defaultVal = match.Groups["default"].Success ? match.Groups["default"].Value : null;
+                    string? minVal = match.Groups["min"].Success ? match.Groups["min"].Value : null;
+                    string? maxVal = match.Groups["max"].Success ? match.Groups["max"].Value : null;
+                    string? varVal = match.Groups["var"].Success ? match.Groups["var"].Value : null;
 
-                    var option = new UciOption(name, type, defaultVal ?? "", minVal ?? "", maxVal ?? "", varVal ?? "");
+                    UciOption option = new(name, type, defaultVal ?? "", minVal ?? "", maxVal ?? "", varVal ?? "");
 
                     if (Options.ContainsKey(name))
                     {
@@ -303,18 +306,21 @@ namespace UciComms
                         case "pv": infoResponse.Pv = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
                         case "score":
-
                             //Send to eval function
                             evaluation.AddLine(rawData);
+
+                            bool isWhiteTurn = true;
 
                             i++;
                             if (splitStr[i] == "cp")
                             {
-                                infoResponse.ScoreCp = int.Parse(splitStr[++i]);
+                                int scoreCp = int.Parse(splitStr[++i]);
+                                infoResponse.ScoreCp = isWhiteTurn ? scoreCp : -scoreCp;
                             }
                             else if (splitStr[i] == "mate")
                             {
-                                infoResponse.ScoreMate = int.Parse(splitStr[++i]);
+                                int scoreMate = int.Parse(splitStr[++i]);
+                                infoResponse.ScoreMate = isWhiteTurn ? scoreMate : -scoreMate;
                             }
 
                             if (i + 1 < splitStr.Length && (splitStr[i + 1] == "lowerbound" || splitStr[i + 1] == "upperbound"))
