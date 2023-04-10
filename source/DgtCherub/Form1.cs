@@ -1774,5 +1774,37 @@ namespace DgtCherub
             float newScale = float.Parse((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex].ToString());
             ApplyScaling(newScale);
         }
+
+        private void TabControlSidePanel_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabControl tabControl = (TabControl)sender;
+
+            for (int i = 0; i < tabControl.TabPages.Count; i++)
+            {
+                Rectangle rect = tabControl.GetTabRect(i);
+                Brush bkgBrush = new SolidBrush(Color.Silver);
+                Brush fgBrush = Brushes.White;
+
+                // Set the color of the selected tab
+                if (tabControl.SelectedIndex == i)
+                {
+                    bkgBrush = new SolidBrush(Color.FromArgb(40, 40, 40));
+                    fgBrush = new SolidBrush(Color.FromArgb(102, 255, 102));
+                }
+
+                // Draw the tab
+                e.Graphics.FillRectangle(bkgBrush, rect);
+                e.Graphics.DrawString(tabControl.TabPages[i].Text,
+                                      tabControl.Font,
+                                      fgBrush,
+                                      rect,
+                                      new StringFormat
+                                      {
+                                          Alignment = StringAlignment.Center,
+                                          FormatFlags = StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft,
+                                          LineAlignment = StringAlignment.Center
+                                      });
+            }
+        }
     }
 }

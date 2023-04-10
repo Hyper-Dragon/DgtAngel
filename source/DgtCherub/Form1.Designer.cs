@@ -188,6 +188,7 @@ namespace DgtCherub
             TabControlSidePanel.Controls.Add(TabPageClock);
             TabControlSidePanel.Controls.Add(TabPageOffline);
             TabControlSidePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            TabControlSidePanel.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             TabControlSidePanel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             TabControlSidePanel.HotTrack = true;
             TabControlSidePanel.ItemSize = new System.Drawing.Size(100, 45);
@@ -199,6 +200,7 @@ namespace DgtCherub
             TabControlSidePanel.Size = new System.Drawing.Size(404, 622);
             TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             TabControlSidePanel.TabIndex = 2;
+            TabControlSidePanel.DrawItem += TabControlSidePanel_DrawItem;
             // 
             // TabPageConfig
             // 
@@ -234,7 +236,7 @@ namespace DgtCherub
             // 
             LabelScale.AutoSize = true;
             LabelScale.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            LabelScale.Location = new System.Drawing.Point(37, 98);
+            LabelScale.Location = new System.Drawing.Point(23, 115);
             LabelScale.Name = "LabelScale";
             LabelScale.Size = new System.Drawing.Size(46, 21);
             LabelScale.TabIndex = 101;
@@ -247,9 +249,9 @@ namespace DgtCherub
             CheckBoxOnTop.CheckState = System.Windows.Forms.CheckState.Checked;
             CheckBoxOnTop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxOnTop.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxOnTop.Location = new System.Drawing.Point(6, 59);
+            CheckBoxOnTop.Location = new System.Drawing.Point(7, 68);
             CheckBoxOnTop.Name = "CheckBoxOnTop";
-            CheckBoxOnTop.Size = new System.Drawing.Size(152, 25);
+            CheckBoxOnTop.Size = new System.Drawing.Size(152, 29);
             CheckBoxOnTop.TabIndex = 20;
             CheckBoxOnTop.Text = "Always On Top";
             CheckBoxOnTop.UseVisualStyleBackColor = true;
@@ -258,9 +260,10 @@ namespace DgtCherub
             // ComboBoxScale
             // 
             ComboBoxScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxScale.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ComboBoxScale.FormattingEnabled = true;
             ComboBoxScale.Items.AddRange(new object[] { "0.75", "1.0", "1.3", "1.5", "1.7", "2.0" });
-            ComboBoxScale.Location = new System.Drawing.Point(99, 95);
+            ComboBoxScale.Location = new System.Drawing.Point(98, 112);
             ComboBoxScale.MaxDropDownItems = 6;
             ComboBoxScale.Name = "ComboBoxScale";
             ComboBoxScale.Size = new System.Drawing.Size(59, 29);
@@ -273,9 +276,9 @@ namespace DgtCherub
             CheckBoxPreventSleep.CheckState = System.Windows.Forms.CheckState.Checked;
             CheckBoxPreventSleep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxPreventSleep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxPreventSleep.Location = new System.Drawing.Point(7, 28);
+            CheckBoxPreventSleep.Location = new System.Drawing.Point(6, 28);
             CheckBoxPreventSleep.Name = "CheckBoxPreventSleep";
-            CheckBoxPreventSleep.Size = new System.Drawing.Size(151, 25);
+            CheckBoxPreventSleep.Size = new System.Drawing.Size(151, 34);
             CheckBoxPreventSleep.TabIndex = 19;
             CheckBoxPreventSleep.Text = "Prevent Sleep";
             CheckBoxPreventSleep.UseVisualStyleBackColor = true;
@@ -549,7 +552,7 @@ namespace DgtCherub
             CheckboxSilentBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckboxSilentBeep.Location = new System.Drawing.Point(63, 111);
             CheckboxSilentBeep.Name = "CheckboxSilentBeep";
-            CheckboxSilentBeep.Size = new System.Drawing.Size(71, 27);
+            CheckboxSilentBeep.Size = new System.Drawing.Size(71, 32);
             CheckboxSilentBeep.TabIndex = 4;
             CheckboxSilentBeep.Text = "Silent";
             CheckboxSilentBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -562,7 +565,7 @@ namespace DgtCherub
             CheckBoxPlayerBeep.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckBoxPlayerBeep.Location = new System.Drawing.Point(55, 80);
             CheckBoxPlayerBeep.Name = "CheckBoxPlayerBeep";
-            CheckBoxPlayerBeep.Size = new System.Drawing.Size(79, 25);
+            CheckBoxPlayerBeep.Size = new System.Drawing.Size(79, 35);
             CheckBoxPlayerBeep.TabIndex = 3;
             CheckBoxPlayerBeep.Text = "Beep Mode";
             CheckBoxPlayerBeep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -573,9 +576,9 @@ namespace DgtCherub
             // 
             CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 218);
+            CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 227);
             CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
-            CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 25);
+            CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 39);
             CheckBoxIncludeSecs.TabIndex = 7;
             CheckBoxIncludeSecs.Text = "Include Secs";
             CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -585,6 +588,7 @@ namespace DgtCherub
             // ComboBoxMoveVoice
             // 
             ComboBoxMoveVoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ComboBoxMoveVoice.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ComboBoxMoveVoice.FormattingEnabled = true;
             ComboBoxMoveVoice.Items.AddRange(new object[] { "en-01", "en-02", "en-03", "en-04", "en-05", "en-06" });
             ComboBoxMoveVoice.Location = new System.Drawing.Point(6, 149);
