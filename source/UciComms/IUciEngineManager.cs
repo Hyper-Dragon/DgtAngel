@@ -1,6 +1,4 @@
-﻿using UciComms;
-
-namespace UciComms
+﻿namespace UciComms
 {
     public interface IUciEngineManager
     {

@@ -1,12 +1,10 @@
-﻿using ChessHelpers;
-using DgtAngelShared.Json;
+﻿using DgtAngelShared.Json;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
 using UciComms;
 using UciComms.Data;
 using static DgtAngelShared.Json.CherubApiMessage;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DgtCherub.Services
 {
@@ -170,8 +168,8 @@ namespace DgtCherub.Services
 
             await _uciEngineManager.RegisterEngineAsync(slotKey, new FileInfo(exePath));
 
-            var engineNew = _uciEngineManager.GetEngine(slotKey);
-            var engineOld = _uciEngineManager.GetEngine(slotRemoveKey);
+            UciChessEngine engineNew = _uciEngineManager.GetEngine(slotKey);
+            UciChessEngine engineOld = _uciEngineManager.GetEngine(slotRemoveKey);
 
             try
             {
@@ -179,7 +177,7 @@ namespace DgtCherub.Services
 
                 if (engineNew.IsUciOk)
                 {
-                    engineNew.WaitForReady();
+                    _ = engineNew.WaitForReady();
                     //eng.SetDebug(false);
                 }
 
@@ -367,8 +365,8 @@ namespace DgtCherub.Services
                     {
 
                         char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
-                        int whiteCount = clearedflatFenArray.Count(x => char.IsUpper(x));
-                        int blackCount = clearedflatFenArray.Count(x => char.IsLower(x));
+                        int whiteCount = clearedflatFenArray.Count(char.IsUpper);
+                        int blackCount = clearedflatFenArray.Count(char.IsLower);
 
 
                         string halfMoveClock = "0";
@@ -415,14 +413,13 @@ namespace DgtCherub.Services
             }
         }
 
-        char[] kibitzClearedflatFenArray = Array.Empty<char>();
-        int kibitzLastWhiteCount = 0;
-        int kibitzLastBlackCount = 0;
-
-        string lastLocalBoardFenForKibitzer = "";
-        TurnCode kibturn;
-        string kibend = "";
-        string kibmove = "";
+        private char[] kibitzClearedflatFenArray = Array.Empty<char>();
+        private int kibitzLastWhiteCount = 0;
+        private int kibitzLastBlackCount = 0;
+        private string lastLocalBoardFenForKibitzer = "";
+        private readonly TurnCode kibturn;
+        private readonly string kibend = "";
+        private readonly string kibmove = "";
 
         private async Task RunMessageProcessor()
         {

@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Text.Json;
 using System.Windows.Forms;
 using UciComms.Data;
@@ -13,12 +12,12 @@ namespace DgtCherub
 
         public string SerializeSettings()
         {
-            return JsonSerializer.Serialize(this.Options);
+            return JsonSerializer.Serialize(Options);
         }
 
         public static UciOptionSettings DeserializeSettings(string json)
         {
-            var settings = new UciOptionSettings();
+            UciOptionSettings settings = new();
 
             if (!string.IsNullOrEmpty(json))
             {

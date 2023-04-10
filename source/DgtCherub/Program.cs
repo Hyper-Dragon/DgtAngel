@@ -60,7 +60,7 @@ namespace DgtCherub
                 IHost host = Host.CreateDefaultBuilder(Array.Empty<string>())
                     .ConfigureWebHostDefaults(webBuilder =>
                     {
-                        webBuilder.ConfigureKestrel(options =>
+                        _ = webBuilder.ConfigureKestrel(options =>
                         {
                             options.ListenAnyIP(CHERUB_API_LISTEN_PORT, listenOptions =>
                             {

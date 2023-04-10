@@ -1,8 +1,8 @@
 ﻿using DgtGrpcService;
 using Grpc.Core;
 using System.Text;
-using EbDllInternal = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
+using EbDllInternal = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport;
 
 namespace DgtCherub.Services
 {

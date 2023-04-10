@@ -124,7 +124,7 @@ namespace DgtCherub.Controllers
                                                     lastErrorLog = DateTime.UtcNow;
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen.");
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that you are not in focus mode.");
-                                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY, messageIn.AngelPluginName);
+                                                    _ = _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY, messageIn.AngelPluginName);
                                                 }
 
                                                 break;
@@ -207,7 +207,7 @@ namespace DgtCherub.Controllers
                     }
                 }
 
-                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, "");
+                _ = _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, "");
                 _appDataService.PluginDisconnect();
                 _appDataService.UserMessageArrived("INTERNAL", "Angel has Disconnected");
             }

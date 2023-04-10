@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading;
 
 namespace UciComms.Data
 {
@@ -22,7 +21,7 @@ namespace UciComms.Data
 
         internal Eval()
         {
-            Task.Factory.StartNew(ProcessLines, TaskCreationOptions.LongRunning);
+            _ = Task.Factory.StartNew(ProcessLines, TaskCreationOptions.LongRunning);
         }
 
         internal void AddLine(string line)
@@ -34,27 +33,30 @@ namespace UciComms.Data
         {
             while (true)
             {
-                if (lineQueue.TryDequeue(out var line))
+                if (lineQueue.TryDequeue(out string? line))
                 {
-                    var lineVal = GetBoardEvalFromLine(line);
-                    
-                    var score = lineVal.cp;
-                    var mateIn = lineVal.mateIn;
-                    var depth = GetDepthFromLine(line);
+                    (int? cp, int mateIn) lineVal = GetBoardEvalFromLine(line);
+
+                    int? score = lineVal.cp;
+                    int mateIn = lineVal.mateIn;
+                    int? depth = GetDepthFromLine(line);
 
                     if (score != null && depth != null)
                     {
-                        
 
-                        var newTopLines = new List<Tuple<int, int, string>>(topLines)
+
+                        List<Tuple<int, int, string>> newTopLines = new(topLines)
                         {
                             Tuple.Create(score.Value, depth.Value, line)
                         };
                         newTopLines.Sort((a, b) => b.Item2.CompareTo(a.Item2)); // sort in descending order of depth
-                        if (newTopLines.Count > TOP_LINES_COUNT) newTopLines = newTopLines.Take(TOP_LINES_COUNT).ToList(); // keep only top 5 lines
+                        if (newTopLines.Count > TOP_LINES_COUNT)
+                        {
+                            newTopLines = newTopLines.Take(TOP_LINES_COUNT).ToList(); // keep only top 5 lines
+                        }
 
-                        var newBestMove = GetBestMoveFromLine(line);
-                        var newBoardEval = score.Value;
+                        string newBestMove = GetBestMoveFromLine(line);
+                        int newBoardEval = score.Value;
 
                         lock (topLines)
                         {
@@ -85,7 +87,7 @@ namespace UciComms.Data
         {
             lock (topLines)
             {
-                var t = topLines.Take(count)
+                List<string> t = topLines.Take(count)
                                 .Select(t => t.Item3)
                                 .ToList();
 
@@ -107,39 +109,47 @@ namespace UciComms.Data
             }
         }
 
-        private static (int? cp,int mateIn) GetBoardEvalFromLine(string line)
+        private static (int? cp, int mateIn) GetBoardEvalFromLine(string line)
         {
-            var index = line.IndexOf(SCORE_PREFIX);
+            int index = line.IndexOf(SCORE_PREFIX);
             if (index >= 0)
             {
-                var score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
-                return (score,0);
+                int score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
+                return (score, 0);
             }
 
             index = line.IndexOf(MATE_PREFIX); // Check for mate score
             if (index >= 0)
             {
-                var mateInX = int.Parse(line[(index + MATE_PREFIX.Length)..].Trim().Split(' ')[0]);
-                var mateScore = mateInX > 0 ? 100000 - mateInX * 10 : -100000 - mateInX * 10;
-                return (mateScore,mateInX);
+                int mateInX = int.Parse(line[(index + MATE_PREFIX.Length)..].Trim().Split(' ')[0]);
+                int mateScore = mateInX > 0 ? 100000 - (mateInX * 10) : -100000 - (mateInX * 10);
+                return (mateScore, mateInX);
             }
 
-            return (null,0);
+            return (null, 0);
         }
 
         private static int? GetDepthFromLine(string line)
         {
-            var index = line.IndexOf("depth");
-            if (index < 0) return null;
-            var depth = int.Parse(line.Substring(index + 6).Split()[0]);
+            int index = line.IndexOf("depth");
+            if (index < 0)
+            {
+                return null;
+            }
+
+            int depth = int.Parse(line[(index + 6)..].Split()[0]);
             return depth;
         }
 
-        private static string GetBestMoveFromLine(string line)
+        private static string? GetBestMoveFromLine(string line)
         {
-            var index = line.IndexOf(PV_PREFIX);
-            if (index < 0) return null;
-            var bestMove = line.Substring(index + PV_PREFIX.Length, BEST_MOVE_LENGTH);
+            int index = line.IndexOf(PV_PREFIX);
+            if (index < 0)
+            {
+                return null;
+            }
+
+            string bestMove = line.Substring(index + PV_PREFIX.Length, BEST_MOVE_LENGTH);
             return bestMove;
         }
     }

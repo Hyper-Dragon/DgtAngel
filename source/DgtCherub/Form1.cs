@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QRCoder;
 using System.Drawing;
-using System.Drawing.Printing;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -163,7 +162,7 @@ namespace DgtCherub
         private static extern bool HideCaret(IntPtr hWnd);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        static extern bool SetDllDirectory(string lpPathName);
+        private static extern bool SetDllDirectory(string lpPathName);
 
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
@@ -208,13 +207,16 @@ namespace DgtCherub
 
         private void ApplyScaling(Form form, float scale)
         {
-            this.Hide();
-            this.SuspendLayout();
+            Hide();
+            SuspendLayout();
 
             // Apply scaling
-            foreach (var control in originalControlData.Keys)
+            foreach (Control control in originalControlData.Keys)
             {
-                if (control.Name == "TextBoxConsole") continue;
+                if (control.Name == "TextBoxConsole")
+                {
+                    continue;
+                }
 
                 Rectangle originalBounds = originalControlData[control].Bounds;
                 Font originalFont = originalControlData[control].StoredFont;
@@ -259,29 +261,32 @@ namespace DgtCherub
 
                 if (control.GetType().Equals(typeof(TabControl)))
                 {
-                    ((TabControl)control).ItemSize = new Size((int)((float)originalTabItemSize.Width * scale),
-                                                              (int)((float)originalTabItemSize.Height * scale));
+                    ((TabControl)control).ItemSize = new Size((int)(originalTabItemSize.Width * scale),
+                                                              (int)(originalTabItemSize.Height * scale));
                 }
                 else if (control.GetType().Equals(typeof(MenuStrip)))
                 {
-                    MenuStrip.Height = (int)((float)originalControlData[control].StoredHeight * scale);
+                    MenuStrip.Height = (int)(originalControlData[control].StoredHeight * scale);
                 }
                 else if (control.GetType().Equals(typeof(StatusStrip)))
                 {
-                    control.Height = (int)((float)originalControlData[control].StoredHeight * scale);
+                    control.Height = (int)(originalControlData[control].StoredHeight * scale);
 
                     foreach (ToolStripItem item in ((StatusStrip)control).Items)
                     {
-                        if (item is ToolStripStatusLabel label) label.Font = control.Font;
+                        if (item is ToolStripStatusLabel label)
+                        {
+                            label.Font = control.Font;
+                        }
                     }
                 }
             }
 
             TableLayoutPanel.ColumnStyles[0].Width = originalTabPanelWidth * scale;
-            this.MinimumSize = new Size((int)(originalTabPanelWidth * scale), (int)((float)originalFormHeight * scale));
+            MinimumSize = new Size((int)(originalTabPanelWidth * scale), (int)(originalFormHeight * scale));
 
-            this.ResumeLayout(true);
-            this.Show();
+            ResumeLayout(true);
+            Show();
         }
 
         private void StoreOriginalData(Control control)
@@ -321,7 +326,7 @@ namespace DgtCherub
                     TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.", timeStamp: false);
                     TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.", timeStamp: false);
 
-                    SetDllDirectory(altDllPath);
+                    _ = SetDllDirectory(altDllPath);
                 }
                 else
                 {
@@ -592,7 +597,7 @@ namespace DgtCherub
             DoubleBuffered = true;
 
             // Store the original bounds and font sizes of all controls
-            foreach (Control control in this.Controls)
+            foreach (Control control in Controls)
             {
                 StoreOriginalData(control);
             }
@@ -601,7 +606,7 @@ namespace DgtCherub
             StoreOriginalData(StatusStrip);
 
             originalTabPanelWidth = TableLayoutPanel.ColumnStyles[0].Width;
-            originalFormHeight = this.MinimumSize.Height;
+            originalFormHeight = MinimumSize.Height;
 
 
             //This will cause ApplyScale to be called
@@ -1021,7 +1026,7 @@ namespace DgtCherub
             StartBoardComms();
         }
 
-        int lasteval = 0;
+        private int lasteval = 0;
         private void Engine_OnBoardEvalChanged(UciEngineEval obj)
         {
             if (obj.Depth > 20)
@@ -1035,8 +1040,7 @@ namespace DgtCherub
             }
         }
 
-
-        int ConsolePreHideWidth;
+        private readonly int ConsolePreHideWidth;
 
         //*********************************************//
         #region Form Control Events
@@ -1047,7 +1051,7 @@ namespace DgtCherub
             if (CheckBoxShowConsole.Checked)
             {
                 TextBoxConsole.Visible = true;
-                this.Width = ConsolePreHideWidth;
+                Width = ConsolePreHideWidth;
 
                 MinimumSize = InitialMinSize;
                 MaximumSize = InitialMaxSize;
@@ -1592,8 +1596,14 @@ namespace DgtCherub
         {
             if (e == null) { } // DO NOTHING
             else if (e.Contains("currmove")) { } // DO NOTHING 
-            else if (e.Contains("score")) Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) LabelKibitzerInfo.Text = e; });
-            else if (CheckBoxKibitzerShowUciOut.Checked) TextBoxConsole.AddLine($"UCI_OUT :: {currentUciChessEngine?.EngineName} :: {e}");
+            else if (e.Contains("score"))
+            {
+                Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) { LabelKibitzerInfo.Text = e; } });
+            }
+            else if (CheckBoxKibitzerShowUciOut.Checked)
+            {
+                TextBoxConsole.AddLine($"UCI_OUT :: {currentUciChessEngine?.EngineName} :: {e}");
+            }
         }
 
         private void Eng_OnOutputRecievedRawError(object sender, string e)
@@ -1652,7 +1662,7 @@ namespace DgtCherub
 
         private void ApplyUciSettings(List<UciOption> options)
         {
-            foreach (var option in options)
+            foreach (UciOption option in options)
             {
                 currentUciChessEngine.SetOption(option.Name, option.VarValue);
             }
@@ -1660,15 +1670,17 @@ namespace DgtCherub
 
         private void ButtonEngineSelect_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Executable Files (*.exe)|*.exe";
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Executable Files (*.exe)|*.exe"
+            };
 
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
                 ButtonEngineConfig.Enabled = false;
                 CheckBoxKibitzerEnabled.Enabled = false;
-                _angelHubService.LoadEngineAsync(openFileDialog.FileName);
+                _ = _angelHubService.LoadEngineAsync(openFileDialog.FileName);
             }
         }
 
@@ -1679,17 +1691,22 @@ namespace DgtCherub
             if (isEngineActivationRequired)
             {
                 isEngineActivationRequired = false;
-                if (!string.IsNullOrEmpty(lastUciExe)) _angelHubService.LoadEngineAsync(lastUciExe);
+                if (!string.IsNullOrEmpty(lastUciExe))
+                {
+                    _ = _angelHubService.LoadEngineAsync(lastUciExe);
+                }
             }
         }
 
         private void ButtonSetAltDriver_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "DGT Board Driver (DGTEBDLL.dll)|DGTEBDLL.dll";
-            openFileDialog.Multiselect = false;
-            openFileDialog.CheckFileExists = true;
-            openFileDialog.CheckPathExists = true;
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "DGT Board Driver (DGTEBDLL.dll)|DGTEBDLL.dll",
+                Multiselect = false,
+                CheckFileExists = true,
+                CheckPathExists = true
+            };
 
             DialogResult result = openFileDialog.ShowDialog();
 
@@ -1698,7 +1715,7 @@ namespace DgtCherub
                 ButtonSetAltDriver.Enabled = false;
                 ButtonClearAltDriver.Enabled = true;
 
-                var dir = Path.GetDirectoryName(openFileDialog.FileName);
+                string dir = Path.GetDirectoryName(openFileDialog.FileName);
                 DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = dir;
                 TextBoxConsole.AddLine($"RABBIT:: Alt board driver search path set to [{dir}]");
                 TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.");

@@ -9,12 +9,11 @@ using System.Text;
 using System.Text.Json;
 using System.Web;
 using UciComms;
-using UciComms.Data;
 using static DgtCherub.Helpers.ResourceLoader;
 
 namespace DgtCherub.Controllers
 {
-    #pragma warning disable AsyncFixer03 // Fire-and-forget async-void methods or delegates
+#pragma warning disable AsyncFixer03 // Fire-and-forget async-void methods or delegates
     [Route("[controller]")]
     [Controller]
     public sealed class CherubVirtualClockController : ControllerBase
@@ -310,7 +309,7 @@ namespace DgtCherub.Controllers
             };
 
 
-            _angelHubService.OnUciEngineReleased += async (string engineName) =>
+            _angelHubService.OnUciEngineReleased += (string engineName) =>
             {
                 //await SendEventResponse(Response, JsonSerializer.Serialize(new
                 //{
@@ -460,7 +459,8 @@ namespace DgtCherub.Controllers
 
         private static async Task SendEventResponse(HttpResponse responseObject, string jsonMessage)
         {
-            try { 
+            try
+            {
                 await responseObject.Body.WriteAsync(ASCIIEncoding.ASCII.GetBytes($"data: {jsonMessage}{Environment.NewLine}{Environment.NewLine}"));
                 await responseObject.Body.FlushAsync();
             }

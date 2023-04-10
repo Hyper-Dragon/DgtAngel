@@ -16,7 +16,7 @@ namespace UciComms
         public async Task RegisterEngineAsync(string engineRef, FileInfo engineExecutablePath)
         {
             // Adding a new UciChessEngine instance to the UciEngines collection
-            await Task.Run( () => UciEngines.TryAdd(engineRef, new UciChessEngine(engineExecutablePath)) );
+            _ = await Task.Run(() => UciEngines.TryAdd(engineRef, new UciChessEngine(engineExecutablePath)));
         }
 
         // StartEngine now returns a Task to allow for async operation

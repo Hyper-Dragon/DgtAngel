@@ -39,10 +39,10 @@ namespace DgtRabbitWrapper.DgtEbDll
 
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStatusFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern int RegisterStatusFunc(CallbackStatusFunc func, IntPtr callbackTarget);
-        
+
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterStableBoardFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern int RegisterStableBoardFunc(CallbackStableBoardFunc func, IntPtr callbackTarget);
-        
+
         [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterScanFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         public static extern int RegisterCallbackScanFunc(CallbackScanFunc func, IntPtr callbackTarget);
 
@@ -93,16 +93,16 @@ namespace DgtRabbitWrapper.DgtEbDll
 
 
 
-                //[DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                //public static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
-                [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterAllowTakebacksChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                public static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
-                [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterGameTypeChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                public static extern int RegisterGameTypeChangedFunc(CallbackGameTypeChangedFunc func, IntPtr callbackTarget);
-                [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterWhiteTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                public static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
-                [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBlackTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
-                public static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
+        //[DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterMagicPieceFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        //public static extern int RegisterMagicPieceFunc(CallbackMagicPieceFunc func, IntPtr callbackTarget);
+        [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterAllowTakebacksChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        public static extern int RegisterAllowTakebacksChangedFunc(CallbackAllowTakebacksChangedFunc func, IntPtr callbackTarget);
+        [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterGameTypeChangedFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        public static extern int RegisterGameTypeChangedFunc(CallbackGameTypeChangedFunc func, IntPtr callbackTarget);
+        [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterWhiteTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        public static extern int RegisterWhiteTakebackFunc(CallbackWhiteTakebackFunc func, IntPtr callbackTarget);
+        [DllImport(DGT_EB_DLL, EntryPoint = "_DGTDLL_RegisterBlackTakebackFunc", ExactSpelling = true, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        public static extern int RegisterBlackTakebackFunc(CallbackBlackTakebackFunc func, IntPtr callbackTarget);
 
 
         [DllImport(DGT_EB_DLL,
@@ -210,49 +210,49 @@ namespace DgtRabbitWrapper.DgtEbDll
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int AllowTakebacks(bool val);
-        
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_Exit",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int Exit();
-        
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_GetWxWidgetsVersion",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int GetWxWidgetsVersion();
-        
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_PlayBlackMove",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int PlayBlackMove(StringBuilder move);
-        
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_PlayWhiteMove",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int PlayWhiteMove(StringBuilder move);
-                      
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_WriteCOMPort",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int WriteCOMPort(int val);
-        
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_WriteCOMPortString",
            ExactSpelling = true,
            CharSet = CharSet.Ansi,
            CallingConvention = CallingConvention.StdCall)]
         public static extern int WriteCOMPortString(StringBuilder val);
-        
+
         [DllImport(DGT_EB_DLL,
            EntryPoint = "_DGTDLL_WritePosition",
            ExactSpelling = true,
