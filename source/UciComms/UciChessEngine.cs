@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using UciComms.Data;
 
@@ -32,6 +33,9 @@ namespace UciComms
         public string EngineAuthor { get; private set; } = "UNKNOWN";
 
         public Dictionary<string, UciOption> Options { get; } = new();
+
+        public string LastSeenFen { get; private set; } = "";
+        public string LastSeenMoveList { get; private set; } = "";
 
 
         internal UciChessEngine(FileInfo executable)
@@ -162,6 +166,7 @@ namespace UciComms
             evaluation.ResetEval();
             SendCommand("ucinewgame");
             SendCommand($"position fen {fen}");
+            LastSeenFen = fen;
         }
 
         public void SetDebug(bool debugOn)
@@ -173,6 +178,7 @@ namespace UciComms
         public void SetMoves(string moves)
         {
             SendCommand($"position startpos moves {moves}");
+            LastSeenMoveList = moves;
         }
 
         public void Go(int depth)
@@ -309,17 +315,20 @@ namespace UciComms
                             //Send to eval function
                             evaluation.AddLine(rawData);
 
-                            bool isWhiteTurn = true;
+                            bool isWhiteTurn = LastSeenFen.Split(' ')[1] == "w" ? true : false;
 
                             i++;
                             if (splitStr[i] == "cp")
                             {
                                 int scoreCp = int.Parse(splitStr[++i]);
                                 infoResponse.ScoreCp = isWhiteTurn ? scoreCp : -scoreCp;
+                                infoResponse.ScoreMate = isWhiteTurn ? int.MaxValue : int.MinValue;
                             }
                             else if (splitStr[i] == "mate")
                             {
                                 int scoreMate = int.Parse(splitStr[++i]);
+
+                                infoResponse.ScoreCp = isWhiteTurn ? int.MaxValue : int.MinValue;
                                 infoResponse.ScoreMate = isWhiteTurn ? scoreMate : -scoreMate;
                             }
 
