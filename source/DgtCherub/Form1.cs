@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Windows.Forms;
 using UciComms;
 using UciComms.Data;
@@ -753,6 +754,20 @@ namespace DgtCherub
                 //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
                 //audio
                 _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
+            };
+
+            _angelHubService.OnBoardEvalChanged += (uciEngineEval) =>
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    int evalClamped = Math.Clamp(uciEngineEval.Eval / 100, -10, 10);
+                    ProgBarKibitzer.Value = evalClamped + (ProgBarKibitzer.Maximum / 2);
+                    LabelScoreKibitzer.Text = uciEngineEval.MateIn != 0 ?
+                                              $"Mate : {uciEngineEval.MateIn}" :
+                                              $"Score: {((float)uciEngineEval.Eval / 100f)}";
+                    LabelDepthKibitzer.Text = $"Depth: {uciEngineEval.Depth}";
+                    this.Update();
+                });
             };
 
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>

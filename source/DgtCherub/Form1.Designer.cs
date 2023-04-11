@@ -93,6 +93,9 @@ namespace DgtCherub
             ButtonEngingSelect = new System.Windows.Forms.Button();
             ButtonEngineConfig = new System.Windows.Forms.Button();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            LabelDepthKibitzer = new System.Windows.Forms.Label();
+            LabelScoreKibitzer = new System.Windows.Forms.Label();
+            ProgBarKibitzer = new System.Windows.Forms.ProgressBar();
             LabelKibitzerInfo = new System.Windows.Forms.Label();
             CheckBoxKibitzerEnabled = new System.Windows.Forms.CheckBox();
             TextBoxConsole = new System.Windows.Forms.TextBox();
@@ -997,21 +1000,58 @@ namespace DgtCherub
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(LabelDepthKibitzer);
+            groupBox5.Controls.Add(LabelScoreKibitzer);
+            groupBox5.Controls.Add(ProgBarKibitzer);
             groupBox5.Controls.Add(LabelKibitzerInfo);
             groupBox5.Controls.Add(CheckBoxKibitzerEnabled);
             groupBox5.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox5.Location = new System.Drawing.Point(4, 175);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(323, 137);
+            groupBox5.Size = new System.Drawing.Size(323, 319);
             groupBox5.TabIndex = 0;
             groupBox5.TabStop = false;
             groupBox5.Text = "Kibitzer";
             // 
+            // LabelDepthKibitzer
+            // 
+            LabelDepthKibitzer.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            LabelDepthKibitzer.Location = new System.Drawing.Point(166, 70);
+            LabelDepthKibitzer.Name = "LabelDepthKibitzer";
+            LabelDepthKibitzer.Size = new System.Drawing.Size(153, 38);
+            LabelDepthKibitzer.TabIndex = 15;
+            LabelDepthKibitzer.Text = "Depth";
+            LabelDepthKibitzer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // LabelScoreKibitzer
+            // 
+            LabelScoreKibitzer.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            LabelScoreKibitzer.Location = new System.Drawing.Point(6, 70);
+            LabelScoreKibitzer.Name = "LabelScoreKibitzer";
+            LabelScoreKibitzer.Size = new System.Drawing.Size(154, 38);
+            LabelScoreKibitzer.TabIndex = 14;
+            LabelScoreKibitzer.Text = "Score";
+            LabelScoreKibitzer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // ProgBarKibitzer
+            // 
+            ProgBarKibitzer.BackColor = System.Drawing.Color.White;
+            ProgBarKibitzer.Enabled = false;
+            ProgBarKibitzer.ForeColor = System.Drawing.Color.Black;
+            ProgBarKibitzer.Location = new System.Drawing.Point(6, 111);
+            ProgBarKibitzer.Maximum = 20;
+            ProgBarKibitzer.Name = "ProgBarKibitzer";
+            ProgBarKibitzer.Size = new System.Drawing.Size(311, 29);
+            ProgBarKibitzer.TabIndex = 13;
+            ProgBarKibitzer.Value = 10;
+            // 
             // LabelKibitzerInfo
             // 
-            LabelKibitzerInfo.Location = new System.Drawing.Point(54, 56);
+            LabelKibitzerInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            LabelKibitzerInfo.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            LabelKibitzerInfo.Location = new System.Drawing.Point(6, 155);
             LabelKibitzerInfo.Name = "LabelKibitzerInfo";
-            LabelKibitzerInfo.Size = new System.Drawing.Size(263, 78);
+            LabelKibitzerInfo.Size = new System.Drawing.Size(311, 146);
             LabelKibitzerInfo.TabIndex = 6;
             // 
             // CheckBoxKibitzerEnabled
@@ -1447,6 +1487,9 @@ namespace DgtCherub
         private System.Windows.Forms.Label LabelKibitzerInfo;
         private System.Windows.Forms.CheckBox CheckBoxKibitzerEnabled;
         private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.ProgressBar ProgBarKibitzer;
+        private System.Windows.Forms.Label LabelDepthKibitzer;
+        private System.Windows.Forms.Label LabelScoreKibitzer;
     }
 }
 
