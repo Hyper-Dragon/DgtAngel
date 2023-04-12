@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Google.Protobuf.WellKnownTypes;
+using System.Drawing;
 using System.Text.Json;
 using System.Windows.Forms;
 using UciComms.Data;
@@ -31,11 +32,9 @@ namespace DgtCherub
     public class UciOptionsForm : Form
     {
         private const int CONTROL_OFFSET = 250;
-        private const int CONTROL_Y_OFFSET = 15;
         private readonly List<UciOption> _uciOptions;
         private readonly Dictionary<string, Control> _controls;
         private Button _saveButton;
-        private readonly Button _resetButton;
         private readonly string _engineName;
         private readonly List<(TextBox control, string defaultVal)> _stringDefaults = new();
         private readonly List<(CheckBox control, bool defaultVal)> _checkDefaults = new();
@@ -69,7 +68,7 @@ namespace DgtCherub
             int yOffset = 15;
 
 
-            Panel panel = new Panel
+            Panel panel = new()
             {
                 Location = new System.Drawing.Point(0, 0),
                 Size = new System.Drawing.Size(800,600),
@@ -104,17 +103,17 @@ namespace DgtCherub
                                 Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
                             };
                             control = numericUpDown;
-                            _spinDefaults.Add((control as NumericUpDown, int.Parse(option.DefaultValue)));
+                            _spinDefaults.Add((control as NumericUpDown, (int)numericUpDown.Value));
                             break;
                         case "check":
                             CheckBox checkBox = new()
                             {
                                 Font = textFont,
-                                Checked = bool.Parse(option.VarValue),
+                                Checked = !string.IsNullOrEmpty(option.VarValue) && bool.Parse(option.VarValue),
                                 Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
                             };
                             control = checkBox;
-                            _checkDefaults.Add((control as CheckBox, bool.Parse(option.DefaultValue)));
+                            _checkDefaults.Add((control as CheckBox, checkBox.Checked));
                             break;
                         case "button":
                             Button button = new()
@@ -130,14 +129,17 @@ namespace DgtCherub
                             TextBox textBox = new()
                             {
                                 Font = textFont,
-                                Text = option.VarValue,
+                                Text = string.IsNullOrEmpty(option.VarValue)? "" : option.VarValue,
                                 Width = 300,
                                 Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
                             };
                             control = textBox;
-                            _stringDefaults.Add((control as TextBox, option.DefaultValue));
+                            _stringDefaults.Add((control as TextBox, textBox.Text));
                             break;
                     }
+
+                    //If no errors add to the save dictionary
+                    _controls.Add(option.Name, control);
                 }
                 catch (Exception ex)
                 {
@@ -150,16 +152,14 @@ namespace DgtCherub
 
                     control = errLabel;
                 }
-
-
-                _controls.Add(option.Name, control);
-                panel.Controls.Add(control);
-
+                finally
+                {
+                    //Add the control to the form (inc. error labs)
+                    panel.Controls.Add(control);
+                }
 
                 yOffset += 40;
             }
-
-            //yOffset = 15 + panel.AutoScrollPosition.Y;
 
             yOffset = 650;
 
@@ -188,7 +188,6 @@ namespace DgtCherub
             };
             _resetButton.Click += ResetButton_Click;
             Controls.Add(_resetButton);
-
         }
 
         private void ResetButton_Click(object sender, EventArgs e)

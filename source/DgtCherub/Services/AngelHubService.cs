@@ -247,7 +247,7 @@ namespace DgtCherub.Services
         {
             remoteIgnored = true;
             _ = WatchStateChange(MessageTypeCode.WATCH_STOPPED, "Kibitz Started");
-            ResetRemoteBoardState(true);
+            ResetRemoteBoardState();
         }
 
         public void LocalBoardUpdate(string fen)
@@ -274,7 +274,7 @@ namespace DgtCherub.Services
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
             {
-                ResetRemoteBoardState(true);
+                ResetRemoteBoardState();
             }
 
             remoteBoardState.Board.LastFenString = RemoteBoardFEN == null ? "" : RemoteBoardFEN.ToString();
@@ -316,13 +316,8 @@ namespace DgtCherub.Services
             IsMismatchDetected = false;
         }
 
-        private void ResetRemoteBoardState(bool isGameCompleted = false)
+        private void ResetRemoteBoardState()
         {
-            //if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
-            //{
-            //    OnRemoteDisconnect?.Invoke();
-            //}
-
             WhiteClock = "00:00";
             BlackClock = "00:00";
             RunWhoString = "0";
@@ -402,10 +397,8 @@ namespace DgtCherub.Services
                         CurrentUciEngine?.SetPosition(joinedFen);
                         CurrentUciEngine?.GoInfinite();
 
-                        kibitzClearedflatFenArray = clearedflatFenArray;
                         kibitzLastWhiteCount = whiteCount;
                         kibitzLastBlackCount = blackCount;
-                        lastLocalBoardFenForKibitzer = fen;
                     }
 
                     await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
@@ -413,13 +406,8 @@ namespace DgtCherub.Services
             }
         }
 
-        private char[] kibitzClearedflatFenArray = Array.Empty<char>();
         private int kibitzLastWhiteCount = 0;
         private int kibitzLastBlackCount = 0;
-        private string lastLocalBoardFenForKibitzer = "";
-        private readonly TurnCode kibturn;
-        private readonly string kibend = "";
-        private readonly string kibmove = "";
 
         private async Task RunMessageProcessor()
         {

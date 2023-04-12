@@ -76,7 +76,7 @@ namespace UciComms
                     return;
                 }
 
-                OnOutputRecievedRaw?.Invoke(this, args.Data);
+                OnOutputRecievedRaw?.Invoke(this, (args?.Data ?? ""));
 
                 if (args.Data == "uciok")
                 {
@@ -91,10 +91,10 @@ namespace UciComms
                 UciResponse? response = ParseResponse(args?.Data ?? "");
                 if (response != null)
                 {
-                    if (response is IdResponse)
+                    if (response is IdResponse idResponse)
                     {
-                        EngineName = string.IsNullOrEmpty(((IdResponse)response).Name) ? EngineName : ((IdResponse)response).Name;
-                        EngineAuthor = string.IsNullOrEmpty(((IdResponse)response).Author) ? EngineAuthor : ((IdResponse)response).Author;
+                        EngineName = string.IsNullOrEmpty(idResponse.Name) ? EngineName : idResponse.Name;
+                        EngineAuthor = string.IsNullOrEmpty(idResponse.Author) ? EngineAuthor : idResponse.Author;
                     }
 
                     OnOutputRecieved?.Invoke(this, response);
@@ -313,29 +313,7 @@ namespace UciComms
                         case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
                         case "score":
                             //Send to eval function
-                            evaluation.AddLine(rawData);
-
-                            bool isWhiteTurn = LastSeenFen.Split(' ')[1] == "w" ? true : false;
-
-                            i++;
-                            if (splitStr[i] == "cp")
-                            {
-                                int scoreCp = int.Parse(splitStr[++i]);
-                                infoResponse.ScoreCp = isWhiteTurn ? scoreCp : -scoreCp;
-                                infoResponse.ScoreMate = isWhiteTurn ? int.MaxValue : int.MinValue;
-                            }
-                            else if (splitStr[i] == "mate")
-                            {
-                                int scoreMate = int.Parse(splitStr[++i]);
-
-                                infoResponse.ScoreCp = isWhiteTurn ? int.MaxValue : int.MinValue;
-                                infoResponse.ScoreMate = isWhiteTurn ? scoreMate : -scoreMate;
-                            }
-
-                            if (i + 1 < splitStr.Length && (splitStr[i + 1] == "lowerbound" || splitStr[i + 1] == "upperbound"))
-                            {
-                                infoResponse.ScoreBound = splitStr[++i];
-                            }
+                            evaluation.AddLine(rawData, LastSeenFen);
                             break;
                         case "currmove": infoResponse.CurrMove = splitStr[++i]; break;
                         case "currmovenumber": infoResponse.CurrMoveNumber = int.Parse(splitStr[++i]); break;

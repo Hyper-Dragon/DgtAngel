@@ -8,14 +8,15 @@ namespace UciComms.Data
     {
         private const int TOP_LINES_COUNT = 5;
         private const int BEST_MOVE_LENGTH = 4;
-        private const string SCORE_PREFIX = "score cp";
-        private const string MATE_PREFIX = "score mate";
-        private const string PV_PREFIX = " pv ";
+        private const string SCORE_PREFIX = "cp";
+        private const string MATE_PREFIX = "mate";
+        private const string PV_PREFIX = " pv";
+        private const string DEPTH_PREFIX = "depth";
 
-        private readonly ConcurrentQueue<string> lineQueue = new();
+        private readonly ConcurrentQueue<(string line,string lastSeenFen)> lineQueue = new();
         private readonly List<Tuple<int, int, string>> topLines = new();
-        private string bestMove;
-        private int boardEval;
+        private string? bestMove;
+        private int? boardEval;
 
         public event Action<UciEngineEval> OnBoardEvalChanged;
 
@@ -24,38 +25,66 @@ namespace UciComms.Data
             _ = Task.Factory.StartNew(ProcessLines, TaskCreationOptions.LongRunning);
         }
 
-        internal void AddLine(string line)
+        internal void AddLine(string line, string lastSeenFen)
         {
-            lineQueue.Enqueue(line);
+            lineQueue.Enqueue((line, lastSeenFen));
         }
 
         private void ProcessLines()
         {
             while (true)
             {
-                if (lineQueue.TryDequeue(out string? line))
+                if (lineQueue.TryDequeue( out (string line, string lastSeenFen) newLine) )
                 {
-                    (int? cp, int mateIn) lineVal = GetBoardEvalFromLine(line);
+                    (int? cp, int mateIn) lineVal = GetBoardEvalFromLine(newLine.line);
 
+                    bool? isWhiteTurn = newLine.lastSeenFen.Split(' ')[1] == "w";
                     int? score = lineVal.cp;
-                    int mateIn = lineVal.mateIn;
-                    int? depth = GetDepthFromLine(line);
+                    int? mateIn = lineVal.mateIn;
+                    int? depth = GetDepthFromLine(newLine.line);
+
+
+                    /*
+                    
+
+                            i++;
+                            if (splitStr[i] == "cp")
+                            {
+                                int scoreCp = int.Parse(splitStr[++i]);
+                                infoResponse.ScoreCp = isWhiteTurn ? scoreCp : -scoreCp;
+                                infoResponse.ScoreMate = 0;
+                            }
+                            else if (splitStr[i] == "mate")
+                            {
+                                int scoreMate = int.Parse(splitStr[++i]);
+
+                                infoResponse.ScoreCp = isWhiteTurn ? int.MaxValue : int.MinValue;
+                                infoResponse.ScoreMate = isWhiteTurn ? scoreMate : -scoreMate;
+                            }
+
+                            if (i + 1 < splitStr.Length && (splitStr[i + 1] == "lowerbound" || splitStr[i + 1] == "upperbound"))
+                            {
+                                infoResponse.ScoreBound = splitStr[++i];
+                            }
+
+                    */
 
                     if (score != null && depth != null)
                     {
-
-
                         List<Tuple<int, int, string>> newTopLines = new(topLines)
                         {
-                            Tuple.Create(score.Value, depth.Value, line)
+                            Tuple.Create(score.Value, depth.Value, newLine.line)
                         };
+
                         newTopLines.Sort((a, b) => b.Item2.CompareTo(a.Item2)); // sort in descending order of depth
+                        
                         if (newTopLines.Count > TOP_LINES_COUNT)
                         {
                             newTopLines = newTopLines.Take(TOP_LINES_COUNT).ToList(); // keep only top 5 lines
                         }
 
-                        string newBestMove = GetBestMoveFromLine(line);
+                        string newBestMove = GetBestMoveFromLine(newLine.line) ?? "";
+                         
                         int newBoardEval = score.Value;
 
                         lock (topLines)
@@ -71,9 +100,11 @@ namespace UciComms.Data
                             if (newBoardEval != boardEval)
                             {
                                 boardEval = newBoardEval;
-                                OnBoardEvalChanged?.Invoke(GetEval(TOP_LINES_COUNT));
+                                //OnBoardEvalChanged?.Invoke(GetEval(TOP_LINES_COUNT));
                             }
                         }
+
+                        OnBoardEvalChanged?.Invoke(GetEval(TOP_LINES_COUNT));
                     }
                 }
                 else
@@ -93,7 +124,7 @@ namespace UciComms.Data
 
                 return new UciEngineEval(GetBoardEvalFromLine(t.First()).cp ?? 0,
                                          GetBoardEvalFromLine(t.First()).mateIn,
-                                         GetBestMoveFromLine(t.First()),
+                                         GetBestMoveFromLine(t.First()) ?? "",
                                          GetDepthFromLine(t.First()) ?? 0,
                                          t);
             }
@@ -106,6 +137,8 @@ namespace UciComms.Data
                 topLines.Clear();
                 bestMove = "";
                 boardEval = 0;
+
+                OnBoardEvalChanged?.Invoke(new UciEngineEval(0,0,"",0,new List<string>()));
             }
         }
 
@@ -131,7 +164,7 @@ namespace UciComms.Data
 
         private static int? GetDepthFromLine(string line)
         {
-            int index = line.IndexOf("depth");
+            int index = line.IndexOf(DEPTH_PREFIX);
             if (index < 0)
             {
                 return null;

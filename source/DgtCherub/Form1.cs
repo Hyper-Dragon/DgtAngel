@@ -108,15 +108,11 @@ namespace DgtCherub
         private readonly ISequentialVoicePlayer _voicePlayerMovesNoDrop;
         private readonly ISequentialVoicePlayer _voicePlayerTime;
 
-        private int LastFormWidth = 705;
-        private int CollapsedWidth = 705;
-        private Size InitialMinSize = new(420, 420);
-        private Size InitialMaxSize = new(0, 0);
         private Color BoredLabelsInitialColor = Color.Silver;
         private System.Drawing.Image PictureBoxLocalInitialImage;
         private System.Drawing.Image PictureBoxRemoteInitialImage;
         private bool isEngineActivationRequired = true;
-
+        
         private UciChessEngine currentUciChessEngine;
         private string lastUciExe = "";
         private UciOptionSettings uciOptionSettings = new();
@@ -577,14 +573,11 @@ namespace DgtCherub
 
             // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
             BoredLabelsInitialColor = LabelLocalDgt.BackColor;
-            LastFormWidth = Width;
-            InitialMinSize = MinimumSize;
-            InitialMaxSize = MaximumSize;
             PictureBoxLocalInitialImage = PictureBoxLocal.Image;
             PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
 
             // ItemSize.Height is correct - the tabs are on the side!
-            CollapsedWidth = TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height - TabControlSidePanel.Padding.X;
+            //CollapsedWidth = TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height - TabControlSidePanel.Padding.X;
 
             //If no rabbit disable rabbit things..
             if (!IsUsingRabbit)
@@ -758,16 +751,37 @@ namespace DgtCherub
 
             _angelHubService.OnBoardEvalChanged += (uciEngineEval) =>
             {
-                this.Invoke((MethodInvoker)delegate
+                if (uciEngineEval.Depth >= 18)
                 {
-                    int evalClamped = Math.Clamp(uciEngineEval.Eval / 100, -10, 10);
-                    ProgBarKibitzer.Value = evalClamped + (ProgBarKibitzer.Maximum / 2);
-                    LabelScoreKibitzer.Text = uciEngineEval.MateIn != 0 ?
-                                              $"Mate : {uciEngineEval.MateIn}" :
-                                              $"Score: {((float)uciEngineEval.Eval / 100f)}";
-                    LabelDepthKibitzer.Text = $"Depth: {uciEngineEval.Depth}";
-                    this.Update();
-                });
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        int evalClamped = Math.Clamp(uciEngineEval.Eval / 100, -10, 10);
+                        ProgBarKibitzer.Value = evalClamped + (ProgBarKibitzer.Maximum / 2);
+                        LabelScoreKibitzer.Text = uciEngineEval.MateIn != 0 ?
+                                                  $"Mate : {uciEngineEval.MateIn}" :
+                                                  $"Score: {((float)uciEngineEval.Eval / 100f)}";
+                        LabelDepthKibitzer.Text = $"Depth: {uciEngineEval.Depth}";
+
+                        ProgBarKibitzer.Invalidate();
+                        LabelScoreKibitzer.Invalidate();
+                        LabelDepthKibitzer.Invalidate();
+                        this.Update();
+                    });
+                }
+                else
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        ProgBarKibitzer.Value = 0;
+                        LabelScoreKibitzer.Text = "Score: -";
+                        LabelDepthKibitzer.Text = "Depth: -";
+
+                        ProgBarKibitzer.Invalidate();
+                        LabelScoreKibitzer.Invalidate();
+                        LabelDepthKibitzer.Invalidate();
+                        this.Update();
+                    });
+                }
             };
 
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
