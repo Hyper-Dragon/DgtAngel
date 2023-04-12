@@ -18,7 +18,7 @@ namespace UciComms.Data
         private string? bestMove;
         private int? boardEval;
 
-        public event Action<UciEngineEval> OnBoardEvalChanged;
+        public event Action<UciEngineEval>? OnBoardEvalChanged;
 
         internal Eval()
         {

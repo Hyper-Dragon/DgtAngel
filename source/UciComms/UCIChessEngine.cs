@@ -8,15 +8,15 @@ namespace UciComms
     public sealed partial class UciChessEngine
     {
         // Subscribe to this events to get the parsed output from the engine
-        public event EventHandler<UciResponse> OnOutputRecieved;
+        public event EventHandler<UciResponse>? OnOutputRecieved;
 
         // Subscribe to these events to get the raw output from the engine
         // This is useful for debugging
-        public event EventHandler<string> OnOutputRecievedRaw;
-        public event EventHandler<string> OnErrorRecievedRaw;
-        public event EventHandler<string> OnInputSentRaw;
+        public event EventHandler<string>? OnOutputRecievedRaw;
+        public event EventHandler<string>? OnErrorRecievedRaw;
+        public event EventHandler<string>? OnInputSentRaw;
 
-        public event Action<UciEngineEval> OnBoardEvalChanged;
+        public event Action<UciEngineEval>? OnBoardEvalChanged;
 
         private static readonly Regex OptionRegex = LineIn();
 
@@ -71,19 +71,16 @@ namespace UciComms
 
             RunningProcess.OutputDataReceived += (sender, args) =>
             {
-                if (args == null)
-                {
-                    return;
-                }
+                if (args == null || args.Data == null) { return; }
+                
 
                 OnOutputRecievedRaw?.Invoke(this, (args?.Data ?? ""));
 
-                if (args.Data == "uciok")
+                if ((args?.Data ?? "") == "uciok")
                 {
                     IsUciOk = true;
                 }
-
-                if (args.Data == "readyok")
+                else if ((args?.Data ?? "") == "readyok")
                 {
                     IsReady = true;
                 }
