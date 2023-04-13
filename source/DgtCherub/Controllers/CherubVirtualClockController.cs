@@ -57,6 +57,7 @@ namespace DgtCherub.Controllers
         private readonly ILogger _logger;
         private readonly IAngelHubService _angelHubService;
         private readonly IBoardRenderer _boardRenderer;
+        private readonly IUciEngineManager _uciEngineManager;
 
         private readonly string IndexPageHtml;
         private readonly string SlideClockHtml;
@@ -69,11 +70,12 @@ namespace DgtCherub.Controllers
 
         private static long LastSeenEventTimeTicks = long.MinValue;
 
-        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAngelHubService appData, IBoardRenderer boardRenderer)
+        public CherubVirtualClockController(ILogger<CherubVirtualClockController> logger, IAngelHubService appData, IBoardRenderer boardRenderer, IUciEngineManager uciEngineManager)
         {
             _logger = logger;
             _angelHubService = appData;
             _boardRenderer = boardRenderer;
+            _uciEngineManager = uciEngineManager;
 
             IndexPageHtml = LoadResourceString(RESOURCE_CLOCK_INDEX);
             SlideClockHtml = LoadResourceString(RESOURCE_CLOCK_SLIDE);
@@ -297,7 +299,7 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            _angelHubService.OnUciEngineLoaded += async (UciChessEngine engine) =>
+            _uciEngineManager.OnUciEngineLoaded += async (UciChessEngine engine) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
@@ -309,7 +311,7 @@ namespace DgtCherub.Controllers
             };
 
 
-            _angelHubService.OnUciEngineReleased += (string engineName) =>
+            _uciEngineManager.OnUciEngineReleased += (string engineName) =>
             {
                 //await SendEventResponse(Response, JsonSerializer.Serialize(new
                 //{
@@ -320,7 +322,7 @@ namespace DgtCherub.Controllers
                 //}));
             };
 
-            _angelHubService.OnUciEngineStartError += async (string errorMsg) =>
+            _uciEngineManager.OnUciEngineStartError += async (string errorMsg) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {

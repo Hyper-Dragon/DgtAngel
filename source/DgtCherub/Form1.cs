@@ -112,8 +112,8 @@ namespace DgtCherub
         private System.Drawing.Image PictureBoxLocalInitialImage;
         private System.Drawing.Image PictureBoxRemoteInitialImage;
         private bool isEngineActivationRequired = true;
-        
-        private UciChessEngine currentUciChessEngine;
+
+        private readonly IUciEngineManager _uciEngineManager;
         private string lastUciExe = "";
         private UciOptionSettings uciOptionSettings = new();
 
@@ -141,6 +141,7 @@ namespace DgtCherub
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
+        private int lasteval = 0;
 
         [FlagsAttribute]
         public enum EXECUTION_STATE : uint
@@ -180,6 +181,8 @@ namespace DgtCherub
             _voicePlayerMoves = voicePlayerMoves;
             _voicePlayerTime = voicePlayerTime;
             _voicePlayerMovesNoDrop = voicePlayerMovesNoDrop;
+
+            _uciEngineManager = uciEngineManager;
 
             _voicePlayeStatus.Start();
             _voicePlayerMoves.Start();
@@ -511,7 +514,7 @@ namespace DgtCherub
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            currentUciChessEngine?.Stop();
+            _uciEngineManager?.LoadedEngineStop();
 
             DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
             DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
@@ -675,422 +678,447 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"KIBITZER:: Turned OFF");
             };
 
-            _angelHubService.OnUciEngineStartError += (string errorMsg) =>
+            _uciEngineManager.OnUciEngineStartError += (string errorMsg) =>
             {
                 TextBoxConsole.AddLine($"UCI: Engine Start Error:: {errorMsg}");
 
-                if (currentUciChessEngine != null)
-                {
                     //We still have a loaded engine so enable the buttons
                     ButtonEngineConfig.Enabled = true;
                     CheckBoxKibitzerEnabled.Enabled = true;
-                }
             };
 
-            _angelHubService.OnUciEngineReleased += (string engineName) =>
+            _uciEngineManager.OnUciEngineReleased += (string engineName) =>
             {
                 TextBoxConsole.AddLine($"UCI: Released Engine:: {engineName}");
             };
 
-            _angelHubService.OnUciEngineLoaded += (UciChessEngine engine) =>
+            _uciEngineManager.OnUciEngineLoaded += (UciChessEngine engine) =>
             {
                 LabelEngine.Text = engine.EngineName;
-                lastUciExe = engine.Executable.FullName;
+                lastUciExe = _uciEngineManager.LoadedExecutable.FullName;
 
                 TextBoxConsole.AddLine($"UCI: Loaded Engine:: {engine.EngineName} [{engine.EngineAuthor}]");
 
-                if (currentUciChessEngine != null)
+                if (uciOptionSettings.Options.ContainsKey(_uciEngineManager.LoadedExecutable.FullName))
                 {
-                    currentUciChessEngine.OnOutputRecievedRaw -= Eng_OnOutputRecievedRawOut;
-                    currentUciChessEngine.OnErrorRecievedRaw -= Eng_OnOutputRecievedRawError;
-                    currentUciChessEngine.OnInputSentRaw -= Eng_OnOutputRecievedRawIn;
-                    //currentUciChessEngine.OnOutputRecieved -= Eng_OnOutputRecieved;
-                    engine.OnBoardEvalChanged -= Engine_OnBoardEvalChanged;
-                }
-
-                currentUciChessEngine = engine;
-
-                currentUciChessEngine.OnOutputRecievedRaw += Eng_OnOutputRecievedRawOut;
-                currentUciChessEngine.OnErrorRecievedRaw += Eng_OnOutputRecievedRawError;
-                currentUciChessEngine.OnInputSentRaw += Eng_OnOutputRecievedRawIn;
-                engine.OnBoardEvalChanged += Engine_OnBoardEvalChanged;
-
-                if (uciOptionSettings.Options.ContainsKey(currentUciChessEngine.Executable.FullName))
-                {
-                    ApplyUciSettings(uciOptionSettings.Options[currentUciChessEngine.Executable.FullName]);
+                    ApplyUciSettings(uciOptionSettings.Options[_uciEngineManager.LoadedExecutable.FullName]);
                 }
 
                 ButtonEngineConfig.Enabled = true;
                 CheckBoxKibitzerEnabled.Enabled = true;
             };
 
-            _angelHubService.OnLocalFenChange += (string localFen) =>
+
+
+
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (obj) =>
             {
-                TextBoxConsole.AddLine($"Local board changed [{localFen}]");
-                DisplayBoardImages();
+                if (obj.Depth > 20)
+                {
+                    if (lasteval != obj.Eval)
+                    {
+                        lasteval = obj.Eval;
+                        //TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
+                        TextBoxConsole.AddLine($"KIBITZER:: {obj.Eval / 100f}cp at depth {obj.Depth} - Best Move {obj.BestMove}");
+                    }
+                }
             };
+
+            _uciEngineManager.OnLoadedEngineInputSentRaw += (sender, e) =>
+        {
+            if (CheckBoxKibitzerShowUciIn.Checked)
+            {
+                TextBoxConsole.AddLine($"UCI__IN :: {_uciEngineManager?.LoadedEngineName} :: {e}");
+            }
+        };
+
+            _uciEngineManager.OnLoadedEngineOutputRecieved += (sender, e) =>
+        {
+            if (e == null) { } // DO NOTHING
+            else if (e.RawData.Contains("currmove")) { } // DO NOTHING 
+            else if (e.RawData.Contains("score"))
+            {
+                Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) { LabelKibitzerInfo.Text = e.RawData; } });
+            }
+            else if (CheckBoxKibitzerShowUciOut.Checked)
+            {
+                TextBoxConsole.AddLine($"UCI_OUT :: {_uciEngineManager?.LoadedEngineName} :: {e}");
+            }
+        };
+
+            _uciEngineManager.OnLoadedEngineErrorRecievedRaw += (sender, e) =>
+        {
+            TextBoxConsole.AddLine($"UCI_ERR :: {_uciEngineManager?.LoadedEngineName} :: {e}");
+        };
+
+
+            _angelHubService.OnLocalFenChange += (string localFen) =>
+        {
+            TextBoxConsole.AddLine($"Local board changed [{localFen}]");
+            DisplayBoardImages();
+        };
 
             _angelHubService.OnRemoteFenChange += (string fromRemoteFen, string toRemoteFen, string lastMove, string clockFen, string boardFen, string boardMsg, bool isWhiteOnBottom) =>
-            {
-                TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}] [clk={clockFen[..1]}::brd={boardFen[..1]}]");
-                DisplayBoardImages();
-            };
+        {
+            TextBoxConsole.AddLine($"Remote board changed to [{toRemoteFen}] from [{fromRemoteFen}] [{lastMove}] [clk={clockFen[..1]}::brd={boardFen[..1]}]");
+            DisplayBoardImages();
+        };
 
             _angelHubService.OnBoardMissmatch += (long timeTicks, int diffCount, string lastLocalFenMatch, string localFen) =>
+        {
+            TextBoxConsole.AddLine($"The boards DO NOT match [Diff:{diffCount}] [Last Local Match:{lastLocalFenMatch}]", TEXTBOX_MAX_LINES);
+
+            LabelLocalDgt.BackColor = Color.Red;
+            LabelRemoteBoard.BackColor = Color.Red;
+
+            //If the board difference is a single move and the remote board has not changed since the last match
+            //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
+            //audio
+            _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
+        };
+
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (uciEngineEval) =>
+        {
+            if (uciEngineEval.Depth >= 18)
             {
-                TextBoxConsole.AddLine($"The boards DO NOT match [Diff:{diffCount}] [Last Local Match:{lastLocalFenMatch}]", TEXTBOX_MAX_LINES);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    int evalClamped = Math.Clamp(uciEngineEval.Eval / 100, -10, 10);
+                    ProgBarKibitzer.Value = evalClamped + (ProgBarKibitzer.Maximum / 2);
+                    LabelScoreKibitzer.Text = uciEngineEval.MateIn != 0 ?
+                                              $"Mate : {uciEngineEval.MateIn}" :
+                                              $"Score: {((float)uciEngineEval.Eval / 100f)}";
+                    LabelDepthKibitzer.Text = $"Depth: {uciEngineEval.Depth}";
 
-                LabelLocalDgt.BackColor = Color.Red;
-                LabelRemoteBoard.BackColor = Color.Red;
-
-                //If the board difference is a single move and the remote board has not changed since the last match
-                //then we can assume the player has not moved their opponants piece.  In this case we can play the alternative
-                //audio
-                _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
-            };
-
-            _angelHubService.OnBoardEvalChanged += (uciEngineEval) =>
+                    ProgBarKibitzer.Invalidate();
+                    LabelScoreKibitzer.Invalidate();
+                    LabelDepthKibitzer.Invalidate();
+                    this.Update();
+                });
+            }
+            else
             {
-                if (uciEngineEval.Depth >= 18)
+                this.Invoke((MethodInvoker)delegate
                 {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        int evalClamped = Math.Clamp(uciEngineEval.Eval / 100, -10, 10);
-                        ProgBarKibitzer.Value = evalClamped + (ProgBarKibitzer.Maximum / 2);
-                        LabelScoreKibitzer.Text = uciEngineEval.MateIn != 0 ?
-                                                  $"Mate : {uciEngineEval.MateIn}" :
-                                                  $"Score: {((float)uciEngineEval.Eval / 100f)}";
-                        LabelDepthKibitzer.Text = $"Depth: {uciEngineEval.Depth}";
+                    ProgBarKibitzer.Value = 0;
+                    LabelScoreKibitzer.Text = "Score: -";
+                    LabelDepthKibitzer.Text = "Depth: -";
 
-                        ProgBarKibitzer.Invalidate();
-                        LabelScoreKibitzer.Invalidate();
-                        LabelDepthKibitzer.Invalidate();
-                        this.Update();
-                    });
-                }
-                else
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        ProgBarKibitzer.Value = 0;
-                        LabelScoreKibitzer.Text = "Score: -";
-                        LabelDepthKibitzer.Text = "Depth: -";
-
-                        ProgBarKibitzer.Invalidate();
-                        LabelScoreKibitzer.Invalidate();
-                        LabelDepthKibitzer.Invalidate();
-                        this.Update();
-                    });
-                }
-            };
+                    ProgBarKibitzer.Invalidate();
+                    LabelScoreKibitzer.Invalidate();
+                    LabelDepthKibitzer.Invalidate();
+                    this.Update();
+                });
+            }
+        };
 
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
+        {
+            if (remoteSource.Contains("CDC"))
             {
-                if (remoteSource.Contains("CDC"))
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
 
-                    if (!IsUsingRabbit)
-                    {
-                        TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("         PLAYING ON CHESS.COM IN LIVE CHESS MODE IS NOT RECOMMENDED AT THIS TIME", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("          To play enable Rabbit mode and restart Cherub - DO NOT run Live Chess ", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
-                    }
-                }
-                else if (remoteSource.Contains("Lichess"))
+                if (!IsUsingRabbit)
                 {
-                    if (IsUsingRabbit)
-                    {
-                        TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("         PLAYING ON LICHESS.ORG IN RABBIT MODE IS NOT SUPPORTED IN THIS VERSION", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("            To play close Cherub, run Live Chess and then start Cherub again   ", TEXTBOX_MAX_LINES, false);
-                        TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
-                    }
+                    TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine("         PLAYING ON CHESS.COM IN LIVE CHESS MODE IS NOT RECOMMENDED AT THIS TIME", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine("          To play enable Rabbit mode and restart Cherub - DO NOT run Live Chess ", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
+                }
+            }
+            else if (remoteSource.Contains("Lichess"))
+            {
+                if (IsUsingRabbit)
+                {
+                    TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine("         PLAYING ON LICHESS.ORG IN RABBIT MODE IS NOT SUPPORTED IN THIS VERSION", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine("            To play close Cherub, run Live Chess and then start Cherub again   ", TEXTBOX_MAX_LINES, false);
+                    TextBoxConsole.AddLine("         **********************************************************************", TEXTBOX_MAX_LINES, false);
+                }
 
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
-                }
-                else
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.RemoteWatching_AP);
-                }
-            };
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessWatching_AP);
+            }
+            else
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.RemoteWatching_AP);
+            }
+        };
 
             _angelHubService.OnRemoteWatchStopped += (remoteSource) =>
-            {
+        {
 
-                if (remoteSource.Contains("CDC"))
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
-                }
-                else if (remoteSource.Contains("Lichess"))
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessStoppedWatching_AP);
-                }
-                else
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.RemoteStoppedWatching_AP);
-                }
-            };
+            if (remoteSource.Contains("CDC"))
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
+            }
+            else if (remoteSource.Contains("Lichess"))
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessStoppedWatching_AP);
+            }
+            else
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.RemoteStoppedWatching_AP);
+            }
+        };
 
             _angelHubService.OnBoardMatcherStarted += () =>
-            {
-                LabelLocalDgt.BackColor = Color.Yellow;
-                LabelRemoteBoard.BackColor = Color.Yellow;
-            };
+        {
+            LabelLocalDgt.BackColor = Color.Yellow;
+            LabelRemoteBoard.BackColor = Color.Yellow;
+        };
 
             _angelHubService.OnBoardMatchFromMissmatch += (_) =>
-            {
-                TextBoxConsole.AddLine($"The boards now match", TEXTBOX_MAX_LINES);
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
-            };
+        {
+            TextBoxConsole.AddLine($"The boards now match", TEXTBOX_MAX_LINES);
+            _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
+        };
 
             _angelHubService.OnBoardMatch += (_, _) =>
-            {
-                LabelLocalDgt.BackColor = BoredLabelsInitialColor;
-                LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
-            };
+        {
+            LabelLocalDgt.BackColor = BoredLabelsInitialColor;
+            LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
+        };
 
             _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
-            {
+        {
 
-                if ((_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
-                    (_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.WhiteClockMsRemaining > 55 * 1000))
-                {
-                    _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
-                }
-            };
+            if ((_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
+                (_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.WhiteClockMsRemaining > 55 * 1000))
+            {
+                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
+            }
+        };
 
             _angelHubService.OnPlayBlackClockAudio += (audioFilename) =>
+        {
+            if ((!_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
+                 (!_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.BlackClockMsRemaining > 55 * 1000))
             {
-                if ((!_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
-                     (!_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.BlackClockMsRemaining > 55 * 1000))
-                {
-                    _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
-                }
-            };
+                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
+            }
+        };
 
             _angelHubService.OnClockChange += () =>
-            {
-                //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
-                //_logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
-                _logger?.LogTrace($">>Recieved Clock Update", TEXTBOX_MAX_LINES);
+        {
+            //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
+            //_logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
+            _logger?.LogTrace($">>Recieved Clock Update", TEXTBOX_MAX_LINES);
 
-                if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
+            if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
+            {
+                Invoke(() =>
                 {
-                    Invoke(() =>
-                    {
-                        LabelWhiteClock.Text = $"{((_angelHubService.RunWhoString is "3" or "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
-                        LabelBlackClock.Text = $"{((_angelHubService.RunWhoString is "3" or "2") ? "*" : " ")}{_angelHubService.BlackClock}";
-                        ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
-                    });
-                }
-            };
+                    LabelWhiteClock.Text = $"{((_angelHubService.RunWhoString is "3" or "1") ? "*" : " ")}{_angelHubService.WhiteClock}";
+                    LabelBlackClock.Text = $"{((_angelHubService.RunWhoString is "3" or "2") ? "*" : " ")}{_angelHubService.BlackClock}";
+                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
+                });
+            }
+        };
 
             _angelHubService.OnNewMoveDetected += (moveString, isPlayerTurn) =>
+        {
+            if (PlayerBeepOnly && isPlayerTurn)
             {
-                if (PlayerBeepOnly && isPlayerTurn)
+                string soundName = "";
+                soundName = moveString switch
                 {
-                    string soundName = "";
-                    soundName = moveString switch
-                    {
-                        "1/2-1/2" => "Words_GameDrawn",
-                        "1-0" => "Words_WhiteWins",
-                        "0-1" => "Words_BlackWins",
-                        _ => ""
-                    };
+                    "1/2-1/2" => "Words_GameDrawn",
+                    "1-0" => "Words_WhiteWins",
+                    "0-1" => "Words_BlackWins",
+                    _ => ""
+                };
 
-                    if (!string.IsNullOrEmpty(soundName))
-                    {
-                        _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
-                    }
-                    else
-                    {
-                        if (!IsSilentBeep)
-                        {
-                            _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
-                        }
-                    }
+                if (!string.IsNullOrEmpty(soundName))
+                {
+                    _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
                 }
                 else
                 {
-                    string soundName = "";
-                    soundName = moveString switch
+                    if (!IsSilentBeep)
                     {
-                        "O-O" => "Words_CastlesShort",
-                        "O-O-O" => "Words_CastlesLong",
-                        "1/2-1/2" => "Words_GameDrawn",
-                        "1-0" => "Words_WhiteWins",
-                        "0-1" => "Words_BlackWins",
-                        _ => ""
-                    };
-
-                    if (!string.IsNullOrEmpty(soundName))
-                    {
-                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
-                    }
-                    else
-                    {
-                        List<UnmanagedMemoryStream> playlist = new();
-                        foreach (char ch in moveString.ToCharArray())
-                        {
-                            soundName = ch switch
-                            {
-                                'Q' => "Pieces_Queen",
-                                'K' => "Pieces_King",
-                                'N' => "Pieces_Knight",
-                                'B' => "Pieces_Bishop",
-                                'R' => "Pieces_Rook",
-                                'P' => "Pieces_Pawn",
-                                'a' => "Letters_A",
-                                'b' => "Letters_B",
-                                'c' => "Letters_C",
-                                'd' => "Letters_D",
-                                'e' => "Letters_E",
-                                'f' => "Letters_F",
-                                'g' => "Letters_G",
-                                'h' => "Letters_H",
-                                '1' => "Numbers_1",
-                                '2' => "Numbers_2",
-                                '3' => "Numbers_3",
-                                '4' => "Numbers_4",
-                                '5' => "Numbers_5",
-                                '6' => "Numbers_6",
-                                '7' => "Numbers_7",
-                                '8' => "Numbers_8",
-                                'x' => "Words_Takes",
-                                '+' => "Words_Check",
-                                '#' => "Words_Check",
-                                '=' => "Words_PromotesTo",
-                                _ => "Words_Missing",
-                            };
-
-                            playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
-                        }
-
-                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(playlist);
+                        _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
                     }
                 }
-            };
+            }
+            else
+            {
+                string soundName = "";
+                soundName = moveString switch
+                {
+                    "O-O" => "Words_CastlesShort",
+                    "O-O-O" => "Words_CastlesLong",
+                    "1/2-1/2" => "Words_GameDrawn",
+                    "1-0" => "Words_WhiteWins",
+                    "0-1" => "Words_BlackWins",
+                    _ => ""
+                };
+
+                if (!string.IsNullOrEmpty(soundName))
+                {
+                    (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                }
+                else
+                {
+                    List<UnmanagedMemoryStream> playlist = new();
+                    foreach (char ch in moveString.ToCharArray())
+                    {
+                        soundName = ch switch
+                        {
+                            'Q' => "Pieces_Queen",
+                            'K' => "Pieces_King",
+                            'N' => "Pieces_Knight",
+                            'B' => "Pieces_Bishop",
+                            'R' => "Pieces_Rook",
+                            'P' => "Pieces_Pawn",
+                            'a' => "Letters_A",
+                            'b' => "Letters_B",
+                            'c' => "Letters_C",
+                            'd' => "Letters_D",
+                            'e' => "Letters_E",
+                            'f' => "Letters_F",
+                            'g' => "Letters_G",
+                            'h' => "Letters_H",
+                            '1' => "Numbers_1",
+                            '2' => "Numbers_2",
+                            '3' => "Numbers_3",
+                            '4' => "Numbers_4",
+                            '5' => "Numbers_5",
+                            '6' => "Numbers_6",
+                            '7' => "Numbers_7",
+                            '8' => "Numbers_8",
+                            'x' => "Words_Takes",
+                            '+' => "Words_Check",
+                            '#' => "Words_Check",
+                            '=' => "Words_PromotesTo",
+                            _ => "Words_Missing",
+                        };
+
+                        playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                    }
+
+                    (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(playlist);
+                }
+            }
+        };
 
             _angelHubService.OnNotification += (source, message) =>
+        {
+            if ((source == "ANGEL" && EchoExternalMessagesToConsole) ||
+                (source != "ANGEL" && EchoInternallMessagesToConsole))
             {
-                if ((source == "ANGEL" && EchoExternalMessagesToConsole) ||
-                    (source != "ANGEL" && EchoInternallMessagesToConsole))
-                {
-                    TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
-                }
-            };
+                TextBoxConsole.AddLine($"{message}", TEXTBOX_MAX_LINES);
+            }
+        };
 
             _dgtLiveChess.OnLiveChessDisconnected += (source, eventArgs) =>
-            {
-                _angelHubService.ResetLocalBoardState();
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcDisconnected_AP);
-                DisplayBoardImages();
-                TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-            };
+        {
+            _angelHubService.ResetLocalBoardState();
+            _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcDisconnected_AP);
+            DisplayBoardImages();
+            TextBoxConsole.AddLine($"Live Chess DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+        };
 
             _dgtLiveChess.OnLiveChessConnected += (source, eventArgs) =>
+        {
+            if (IsUsingRabbit)
             {
-                if (IsUsingRabbit)
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.ConnectedToRabbit_AP);
-                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.ConnectedToRabbit_AP);
+                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Connected to Rabbit...",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
-                }
-                else
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcConnected_AP);
-                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+            }
+            else
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtLcConnected_AP);
+                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Live Chess running [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
-                }
-            };
+            }
+        };
 
             _dgtLiveChess.OnBoardConnected += (source, eventArgs) =>
+        {
+            if (IsUsingRabbit)
             {
-                if (IsUsingRabbit)
-                {
-                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Verify the Rabbit to board connection in the Rabbit config screen.",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
-                }
-                else
-                {
-                    PictureBoxLocal.Image = PictureBoxLocalInitialImage;
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtConnected_AP);
-                    TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
+            }
+            else
+            {
+                PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtConnected_AP);
+                TextBoxConsole.AddLines(new string[]{$"{"".PadRight(67,'-')}",
                                                      $"Board found [{eventArgs.ResponseOut}]",
                                                      $"{"".PadRight(67,'-')}"}, TEXTBOX_MAX_LINES);
-                }
-            };
+            }
+        };
 
             _dgtLiveChess.OnBoardDisconnected += (source, eventArgs) =>
-            {
-                DisplayBoardImages();
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtDisconnected_AP);
-                _angelHubService.ResetLocalBoardState();
-                TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-            };
+        {
+            DisplayBoardImages();
+            _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtDisconnected_AP);
+            _angelHubService.ResetLocalBoardState();
+            TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+        };
 
             _dgtLiveChess.OnCantFindBoard += (source, eventArgs) =>
-            {
-                _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtCantFindBoard_AP);
-                TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-            };
+        {
+            _voicePlayeStatus.Speak(Assets.Speech_en_01.DgtCantFindBoard_AP);
+            TextBoxConsole.AddLine($"Board DISCONNECTED [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+        };
 
             _dgtLiveChess.OnError += (obj, eventArgs) =>
-            {
-                TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
-            };
+        {
+            TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
+        };
 
             _dgtLiveChess.OnBatteryCritical += (obj, eventArgs) =>
+        {
+            if (IsUsingRabbit)
             {
-                if (IsUsingRabbit)
-                {
-                    TextBoxConsole.AddLine($"WARNING: Battery status unavailable when using Rabbit.", TEXTBOX_MAX_LINES);
-                }
-                else
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryCritical_AP);
-                    TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
-                }
-            };
+                TextBoxConsole.AddLine($"WARNING: Battery status unavailable when using Rabbit.", TEXTBOX_MAX_LINES);
+            }
+            else
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryCritical_AP);
+                TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
+            }
+        };
 
             _dgtLiveChess.OnBatteryLow += (obj, eventArgs) =>
+        {
+            if (IsUsingRabbit)
             {
-                if (IsUsingRabbit)
-                {
-                    TextBoxConsole.AddLine($"WARNING: Battery status unavailable when using Rabbit.", TEXTBOX_MAX_LINES);
-                }
-                else
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryLow_AP);
-                    TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
-                }
-            };
+                TextBoxConsole.AddLine($"WARNING: Battery status unavailable when using Rabbit.", TEXTBOX_MAX_LINES);
+            }
+            else
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryLow_AP);
+                TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
+            }
+        };
 
             _dgtLiveChess.OnBatteryOk += (obj, eventArgs) =>
+        {
+            if (IsUsingRabbit)
             {
-                if (IsUsingRabbit)
-                {
-                    TextBoxConsole.AddLine($"WARNING: Battery status unavailable when using Rabbit.", TEXTBOX_MAX_LINES);
-                }
-                else
-                {
-                    _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryOk_AP);
-                    TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
-                }
-            };
+                TextBoxConsole.AddLine($"WARNING: Battery status unavailable when using Rabbit.", TEXTBOX_MAX_LINES);
+            }
+            else
+            {
+                _voicePlayeStatus.Speak(Assets.Speech_en_01.BatteryOk_AP);
+                TextBoxConsole.AddLine($"{eventArgs.ResponseOut}", TEXTBOX_MAX_LINES);
+            }
+        };
 
             _dgtLiveChess.OnFenRecieved += (obj, eventArgs) =>
-            {
-                //TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
-                _angelHubService.LocalBoardUpdate(eventArgs.ResponseOut);
-            };
+        {
+            //TextBoxConsole.AddLine($"Local DGT board changed [{eventArgs.ResponseOut}]", TEXTBOX_MAX_LINES);
+            _angelHubService.LocalBoardUpdate(eventArgs.ResponseOut);
+        };
 
             //All the Events are set up so we can start watching the local board and running the inbound API
             _ = Task.Run(_dgtLiveChess.PollDgtBoard);
@@ -1098,20 +1126,6 @@ namespace DgtCherub
 
             await Task.Delay(500); //Short delay for the form to fully render
             StartBoardComms();
-        }
-
-        private int lasteval = 0;
-        private void Engine_OnBoardEvalChanged(UciEngineEval obj)
-        {
-            if (obj.Depth > 20)
-            {
-                if (lasteval != obj.Eval)
-                {
-                    lasteval = obj.Eval;
-                    //TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
-                    TextBoxConsole.AddLine($"KIBITZER:: {obj.Eval / 100f}cp at depth {obj.Depth} - Best Move {obj.BestMove}");
-                }
-            }
         }
 
         //*********************************************//
@@ -1644,33 +1658,6 @@ namespace DgtCherub
         }
 
 
-        private void Eng_OnOutputRecievedRawIn(object sender, string e)
-        {
-            if (CheckBoxKibitzerShowUciIn.Checked)
-            {
-                TextBoxConsole.AddLine($"UCI__IN :: {currentUciChessEngine?.EngineName} :: {e}");
-            }
-        }
-
-        private void Eng_OnOutputRecievedRawOut(object sender, string e)
-        {
-            if (e == null) { } // DO NOTHING
-            else if (e.Contains("currmove")) { } // DO NOTHING 
-            else if (e.Contains("score"))
-            {
-                Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) { LabelKibitzerInfo.Text = e; } });
-            }
-            else if (CheckBoxKibitzerShowUciOut.Checked)
-            {
-                TextBoxConsole.AddLine($"UCI_OUT :: {currentUciChessEngine?.EngineName} :: {e}");
-            }
-        }
-
-        private void Eng_OnOutputRecievedRawError(object sender, string e)
-        {
-            TextBoxConsole.AddLine($"UCI_ERR :: {currentUciChessEngine?.EngineName} :: {e}");
-        }
-
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
             if (_angelHubService.IsRemoteBoardAvailable && ((CheckBox)sender).Checked)
@@ -1678,7 +1665,7 @@ namespace DgtCherub
                 TextBoxConsole.AddLine($"KIBITZER:: Can't enable when the remote board is active.");
                 ((CheckBox)sender).Checked = false;
             }
-            else if (currentUciChessEngine == null)
+            else if (_uciEngineManager == null)
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Can't enable without engine running.");
                 ((CheckBox)sender).Checked = false;
@@ -1693,22 +1680,22 @@ namespace DgtCherub
         {
             try
             {
-                List<UciOption> uciOptions = currentUciChessEngine.Options.Values.ToList();
-                UciOptionsForm form = new(currentUciChessEngine.EngineName, uciOptions);
+                List<UciOption> uciOptions = _uciEngineManager.LoadedEngineOptions.Values.ToList();
+                UciOptionsForm form = new(_uciEngineManager.LoadedEngineName, uciOptions);
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     List<UciOption> modifiedUciOptions = form.GetModifiedUciOptions();
 
-                    currentUciChessEngine.Stop();
+                    _uciEngineManager.LoadedEngineStop();
 
-                    if (uciOptionSettings.Options.ContainsKey(currentUciChessEngine.Executable.FullName))
+                    if (uciOptionSettings.Options.ContainsKey(_uciEngineManager.LoadedExecutable.FullName))
                     {
-                        uciOptionSettings.Options[currentUciChessEngine.Executable.FullName] = modifiedUciOptions;
+                        uciOptionSettings.Options[_uciEngineManager.LoadedExecutable.FullName] = modifiedUciOptions;
                     }
                     else
                     {
-                        uciOptionSettings.Options.Add(currentUciChessEngine.Executable.FullName, modifiedUciOptions);
+                        uciOptionSettings.Options.Add(_uciEngineManager.LoadedExecutable.FullName, modifiedUciOptions);
                     }
 
                     ApplyUciSettings(modifiedUciOptions);
@@ -1724,7 +1711,7 @@ namespace DgtCherub
         {
             foreach (UciOption option in options)
             {
-                currentUciChessEngine.SetOption(option.Name, option.VarValue);
+                _uciEngineManager.LoadedEngineSetOption(option.Name, option.VarValue);
             }
         }
 

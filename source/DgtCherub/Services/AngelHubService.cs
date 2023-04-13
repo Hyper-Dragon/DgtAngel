@@ -175,17 +175,15 @@ namespace DgtCherub.Services
             {
                 await _uciEngineManager.StartEngineAsync(slotKey);
 
-                if (engineNew.IsUciOk)
+                if (_uciEngineManager.IsLoadedEngineUciOk)
                 {
                     _ = engineNew.WaitForReady();
                     //eng.SetDebug(false);
                 }
 
-                //CurrentUciEngine.OnBoardEvalChanged -= CurrentUciEngine_OnBoardEvalChanged;
                 CurrentUciEngine = engineNew;
                 OnUciEngineLoaded?.Invoke(engineNew);
-                CurrentUciEngine.OnBoardEvalChanged += CurrentUciEngine_OnBoardEvalChanged;
-
+                
                 if (engineOld != null)
                 {
                     OnUciEngineReleased?.Invoke($"{engineOld.EngineName} [{engineOld.EngineAuthor}]");
@@ -197,12 +195,6 @@ namespace DgtCherub.Services
                 await _uciEngineManager.UnRegisterEngineAsync(slotKey);
                 OnUciEngineStartError?.Invoke($"Failed to start engine :: {ex.Message} [{exePath}]");
             }
-        }
-
-        private void CurrentUciEngine_OnBoardEvalChanged(UciEngineEval eval)
-        {
-            //Echo this to clients so they are ambivalent of the underlying engine running 
-            OnBoardEvalChanged?.Invoke(eval);
         }
 
         public void NotifyInitComplete()

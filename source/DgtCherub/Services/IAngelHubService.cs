@@ -46,9 +46,6 @@ namespace DgtCherub.Services
         event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
         event Action<string, string> OnNotification;
         event Action OnPluginDisconnect;
-        event Action<UciChessEngine> OnUciEngineLoaded;
-        event Action<string> OnUciEngineReleased;
-        event Action<string> OnUciEngineStartError;
         event Action OnKibitzerActivated;
         event Action OnKibitzerDeactivated;
         event Action<string> OnKibitzerFenChange;
