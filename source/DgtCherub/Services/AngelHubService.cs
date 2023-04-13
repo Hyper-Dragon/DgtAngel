@@ -8,7 +8,6 @@ using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
 {
-
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action OnInitComplete;
@@ -140,7 +139,6 @@ namespace DgtCherub.Services
             _ = Task.Run(RunLastMoveProcessor);
             _ = Task.Run(RunMessageProcessor);
         }
-
 
         public void SwitchKibitzer(bool turnOn = false)
         {
