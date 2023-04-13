@@ -231,8 +231,6 @@ namespace DgtRabbitWrapper
                 }
                 else
                 {
-
-
                     (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator
                                                .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
 

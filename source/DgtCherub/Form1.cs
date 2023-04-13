@@ -348,168 +348,142 @@ namespace DgtCherub
             }
         }
 
-        private async void StartBoardComms()
+        private async Task StartBoardComms()
         {
-            if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
-            {
-                //If Live Chess is running don't try to start rabbit 
-            }
-            else if (DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled)
+            if (DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled)
             {
                 //If Rabbit is disabled don't try to start rabbit
+                return;
+            }
+            else if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
+            {
+                //If Live Chess is running don't try to start rabbit 
+                TextBoxConsole.AddLine($"RABBIT : Can't start - Live Chess is running.", timeStamp: true);
+                return;
+            }
+
+            //Set an alternate search path for the DGT DLLs - used to configure alternative board drivers
+            string altDllPath = DgtCherub.Properties.UserSettings.Default.AltDgtDllPath;
+
+            if (!string.IsNullOrEmpty(altDllPath) && Directory.Exists(altDllPath))
+            {
+                TextBoxConsole.AddLine($"RABBIT : Alt board driver search path set to [{altDllPath}]", timeStamp: false);
+                TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.", timeStamp: false);
+                TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.", timeStamp: false);
+
+                _ = SetDllDirectory(altDllPath);
             }
             else
             {
-                //Set an alternate search path for the DGT DLLs - used to configure alternative board drivers
-                string altDllPath = DgtCherub.Properties.UserSettings.Default.AltDgtDllPath;
-
-                if (!string.IsNullOrEmpty(altDllPath) && Directory.Exists(altDllPath))
-                {
-                    TextBoxConsole.AddLine($"RABBIT : Alt board driver search path set to [{altDllPath}]", timeStamp: false);
-                    TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.", timeStamp: false);
-                    TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.", timeStamp: false);
-
-                    _ = SetDllDirectory(altDllPath);
-                }
-                else
-                {
-                    TextBoxConsole.AddLine($"RABBIT : No alt driver path set...using native DGT driver.", timeStamp: false);
-                }
-
-
-                TextBoxConsole.AddLine("---------------------------------------------------------------------------------------", timeStamp: false);
-
-
-                var task = Task<bool>.Run(() =>
-                {
-                    try
-                    {
-                        return _dgtEbDllFacade.Init(_dgtEbDllFacade);
-                    }
-                    catch (DllNotFoundException)
-                    {
-                        return false;
-                    }
-                });
-
-                if (!(await task))
-                {
-                    _dgtEbDllFacade = null;
-                    IsUsingRabbit = false;
-                }
-                else
-                {
-                    IsUsingRabbit = true;
-                    string trackRunwho = "";
-
-                    /*
-                    _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) => {TextBoxConsole.AddLine($"RABBIT: {e.Message}");};
-                    _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.FEN}"); };
-                    _dgtEbDllFacade.OnBClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnBlackMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnBlackMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnNewGame += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnResult += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnStartSetup += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnStopSetupBTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnStopSetupWTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnWClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnWhiteMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                    */
-
-                    _angelHubService.OnClockChange += () =>
-                    {
-                        if (trackRunwho != _angelHubService.RunWhoString)
-                        {
-                            TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
-
-                            trackRunwho = _angelHubService.RunWhoString;
-                            _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
-                        }
-                    };
-
-                    fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
-
-                    _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
-                    _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
-
-                    fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
-
-                    _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
-                    {
-                        //If on CDC set the drop fix mode
-                        fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                        fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
-                                                      LiveChessServer.PlayDropFix.NONE :
-                                                      (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
-                                                      LiveChessServer.PlayDropFix.FROMBLACK);
-                    };
-
-                    _angelHubService.OnOrientationFlipped += () =>
-                    {
-                        //fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                        //Flip drop fix if the dropfix is applied
-                        fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
-                                                      LiveChessServer.PlayDropFix.NONE :
-                                                      (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
-                                                      LiveChessServer.PlayDropFix.FROMBLACK);
-                    };
-
-                    _angelHubService.OnPluginDisconnect += () =>
-                    {
-                        fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                    };
-
-                    _angelHubService.OnRemoteFenChange += (string _, string toRemoteFen, string _, string _, string _, string _, bool _) =>
-                    {
-                        fakeLiveChessServer.RemoteFEN = toRemoteFen;
-                    };
-
-                    _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
-                    {
-                        if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
-                        {
-                            //Test for "DGT: Connected. Your turn." in the UI
-                            //Language list at the top of this file
-                            if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
-                            {
-                                fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "WHITE" : "BLACK";
-                                fakeLiveChessServer.BlockSendToRemote = false;
-                            }
-                            else
-                            {
-                                fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "BLACK" : "WHITE";
-                                fakeLiveChessServer.BlockSendToRemote = true;
-                            }
-                        }
-                    };
-
-                    ButtonRabbitConfig1.Visible = true;
-                    ButtonRabbitConf2.Visible = true;
-                    GroupBoxClockTest.Visible = true;
-                    ButtonSendTestMsg1.Visible = true;
-                    ButtonSendTestMsg2.Visible = true;
-
-                    //Only do this when rabbit is setup
-                    fakeLiveChessServer.RunLiveChessServer();
-                }
-
-
-
-                TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, false);
-                if (IsUsingRabbit)
-                {
-                    TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
-                    TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
-                }
-                TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"RABBIT : No alt driver path set...using native DGT driver.", timeStamp: false);
             }
 
-            //Init complete so notify the hub we can
-            //start accepting external connections 
-            Thread.Sleep(500);
-            _angelHubService.NotifyInitComplete();
+            TextBoxConsole.AddLine("---------------------------------------------------------------------------------------", timeStamp: false);
+
+            try
+            {
+                _ = _dgtEbDllFacade.Init(_dgtEbDllFacade);
+            }
+            catch (DllNotFoundException)
+            {
+                TextBoxConsole.AddLine($"RABBIT : 32-bit Rabbit DLL not found.", timeStamp: false);
+                _dgtEbDllFacade = null;
+                IsUsingRabbit = false;
+                return;
+            }
+
+
+            IsUsingRabbit = true;
+            string trackRunwho = "";
+
+            _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.FEN}"); };
+            _dgtEbDllFacade.OnBClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnBlackMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnBlackMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnNewGame += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnResult += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnStartSetup += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnStopSetupBTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnStopSetupWTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnWClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnWhiteMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+
+            _angelHubService.OnClockChange += () =>
+            {
+                if (trackRunwho != _angelHubService.RunWhoString)
+                {
+                    TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
+
+                    trackRunwho = _angelHubService.RunWhoString;
+                    _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
+                }
+            };
+
+            fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+
+            _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
+            _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+
+            fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
+
+            _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
+            {
+                //If on CDC set the drop fix mode
+                fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
+                                              LiveChessServer.PlayDropFix.NONE :
+                                              (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                              LiveChessServer.PlayDropFix.FROMBLACK);
+            };
+
+            _angelHubService.OnOrientationFlipped += () =>
+            {
+                //Flip drop fix if the dropfix is applied
+                fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
+                                              LiveChessServer.PlayDropFix.NONE :
+                                              (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                              LiveChessServer.PlayDropFix.FROMBLACK);
+            };
+
+            _angelHubService.OnPluginDisconnect += () =>
+            {
+                fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+            };
+
+            _angelHubService.OnRemoteFenChange += (string _, string toRemoteFen, string _, string _, string _, string _, bool _) =>
+            {
+                fakeLiveChessServer.RemoteFEN = toRemoteFen;
+            };
+
+            _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
+            {
+                if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
+                {
+                    //Test for "DGT: Connected. Your turn." in the UI
+                    //Language list at the top of this file
+                    if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
+                    {
+                        fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "WHITE" : "BLACK";
+                        fakeLiveChessServer.BlockSendToRemote = false;
+                    }
+                    else
+                    {
+                        fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "BLACK" : "WHITE";
+                        fakeLiveChessServer.BlockSendToRemote = true;
+                    }
+                }
+            };
+
+            ButtonRabbitConfig1.Visible = true;
+            ButtonRabbitConf2.Visible = true;
+            GroupBoxClockTest.Visible = true;
+            ButtonSendTestMsg1.Visible = true;
+            ButtonSendTestMsg2.Visible = true;
+
+            //Only do this when rabbit is setup
+            fakeLiveChessServer.RunLiveChessServer();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -1127,7 +1101,20 @@ namespace DgtCherub
             _ = Task.Run(_iHost.Run);
 
             await Task.Delay(500); //Short delay for the form to fully render
-            StartBoardComms();
+            await StartBoardComms();
+
+            //Init complete so notify the hub we can
+            //start accepting external connections 
+            await Task.Delay(500);
+            _angelHubService.NotifyInitComplete();
+
+            TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, true);
+            if (IsUsingRabbit)
+            {
+                TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
+            }
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
         //*********************************************//
