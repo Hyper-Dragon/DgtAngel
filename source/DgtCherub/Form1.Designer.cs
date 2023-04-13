@@ -164,7 +164,7 @@ namespace DgtCherub
             Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             Panel1.Location = new System.Drawing.Point(0, 29);
             Panel1.Name = "Panel1";
-            Panel1.Size = new System.Drawing.Size(1231, 704);
+            Panel1.Size = new System.Drawing.Size(1231, 707);
             Panel1.TabIndex = 0;
             // 
             // TableLayoutPanel
@@ -179,7 +179,7 @@ namespace DgtCherub
             TableLayoutPanel.Name = "TableLayoutPanel";
             TableLayoutPanel.RowCount = 1;
             TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            TableLayoutPanel.Size = new System.Drawing.Size(1231, 704);
+            TableLayoutPanel.Size = new System.Drawing.Size(1231, 707);
             TableLayoutPanel.TabIndex = 2;
             // 
             // TabControlSidePanel
@@ -200,7 +200,7 @@ namespace DgtCherub
             TabControlSidePanel.Name = "TabControlSidePanel";
             TabControlSidePanel.Padding = new System.Drawing.Point(2, 2);
             TabControlSidePanel.SelectedIndex = 0;
-            TabControlSidePanel.Size = new System.Drawing.Size(404, 698);
+            TabControlSidePanel.Size = new System.Drawing.Size(404, 701);
             TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             TabControlSidePanel.TabIndex = 2;
             TabControlSidePanel.DrawItem += TabControlSidePanel_DrawItem;
@@ -215,7 +215,7 @@ namespace DgtCherub
             TabPageConfig.Location = new System.Drawing.Point(49, 4);
             TabPageConfig.Name = "TabPageConfig";
             TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            TabPageConfig.Size = new System.Drawing.Size(351, 690);
+            TabPageConfig.Size = new System.Drawing.Size(351, 1081);
             TabPageConfig.TabIndex = 1;
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
@@ -473,11 +473,11 @@ namespace DgtCherub
             UpDownFromMismatchDelay.DecimalPlaces = 1;
             UpDownFromMismatchDelay.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownFromMismatchDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            UpDownFromMismatchDelay.Location = new System.Drawing.Point(113, 82);
+            UpDownFromMismatchDelay.Location = new System.Drawing.Point(89, 82);
             UpDownFromMismatchDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownFromMismatchDelay.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             UpDownFromMismatchDelay.Name = "UpDownFromMismatchDelay";
-            UpDownFromMismatchDelay.Size = new System.Drawing.Size(45, 25);
+            UpDownFromMismatchDelay.Size = new System.Drawing.Size(69, 25);
             UpDownFromMismatchDelay.TabIndex = 18;
             UpDownFromMismatchDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownFromMismatchDelay.Value = new decimal(new int[] { 5, 0, 0, 65536 });
@@ -489,11 +489,11 @@ namespace DgtCherub
             UpDownLocalDelay.DecimalPlaces = 1;
             UpDownLocalDelay.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             UpDownLocalDelay.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            UpDownLocalDelay.Location = new System.Drawing.Point(113, 54);
+            UpDownLocalDelay.Location = new System.Drawing.Point(89, 54);
             UpDownLocalDelay.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             UpDownLocalDelay.Minimum = new decimal(new int[] { 1, 0, 0, 65536 });
             UpDownLocalDelay.Name = "UpDownLocalDelay";
-            UpDownLocalDelay.Size = new System.Drawing.Size(45, 25);
+            UpDownLocalDelay.Size = new System.Drawing.Size(69, 25);
             UpDownLocalDelay.TabIndex = 17;
             UpDownLocalDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownLocalDelay.Value = new decimal(new int[] { 2, 0, 0, 0 });
@@ -534,11 +534,11 @@ namespace DgtCherub
             UpDownVoiceDelay.BorderStyle = System.Windows.Forms.BorderStyle.None;
             UpDownVoiceDelay.DecimalPlaces = 1;
             UpDownVoiceDelay.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            UpDownVoiceDelay.Location = new System.Drawing.Point(113, 28);
+            UpDownVoiceDelay.Location = new System.Drawing.Point(89, 28);
             UpDownVoiceDelay.Maximum = new decimal(new int[] { 15, 0, 0, 0 });
             UpDownVoiceDelay.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
             UpDownVoiceDelay.Name = "UpDownVoiceDelay";
-            UpDownVoiceDelay.Size = new System.Drawing.Size(45, 25);
+            UpDownVoiceDelay.Size = new System.Drawing.Size(69, 25);
             UpDownVoiceDelay.TabIndex = 16;
             UpDownVoiceDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             UpDownVoiceDelay.Value = new decimal(new int[] { 5, 0, 0, 0 });
@@ -714,7 +714,7 @@ namespace DgtCherub
             TabPageBoards.Controls.Add(PictureBoxLocal);
             TabPageBoards.Location = new System.Drawing.Point(49, 4);
             TabPageBoards.Name = "TabPageBoards";
-            TabPageBoards.Size = new System.Drawing.Size(351, 690);
+            TabPageBoards.Size = new System.Drawing.Size(351, 693);
             TabPageBoards.TabIndex = 2;
             TabPageBoards.Text = "Boards";
             TabPageBoards.Enter += TabPageBoards_Enter;
@@ -808,7 +808,7 @@ namespace DgtCherub
             TabPageClock.Location = new System.Drawing.Point(49, 4);
             TabPageClock.Name = "TabPageClock";
             TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            TabPageClock.Size = new System.Drawing.Size(351, 758);
+            TabPageClock.Size = new System.Drawing.Size(351, 1081);
             TabPageClock.TabIndex = 3;
             TabPageClock.Text = "Clock";
             TabPageClock.UseVisualStyleBackColor = true;
@@ -936,7 +936,7 @@ namespace DgtCherub
             TabPageOffline.Location = new System.Drawing.Point(49, 4);
             TabPageOffline.Name = "TabPageOffline";
             TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            TabPageOffline.Size = new System.Drawing.Size(351, 758);
+            TabPageOffline.Size = new System.Drawing.Size(351, 1081);
             TabPageOffline.TabIndex = 0;
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
@@ -1078,7 +1078,7 @@ namespace DgtCherub
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
             TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            TextBoxConsole.Size = new System.Drawing.Size(998, 698);
+            TextBoxConsole.Size = new System.Drawing.Size(998, 701);
             TextBoxConsole.TabIndex = 1;
             TextBoxConsole.TabStop = false;
             TextBoxConsole.WordWrap = false;
@@ -1099,7 +1099,7 @@ namespace DgtCherub
             StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripStatusLabelLastUpdate, ToolStripStatusLabelVersion });
-            StatusStrip.Location = new System.Drawing.Point(0, 733);
+            StatusStrip.Location = new System.Drawing.Point(0, 736);
             StatusStrip.Name = "StatusStrip";
             StatusStrip.Size = new System.Drawing.Size(1231, 29);
             StatusStrip.TabIndex = 1;
@@ -1337,7 +1337,7 @@ namespace DgtCherub
             // Form1
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            ClientSize = new System.Drawing.Size(1231, 762);
+            ClientSize = new System.Drawing.Size(1231, 765);
             Controls.Add(Panel1);
             Controls.Add(StatusStrip);
             Controls.Add(MenuStrip);
@@ -1345,7 +1345,7 @@ namespace DgtCherub
             Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = MenuStrip;
-            MinimumSize = new System.Drawing.Size(1074, 733);
+            MinimumSize = new System.Drawing.Size(1100, 812);
             Name = "Form1";
             Text = "Cherub";
             FormClosing += Form1_FormClosing;

@@ -13,11 +13,9 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using System.Windows.Forms;
 using UciComms;
 using UciComms.Data;
-using static System.Net.Mime.MediaTypeNames;
 
 /*
  YOUR TURN LANGUAGE
@@ -350,7 +348,7 @@ namespace DgtCherub
             }
         }
 
-        private void StartBoardComms()
+        private async void StartBoardComms()
         {
             if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
             {
@@ -381,78 +379,94 @@ namespace DgtCherub
 
                 TextBoxConsole.AddLine("---------------------------------------------------------------------------------------", timeStamp: false);
 
-                try
+
+                var task = Task<bool>.Run(() =>
                 {
-                    if (_dgtEbDllFacade.Init(_dgtEbDllFacade))
+                    try
                     {
-                        IsUsingRabbit = true;
-                        string trackRunwho = "";
+                        return _dgtEbDllFacade.Init(_dgtEbDllFacade);
+                    }
+                    catch (DllNotFoundException)
+                    {
+                        return false;
+                    }
+                });
 
-                        /*
-                        _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) => {TextBoxConsole.AddLine($"RABBIT: {e.Message}");};
-                        _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.FEN}"); };
-                        _dgtEbDllFacade.OnBClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnBlackMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnBlackMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnNewGame += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnResult += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnStartSetup += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnStopSetupBTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnStopSetupWTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnWClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnWhiteMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        */
+                if (!(await task))
+                {
+                    _dgtEbDllFacade = null;
+                    IsUsingRabbit = false;
+                }
+                else
+                {
+                    IsUsingRabbit = true;
+                    string trackRunwho = "";
 
-                        _angelHubService.OnClockChange += () =>
+                    /*
+                    _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) => {TextBoxConsole.AddLine($"RABBIT: {e.Message}");};
+                    _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.FEN}"); };
+                    _dgtEbDllFacade.OnBClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnBlackMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnBlackMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnNewGame += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnResult += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnStartSetup += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnStopSetupBTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnStopSetupWTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnWClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnWhiteMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+                    */
+
+                    _angelHubService.OnClockChange += () =>
+                    {
+                        if (trackRunwho != _angelHubService.RunWhoString)
                         {
-                            if (trackRunwho != _angelHubService.RunWhoString)
-                            {
-                                TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
+                            TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
 
-                                trackRunwho = _angelHubService.RunWhoString;
-                                _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
-                            }
-                        };
+                            trackRunwho = _angelHubService.RunWhoString;
+                            _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
+                        }
+                    };
 
-                        fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+                    fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-                        _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
-                        _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+                    _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
+                    _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
 
-                        fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
+                    fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
 
-                        _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
-                        {
-                            //If on CDC set the drop fix mode
-                            fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
-                                                          LiveChessServer.PlayDropFix.NONE :
-                                                          (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
-                                                          LiveChessServer.PlayDropFix.FROMBLACK);
-                        };
+                    _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
+                    {
+                        //If on CDC set the drop fix mode
+                        fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                        fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
+                                                      LiveChessServer.PlayDropFix.NONE :
+                                                      (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                                      LiveChessServer.PlayDropFix.FROMBLACK);
+                    };
 
-                        _angelHubService.OnOrientationFlipped += () =>
-                        {
-                            //fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                            //Flip drop fix if the dropfix is applied
-                            fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
-                                                          LiveChessServer.PlayDropFix.NONE :
-                                                          (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
-                                                          LiveChessServer.PlayDropFix.FROMBLACK);
-                        };
+                    _angelHubService.OnOrientationFlipped += () =>
+                    {
+                        //fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                        //Flip drop fix if the dropfix is applied
+                        fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
+                                                      LiveChessServer.PlayDropFix.NONE :
+                                                      (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                                      LiveChessServer.PlayDropFix.FROMBLACK);
+                    };
 
-                        _angelHubService.OnPluginDisconnect += () =>
-                        {
-                            fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                        };
+                    _angelHubService.OnPluginDisconnect += () =>
+                    {
+                        fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                    };
 
-                        _angelHubService.OnRemoteFenChange += (string _, string toRemoteFen, string _, string _, string _, string _, bool _) =>
-                        {
-                            fakeLiveChessServer.RemoteFEN = toRemoteFen;
-                        };
+                    _angelHubService.OnRemoteFenChange += (string _, string toRemoteFen, string _, string _, string _, string _, bool _) =>
+                    {
+                        fakeLiveChessServer.RemoteFEN = toRemoteFen;
+                    };
 
-                        _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
+                    _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
                     {
                         if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
                         {
@@ -471,26 +485,17 @@ namespace DgtCherub
                         }
                     };
 
-                        ButtonRabbitConfig1.Visible = true;
-                        ButtonRabbitConf2.Visible = true;
-                        GroupBoxClockTest.Visible = true;
-                        ButtonSendTestMsg1.Visible = true;
-                        ButtonSendTestMsg2.Visible = true;
+                    ButtonRabbitConfig1.Visible = true;
+                    ButtonRabbitConf2.Visible = true;
+                    GroupBoxClockTest.Visible = true;
+                    ButtonSendTestMsg1.Visible = true;
+                    ButtonSendTestMsg2.Visible = true;
 
-                        //Only do this when rabbit is setup
-                        fakeLiveChessServer.RunLiveChessServer();
-                    }
-                    else
-                    {
-                        _dgtEbDllFacade = null;
-                        IsUsingRabbit = false;
-                    }
+                    //Only do this when rabbit is setup
+                    fakeLiveChessServer.RunLiveChessServer();
                 }
-                catch (DllNotFoundException)
-                {
-                    _dgtEbDllFacade = null;
-                    IsUsingRabbit = false;
-                }
+
+
 
                 TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, false);
                 if (IsUsingRabbit)
