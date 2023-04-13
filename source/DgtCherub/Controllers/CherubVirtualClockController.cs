@@ -333,7 +333,7 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            _angelHubService.OnKibitzerFenChange += async (string fen) =>
+            _uciEngineManager.OnKibitzerFenChange += async (string fen) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {

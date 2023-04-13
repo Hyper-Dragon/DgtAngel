@@ -16,7 +16,7 @@ namespace DgtRabbitWrapper
         private const string CONNECT_02_MSG = "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}";
         private const string CONNECT_03_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}";
         private const string NEWPOS_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
-        private const string NEWPOS__FLIPPED_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":true,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
+        //private const string NEWPOS__FLIPPED_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":true,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
 
         public enum PlayDropFix { NONE, FROMWHITE, FROMBLACK };
         public event EventHandler<string> OnLiveChessSrvMessage;

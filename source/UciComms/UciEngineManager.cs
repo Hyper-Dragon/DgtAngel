@@ -5,6 +5,10 @@ namespace UciComms
 {
     public sealed class UciEngineManager : IUciEngineManager
     {
+        public event Action OnKibitzerActivated;
+        public event Action OnKibitzerDeactivated;
+        public event Action<string> OnKibitzerFenChange;
+
         // Subscribe to this events to get the parsed output from the engine
         public event EventHandler<UciResponse>? OnLoadedEngineOutputRecieved;
 
@@ -119,6 +123,8 @@ namespace UciComms
         public string LoadedEngineLastSeenMoveList => currentUciChessEngine?.LastSeenMoveList ?? "";
         public Dictionary<string, UciOption> LoadedEngineOptions => currentUciChessEngine?.Options ?? new Dictionary<string, UciOption>();
 
+        public UciChessEngine? CurrentUciEngine { get; private set; }
+
         public void LoadedEngineGo(int depth) { currentUciChessEngine?.Go(depth); }
         public void LoadedEngineGoInfinite() { currentUciChessEngine?.GoInfinite(); }
         public void LoadedEngineQuit() { currentUciChessEngine?.Quit(); }
@@ -129,6 +135,65 @@ namespace UciComms
         public void LoadedEngineStop() { currentUciChessEngine?.Stop(); }
         public bool LoadedEngineWaitForReady() { return currentUciChessEngine?.WaitForReady() ?? false;  }
         public bool LoadedEngineWaitForUciOk() { return currentUciChessEngine?.WaitForUciOk() ?? false;  }
+        public async Task LoadEngineAsync(string exePath)
+        {
+            UciChessEngine engSlot1 = GetEngine("KIB_ENG_SLOT_1");
+            UciChessEngine engSlot2 = GetEngine("KIB_ENG_SLOT_2");
+
+            string slotKey = engSlot1 == null ? "KIB_ENG_SLOT_1" : "KIB_ENG_SLOT_2";
+            string slotRemoveKey = engSlot1 == null ? "KIB_ENG_SLOT_2" : "KIB_ENG_SLOT_1";
+
+            await RegisterEngineAsync(slotKey, new FileInfo(exePath));
+
+            UciChessEngine engineNew = GetEngine(slotKey);
+            UciChessEngine engineOld = GetEngine(slotRemoveKey);
+
+            try
+            {
+                await StartEngineAsync(slotKey);
+
+                if (IsLoadedEngineUciOk)
+                {
+                    _ = engineNew.WaitForReady();
+                    //eng.SetDebug(false);
+                }
+
+                CurrentUciEngine = engineNew;
+                OnUciEngineLoaded?.Invoke(engineNew);
+
+                if (engineOld != null)
+                {
+                    OnUciEngineReleased?.Invoke($"{engineOld.EngineName} [{engineOld.EngineAuthor}]");
+                    await UnRegisterEngineAsync(slotRemoveKey);
+                }
+            }
+            catch (Exception ex)
+            {
+                await UnRegisterEngineAsync(slotKey);
+                OnUciEngineStartError?.Invoke($"Failed to start engine :: {ex.Message} [{exePath}]");
+            }
+        }
+
+
+        public void SwitchKibitzer(bool turnOn = false)
+        {
+            //if (turnOn)
+            //{
+            //    KillRemoteConnections();
+            //    isKibitzerRunning = true;
+            //    OnKibitzerActivated();
+            //}
+            //else
+            //{
+            //    isKibitzerRunning = false;
+            //    CurrentUciEngine?.Stop();
+            //    OnKibitzerDeactivated?.Invoke();
+            //}
+        }
+
+
+
+
 
     }
 }

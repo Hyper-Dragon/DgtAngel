@@ -28,12 +28,6 @@ namespace DgtCherub.Services
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
         public event Action OnPluginDisconnect;
-        public event Action<UciChessEngine> OnUciEngineLoaded;
-        public event Action<string> OnUciEngineReleased;
-        public event Action<string> OnUciEngineStartError;
-        public event Action OnKibitzerActivated;
-        public event Action OnKibitzerDeactivated;
-        public event Action<string> OnKibitzerFenChange;
         public event Action<UciEngineEval> OnBoardEvalChanged;
 
         public bool IsClientInitComplete { get; private set; } = false;
@@ -77,7 +71,7 @@ namespace DgtCherub.Services
         private const int POST_EVENT_DELAY_ORIENTATION = MS_IN_SEC / 10;
 
         private readonly ILogger _logger;
-        private readonly IUciEngineManager _uciEngineManager;
+        //private readonly IUciEngineManager _uciEngineManager;
         //private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
@@ -97,14 +91,14 @@ namespace DgtCherub.Services
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
         private string lastMoveVoiceTest = "";
-        private bool isKibitzerRunning = false;
+        //private bool isKibitzerRunning = false;
 
 
         //public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
         public AngelHubService(ILogger<AngelHubService> logger, IUciEngineManager uciEngineManager)
         {
             _logger = logger;
-            _uciEngineManager = uciEngineManager;
+            //_uciEngineManager = uciEngineManager;
             //_dgtEbDllFacade = dgtEbDllFacade;
 
 
@@ -138,61 +132,6 @@ namespace DgtCherub.Services
             _ = Task.Run(RunClockProcessor);
             _ = Task.Run(RunLastMoveProcessor);
             _ = Task.Run(RunMessageProcessor);
-        }
-
-        public void SwitchKibitzer(bool turnOn = false)
-        {
-            if (turnOn)
-            {
-                KillRemoteConnections();
-                isKibitzerRunning = true;
-                OnKibitzerActivated();
-            }
-            else
-            {
-                isKibitzerRunning = false;
-                CurrentUciEngine?.Stop();
-                OnKibitzerDeactivated?.Invoke();
-            }
-        }
-
-        public async Task LoadEngineAsync(string exePath)
-        {
-            UciChessEngine engSlot1 = _uciEngineManager.GetEngine("KIB_ENG_SLOT_1");
-            UciChessEngine engSlot2 = _uciEngineManager.GetEngine("KIB_ENG_SLOT_2");
-
-            string slotKey = engSlot1 == null ? "KIB_ENG_SLOT_1" : "KIB_ENG_SLOT_2";
-            string slotRemoveKey = engSlot1 == null ? "KIB_ENG_SLOT_2" : "KIB_ENG_SLOT_1";
-
-            await _uciEngineManager.RegisterEngineAsync(slotKey, new FileInfo(exePath));
-
-            UciChessEngine engineNew = _uciEngineManager.GetEngine(slotKey);
-            UciChessEngine engineOld = _uciEngineManager.GetEngine(slotRemoveKey);
-
-            try
-            {
-                await _uciEngineManager.StartEngineAsync(slotKey);
-
-                if (_uciEngineManager.IsLoadedEngineUciOk)
-                {
-                    _ = engineNew.WaitForReady();
-                    //eng.SetDebug(false);
-                }
-
-                CurrentUciEngine = engineNew;
-                OnUciEngineLoaded?.Invoke(engineNew);
-                
-                if (engineOld != null)
-                {
-                    OnUciEngineReleased?.Invoke($"{engineOld.EngineName} [{engineOld.EngineAuthor}]");
-                    await _uciEngineManager.UnRegisterEngineAsync(slotRemoveKey);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _uciEngineManager.UnRegisterEngineAsync(slotKey);
-                OnUciEngineStartError?.Invoke($"Failed to start engine :: {ex.Message} [{exePath}]");
-            }
         }
 
         public void NotifyInitComplete()
@@ -345,8 +284,9 @@ namespace DgtCherub.Services
                                            IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
                     }
                     else if (IsLocalBoardAvailable &&
-                              !IsRemoteBoardAvailable &&
-                              isKibitzerRunning)
+                              !IsRemoteBoardAvailable)
+                        //&&
+                        //isKibitzerRunning)
                     {
 
                         char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
@@ -381,8 +321,8 @@ namespace DgtCherub.Services
                         string inferredFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
                         string joinedFen = $"{fen} {inferredFenTailFromPosition}";
 
-                        CurrentUciEngine?.Stop();
-                        OnKibitzerFenChange?.Invoke(joinedFen);
+                        //CurrentUciEngine?.Stop();
+                        //OnKibitzerFenChange?.Invoke(joinedFen);
 
                         CurrentUciEngine?.SetPosition(joinedFen);
                         CurrentUciEngine?.GoInfinite();

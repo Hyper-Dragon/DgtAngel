@@ -4,6 +4,10 @@ namespace UciComms
 {
     public interface IUciEngineManager
     {
+        event Action OnKibitzerActivated;
+        event Action OnKibitzerDeactivated;
+        event Action<string> OnKibitzerFenChange;
+
         // Subscribe to this events to get the parsed output from the engine
         event EventHandler<UciResponse>? OnLoadedEngineOutputRecieved;
 
@@ -30,6 +34,10 @@ namespace UciComms
         string LoadedEngineLastSeenFen { get; }
         string LoadedEngineLastSeenMoveList { get; }
         Dictionary<string, UciOption> LoadedEngineOptions { get; }
+
+        Task LoadEngineAsync(string exePath);
+
+        void SwitchKibitzer(bool turnOn);
 
         void LoadedEngineQuit();
         void LoadedEngineSetDebug(bool debugOn);

@@ -642,17 +642,17 @@ namespace DgtCherub
 
             _angelHubService.OnOrientationFlipped += DisplayBoardImages;
 
-            _angelHubService.OnKibitzerActivated += () =>
+            _uciEngineManager.OnKibitzerActivated += () =>
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Turned ON - RESTART Cherub for online play");
             };
 
-            _angelHubService.OnKibitzerFenChange += (string fen) =>
+            _uciEngineManager.OnKibitzerFenChange += (string fen) =>
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Running eval for {fen}");
             };
 
-            _angelHubService.OnKibitzerDeactivated += () =>
+            _uciEngineManager.OnKibitzerDeactivated += () =>
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Turned OFF");
             };
@@ -1111,8 +1111,8 @@ namespace DgtCherub
             TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, true);
             if (IsUsingRabbit)
             {
-                TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
-                TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"                    {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"                    {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
             }
             TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
@@ -1661,7 +1661,7 @@ namespace DgtCherub
             }
             else
             {
-                _angelHubService.SwitchKibitzer(((CheckBox)sender).Checked);
+                _uciEngineManager.SwitchKibitzer(((CheckBox)sender).Checked);
             }
         }
 
@@ -1716,7 +1716,8 @@ namespace DgtCherub
             {
                 ButtonEngineConfig.Enabled = false;
                 CheckBoxKibitzerEnabled.Enabled = false;
-                _ = _angelHubService.LoadEngineAsync(openFileDialog.FileName);
+                _ = _uciEngineManager.LoadEngineAsync(openFileDialog.FileName);
+                //_ = _uciEngineManager.LoadEngineAsync(openFileDialog.FileName);
             }
         }
 
@@ -1729,7 +1730,7 @@ namespace DgtCherub
                 isEngineActivationRequired = false;
                 if (!string.IsNullOrEmpty(lastUciExe))
                 {
-                    _ = _angelHubService.LoadEngineAsync(lastUciExe);
+                    _ = _uciEngineManager.LoadEngineAsync(lastUciExe);
                 }
             }
         }

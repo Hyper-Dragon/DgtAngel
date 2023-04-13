@@ -46,9 +46,6 @@ namespace DgtCherub.Services
         event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
         event Action<string, string> OnNotification;
         event Action OnPluginDisconnect;
-        event Action OnKibitzerActivated;
-        event Action OnKibitzerDeactivated;
-        event Action<string> OnKibitzerFenChange;
         event Action<UciEngineEval> OnBoardEvalChanged;
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
@@ -57,7 +54,5 @@ namespace DgtCherub.Services
         void UserMessageArrived(string source, string message);
         Task WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
         void PluginDisconnect();
-        Task LoadEngineAsync(string exePath);
-        void SwitchKibitzer(bool turnOn);
     }
 }
