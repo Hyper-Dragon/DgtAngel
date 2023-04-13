@@ -8,32 +8,30 @@ namespace UciComms
     public sealed partial class UciChessEngine
     {
         // Subscribe to this events to get the parsed output from the engine
-        public event EventHandler<UciResponse>? OnOutputRecieved;
+        internal event EventHandler<UciResponse>? OnOutputRecieved;
 
         // Subscribe to these events to get the raw output from the engine
-        // This is useful for debugging
-        public event EventHandler<string>? OnOutputRecievedRaw;
-        public event EventHandler<string>? OnErrorRecievedRaw;
-        public event EventHandler<string>? OnInputSentRaw;
+        internal event EventHandler<string>? OnOutputRecievedRaw;
+        internal event EventHandler<string>? OnErrorRecievedRaw;
+        internal event EventHandler<string>? OnInputSentRaw;
 
-        public event Action<UciEngineEval>? OnBoardEvalChanged;
+        // Subscribe to this event to get the board evaluation from the engine
+        internal event Action<UciEngineEval>? OnBoardEvalChanged;
 
         private static readonly Regex OptionRegex = LineIn();
 
-        private Process? RunningProcess { get; set; }
-        public FileInfo Executable { get; init; }
-        public bool IsRunning => RunningProcess != null;
-        public bool IsUciOk { get; private set; } = false;
-        public bool IsReady { get; private set; } = false;
-
-        private Eval evaluation = new();
+        internal  Process? RunningProcess { get; set; }
+        internal FileInfo Executable { get; init; }
+        internal bool IsRunning => RunningProcess != null;
+        internal bool IsUciOk { get; private set; } = false;
+        internal bool IsReady { get; private set; } = false;
+        
+        internal  Eval evaluation = new();
 
 
         public string EngineName { get; private set; } = "UNKNOWN";
         public string EngineAuthor { get; private set; } = "UNKNOWN";
-
         public Dictionary<string, UciOption> Options { get; } = new();
-
         public string LastSeenFen { get; private set; } = "";
         public string LastSeenMoveList { get; private set; } = "";
 
@@ -72,7 +70,7 @@ namespace UciComms
             RunningProcess.OutputDataReceived += (sender, args) =>
             {
                 if (args == null || args.Data == null) { return; }
-                
+
 
                 OnOutputRecievedRaw?.Invoke(this, (args?.Data ?? ""));
 
