@@ -164,7 +164,7 @@ namespace DgtCherub
             Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             Panel1.Location = new System.Drawing.Point(0, 29);
             Panel1.Name = "Panel1";
-            Panel1.Size = new System.Drawing.Size(1231, 707);
+            Panel1.Size = new System.Drawing.Size(1321, 707);
             Panel1.TabIndex = 0;
             // 
             // TableLayoutPanel
@@ -179,7 +179,7 @@ namespace DgtCherub
             TableLayoutPanel.Name = "TableLayoutPanel";
             TableLayoutPanel.RowCount = 1;
             TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            TableLayoutPanel.Size = new System.Drawing.Size(1231, 707);
+            TableLayoutPanel.Size = new System.Drawing.Size(1321, 707);
             TableLayoutPanel.TabIndex = 2;
             // 
             // TabControlSidePanel
@@ -215,7 +215,7 @@ namespace DgtCherub
             TabPageConfig.Location = new System.Drawing.Point(49, 4);
             TabPageConfig.Name = "TabPageConfig";
             TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            TabPageConfig.Size = new System.Drawing.Size(351, 1081);
+            TabPageConfig.Size = new System.Drawing.Size(351, 693);
             TabPageConfig.TabIndex = 1;
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
@@ -503,7 +503,7 @@ namespace DgtCherub
             // 
             label7.AutoSize = true;
             label7.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            label7.Location = new System.Drawing.Point(7, 84);
+            label7.Location = new System.Drawing.Point(7, 80);
             label7.Name = "label7";
             label7.Size = new System.Drawing.Size(76, 21);
             label7.TabIndex = 63;
@@ -513,7 +513,7 @@ namespace DgtCherub
             // 
             label6.AutoSize = true;
             label6.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            label6.Location = new System.Drawing.Point(6, 56);
+            label6.Location = new System.Drawing.Point(6, 55);
             label6.Name = "label6";
             label6.Size = new System.Drawing.Size(46, 21);
             label6.TabIndex = 62;
@@ -523,7 +523,7 @@ namespace DgtCherub
             // 
             label5.AutoSize = true;
             label5.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            label5.Location = new System.Drawing.Point(6, 30);
+            label5.Location = new System.Drawing.Point(7, 28);
             label5.Name = "label5";
             label5.Size = new System.Drawing.Size(64, 21);
             label5.TabIndex = 61;
@@ -808,7 +808,7 @@ namespace DgtCherub
             TabPageClock.Location = new System.Drawing.Point(49, 4);
             TabPageClock.Name = "TabPageClock";
             TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            TabPageClock.Size = new System.Drawing.Size(351, 1081);
+            TabPageClock.Size = new System.Drawing.Size(351, 693);
             TabPageClock.TabIndex = 3;
             TabPageClock.Text = "Clock";
             TabPageClock.UseVisualStyleBackColor = true;
@@ -819,7 +819,7 @@ namespace DgtCherub
             button1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             button1.Location = new System.Drawing.Point(192, 118);
             button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(135, 33);
+            button1.Size = new System.Drawing.Size(153, 33);
             button1.TabIndex = 4;
             button1.Text = "Winged Horse...";
             button1.UseVisualStyleBackColor = true;
@@ -831,7 +831,7 @@ namespace DgtCherub
             ButtonWindowless.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ButtonWindowless.Location = new System.Drawing.Point(192, 79);
             ButtonWindowless.Name = "ButtonWindowless";
-            ButtonWindowless.Size = new System.Drawing.Size(137, 33);
+            ButtonWindowless.Size = new System.Drawing.Size(153, 33);
             ButtonWindowless.TabIndex = 3;
             ButtonWindowless.Text = "Windowless...";
             ButtonWindowless.UseVisualStyleBackColor = true;
@@ -843,7 +843,7 @@ namespace DgtCherub
             ButtonWindowed.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ButtonWindowed.Location = new System.Drawing.Point(192, 40);
             ButtonWindowed.Name = "ButtonWindowed";
-            ButtonWindowed.Size = new System.Drawing.Size(137, 33);
+            ButtonWindowed.Size = new System.Drawing.Size(153, 33);
             ButtonWindowed.TabIndex = 2;
             ButtonWindowed.Text = "Windowed...";
             ButtonWindowed.UseVisualStyleBackColor = true;
@@ -855,7 +855,7 @@ namespace DgtCherub
             DomainUpDown.Location = new System.Drawing.Point(192, 6);
             DomainUpDown.Name = "DomainUpDown";
             DomainUpDown.ReadOnly = true;
-            DomainUpDown.Size = new System.Drawing.Size(137, 25);
+            DomainUpDown.Size = new System.Drawing.Size(153, 25);
             DomainUpDown.TabIndex = 1;
             DomainUpDown.SelectedItemChanged += DomainUpDown_SelectedItemChanged;
             DomainUpDown.Click += UpDownDomainHideCaret;
@@ -892,9 +892,9 @@ namespace DgtCherub
             // 
             ButtonSendTestMsg2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSendTestMsg2.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            ButtonSendTestMsg2.Location = new System.Drawing.Point(34, 65);
+            ButtonSendTestMsg2.Location = new System.Drawing.Point(6, 65);
             ButtonSendTestMsg2.Name = "ButtonSendTestMsg2";
-            ButtonSendTestMsg2.Size = new System.Drawing.Size(123, 32);
+            ButtonSendTestMsg2.Size = new System.Drawing.Size(168, 32);
             ButtonSendTestMsg2.TabIndex = 7;
             ButtonSendTestMsg2.Text = "Test Message 2";
             ButtonSendTestMsg2.UseVisualStyleBackColor = true;
@@ -904,9 +904,9 @@ namespace DgtCherub
             // 
             ButtonSendTestMsg1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             ButtonSendTestMsg1.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            ButtonSendTestMsg1.Location = new System.Drawing.Point(33, 26);
+            ButtonSendTestMsg1.Location = new System.Drawing.Point(6, 26);
             ButtonSendTestMsg1.Name = "ButtonSendTestMsg1";
-            ButtonSendTestMsg1.Size = new System.Drawing.Size(124, 33);
+            ButtonSendTestMsg1.Size = new System.Drawing.Size(168, 33);
             ButtonSendTestMsg1.TabIndex = 6;
             ButtonSendTestMsg1.Text = "Test Message 1";
             ButtonSendTestMsg1.UseVisualStyleBackColor = true;
@@ -918,7 +918,7 @@ namespace DgtCherub
             ButtonRabbitConf2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             ButtonRabbitConf2.Location = new System.Drawing.Point(192, 157);
             ButtonRabbitConf2.Name = "ButtonRabbitConf2";
-            ButtonRabbitConf2.Size = new System.Drawing.Size(137, 35);
+            ButtonRabbitConf2.Size = new System.Drawing.Size(153, 35);
             ButtonRabbitConf2.TabIndex = 5;
             ButtonRabbitConf2.Text = "Rabbit Config...";
             ButtonRabbitConf2.UseVisualStyleBackColor = true;
@@ -936,7 +936,7 @@ namespace DgtCherub
             TabPageOffline.Location = new System.Drawing.Point(49, 4);
             TabPageOffline.Name = "TabPageOffline";
             TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            TabPageOffline.Size = new System.Drawing.Size(351, 1081);
+            TabPageOffline.Size = new System.Drawing.Size(351, 693);
             TabPageOffline.TabIndex = 0;
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
@@ -1068,17 +1068,19 @@ namespace DgtCherub
             // 
             // TextBoxConsole
             // 
+            TextBoxConsole.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TextBoxConsole.BackColor = System.Drawing.Color.FromArgb(40, 40, 40);
             TextBoxConsole.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            TextBoxConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             TextBoxConsole.Font = new System.Drawing.Font("Consolas", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             TextBoxConsole.ForeColor = System.Drawing.Color.FromArgb(102, 255, 102);
-            TextBoxConsole.Location = new System.Drawing.Point(413, 3);
+            TextBoxConsole.Location = new System.Drawing.Point(410, 0);
+            TextBoxConsole.Margin = new System.Windows.Forms.Padding(0);
+            TextBoxConsole.MinimumSize = new System.Drawing.Size(100, 100);
             TextBoxConsole.Multiline = true;
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
             TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            TextBoxConsole.Size = new System.Drawing.Size(998, 701);
+            TextBoxConsole.Size = new System.Drawing.Size(911, 707);
             TextBoxConsole.TabIndex = 1;
             TextBoxConsole.TabStop = false;
             TextBoxConsole.WordWrap = false;
@@ -1088,7 +1090,7 @@ namespace DgtCherub
             ToolStripStatusLabelLastUpdate.AutoSize = false;
             ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(1137, 23);
+            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(1227, 23);
             ToolStripStatusLabelLastUpdate.Spring = true;
             ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1101,7 +1103,7 @@ namespace DgtCherub
             StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripStatusLabelLastUpdate, ToolStripStatusLabelVersion });
             StatusStrip.Location = new System.Drawing.Point(0, 736);
             StatusStrip.Name = "StatusStrip";
-            StatusStrip.Size = new System.Drawing.Size(1231, 29);
+            StatusStrip.Size = new System.Drawing.Size(1321, 29);
             StatusStrip.TabIndex = 1;
             StatusStrip.Text = "statusStrip1";
             // 
@@ -1123,7 +1125,7 @@ namespace DgtCherub
             MenuStrip.Location = new System.Drawing.Point(0, 0);
             MenuStrip.Name = "MenuStrip";
             MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            MenuStrip.Size = new System.Drawing.Size(1231, 29);
+            MenuStrip.Size = new System.Drawing.Size(1321, 29);
             MenuStrip.TabIndex = 2;
             MenuStrip.Text = "MenuStrip";
             // 
@@ -1337,7 +1339,7 @@ namespace DgtCherub
             // Form1
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            ClientSize = new System.Drawing.Size(1231, 765);
+            ClientSize = new System.Drawing.Size(1321, 765);
             Controls.Add(Panel1);
             Controls.Add(StatusStrip);
             Controls.Add(MenuStrip);
