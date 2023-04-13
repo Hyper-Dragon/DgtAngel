@@ -40,6 +40,7 @@ namespace DgtCherub
             ComboBoxScale = new System.Windows.Forms.ComboBox();
             CheckBoxPreventSleep = new System.Windows.Forms.CheckBox();
             groupBox4 = new System.Windows.Forms.GroupBox();
+            CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
             ButtonClearConsole = new System.Windows.Forms.Button();
             CheckBoxDisableRabbit = new System.Windows.Forms.CheckBox();
             CheckBoxRecieveLog = new System.Windows.Forms.CheckBox();
@@ -69,7 +70,6 @@ namespace DgtCherub
             UpDownVolTime = new System.Windows.Forms.NumericUpDown();
             UpDownVolMoves = new System.Windows.Forms.NumericUpDown();
             TabPageBoards = new System.Windows.Forms.TabPage();
-            CheckBoxShowConsole = new System.Windows.Forms.CheckBox();
             LabelWhiteClock = new System.Windows.Forms.Label();
             LabelBlackClock = new System.Windows.Forms.Label();
             LabelRemoteBoard = new System.Windows.Forms.Label();
@@ -164,7 +164,7 @@ namespace DgtCherub
             Panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             Panel1.Location = new System.Drawing.Point(0, 29);
             Panel1.Name = "Panel1";
-            Panel1.Size = new System.Drawing.Size(1056, 628);
+            Panel1.Size = new System.Drawing.Size(1231, 704);
             Panel1.TabIndex = 0;
             // 
             // TableLayoutPanel
@@ -179,7 +179,7 @@ namespace DgtCherub
             TableLayoutPanel.Name = "TableLayoutPanel";
             TableLayoutPanel.RowCount = 1;
             TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            TableLayoutPanel.Size = new System.Drawing.Size(1056, 628);
+            TableLayoutPanel.Size = new System.Drawing.Size(1231, 704);
             TableLayoutPanel.TabIndex = 2;
             // 
             // TabControlSidePanel
@@ -200,7 +200,7 @@ namespace DgtCherub
             TabControlSidePanel.Name = "TabControlSidePanel";
             TabControlSidePanel.Padding = new System.Drawing.Point(2, 2);
             TabControlSidePanel.SelectedIndex = 0;
-            TabControlSidePanel.Size = new System.Drawing.Size(404, 622);
+            TabControlSidePanel.Size = new System.Drawing.Size(404, 698);
             TabControlSidePanel.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             TabControlSidePanel.TabIndex = 2;
             TabControlSidePanel.DrawItem += TabControlSidePanel_DrawItem;
@@ -215,7 +215,7 @@ namespace DgtCherub
             TabPageConfig.Location = new System.Drawing.Point(49, 4);
             TabPageConfig.Name = "TabPageConfig";
             TabPageConfig.Padding = new System.Windows.Forms.Padding(3);
-            TabPageConfig.Size = new System.Drawing.Size(351, 614);
+            TabPageConfig.Size = new System.Drawing.Size(351, 690);
             TabPageConfig.TabIndex = 1;
             TabPageConfig.Text = "Config";
             TabPageConfig.UseVisualStyleBackColor = true;
@@ -289,6 +289,7 @@ namespace DgtCherub
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(CheckBoxShowConsole);
             groupBox4.Controls.Add(ButtonClearConsole);
             groupBox4.Controls.Add(CheckBoxDisableRabbit);
             groupBox4.Controls.Add(CheckBoxRecieveLog);
@@ -297,10 +298,25 @@ namespace DgtCherub
             groupBox4.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             groupBox4.Location = new System.Drawing.Point(6, 406);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(148, 197);
+            groupBox4.Size = new System.Drawing.Size(148, 213);
             groupBox4.TabIndex = 65;
             groupBox4.TabStop = false;
             groupBox4.Text = "Console";
+            // 
+            // CheckBoxShowConsole
+            // 
+            CheckBoxShowConsole.Checked = true;
+            CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
+            CheckBoxShowConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            CheckBoxShowConsole.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            CheckBoxShowConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            CheckBoxShowConsole.Location = new System.Drawing.Point(10, 113);
+            CheckBoxShowConsole.Name = "CheckBoxShowConsole";
+            CheckBoxShowConsole.Size = new System.Drawing.Size(138, 32);
+            CheckBoxShowConsole.TabIndex = 103;
+            CheckBoxShowConsole.Text = "Show Console";
+            CheckBoxShowConsole.UseVisualStyleBackColor = true;
+            CheckBoxShowConsole.CheckedChanged += CheckBoxShowConsole_CheckedChanged;
             // 
             // ButtonClearConsole
             // 
@@ -322,11 +338,11 @@ namespace DgtCherub
             CheckBoxDisableRabbit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxDisableRabbit.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckBoxDisableRabbit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 113);
+            CheckBoxDisableRabbit.Location = new System.Drawing.Point(10, 142);
             CheckBoxDisableRabbit.Name = "CheckBoxDisableRabbit";
             CheckBoxDisableRabbit.Size = new System.Drawing.Size(138, 33);
             CheckBoxDisableRabbit.TabIndex = 14;
-            CheckBoxDisableRabbit.Text = "Show Inbound";
+            CheckBoxDisableRabbit.Text = "Inbound";
             CheckBoxDisableRabbit.UseVisualStyleBackColor = true;
             CheckBoxDisableRabbit.CheckedChanged += CheckBoxShowInbound_CheckedChanged;
             // 
@@ -337,9 +353,9 @@ namespace DgtCherub
             CheckBoxRecieveLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxRecieveLog.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckBoxRecieveLog.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 144);
+            CheckBoxRecieveLog.Location = new System.Drawing.Point(10, 168);
             CheckBoxRecieveLog.Name = "CheckBoxRecieveLog";
-            CheckBoxRecieveLog.Size = new System.Drawing.Size(128, 38);
+            CheckBoxRecieveLog.Size = new System.Drawing.Size(138, 38);
             CheckBoxRecieveLog.TabIndex = 15;
             CheckBoxRecieveLog.Text = "Logging On";
             CheckBoxRecieveLog.UseVisualStyleBackColor = true;
@@ -690,7 +706,6 @@ namespace DgtCherub
             // TabPageBoards
             // 
             TabPageBoards.BackColor = System.Drawing.Color.Transparent;
-            TabPageBoards.Controls.Add(CheckBoxShowConsole);
             TabPageBoards.Controls.Add(LabelWhiteClock);
             TabPageBoards.Controls.Add(LabelBlackClock);
             TabPageBoards.Controls.Add(LabelRemoteBoard);
@@ -699,27 +714,11 @@ namespace DgtCherub
             TabPageBoards.Controls.Add(PictureBoxLocal);
             TabPageBoards.Location = new System.Drawing.Point(49, 4);
             TabPageBoards.Name = "TabPageBoards";
-            TabPageBoards.Size = new System.Drawing.Size(351, 614);
+            TabPageBoards.Size = new System.Drawing.Size(351, 690);
             TabPageBoards.TabIndex = 2;
             TabPageBoards.Text = "Boards";
             TabPageBoards.Enter += TabPageBoards_Enter;
             TabPageBoards.Leave += TabPageBoards_Leave;
-            // 
-            // CheckBoxShowConsole
-            // 
-            CheckBoxShowConsole.Checked = true;
-            CheckBoxShowConsole.CheckState = System.Windows.Forms.CheckState.Checked;
-            CheckBoxShowConsole.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            CheckBoxShowConsole.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxShowConsole.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            CheckBoxShowConsole.Location = new System.Drawing.Point(106, 582);
-            CheckBoxShowConsole.Name = "CheckBoxShowConsole";
-            CheckBoxShowConsole.Size = new System.Drawing.Size(122, 25);
-            CheckBoxShowConsole.TabIndex = 1;
-            CheckBoxShowConsole.Text = "Show Console";
-            CheckBoxShowConsole.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            CheckBoxShowConsole.UseVisualStyleBackColor = true;
-            CheckBoxShowConsole.CheckedChanged += CheckBoxShowConsole_CheckedChanged;
             // 
             // LabelWhiteClock
             // 
@@ -727,9 +726,9 @@ namespace DgtCherub
             LabelWhiteClock.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             LabelWhiteClock.ForeColor = System.Drawing.Color.Black;
             LabelWhiteClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LabelWhiteClock.Location = new System.Drawing.Point(171, 6);
+            LabelWhiteClock.Location = new System.Drawing.Point(183, 6);
             LabelWhiteClock.Name = "LabelWhiteClock";
-            LabelWhiteClock.Size = new System.Drawing.Size(121, 24);
+            LabelWhiteClock.Size = new System.Drawing.Size(149, 24);
             LabelWhiteClock.TabIndex = 10;
             LabelWhiteClock.Text = "0:00:00";
             LabelWhiteClock.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -740,9 +739,9 @@ namespace DgtCherub
             LabelBlackClock.Font = new System.Drawing.Font("Segoe UI Semibold", 15F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             LabelBlackClock.ForeColor = System.Drawing.Color.White;
             LabelBlackClock.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LabelBlackClock.Location = new System.Drawing.Point(171, 288);
+            LabelBlackClock.Location = new System.Drawing.Point(183, 345);
             LabelBlackClock.Name = "LabelBlackClock";
-            LabelBlackClock.Size = new System.Drawing.Size(121, 26);
+            LabelBlackClock.Size = new System.Drawing.Size(149, 26);
             LabelBlackClock.TabIndex = 11;
             LabelBlackClock.Text = "0:00:00";
             LabelBlackClock.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -753,9 +752,9 @@ namespace DgtCherub
             LabelRemoteBoard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             LabelRemoteBoard.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             LabelRemoteBoard.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            LabelRemoteBoard.Location = new System.Drawing.Point(43, 288);
+            LabelRemoteBoard.Location = new System.Drawing.Point(22, 345);
             LabelRemoteBoard.Name = "LabelRemoteBoard";
-            LabelRemoteBoard.Size = new System.Drawing.Size(122, 26);
+            LabelRemoteBoard.Size = new System.Drawing.Size(155, 26);
             LabelRemoteBoard.TabIndex = 12;
             LabelRemoteBoard.Text = "Remote";
             // 
@@ -764,9 +763,9 @@ namespace DgtCherub
             LabelLocalDgt.BackColor = System.Drawing.Color.Silver;
             LabelLocalDgt.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             LabelLocalDgt.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
-            LabelLocalDgt.Location = new System.Drawing.Point(43, 6);
+            LabelLocalDgt.Location = new System.Drawing.Point(22, 6);
             LabelLocalDgt.Name = "LabelLocalDgt";
-            LabelLocalDgt.Size = new System.Drawing.Size(122, 24);
+            LabelLocalDgt.Size = new System.Drawing.Size(155, 24);
             LabelLocalDgt.TabIndex = 13;
             LabelLocalDgt.Text = "Local";
             // 
@@ -777,9 +776,9 @@ namespace DgtCherub
             PictureBoxRemote.ImageLocation = "";
             PictureBoxRemote.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             PictureBoxRemote.InitialImage = (System.Drawing.Image)resources.GetObject("PictureBoxRemote.InitialImage");
-            PictureBoxRemote.Location = new System.Drawing.Point(42, 317);
+            PictureBoxRemote.Location = new System.Drawing.Point(22, 374);
             PictureBoxRemote.Name = "PictureBoxRemote";
-            PictureBoxRemote.Size = new System.Drawing.Size(250, 250);
+            PictureBoxRemote.Size = new System.Drawing.Size(310, 310);
             PictureBoxRemote.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             PictureBoxRemote.TabIndex = 14;
             PictureBoxRemote.TabStop = false;
@@ -790,9 +789,9 @@ namespace DgtCherub
             PictureBoxLocal.Image = (System.Drawing.Image)resources.GetObject("PictureBoxLocal.Image");
             PictureBoxLocal.ImageLocation = "";
             PictureBoxLocal.InitialImage = (System.Drawing.Image)resources.GetObject("PictureBoxLocal.InitialImage");
-            PictureBoxLocal.Location = new System.Drawing.Point(42, 33);
+            PictureBoxLocal.Location = new System.Drawing.Point(22, 33);
             PictureBoxLocal.Name = "PictureBoxLocal";
-            PictureBoxLocal.Size = new System.Drawing.Size(250, 250);
+            PictureBoxLocal.Size = new System.Drawing.Size(310, 310);
             PictureBoxLocal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             PictureBoxLocal.TabIndex = 15;
             PictureBoxLocal.TabStop = false;
@@ -809,7 +808,7 @@ namespace DgtCherub
             TabPageClock.Location = new System.Drawing.Point(49, 4);
             TabPageClock.Name = "TabPageClock";
             TabPageClock.Padding = new System.Windows.Forms.Padding(3);
-            TabPageClock.Size = new System.Drawing.Size(351, 614);
+            TabPageClock.Size = new System.Drawing.Size(351, 758);
             TabPageClock.TabIndex = 3;
             TabPageClock.Text = "Clock";
             TabPageClock.UseVisualStyleBackColor = true;
@@ -937,7 +936,7 @@ namespace DgtCherub
             TabPageOffline.Location = new System.Drawing.Point(49, 4);
             TabPageOffline.Name = "TabPageOffline";
             TabPageOffline.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            TabPageOffline.Size = new System.Drawing.Size(351, 614);
+            TabPageOffline.Size = new System.Drawing.Size(351, 758);
             TabPageOffline.TabIndex = 0;
             TabPageOffline.Text = "Offline";
             TabPageOffline.UseVisualStyleBackColor = true;
@@ -1079,7 +1078,7 @@ namespace DgtCherub
             TextBoxConsole.Name = "TextBoxConsole";
             TextBoxConsole.ReadOnly = true;
             TextBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            TextBoxConsole.Size = new System.Drawing.Size(640, 622);
+            TextBoxConsole.Size = new System.Drawing.Size(998, 698);
             TextBoxConsole.TabIndex = 1;
             TextBoxConsole.TabStop = false;
             TextBoxConsole.WordWrap = false;
@@ -1089,7 +1088,7 @@ namespace DgtCherub
             ToolStripStatusLabelLastUpdate.AutoSize = false;
             ToolStripStatusLabelLastUpdate.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             ToolStripStatusLabelLastUpdate.Name = "ToolStripStatusLabelLastUpdate";
-            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(962, 23);
+            ToolStripStatusLabelLastUpdate.Size = new System.Drawing.Size(1137, 23);
             ToolStripStatusLabelLastUpdate.Spring = true;
             ToolStripStatusLabelLastUpdate.Text = "[Last Update]";
             ToolStripStatusLabelLastUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -1100,9 +1099,9 @@ namespace DgtCherub
             StatusStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             StatusStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             StatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { ToolStripStatusLabelLastUpdate, ToolStripStatusLabelVersion });
-            StatusStrip.Location = new System.Drawing.Point(0, 657);
+            StatusStrip.Location = new System.Drawing.Point(0, 733);
             StatusStrip.Name = "StatusStrip";
-            StatusStrip.Size = new System.Drawing.Size(1056, 29);
+            StatusStrip.Size = new System.Drawing.Size(1231, 29);
             StatusStrip.TabIndex = 1;
             StatusStrip.Text = "statusStrip1";
             // 
@@ -1124,7 +1123,7 @@ namespace DgtCherub
             MenuStrip.Location = new System.Drawing.Point(0, 0);
             MenuStrip.Name = "MenuStrip";
             MenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            MenuStrip.Size = new System.Drawing.Size(1056, 29);
+            MenuStrip.Size = new System.Drawing.Size(1231, 29);
             MenuStrip.TabIndex = 2;
             MenuStrip.Text = "MenuStrip";
             // 
@@ -1338,7 +1337,7 @@ namespace DgtCherub
             // Form1
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            ClientSize = new System.Drawing.Size(1056, 686);
+            ClientSize = new System.Drawing.Size(1231, 762);
             Controls.Add(Panel1);
             Controls.Add(StatusStrip);
             Controls.Add(MenuStrip);
@@ -1460,7 +1459,6 @@ namespace DgtCherub
         private System.Windows.Forms.NumericUpDown UpDownVolMoves;
         private System.Windows.Forms.CheckBox CheckBoxOnTop;
         private System.Windows.Forms.TabPage TabPageBoards;
-        private System.Windows.Forms.CheckBox CheckBoxShowConsole;
         private System.Windows.Forms.Label LabelWhiteClock;
         private System.Windows.Forms.Label LabelBlackClock;
         private System.Windows.Forms.Label LabelRemoteBoard;
@@ -1490,6 +1488,7 @@ namespace DgtCherub
         private System.Windows.Forms.ProgressBar ProgBarKibitzer;
         private System.Windows.Forms.Label LabelDepthKibitzer;
         private System.Windows.Forms.Label LabelScoreKibitzer;
+        private System.Windows.Forms.CheckBox CheckBoxShowConsole;
     }
 }
 

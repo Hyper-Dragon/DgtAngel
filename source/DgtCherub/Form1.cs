@@ -682,9 +682,9 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"UCI: Engine Start Error:: {errorMsg}");
 
-                    //We still have a loaded engine so enable the buttons
-                    ButtonEngineConfig.Enabled = true;
-                    CheckBoxKibitzerEnabled.Enabled = true;
+                //We still have a loaded engine so enable the buttons
+                ButtonEngineConfig.Enabled = true;
+                CheckBoxKibitzerEnabled.Enabled = true;
             };
 
             _uciEngineManager.OnUciEngineReleased += (string engineName) =>
