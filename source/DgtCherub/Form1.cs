@@ -1662,6 +1662,8 @@ namespace DgtCherub
             else
             {
                 _uciEngineManager.SwitchKibitzer(((CheckBox)sender).Checked);
+
+                _uciEngineManager.StartEngineAsync(_uciEngineManager.CurrentUciEngine.EngineName);
             }
         }
 

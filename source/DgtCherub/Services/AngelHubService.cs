@@ -1,4 +1,5 @@
 ﻿using DgtAngelShared.Json;
+using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Threading.Channels;
@@ -71,8 +72,8 @@ namespace DgtCherub.Services
         private const int POST_EVENT_DELAY_ORIENTATION = MS_IN_SEC / 10;
 
         private readonly ILogger _logger;
-        //private readonly IUciEngineManager _uciEngineManager;
-        //private readonly IDgtEbDllFacade _dgtEbDllFacade;
+        private readonly IUciEngineManager _uciEngineManager;
+        private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
 
@@ -95,11 +96,19 @@ namespace DgtCherub.Services
 
 
         //public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
-        public AngelHubService(ILogger<AngelHubService> logger, IUciEngineManager uciEngineManager)
+        public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade, IUciEngineManager uciEngineManager)
         {
             _logger = logger;
-            //_uciEngineManager = uciEngineManager;
-            //_dgtEbDllFacade = dgtEbDllFacade;
+            _uciEngineManager = uciEngineManager;
+            _dgtEbDllFacade = dgtEbDllFacade;
+
+
+            _dgtEbDllFacade.OnStableFenChanged += ((obj, args) =>
+            {
+                _uciEngineManager.LoadedEngineSetPosition(args.FEN);
+                
+                _uciEngineManager.LoadedEngineGoInfinite();
+            });
 
 
             BoundedChannelOptions processChannelOptions = new(3)

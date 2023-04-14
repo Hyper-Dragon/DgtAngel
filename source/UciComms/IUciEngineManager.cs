@@ -35,6 +35,8 @@ namespace UciComms
         string LoadedEngineLastSeenMoveList { get; }
         Dictionary<string, UciOption> LoadedEngineOptions { get; }
 
+        UciChessEngine? CurrentUciEngine { get; }
+
         Task LoadEngineAsync(string exePath);
 
         void SwitchKibitzer(bool turnOn);

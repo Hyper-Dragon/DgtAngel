@@ -29,6 +29,8 @@ namespace UciComms
 
         private UciChessEngine? currentUciChessEngine = null;
 
+        bool isKibitzerRunning = false;
+
         public UciEngineManager() { }
 
         
@@ -177,23 +179,18 @@ namespace UciComms
 
         public void SwitchKibitzer(bool turnOn = false)
         {
-            //if (turnOn)
-            //{
-            //    KillRemoteConnections();
-            //    isKibitzerRunning = true;
-            //    OnKibitzerActivated();
-            //}
-            //else
-            //{
-            //    isKibitzerRunning = false;
-            //    CurrentUciEngine?.Stop();
-            //    OnKibitzerDeactivated?.Invoke();
-            //}
+            if (turnOn)
+            {
+                //KillRemoteConnections();
+                isKibitzerRunning = true;
+                OnKibitzerActivated?.Invoke();
+            }
+            else
+            {
+                isKibitzerRunning = false;
+                CurrentUciEngine?.Stop();
+                OnKibitzerDeactivated?.Invoke();
+            }
         }
-
-
-
-
-
     }
 }

@@ -1059,7 +1059,7 @@ namespace DgtCherub
             CheckBoxKibitzerEnabled.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             CheckBoxKibitzerEnabled.Location = new System.Drawing.Point(25, 28);
             CheckBoxKibitzerEnabled.Name = "CheckBoxKibitzerEnabled";
-            CheckBoxKibitzerEnabled.Size = new System.Drawing.Size(176, 25);
+            CheckBoxKibitzerEnabled.Size = new System.Drawing.Size(292, 25);
             CheckBoxKibitzerEnabled.TabIndex = 5;
             CheckBoxKibitzerEnabled.Text = "Kibitzer Enabled";
             CheckBoxKibitzerEnabled.UseVisualStyleBackColor = true;
