@@ -265,7 +265,7 @@ namespace DgtCherub
             ComboBoxScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ComboBoxScale.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             ComboBoxScale.FormattingEnabled = true;
-            ComboBoxScale.Items.AddRange(new object[] { "0.75", "1.0", "1.3", "1.5", "1.7", "2.0" });
+            ComboBoxScale.Items.AddRange(new object[] { "0.75", "1.0", "1.3", "1.5", "1.7" });
             ComboBoxScale.Location = new System.Drawing.Point(98, 112);
             ComboBoxScale.MaxDropDownItems = 6;
             ComboBoxScale.Name = "ComboBoxScale";
@@ -595,9 +595,9 @@ namespace DgtCherub
             // 
             CheckBoxIncludeSecs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             CheckBoxIncludeSecs.Font = new System.Drawing.Font("Segoe UI", 17F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            CheckBoxIncludeSecs.Location = new System.Drawing.Point(10, 227);
+            CheckBoxIncludeSecs.Location = new System.Drawing.Point(6, 227);
             CheckBoxIncludeSecs.Name = "CheckBoxIncludeSecs";
-            CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 39);
+            CheckBoxIncludeSecs.Size = new System.Drawing.Size(142, 39);
             CheckBoxIncludeSecs.TabIndex = 7;
             CheckBoxIncludeSecs.Text = "Include Secs";
             CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
