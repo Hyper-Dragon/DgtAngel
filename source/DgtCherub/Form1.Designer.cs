@@ -600,7 +600,6 @@ namespace DgtCherub
             CheckBoxIncludeSecs.Size = new System.Drawing.Size(124, 39);
             CheckBoxIncludeSecs.TabIndex = 7;
             CheckBoxIncludeSecs.Text = "Include Secs";
-            CheckBoxIncludeSecs.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             CheckBoxIncludeSecs.UseVisualStyleBackColor = true;
             CheckBoxIncludeSecs.CheckedChanged += CheckBoxIncludeSecs_CheckedChanged;
             // 
