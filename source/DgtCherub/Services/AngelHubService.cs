@@ -73,7 +73,6 @@ namespace DgtCherub.Services
 
         private readonly ILogger _logger;
         private readonly IUciEngineManager _uciEngineManager;
-        private readonly IDgtEbDllFacade _dgtEbDllFacade;
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
 
@@ -86,8 +85,6 @@ namespace DgtCherub.Services
 
         //private readonly object matcherLockObj = new();
 
-        private UciChessEngine CurrentUciEngine { get; set; } = null;
-
         private double whiteNextClockAudioNotBefore = double.MaxValue;
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
@@ -96,19 +93,18 @@ namespace DgtCherub.Services
 
 
         //public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
-        public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade, IUciEngineManager uciEngineManager)
+        public AngelHubService(ILogger<AngelHubService> logger, IUciEngineManager uciEngineManager)
         {
             _logger = logger;
             _uciEngineManager = uciEngineManager;
-            _dgtEbDllFacade = dgtEbDllFacade;
 
 
-            _dgtEbDllFacade.OnStableFenChanged += ((obj, args) =>
-            {
-                _uciEngineManager.LoadedEngineSetPosition(args.FEN);
-                
-                _uciEngineManager.LoadedEngineGoInfinite();
-            });
+            //_dgtEbDllFacade.OnStableFenChanged += ((obj, args) =>
+            //{
+            //    _uciEngineManager.LoadedEngineSetPosition(args.FEN);
+            //    
+            //    _uciEngineManager.LoadedEngineGoInfinite();
+            //});
 
 
             BoundedChannelOptions processChannelOptions = new(3)
@@ -333,8 +329,8 @@ namespace DgtCherub.Services
                         //CurrentUciEngine?.Stop();
                         //OnKibitzerFenChange?.Invoke(joinedFen);
 
-                        CurrentUciEngine?.SetPosition(joinedFen);
-                        CurrentUciEngine?.GoInfinite();
+                        _uciEngineManager?.LoadedEngineSetPosition(joinedFen);
+                        _uciEngineManager?.LoadedEngineGoInfinite();
 
                         kibitzLastWhiteCount = whiteCount;
                         kibitzLastBlackCount = blackCount;

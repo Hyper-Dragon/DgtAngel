@@ -673,10 +673,10 @@ namespace DgtCherub
 
             _uciEngineManager.OnUciEngineLoaded += (UciChessEngine engine) =>
             {
-                LabelEngine.Text = engine.EngineName;
+                LabelEngine.Text = _uciEngineManager.LoadedEngineName;
                 lastUciExe = _uciEngineManager.LoadedExecutable.FullName;
 
-                TextBoxConsole.AddLine($"UCI: Loaded Engine:: {engine.EngineName} [{engine.EngineAuthor}]");
+                TextBoxConsole.AddLine($"UCI: Loaded Engine:: {_uciEngineManager.LoadedEngineName} [{_uciEngineManager.LoadedEngineAuthor}]");
 
                 if (uciOptionSettings.Options.ContainsKey(_uciEngineManager.LoadedExecutable.FullName))
                 {
@@ -1517,10 +1517,10 @@ namespace DgtCherub
 
         private void DisplayBoardImages()
         {
+
             if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
             {
-                Action updateAction = new(async () =>
-                {
+               _ = BeginInvoke(async Task<bool> () => {
                     try
                     {
                         ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
@@ -1533,14 +1533,16 @@ namespace DgtCherub
 
                         PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
                                                                                            : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+
+                       return true;
                     }
                     catch (Exception ex)
                     {
                         TextBoxConsole.AddLine($"ERROR:: Image update failed [{ex.Message}]");
+                       return false;
                     }
                 });
 
-                _ = BeginInvoke(updateAction);
             }
         }
 
@@ -1663,7 +1665,7 @@ namespace DgtCherub
             {
                 _uciEngineManager.SwitchKibitzer(((CheckBox)sender).Checked);
 
-                _uciEngineManager.StartEngineAsync(_uciEngineManager.CurrentUciEngine.EngineName);
+                _uciEngineManager.StartEngineAsync(_uciEngineManager.LoadedEngineName);
             }
         }
 

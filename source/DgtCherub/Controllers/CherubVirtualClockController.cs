@@ -304,7 +304,7 @@ namespace DgtCherub.Controllers
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnUciEngineLoaded",
-                    engine.EngineName,
+                    _uciEngineManager.LoadedEngineName,
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 }));

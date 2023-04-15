@@ -29,11 +29,11 @@ namespace UciComms
         internal  Eval evaluation = new();
 
 
-        public string EngineName { get; private set; } = "UNKNOWN";
-        public string EngineAuthor { get; private set; } = "UNKNOWN";
-        public Dictionary<string, UciOption> Options { get; } = new();
-        public string LastSeenFen { get; private set; } = "";
-        public string LastSeenMoveList { get; private set; } = "";
+        internal string EngineName { get; private set; } = "UNKNOWN";
+        internal string EngineAuthor { get; private set; } = "UNKNOWN";
+        internal Dictionary<string, UciOption> Options { get; } = new();
+        internal string LastSeenFen { get; private set; } = "";
+        internal string LastSeenMoveList { get; private set; } = "";
 
 
         internal UciChessEngine(FileInfo executable)
@@ -147,7 +147,7 @@ namespace UciComms
             }
         }
 
-        public void SetOption(string name, string value)
+        internal void SetOption(string name, string value)
         {
             if (Options.ContainsKey(name))
             {
@@ -156,7 +156,7 @@ namespace UciComms
             }
         }
 
-        public void SetPosition(string fen)
+        internal void SetPosition(string fen)
         {
             evaluation.ResetEval();
             SendCommand("ucinewgame");
@@ -164,29 +164,29 @@ namespace UciComms
             LastSeenFen = fen;
         }
 
-        public void SetDebug(bool debugOn)
+        internal void SetDebug(bool debugOn)
         {
             SendCommand($"debug {(debugOn ? "on" : "off")}");
         }
 
 
-        public void SetMoves(string moves)
+        internal void SetMoves(string moves)
         {
             SendCommand($"position startpos moves {moves}");
             LastSeenMoveList = moves;
         }
 
-        public void Go(int depth)
+        internal void Go(int depth)
         {
             SendCommand($"go depth {depth}");
         }
 
-        public void GoInfinite()
+        internal void GoInfinite()
         {
             SendCommand($"go infinite");
         }
 
-        public bool WaitForUciOk()
+        internal bool WaitForUciOk()
         {
             int loop = 0;
             while (IsUciOk == false && loop < 30)
@@ -198,7 +198,7 @@ namespace UciComms
             return IsUciOk;
         }
 
-        public bool WaitForReady()
+        internal bool WaitForReady()
         {
             int loop = 0;
             while (IsReady == false && loop < 30)
@@ -210,19 +210,19 @@ namespace UciComms
             return IsReady;
         }
 
-        public void Stop()
+        internal void Stop()
         {
             SendCommand("stop");
         }
 
-        public void Quit()
+        internal void Quit()
         {
             SendCommand("quit");
             RunningProcess?.WaitForExit();
         }
 
 
-        public UciResponse? ParseResponse(string rawData)
+        internal UciResponse? ParseResponse(string rawData)
         {
             if (string.IsNullOrWhiteSpace(rawData))
             {
