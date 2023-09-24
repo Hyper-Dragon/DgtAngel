@@ -29,7 +29,7 @@ namespace DgtCherub.Services
         public event Action<string> OnPlayBlackClockAudio;
         public event Action<string, string> OnNotification;
         public event Action OnPluginDisconnect;
-        public event Action<UciEngineEval> OnBoardEvalChanged;
+
 
         public bool IsClientInitComplete { get; private set; } = false;
         public bool IsWhiteOnBottom { get; private set; } = true;

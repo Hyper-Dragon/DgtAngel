@@ -145,21 +145,35 @@ namespace UciComms.Data
 
         private static (int? cp, int mateIn) GetBoardEvalFromLine(string line)
         {
+            // Search for the score prefix in the UCI response string.
             int index = line.IndexOf(SCORE_PREFIX);
+            
             if (index >= 0)
             {
+                // Extract the score from the UCI response.
                 int score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
+                
+                // Return the score and an indicator that it is not a mate score.
                 return (score, 0);
             }
 
-            index = line.IndexOf(MATE_PREFIX); // Check for mate score
+            // If the score prefix wasn't found, search for the mate prefix.
+            index = line.IndexOf(MATE_PREFIX);
+            
             if (index >= 0)
             {
+                // Extract the mate-in-x value from the UCI response.
                 int mateInX = int.Parse(line[(index + MATE_PREFIX.Length)..].Trim().Split(' ')[0]);
+                
+                // Calculate the mate score from the mate-in-x value.
+                // Positive values indicate a white win and negative values indicate a black win.
                 int mateScore = mateInX > 0 ? 100000 - (mateInX * 10) : -100000 - (mateInX * 10);
+                
+                // Return the mate score and the mate-in-x value.
                 return (mateScore, mateInX);
             }
 
+            // If neither prefix was found in the UCI response, return null values.
             return (null, 0);
         }
 

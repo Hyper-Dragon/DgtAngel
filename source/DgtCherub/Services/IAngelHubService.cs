@@ -46,7 +46,7 @@ namespace DgtCherub.Services
         event Action<string, string, string, string, string, string, bool> OnRemoteFenChange;
         event Action<string, string> OnNotification;
         event Action OnPluginDisconnect;
-        event Action<UciEngineEval> OnBoardEvalChanged;
+
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
         void RemoteBoardUpdated(BoardState remoteBoardState);

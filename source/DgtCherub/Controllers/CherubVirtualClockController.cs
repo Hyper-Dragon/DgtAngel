@@ -284,7 +284,7 @@ namespace DgtCherub.Controllers
                 }
             };
 
-            _angelHubService.OnBoardEvalChanged += async (uciEngineEval) =>
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += async (uciEngineEval) =>
             {
                 await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {

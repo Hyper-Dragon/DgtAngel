@@ -33,9 +33,6 @@ namespace UciComms
 
         public UciEngineManager() { }
 
-        
-
-
         // RegisterEngine now returns a Task to allow for async operation
         public async Task RegisterEngineAsync(string engineRef, FileInfo engineExecutablePath)
         {
