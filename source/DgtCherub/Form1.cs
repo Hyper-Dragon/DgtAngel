@@ -237,22 +237,22 @@ namespace DgtCherub
                 Size originalTabItemSize = originalControlData[control].StoredItemSize;
 
                 control.Bounds = new Rectangle(
-                    (int)(originalBounds.X * scale),
-                    (int)(originalBounds.Y * scale),
-                    (int)(originalBounds.Width * scale),
-                    (int)(originalBounds.Height * scale));
+                    (int)Math.Ceiling(originalBounds.X * scale),
+                    (int)Math.Ceiling(originalBounds.Y * scale),
+                    (int)Math.Ceiling(originalBounds.Width * scale),
+                    (int)Math.Ceiling(originalBounds.Height * scale));
 
                 control.Padding = new Padding(
-                    (int)(originalPadding.Left * scale),
-                    (int)(originalPadding.Top * scale),
-                    (int)(originalPadding.Right * scale),
-                    (int)(originalPadding.Bottom * scale));
+                    (int)Math.Ceiling(originalPadding.Left * scale),
+                    (int)Math.Ceiling(originalPadding.Top * scale),
+                    (int)Math.Ceiling(originalPadding.Right * scale),
+                    (int)Math.Ceiling(originalPadding.Bottom * scale));
 
                 control.Margin = new Padding(
-                    (int)(originalMargin.Left * scale),
-                    (int)(originalMargin.Top * scale),
-                    (int)(originalMargin.Right * scale),
-                    (int)(originalMargin.Bottom * scale));
+                    (int)Math.Ceiling(originalMargin.Left * scale),
+                    (int)Math.Ceiling(originalMargin.Top * scale),
+                    (int)Math.Ceiling(originalMargin.Right * scale),
+                    (int)Math.Ceiling(originalMargin.Bottom * scale));
 
                 control.Font = new Font(originalFont.FontFamily,
                                         fontSize,
@@ -260,16 +260,16 @@ namespace DgtCherub
 
                 if (control.GetType().Equals(typeof(TabControl)))
                 {
-                    ((TabControl)control).ItemSize = new Size((int)(originalTabItemSize.Width * scale),
-                                                              (int)(originalTabItemSize.Height * scale));
+                    ((TabControl)control).ItemSize = new Size((int)Math.Ceiling(originalTabItemSize.Width * scale),
+                                                              (int)Math.Ceiling(originalTabItemSize.Height * scale));
                 }
                 else if (control.GetType().Equals(typeof(MenuStrip)))
                 {
-                    MenuStrip.Height = (int)(originalControlData[control].StoredHeight * scale);
+                    MenuStrip.Height = (int)Math.Ceiling(originalControlData[control].StoredHeight * scale);
                 }
                 else if (control.GetType().Equals(typeof(StatusStrip)))
                 {
-                    control.Height = (int)(originalControlData[control].StoredHeight * scale);
+                    control.Height = (int)Math.Ceiling(originalControlData[control].StoredHeight * scale);
 
                     foreach (ToolStripItem item in ((StatusStrip)control).Items)
                     {

@@ -35,7 +35,7 @@ namespace DgtCherub
             else
             {
                 // ...and if there is only one instance continue as normal
-                _ = Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                _ = Application.SetHighDpiMode(HighDpiMode.DpiUnaware);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
