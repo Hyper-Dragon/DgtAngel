@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 using UciComms;
 using UciComms.Data;
@@ -417,14 +418,23 @@ namespace DgtCherub
                     TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
 
                     trackRunwho = _angelHubService.RunWhoString;
-                    _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
+
+                    // Fire and forget - No need to wait for this to complete as there may be no clock connected
+                    Task.Run(() =>
+                    {
+                        _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
+                    });
                 }
             };
 
             fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-            _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
-            _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+            // Fire and forget - No need to wait for this to complete as there may be no clock connected
+            await Task.Run(() =>
+            {
+                _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
+                _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+            });
 
             fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
 

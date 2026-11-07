@@ -49,11 +49,18 @@ namespace DgtCherub.Helpers
 
         private async Task RunPlaylistProcessor()
         {
+            TaskCompletionSource<bool> tcs = new();
+
             _logger?.LogTrace($"Running Audio Process");
 
             // Init the channels and start the processor
             outputDevice = new() { Volume = volume };
             _logger?.LogTrace($"Sequential Voice Player Has Valid Audio Device");
+
+
+            outputDevice.PlaybackStopped += (sender, args) => {
+                tcs.SetResult(true);
+            };
 
             while (true)
             {
@@ -72,8 +79,11 @@ namespace DgtCherub.Helpers
                             }
 
                             outputDevice.Init(reader);
+                            tcs = new();
                             outputDevice.Play();
-                            while (outputDevice.PlaybackState == PlaybackState.Playing) { await Task.Delay(50); };
+
+                            await tcs.Task;
+                            //while (outputDevice.PlaybackState == PlaybackState.Playing) { await Task.Delay(50); };
                         }
                     }
                 }
@@ -85,6 +95,7 @@ namespace DgtCherub.Helpers
             }
         }
 
+
         public void Speak(IEnumerable<UnmanagedMemoryStream> clipStreams)
         {
             _logger?.LogTrace($"Speak Called");
@@ -95,10 +106,10 @@ namespace DgtCherub.Helpers
         {
             _logger?.LogTrace($"Speak Called");
 
-            List<UnmanagedMemoryStream> tmp = new()
-            {
+            List<UnmanagedMemoryStream> tmp =
+            [
                 clipStream
-            };
+            ];
 
             _ = playlistChannel.Writer.TryWrite(tmp);
         }

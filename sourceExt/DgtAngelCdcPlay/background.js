@@ -24,3 +24,10 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
     NotifyLog("DGT Angel Activated");
 });
+
+chrome.action.onClicked.addListener(async (tab) => {
+    await chrome.scripting.executeScript({
+      target: {tabId: tab.id},
+      files: ['src/js/inject/overrides.js']
+    });
+  });

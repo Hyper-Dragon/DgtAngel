@@ -45,7 +45,10 @@ namespace DgtCherub.Controllers
                 ResponseCode lastErrorSeen = ResponseCode.RUNNING;
 
                 //Only allow one connection 
-                runningSocket?.Abort();
+                if (runningSocket?.State == WebSocketState.Open)
+                {
+                    runningSocket?.Abort();
+                }
 
                 runningSocket = null;
 
