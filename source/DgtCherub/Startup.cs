@@ -45,6 +45,7 @@ namespace DgtCherub
             _ = services.AddSingleton(typeof(IUciEngineManager), typeof(UciEngineManager));
             _ = services.AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
             _ = services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
+            _ = services.AddSingleton(typeof(IBoardEventSource), typeof(BoardEventSource));
             _ = services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             _ = services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
             _ = services.AddSingleton<Form1>();
