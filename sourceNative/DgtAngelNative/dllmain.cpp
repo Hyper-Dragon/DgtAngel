@@ -495,8 +495,8 @@ void ReleaseCallbackWindow() {
 	}
 }
 
-template <typename RequestType>
-int PerformGrpcCall(const std::function<grpc::Status(grpc::ClientContext&, RequestType&, dgt::IntResponse&)>& call) {
+template <typename RequestType, typename Call>
+int PerformGrpcCall(RequestType request, Call call) {
 	LogMessage(">>>>Called " + std::string(__func__));
 
 	try {
@@ -505,7 +505,6 @@ int PerformGrpcCall(const std::function<grpc::Status(grpc::ClientContext&, Reque
 		std::lock_guard<std::mutex> lock(g_stub_mutex);
 		EnsureStubLocked();
 
-		RequestType request;
 		dgt::IntResponse response;
 		grpc::ClientContext context;
 		context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds(GRPC_CALL_TIMEOUT_SECONDS));
@@ -567,22 +566,26 @@ extern "C" {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
+		dgt::Empty request;
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->GetVersion(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::Empty>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_GetWxWidgetsVersion() {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
+		dgt::Empty request;
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->GetWxWidgetsVersion(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::Empty>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall __stdcall _DGTDLL_Init() {
@@ -599,11 +602,13 @@ extern "C" {
 			return g_init_result;
 		}
 
+		dgt::Empty request;
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->Init(&context, request, &response);
 		};
 
-		int result = PerformGrpcCall<dgt::Empty>(call);
+		int result = PerformGrpcCall(request, call);
 
 		// Only a success is cached: a transport failure must be retried rather than
 		// reported to every later caller.
@@ -638,7 +643,7 @@ extern "C" {
 			return g_stub->ShowDialog(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::IntRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_HideDialog(int val) {
@@ -652,7 +657,7 @@ extern "C" {
 			return g_stub->HideDialog(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::IntRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_WriteCOMPort(int val) {
@@ -666,7 +671,7 @@ extern "C" {
 			return g_stub->WriteCOMPort(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::IntRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_WriteCOMPortString(const char* val) {
@@ -680,7 +685,7 @@ extern "C" {
 			return g_stub->WriteCOMPortString(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::StringRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_WritePosition(const char* val) {
@@ -694,7 +699,7 @@ extern "C" {
 			return g_stub->WritePosition(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::StringRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_PlayWhiteMove(const char* val) {
@@ -708,7 +713,7 @@ extern "C" {
 			return g_stub->PlayWhiteMove(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::StringRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_PlayBlackMove(const char* val) {
@@ -722,7 +727,7 @@ extern "C" {
 			return g_stub->PlayBlackMove(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::StringRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_WriteDebug(bool val) {
@@ -736,7 +741,7 @@ extern "C" {
 			return g_stub->WriteDebug(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::BoolRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_DisplayClockMessage(const char* val1, int val2) {
@@ -751,7 +756,7 @@ extern "C" {
 			return g_stub->DisplayClockMessage(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::ClockMessageRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_EndDisplay(int val) {
@@ -765,7 +770,7 @@ extern "C" {
 			return g_stub->EndDisplay(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::IntRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
@@ -781,7 +786,7 @@ extern "C" {
 			return g_stub->SetNRun(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::SetNRunRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_ClockMode(int val) {
@@ -795,7 +800,7 @@ extern "C" {
 			return g_stub->ClockMode(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::IntRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_SetAutoRotation(bool val) {
@@ -809,7 +814,7 @@ extern "C" {
 			return g_stub->SetAutoRotation(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::BoolRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_UseFEN(bool val) {
@@ -823,7 +828,7 @@ extern "C" {
 			return g_stub->UseFEN(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::BoolRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_UseSAN(bool val) {
@@ -837,7 +842,7 @@ extern "C" {
 			return g_stub->UseSAN(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::BoolRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_SetGameType(int val) {
@@ -851,7 +856,7 @@ extern "C" {
 			return g_stub->SetGameType(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::IntRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_AllowTakebacks(bool val) {
@@ -865,7 +870,7 @@ extern "C" {
 			return g_stub->AllowTakebacks(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::BoolRequest>(call);
+		return PerformGrpcCall(request, call);
 	}
 
 
