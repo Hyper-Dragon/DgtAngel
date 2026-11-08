@@ -33,7 +33,7 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Init()
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Init())
             });
         }
 
@@ -41,7 +41,7 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.GetVersion()
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.GetVersion())
             });
         }
 
@@ -49,7 +49,7 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.UseFEN(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.UseFEN(request.Value))
             });
         }
 
@@ -57,14 +57,14 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.WriteDebug(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.WriteDebug(request.Value))
             }); ;
         }
         public override Task<IntResponse> SetAutoRotation(BoolRequest request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetAutoRotation(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetAutoRotation(request.Value))
             });
         }
 
@@ -72,28 +72,28 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.UseSAN(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.UseSAN(request.Value))
             });
         }
         public override Task<IntResponse> SetGameType(IntRequest request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetGameType(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetGameType(request.Value))
             });
         }
         public override Task<IntResponse> HideDialog(IntRequest request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.HideDialog(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.HideDialog(request.Value))
             });
         }
         public override Task<IntResponse> ShowDialog(IntRequest request, ServerCallContext context)
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.ShowDialog(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.ShowDialog(request.Value))
             });
         }
 
@@ -101,7 +101,7 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.ClockMode(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.ClockMode(request.Value))
             });
         }
 
@@ -114,10 +114,11 @@ namespace DgtCherub.Services
 
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetNRun(
-                    new StringBuilder(request.Param1),
-                    new StringBuilder(request.Param2),
-                    request.Time)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() =>
+                    DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetNRun(
+                        new StringBuilder(request.Param1),
+                        new StringBuilder(request.Param2),
+                        request.Time))
             });
         }
 
@@ -130,7 +131,7 @@ namespace DgtCherub.Services
 
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.DisplayClockMessage(new StringBuilder(request.Message), request.Time)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.DisplayClockMessage(new StringBuilder(request.Message), request.Time))
             });
         }
 
@@ -143,7 +144,7 @@ namespace DgtCherub.Services
 
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.EndDisplay(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.EndDisplay(request.Value))
             });
         }
 
@@ -151,7 +152,7 @@ namespace DgtCherub.Services
         {
             return Task.FromResult(new IntResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.AllowTakebacks(request.Value)
+                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.AllowTakebacks(request.Value))
             });
         }
 
