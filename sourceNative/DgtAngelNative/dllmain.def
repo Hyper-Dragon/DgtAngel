@@ -1,6 +1,7 @@
 LIBRARY
 EXPORTS
 	_DGTDLL_AllowTakebacks
+	_DGTDLL_ChessBase_131e2d0711b4d50e
 	_DGTDLL_ClockMode
 	_DGTDLL_DisplayClockMessage
 	_DGTDLL_EndDisplay
@@ -36,6 +37,7 @@ EXPORTS
 	_DGTDLL_ShowDialog
 	_DGTDLL_UseFEN
 	_DGTDLL_UseSAN
+	_DGTDLL_WoodIn3_9c7b9ce70ec6a882
 	_DGTDLL_WriteCOMPort
 	_DGTDLL_WriteCOMPortString
 	_DGTDLL_WriteDebug

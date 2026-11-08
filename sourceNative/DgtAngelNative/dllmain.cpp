@@ -1,5 +1,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
+#include <algorithm>
+#include <deque>
 #include <memory>
 #include <mutex>
 #include <thread>
@@ -176,75 +178,130 @@ const char* CALLBACK_NAMES[CB_COUNT] = {
 	"MagicPiece"
 };
 
-// Everything the driver pushes for one registration.  The value is a state, not a
-// queue, so the newest value always wins.
+// Everything the driver pushes for one registration.  Only the host's function
+// and the reader thread live here; the queued values are global and ordered - see
+// g_event_queue below.
 struct CallbackChannel {
 	void* func = nullptr;
-	std::string pendingString;
-	int pendingParam1 = 0;
-	int pendingParam2 = 0;
-	bool pendingValue = false;
-	bool postQueued = false;
 	std::thread thread;
 	std::shared_ptr<grpc::ClientContext> context;
+};
+
+// The real dgtebdll.dll fires every callback synchronously, in order, from one
+// thread.  A proxy built out of one gRPC stream per callback does not get that for
+// free: each stream has its own reader thread, so a per-channel "newest value
+// wins" mailbox both reorders callbacks relative to each other and silently drops
+// the ones the host has not pumped yet.  Hosts such as Fritz depend on seeing
+// Scan/StableBoard before the WhiteMoveInput that belongs to them, so the events
+// are queued in arrival order and replayed one at a time on the host's thread.
+struct CallbackEvent {
+	int id = 0;
+	std::string text;
+	int param1 = 0;
+	int param2 = 0;
+	bool value = false;
 };
 
 std::mutex g_callback_mutex;
 HWND g_callback_window = nullptr;
 DWORD g_callback_thread_id = 0;
 CallbackChannel g_channels[CB_COUNT];
+std::deque<CallbackEvent> g_event_queue;
+bool g_post_queued = false;
+
+// Safety valve: if the host never pumps, do not grow without bound.
+const std::size_t MAX_QUEUED_EVENTS = 4096;
+
+// Caller must hold g_callback_mutex.
+void RemoveQueuedEventsLocked(int id) {
+	g_event_queue.erase(
+		std::remove_if(g_event_queue.begin(), g_event_queue.end(),
+			[id](const CallbackEvent& e) { return e.id == id; }),
+		g_event_queue.end());
+}
 
 void InvokeCallback(int id, void* func, const std::string& text, int param1, int param2, bool value) {
 	if (func == nullptr) {
 		return;
 	}
 
+	const DWORD thread_id = GetCurrentThreadId();
+	LogMessage(std::string(">>Host ") + CALLBACK_NAMES[id] + " on thread " + std::to_string(thread_id) +
+		(text.empty() ? std::string() : (": " + text)));
+
+	int result = 0;
 	try {
 		switch (id) {
 		case CB_GAME_TYPE:
-			reinterpret_cast<FI*>(func)(param1);
+			result = reinterpret_cast<FI*>(func)(param1);
 			break;
 		case CB_ALLOW_TAKEBACKS:
-			reinterpret_cast<FB*>(func)(value);
+			result = reinterpret_cast<FB*>(func)(value);
 			break;
 		case CB_WHITE_TAKEBACK:
 		case CB_BLACK_TAKEBACK:
-			reinterpret_cast<F*>(func)();
+			result = reinterpret_cast<F*>(func)();
 			break;
 		case CB_MAGIC_PIECE:
-			reinterpret_cast<FIIC*>(func)(param1, param2, text.c_str());
+			result = reinterpret_cast<FIIC*>(func)(param1, param2, text.c_str());
 			break;
 		default:
 			// Everything else carries a single string.
-			reinterpret_cast<FC*>(func)(text.c_str());
+			result = reinterpret_cast<FC*>(func)(text.c_str());
 			break;
 		}
 	}
 	catch (...) {
 		LogMessage(std::string("Exception in ") + CALLBACK_NAMES[id] + " callback");
+		return;
 	}
+
+	LogMessage(std::string("<<Host ") + CALLBACK_NAMES[id] + " returned " + std::to_string(result));
 }
 
 LRESULT CALLBACK CallbackWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	if (message >= WM_DGT_CALLBACK_BASE && message < WM_DGT_CALLBACK_BASE + CB_COUNT) {
-		const int id = static_cast<int>(message - WM_DGT_CALLBACK_BASE);
-		void* func = nullptr;
-		std::string text;
-		int param1 = 0;
-		int param2 = 0;
-		bool value = false;
+	if (message == WM_DGT_CALLBACK_BASE) {
+		CallbackEvent queued;
+		bool have = false;
 
 		{
 			std::lock_guard<std::mutex> lock(g_callback_mutex);
-			g_channels[id].postQueued = false;
-			func = g_channels[id].func;
-			text.swap(g_channels[id].pendingString);
-			param1 = g_channels[id].pendingParam1;
-			param2 = g_channels[id].pendingParam2;
-			value = g_channels[id].pendingValue;
+			g_post_queued = false;
+			if (!g_event_queue.empty()) {
+				queued = std::move(g_event_queue.front());
+				g_event_queue.pop_front();
+				have = true;
+			}
 		}
 
-		InvokeCallback(id, func, text, param1, param2, value);
+		if (!have) {
+			return 0;
+		}
+
+		void* func = nullptr;
+		{
+			std::lock_guard<std::mutex> lock(g_callback_mutex);
+			func = g_channels[queued.id].func;
+		}
+
+		LogMessage(std::string(">>Drain ") + CALLBACK_NAMES[queued.id]);
+		InvokeCallback(queued.id, func, queued.text, queued.param1, queued.param2, queued.value);
+
+		// Anything still queued needs another turn of the host's message pump.
+		bool more = false;
+		{
+			std::lock_guard<std::mutex> lock(g_callback_mutex);
+			if (!g_event_queue.empty() && !g_post_queued) {
+				g_post_queued = true;
+				more = true;
+			}
+		}
+
+		if (more && !PostMessageW(hwnd, WM_DGT_CALLBACK_BASE, 0, 0)) {
+			std::lock_guard<std::mutex> lock(g_callback_mutex);
+			g_post_queued = false;
+		}
+
 		return 0;
 	}
 
@@ -295,15 +352,20 @@ void QueueCallbackValue(int id, const std::string& text, int param1 = 0, int par
 
 		window = g_callback_window;
 		if (window != nullptr) {
-			// A callback value is a state, not a queue - the newest value
-			// always wins, so coalesce anything the host has not pumped yet.
-			g_channels[id].pendingString = text;
-			g_channels[id].pendingParam1 = param1;
-			g_channels[id].pendingParam2 = param2;
-			g_channels[id].pendingValue = value;
+			CallbackEvent queued;
+			queued.id = id;
+			queued.text = text;
+			queued.param1 = param1;
+			queued.param2 = param2;
+			queued.value = value;
+			g_event_queue.push_back(std::move(queued));
 
-			if (!g_channels[id].postQueued) {
-				g_channels[id].postQueued = true;
+			while (g_event_queue.size() > MAX_QUEUED_EVENTS) {
+				g_event_queue.pop_front();
+			}
+
+			if (!g_post_queued) {
+				g_post_queued = true;
 				post = true;
 			}
 		}
@@ -322,9 +384,9 @@ void QueueCallbackValue(int id, const std::string& text, int param1 = 0, int par
 		return;
 	}
 
-	if (post && !PostMessageW(window, WM_DGT_CALLBACK_BASE + id, 0, 0)) {
+	if (post && !PostMessageW(window, WM_DGT_CALLBACK_BASE, 0, 0)) {
 		std::lock_guard<std::mutex> lock(g_callback_mutex);
-		g_channels[id].postQueued = false;
+		g_post_queued = false;
 	}
 }
 
@@ -383,8 +445,7 @@ void StopCallbackStream(int id) {
 		worker = std::move(g_channels[id].thread);
 		context = std::move(g_channels[id].context);
 		g_channels[id].func = nullptr;
-		g_channels[id].pendingString.clear();
-		g_channels[id].postQueued = false;
+		RemoveQueuedEventsLocked(id);
 	}
 
 	if (context) {
@@ -453,16 +514,15 @@ int RegisterCallbackStream(int id, FnPtr func, StartStream startStream) {
 	{
 		std::lock_guard<std::mutex> lock(g_callback_mutex);
 		g_channels[id].func = reinterpret_cast<void*>(func);
-		g_channels[id].pendingString.clear();
-		g_channels[id].pendingParam1 = 0;
-		g_channels[id].pendingParam2 = 0;
-		g_channels[id].pendingValue = false;
-		g_channels[id].postQueued = false;
+		RemoveQueuedEventsLocked(id);
 
 		// Created on the host's thread so the host's own message pump dispatches
 		// the events and the callback runs on that thread.
 		GetOrCreateCallbackWindowLocked();
 	}
+
+	LogMessage(std::string("register ") + CALLBACK_NAMES[id] + " from thread " +
+		std::to_string(GetCurrentThreadId()));
 
 	auto context = std::make_shared<grpc::ClientContext>();
 	{
@@ -484,9 +544,10 @@ void ReleaseCallbackWindow() {
 
 		for (int id = 0; id < CB_COUNT; ++id) {
 			g_channels[id].func = nullptr;
-			g_channels[id].pendingString.clear();
-			g_channels[id].postQueued = false;
 		}
+
+		g_event_queue.clear();
+		g_post_queued = false;
 	}
 
 	// A window can only be destroyed by the thread that created it.  If that is
@@ -606,6 +667,33 @@ extern "C" {
 		};
 
 		return PerformGrpcCall(request, call);
+	}
+
+	// -------------------------------------------------------------------------
+	// ChessBase / Fritz driver validation.
+	//
+	// ChessBase's GUIs (Fritz 14+, ChessBase 14+) resolve these two names and
+	// use the answer as proof that the genuine DGT driver is loaded.  In the
+	// real dgtebdll.dll they are one-instruction constants:
+	//
+	//   _DGTDLL_ChessBase_131e2d0711b4d50e   mov eax,1B037FB4h ; ret 18h
+	//   _DGTDLL_WoodIn3_9c7b9ce70ec6a882    mov eax,2739B8EAh ; ret 14h
+	//
+	// The "ret 18h"/"ret 14h" mean the parameters are never read - only the
+	// stack cleanup matters - so the parameter counts below are deliberate.
+	// They are kept as pass-throughs so the host sees exactly what it would
+	// see from DGT's own DLL.
+	// -------------------------------------------------------------------------
+	__declspec(dllexport) int __stdcall _DGTDLL_ChessBase_131e2d0711b4d50e(
+		int, int, int, int, int, int) {
+		LogMessage(">>Called " + std::string(__func__));
+		return 0x1B037FB4;
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_WoodIn3_9c7b9ce70ec6a882(
+		int, int, int, int, int) {
+		LogMessage(">>Called " + std::string(__func__));
+		return 0x2739B8EA;
 	}
 
 	__declspec(dllexport) int __stdcall __stdcall _DGTDLL_Init() {
