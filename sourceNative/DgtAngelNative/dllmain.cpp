@@ -121,47 +121,124 @@ std::shared_ptr<dgt::DGTDLL::Stub> GetStubSnapshot() {
 // duration of the call.
 // -----------------------------------------------------------------------------
 const wchar_t* CALLBACK_WINDOW_CLASS = L"DgtAngelNative.CallbackWindow";
-const UINT WM_DGT_STABLE_BOARD = WM_APP + 0x0010;
+
+// One message per callback type so the window procedure can tell them apart.
+const UINT WM_DGT_CALLBACK_BASE = WM_APP + 0x0100;
+
+enum CallbackId {
+	CB_STATUS = 0,
+	CB_SCAN,
+	CB_STABLE_BOARD,
+	CB_WCLOCK,
+	CB_BCLOCK,
+	CB_RESULT,
+	CB_NEWGAME,
+	CB_WHITE_MOVE_INPUT,
+	CB_BLACK_MOVE_INPUT,
+	CB_WHITE_MOVE_NOW,
+	CB_BLACK_MOVE_NOW,
+	CB_START_SETUP,
+	CB_STOP_SETUP_WTM,
+	CB_STOP_SETUP_BTM,
+	CB_GAME_TYPE,
+	CB_ALLOW_TAKEBACKS,
+	CB_WHITE_TAKEBACK,
+	CB_BLACK_TAKEBACK,
+	CB_MAGIC_PIECE,
+	CB_COUNT
+};
+
+const char* CALLBACK_NAMES[CB_COUNT] = {
+	"Status",
+	"Scan",
+	"StableBoard",
+	"WClock",
+	"BClock",
+	"Result",
+	"NewGame",
+	"WhiteMoveInput",
+	"BlackMoveInput",
+	"WhiteMoveNow",
+	"BlackMoveNow",
+	"StartSetup",
+	"StopSetupWTM",
+	"StopSetupBTM",
+	"GameTypeChanged",
+	"AllowTakebacksChanged",
+	"WhiteTakeback",
+	"BlackTakeback",
+	"MagicPiece"
+};
+
+// Everything the driver pushes for one registration.  The value is a state, not a
+// queue, so the newest value always wins.
+struct CallbackChannel {
+	void* func = nullptr;
+	std::string pendingString;
+	int pendingParam1 = 0;
+	int pendingParam2 = 0;
+	bool pendingValue = false;
+	bool postQueued = false;
+	std::thread thread;
+	std::shared_ptr<grpc::ClientContext> context;
+};
 
 std::mutex g_callback_mutex;
-FC* g_callback_func = nullptr;
 HWND g_callback_window = nullptr;
 DWORD g_callback_thread_id = 0;
-std::string g_pending_fen;
-bool g_callback_post_queued = false;
+CallbackChannel g_channels[CB_COUNT];
 
-void InvokeStableBoardCallback(const std::string& fen) {
-	FC* func = nullptr;
-	{
-		std::lock_guard<std::mutex> lock(g_callback_mutex);
-		func = g_callback_func;
-	}
-
+void InvokeCallback(int id, void* func, const std::string& text, int param1, int param2, bool value) {
 	if (func == nullptr) {
 		return;
 	}
 
 	try {
-		func(fen.c_str());
+		switch (id) {
+		case CB_GAME_TYPE:
+			reinterpret_cast<FI*>(func)(param1);
+			break;
+		case CB_ALLOW_TAKEBACKS:
+			reinterpret_cast<FB*>(func)(value);
+			break;
+		case CB_WHITE_TAKEBACK:
+		case CB_BLACK_TAKEBACK:
+			reinterpret_cast<F*>(func)();
+			break;
+		case CB_MAGIC_PIECE:
+			reinterpret_cast<FIIC*>(func)(param1, param2, text.c_str());
+			break;
+		default:
+			// Everything else carries a single string.
+			reinterpret_cast<FC*>(func)(text.c_str());
+			break;
+		}
 	}
 	catch (...) {
-		LogMessage("Exception in stable board callback");
+		LogMessage(std::string("Exception in ") + CALLBACK_NAMES[id] + " callback");
 	}
 }
 
 LRESULT CALLBACK CallbackWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	if (message == WM_DGT_STABLE_BOARD) {
-		std::string fen;
+	if (message >= WM_DGT_CALLBACK_BASE && message < WM_DGT_CALLBACK_BASE + CB_COUNT) {
+		const int id = static_cast<int>(message - WM_DGT_CALLBACK_BASE);
+		void* func = nullptr;
+		std::string text;
+		int param1 = 0;
+		int param2 = 0;
+		bool value = false;
+
 		{
 			std::lock_guard<std::mutex> lock(g_callback_mutex);
-			g_callback_post_queued = false;
-			fen.swap(g_pending_fen);
+			g_channels[id].postQueued = false;
+			func = g_channels[id].func;
+			text.swap(g_channels[id].pendingString);
+			param1 = g_channels[id].pendingParam1;
+			param2 = g_channels[id].pendingParam2;
+			value = g_channels[id].pendingValue;
 		}
 
-		if (!fen.empty()) {
-			InvokeStableBoardCallback(fen);
-		}
-
+		InvokeCallback(id, func, text, param1, param2, value);
 		return 0;
 	}
 
@@ -200,23 +277,27 @@ HWND GetOrCreateCallbackWindowLocked() {
 	return window;
 }
 
-void QueueStableBoardPosition(const std::string& fen) {
+void QueueCallbackValue(int id, const std::string& text, int param1 = 0, int param2 = 0, bool value = false) {
 	HWND window = nullptr;
 	bool post = false;
 
 	{
 		std::lock_guard<std::mutex> lock(g_callback_mutex);
-		if (g_callback_func == nullptr) {
+		if (g_channels[id].func == nullptr) {
 			return;
 		}
 
 		window = g_callback_window;
 		if (window != nullptr) {
-			// A stable board event is a state, not a queue - the newest position
+			// A callback value is a state, not a queue - the newest value
 			// always wins, so coalesce anything the host has not pumped yet.
-			g_pending_fen = fen;
-			if (!g_callback_post_queued) {
-				g_callback_post_queued = true;
+			g_channels[id].pendingString = text;
+			g_channels[id].pendingParam1 = param1;
+			g_channels[id].pendingParam2 = param2;
+			g_channels[id].pendingValue = value;
+
+			if (!g_channels[id].postQueued) {
+				g_channels[id].postQueued = true;
 				post = true;
 			}
 		}
@@ -225,50 +306,79 @@ void QueueStableBoardPosition(const std::string& fen) {
 	if (window == nullptr) {
 		// The host gave us no thread to marshal to; fall back to the reader
 		// thread (best effort, and what the previous version always did).
-		InvokeStableBoardCallback(fen);
+		void* func = nullptr;
+		{
+			std::lock_guard<std::mutex> lock(g_callback_mutex);
+			func = g_channels[id].func;
+		}
+
+		InvokeCallback(id, func, text, param1, param2, value);
 		return;
 	}
 
-	if (post && !PostMessageW(window, WM_DGT_STABLE_BOARD, 0, 0)) {
+	if (post && !PostMessageW(window, WM_DGT_CALLBACK_BASE + id, 0, 0)) {
 		std::lock_guard<std::mutex> lock(g_callback_mutex);
-		g_callback_post_queued = false;
+		g_channels[id].postQueued = false;
 	}
 }
 
-std::mutex g_stream_mutex;
-std::thread g_stream_thread;
-std::shared_ptr<grpc::ClientContext> g_stream_context;
+// A cancelled context makes Read() return false, so TryCancel() is enough to end
+// the loop - this gRPC build has no ClientContext::IsCancelled().
+void QueueResponse(int id, const dgt::StringResponse& response) {
+	LogMessage(std::string("Received ") + CALLBACK_NAMES[id] + ": " + response.value());
+	QueueCallbackValue(id, response.value());
+}
 
-void ReadStableBoardStream(std::shared_ptr<grpc::ClientContext> context) {
+void QueueResponse(int id, const dgt::IntResponse& response) {
+	LogMessage(std::string("Received ") + CALLBACK_NAMES[id] + ": " + std::to_string(response.value()));
+	QueueCallbackValue(id, "", response.value());
+}
+
+void QueueResponse(int id, const dgt::BoolResponse& response) {
+	LogMessage(std::string("Received ") + CALLBACK_NAMES[id] + ": " + (response.value() ? "true" : "false"));
+	QueueCallbackValue(id, "", 0, 0, response.value());
+}
+
+void QueueResponse(int id, const dgt::CallbackIICResponse& response) {
+	LogMessage(std::string("Received ") + CALLBACK_NAMES[id] + ": " + response.param3());
+	QueueCallbackValue(id, response.param3(), response.param1(), response.param2());
+}
+
+void QueueResponse(int id, const dgt::EmptyResponse&) {
+	LogMessage(std::string("Received ") + CALLBACK_NAMES[id]);
+	QueueCallbackValue(id, "");
+}
+
+template <typename ResponseType, typename StartStream>
+void ReadCallbackStream(int id, std::shared_ptr<grpc::ClientContext> context, StartStream startStream) {
 	auto stub = GetStubSnapshot();
 	if (!stub) {
 		return;
 	}
 
-	dgt::Empty empty_request;
-	auto reader = stub->RegisterStableBoardFunc(context.get(), empty_request);
+	dgt::Empty request;
+	auto reader = startStream(*stub, context.get(), request);
 
-	dgt::StringResponse response;
-	// A cancelled context makes Read() return false, so TryCancel() is enough to
-	// end the loop - this gRPC build has no ClientContext::IsCancelled().
+	ResponseType response;
 	while (reader->Read(&response)) {
-		const std::string fen = response.value();
-		LogMessage("Received stable board: " + fen);
-		QueueStableBoardPosition(fen);
+		QueueResponse(id, response);
 	}
 
 	reader->Finish();
-	LogMessage("Stable board stream ended");
+	LogMessage(std::string(CALLBACK_NAMES[id]) + " stream ended");
 }
 
-void StopStableBoardStream() {
+void StopCallbackStream(int id) {
 	std::thread worker;
 	std::shared_ptr<grpc::ClientContext> context;
 
 	{
-		std::lock_guard<std::mutex> lock(g_stream_mutex);
-		worker = std::move(g_stream_thread);
-		context = std::move(g_stream_context);
+		std::lock_guard<std::mutex> lock(g_callback_mutex);
+		worker = std::move(g_channels[id].thread);
+		context = std::move(g_channels[id].context);
+		g_channels[id].func = nullptr;
+		g_channels[id].pendingString.clear();
+		g_channels[id].postQueued = false;
 	}
 
 	if (context) {
@@ -285,34 +395,77 @@ void StopStableBoardStream() {
 	}
 }
 
-// Used from DllMain, where joining is not allowed (loader lock).  Cancel the
-// stream, give the reader a moment to notice, then let it go.
-void AbandonStableBoardStream() {
-	HANDLE native = nullptr;
+void StopAllCallbackStreams() {
+	for (int id = 0; id < CB_COUNT; ++id) {
+		StopCallbackStream(id);
+	}
+}
+
+// Used from DllMain, where joining is not allowed (loader lock).  Cancel every
+// stream, give the readers a moment to notice, then let them go.
+void AbandonAllCallbackStreams() {
+	HANDLE natives[CB_COUNT] = {};
+
+	for (int id = 0; id < CB_COUNT; ++id) {
+		std::lock_guard<std::mutex> lock(g_callback_mutex);
+		if (g_channels[id].context) {
+			g_channels[id].context->TryCancel();
+		}
+
+		if (g_channels[id].thread.joinable()) {
+			natives[id] = static_cast<HANDLE>(g_channels[id].thread.native_handle());
+		}
+	}
+
+	for (int id = 0; id < CB_COUNT; ++id) {
+		if (natives[id] != nullptr) {
+			WaitForSingleObject(natives[id], 2000);
+		}
+	}
+
+	for (int id = 0; id < CB_COUNT; ++id) {
+		std::lock_guard<std::mutex> lock(g_callback_mutex);
+		if (g_channels[id].thread.joinable()) {
+			g_channels[id].thread.detach();
+		}
+
+		g_channels[id].context.reset();
+	}
+}
+
+template <typename FnPtr, typename ResponseType, typename StartStream>
+int RegisterCallbackStream(int id, FnPtr func, StartStream startStream) {
+	// Re-registration (or NULL to stop the events) always ends the previous
+	// stream first - the old version started a reader thread per call and never
+	// stopped one.
+	StopCallbackStream(id);
+
+	if (func == nullptr) {
+		return 0;
+	}
 
 	{
-		std::lock_guard<std::mutex> lock(g_stream_mutex);
-		if (g_stream_context) {
-			g_stream_context->TryCancel();
-		}
+		std::lock_guard<std::mutex> lock(g_callback_mutex);
+		g_channels[id].func = reinterpret_cast<void*>(func);
+		g_channels[id].pendingString.clear();
+		g_channels[id].pendingParam1 = 0;
+		g_channels[id].pendingParam2 = 0;
+		g_channels[id].pendingValue = false;
+		g_channels[id].postQueued = false;
 
-		if (g_stream_thread.joinable()) {
-			native = static_cast<HANDLE>(g_stream_thread.native_handle());
-		}
+		// Created on the host's thread so the host's own message pump dispatches
+		// the events and the callback runs on that thread.
+		GetOrCreateCallbackWindowLocked();
 	}
 
-	if (native != nullptr) {
-		WaitForSingleObject(native, 2000);
-	}
-
+	auto context = std::make_shared<grpc::ClientContext>();
 	{
-		std::lock_guard<std::mutex> lock(g_stream_mutex);
-		if (g_stream_thread.joinable()) {
-			g_stream_thread.detach();
-		}
-
-		g_stream_context.reset();
+		std::lock_guard<std::mutex> lock(g_callback_mutex);
+		g_channels[id].context = context;
+		g_channels[id].thread = std::thread(ReadCallbackStream<ResponseType, StartStream>, id, context, startStream);
 	}
+
+	return 0;
 }
 
 void ReleaseCallbackWindow() {
@@ -322,9 +475,12 @@ void ReleaseCallbackWindow() {
 		std::lock_guard<std::mutex> lock(g_callback_mutex);
 		window = g_callback_window;
 		g_callback_window = nullptr;
-		g_callback_func = nullptr;
-		g_pending_fen.clear();
-		g_callback_post_queued = false;
+
+		for (int id = 0; id < CB_COUNT; ++id) {
+			g_channels[id].func = nullptr;
+			g_channels[id].pendingString.clear();
+			g_channels[id].postQueued = false;
+		}
 	}
 
 	// A window can only be destroyed by the thread that created it.  If that is
@@ -384,10 +540,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	case DLL_THREAD_DETACH:
 		break;
 	case DLL_PROCESS_DETACH:
-		// Stop the reader before the host unloads the module, otherwise it can
+		// Stop the readers before the host unloads the module, otherwise they can
 		// call back into code that no longer exists.  No logging here - the
 		// loader lock is held.
-		AbandonStableBoardStream();
+		AbandonAllCallbackStreams();
 		ReleaseCallbackWindow();
 
 		if (g_logging_enabled) {
@@ -438,10 +594,10 @@ extern "C" {
 	__declspec(dllexport) int __stdcall _DGTDLL_Exit() {
 		LogMessage(">>Called " + std::string(__func__));
 
-		// Only tear down this client's own stream.  Forwarding Exit() to the
+		// Only tear down this client's own streams.  Forwarding Exit() to the
 		// service would de-initialise the shared board driver and take the
 		// board away from every other client (and from Cherub itself).
-		StopStableBoardStream();
+		StopAllCallbackStreams();
 		ReleaseCallbackWindow();
 
 		return 0;
@@ -690,62 +846,166 @@ extern "C" {
 
 
 
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStatusFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_STATUS, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterStatusFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterScanFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_SCAN, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterScanFunc(context, request);
+			});
+	}
+
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
 		LogMessage(">>Called " + std::string(__func__));
 
-		// Re-registration (or NULL to stop the events) always ends the previous
-		// stream first - the old version started a reader thread per call and
-		// never stopped one.
-		StopStableBoardStream();
+		int result = RegisterCallbackStream<FC*, dgt::StringResponse>(CB_STABLE_BOARD, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterStableBoardFunc(context, request);
+			});
 
-		if (func == nullptr) {
-			ReleaseCallbackWindow();
-			return 0;
+		if (func != nullptr) {
+			// The format is stored by the shared driver, so make sure it reports FEN
+			// rather than PluginMove/SAN.
+			_DGTDLL_UseFEN(true);
 		}
 
-		{
-			std::lock_guard<std::mutex> lock(g_callback_mutex);
-			g_callback_func = func;
-			g_pending_fen.clear();
-			g_callback_post_queued = false;
-
-			// Created on the host's thread so the host's own message pump
-			// dispatches the events and the callback runs on that thread.
-			GetOrCreateCallbackWindowLocked();
-		}
-
-		// The format is stored by the shared driver, so make sure it reports FEN
-		// rather than PluginMove/SAN.
-		_DGTDLL_UseFEN(true);
-
-		auto context = std::make_shared<grpc::ClientContext>();
-		{
-			std::lock_guard<std::mutex> lock(g_stream_mutex);
-			g_stream_context = context;
-			g_stream_thread = std::thread(ReadStableBoardStream, context);
-		}
-
-		return 0;
+		return result;
 	}
 
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStatusFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterScanFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBClockFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterResultFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterNewGameFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackMoveInputFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackTakebackFunc(F*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackMoveNowFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStartSetupFunc(FC*) { LogMessage("Called " + std::string(__func__));  return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStopSetupWTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStopSetupBTMFunc(FC*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterGameTypeChangedFunc(FI*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterAllowTakebacksChangedFunc(FB*) { LogMessage("Called " + std::string(__func__)); return 1; }
-	__declspec(dllexport) int __stdcall _DGTDLL_RegisterMagicPieceFunc(FIIC*) { LogMessage("Called " + std::string(__func__)); return 1; }
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWClockFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_WCLOCK, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterWClockFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBClockFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_BCLOCK, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterBClockFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterResultFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_RESULT, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterResultFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterNewGameFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_NEWGAME, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterNewGameFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteMoveInputFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_WHITE_MOVE_INPUT, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterWhiteMoveInputFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackMoveInputFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_BLACK_MOVE_INPUT, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterBlackMoveInputFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteMoveNowFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_WHITE_MOVE_NOW, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterWhiteMoveNowFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackMoveNowFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_BLACK_MOVE_NOW, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterBlackMoveNowFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStartSetupFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_START_SETUP, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterStartSetupFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStopSetupWTMFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_STOP_SETUP_WTM, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterStopSetupWTMFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStopSetupBTMFunc(FC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_STOP_SETUP_BTM, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterStopSetupBTMFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWhiteTakebackFunc(F* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<F*, dgt::EmptyResponse>(CB_WHITE_TAKEBACK, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterWhiteTakebackFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterBlackTakebackFunc(F* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<F*, dgt::EmptyResponse>(CB_BLACK_TAKEBACK, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterBlackTakebackFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterGameTypeChangedFunc(FI* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FI*, dgt::IntResponse>(CB_GAME_TYPE, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterGameTypeChangedFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterAllowTakebacksChangedFunc(FB* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FB*, dgt::BoolResponse>(CB_ALLOW_TAKEBACKS, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterAllowTakebacksChangedFunc(context, request);
+			});
+	}
+
+	__declspec(dllexport) int __stdcall _DGTDLL_RegisterMagicPieceFunc(FIIC* func) {
+		LogMessage(">>Called " + std::string(__func__));
+		return RegisterCallbackStream<FIIC*, dgt::CallbackIICResponse>(CB_MAGIC_PIECE, func,
+			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+				return stub.RegisterMagicPieceFunc(context, request);
+			});
+	}
 }
 
 
