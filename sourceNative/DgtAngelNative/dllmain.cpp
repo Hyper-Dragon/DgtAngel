@@ -91,6 +91,11 @@ std::mutex g_stub_mutex;						// guards g_channel and g_stub
 std::shared_ptr<grpc::Channel> g_channel;
 std::shared_ptr<dgt::DGTDLL::Stub> g_stub;
 
+// _DGTDLL_Init is forwarded once; every later caller gets the same answer.
+std::mutex g_init_mutex;
+bool g_init_done = false;
+int g_init_result = 0;
+
 // Caller must hold g_stub_mutex.
 void EnsureStubLocked() {
 	if (!g_channel || g_channel->GetState(false) == GRPC_CHANNEL_SHUTDOWN) {
@@ -584,11 +589,30 @@ extern "C" {
 		BlockUntilInitComplete();
 		LogMessage(">>Called " + std::string(__func__));
 
+		std::lock_guard<std::mutex> lock(g_init_mutex);
+
+		// The driver is shared: Cherub owns it and has already initialised it.  A
+		// second Init would re-initialise it underneath every other client, so the
+		// first result is remembered and reported to later callers - which is what a
+		// host would see from a driver that was already up.
+		if (g_init_done) {
+			return g_init_result;
+		}
+
 		auto call = [](grpc::ClientContext& context, dgt::Empty& request, dgt::IntResponse& response) {
 			return g_stub->Init(&context, request, &response);
 		};
 
-		return PerformGrpcCall<dgt::Empty>(call);
+		int result = PerformGrpcCall<dgt::Empty>(call);
+
+		// Only a success is cached: a transport failure must be retried rather than
+		// reported to every later caller.
+		if (result == 0) {
+			g_init_done = true;
+			g_init_result = result;
+		}
+
+		return result;
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_Exit() {
@@ -865,18 +889,13 @@ extern "C" {
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterStableBoardFunc(FC* func) {
 		LogMessage(">>Called " + std::string(__func__));
 
-		int result = RegisterCallbackStream<FC*, dgt::StringResponse>(CB_STABLE_BOARD, func,
-			[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
-				return stub.RegisterStableBoardFunc(context, request);
-			});
-
-		if (func != nullptr) {
-			// The format is stored by the shared driver, so make sure it reports FEN
-			// rather than PluginMove/SAN.
-			_DGTDLL_UseFEN(true);
-		}
-
-		return result;
+// Deliberately no _DGTDLL_UseFEN here.  Registering a callback must not change
+	// the shared driver's output format behind the host's back - the host asks for
+	// what it wants with _DGTDLL_UseFEN, exactly as it would against the real DLL.
+	return RegisterCallbackStream<FC*, dgt::StringResponse>(CB_STABLE_BOARD, func,
+		[](dgt::DGTDLL::Stub& stub, grpc::ClientContext* context, dgt::Empty& request) {
+			return stub.RegisterStableBoardFunc(context, request);
+		});
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_RegisterWClockFunc(FC* func) {
