@@ -746,7 +746,7 @@ extern "C" {
 
 	__declspec(dllexport) int __stdcall _DGTDLL_DisplayClockMessage(const char* val1, int val2) {
 		BlockUntilInitComplete();
-		LogMessage(">>Called " + std::string(__func__));
+		LogMessage(">>Called " + std::string(__func__) + " [" + (val1 == nullptr ? "<null>" : val1) + "] [" + std::to_string(val2) + "]");
 
 		dgt::ClockMessageRequest request;
 		request.set_message(val1);
@@ -775,7 +775,7 @@ extern "C" {
 
 	__declspec(dllexport) int __stdcall _DGTDLL_SetNRun(const char* val1, const char* val2, int val3) {
 		BlockUntilInitComplete();
-		LogMessage(">>Called " + std::string(__func__));
+		LogMessage(">>Called " + std::string(__func__) + " [" + (val1 == nullptr ? "<null>" : val1) + "] [" + (val2 == nullptr ? "<null>" : val2) + "] [" + std::to_string(val3) + "]");
 
 		dgt::SetNRunRequest request;
 		request.set_param1(val1);

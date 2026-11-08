@@ -574,15 +574,21 @@ namespace DgtCherub
             CheckBoxDesktopClientMode = new CheckBox
             {
                 AutoSize = true,
-                Text = "Desktop client controls the clock",
-                Location = new System.Drawing.Point(CheckBoxNeverUseRabbit.Left, CheckBoxNeverUseRabbit.Bottom + 6)
+                MaximumSize = new System.Drawing.Size(180, 0),
+                Text = "Desktop client owns the clock",
+                Location = new System.Drawing.Point(166, 412)
             };
             CheckBoxDesktopClientMode.CheckedChanged += (sender, args) =>
             {
                 _angelHubService.DesktopClientMode = CheckBoxDesktopClientMode.Checked;
                 TextBoxConsole.AddLine($"Clock   : {(CheckBoxDesktopClientMode.Checked ? "desktop client owns the clock" : "Cherub owns the clock")}");
             };
+
+            // The Rabbit group ends at y=400 and the Console group starts at y=406, so there
+            // is no room inside either; the empty column to the right of the Console group is
+            // the only free space on this tab.
             TabPageConfig.Controls.Add(CheckBoxDesktopClientMode);
+            CheckBoxDesktopClientMode.BringToFront();
             CheckBoxDesktopClientMode.Checked = _angelHubService.DesktopClientMode;
 
             CheckBoxOnTop.Checked = DgtCherub.Properties.UserSettings.Default.AlwaysOnTop;
