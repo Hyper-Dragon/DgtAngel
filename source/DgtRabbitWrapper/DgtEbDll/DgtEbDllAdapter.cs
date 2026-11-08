@@ -34,7 +34,7 @@ namespace DgtRabbitWrapper.DgtEbDll
 
         private static void CallbackStableBoardInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
-        private static void CallbackScanInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+        private static void CallbackScanInstanceMethod(string fenString) { NotifyTarget.NotifyOnFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
         private static void CallbackBClockFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBClock(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
@@ -70,7 +70,13 @@ namespace DgtRabbitWrapper.DgtEbDll
             Result result4 = (Result)UseSAN(true);
             Result result5 = (Result)SetAutoRotation(false);
             Result result6 = (Result)WriteDebug(false);
-            Result result7 = (Result)UseFEN(true);
+
+            // Leave the driver reporting its own position format (run-length, no rank
+            // separators).  UseFEN switches that format on the shared driver, and DGT
+            // clients such as Arena render this format directly - they garble a slash
+            // separated FEN.  Cherub converts to FEN where it is actually needed, in
+            // Extensions.NormaliseDgtBoardToFen, for the LiveChess feed.
+            Result result7 = (Result)UseFEN(false);
             _ = ConfigureAllCallbacks();
 
             return result0 == Result.SUCCESS && result1 == Result.SUCCESS && result2 == Result.SUCCESS &&

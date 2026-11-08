@@ -76,13 +76,11 @@ namespace DgtCherub.Services
             //
             // The facade owns the native registration; we just re-publish its events.
             facade.OnStatusMessage += (_, e) => Status?.Invoke(this, e.Message);
-            facade.OnStableFenChanged += (_, e) =>
-            {
-                //The adapter raises this for the driver's stable board and scan callbacks
-                //alike, so both streams carry the same positions.
-                StableBoard?.Invoke(this, e.FEN);
-                Scan?.Invoke(this, e.FEN);
-            };
+            facade.OnStableFenChanged += (_, e) => StableBoard?.Invoke(this, e.FEN);
+
+            //The driver's scan callback is a separate stream with its own format, so it
+            //must not be mixed into StableBoard - clients that render StableBoard choke on it.
+            facade.OnFenChanged += (_, e) => Scan?.Invoke(this, e.FEN);
             facade.OnWClock += (_, e) => WClock?.Invoke(this, e.Message);
             facade.OnBClock += (_, e) => BClock?.Invoke(this, e.Message);
             facade.OnResult += (_, e) => Result?.Invoke(this, e.Message);
