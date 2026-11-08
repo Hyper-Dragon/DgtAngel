@@ -67,7 +67,14 @@ namespace DgtRabbitWrapper.DgtEbDll
             Result result1 = (Result)RegisterCallbackScanFunc(_callbackSScanInstance, IntPtr.Zero);
             Result result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
             Result result3 = (Result)SetGameType(0);
-            Result result4 = (Result)UseSAN(true);
+            // Leave the driver in its DEFAULT move notation (long algebraic, e.g.
+            // "e2e4").  UseSAN(true) makes the driver emit SAN such as "e4", and
+            // because the driver is a single shared instance that setting leaks to
+            // every other consumer.  Hosts that never call _DGTDLL_UseSAN - Fritz
+            // 14 among them - rely on the default and silently reject SAN moves,
+            // so imposing SAN here is a transparency bug, not a preference.
+            // Cherub formats moves for display itself if it wants SAN.
+            Result result4 = (Result)UseSAN(false);
             Result result5 = (Result)SetAutoRotation(false);
             Result result6 = (Result)WriteDebug(false);
 
