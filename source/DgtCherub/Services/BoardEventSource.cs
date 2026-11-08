@@ -57,62 +57,49 @@ namespace DgtCherub.Services
         public event EventHandler WhiteTakeback;
         public event EventHandler BlackTakeback;
 
-        // The native driver keeps raw function pointers, so these references must
-        // live as long as the process does.
-        private readonly DgtEbDllImport.CallbackStatusFunc _statusCallback;
-        private readonly DgtEbDllImport.CallbackStableBoardFunc _stableBoardCallback;
-        private readonly DgtEbDllImport.CallbackScanFunc _scanCallback;
-        private readonly DgtEbDllImport.CallbackWClockFunc _wClockCallback;
-        private readonly DgtEbDllImport.CallbackBClockFunc _bClockCallback;
-        private readonly DgtEbDllImport.CallbackResultFunc _resultCallback;
-        private readonly DgtEbDllImport.CallbackNewGameFunc _newGameCallback;
-        private readonly DgtEbDllImport.CallbackWhiteMoveInputFunc _whiteMoveInputCallback;
-        private readonly DgtEbDllImport.CallbackBlackMoveInputFunc _blackMoveInputCallback;
-        private readonly DgtEbDllImport.CallbackWhiteMoveNowFunc _whiteMoveNowCallback;
-        private readonly DgtEbDllImport.CallbackBlackMoveNowFunc _blackMoveNowCallback;
-        private readonly DgtEbDllImport.CallbackStartSetupFunc _startSetupCallback;
-        private readonly DgtEbDllImport.CallbackStopSetupWTMFunc _stopSetupWTMCallback;
-        private readonly DgtEbDllImport.CallbackStopSetupBTMFunc _stopSetupBTMCallback;
+        // Only the callbacks the facade does not expose are registered against the native
+        // driver from here.  The driver holds raw function pointers, so these references
+        // must live as long as the process does.
         private readonly DgtEbDllImport.CallbackGameTypeChangedFunc _gameTypeChangedCallback;
         private readonly DgtEbDllImport.CallbackAllowTakebacksChangedFunc _allowTakebacksChangedCallback;
         private readonly DgtEbDllImport.CallbackWhiteTakebackFunc _whiteTakebackCallback;
         private readonly DgtEbDllImport.CallbackBlackTakebackFunc _blackTakebackCallback;
 
-        public BoardEventSource()
+        public BoardEventSource(IDgtEbDllFacade facade)
         {
-            _statusCallback = value => Status?.Invoke(this, value);
-            _stableBoardCallback = value => StableBoard?.Invoke(this, value);
-            _scanCallback = value => Scan?.Invoke(this, value);
-            _wClockCallback = value => WClock?.Invoke(this, value);
-            _bClockCallback = value => BClock?.Invoke(this, value);
-            _resultCallback = value => Result?.Invoke(this, value);
-            _newGameCallback = value => NewGame?.Invoke(this, value);
-            _whiteMoveInputCallback = value => WhiteMoveInput?.Invoke(this, value);
-            _blackMoveInputCallback = value => BlackMoveInput?.Invoke(this, value);
-            _whiteMoveNowCallback = value => WhiteMoveNow?.Invoke(this, value);
-            _blackMoveNowCallback = value => BlackMoveNow?.Invoke(this, value);
-            _startSetupCallback = value => StartSetup?.Invoke(this, value);
-            _stopSetupWTMCallback = value => StopSetupWTM?.Invoke(this, value);
-            _stopSetupBTMCallback = value => StopSetupBTM?.Invoke(this, value);
+            // dgtebdll.dll keeps ONE function pointer per callback slot, so a second
+            // registration of the same slot silently replaces the first.  This class used
+            // to register StableBoard/Scan/clocks/moves itself, which took those slots away
+            // from DgtEbDllAdapter.Init() the moment a gRPC client connected (this type is
+            // created lazily on the first call) - the facade then went silent and with it
+            // the LiveChess feed and Cherub's own board.
+            //
+            // The facade owns the native registration; we just re-publish its events.
+            facade.OnStatusMessage += (_, e) => Status?.Invoke(this, e.Message);
+            facade.OnStableFenChanged += (_, e) =>
+            {
+                //The adapter raises this for the driver's stable board and scan callbacks
+                //alike, so both streams carry the same positions.
+                StableBoard?.Invoke(this, e.FEN);
+                Scan?.Invoke(this, e.FEN);
+            };
+            facade.OnWClock += (_, e) => WClock?.Invoke(this, e.Message);
+            facade.OnBClock += (_, e) => BClock?.Invoke(this, e.Message);
+            facade.OnResult += (_, e) => Result?.Invoke(this, e.Message);
+            facade.OnNewGame += (_, e) => NewGame?.Invoke(this, e.Message);
+            facade.OnWhiteMoveInput += (_, e) => WhiteMoveInput?.Invoke(this, e.Message);
+            facade.OnBlackMoveInput += (_, e) => BlackMoveInput?.Invoke(this, e.Message);
+            facade.OnWhiteMoveNow += (_, e) => WhiteMoveNow?.Invoke(this, e.Message);
+            facade.OnBlackMoveNow += (_, e) => BlackMoveNow?.Invoke(this, e.Message);
+            facade.OnStartSetup += (_, e) => StartSetup?.Invoke(this, e.Message);
+            facade.OnStopSetupWTM += (_, e) => StopSetupWTM?.Invoke(this, e.Message);
+            facade.OnStopSetupBTM += (_, e) => StopSetupBTM?.Invoke(this, e.Message);
+
             _gameTypeChangedCallback = value => GameTypeChanged?.Invoke(this, value);
             _allowTakebacksChangedCallback = value => AllowTakebacksChanged?.Invoke(this, value);
             _whiteTakebackCallback = () => WhiteTakeback?.Invoke(this, EventArgs.Empty);
             _blackTakebackCallback = () => BlackTakeback?.Invoke(this, EventArgs.Empty);
 
-            _ = DgtEbDllImport.RegisterStableBoardFunc(_stableBoardCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterStatusFunc(_statusCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterCallbackScanFunc(_scanCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterWClockFunc(_wClockCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterBClockFunc(_bClockCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterResultFunc(_resultCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterNewGameFunc(_newGameCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterWhiteMoveInputFunc(_whiteMoveInputCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterBlackMoveInputFunc(_blackMoveInputCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterWhiteMoveNowFunc(_whiteMoveNowCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterBlackMoveNowFunc(_blackMoveNowCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterStartSetupFunc(_startSetupCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterStopSetupWTMFunc(_stopSetupWTMCallback, IntPtr.Zero);
-            _ = DgtEbDllImport.RegisterStopSetupBTMFunc(_stopSetupBTMCallback, IntPtr.Zero);
             _ = DgtEbDllImport.RegisterGameTypeChangedFunc(_gameTypeChangedCallback, IntPtr.Zero);
             _ = DgtEbDllImport.RegisterAllowTakebacksChangedFunc(_allowTakebacksChangedCallback, IntPtr.Zero);
             _ = DgtEbDllImport.RegisterWhiteTakebackFunc(_whiteTakebackCallback, IntPtr.Zero);
