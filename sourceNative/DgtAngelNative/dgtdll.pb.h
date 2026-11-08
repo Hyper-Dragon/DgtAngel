@@ -73,6 +73,9 @@ extern IntResponseDefaultTypeInternal _IntResponse_default_instance_;
 class SetNRunRequest;
 struct SetNRunRequestDefaultTypeInternal;
 extern SetNRunRequestDefaultTypeInternal _SetNRunRequest_default_instance_;
+class SetNRunResponse;
+struct SetNRunResponseDefaultTypeInternal;
+extern SetNRunResponseDefaultTypeInternal _SetNRunResponse_default_instance_;
 class StringRequest;
 struct StringRequestDefaultTypeInternal;
 extern StringRequestDefaultTypeInternal _StringRequest_default_instance_;
@@ -90,6 +93,7 @@ template<> ::dgt::EmptyResponse* Arena::CreateMaybeMessage<::dgt::EmptyResponse>
 template<> ::dgt::IntRequest* Arena::CreateMaybeMessage<::dgt::IntRequest>(Arena*);
 template<> ::dgt::IntResponse* Arena::CreateMaybeMessage<::dgt::IntResponse>(Arena*);
 template<> ::dgt::SetNRunRequest* Arena::CreateMaybeMessage<::dgt::SetNRunRequest>(Arena*);
+template<> ::dgt::SetNRunResponse* Arena::CreateMaybeMessage<::dgt::SetNRunResponse>(Arena*);
 template<> ::dgt::StringRequest* Arena::CreateMaybeMessage<::dgt::StringRequest>(Arena*);
 template<> ::dgt::StringResponse* Arena::CreateMaybeMessage<::dgt::StringResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -1156,6 +1160,186 @@ class IntResponse final :
 };
 // -------------------------------------------------------------------
 
+class SetNRunResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.SetNRunResponse) */ {
+ public:
+  inline SetNRunResponse() : SetNRunResponse(nullptr) {}
+  ~SetNRunResponse() override;
+  explicit PROTOBUF_CONSTEXPR SetNRunResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SetNRunResponse(const SetNRunResponse& from);
+  SetNRunResponse(SetNRunResponse&& from) noexcept
+    : SetNRunResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline SetNRunResponse& operator=(const SetNRunResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SetNRunResponse& operator=(SetNRunResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SetNRunResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SetNRunResponse* internal_default_instance() {
+    return reinterpret_cast<const SetNRunResponse*>(
+               &_SetNRunResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(SetNRunResponse& a, SetNRunResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SetNRunResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SetNRunResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SetNRunResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SetNRunResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SetNRunResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SetNRunResponse& from) {
+    SetNRunResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SetNRunResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "dgt.SetNRunResponse";
+  }
+  protected:
+  explicit SetNRunResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kWhiteFieldNumber = 2,
+    kBlackFieldNumber = 3,
+    kValueFieldNumber = 1,
+  };
+  // string white = 2;
+  void clear_white();
+  const std::string& white() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_white(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_white();
+  PROTOBUF_NODISCARD std::string* release_white();
+  void set_allocated_white(std::string* white);
+  private:
+  const std::string& _internal_white() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_white(const std::string& value);
+  std::string* _internal_mutable_white();
+  public:
+
+  // string black = 3;
+  void clear_black();
+  const std::string& black() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_black(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_black();
+  PROTOBUF_NODISCARD std::string* release_black();
+  void set_allocated_black(std::string* black);
+  private:
+  const std::string& _internal_black() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_black(const std::string& value);
+  std::string* _internal_mutable_black();
+  public:
+
+  // int32 value = 1;
+  void clear_value();
+  int32_t value() const;
+  void set_value(int32_t value);
+  private:
+  int32_t _internal_value() const;
+  void _internal_set_value(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:dgt.SetNRunResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr white_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr black_;
+    int32_t value_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_dgtdll_2eproto;
+};
+// -------------------------------------------------------------------
+
 class BoolResponse final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:dgt.BoolResponse) */ {
  public:
@@ -1204,7 +1388,7 @@ class BoolResponse final :
                &_BoolResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(BoolResponse& a, BoolResponse& b) {
     a.Swap(&b);
@@ -1352,7 +1536,7 @@ class StringResponse final :
                &_StringResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    9;
 
   friend void swap(StringResponse& a, StringResponse& b) {
     a.Swap(&b);
@@ -1504,7 +1688,7 @@ class EmptyResponse final :
                &_EmptyResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    10;
 
   friend void swap(EmptyResponse& a, EmptyResponse& b) {
     a.Swap(&b);
@@ -1623,7 +1807,7 @@ class CallbackIICResponse final :
                &_CallbackIICResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    11;
 
   friend void swap(CallbackIICResponse& a, CallbackIICResponse& b) {
     a.Swap(&b);
@@ -2085,6 +2269,130 @@ inline void IntResponse::set_value(int32_t value) {
 
 // -------------------------------------------------------------------
 
+// SetNRunResponse
+
+// int32 value = 1;
+inline void SetNRunResponse::clear_value() {
+  _impl_.value_ = 0;
+}
+inline int32_t SetNRunResponse::_internal_value() const {
+  return _impl_.value_;
+}
+inline int32_t SetNRunResponse::value() const {
+  // @@protoc_insertion_point(field_get:dgt.SetNRunResponse.value)
+  return _internal_value();
+}
+inline void SetNRunResponse::_internal_set_value(int32_t value) {
+  
+  _impl_.value_ = value;
+}
+inline void SetNRunResponse::set_value(int32_t value) {
+  _internal_set_value(value);
+  // @@protoc_insertion_point(field_set:dgt.SetNRunResponse.value)
+}
+
+// string white = 2;
+inline void SetNRunResponse::clear_white() {
+  _impl_.white_.ClearToEmpty();
+}
+inline const std::string& SetNRunResponse::white() const {
+  // @@protoc_insertion_point(field_get:dgt.SetNRunResponse.white)
+  return _internal_white();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SetNRunResponse::set_white(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.white_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:dgt.SetNRunResponse.white)
+}
+inline std::string* SetNRunResponse::mutable_white() {
+  std::string* _s = _internal_mutable_white();
+  // @@protoc_insertion_point(field_mutable:dgt.SetNRunResponse.white)
+  return _s;
+}
+inline const std::string& SetNRunResponse::_internal_white() const {
+  return _impl_.white_.Get();
+}
+inline void SetNRunResponse::_internal_set_white(const std::string& value) {
+  
+  _impl_.white_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SetNRunResponse::_internal_mutable_white() {
+  
+  return _impl_.white_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SetNRunResponse::release_white() {
+  // @@protoc_insertion_point(field_release:dgt.SetNRunResponse.white)
+  return _impl_.white_.Release();
+}
+inline void SetNRunResponse::set_allocated_white(std::string* white) {
+  if (white != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.white_.SetAllocated(white, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.white_.IsDefault()) {
+    _impl_.white_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:dgt.SetNRunResponse.white)
+}
+
+// string black = 3;
+inline void SetNRunResponse::clear_black() {
+  _impl_.black_.ClearToEmpty();
+}
+inline const std::string& SetNRunResponse::black() const {
+  // @@protoc_insertion_point(field_get:dgt.SetNRunResponse.black)
+  return _internal_black();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SetNRunResponse::set_black(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.black_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:dgt.SetNRunResponse.black)
+}
+inline std::string* SetNRunResponse::mutable_black() {
+  std::string* _s = _internal_mutable_black();
+  // @@protoc_insertion_point(field_mutable:dgt.SetNRunResponse.black)
+  return _s;
+}
+inline const std::string& SetNRunResponse::_internal_black() const {
+  return _impl_.black_.Get();
+}
+inline void SetNRunResponse::_internal_set_black(const std::string& value) {
+  
+  _impl_.black_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SetNRunResponse::_internal_mutable_black() {
+  
+  return _impl_.black_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SetNRunResponse::release_black() {
+  // @@protoc_insertion_point(field_release:dgt.SetNRunResponse.black)
+  return _impl_.black_.Release();
+}
+inline void SetNRunResponse::set_allocated_black(std::string* black) {
+  if (black != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.black_.SetAllocated(black, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.black_.IsDefault()) {
+    _impl_.black_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:dgt.SetNRunResponse.black)
+}
+
+// -------------------------------------------------------------------
+
 // BoolResponse
 
 // bool value = 1;
@@ -2262,6 +2570,8 @@ inline void CallbackIICResponse::set_allocated_param3(std::string* param3) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

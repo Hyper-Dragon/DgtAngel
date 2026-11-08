@@ -113,6 +113,21 @@ struct IntResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 IntResponseDefaultTypeInternal _IntResponse_default_instance_;
+PROTOBUF_CONSTEXPR SetNRunResponse::SetNRunResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.white_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.black_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.value_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SetNRunResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SetNRunResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SetNRunResponseDefaultTypeInternal() {}
+  union {
+    SetNRunResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SetNRunResponseDefaultTypeInternal _SetNRunResponse_default_instance_;
 PROTOBUF_CONSTEXPR BoolResponse::BoolResponse(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.value_)*/false
@@ -166,7 +181,7 @@ struct CallbackIICResponseDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CallbackIICResponseDefaultTypeInternal _CallbackIICResponse_default_instance_;
 }  // namespace dgt
-static ::_pb::Metadata file_level_metadata_dgtdll_2eproto[11];
+static ::_pb::Metadata file_level_metadata_dgtdll_2eproto[12];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_dgtdll_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_dgtdll_2eproto = nullptr;
 
@@ -223,6 +238,15 @@ const uint32_t TableStruct_dgtdll_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::dgt::IntResponse, _impl_.value_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::dgt::SetNRunResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::dgt::SetNRunResponse, _impl_.value_),
+  PROTOBUF_FIELD_OFFSET(::dgt::SetNRunResponse, _impl_.white_),
+  PROTOBUF_FIELD_OFFSET(::dgt::SetNRunResponse, _impl_.black_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::dgt::BoolResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -260,10 +284,11 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 27, -1, -1, sizeof(::dgt::ClockMessageRequest)},
   { 35, -1, -1, sizeof(::dgt::SetNRunRequest)},
   { 44, -1, -1, sizeof(::dgt::IntResponse)},
-  { 51, -1, -1, sizeof(::dgt::BoolResponse)},
-  { 58, -1, -1, sizeof(::dgt::StringResponse)},
-  { 65, -1, -1, sizeof(::dgt::EmptyResponse)},
-  { 71, -1, -1, sizeof(::dgt::CallbackIICResponse)},
+  { 51, -1, -1, sizeof(::dgt::SetNRunResponse)},
+  { 60, -1, -1, sizeof(::dgt::BoolResponse)},
+  { 67, -1, -1, sizeof(::dgt::StringResponse)},
+  { 74, -1, -1, sizeof(::dgt::EmptyResponse)},
+  { 80, -1, -1, sizeof(::dgt::CallbackIICResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -274,6 +299,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::dgt::_ClockMessageRequest_default_instance_._instance,
   &::dgt::_SetNRunRequest_default_instance_._instance,
   &::dgt::_IntResponse_default_instance_._instance,
+  &::dgt::_SetNRunResponse_default_instance_._instance,
   &::dgt::_BoolResponse_default_instance_._instance,
   &::dgt::_StringResponse_default_instance_._instance,
   &::dgt::_EmptyResponse_default_instance_._instance,
@@ -287,76 +313,77 @@ const char descriptor_table_protodef_dgtdll_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "4\n\023ClockMessageRequest\022\017\n\007message\030\001 \001(\t\022"
   "\014\n\004time\030\002 \001(\005\">\n\016SetNRunRequest\022\016\n\006param"
   "1\030\001 \001(\t\022\016\n\006param2\030\002 \001(\t\022\014\n\004time\030\003 \001(\005\"\034\n"
-  "\013IntResponse\022\r\n\005value\030\001 \001(\005\"\035\n\014BoolRespo"
-  "nse\022\r\n\005value\030\001 \001(\010\"\037\n\016StringResponse\022\r\n\005"
-  "value\030\001 \001(\t\"\017\n\rEmptyResponse\"E\n\023Callback"
-  "IICResponse\022\016\n\006param1\030\001 \001(\005\022\016\n\006param2\030\002 "
-  "\001(\005\022\016\n\006param3\030\003 \001(\t2\221\022\n\006DGTDLL\022,\n\nGetVer"
-  "sion\022\n.dgt.Empty\032\020.dgt.IntResponse\"\000\0225\n\023"
-  "GetWxWidgetsVersion\022\n.dgt.Empty\032\020.dgt.In"
-  "tResponse\"\000\022&\n\004Init\022\n.dgt.Empty\032\020.dgt.In"
-  "tResponse\"\000\022&\n\004Exit\022\n.dgt.Empty\032\020.dgt.In"
-  "tResponse\"\000\0221\n\nShowDialog\022\017.dgt.IntReque"
-  "st\032\020.dgt.IntResponse\"\000\0221\n\nHideDialog\022\017.d"
-  "gt.IntRequest\032\020.dgt.IntResponse\"\000\0223\n\014Wri"
-  "teCOMPort\022\017.dgt.IntRequest\032\020.dgt.IntResp"
-  "onse\"\000\022<\n\022WriteCOMPortString\022\022.dgt.Strin"
-  "gRequest\032\020.dgt.IntResponse\"\000\0227\n\rWritePos"
-  "ition\022\022.dgt.StringRequest\032\020.dgt.IntRespo"
-  "nse\"\000\0227\n\rPlayWhiteMove\022\022.dgt.StringReque"
-  "st\032\020.dgt.IntResponse\"\000\0227\n\rPlayBlackMove\022"
-  "\022.dgt.StringRequest\032\020.dgt.IntResponse\"\000\022"
-  "2\n\nWriteDebug\022\020.dgt.BoolRequest\032\020.dgt.In"
-  "tResponse\"\000\022C\n\023DisplayClockMessage\022\030.dgt"
-  ".ClockMessageRequest\032\020.dgt.IntResponse\"\000"
-  "\0221\n\nEndDisplay\022\017.dgt.IntRequest\032\020.dgt.In"
-  "tResponse\"\000\0222\n\007SetNRun\022\023.dgt.SetNRunRequ"
-  "est\032\020.dgt.IntResponse\"\000\0220\n\tClockMode\022\017.d"
-  "gt.IntRequest\032\020.dgt.IntResponse\"\000\0227\n\017Set"
-  "AutoRotation\022\020.dgt.BoolRequest\032\020.dgt.Int"
-  "Response\"\000\022.\n\006UseFEN\022\020.dgt.BoolRequest\032\020"
-  ".dgt.IntResponse\"\000\022.\n\006UseSAN\022\020.dgt.BoolR"
-  "equest\032\020.dgt.IntResponse\"\000\0222\n\013SetGameTyp"
-  "e\022\017.dgt.IntRequest\032\020.dgt.IntResponse\"\000\0226"
-  "\n\016AllowTakebacks\022\020.dgt.BoolRequest\032\020.dgt"
-  ".IntResponse\"\000\0229\n\022RegisterStatusFunc\022\n.d"
-  "gt.Empty\032\023.dgt.StringResponse\"\0000\001\0227\n\020Reg"
-  "isterScanFunc\022\n.dgt.Empty\032\023.dgt.StringRe"
-  "sponse\"\0000\001\022>\n\027RegisterStableBoardFunc\022\n."
-  "dgt.Empty\032\023.dgt.StringResponse\"\0000\001\0229\n\022Re"
-  "gisterWClockFunc\022\n.dgt.Empty\032\023.dgt.Strin"
-  "gResponse\"\0000\001\0229\n\022RegisterBClockFunc\022\n.dg"
-  "t.Empty\032\023.dgt.StringResponse\"\0000\001\0229\n\022Regi"
-  "sterResultFunc\022\n.dgt.Empty\032\023.dgt.StringR"
-  "esponse\"\0000\001\022:\n\023RegisterNewGameFunc\022\n.dgt"
-  ".Empty\032\023.dgt.StringResponse\"\0000\001\022A\n\032Regis"
-  "terWhiteMoveInputFunc\022\n.dgt.Empty\032\023.dgt."
-  "StringResponse\"\0000\001\022A\n\032RegisterBlackMoveI"
-  "nputFunc\022\n.dgt.Empty\032\023.dgt.StringRespons"
-  "e\"\0000\001\022\?\n\031RegisterWhiteTakebackFunc\022\n.dgt"
-  ".Empty\032\022.dgt.EmptyResponse\"\0000\001\022\?\n\031Regist"
-  "erBlackTakebackFunc\022\n.dgt.Empty\032\022.dgt.Em"
-  "ptyResponse\"\0000\001\022\?\n\030RegisterWhiteMoveNowF"
-  "unc\022\n.dgt.Empty\032\023.dgt.StringResponse\"\0000\001"
-  "\022\?\n\030RegisterBlackMoveNowFunc\022\n.dgt.Empty"
-  "\032\023.dgt.StringResponse\"\0000\001\022=\n\026RegisterSta"
-  "rtSetupFunc\022\n.dgt.Empty\032\023.dgt.StringResp"
-  "onse\"\0000\001\022\?\n\030RegisterStopSetupWTMFunc\022\n.d"
-  "gt.Empty\032\023.dgt.StringResponse\"\0000\001\022\?\n\030Reg"
-  "isterStopSetupBTMFunc\022\n.dgt.Empty\032\023.dgt."
-  "StringResponse\"\0000\001\022\?\n\033RegisterGameTypeCh"
-  "angedFunc\022\n.dgt.Empty\032\020.dgt.IntResponse\""
-  "\0000\001\022F\n!RegisterAllowTakebacksChangedFunc"
-  "\022\n.dgt.Empty\032\021.dgt.BoolResponse\"\0000\001\022B\n\026R"
-  "egisterMagicPieceFunc\022\n.dgt.Empty\032\030.dgt."
-  "CallbackIICResponse\"\0000\001B\021\252\002\016DgtGrpcServi"
-  "ceb\006proto3"
+  "\013IntResponse\022\r\n\005value\030\001 \001(\005\">\n\017SetNRunRe"
+  "sponse\022\r\n\005value\030\001 \001(\005\022\r\n\005white\030\002 \001(\t\022\r\n\005"
+  "black\030\003 \001(\t\"\035\n\014BoolResponse\022\r\n\005value\030\001 \001"
+  "(\010\"\037\n\016StringResponse\022\r\n\005value\030\001 \001(\t\"\017\n\rE"
+  "mptyResponse\"E\n\023CallbackIICResponse\022\016\n\006p"
+  "aram1\030\001 \001(\005\022\016\n\006param2\030\002 \001(\005\022\016\n\006param3\030\003 "
+  "\001(\t2\225\022\n\006DGTDLL\022,\n\nGetVersion\022\n.dgt.Empty"
+  "\032\020.dgt.IntResponse\"\000\0225\n\023GetWxWidgetsVers"
+  "ion\022\n.dgt.Empty\032\020.dgt.IntResponse\"\000\022&\n\004I"
+  "nit\022\n.dgt.Empty\032\020.dgt.IntResponse\"\000\022&\n\004E"
+  "xit\022\n.dgt.Empty\032\020.dgt.IntResponse\"\000\0221\n\nS"
+  "howDialog\022\017.dgt.IntRequest\032\020.dgt.IntResp"
+  "onse\"\000\0221\n\nHideDialog\022\017.dgt.IntRequest\032\020."
+  "dgt.IntResponse\"\000\0223\n\014WriteCOMPort\022\017.dgt."
+  "IntRequest\032\020.dgt.IntResponse\"\000\022<\n\022WriteC"
+  "OMPortString\022\022.dgt.StringRequest\032\020.dgt.I"
+  "ntResponse\"\000\0227\n\rWritePosition\022\022.dgt.Stri"
+  "ngRequest\032\020.dgt.IntResponse\"\000\0227\n\rPlayWhi"
+  "teMove\022\022.dgt.StringRequest\032\020.dgt.IntResp"
+  "onse\"\000\0227\n\rPlayBlackMove\022\022.dgt.StringRequ"
+  "est\032\020.dgt.IntResponse\"\000\0222\n\nWriteDebug\022\020."
+  "dgt.BoolRequest\032\020.dgt.IntResponse\"\000\022C\n\023D"
+  "isplayClockMessage\022\030.dgt.ClockMessageReq"
+  "uest\032\020.dgt.IntResponse\"\000\0221\n\nEndDisplay\022\017"
+  ".dgt.IntRequest\032\020.dgt.IntResponse\"\000\0226\n\007S"
+  "etNRun\022\023.dgt.SetNRunRequest\032\024.dgt.SetNRu"
+  "nResponse\"\000\0220\n\tClockMode\022\017.dgt.IntReques"
+  "t\032\020.dgt.IntResponse\"\000\0227\n\017SetAutoRotation"
+  "\022\020.dgt.BoolRequest\032\020.dgt.IntResponse\"\000\022."
+  "\n\006UseFEN\022\020.dgt.BoolRequest\032\020.dgt.IntResp"
+  "onse\"\000\022.\n\006UseSAN\022\020.dgt.BoolRequest\032\020.dgt"
+  ".IntResponse\"\000\0222\n\013SetGameType\022\017.dgt.IntR"
+  "equest\032\020.dgt.IntResponse\"\000\0226\n\016AllowTakeb"
+  "acks\022\020.dgt.BoolRequest\032\020.dgt.IntResponse"
+  "\"\000\0229\n\022RegisterStatusFunc\022\n.dgt.Empty\032\023.d"
+  "gt.StringResponse\"\0000\001\0227\n\020RegisterScanFun"
+  "c\022\n.dgt.Empty\032\023.dgt.StringResponse\"\0000\001\022>"
+  "\n\027RegisterStableBoardFunc\022\n.dgt.Empty\032\023."
+  "dgt.StringResponse\"\0000\001\0229\n\022RegisterWClock"
+  "Func\022\n.dgt.Empty\032\023.dgt.StringResponse\"\0000"
+  "\001\0229\n\022RegisterBClockFunc\022\n.dgt.Empty\032\023.dg"
+  "t.StringResponse\"\0000\001\0229\n\022RegisterResultFu"
+  "nc\022\n.dgt.Empty\032\023.dgt.StringResponse\"\0000\001\022"
+  ":\n\023RegisterNewGameFunc\022\n.dgt.Empty\032\023.dgt"
+  ".StringResponse\"\0000\001\022A\n\032RegisterWhiteMove"
+  "InputFunc\022\n.dgt.Empty\032\023.dgt.StringRespon"
+  "se\"\0000\001\022A\n\032RegisterBlackMoveInputFunc\022\n.d"
+  "gt.Empty\032\023.dgt.StringResponse\"\0000\001\022\?\n\031Reg"
+  "isterWhiteTakebackFunc\022\n.dgt.Empty\032\022.dgt"
+  ".EmptyResponse\"\0000\001\022\?\n\031RegisterBlackTakeb"
+  "ackFunc\022\n.dgt.Empty\032\022.dgt.EmptyResponse\""
+  "\0000\001\022\?\n\030RegisterWhiteMoveNowFunc\022\n.dgt.Em"
+  "pty\032\023.dgt.StringResponse\"\0000\001\022\?\n\030Register"
+  "BlackMoveNowFunc\022\n.dgt.Empty\032\023.dgt.Strin"
+  "gResponse\"\0000\001\022=\n\026RegisterStartSetupFunc\022"
+  "\n.dgt.Empty\032\023.dgt.StringResponse\"\0000\001\022\?\n\030"
+  "RegisterStopSetupWTMFunc\022\n.dgt.Empty\032\023.d"
+  "gt.StringResponse\"\0000\001\022\?\n\030RegisterStopSet"
+  "upBTMFunc\022\n.dgt.Empty\032\023.dgt.StringRespon"
+  "se\"\0000\001\022\?\n\033RegisterGameTypeChangedFunc\022\n."
+  "dgt.Empty\032\020.dgt.IntResponse\"\0000\001\022F\n!Regis"
+  "terAllowTakebacksChangedFunc\022\n.dgt.Empty"
+  "\032\021.dgt.BoolResponse\"\0000\001\022B\n\026RegisterMagic"
+  "PieceFunc\022\n.dgt.Empty\032\030.dgt.CallbackIICR"
+  "esponse\"\0000\001B\021\252\002\016DgtGrpcServiceb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_dgtdll_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_dgtdll_2eproto = {
-    false, false, 2770, descriptor_table_protodef_dgtdll_2eproto,
+    false, false, 2838, descriptor_table_protodef_dgtdll_2eproto,
     "dgtdll.proto",
-    &descriptor_table_dgtdll_2eproto_once, nullptr, 0, 11,
+    &descriptor_table_dgtdll_2eproto_once, nullptr, 0, 12,
     schemas, file_default_instances, TableStruct_dgtdll_2eproto::offsets,
     file_level_metadata_dgtdll_2eproto, file_level_enum_descriptors_dgtdll_2eproto,
     file_level_service_descriptors_dgtdll_2eproto,
@@ -1658,6 +1685,286 @@ void IntResponse::InternalSwap(IntResponse* other) {
 
 // ===================================================================
 
+class SetNRunResponse::_Internal {
+ public:
+};
+
+SetNRunResponse::SetNRunResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:dgt.SetNRunResponse)
+}
+SetNRunResponse::SetNRunResponse(const SetNRunResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SetNRunResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.white_){}
+    , decltype(_impl_.black_){}
+    , decltype(_impl_.value_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.white_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.white_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_white().empty()) {
+    _this->_impl_.white_.Set(from._internal_white(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.black_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.black_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_black().empty()) {
+    _this->_impl_.black_.Set(from._internal_black(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.value_ = from._impl_.value_;
+  // @@protoc_insertion_point(copy_constructor:dgt.SetNRunResponse)
+}
+
+inline void SetNRunResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.white_){}
+    , decltype(_impl_.black_){}
+    , decltype(_impl_.value_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.white_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.white_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.black_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.black_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SetNRunResponse::~SetNRunResponse() {
+  // @@protoc_insertion_point(destructor:dgt.SetNRunResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SetNRunResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.white_.Destroy();
+  _impl_.black_.Destroy();
+}
+
+void SetNRunResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SetNRunResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:dgt.SetNRunResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.white_.ClearToEmpty();
+  _impl_.black_.ClearToEmpty();
+  _impl_.value_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SetNRunResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 value = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string white = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_white();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "dgt.SetNRunResponse.white"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string black = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_black();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "dgt.SetNRunResponse.black"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SetNRunResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:dgt.SetNRunResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 value = 1;
+  if (this->_internal_value() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_value(), target);
+  }
+
+  // string white = 2;
+  if (!this->_internal_white().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_white().data(), static_cast<int>(this->_internal_white().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "dgt.SetNRunResponse.white");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_white(), target);
+  }
+
+  // string black = 3;
+  if (!this->_internal_black().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_black().data(), static_cast<int>(this->_internal_black().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "dgt.SetNRunResponse.black");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_black(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:dgt.SetNRunResponse)
+  return target;
+}
+
+size_t SetNRunResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:dgt.SetNRunResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string white = 2;
+  if (!this->_internal_white().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_white());
+  }
+
+  // string black = 3;
+  if (!this->_internal_black().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_black());
+  }
+
+  // int32 value = 1;
+  if (this->_internal_value() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_value());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SetNRunResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SetNRunResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SetNRunResponse::GetClassData() const { return &_class_data_; }
+
+
+void SetNRunResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SetNRunResponse*>(&to_msg);
+  auto& from = static_cast<const SetNRunResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:dgt.SetNRunResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_white().empty()) {
+    _this->_internal_set_white(from._internal_white());
+  }
+  if (!from._internal_black().empty()) {
+    _this->_internal_set_black(from._internal_black());
+  }
+  if (from._internal_value() != 0) {
+    _this->_internal_set_value(from._internal_value());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SetNRunResponse::CopyFrom(const SetNRunResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:dgt.SetNRunResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SetNRunResponse::IsInitialized() const {
+  return true;
+}
+
+void SetNRunResponse::InternalSwap(SetNRunResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.white_, lhs_arena,
+      &other->_impl_.white_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.black_, lhs_arena,
+      &other->_impl_.black_, rhs_arena
+  );
+  swap(_impl_.value_, other->_impl_.value_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SetNRunResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
+      file_level_metadata_dgtdll_2eproto[7]);
+}
+
+// ===================================================================
+
 class BoolResponse::_Internal {
  public:
 };
@@ -1831,7 +2138,7 @@ void BoolResponse::InternalSwap(BoolResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata BoolResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
-      file_level_metadata_dgtdll_2eproto[7]);
+      file_level_metadata_dgtdll_2eproto[8]);
 }
 
 // ===================================================================
@@ -2034,7 +2341,7 @@ void StringResponse::InternalSwap(StringResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StringResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
-      file_level_metadata_dgtdll_2eproto[8]);
+      file_level_metadata_dgtdll_2eproto[9]);
 }
 
 // ===================================================================
@@ -2074,7 +2381,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*EmptyResponse::GetClassData() 
 ::PROTOBUF_NAMESPACE_ID::Metadata EmptyResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
-      file_level_metadata_dgtdll_2eproto[9]);
+      file_level_metadata_dgtdll_2eproto[10]);
 }
 
 // ===================================================================
@@ -2337,7 +2644,7 @@ void CallbackIICResponse::InternalSwap(CallbackIICResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallbackIICResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_dgtdll_2eproto_getter, &descriptor_table_dgtdll_2eproto_once,
-      file_level_metadata_dgtdll_2eproto[10]);
+      file_level_metadata_dgtdll_2eproto[11]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2370,6 +2677,10 @@ Arena::CreateMaybeMessage< ::dgt::SetNRunRequest >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::dgt::IntResponse*
 Arena::CreateMaybeMessage< ::dgt::IntResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::dgt::IntResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::dgt::SetNRunResponse*
+Arena::CreateMaybeMessage< ::dgt::SetNRunResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::dgt::SetNRunResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::dgt::BoolResponse*
 Arena::CreateMaybeMessage< ::dgt::BoolResponse >(Arena* arena) {

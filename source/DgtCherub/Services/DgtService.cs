@@ -105,20 +105,26 @@ namespace DgtCherub.Services
             });
         }
 
-        public override Task<IntResponse> SetNRun(SetNRunRequest request, ServerCallContext context)
+        public override Task<SetNRunResponse> SetNRun(SetNRunRequest request, ServerCallContext context)
         {
             if (!ShouldForwardClockCalls)
             {
-                return Task.FromResult(new IntResponse { Value = 0 });
+                return Task.FromResult(new SetNRunResponse { Value = 0 });
             }
 
-            return Task.FromResult(new IntResponse
+            // The driver may write the current clock strings back into these buffers, so
+            // they are kept and returned rather than discarded.
+            StringBuilder white = new(request.Param1);
+            StringBuilder black = new(request.Param2);
+
+            int result = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(
+                () => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetNRun(white, black, request.Time));
+
+            return Task.FromResult(new SetNRunResponse
             {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() =>
-                    DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetNRun(
-                        new StringBuilder(request.Param1),
-                        new StringBuilder(request.Param2),
-                        request.Time))
+                Value = result,
+                White = white.ToString(),
+                Black = black.ToString()
             });
         }
 

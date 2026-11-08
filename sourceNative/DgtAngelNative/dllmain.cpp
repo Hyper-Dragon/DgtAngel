@@ -15,6 +15,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <cstring>
 
 typedef int __stdcall FC(const char*);
 typedef int __stdcall FI(int);
@@ -496,8 +497,7 @@ void ReleaseCallbackWindow() {
 }
 
 template <typename RequestType, typename Call>
-int PerformGrpcCall(RequestType request, Call call) {
-	LogMessage(">>>>Called " + std::string(__func__));
+int PerformGrpcCall(RequestType request, Call call) {	LogMessage(">>>>Called " + std::string(__func__));
 
 	try {
 		// Serialise onto the single stub: g_stub must not be replaced while a
@@ -525,6 +525,26 @@ int PerformGrpcCall(RequestType request, Call call) {
 	}
 }
 
+
+// Writes a driver-supplied clock string back into the buffer the host handed us, but only
+// when it fits: the host sized that buffer for the string it passed in, so copying anything
+// longer would overflow it.  Dropping the write is the safe failure - a host that reads the
+// buffer just keeps what it sent.
+void CopyClockStringBack(const char* target, const std::string& value) {
+	if (target == nullptr || value.empty()) {
+		return;
+	}
+
+	char* buffer = const_cast<char*>(target);
+	const std::size_t capacity = std::strlen(buffer);
+
+	if (value.size() > capacity) {
+		LogMessage("  write-back dropped - value longer than the host buffer");
+		return;
+	}
+
+	std::memcpy(buffer, value.c_str(), value.size() + 1);
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
@@ -778,15 +798,36 @@ extern "C" {
 		LogMessage(">>Called " + std::string(__func__) + " [" + (val1 == nullptr ? "<null>" : val1) + "] [" + (val2 == nullptr ? "<null>" : val2) + "] [" + std::to_string(val3) + "]");
 
 		dgt::SetNRunRequest request;
-		request.set_param1(val1);
-		request.set_param2(val2);
+		request.set_param1(val1 == nullptr ? "" : val1);
+		request.set_param2(val2 == nullptr ? "" : val2);
 		request.set_time(val3);
 
-		auto call = [](grpc::ClientContext& context, const dgt::SetNRunRequest& request, dgt::IntResponse& response) {
-			return g_stub->SetNRun(&context, request, &response);
-		};
+		try {
+			std::lock_guard<std::mutex> lock(g_stub_mutex);
+			EnsureStubLocked();
 
-		return PerformGrpcCall(request, call);
+			dgt::SetNRunResponse response;
+			grpc::ClientContext context;
+			context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds(GRPC_CALL_TIMEOUT_SECONDS));
+
+			grpc::Status status = g_stub->SetNRun(&context, request, &response);
+			if (!status.ok()) {
+				LogMessage("  gRPC call failed: " + status.error_message());
+				return 1;
+			}
+
+			// The real DLL writes the current clock strings back into the caller's buffers,
+			// so hand them back the same way.  CopyClockStringBack only writes when the value
+			// fits the buffer the host gave us.
+			CopyClockStringBack(val1, response.white());
+			CopyClockStringBack(val2, response.black());
+
+			return response.value();
+		}
+		catch (const std::exception& e) {
+			LogMessage("  Exception: " + std::string(e.what()));
+			return 1;
+		}
 	}
 
 	__declspec(dllexport) int __stdcall _DGTDLL_ClockMode(int val) {

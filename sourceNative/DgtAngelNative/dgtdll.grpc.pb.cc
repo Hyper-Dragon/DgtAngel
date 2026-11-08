@@ -435,23 +435,23 @@ void DGTDLL::Stub::async::EndDisplay(::grpc::ClientContext* context, const ::dgt
   return result;
 }
 
-::grpc::Status DGTDLL::Stub::SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::dgt::SetNRunRequest, ::dgt::IntResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SetNRun_, context, request, response);
+::grpc::Status DGTDLL::Stub::SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::SetNRunResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::dgt::SetNRunRequest, ::dgt::SetNRunResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SetNRun_, context, request, response);
 }
 
-void DGTDLL::Stub::async::SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::dgt::SetNRunRequest, ::dgt::IntResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetNRun_, context, request, response, std::move(f));
+void DGTDLL::Stub::async::SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::dgt::SetNRunRequest, ::dgt::SetNRunResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetNRun_, context, request, response, std::move(f));
 }
 
-void DGTDLL::Stub::async::SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+void DGTDLL::Stub::async::SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SetNRun_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* DGTDLL::Stub::PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::dgt::IntResponse, ::dgt::SetNRunRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SetNRun_, context, request);
+::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>* DGTDLL::Stub::PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::dgt::SetNRunResponse, ::dgt::SetNRunRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SetNRun_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* DGTDLL::Stub::AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>* DGTDLL::Stub::AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncSetNRunRaw(context, request, cq);
   result->StartCall();
@@ -1044,11 +1044,11 @@ DGTDLL::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       DGTDLL_method_names[14],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< DGTDLL::Service, ::dgt::SetNRunRequest, ::dgt::IntResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< DGTDLL::Service, ::dgt::SetNRunRequest, ::dgt::SetNRunResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](DGTDLL::Service* service,
              ::grpc::ServerContext* ctx,
              const ::dgt::SetNRunRequest* req,
-             ::dgt::IntResponse* resp) {
+             ::dgt::SetNRunResponse* resp) {
                return service->SetNRun(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
@@ -1404,7 +1404,7 @@ DGTDLL::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status DGTDLL::Service::SetNRun(::grpc::ServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response) {
+::grpc::Status DGTDLL::Service::SetNRun(::grpc::ServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response) {
   (void) context;
   (void) request;
   (void) response;

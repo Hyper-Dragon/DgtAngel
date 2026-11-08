@@ -133,12 +133,12 @@ class DGTDLL final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncEndDisplayRaw(context, request, cq));
     }
-    virtual ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(AsyncSetNRunRaw(context, request, cq));
+    virtual ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::SetNRunResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::SetNRunResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::SetNRunResponse>>(AsyncSetNRunRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::SetNRunResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::SetNRunResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
     }
     virtual ::grpc::Status ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>> AsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
@@ -384,8 +384,8 @@ class DGTDLL final {
       virtual void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) = 0;
@@ -450,8 +450,8 @@ class DGTDLL final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::SetNRunResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::SetNRunResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* PrepareAsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::dgt::IntResponse>* AsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -623,12 +623,12 @@ class DGTDLL final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncEndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncEndDisplayRaw(context, request, cq));
     }
-    ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::IntResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(AsyncSetNRunRaw(context, request, cq));
+    ::grpc::Status SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::dgt::SetNRunResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>> AsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>>(AsyncSetNRunRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>> PrepareAsyncSetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>>(PrepareAsyncSetNRunRaw(context, request, cq));
     }
     ::grpc::Status ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::dgt::IntResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>> AsyncClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) {
@@ -874,8 +874,8 @@ class DGTDLL final {
       void DisplayClockMessage(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
       void EndDisplay(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
-      void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response, std::function<void(::grpc::Status)>) override;
+      void SetNRun(::grpc::ClientContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
       void ClockMode(::grpc::ClientContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void SetAutoRotation(::grpc::ClientContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response, std::function<void(::grpc::Status)>) override;
@@ -946,8 +946,8 @@ class DGTDLL final {
     ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncDisplayClockMessageRaw(::grpc::ClientContext* context, const ::dgt::ClockMessageRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncEndDisplayRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>* AsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::dgt::SetNRunResponse>* PrepareAsyncSetNRunRaw(::grpc::ClientContext* context, const ::dgt::SetNRunRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* PrepareAsyncClockModeRaw(::grpc::ClientContext* context, const ::dgt::IntRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::dgt::IntResponse>* AsyncSetAutoRotationRaw(::grpc::ClientContext* context, const ::dgt::BoolRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -1078,7 +1078,7 @@ class DGTDLL final {
     virtual ::grpc::Status WriteDebug(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
     virtual ::grpc::Status DisplayClockMessage(::grpc::ServerContext* context, const ::dgt::ClockMessageRequest* request, ::dgt::IntResponse* response);
     virtual ::grpc::Status EndDisplay(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
-    virtual ::grpc::Status SetNRun(::grpc::ServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response);
+    virtual ::grpc::Status SetNRun(::grpc::ServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response);
     virtual ::grpc::Status ClockMode(::grpc::ServerContext* context, const ::dgt::IntRequest* request, ::dgt::IntResponse* response);
     virtual ::grpc::Status SetAutoRotation(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
     virtual ::grpc::Status UseFEN(::grpc::ServerContext* context, const ::dgt::BoolRequest* request, ::dgt::IntResponse* response);
@@ -1397,11 +1397,11 @@ class DGTDLL final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestSetNRun(::grpc::ServerContext* context, ::dgt::SetNRunRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::IntResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestSetNRun(::grpc::ServerContext* context, ::dgt::SetNRunRequest* request, ::grpc::ServerAsyncResponseWriter< ::dgt::SetNRunResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(14, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -2291,25 +2291,25 @@ class DGTDLL final {
    public:
     WithCallbackMethod_SetNRun() {
       ::grpc::Service::MarkMethodCallback(14,
-          new ::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::IntResponse>(
+          new ::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::SetNRunResponse>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::IntResponse* response) { return this->SetNRun(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::dgt::SetNRunRequest* request, ::dgt::SetNRunResponse* response) { return this->SetNRun(context, request, response); }));}
     void SetMessageAllocatorFor_SetNRun(
-        ::grpc::MessageAllocator< ::dgt::SetNRunRequest, ::dgt::IntResponse>* allocator) {
+        ::grpc::MessageAllocator< ::dgt::SetNRunRequest, ::dgt::SetNRunResponse>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(14);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::IntResponse>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::dgt::SetNRunRequest, ::dgt::SetNRunResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~WithCallbackMethod_SetNRun() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* SetNRun(
-      ::grpc::CallbackServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/)  { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
   class WithCallbackMethod_ClockMode : public BaseClass {
@@ -3143,7 +3143,7 @@ class DGTDLL final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -3865,7 +3865,7 @@ class DGTDLL final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -4696,7 +4696,7 @@ class DGTDLL final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -5639,10 +5639,10 @@ class DGTDLL final {
     WithStreamedUnaryMethod_SetNRun() {
       ::grpc::Service::MarkMethodStreamed(14,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::dgt::SetNRunRequest, ::dgt::IntResponse>(
+          ::dgt::SetNRunRequest, ::dgt::SetNRunResponse>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::dgt::SetNRunRequest, ::dgt::IntResponse>* streamer) {
+                     ::dgt::SetNRunRequest, ::dgt::SetNRunResponse>* streamer) {
                        return this->StreamedSetNRun(context,
                          streamer);
                   }));
@@ -5651,12 +5651,12 @@ class DGTDLL final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::IntResponse* /*response*/) override {
+    ::grpc::Status SetNRun(::grpc::ServerContext* /*context*/, const ::dgt::SetNRunRequest* /*request*/, ::dgt::SetNRunResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedSetNRun(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::SetNRunRequest,::dgt::IntResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedSetNRun(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::dgt::SetNRunRequest,::dgt::SetNRunResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
   class WithStreamedUnaryMethod_ClockMode : public BaseClass {

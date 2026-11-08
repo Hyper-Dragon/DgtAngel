@@ -19,7 +19,7 @@ service DGTDLL {
   rpc WriteDebug (BoolRequest) returns (IntResponse) {}
   rpc DisplayClockMessage (ClockMessageRequest) returns (IntResponse) {}
   rpc EndDisplay (IntRequest) returns (IntResponse) {}
-  rpc SetNRun (SetNRunRequest) returns (IntResponse) {}
+  rpc SetNRun (SetNRunRequest) returns (SetNRunResponse) {}
   rpc ClockMode (IntRequest) returns (IntResponse) {}
   rpc SetAutoRotation (BoolRequest) returns (IntResponse) {}
   rpc UseFEN (BoolRequest) returns (IntResponse) {}
@@ -74,6 +74,14 @@ message SetNRunRequest {
 
 message IntResponse {
   int32 value = 1;
+}
+
+// The driver is allowed to write the current clock strings back into the two buffers it
+// was handed, so the response carries what it left there.
+message SetNRunResponse {
+  int32 value = 1;
+  string white = 2;
+  string black = 3;
 }
 
 message BoolResponse {

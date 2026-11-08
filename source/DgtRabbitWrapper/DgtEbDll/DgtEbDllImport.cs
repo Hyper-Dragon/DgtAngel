@@ -186,7 +186,7 @@ namespace DgtRabbitWrapper.DgtEbDll
                    ExactSpelling = true,
                    CharSet = CharSet.Ansi,
                    CallingConvention = CallingConvention.StdCall)]
-        public static extern int SetNRun(StringBuilder wclock, StringBuilder bclock, int runwho);
+        public static extern int SetNRun([In, Out] StringBuilder wclock, [In, Out] StringBuilder bclock, int runwho);
 
         [DllImport(DGT_EB_DLL,
                    EntryPoint = "_DGTDLL_EndDisplay",
