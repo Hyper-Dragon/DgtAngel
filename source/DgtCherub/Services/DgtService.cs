@@ -10,15 +10,24 @@ namespace DgtCherub.Services
         private const int StreamBufferSize = 64;
 
         private readonly IBoardEventSource _boardEvents;
+        private readonly IAngelHubService _hub;
 
-        public DgtService(IBoardEventSource boardEvents) : base()
+        public DgtService(IBoardEventSource boardEvents, IAngelHubService hub) : base()
         {
             // Registering the native callbacks belongs to the IBoardEventSource
             // singleton, not to this service: gRPC constructs one DgtService per
             // call, so the old constructor re-registered every callback for every
             // request and kept every previous instance's delegates alive.
             _boardEvents = boardEvents;
+            _hub = hub;
         }
+
+        /// <summary>
+        /// Whether a clock call from this client should be forwarded to the shared driver.
+        /// With desktop client mode off, Cherub owns the clock and these calls are accepted
+        /// but ignored, so a client cannot fight Cherub for the display.
+        /// </summary>
+        private bool ShouldForwardClockCalls => _hub.DesktopClientMode;
 
         public override Task<IntResponse> Init(Empty request, ServerCallContext context)
         {
@@ -98,6 +107,11 @@ namespace DgtCherub.Services
 
         public override Task<IntResponse> SetNRun(SetNRunRequest request, ServerCallContext context)
         {
+            if (!ShouldForwardClockCalls)
+            {
+                return Task.FromResult(new IntResponse { Value = 0 });
+            }
+
             return Task.FromResult(new IntResponse
             {
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.SetNRun(
@@ -107,19 +121,29 @@ namespace DgtCherub.Services
             });
         }
 
-        public override Task<IntResponse> EndDisplay(IntRequest request, ServerCallContext context)
-        {
-            return Task.FromResult(new IntResponse
-            {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.EndDisplay(request.Value)
-            });
-        }
-
         public override Task<IntResponse> DisplayClockMessage(ClockMessageRequest request, ServerCallContext context)
         {
+            if (!ShouldForwardClockCalls)
+            {
+                return Task.FromResult(new IntResponse { Value = 0 });
+            }
+
             return Task.FromResult(new IntResponse
             {
                 Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.DisplayClockMessage(new StringBuilder(request.Message), request.Time)
+            });
+        }
+
+        public override Task<IntResponse> EndDisplay(IntRequest request, ServerCallContext context)
+        {
+            if (!ShouldForwardClockCalls)
+            {
+                return Task.FromResult(new IntResponse { Value = 0 });
+            }
+
+            return Task.FromResult(new IntResponse
+            {
+                Value = DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.EndDisplay(request.Value)
             });
         }
 

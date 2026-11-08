@@ -189,6 +189,9 @@ namespace DgtCherub.Services
             _ = localFenProcessChannel.Writer.TryWrite(fen);
         }
 
+        /// <inheritdoc />
+        public bool DesktopClientMode { get; set; } = true;
+
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
             if (remoteIgnored)

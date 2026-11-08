@@ -102,6 +102,7 @@ namespace DgtCherub
         private readonly IAngelHubService _angelHubService;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
+        private CheckBox CheckBoxDesktopClientMode;
         private readonly ISequentialVoicePlayer _voicePlayeStatus;
         private readonly ISequentialVoicePlayer _voicePlayerMoves;
         private readonly ISequentialVoicePlayer _voicePlayerMovesNoDrop;
@@ -419,6 +420,13 @@ namespace DgtCherub
 
                     trackRunwho = _angelHubService.RunWhoString;
 
+                    // When a desktop client owns the clock, writing times from here as well
+                    // makes the two fight over the same display.
+                    if (_angelHubService.DesktopClientMode)
+                    {
+                        return;
+                    }
+
                     // Fire and forget - No need to wait for this to complete as there may be no clock connected
                     Task.Run(() =>
                     {
@@ -519,6 +527,7 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.MatcherLocalDelay = UpDownLocalDelay.Value;
             DgtCherub.Properties.UserSettings.Default.MatcherLocalFromMismatchDelay = UpDownFromMismatchDelay.Value;
             DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled = CheckBoxNeverUseRabbit.Checked;
+            DgtCherub.Properties.UserSettings.Default.DesktopClientMode = _angelHubService.DesktopClientMode;
             DgtCherub.Properties.UserSettings.Default.StartingWidth = Width;
             DgtCherub.Properties.UserSettings.Default.LastUciExe = lastUciExe;
             DgtCherub.Properties.UserSettings.Default.UciOptions = uciOptionSettings?.SerializeSettings();
@@ -559,6 +568,22 @@ namespace DgtCherub
             CheckBoxPlayerBeep.Checked = DgtCherub.Properties.UserSettings.Default.BeepMode;
             CheckboxSilentBeep.Checked = DgtCherub.Properties.UserSettings.Default.Silent;
             CheckBoxNeverUseRabbit.Checked = DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled;
+
+            _angelHubService.DesktopClientMode = DgtCherub.Properties.UserSettings.Default.DesktopClientMode;
+
+            CheckBoxDesktopClientMode = new CheckBox
+            {
+                AutoSize = true,
+                Text = "Desktop client controls the clock",
+                Location = new System.Drawing.Point(CheckBoxNeverUseRabbit.Left, CheckBoxNeverUseRabbit.Bottom + 6)
+            };
+            CheckBoxDesktopClientMode.CheckedChanged += (sender, args) =>
+            {
+                _angelHubService.DesktopClientMode = CheckBoxDesktopClientMode.Checked;
+                TextBoxConsole.AddLine($"Clock   : {(CheckBoxDesktopClientMode.Checked ? "desktop client owns the clock" : "Cherub owns the clock")}");
+            };
+            TabPageConfig.Controls.Add(CheckBoxDesktopClientMode);
+            CheckBoxDesktopClientMode.Checked = _angelHubService.DesktopClientMode;
 
             CheckBoxOnTop.Checked = DgtCherub.Properties.UserSettings.Default.AlwaysOnTop;
             CheckBoxOnTop_CheckedChanged(this, null);

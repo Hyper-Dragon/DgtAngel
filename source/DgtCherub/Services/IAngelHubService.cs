@@ -49,6 +49,14 @@ namespace DgtCherub.Services
 
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
+
+        /// <summary>
+        /// When true a connected desktop client (through the DGTEBDLL proxy) owns the DGT
+        /// clock: its clock calls are passed through and Cherub stops writing times itself,
+        /// so the two cannot fight over the same display.  When false Cherub owns the clock
+        /// and clock calls arriving over gRPC are acknowledged but not forwarded.
+        /// </summary>
+        bool DesktopClientMode { get; set; }
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
