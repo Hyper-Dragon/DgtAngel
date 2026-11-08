@@ -106,9 +106,13 @@ namespace DgtRabbitWrapper
             //Setup connection the Rabbit
             _dgtEbDllFacade.OnStableFenChanged += (object sender, FenChangedEventArgs e) =>
             {
-                if (LastFenSeen != e.FEN.Split(' ')[0])
+                //The driver hands us its own run-length board string, so convert it to a
+                //FEN before it goes out as the LiveChess "board" field.
+                string board = e.FEN.NormaliseDgtBoardToFen();
+
+                if (LastFenSeen != board)
                 {
-                    LastFenSeen = e.FEN.Split(' ')[0]; //Make sure this is a short FEN
+                    LastFenSeen = board;
                     KingCount = LastFenSeen.Where(c => c is 'k' or 'K').Count();
 
                     //Don't send boards with missing kings - always invalid

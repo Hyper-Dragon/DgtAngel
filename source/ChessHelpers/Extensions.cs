@@ -86,5 +86,133 @@ namespace ChessHelpers
             return fenFromArrayBuilder.Append(tail).ToString();
 
         }
+
+        /// <summary>
+        /// The DGT driver reports the sensor board as a run-length encoded string with no
+        /// rank separators.  Two shapes have been seen in the wild:
+        ///   * rank aligned  - "88888888", where every rank still comes to 8 squares;
+        ///   * cross rank    - "rnbqkbnrpppppppp32PPPPPPPP1NBQKBNR", where a single run
+        ///                     ("32") covers ranks 5 down to 2.
+        /// Every consumer downstream expects a real FEN board field: the fake LiveChess
+        /// feed on :1982 and the gRPC clients on :37965.
+        /// </summary>
+        /// <returns>
+        /// The FEN board field, or the original string when it is empty, already a FEN, or
+        /// does not describe exactly 64 squares (a board mid-scan must not be reported as a
+        /// position full of empty squares).
+        /// </returns>
+        public static string NormaliseDgtBoardToFen(this string boardIn)
+        {
+            if (string.IsNullOrWhiteSpace(boardIn))
+            {
+                return boardIn;
+            }
+
+            string board = boardIn.Trim().Split(' ')[0];
+
+            //Already a FEN board field - nothing to do.
+            if (board.Contains('/'))
+            {
+                return board;
+            }
+
+            char[]? squares = TryDecodeRankAligned(board) ?? TryDecodeRunsAcrossRanks(board);
+
+            return squares == null ? board : squares.ConvertFlatArrayToFen();
+        }
+
+        /// <summary>
+        /// Rank aligned form - every run has to fit inside its rank.
+        /// </summary>
+        private static char[]? TryDecodeRankAligned(string board)
+        {
+            char[] squares = "".PadRight(64, '-').ToCharArray();
+            int index = 0;
+
+            foreach (char square in board)
+            {
+                if (square is >= '1' and <= '8')
+                {
+                    int run = square - '0';
+
+                    //A run that straddles a rank boundary means this is not the rank
+                    //aligned shape.
+                    if ((index % 8) + run > 8)
+                    {
+                        return null;
+                    }
+
+                    index += run;
+                }
+                else if ("rnbqkpRNBQKP".Contains(square))
+                {
+                    squares[index++] = square;
+                }
+                else
+                {
+                    return null;
+                }
+
+                if (index > 64)
+                {
+                    return null;
+                }
+            }
+
+            return index == 64 ? squares : null;
+        }
+
+        /// <summary>
+        /// The driver's own form, where a run is a number of empty squares and can cross
+        /// rank boundaries - consecutive digits are one number ("32", not 3 then 2).
+        /// </summary>
+        private static char[]? TryDecodeRunsAcrossRanks(string board)
+        {
+            char[] squares = "".PadRight(64, '-').ToCharArray();
+            int index = 0;
+            int runValue = 0;
+            bool pendingRun = false;
+
+            foreach (char square in board)
+            {
+                if (square is >= '0' and <= '9')
+                {
+                    runValue = (runValue * 10) + (square - '0');
+                    pendingRun = true;
+                    continue;
+                }
+
+                if (!"rnbqkpRNBQKP".Contains(square))
+                {
+                    return null;
+                }
+
+                if (pendingRun)
+                {
+                    index += runValue;
+                    runValue = 0;
+                    pendingRun = false;
+
+                    if (index > 64)
+                    {
+                        return null;
+                    }
+                }
+
+                squares[index++] = square;
+
+                if (index > 64)
+                {
+                    return null;
+                }
+            }
+
+            if (pendingRun)
+            {
+                index += runValue;
+            }
+
+            return index == 64 ? squares : null;
+        }
     }
 }
