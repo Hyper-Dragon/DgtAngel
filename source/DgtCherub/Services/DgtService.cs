@@ -31,10 +31,15 @@ namespace DgtCherub.Services
 
         public override Task<IntResponse> Init(Empty request, ServerCallContext context)
         {
-            return Task.FromResult(new IntResponse
-            {
-                Value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Init())
-            });
+            // The driver belongs to this process and Cherub initialised it at startup.
+            // A remote _DGTDLL_Init is asking whether it is ready, so re-running the
+            // native Init() would re-register every callback on a live driver and
+            // return FAIL - which told every proxied client that init had failed.
+            int value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.IsInitialised
+                ? 0
+                : DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Init());
+
+            return Task.FromResult(new IntResponse { Value = value });
         }
 
         public override Task<IntResponse> GetVersion(Empty request, ServerCallContext context)

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace DgtRabbitWrapper.DgtEbDll
 {
@@ -28,6 +29,22 @@ namespace DgtRabbitWrapper.DgtEbDll
         /// without having to touch the adapter at all.
         /// </summary>
         private static readonly object Sync = typeof(DgtEbDllAdapter);
+
+        private static int _initialised;
+
+        /// <summary>
+        /// Whether this process has initialised the shared driver.
+        /// </summary>
+        /// <remarks>
+        /// The driver is a single instance owned by this process.  A remote client's
+        /// <c>_DGTDLL_Init</c> asks whether it is ready, not for a second
+        /// initialisation: re-running it re-registers every callback on a live driver
+        /// and comes back FAIL, which told every proxied client that init had failed.
+        /// </remarks>
+        public static bool IsInitialised => Volatile.Read(ref _initialised) == 1;
+
+        /// <summary>Records that the driver has been initialised in this process.</summary>
+        public static void MarkInitialised() => Interlocked.Exchange(ref _initialised, 1);
 
         /// <summary>
         /// Runs a driver call that returns the driver's result code.

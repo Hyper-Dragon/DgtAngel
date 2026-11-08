@@ -86,9 +86,16 @@ namespace DgtRabbitWrapper.DgtEbDll
             Result result7 = (Result)UseFEN(false);
             _ = ConfigureAllCallbacks();
 
-            return result0 == Result.SUCCESS && result1 == Result.SUCCESS && result2 == Result.SUCCESS &&
-                   result3 == Result.SUCCESS && result4 == Result.SUCCESS && result5 == Result.SUCCESS &&
-                   result6 == Result.SUCCESS && result7 == Result.SUCCESS && result7 == Result.SUCCESS;
+            bool ok = result0 == Result.SUCCESS && result1 == Result.SUCCESS && result2 == Result.SUCCESS &&
+                      result3 == Result.SUCCESS && result4 == Result.SUCCESS && result5 == Result.SUCCESS &&
+                      result6 == Result.SUCCESS && result7 == Result.SUCCESS;
+
+            if (ok)
+            {
+                DgtDriverGate.MarkInitialised();
+            }
+
+            return ok;
         }
 
         private static Result ConfigureAllCallbacks()
