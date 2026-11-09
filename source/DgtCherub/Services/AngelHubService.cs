@@ -361,14 +361,20 @@ namespace DgtCherub.Services
             }
         }
 
+        /// <summary>
+        /// The last position seen with nothing in the player's hand.
+        /// </summary>
+        private string kibitzerSettledFen = "";
+
         private async Task ApplyLocalFen(string fen)
         {
             if (string.IsNullOrWhiteSpace(fen) || LocalBoardFEN == fen) { return; }
 
-            // The previous board is what the turn and en passant are inferred from, so it has to
-            // be taken before LocalBoardFEN is replaced - after that the history is gone and every
-            // position looks like the first one.
-            string previousFen = LocalBoardFEN;
+            // The previous settled board is what the turn and en passant are inferred from, so it
+            // has to be taken before LocalBoardFEN is replaced - after that the history is gone and
+            // every position looks like the first one. It is deliberately not the previous scan:
+            // a physical board is scanned continuously and half the scans catch a piece in the air.
+            string previousFen = kibitzerSettledFen;
 
             LocalBoardFEN = fen;
             OnLocalFenChange?.Invoke(LocalBoardFEN);
@@ -403,6 +409,13 @@ namespace DgtCherub.Services
                 {
                     SendToEngine(position);
                 }
+            }
+
+            // A scan with a piece lifted is not a position to measure the next move from, so the
+            // baseline only advances once the piece has been put down again.
+            if (!KibitzerPosition.IsPieceInHand(previousFen, fen))
+            {
+                kibitzerSettledFen = fen;
             }
 
             await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);

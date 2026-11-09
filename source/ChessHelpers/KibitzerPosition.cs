@@ -212,6 +212,40 @@ namespace ChessHelpers
             return "-";
         }
 
+        /// <summary>
+        /// Whether this scan shows a piece in the player's hand: something left the board and
+        /// nothing arrived.
+        /// </summary>
+        /// <remarks>
+        /// A physical board is scanned continuously, so a move arrives as at least two positions -
+        /// the piece lifted, then the piece placed. Treating the lifted scan as "the position before
+        /// the move" loses the move itself: a pawn lifted from b7 and placed on b5 is seen as a
+        /// pawn appearing from nowhere, and the double push that en passant depends on is gone.
+        /// </remarks>
+        public static bool IsPieceInHand(string previousFen, string currentFen)
+        {
+            if (string.IsNullOrWhiteSpace(previousFen) || string.IsNullOrWhiteSpace(currentFen))
+            {
+                return false;
+            }
+
+            char[] previous = FenInference.FenToCharArray(previousFen);
+            char[] current = FenInference.FenToCharArray(currentFen);
+
+            bool vanished = false;
+            bool appeared = false;
+
+            for (int square = 0; square < previous.Length; square++)
+            {
+                if (previous[square] == current[square]) { continue; }
+
+                if (current[square] == EmptySquare) { vanished = true; }
+                else { appeared = true; }
+            }
+
+            return vanished && !appeared;
+        }
+
         private static string SquareName(int square)
         {
             return string.Create(CultureInfo.InvariantCulture, $"{FileNames[square % SquaresOnBoard]}{RankNames[square / SquaresOnBoard]}");

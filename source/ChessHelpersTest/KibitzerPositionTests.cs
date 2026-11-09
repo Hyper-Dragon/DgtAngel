@@ -179,5 +179,54 @@ namespace ChessHelpersTest
 
             Assert.AreEqual(AfterE4E5, position.Board, "only the board field describes squares");
         }
+
+        [TestMethod(DisplayName = "A scan with a piece lifted is recognised as a piece in hand")]
+        public void PieceInHandIsRecognised()
+        {
+            // The b7 pawn has left the board and nothing has arrived yet.
+            Assert.IsTrue(KibitzerPosition.IsPieceInHand(Initial, "rnbqkbnr/p1pppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"),
+                          "something left and nothing arrived, so the piece is in the air");
+        }
+
+        [TestMethod(DisplayName = "Putting the piece down is not a piece in hand")]
+        public void PlacementIsNotPieceInHand()
+        {
+            const string beforeLift = "rnbqkbnr/p1pppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+            const string placedOnB5 = "rnbqkbnr/p1pppppp/8/1p6/8/8/PPPPPPPP/RNBQKBNR";
+
+            Assert.IsFalse(KibitzerPosition.IsPieceInHand(beforeLift, placedOnB5),
+                           "the pawn arrived, so the move is complete");
+        }
+
+        [TestMethod(DisplayName = "A capture is a placement, not a piece in hand")]
+        public void CaptureIsNotPieceInHand()
+        {
+            // Black pawn b5 takes a white pawn on c4: something arrived, something left.
+            Assert.IsFalse(KibitzerPosition.IsPieceInHand("8/8/8/1p6/2P5/8/8/8", "8/8/8/8/1p6/8/8/8"));
+        }
+
+        [TestMethod(DisplayName = "An unchanged board is not a piece in hand")]
+        public void UnchangedBoardIsNotPieceInHand()
+        {
+            Assert.IsFalse(KibitzerPosition.IsPieceInHand(Initial, Initial));
+            Assert.IsFalse(KibitzerPosition.IsPieceInHand("", Initial), "with no history there is nothing to compare");
+        }
+
+        [TestMethod(DisplayName = "A double push still opens en passant when a lift was seen in between")]
+        public void DoublePushAcrossALiftOpensEnPassant()
+        {
+            // What a physical board actually reports for b7-b5: the settled position, then the
+            // pawn in the air, then the pawn on b5. Measuring from the middle scan loses the move.
+            const string beforeMove = Initial;
+            const string lifted = "rnbqkbnr/p1pppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+            const string afterMove = "rnbqkbnr/p1pppppp/8/1p6/8/8/PPPPPPPP/RNBQKBNR";
+
+            Assert.IsTrue(KibitzerPosition.IsPieceInHand(beforeMove, lifted));
+
+            KibitzerPosition position = KibitzerPosition.Infer(afterMove, beforeMove);
+
+            Assert.AreEqual("b6", position.EnPassantSquare, "the pawn crossed b6");
+            Assert.IsTrue(position.IsWhiteToPlay, "black has just moved");
+        }
     }
 }

@@ -141,5 +141,26 @@ namespace DgtCherubTest
             Assert.AreEqual(StartFen, hub.LocalBoardFEN,
                 "the processor must keep going after a position it cannot handle");
         }
+
+        [TestMethod(DisplayName = "A pawn lifted and placed two squares on still opens en passant")]
+        public async Task EnPassantSurvivesThePieceInHandScan()
+        {
+            Mock<IUciEngineManager> uci = EngineManager(kibitzerRunning: false);
+            AngelHubService hub = CreateHub(uci, out _);
+
+            // What the board actually reports for b7-b5: the settled position, the pawn in the
+            // air, then the pawn on b5. Measuring the move from the middle scan loses the double
+            // push, and with it the en passant square the engine is entitled to.
+            hub.LocalBoardUpdate(StartFen);
+            hub.LocalBoardUpdate("rnbqkbnr/p1pppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+            hub.LocalBoardUpdate("rnbqkbnr/p1pppppp/8/1p6/8/8/PPPPPPPP/RNBQKBNR");
+
+            await hub.DrainAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            Assert.IsNotNull(hub.CurrentKibitzerPosition);
+            Assert.AreEqual("b6", hub.CurrentKibitzerPosition.EnPassantSquare,
+                "black's pawn crossed b6, so white may capture en passant there");
+            Assert.IsTrue(hub.CurrentKibitzerPosition.IsWhiteToPlay, "black has just moved");
+        }
     }
 }
