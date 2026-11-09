@@ -388,6 +388,10 @@ namespace DgtCherub.Services
                         //CurrentUciEngine?.Stop();
                         //OnKibitzerFenChange?.Invoke(joinedFen);
 
+                        // The specification only allows a position command while the engine is idle,
+                        // so end the previous search first. The engine answers stop with bestmove and
+                        // the next position can be queued straight behind it.
+                        _uciEngineManager?.LoadedEngineStop();
                         _uciEngineManager?.LoadedEngineSetPosition(joinedFen);
                         _uciEngineManager?.LoadedEngineGoInfinite();
 

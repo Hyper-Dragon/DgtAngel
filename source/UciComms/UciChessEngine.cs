@@ -26,6 +26,23 @@ namespace UciComms
         internal bool IsRunning => RunningProcess != null;
         internal bool IsUciOk { get; private set; }
         internal bool IsReady { get; private set; }
+
+        /// <summary>
+        /// Number of go commands still waiting to be answered with a bestmove.
+        /// </summary>
+        /// <remarks>
+        /// A count rather than a flag because the engine answers each go with exactly one bestmove,
+        /// and those answers can arrive after the next go has already been sent - stopping a search
+        /// and immediately queuing the next position is exactly the sequence the kibitzer uses. A
+        /// flag would be cleared by the outgoing search's bestmove and leave a thinking engine
+        /// marked as idle, which is the condition that caused positions to be dropped.
+        /// </remarks>
+        private int outstandingSearches;
+
+        /// <summary>
+        /// Whether the engine has been told to search and has not yet answered with bestmove.
+        /// </summary>
+        internal bool IsSearching => Volatile.Read(ref outstandingSearches) > 0;
         
         internal  Eval evaluation = new();
 
@@ -193,12 +210,41 @@ namespace UciComms
 
         internal void Go(int depth)
         {
+            Interlocked.Increment(ref outstandingSearches);
             SendCommand($"go depth {depth}");
         }
 
         internal void GoInfinite()
         {
+            Interlocked.Increment(ref outstandingSearches);
             SendCommand($"go infinite");
+        }
+
+        /// <summary>
+        /// Asks the engine to stop searching, so it is idle and can be given a new position.
+        /// </summary>
+        /// <remarks>
+        /// Nothing is sent when no search is outstanding: stop is only meaningful during a search,
+        /// and the engine is expected to answer it with bestmove, which is what clears the count.
+        /// </remarks>
+        internal void Stop()
+        {
+            if (!IsSearching) { return; }
+
+            SendCommand("stop");
+        }
+
+        /// <summary>
+        /// Records that the engine has answered a search with bestmove.
+        /// </summary>
+        private void MarkSearchAnswered()
+        {
+            // One go produces exactly one bestmove, so this cannot go negative unless the engine
+            // is misbehaving. Clamp rather than let it wrap and be permanently wrong.
+            if (Interlocked.Decrement(ref outstandingSearches) < 0)
+            {
+                _ = Interlocked.Exchange(ref outstandingSearches, 0);
+            }
         }
 
         internal bool WaitForUciOk()
@@ -223,11 +269,6 @@ namespace UciComms
             }
 
             return IsReady;
-        }
-
-        internal void Stop()
-        {
-            SendCommand("stop");
         }
 
         internal void Quit()
@@ -298,6 +339,8 @@ namespace UciComms
             {
                 string[] splitStr = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 int ponderIndex = Array.IndexOf(splitStr, "ponder");
+
+                MarkSearchAnswered();
 
                 return new BestMoveResponse
                 {

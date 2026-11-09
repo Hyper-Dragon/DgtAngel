@@ -105,5 +105,77 @@ namespace ChessHelpersTest
             Assert.IsFalse(sent.GetRange(1, 3).Contains("ucinewgame"),
                            "the positions within one game must not repeat ucinewgame");
         }
+
+        [TestMethod(DisplayName = "An engine that is not searching is sent no stop")]
+        public void StopIsSilentWhenIdle()
+        {
+            (UciChessEngine engine, List<string> sent) = NewEngine();
+
+            engine.Stop();
+
+            Assert.AreEqual(0, sent.Count, $"an idle engine must not be sent stop, got [{string.Join(" | ", sent)}]");
+            Assert.IsFalse(engine.IsSearching);
+        }
+
+        [TestMethod(DisplayName = "Stop is sent while a search is outstanding")]
+        public void StopIsSentWhileSearching()
+        {
+            (UciChessEngine engine, List<string> sent) = NewEngine();
+
+            engine.GoInfinite();
+            Assert.IsTrue(engine.IsSearching, "go infinite must mark the engine as searching");
+
+            engine.Stop();
+
+            Assert.AreEqual(2, sent.Count);
+            Assert.AreEqual("go infinite", sent[0]);
+            Assert.AreEqual("stop", sent[1], "a searching engine must be sent stop before a new position");
+        }
+
+        [TestMethod(DisplayName = "bestmove ends the outstanding search")]
+        public void BestMoveClearsTheSearch()
+        {
+            (UciChessEngine engine, List<string> sent) = NewEngine();
+
+            engine.GoInfinite();
+            _ = engine.ParseResponse("bestmove b1c3 ponder b8c6");
+
+            Assert.IsFalse(engine.IsSearching, "bestmove means the engine is idle again");
+
+            engine.Stop();
+            Assert.AreEqual(1, sent.Count, "a stop after bestmove must not be sent");
+        }
+
+        [TestMethod(DisplayName = "The outgoing search's bestmove does not hide the new search")]
+        public void OutgoingBestMoveDoesNotClearTheNewSearch()
+        {
+            (UciChessEngine engine, List<string> sent) = NewEngine();
+
+            // Exactly the kibitzer sequence: stop, new position, go - three quick board changes.
+            engine.GoInfinite();
+            engine.Stop();
+            engine.GoInfinite();
+
+            // The answer to the FIRST go arrives while the second search is already running.
+            _ = engine.ParseResponse("bestmove g8f6 ponder b1c3");
+
+            Assert.IsTrue(engine.IsSearching,
+                          "the engine is still thinking about the second position, so it must still read as searching");
+
+            engine.Stop();
+            Assert.AreEqual(4, sent.Count, $"expected go, stop, go, stop - got [{string.Join(" | ", sent)}]");
+            Assert.AreEqual("stop", sent[3]);
+        }
+
+        [TestMethod(DisplayName = "A bare bestmove, with no move to give, still ends the search")]
+        public void BareBestMoveEndsTheSearch()
+        {
+            (UciChessEngine engine, _) = NewEngine();
+
+            engine.GoInfinite();
+            _ = engine.ParseResponse("bestmove");
+
+            Assert.IsFalse(engine.IsSearching, "even a move-less bestmove means the search finished");
+        }
     }
 }
