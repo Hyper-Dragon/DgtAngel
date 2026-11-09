@@ -388,6 +388,17 @@ namespace DgtCherub.Controllers
             };
 
 
+            //Send on connect. The page keeps whatever the last session left on it, so it is told
+            //to clear itself and what the current state is before anything live arrives.
+            await SendEventResponse(Response, JsonSerializer.Serialize(new
+            {
+                MessageType = "OnKibitzerReset",
+                UciEngineName = _uciEngineManager.LoadedEngineName == "NO ENGINE" ? "" : _uciEngineManager.LoadedEngineName,
+                _uciEngineManager.IsKibitzerRunning,
+                ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+            }));
+
             //Send on connect. Without this a clock opened after the engine was loaded never
             //learns which engine is running, because the load happened before it was listening.
             if (_uciEngineManager.LoadedEngineName != "NO ENGINE")

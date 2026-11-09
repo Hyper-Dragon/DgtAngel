@@ -286,6 +286,22 @@
         encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
 
 
+        // The header names the engine and says whether the kibitzer is on. Both are kept here so
+        // that either message can arrive first and still render the whole line.
+        var engineName = "";
+        var kibitzerRunning = false;
+
+        function renderHeader() {
+            const header = document.getElementById("testmsg");
+
+            if (!header) { return; }
+
+            let text = engineName ? "Engine Loaded " + engineName : "No engine loaded";
+            text += kibitzerRunning ? " - kibitzer on" : " - kibitzer off";
+
+            header.textContent = text;
+        }
+
         // The bar fills from the centre towards whoever is better, and the value sits inside it
         // at that end. A mate is not a number of pawns, so it shows its own mark and a full half.
         function drawScoreBar(evalInfo) {
@@ -434,11 +450,26 @@
                             case "OnKibitzerPosition":
                                 document.getElementById("kibitz-position").textContent = obj.Info;
                                 break;
+                            case "OnKibitzerReset": {
+                                // A previous session may have left a score and a set of lines on the
+                                // page. Clear them, then show what is actually running now.
+                                engineName = obj.UciEngineName || "";
+                                kibitzerRunning = !!obj.IsKibitzerRunning;
+                                renderHeader();
+
+                                drawScoreBar({ Eval: 0, MateIn: 0 });
+                                document.getElementById("kibitz-depth").textContent = "";
+                                document.getElementById("kibitz-position").textContent = "";
+                                document.getElementById("kibitz-lines").innerHTML = "";
+                                break;
+                            }
                             case "OnUciEngineLoaded":
-                                document.getElementById("testmsg").innerHTML = "Engine Loaded " + obj.LoadedEngineName;
+                                engineName = obj.LoadedEngineName || "";
+                                renderHeader();
                                 break;
                             case "OnUciEngineReleased":
-                                document.getElementById("testmsg").innerHTML = "Engine Released";
+                                engineName = "";
+                                renderHeader();
                                 break;
                             case "OnUciEngineStartError":
                                 document.getElementById("testmsg").innerHTML = "Engine Start Error";
