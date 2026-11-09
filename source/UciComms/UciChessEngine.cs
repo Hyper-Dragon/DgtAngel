@@ -87,32 +87,7 @@ namespace UciComms
 
             RunningProcess.OutputDataReceived += (sender, args) =>
             {
-                if (args == null || args.Data == null) { return; }
-
-
-                OnOutputRecievedRaw?.Invoke(this, (args?.Data ?? ""));
-
-                if ((args?.Data ?? "") == "uciok")
-                {
-                    IsUciOk = true;
-                }
-                else if ((args?.Data ?? "") == "readyok")
-                {
-                    IsReady = true;
-                }
-
-                UciResponse? response = ParseResponse(args?.Data ?? "");
-                if (response != null)
-                {
-                    if (response is IdResponse idResponse)
-                    {
-                        EngineName = string.IsNullOrEmpty(idResponse.Name) ? EngineName : idResponse.Name;
-                        EngineAuthor = string.IsNullOrEmpty(idResponse.Author) ? EngineAuthor : idResponse.Author;
-                    }
-
-                    OnOutputRecieved?.Invoke(this, response);
-                }
-
+                if (args != null) { HandleOutputLine(args.Data); }
             };
 
             RunningProcess.ErrorDataReceived += (sender, args) => OnErrorRecievedRaw?.Invoke(this, args?.Data ?? "");
@@ -153,6 +128,42 @@ namespace UciComms
             OnInputSentRaw?.Invoke(this, command);
             RunningProcess?.StandardInput?.WriteLine(command);
             RunningProcess?.StandardInput?.Flush();
+        }
+
+        /// <summary>
+        /// Handles one line of engine output: the raw event, the handshake flags, the parse, and
+        /// the parsed event.
+        /// </summary>
+        /// <remarks>
+        /// Split out of the process callback so the whole chain can be exercised without an engine.
+        /// Everything downstream of the pipe hangs off this one method, so a missed event here is
+        /// invisible in every other test.
+        /// </remarks>
+        internal void HandleOutputLine(string? data)
+        {
+            if (data == null) { return; }
+
+            OnOutputRecievedRaw?.Invoke(this, data);
+
+            if (data == "uciok")
+            {
+                IsUciOk = true;
+            }
+            else if (data == "readyok")
+            {
+                IsReady = true;
+            }
+
+            UciResponse? response = ParseResponse(data);
+            if (response == null) { return; }
+
+            if (response is IdResponse idResponse)
+            {
+                EngineName = string.IsNullOrEmpty(idResponse.Name) ? EngineName : idResponse.Name;
+                EngineAuthor = string.IsNullOrEmpty(idResponse.Author) ? EngineAuthor : idResponse.Author;
+            }
+
+            OnOutputRecieved?.Invoke(this, response);
         }
 
         internal void StopUciEngine()

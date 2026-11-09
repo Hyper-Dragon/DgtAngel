@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using UciComms.Data;
 
 namespace UciComms
@@ -60,23 +60,55 @@ namespace UciComms
             {
                 if (currentUciChessEngine != null)
                 {
-                    currentUciChessEngine.OnOutputRecievedRaw -= EngOnOutputRecievedRawOut;
-                    currentUciChessEngine.OnErrorRecievedRaw -= EngOnOutputRecievedRawError;
-                    currentUciChessEngine.OnInputSentRaw -= EngOnOutputRecievedRawIn;
-                    currentUciChessEngine.OnBoardEvalChanged -= EngineOnBoardEvalChanged;
+                    DetachEngineEvents(currentUciChessEngine);
                 }
 
                 currentUciChessEngine = value;
 
-                currentUciChessEngine.OnOutputRecievedRaw += EngOnOutputRecievedRawOut;
-                currentUciChessEngine.OnErrorRecievedRaw += EngOnOutputRecievedRawError;
-                currentUciChessEngine.OnInputSentRaw += EngOnOutputRecievedRawIn;
-                currentUciChessEngine.OnBoardEvalChanged += EngineOnBoardEvalChanged;
+                AttachEngineEvents(currentUciChessEngine);
 
                 await Task.Run(() => value?.StartUciEngine());
             }
         }
 
+        /// <summary>
+        /// Starts forwarding this engine's events to the manager's events.
+        /// </summary>
+        /// <remarks>
+        /// Both the raw and the parsed output are forwarded. Only the raw one used to be, so
+        /// OnLoadedEngineOutputRecieved had no producer and the UI's parsed-output handler - the
+        /// one that fills the kibitzer info box and backs the "show UCI raw output" option - could
+        /// never run.
+        /// </remarks>
+        internal void AttachEngineEvents(UciChessEngine engine)
+        {
+            // Detaching first makes this idempotent. Attaching the same engine twice would
+            // otherwise subscribe every handler twice and deliver each event twice.
+            DetachEngineEvents(engine);
+            engine.OnOutputRecieved += EngOnOutputRecieved;
+            engine.OnOutputRecievedRaw += EngOnOutputRecievedRawOut;
+            engine.OnErrorRecievedRaw += EngOnOutputRecievedRawError;
+            engine.OnInputSentRaw += EngOnOutputRecievedRawIn;
+            engine.OnBoardEvalChanged += EngineOnBoardEvalChanged;
+        }
+
+        /// <summary>
+        /// Stops forwarding this engine's events, so a replaced engine cannot keep driving the UI.
+        /// </summary>
+        internal void DetachEngineEvents(UciChessEngine engine)
+        {
+            engine.OnOutputRecieved -= EngOnOutputRecieved;
+            engine.OnOutputRecievedRaw -= EngOnOutputRecievedRawOut;
+            engine.OnErrorRecievedRaw -= EngOnOutputRecievedRawError;
+            engine.OnInputSentRaw -= EngOnOutputRecievedRawIn;
+            engine.OnBoardEvalChanged -= EngineOnBoardEvalChanged;
+        }
+
+
+        private void EngOnOutputRecieved(object? sender, UciResponse e)
+        {
+            OnLoadedEngineOutputRecieved?.Invoke(this, e);
+        }
 
         private void EngOnOutputRecievedRawIn(object? sender, string? e)
         {
