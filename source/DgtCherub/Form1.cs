@@ -795,40 +795,7 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
-            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (uciEngineEval) =>
-            {
-                if (uciEngineEval.Depth >= 18)
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        int evalClamped = Math.Clamp(uciEngineEval.Eval / 100, -10, 10);
-                        ProgBarKibitzer.Value = evalClamped + (ProgBarKibitzer.Maximum / 2);
-                        LabelScoreKibitzer.Text = uciEngineEval.MateIn != 0 ?
-                                                  $"Mate : {uciEngineEval.MateIn}" :
-                                                  $"Score: {((float)uciEngineEval.Eval / 100f)}";
-                        LabelDepthKibitzer.Text = $"Depth: {uciEngineEval.Depth}";
-
-                        ProgBarKibitzer.Invalidate();
-                        LabelScoreKibitzer.Invalidate();
-                        LabelDepthKibitzer.Invalidate();
-                        this.Update();
-                    });
-                }
-                else
-                {
-                    this.Invoke((MethodInvoker)delegate
-                    {
-                        ProgBarKibitzer.Value = 0;
-                        LabelScoreKibitzer.Text = "Score: -";
-                        LabelDepthKibitzer.Text = "Depth: -";
-
-                        ProgBarKibitzer.Invalidate();
-                        LabelScoreKibitzer.Invalidate();
-                        LabelDepthKibitzer.Invalidate();
-                        this.Update();
-                    });
-                }
-            };
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (uciEngineEval) => UpdateKibitzerReadout(uciEngineEval);
 
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
             {
@@ -1702,6 +1669,41 @@ namespace DgtCherub
 
                 _uciEngineManager.StartEngineAsync(_uciEngineManager.LoadedEngineName);
             }
+        }
+
+        /// <summary>
+        /// Draws an engine evaluation in the kibitzer panel.
+        /// </summary>
+        /// <remarks>
+        /// Every evaluation the engine reports is drawn. This used to draw only evaluations at
+        /// depth eighteen or deeper and blank the panel for everything else, which meant a fast
+        /// engine showed nothing at all - it never got past the threshold before the next position
+        /// arrived, and the reset that precedes each position blanked the panel again.
+        /// </remarks>
+        private void UpdateKibitzerReadout(UciEngineEval uciEngineEval)
+        {
+            if (IsDisposed || !IsHandleCreated) { return; }
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                if (KibitzerDisplay.IsReset(uciEngineEval))
+                {
+                    ProgBarKibitzer.Value = 0;
+                    LabelScoreKibitzer.Text = KibitzerDisplay.NoScore;
+                    LabelDepthKibitzer.Text = KibitzerDisplay.NoDepth;
+                }
+                else
+                {
+                    ProgBarKibitzer.Value = KibitzerDisplay.ProgressValue(uciEngineEval.Eval, ProgBarKibitzer.Maximum);
+                    LabelScoreKibitzer.Text = KibitzerDisplay.FormatScore(uciEngineEval);
+                    LabelDepthKibitzer.Text = KibitzerDisplay.FormatDepth(uciEngineEval);
+                }
+
+                ProgBarKibitzer.Invalidate();
+                LabelScoreKibitzer.Invalidate();
+                LabelDepthKibitzer.Invalidate();
+                this.Update();
+            });
         }
 
         private void ButtonEngineConfig_Click(object sender, EventArgs e)
