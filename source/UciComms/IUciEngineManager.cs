@@ -31,6 +31,7 @@ namespace UciComms
         bool LoadedEngineIsReady { get; }
         bool IsLoadedEngineRunning { get; }
         bool IsLoadedEngineUciOk { get; }
+        bool IsKibitzerRunning { get; }
         string LoadedEngineLastSeenFen { get; }
         string LoadedEngineLastSeenMoveList { get; }
         Dictionary<string, UciOption> LoadedEngineOptions { get; }

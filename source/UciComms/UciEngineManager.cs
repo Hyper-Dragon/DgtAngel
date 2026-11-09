@@ -29,6 +29,16 @@ namespace UciComms
 
         private UciChessEngine? currentUciChessEngine = null;
 
+        /// <summary>
+        /// Whether the kibitzer has been switched on through <see cref="SwitchKibitzer"/>.
+        /// </summary>
+        /// <remarks>
+        /// State for a feature that is not finished - nothing publishes a kibitzer FEN yet - so it
+        /// is exposed rather than kept as a field. As a field it was written in two places and read
+        /// nowhere, which reads exactly like dead code and is easy to delete by mistake.
+        /// </remarks>
+        public bool IsKibitzerRunning { get; private set; }
+
         public UciEngineManager() { }
 
         // RegisterEngine now returns a Task to allow for async operation
@@ -177,10 +187,12 @@ namespace UciComms
             if (turnOn)
             {
                 //KillRemoteConnections();
+                IsKibitzerRunning = true;
                 OnKibitzerActivated?.Invoke();
             }
             else
             {
+                IsKibitzerRunning = false;
                 CurrentUciEngine?.Stop();
                 OnKibitzerDeactivated?.Invoke();
             }

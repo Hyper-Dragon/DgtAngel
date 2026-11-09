@@ -890,12 +890,6 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
             };
 
-            _angelHubService.OnBoardMatch += (_, _) =>
-        {
-            LabelLocalDgt.BackColor = BoredLabelsInitialColor;
-            LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
-        };
-
             _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>

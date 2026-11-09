@@ -29,7 +29,6 @@ namespace DgtCherub.Services
         public int FromMismatchDelayMs { get; set; }
 
         event Action OnInitComplete;
-        event Action<long, string> OnBoardMatch;
         event Action<string, bool> OnRemoteBoardStatusChange;
         event Action OnBoardMatcherStarted;
         event Action<long> OnBoardMatchFromMissmatch;

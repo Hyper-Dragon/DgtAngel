@@ -286,15 +286,6 @@ namespace DgtCherub.Controllers
                 }
             };
 
-            _angelHubService.OnBoardMatch += async (sentTimeTicks, _) =>
-            {
-                if (sentTimeTicks > LastSeenEventTimeTicks)
-                {
-                    LastSeenEventTimeTicks = sentTimeTicks;
-                    await SendEventResponse(Response, ConstructMessageOnly("OnBoardMatch"));
-                }
-            };
-
             _angelHubService.OnBoardMatchFromMissmatch += async (sentTimeTicks) =>
             {
                 if (sentTimeTicks > LastSeenEventTimeTicks)

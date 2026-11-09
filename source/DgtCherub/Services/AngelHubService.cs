@@ -20,7 +20,6 @@ namespace DgtCherub.Services
         public event Action OnOrientationFlipped;
         public event Action<long, int, string, string> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
-        public event Action<long, string> OnBoardMatch;
         public event Action<long> OnBoardMatchFromMissmatch;
         public event Action<string> OnRemoteWatchStarted;
         public event Action<string> OnRemoteWatchStopped;
@@ -581,7 +580,6 @@ namespace DgtCherub.Services
                 else
                 {
                     LastMatchedPosition = LocalBoardFEN;
-                    //OnBoardMatch?.Invoke(LocalBoardFEN);
 
                     if (!IsBoardInSync)
                     {
