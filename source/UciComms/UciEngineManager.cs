@@ -134,6 +134,7 @@ namespace UciComms
 
         public void LoadedEngineGo(int depth) { currentUciChessEngine?.Go(depth); }
         public void LoadedEngineGoInfinite() { currentUciChessEngine?.GoInfinite(); }
+        public void LoadedEngineNewGame() { currentUciChessEngine?.NewGame(); }
         public void LoadedEngineQuit() { currentUciChessEngine?.Quit(); }
         public void LoadedEngineSetDebug(bool debugOn) { currentUciChessEngine?.SetDebug(debugOn); }
         public void LoadedEngineSetMoves(string moves) { currentUciChessEngine?.SetMoves(moves); }
@@ -188,6 +189,9 @@ namespace UciComms
             {
                 //KillRemoteConnections();
                 IsKibitzerRunning = true;
+                // A kibitzer starts observing at the start of a game, which is the one point the
+                // specification allows ucinewgame.
+                currentUciChessEngine?.NewGame();
                 OnKibitzerActivated?.Invoke();
             }
             else

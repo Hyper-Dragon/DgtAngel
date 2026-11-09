@@ -160,9 +160,23 @@ namespace UciComms
         internal void SetPosition(string fen)
         {
             evaluation.ResetEval();
-            SendCommand("ucinewgame");
             SendCommand($"position fen {fen}");
             LastSeenFen = fen;
+        }
+
+        /// <summary>
+        /// Tells the engine that the positions which follow belong to a new game.
+        /// </summary>
+        /// <remarks>
+        /// The UCI specification defines this as "the next position command will be from another
+        /// game", which happens once per game. It used to be sent from <see cref="SetPosition"/>,
+        /// so every ply wiped the engine's hash tables and threw away all of its analysis; the
+        /// engine never got past a few ply of depth on a board that was being played on.
+        /// </remarks>
+        internal void NewGame()
+        {
+            evaluation.ResetEval();
+            SendCommand("ucinewgame");
         }
 
         internal void SetDebug(bool debugOn)

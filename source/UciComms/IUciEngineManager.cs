@@ -47,6 +47,7 @@ namespace UciComms
         void LoadedEngineSetMoves(string moves);
         void LoadedEngineSetOption(string name, string value);
         void LoadedEngineSetPosition(string fen);
+        void LoadedEngineNewGame();
         void LoadedEngineStop();
         bool LoadedEngineWaitForReady();
         bool LoadedEngineWaitForUciOk();
