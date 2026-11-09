@@ -96,12 +96,30 @@ namespace DgtCherub.Controllers
             // http://localhost:37964/
             _logger?.LogTrace("Clock index requested");
 
+            NoPageCache();
+
             return new ContentResult
             {
                 ContentType = "text/html",
                 StatusCode = (int)HttpStatusCode.OK,
                 Content = IndexPageHtml,
             };
+        }
+
+        /// <summary>
+        /// Tells the browser not to keep a copy of a clock page.
+        /// </summary>
+        /// <remarks>
+        /// The pages are embedded in the assembly, so a rebuild changes what they contain without
+        /// changing their address. A cached page then runs yesterday code against today messages:
+        /// it silently ignores anything it does not recognise, and the only symptom is a screen
+        /// that will not do what the code plainly does.
+        /// </remarks>
+        private void NoPageCache()
+        {
+            Response.Headers.CacheControl = "no-store, no-cache, must-revalidate, max-age=0";
+            Response.Headers.Pragma = "no-cache";
+            Response.Headers.Expires = "0";
         }
 
 
@@ -113,6 +131,8 @@ namespace DgtCherub.Controllers
 
             // http://localhost:37964/CherubVirtualClock/GetClock
             _logger?.LogTrace($"Clock requested [{clock.SanitiseText()}]");
+
+            NoPageCache();
 
             try
             {
