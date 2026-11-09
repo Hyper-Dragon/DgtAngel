@@ -1,4 +1,6 @@
-﻿namespace DynamicBoard.Helpers
+﻿using System.Globalization;
+
+namespace DynamicBoard.Helpers
 {
     public class FenConversion
     {
@@ -23,6 +25,7 @@
 
         public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
+            ArgumentNullException.ThrowIfNull(fen);
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
             fen = fen.Trim().Split(' ')[0];
 
@@ -43,13 +46,13 @@
             int convIdx = 0;
             foreach (char squareValue in fen)
             {
-                if ("rnbqkpPRNBQK".Contains(squareValue))
+                if ("rnbqkpPRNBQK".Contains(squareValue, StringComparison.Ordinal))
                 {
                     boardArrayOut[convIdx++] = squareValue;
                 }
-                else if ("12345678".Contains(squareValue))
+                else if ("12345678".Contains(squareValue, StringComparison.Ordinal))
                 {
-                    convIdx += int.Parse(squareValue.ToString());
+                    convIdx += int.Parse(squareValue.ToString(), CultureInfo.InvariantCulture);
                 }
             }
 

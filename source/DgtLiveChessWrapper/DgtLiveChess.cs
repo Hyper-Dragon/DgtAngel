@@ -1,4 +1,5 @@
 ﻿using DgtLiveChessWrapper.DgtLiveChessJson;
+using System.Globalization;
 using System.Net.WebSockets;
 using System.Text;
 
@@ -111,7 +112,7 @@ namespace DgtLiveChessWrapper
             while (true)
             {
                 //First get a list of eBoards...
-                await Send(socket, string.Format(CALL_EBAORDS, ++idCount));
+                await Send(socket, string.Format(CultureInfo.InvariantCulture, CALL_EBAORDS, ++idCount));
                 (string eboardsJsonString, LiveChessCallResponse eboardsResponse) = LiveChessCallResponse.Deserialize(await Receive(socket, false));
 
                 //...then find the first active board if we have one...
@@ -134,7 +135,7 @@ namespace DgtLiveChessWrapper
                     reportNoActiveBoards = true;
                     OnBoardConnected?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Connected to Board {watchdSerialNumber} [State={activeBoard.ConnectionState}]" });
 
-                    if (activeBoard.BatteryLevel is not null && int.TryParse(activeBoard.BatteryLevel.Replace("%", "").Trim(), out int batteryLevel))
+                    if (activeBoard.BatteryLevel is not null && int.TryParse(activeBoard.BatteryLevel.Replace("%", "", StringComparison.Ordinal).Trim(), out int batteryLevel))
                     {
                         if (batteryLevel < BATTERY_CRIT_THRESHOLD) { OnBatteryCritical?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Critical, your board needs to be charged! [Level={activeBoard.BatteryLevel}]" }); }
                         else if (batteryLevel < BATTERY_LOW_THRESHOLD) { OnBatteryLow?.Invoke(this, new MessageRecievedEventArgs() { ResponseOut = $"Warning, your boards battery is getting a bit low. [Level={activeBoard.BatteryLevel}]" }); }
@@ -151,7 +152,7 @@ namespace DgtLiveChessWrapper
 
             //...so set up a feed...
             //await Send(socket, string.Format(CALL_SUBSCRIBE, ++idCount, ++idCount, watchdSerialNumber));
-            await Send(socket, string.Format(CALL_SUBSCRIBE, 999, ++idCount, watchdSerialNumber));
+            await Send(socket, string.Format(CultureInfo.InvariantCulture, CALL_SUBSCRIBE, 999, ++idCount, watchdSerialNumber));
             (string feedSetupJsonString, LiveChessCallResponse feedSetupResponse) = LiveChessCallResponse.Deserialize(await Receive(socket, true));
 
             //...and keep picking up board changes until the connection is closed
@@ -176,9 +177,9 @@ namespace DgtLiveChessWrapper
         /// <param name="socket"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        private static async Task Send(ClientWebSocket socket, string data)
+        private static Task Send(ClientWebSocket socket, string data)
         {
-            await socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None).ConfigureAwait(false);
+            return socket.SendAsync(Encoding.UTF8.GetBytes(data), WebSocketMessageType.Text, true, CancellationToken.None);
         }
 
         /// <summary>

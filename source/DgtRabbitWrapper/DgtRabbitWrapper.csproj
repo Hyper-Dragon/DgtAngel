@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
@@ -19,11 +19,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Fleck" Version="1.2.0" />
-    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ChessHelpers\ChessHelpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Test hook: lets DgtCherubTest cover the LiveChess message formatting. -->
+    <InternalsVisibleTo Include="DgtCherubTest" />
   </ItemGroup>
 
 </Project>

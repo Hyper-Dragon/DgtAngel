@@ -1,9 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Test hook: the LiveChess JSON records are internal. -->
+    <InternalsVisibleTo Include="DgtCherubTest" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AsyncFixer" Version="1.6.0">

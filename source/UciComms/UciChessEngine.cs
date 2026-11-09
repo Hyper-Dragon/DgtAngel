@@ -1,0 +1,491 @@
+﻿using System.Diagnostics;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
+using UciComms.Data;
+
+namespace UciComms
+{
+    public sealed partial class UciChessEngine
+    {
+        // Subscribe to this events to get the parsed output from the engine
+        internal event EventHandler<UciResponse>? OnOutputRecieved;
+
+        // Subscribe to these events to get the raw output from the engine
+        internal event EventHandler<string>? OnOutputRecievedRaw;
+        internal event EventHandler<string>? OnErrorRecievedRaw;
+        internal event EventHandler<string>? OnInputSentRaw;
+
+        // Subscribe to this event to get the board evaluation from the engine
+        internal event Action<UciEngineEval>? OnBoardEvalChanged;
+
+        private static readonly Regex OptionRegex = LineIn();
+
+        internal  Process? RunningProcess { get; set; }
+
+        /// <summary>
+        /// Whether an attached process is still running.
+        /// </summary>
+        /// <remarks>
+        /// <c>Process.HasExited</c> throws for a process object that was never started, so this is
+        /// not a null check with a property read bolted on: a process that has failed to start, or
+        /// has already been reaped, is not running as far as this engine is concerned.
+        /// </remarks>
+        internal bool IsProcessAlive
+        {
+            get
+            {
+                if (RunningProcess == null) { return false; }
+
+                try
+                {
+                    return !RunningProcess.HasExited;
+                }
+                catch (InvalidOperationException)
+                {
+                    return false;
+                }
+            }
+        }
+        internal FileInfo Executable { get; init; }
+        internal bool IsRunning => RunningProcess != null;
+        internal bool IsUciOk { get; private set; }
+        internal bool IsReady { get; private set; }
+
+        /// <summary>
+        /// Number of go commands still waiting to be answered with a bestmove.
+        /// </summary>
+        /// <remarks>
+        /// A count rather than a flag because the engine answers each go with exactly one bestmove,
+        /// and those answers can arrive after the next go has already been sent - stopping a search
+        /// and immediately queuing the next position is exactly the sequence the kibitzer uses. A
+        /// flag would be cleared by the outgoing search's bestmove and leave a thinking engine
+        /// marked as idle, which is the condition that caused positions to be dropped.
+        /// </remarks>
+        private int outstandingSearches;
+
+        /// <summary>
+        /// Whether the engine has been told to search and has not yet answered with bestmove.
+        /// </summary>
+        internal bool IsSearching => Volatile.Read(ref outstandingSearches) > 0;
+        
+        internal  Eval evaluation = new();
+
+
+        internal string EngineName { get; private set; } = "UNKNOWN";
+        internal string EngineAuthor { get; private set; } = "UNKNOWN";
+        internal Dictionary<string, UciOption> Options { get; } = new();
+        internal string LastSeenFen { get; private set; } = "";
+        internal string LastSeenMoveList { get; private set; } = "";
+
+
+        internal UciChessEngine(FileInfo executable)
+        {
+            Executable = executable;
+            RunningProcess = null;
+
+            evaluation.OnBoardEvalChanged += Evaluation_OnBoardEvalChanged;
+        }
+
+        private void Evaluation_OnBoardEvalChanged(UciEngineEval obj)
+        {
+            OnBoardEvalChanged?.Invoke(obj);
+        }
+
+        [GeneratedRegex("^option name (?<name>.+?) type (?<type>\\S+)(?: default (?<default>\\S+))?(?: min (?<min>\\S+))?(?: max (?<max>\\S+))?(?: var (?<var>\\S+))?")]
+        private static partial Regex LineIn();
+
+        internal void StartUciEngine()
+        {
+            // One engine object owns one process. Starting it again while the first is alive
+            // leaves that process running with nothing holding it: it keeps searching, it keeps
+            // reporting through the handlers below into this same object, and no code path left
+            // can ever stop it. Nothing legitimately needs a restart here - loading a different
+            // engine builds a different object.
+            if (IsProcessAlive) { return; }
+
+            RunningProcess = new Process()
+            {
+                StartInfo = new ProcessStartInfo()
+                {
+                    FileName = Executable.FullName,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardError = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true
+                }
+            };
+
+            RunningProcess.OutputDataReceived += (sender, args) =>
+            {
+                if (args != null) { HandleOutputLine(args.Data); }
+            };
+
+            RunningProcess.ErrorDataReceived += (sender, args) => OnErrorRecievedRaw?.Invoke(this, args?.Data ?? "");
+
+            try
+            {
+                _ = RunningProcess.Start();
+            }
+            catch (Exception)
+            {
+                RunningProcess = null;
+                throw;
+            }
+
+            RunningProcess.BeginErrorReadLine();
+            RunningProcess.BeginOutputReadLine();
+
+            SendCommand("uci");
+
+            if (!WaitForUciOk())
+            {
+                //If message not recieved then the exe isn't a UCI engine so kill the process
+                RunningProcess.Kill();
+                throw new Exception("Executable is not a UCI engine.");
+            }
+
+            SendCommand("isready");
+
+            if (!WaitForReady())
+            {
+                RunningProcess.Kill();
+                throw new Exception("UCI engine ready timeout expired.");
+            }
+        }
+
+        private readonly object commandLock = new();
+
+        private void SendCommand(string command)
+        {
+            OnInputSentRaw?.Invoke(this, command);
+
+            // Process.StandardInput is a StreamWriter and is not thread-safe. Commands arrive
+            // from the board processor, from the UI when the kibitzer is switched on, and from
+            // the engine loading path; two writers interleaving corrupt the stream and can wedge
+            // the engine for the rest of the session.
+            lock (commandLock)
+            {
+                RunningProcess?.StandardInput?.WriteLine(command);
+                RunningProcess?.StandardInput?.Flush();
+            }
+        }
+
+        /// <summary>
+        /// Handles one line of engine output: the raw event, the handshake flags, the parse, and
+        /// the parsed event.
+        /// </summary>
+        /// <remarks>
+        /// Split out of the process callback so the whole chain can be exercised without an engine.
+        /// Everything downstream of the pipe hangs off this one method, so a missed event here is
+        /// invisible in every other test.
+        /// </remarks>
+        internal void HandleOutputLine(string? data)
+        {
+            if (data == null) { return; }
+
+            OnOutputRecievedRaw?.Invoke(this, data);
+
+            if (data == "uciok")
+            {
+                IsUciOk = true;
+            }
+            else if (data == "readyok")
+            {
+                IsReady = true;
+            }
+
+            UciResponse? response = ParseResponse(data);
+            if (response == null) { return; }
+
+            if (response is IdResponse idResponse)
+            {
+                EngineName = string.IsNullOrEmpty(idResponse.Name) ? EngineName : idResponse.Name;
+                EngineAuthor = string.IsNullOrEmpty(idResponse.Author) ? EngineAuthor : idResponse.Author;
+            }
+
+            OnOutputRecieved?.Invoke(this, response);
+        }
+
+        internal void StopUciEngine()
+        {
+            if (IsRunning)
+            {
+                RunningProcess?.Kill();
+                RunningProcess?.Dispose();
+                RunningProcess = null;
+            }
+        }
+
+        /// <summary>
+        /// Ends the engine process, politely if it will go.
+        /// </summary>
+        /// <remarks>
+        /// Stopping a search is not stopping the engine: <c>stop</c> leaves the process alive for
+        /// as long as the machine stays up, which is how a closed Cherub used to leave an engine
+        /// running behind it. <c>quit</c> is a request, so the wait for it is bounded - this runs
+        /// on the way out of the application, and an engine that has wedged must not be able to
+        /// hold the window open by refusing to exit.
+        /// </remarks>
+        internal void Shutdown()
+        {
+            if (!IsProcessAlive)
+            {
+                RunningProcess?.Dispose();
+                RunningProcess = null;
+                return;
+            }
+
+            try
+            {
+                SendCommand("quit");
+
+                if (!RunningProcess!.WaitForExit(2000))
+                {
+                    RunningProcess.Kill();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // The process went away underneath us; there is nothing left to end.
+            }
+            finally
+            {
+                RunningProcess?.Dispose();
+                RunningProcess = null;
+            }
+        }
+
+        internal void SetOption(string name, string value)
+        {
+            if (Options.TryGetValue(name, out UciOption? existing) && existing is not null)
+            {
+                existing.VarValue = value;
+                SendCommand($"setoption name {name} value {value}");
+            }
+        }
+
+        internal void SetPosition(string fen)
+        {
+            evaluation.ResetEval();
+            SendCommand($"position fen {fen}");
+            LastSeenFen = fen;
+        }
+
+        /// <summary>
+        /// Tells the engine that the positions which follow belong to a new game.
+        /// </summary>
+        /// <remarks>
+        /// The UCI specification defines this as "the next position command will be from another
+        /// game", which happens once per game. It used to be sent from <see cref="SetPosition"/>,
+        /// so every ply wiped the engine's hash tables and threw away all of its analysis; the
+        /// engine never got past a few ply of depth on a board that was being played on.
+        /// </remarks>
+        internal void NewGame()
+        {
+            evaluation.ResetEval();
+            SendCommand("ucinewgame");
+        }
+
+        internal void SetDebug(bool debugOn)
+        {
+            SendCommand($"debug {(debugOn ? "on" : "off")}");
+        }
+
+
+        internal void SetMoves(string moves)
+        {
+            SendCommand($"position startpos moves {moves}");
+            LastSeenMoveList = moves;
+        }
+
+        internal void Go(int depth)
+        {
+            Interlocked.Increment(ref outstandingSearches);
+            SendCommand($"go depth {depth}");
+        }
+
+        internal void GoInfinite()
+        {
+            Interlocked.Increment(ref outstandingSearches);
+            SendCommand($"go infinite");
+        }
+
+        /// <summary>
+        /// Asks the engine to stop searching, so it is idle and can be given a new position.
+        /// </summary>
+        /// <remarks>
+        /// Nothing is sent when no search is outstanding: stop is only meaningful during a search,
+        /// and the engine is expected to answer it with bestmove, which is what clears the count.
+        /// </remarks>
+        internal void Stop()
+        {
+            if (!IsSearching) { return; }
+
+            SendCommand("stop");
+        }
+
+        /// <summary>
+        /// Records that the engine has answered a search with bestmove.
+        /// </summary>
+        private void MarkSearchAnswered()
+        {
+            // One go produces exactly one bestmove, so this cannot go negative unless the engine
+            // is misbehaving. Clamp rather than let it wrap and be permanently wrong.
+            if (Interlocked.Decrement(ref outstandingSearches) < 0)
+            {
+                _ = Interlocked.Exchange(ref outstandingSearches, 0);
+            }
+        }
+
+        internal bool WaitForUciOk()
+        {
+            int loop = 0;
+            while (IsUciOk == false && loop < 30)
+            {
+                Thread.Sleep(100);
+                loop++;
+            }
+
+            return IsUciOk;
+        }
+
+        internal bool WaitForReady()
+        {
+            int loop = 0;
+            while (IsReady == false && loop < 30)
+            {
+                Thread.Sleep(100);
+                loop++;
+            }
+
+            return IsReady;
+        }
+
+        internal void Quit()
+        {
+            SendCommand("quit");
+            RunningProcess?.WaitForExit();
+        }
+
+
+        internal UciResponse? ParseResponse(string rawData)
+        {
+            if (string.IsNullOrWhiteSpace(rawData))
+            {
+                return null;
+            }
+
+            if (rawData.StartsWith("id", StringComparison.Ordinal))
+            {
+                string[] parts = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                IdResponse idResponse = new() { RawData = rawData };
+
+                int nameIndex = Array.IndexOf(parts, "name");
+                int authorIndex = Array.IndexOf(parts, "author");
+
+                if (nameIndex >= 0)
+                {
+                    // The name ends where the author section starts, if there is one.
+                    int nameEnd = authorIndex > nameIndex ? authorIndex : parts.Length;
+                    idResponse.Name = string.Join(" ", parts[(nameIndex + 1)..nameEnd]).Trim();
+                }
+
+                if (authorIndex >= 0 && authorIndex + 1 < parts.Length)
+                {
+                    idResponse.Author = string.Join(" ", parts[(authorIndex + 1)..]).Trim();
+                }
+
+                return idResponse;
+            }
+            else if (rawData == "uciok")
+            {
+                return new UciOkResponse { RawData = rawData };
+            }
+            else if (rawData == "readyok")
+            {
+                return new ReadyOkResponse { RawData = rawData };
+            }
+            else if (rawData.StartsWith("option", StringComparison.Ordinal))
+            {
+                Match match = OptionRegex.Match(rawData);
+                if (match.Success)
+                {
+                    string name = match.Groups["name"].Value;
+                    string type = match.Groups["type"].Value;
+                    string? defaultVal = match.Groups["default"].Success ? match.Groups["default"].Value : null;
+                    string? minVal = match.Groups["min"].Success ? match.Groups["min"].Value : null;
+                    string? maxVal = match.Groups["max"].Success ? match.Groups["max"].Value : null;
+                    string? varVal = match.Groups["var"].Success ? match.Groups["var"].Value : null;
+
+                    UciOption option = new(name, type, defaultVal ?? "", minVal ?? "", maxVal ?? "", varVal ?? "");
+
+                    if (!Options.TryAdd(name, option))
+                    {
+                        Options[name] = option;
+                    }
+                }
+            }
+            else if (rawData.StartsWith("bestmove", StringComparison.Ordinal))
+            {
+                string[] splitStr = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                int ponderIndex = Array.IndexOf(splitStr, "ponder");
+
+                MarkSearchAnswered();
+
+                return new BestMoveResponse
+                {
+                    RawData = rawData,
+                    // Engines emit a bare "bestmove" when they have no move to give.
+                    BestMove = splitStr.Length > 1 ? splitStr[1] : "",
+                    PonderMove = (ponderIndex >= 0 && ponderIndex + 1 < splitStr.Length) ? splitStr[ponderIndex + 1] : ""
+                };
+            }
+            else if (rawData.StartsWith("info", StringComparison.Ordinal))
+            {
+                string[] splitStr = rawData.Split(' ');
+                InfoResponse infoResponse = new() { RawData = rawData };
+
+                for (int i = 1; i < splitStr.Length; i++)
+                {
+                    switch (splitStr[i])
+                    {
+                        case "depth": infoResponse.Depth = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "seldepth": infoResponse.SelDepth = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "time": infoResponse.Time = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "nodes": infoResponse.Nodes = decimal.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "pv": infoResponse.Pv = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
+                        case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "score":
+                            //Send to eval function
+                            evaluation.AddLine(rawData, LastSeenFen);
+                            break;
+                        case "currmove": infoResponse.CurrMove = splitStr[++i]; break;
+                        case "currmovenumber": infoResponse.CurrMoveNumber = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "hashfull": infoResponse.HashFull = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "nps": infoResponse.Nps = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "tbhits": infoResponse.TbHits = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "sbhits": infoResponse.SbHits = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "cpuload": infoResponse.CpuLoad = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "string": infoResponse.StringInfo = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
+                        case "refutation": infoResponse.Refutation = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
+                        case "currline":
+                            infoResponse.CurrLineCpuNr = int.TryParse(splitStr[++i], out int cpuNr) ? cpuNr : 1;
+                            if (infoResponse.CurrLineCpuNr != 1)
+                            {
+                                i++;
+                            }
+
+                            infoResponse.CurrLine = string.Join(" ", splitStr[i..]); i = splitStr.Length;
+                            break;
+                    }
+                }
+
+                return infoResponse;
+            }
+
+            return null;
+        }
+    }
+}

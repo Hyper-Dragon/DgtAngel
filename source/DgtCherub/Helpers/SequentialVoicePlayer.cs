@@ -17,7 +17,7 @@ namespace DgtCherub.Helpers
         private readonly ILogger _logger;
         private Channel<IEnumerable<UnmanagedMemoryStream>> playlistChannel;
         private volatile float volume = 0.7f;
-        private WaveOutEvent outputDevice = null;
+        private WaveOutEvent outputDevice;
 
         public float Volume
         {
@@ -47,13 +47,20 @@ namespace DgtCherub.Helpers
             _ = Task.Run(RunPlaylistProcessor);
         }
 
-        private async void RunPlaylistProcessor()
+        private async Task RunPlaylistProcessor()
         {
+            TaskCompletionSource<bool> tcs = new();
+
             _logger?.LogTrace($"Running Audio Process");
 
             // Init the channels and start the processor
             outputDevice = new() { Volume = volume };
             _logger?.LogTrace($"Sequential Voice Player Has Valid Audio Device");
+
+
+            outputDevice.PlaybackStopped += (sender, args) => {
+                tcs.SetResult(true);
+            };
 
             while (true)
             {
@@ -72,18 +79,22 @@ namespace DgtCherub.Helpers
                             }
 
                             outputDevice.Init(reader);
+                            tcs = new();
                             outputDevice.Play();
-                            while (outputDevice.PlaybackState == PlaybackState.Playing) { await Task.Delay(50); };
+
+                            await tcs.Task;
+                            //while (outputDevice.PlaybackState == PlaybackState.Playing) { await Task.Delay(50); };
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogError($"Sequential Voice Player Failed (Retrying)", ex.Message);
+                    _logger?.LogError($"Sequential Voice Player Failed (Retrying) [{ex.Message}]");
                     await Task.Delay(5000);
                 }
             }
         }
+
 
         public void Speak(IEnumerable<UnmanagedMemoryStream> clipStreams)
         {
@@ -95,10 +106,10 @@ namespace DgtCherub.Helpers
         {
             _logger?.LogTrace($"Speak Called");
 
-            List<UnmanagedMemoryStream> tmp = new()
-            {
+            List<UnmanagedMemoryStream> tmp =
+            [
                 clipStream
-            };
+            ];
 
             _ = playlistChannel.Writer.TryWrite(tmp);
         }

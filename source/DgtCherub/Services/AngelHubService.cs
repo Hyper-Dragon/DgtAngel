@@ -1,13 +1,16 @@
-﻿using DgtAngelShared.Json;
+using ChessHelpers;
+using DgtAngelShared.Json;
 using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Threading.Channels;
+using UciComms;
+using UciComms.Data;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
 {
-    
     public sealed class AngelHubService : IAngelHubService
     {
         public event Action OnInitComplete;
@@ -19,7 +22,6 @@ namespace DgtCherub.Services
         public event Action OnOrientationFlipped;
         public event Action<long, int, string, string> OnBoardMissmatch;
         public event Action OnBoardMatcherStarted;
-        public event Action<long, string> OnBoardMatch;
         public event Action<long> OnBoardMatchFromMissmatch;
         public event Action<string> OnRemoteWatchStarted;
         public event Action<string> OnRemoteWatchStopped;
@@ -29,9 +31,10 @@ namespace DgtCherub.Services
         public event Action<string, string> OnNotification;
         public event Action OnPluginDisconnect;
 
-        public bool IsClientInitComplete { get; private set; } = false;
+
+        public bool IsClientInitComplete { get; private set; }
         public bool IsWhiteOnBottom { get; private set; } = true;
-        public bool IsMismatchDetected { get; private set; } = false;
+        public bool IsMismatchDetected { get; private set; }
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
         public string LocalBoardFEN { get; private set; }
         public string LastMatchedPosition { get; private set; }
@@ -49,6 +52,16 @@ namespace DgtCherub.Services
         public int FromMismatchDelayMs { get; set; } = MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS;
         public bool IsLocalBoardAvailable => !string.IsNullOrWhiteSpace(LocalBoardFEN);
         public bool IsRemoteBoardAvailable => !string.IsNullOrWhiteSpace(RemoteBoardFEN);
+
+        /// <summary>
+        /// The position last sent to the engine for analysis, or null when there has been none.
+        /// </summary>
+        public KibitzerPosition CurrentKibitzerPosition { get; private set; }
+
+        /// <summary>
+        /// Raised with the inferred position each time the engine is given a new one.
+        /// </summary>
+        public event Action<KibitzerPosition> OnKibitzerPositionChange;
         public bool IsBoardInSync { get; private set; } = true;
         public bool IsRemoteBoardStateActive => (RemoteBoardFEN != "" && WhiteClock != "00:00") || BlackClock != "00:00";
         private static Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
@@ -70,7 +83,61 @@ namespace DgtCherub.Services
         private const int POST_EVENT_DELAY_ORIENTATION = MS_IN_SEC / 10;
 
         private readonly ILogger _logger;
-        //private readonly IDgtEbDllFacade _dgtEbDllFacade;
+        private readonly IUciEngineManager _uciEngineManager;
+
+        /// <summary>
+        /// Source of "now" and of delays. Production leaves this at
+        /// <see cref="TimeProvider.System"/>; tests substitute a provider so clock
+        /// arithmetic and the post-event delays are deterministic instead of real waits.
+        /// </summary>
+        internal TimeProvider TimeSource { get; set; } = TimeProvider.System;
+
+        /// <summary>Queue items that are either still waiting or currently being processed.</summary>
+        private int inFlight;
+
+        /// <summary>
+        /// Queues an item and counts it as outstanding until its processor finishes.
+        /// Counting on enqueue rather than on read is what makes <see cref="DrainAsync"/>
+        /// race-free: an item is never simultaneously not-queued and not-in-flight.
+        /// </summary>
+        private void Enqueue<T>(ChannelWriter<T> writer, T item)
+        {
+            _ = System.Threading.Interlocked.Increment(ref inFlight);
+
+            if (!writer.TryWrite(item))
+            {
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
+            }
+        }
+
+        /// <summary>
+        /// Test hook: completes once every processor has finished the item it was holding
+        /// and all queues are empty. Production never calls this. It exists so a test can
+        /// assert on the outcome of a queue instead of sleeping for a guessed period.
+        /// </summary>
+        internal async Task DrainAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (Volatile.Read(ref inFlight) == 0 &&
+                    localFenProcessChannel.Reader.Count == 0 &&
+                    remoteFenProcessChannel.Reader.Count == 0 &&
+                    clockProcessChannel.Reader.Count == 0 &&
+                    lastMoveProcessChannel.Reader.Count == 0 &&
+                    orientationProcessChannel.Reader.Count == 0 &&
+                    messageProcessChannel.Reader.Count == 0)
+                {
+                    return;
+                }
+
+                await Task.Yield();
+            }
+        }
+
+        /// <summary>Items taken by a processor but not yet finished. Test hook.</summary>
+        internal int InFlightCount => Volatile.Read(ref inFlight);
 
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
 
@@ -87,13 +154,22 @@ namespace DgtCherub.Services
         private double blackNextClockAudioNotBefore = double.MaxValue;
 
         private string lastMoveVoiceTest = "";
+        //private bool isKibitzerRunning = false;
 
 
         //public AngelHubService(ILogger<AngelHubService> logger, IDgtEbDllFacade dgtEbDllFacade)
-        public AngelHubService(ILogger<AngelHubService> logger)
+        public AngelHubService(ILogger<AngelHubService> logger, IUciEngineManager uciEngineManager)
         {
             _logger = logger;
-            //_dgtEbDllFacade = dgtEbDllFacade;
+            _uciEngineManager = uciEngineManager;
+
+
+            //_dgtEbDllFacade.OnStableFenChanged += ((obj, args) =>
+            //{
+            //    _uciEngineManager.LoadedEngineSetPosition(args.FEN);
+            //    
+            //    _uciEngineManager.LoadedEngineGoInfinite();
+            //});
 
 
             BoundedChannelOptions processChannelOptions = new(3)
@@ -139,7 +215,7 @@ namespace DgtCherub.Services
             OnPluginDisconnect?.Invoke();
         }
 
-        public async void WatchStateChange(CherubApiMessage.MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null)
+        public async Task WatchStateChange(CherubApiMessage.MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null)
         {
             try
             {
@@ -164,16 +240,35 @@ namespace DgtCherub.Services
             finally { _ = startStopSemaphore.Release(); }
         }
 
+        private bool remoteIgnored;
+
+        private void KillRemoteConnections()
+        {
+            remoteIgnored = true;
+            _ = WatchStateChange(MessageTypeCode.WATCH_STOPPED, "Kibitz Started");
+            ResetRemoteBoardState();
+        }
+
         public void LocalBoardUpdate(string fen)
         {
-            _ = localFenProcessChannel.Writer.TryWrite(fen);
+            Enqueue(localFenProcessChannel.Writer, fen);
         }
+
+        /// <inheritdoc />
+        public bool DesktopClientMode { get; set; } = true;
 
         public void RemoteBoardUpdated(BoardState remoteBoardState)
         {
+            if (remoteIgnored)
+            {
+                return;
+            }
+
+            ArgumentNullException.ThrowIfNull(remoteBoardState);
+
             //Always send these
-            _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-            _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+            Enqueue(orientationProcessChannel.Writer, remoteBoardState.Board.IsWhiteOnBottom);
+            Enqueue(clockProcessChannel.Writer, remoteBoardState);
 
             //...and then ignore if we already have the FEN
             if (RemoteBoardFEN != null && RemoteBoardFEN == remoteBoardState.Board.FenString)
@@ -183,7 +278,7 @@ namespace DgtCherub.Services
 
             if (remoteBoardState.State.Code == ResponseCode.GAME_PENDING)
             {
-                ResetRemoteBoardState(true);
+                ResetRemoteBoardState();
             }
 
             remoteBoardState.Board.LastFenString = RemoteBoardFEN == null ? "" : RemoteBoardFEN.ToString();
@@ -200,18 +295,23 @@ namespace DgtCherub.Services
                 remoteBoardState.Board.LastMove = "";
             }
 
-            _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+            Enqueue(remoteFenProcessChannel.Writer, remoteBoardState);
 
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastMove))
             {
-                _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                Enqueue(lastMoveProcessChannel.Writer, remoteBoardState);
             }
         }
 
         public void UserMessageArrived(string source, string message)
         {
-            _ = messageProcessChannel.Writer.TryWrite((source, message));
+            if (remoteIgnored)
+            {
+                return;
+            }
+
+            Enqueue(messageProcessChannel.Writer, (source, message));
         }
 
         public void ResetLocalBoardState()
@@ -220,13 +320,8 @@ namespace DgtCherub.Services
             IsMismatchDetected = false;
         }
 
-        private void ResetRemoteBoardState(bool isGameCompleted = false)
+        private void ResetRemoteBoardState()
         {
-            //if (string.IsNullOrEmpty(RemoteBoardFEN = isGameCompleted ? RemoteBoardFEN : ""))
-            //{
-            //    OnRemoteDisconnect?.Invoke();
-            //}
-
             WhiteClock = "00:00";
             BlackClock = "00:00";
             RunWhoString = "0";
@@ -241,34 +336,137 @@ namespace DgtCherub.Services
         }
 
 
-        private async void RunLocalFenProcessor()
+        private async Task RunLocalFenProcessor()
         {
             while (true)
             {
                 string fen = await localFenProcessChannel.Reader.ReadAsync();
 
-                if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
+                try
                 {
-                    LocalBoardFEN = fen;
-                    OnLocalFenChange?.Invoke(LocalBoardFEN);
-
-                    if (IsLocalBoardAvailable &&
-                       IsRemoteBoardAvailable)
-                    {
-                        // If the fens match we have caught up to the remote board.
-                        // Run the matcher straight away to clear any outstanding match requests.
-                        // There is no need to match after our moves - issues will be detected by the remote board match
-                        CurrentUpdatetMatch = Guid.NewGuid();
-                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
-                                           IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
-                    }
-
-                    await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
+                    await ApplyLocalFen(fen);
+                }
+                catch (Exception ex)
+                {
+                    // This loop is the only thing moving the local board forward. If it faults,
+                    // LocalBoardFEN stops changing for the rest of the session - the board picture,
+                    // every clock page and the engine all freeze on the last position, and nothing
+                    // says why. One bad position must not be able to do that.
+                    _logger?.LogError(ex, "Local board processor failed on [{Fen}]; continuing with the next position.", fen);
+                }
+                finally
+                {
+                    _ = System.Threading.Interlocked.Decrement(ref inFlight);
                 }
             }
         }
 
-        private async void RunMessageProcessor()
+        /// <summary>
+        /// The last position seen with nothing in the player's hand.
+        /// </summary>
+        private string kibitzerSettledFen = "";
+
+        private async Task ApplyLocalFen(string fen)
+        {
+            if (string.IsNullOrWhiteSpace(fen) || LocalBoardFEN == fen) { return; }
+
+            // The previous settled board is what the turn and en passant are inferred from, so it
+            // has to be taken before LocalBoardFEN is replaced - after that the history is gone and
+            // every position looks like the first one. It is deliberately not the previous scan:
+            // a physical board is scanned continuously and half the scans catch a piece in the air.
+            string previousFen = kibitzerSettledFen;
+
+            LocalBoardFEN = fen;
+            OnLocalFenChange?.Invoke(LocalBoardFEN);
+
+            // A scan with a piece in the air is not a position: the board is half way through a
+            // move. It must not be inferred from, sent to the engine, or become the baseline for
+            // the next move - the move is only complete once the piece has been put down again.
+            bool pieceInHand = KibitzerPosition.IsPieceInHand(previousFen, fen);
+
+            if (IsLocalBoardAvailable &&
+                IsRemoteBoardAvailable)
+            {
+                // If the fens match we have caught up to the remote board.
+                // Run the matcher straight away to clear any outstanding match requests.
+                // There is no need to match after our moves - issues will be detected by the remote board match
+                CurrentUpdatetMatch = Guid.NewGuid();
+                _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
+                                   IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
+            }
+            else if (!pieceInHand &&
+                     IsLocalBoardAvailable &&
+                     !IsRemoteBoardAvailable)
+            {
+                // Whose turn it is, what castling is still available and whether en passant is on
+                // are inferred from the board now and the board before the last move. The board
+                // itself knows only where the pieces are.
+                //
+                // This is local arithmetic and runs whether or not the kibitzer is on, so that
+                // switching it on has a position to analyse straight away.
+                KibitzerPosition position = KibitzerPosition.Infer(fen, previousFen);
+                CurrentKibitzerPosition = position;
+
+                // The panel and the clock pages are the kibitzer's, so they say nothing until it
+                // is on. The position is still inferred above and kept, so switching it on has
+                // something to analyse and to show straight away.
+                //
+                // The engine is only ever told about the board once the player has turned the
+                // kibitzer on. A loaded engine that is not being fed positions cannot be used to
+                // cheat, which is the whole point of the switch.
+                if (_uciEngineManager != null && _uciEngineManager.IsKibitzerRunning)
+                {
+                    OnKibitzerPositionChange?.Invoke(position);
+                    SendToEngine(position);
+                }
+            }
+
+            // The baseline only advances on a settled position, so the next move is measured from
+            // the position before this one rather than from the middle of it.
+            if (!pieceInHand)
+            {
+                kibitzerSettledFen = fen;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
+        }
+
+        /// <summary>
+        /// Sends the position on the board to the engine again.
+        /// </summary>
+        /// <remarks>
+        /// A position is normally sent when the board changes, which means an engine loaded while
+        /// the board is sitting still is never asked about the position in front of it - the
+        /// kibitzer looks dead until the player moves a piece. Switching the kibitzer on, or
+        /// loading an engine, calls this so the analysis starts straight away.
+        /// </remarks>
+        public void AnalyseCurrentPosition()
+        {
+            // Refused unless the kibitzer is on: an engine may be loaded, but it is not told
+            // about the board until the player has declared the session is for analysis.
+            if (_uciEngineManager == null || !_uciEngineManager.IsKibitzerRunning) { return; }
+
+            KibitzerPosition position = CurrentKibitzerPosition;
+
+            if (position == null) { return; }
+
+            // Switching on has to fill the panel as well as the engine, and there will not be a
+            // board change until the player moves - so publish the position being analysed now.
+            OnKibitzerPositionChange?.Invoke(position);
+            SendToEngine(position);
+        }
+
+        private void SendToEngine(KibitzerPosition position)
+        {
+            // The specification only allows a position command while the engine is idle, so end
+            // the previous search first. The engine answers stop with bestmove and the next
+            // position can be queued straight behind it.
+            _uciEngineManager?.LoadedEngineStop();
+            _uciEngineManager?.LoadedEngineSetPosition(position.Fen);
+            _uciEngineManager?.LoadedEngineGoInfinite();
+        }
+
+        private async Task RunMessageProcessor()
         {
             while (true)
             {
@@ -277,12 +475,14 @@ namespace DgtCherub.Services
                 if (EchoExternalMessagesToConsole)
                 {
                     OnNotification?.Invoke(message.source, message.message);
-                    await Task.Delay(POST_EVENT_DELAY_MESSAGE);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_MESSAGE), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
-        private async void RunOrientationProcessor()
+        private async Task RunOrientationProcessor()
         {
             while (true)
             {
@@ -292,12 +492,14 @@ namespace DgtCherub.Services
                 {
                     IsWhiteOnBottom = isWhiteOnBottom;
                     OnOrientationFlipped?.Invoke();
-                    await Task.Delay(POST_EVENT_DELAY_ORIENTATION);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_ORIENTATION), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
-        private async void RunClockProcessor()
+        private async Task RunClockProcessor()
         {
             while (true)
             {
@@ -305,30 +507,32 @@ namespace DgtCherub.Services
                 _logger?.LogTrace("Processing a clock recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 // Account for the actual time captured/now if clock running
-                int captureTimeDiffMs = (int)(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
+                int captureTimeDiffMs = (int)(TimeSource.GetUtcNow().UtcDateTime.Subtract(DateTime.UnixEpoch).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
                 TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.ClockTurn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
                 TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.ClockTurn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
                 WhiteClockMsRemaining = (int)whiteTimespan.TotalMilliseconds;
                 BlackClockMsRemaining = (int)blackTimespan.TotalMilliseconds;
 
-                string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
-                string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
+                string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
+                string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}:{blackTimespan.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 int runWho = remoteBoardState.Board.ClockTurn == TurnCode.WHITE ? 1 : remoteBoardState.Board.ClockTurn == TurnCode.BLACK ? 2 : 0;
 
                 WhiteClock = whiteClockString;
                 BlackClock = blackClockString;
-                RunWhoString = runWho.ToString();
+                RunWhoString = runWho.ToString(CultureInfo.InvariantCulture);
 
                 OnClockChange?.Invoke();
                 CalculateNextClockAudio(WhiteClockMsRemaining, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
                 CalculateNextClockAudio(BlackClockMsRemaining, ref blackNextClockAudioNotBefore, (string audioFile) => OnPlayBlackClockAudio?.Invoke(audioFile));
 
-                await Task.Delay(POST_EVENT_DELAY_CLOCK);
+                await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_CLOCK), TimeSource);
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
-        private async void RunLastMoveProcessor()
+        private async Task RunLastMoveProcessor()
         {
             while (true)
             {
@@ -361,12 +565,14 @@ namespace DgtCherub.Services
                         }
                     }
 
-                    await Task.Delay(POST_EVENT_DELAY_LAST_MOVE);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LAST_MOVE), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
-        private async void RunRemoteFenProcessor()
+        private async Task RunRemoteFenProcessor()
         {
             while (true)
             {
@@ -387,31 +593,33 @@ namespace DgtCherub.Services
                                               remoteBoardState.Board.FenTurn.ToString(),
                                               remoteBoardState.BoardConnection.ConMessage,
                                               remoteBoardState.Board.IsWhiteOnBottom);
-                    
+
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_REMOTE_FEN), TimeSource);
                 }
 
-                if(RemoteBoardFEN != remoteBoardState.BoardConnection.ConMessage)
+                if (RemoteBoardFEN != remoteBoardState.BoardConnection.ConMessage)
                 {
                     RemoteBoardStatusMessage = remoteBoardState.BoardConnection.ConMessage;
                     OnRemoteBoardStatusChange?.Invoke(remoteBoardState.BoardConnection.ConMessage,
                                                      remoteBoardState.Board.IsWhiteOnBottom);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
-        private async void TestForBoardMatch(string matchCode, int matchDelay)
+        private async Task TestForBoardMatch(string matchCode, int matchDelay)
         {
             if (IsLocalBoardAvailable && IsRemoteBoardAvailable)
             {
                 OnBoardMatcherStarted?.Invoke();
                 //IsBoardInSync = false;
 
-                _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-                await Task.Delay(matchDelay);
+                _logger?.LogTrace($"MATCHER PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                await Task.Delay(TimeSpan.FromMilliseconds(matchDelay), TimeSource);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
@@ -424,31 +632,30 @@ namespace DgtCherub.Services
                 //}
 
 
-                _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                _logger?.LogTrace($"MATCHER POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
                 //lock (matcherLockObj)
                 //{
                 if (RemoteBoardFEN != LocalBoardFEN)
                 {
                     IsBoardInSync = false;
-                    OnBoardMissmatch?.Invoke(DateTime.UtcNow.Ticks, FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
+                    OnBoardMissmatch?.Invoke(TimeSource.GetUtcNow().UtcTicks, FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
                 }
                 else
                 {
                     LastMatchedPosition = LocalBoardFEN;
-                    //OnBoardMatch?.Invoke(LocalBoardFEN);
 
                     if (!IsBoardInSync)
                     {
                         IsBoardInSync = true;
-                        OnBoardMatchFromMissmatch?.Invoke(DateTime.UtcNow.Ticks);
+                        OnBoardMatchFromMissmatch?.Invoke(TimeSource.GetUtcNow().UtcTicks);
                     }
                 }
                 //}
             }
             else
             {
-                _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                _logger?.LogTrace($"MATCHER CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
             }
 
         }
@@ -468,28 +675,30 @@ namespace DgtCherub.Services
                 else if (clockAudioTs.Minutes > 25)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Minutes % 5 * MS_IN_MIN) + (clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Minutes > 0)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 30)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds % 5 * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 0)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (clockAudioTs.Milliseconds % MS_IN_SEC);
-                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
 
                 // Play the audio if required
                 if (!string.IsNullOrEmpty(audioFile)) { onPlayAudio?.Invoke(audioFile); }
             }
         }
+
+
     }
 }
 

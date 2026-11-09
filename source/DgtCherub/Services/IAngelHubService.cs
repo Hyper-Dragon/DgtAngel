@@ -1,4 +1,7 @@
-﻿using DgtAngelShared.Json;
+﻿using ChessHelpers;
+using DgtAngelShared.Json;
+using UciComms;
+using UciComms.Data;
 using static DgtAngelShared.Json.CherubApiMessage;
 
 namespace DgtCherub.Services
@@ -16,6 +19,17 @@ namespace DgtCherub.Services
         bool IsMismatchDetected { get; }
         bool IsRemoteBoardAvailable { get; }
         bool IsWhiteOnBottom { get; }
+
+        /// <summary>
+        /// Sends the position on the board to the engine again.
+        /// </summary>
+        void AnalyseCurrentPosition();
+
+        /// <summary>
+        /// The position last sent to the engine for analysis, or null when there has been none.
+        /// </summary>
+        KibitzerPosition CurrentKibitzerPosition { get; }
+
         string LastMove { get; }
         string LocalBoardFEN { get; }
         string RunWhoString { get; }
@@ -27,7 +41,6 @@ namespace DgtCherub.Services
         public int FromMismatchDelayMs { get; set; }
 
         event Action OnInitComplete;
-        event Action<long, string> OnBoardMatch;
         event Action<string, bool> OnRemoteBoardStatusChange;
         event Action OnBoardMatcherStarted;
         event Action<long> OnBoardMatchFromMissmatch;
@@ -35,6 +48,11 @@ namespace DgtCherub.Services
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
+
+        /// <summary>
+        /// Raised with the inferred position each time the engine is given a new one.
+        /// </summary>
+        event Action<KibitzerPosition> OnKibitzerPositionChange;
         event Action<string> OnRemoteWatchStarted;
         event Action<string> OnRemoteWatchStopped;
         event Action<string, bool> OnNewMoveDetected;
@@ -47,10 +65,18 @@ namespace DgtCherub.Services
 
         void NotifyInitComplete();
         void LocalBoardUpdate(string fen);
+
+        /// <summary>
+        /// When true a connected desktop client (through the DGTEBDLL proxy) owns the DGT
+        /// clock: its clock calls are passed through and Cherub stops writing times itself,
+        /// so the two cannot fight over the same display.  When false Cherub owns the clock
+        /// and clock calls arriving over gRPC are acknowledged but not forwarded.
+        /// </summary>
+        bool DesktopClientMode { get; set; }
         void RemoteBoardUpdated(BoardState remoteBoardState);
         void ResetLocalBoardState();
         void UserMessageArrived(string source, string message);
-        void WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
+        Task WatchStateChange(MessageTypeCode messageType, string remoteSource, BoardState remoteBoardState = null);
         void PluginDisconnect();
     }
 }

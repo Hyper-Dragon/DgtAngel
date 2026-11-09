@@ -20,7 +20,7 @@ namespace ChessHelpers
                 //HACK: the library returns ?x?x?? for enpassant - fix to ?x?x??
                 if (move.Length == 6 && move[1] == 'x' && move[3] == 'x') { move = move[2..]; }
 
-                if (move.Contains("=Q")) { move = move.Replace("=Q", $"={promotesTo.ToUpperInvariant()}"); }
+                if (move.Contains("=Q", StringComparison.Ordinal)) { move = move.Replace("=Q", $"={promotesTo.ToUpperInvariant()}", StringComparison.Ordinal); }
 
                 string ending = (!board.IsEndGame) ?
                                   "" : ((board.EndGame != null && board.EndGame.WonSide == null) ?

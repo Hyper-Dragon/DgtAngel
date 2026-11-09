@@ -115,12 +115,115 @@
         #con-state {
             color: yellow;
         }
+
+        /* Kibitzer analysis panel. Sized like the board it sits beside and taken out of flow,
+           because the board is absolutely positioned too - anything in flow here gives the row a
+           height the board did not previously have, which pushes it down the screen. */
+        .kibitz {
+            position: absolute;
+            /* The board is nudged down by a tenth of its own height, so the panel starts level
+               with it rather than a board-width of text above the top rank. */
+            top: calc(min(60vh, 50vw) * 0.1);
+            left: 0;
+            width: 100%;
+            height: min(60vh, 50vw);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 0 1.5vw;
+            font-size: min(3vh, 2vw);
+            line-height: 1.3;
+        }
+
+        .kibitz-engine {
+            font-weight: bold;
+            opacity: 0.85;
+        }
+
+        /* The score bar: centred on an even game, filling towards whoever is better. */
+        .kibitz-bar {
+            position: relative;
+            width: 100%;
+            height: min(9vh, 5.5vw);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 0.4vh;
+            overflow: hidden;
+        }
+
+        .kibitz-bar-centre {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .kibitz-bar-fill {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: #f2f2f2;
+            transition: width 0.2s linear, left 0.2s linear;
+        }
+
+        .kibitz-bar-fill.is-black {
+            background: #111111;
+        }
+
+        .kibitz-bar-value {
+            position: absolute;
+            top: 50%;
+            right: 1%;
+            transform: translateY(-50%);
+            padding: 0 0.5em;
+            border-radius: 0.3vh;
+            background: rgba(0, 0, 0, 0.55);
+            color: #ffffff;
+            font-size: min(5vh, 3vw);
+            font-weight: bold;
+        }
+
+        .kibitz-depth {
+            font-size: min(2.4vh, 1.7vw);
+            opacity: 0.75;
+        }
+
+        .kibitz-position {
+            white-space: pre-line;
+            opacity: 0.9;
+        }
+
+        .kibitz-lines {
+            margin: 0;
+            padding-left: 1.6em;
+            font-family: monospace;
+        }
+
+        .kibitz-lines li {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Said in place of the lines while the kibitzer is off, rather than showing nothing
+           where the analysis belongs. */
+        .kibitz-lines li.unavailable {
+            list-style: none;
+            margin-left: -1.2em;
+            font-family: inherit;
+            font-style: italic;
+            opacity: 0.75;
+        }
     </style>
 </head>
 
 <body>
     <i id="local-fen" hidden="">-</i>
-    <i id="is-white-to-play" hidden="">No Game</i>
 
     <div class="row">
         <div class="col-6 bkg-clock bkg-white-clock d-flex parent">
@@ -153,9 +256,19 @@
                      src="/CherubVirtualClock/BoardImage/blank" />
             </div>
         </div>
-        <div class="col-6 info-message d-flex parent">
-            <div>
-                Local Board Display - Space reserved for a future release!
+        <div class="col-6 d-flex parent">
+            <div class="kibitz">
+                <div id="testmsg" class="kibitz-engine">No engine loaded</div>
+
+                <div class="kibitz-bar">
+                    <div class="kibitz-bar-centre"></div>
+                    <div id="kibitz-bar-fill" class="kibitz-bar-fill"></div>
+                    <span id="kibitz-bar-value" class="kibitz-bar-value">-</span>
+                </div>
+
+                <div id="kibitz-depth" class="kibitz-depth"></div>
+                <div id="kibitz-position" class="kibitz-position"></div>
+                <ol id="kibitz-lines" class="kibitz-lines"></ol>
             </div>
         </div>
     </div>
@@ -178,10 +291,67 @@
         isGameInProgress = false;
         isWhiteToPlay = true;
         isTimerSuspended = false;
-        flip = false;
+        // Appended to the board image URL. Starts empty: it used to start as the boolean false,
+        // which was concatenated into the address as the literal text "false" and handed the
+        // server a remote board of "<fen>false". Only an orientation change ever corrected it.
+        flip = "";
         clocksTimer = 0;
         encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+        hasLocalBoardFen = false;
 
+
+        // The header names the engine and says whether the kibitzer is on. Both are kept here so
+        // that either message can arrive first and still render the whole line.
+        var engineName = "";
+        var kibitzerRunning = false;
+
+        function renderHeader() {
+            const header = document.getElementById("testmsg");
+
+            if (!header) { return; }
+
+            let text = engineName ? "Engine Loaded " + engineName : "No engine loaded";
+            text += kibitzerRunning ? " - kibitzer on" : " - kibitzer off";
+
+            header.textContent = text;
+        }
+
+        // The bar fills from the centre towards whoever is better, and the value sits inside it
+        // at that end. A mate is not a number of pawns, so it shows its own mark and a full half.
+        function drawScoreBar(evalInfo) {
+            const fill = document.getElementById("kibitz-bar-fill");
+            const value = document.getElementById("kibitz-bar-value");
+
+            if (evalInfo.MateIn !== 0) {
+                const whiteWinning = evalInfo.MateIn > 0;
+
+                fill.classList.toggle("is-black", !whiteWinning);
+                fill.style.width = "50%";
+                fill.style.left = whiteWinning ? "50%" : "0";
+                value.textContent = "M" + Math.abs(evalInfo.MateIn);
+                placeValue(whiteWinning);
+                return;
+            }
+
+            const pawns = evalInfo.Eval / 100;
+            const clamped = Math.max(-10, Math.min(10, pawns));
+            const width = (Math.abs(clamped) / 10) * 50;
+
+            fill.classList.toggle("is-black", pawns < 0);
+            fill.style.width = width.toFixed(2) + "%";
+            fill.style.left = pawns < 0 ? "auto" : "50%";
+            fill.style.right = pawns < 0 ? "50%" : "auto";
+
+            value.textContent = (pawns > 0 ? "+" : "") + pawns.toFixed(2);
+            placeValue(pawns >= 0);
+        }
+
+        function placeValue(atRightEnd) {
+            const value = document.getElementById("kibitz-bar-value");
+
+            value.style.left = atRightEnd ? "auto" : "1%";
+            value.style.right = atRightEnd ? "1%" : "auto";
+        }
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -200,6 +370,49 @@
 
                 display.textContent = hours + ":" + minutes + ":" + seconds;
             }
+        }
+
+        // Fills the lines area. With the kibitzer off there is no analysis to list, and an empty
+        // space reads as a page that has not loaded rather than one that is deliberately idle.
+        function renderLines(lines) {
+            const list = document.getElementById("kibitz-lines");
+
+            if (!list) { return; }
+
+            list.innerHTML = "";
+
+            if (!lines || lines.length === 0) {
+                const item = document.createElement("li");
+                item.className = "unavailable";
+                item.textContent = kibitzerRunning
+                    ? "Waiting for the engine"
+                    : "Enable Kibitzer in Cherub for scoring";
+                list.appendChild(item);
+                return;
+            }
+
+            lines.forEach(function (line) {
+                const item = document.createElement("li");
+                item.textContent = line;
+                list.appendChild(item);
+            });
+        }
+
+        // Ask for the board again. The image request is fired on a board change, so an image
+        // lost while the connection was dropping - which is what a Cherub restart looks like -
+        // was never retried, and the page kept a blank or stale board until the next move.
+        // The cache-buster is what makes the browser ask again rather than serve its copy.
+        function refreshBoardImage() {
+            const image = document.getElementById("local-board-img");
+
+            // Nothing has described the board yet, so there is nothing to ask for. The first
+            // board message will set the image itself.
+            if (!image || !hasLocalBoardFen) { return; }
+
+            const separator = flip ? "&" : "?";
+
+            image.src = "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen +
+                "/" + encodedLocalFen + flip + separator + "t=" + Date.now();
         }
 
         function timer() {
@@ -258,6 +471,10 @@
                         document.getElementById("con-state").innerHTML = "CONNECTED";
                         timer();
                         clocksTimer = setInterval(timer, 1000);
+
+                        // Re-connected, so anything the page failed to load while it was
+                        // disconnected - the board image in particular - is asked for again.
+                        refreshBoardImage();
                     };
 
                     source.onerror = function (event) {
@@ -275,6 +492,45 @@
                         const obj = JSON.parse(event.data);
 
                         switch (obj.MessageType) {
+                            case "OnBoardEvalChanged": {
+                                drawScoreBar(obj);
+
+                                document.getElementById("kibitz-depth").textContent =
+                                    obj.Depth > 0 ? "depth " + obj.Depth : "";
+
+                                renderLines(obj.Lines);
+                                break;
+                            }
+                            case "OnKibitzerPosition":
+                                document.getElementById("kibitz-position").textContent = obj.Info;
+                                break;
+                            case "OnKibitzerReset": {
+                                // A previous session may have left a score and a set of lines on the
+                                // page. Clear them, then show what is actually running now.
+                                engineName = obj.UciEngineName || "";
+                                kibitzerRunning = !!obj.IsKibitzerRunning;
+                                renderHeader();
+
+                                drawScoreBar({ Eval: 0, MateIn: 0 });
+                                document.getElementById("kibitz-depth").textContent = "";
+                                document.getElementById("kibitz-position").textContent = "";
+                                renderLines([]);
+                                refreshBoardImage();
+                                break;
+                            }
+                            case "OnUciEngineLoaded":
+                                engineName = obj.LoadedEngineName || "";
+                                renderHeader();
+                                break;
+                            case "OnUciEngineReleased":
+                                engineName = "";
+                                renderHeader();
+                                break;
+                            case "OnUciEngineStartError":
+                                document.getElementById("testmsg").innerHTML = "Engine Start Error";
+                                break;
+                            case "OnKibitzerFenChange":
+                                break;
                             case "OnOrientationFlipped":
                                 if (obj.IsWhiteOnBottom) {
                                     flip = "";
@@ -288,6 +544,7 @@
                             case "OnLocalFenChange":
                                 document.getElementById("local-fen").textContent = obj.BoardFen;
                                 encodedLocalFen = encodeURIComponent(obj.BoardFen);
+                                hasLocalBoardFen = true;
 
                                 
                                 document.getElementById("local-board-img").src =

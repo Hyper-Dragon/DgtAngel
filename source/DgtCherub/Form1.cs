@@ -6,16 +6,18 @@ using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Hosting;
+using System.Globalization;
 using Microsoft.Extensions.Logging;
 using QRCoder;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
+using UciComms;
+using UciComms.Data;
 
 /*
  YOUR TURN LANGUAGE
@@ -42,10 +44,11 @@ netsh advfirewall firewall delete rule name="Dgt Angel ALLOW Tcp Port 37964"
 
 namespace DgtCherub
 {
+#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
     public partial class Form1 : Form
     {
         private LiveChessServer fakeLiveChessServer;
-        
+
         private readonly string[] YOUR_TURN_LANG = { "Your turn",
                                                      "Uw zet",
                                                      "Du er i trækket",
@@ -59,7 +62,7 @@ namespace DgtCherub
                                                      "Ваш хід"};
 
         private const int TEXTBOX_MAX_LINES = 200;
-        private const string VERSION_NUMBER = "0.4.5-OMGPLAY-EXPR-03";
+        private const string VERSION_NUMBER = "0.4.6-IVOR-02";
         private const string PROJECT_URL = "https://hyper-dragon.github.io/DgtAngel/";
         private const int LIVE_CHESS_LISTEN_PORT = 1982;
         private const string VIRTUAL_CLOCK_PORT = "37964";
@@ -100,33 +103,49 @@ namespace DgtCherub
         private readonly IAngelHubService _angelHubService;
         private readonly IDgtLiveChess _dgtLiveChess;
         private readonly IBoardRenderer _boardRenderer;
+        private CheckBox CheckBoxDesktopClientMode;
         private readonly ISequentialVoicePlayer _voicePlayeStatus;
         private readonly ISequentialVoicePlayer _voicePlayerMoves;
         private readonly ISequentialVoicePlayer _voicePlayerMovesNoDrop;
         private readonly ISequentialVoicePlayer _voicePlayerTime;
 
-        private int LastFormWidth = 705;
-        private int CollapsedWidth = 705;
-        private Size InitialMinSize = new(420, 420);
-        private Size InitialMaxSize = new(0, 0);
         private Color BoredLabelsInitialColor = Color.Silver;
-        private Image PictureBoxLocalInitialImage;
-        private Image PictureBoxRemoteInitialImage;
+        private System.Drawing.Image PictureBoxLocalInitialImage;
+        private System.Drawing.Image PictureBoxRemoteInitialImage;
+        private bool isEngineActivationRequired = true;
+
+        private readonly IUciEngineManager _uciEngineManager;
+        private string lastUciExe = "";
+        private UciEngineEval lastEngineEval;
+        private readonly KibitzerClockDisplay kibitzerClockDisplay = new();
+        private bool applyingKibitzerState;
+        private UciOptionSettings uciOptionSettings = new();
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
+
+        private readonly Dictionary<Control, (Rectangle Bounds,
+                                              Font StoredFont,
+                                              Padding StoredPadding,
+                                              Padding StoredMargins,
+                                              int StoredWidth,
+                                              int StoredHeight,
+                                              Size StoredItemSize)> originalControlData = new();
+        private float originalTabPanelWidth;
+        private int originalFormHeight;
 
         private bool EchoInternallMessagesToConsole { get; set; } = true;
         private bool EchoExternalMessagesToConsole { get; set; } = true;
         private bool IncludeSecs { get; set; } = true;
-        private bool PlayerBeepOnly { get; set; } = false;
-        private bool IsSilentBeep { get; set; } = false;
+        private bool PlayerBeepOnly { get; set; }
+        private bool IsSilentBeep { get; set; }
 
-        private bool IsUsingRabbit = false;
+        private bool IsUsingRabbit;
 
         // Get Hostname 
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
+        private int lasteval;
 
         [FlagsAttribute]
         public enum EXECUTION_STATE : uint
@@ -140,19 +159,20 @@ namespace DgtCherub
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
         private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
-#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
 
         [DllImport("user32")]
-#pragma warning disable SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
         private static extern bool HideCaret(IntPtr hWnd);
-#pragma warning restore SYSLIB1054 // Use 'LibraryImportAttribute' instead of 'DllImportAttribute' to generate P/Invoke marshalling code at compile time
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern bool SetDllDirectory(string lpPathName);
+
 
         public Form1(IHost iHost, ILogger<Form1> logger, IAngelHubService appData, IDgtEbDllFacade dgtEbDllFacade,
-                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, ISequentialVoicePlayer voicePlayer,
+                     IDgtLiveChess dgtLiveChess, IBoardRenderer boardRenderer, IUciEngineManager uciEngineManager, ISequentialVoicePlayer voicePlayer,
                      ISequentialVoicePlayer voicePlayerMoves, ISequentialVoicePlayer voicePlayerMovesNoDrop, ISequentialVoicePlayer voicePlayerTime)
         {
+
             _iHost = iHost;
             _logger = logger;
             _angelHubService = appData;
@@ -165,6 +185,8 @@ namespace DgtCherub
             _voicePlayerMoves = voicePlayerMoves;
             _voicePlayerTime = voicePlayerTime;
             _voicePlayerMovesNoDrop = voicePlayerMovesNoDrop;
+
+            _uciEngineManager = uciEngineManager;
 
             _voicePlayeStatus.Start();
             _voicePlayerMoves.Start();
@@ -188,153 +210,309 @@ namespace DgtCherub
             }
         }
 
-        private void StartBoardComms()
+        private void ApplyScaling(float scale)
         {
-
-            if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
+            float fontSize = scale switch
             {
-                //If Live Chess is running don't try to start rabbit 
+                0.75f => 6,
+                1.0f => 10,
+                1.3f => 14,
+                1.5f => 16,
+                1.7f => 18,
+                2.0f => 20,
+                _ => throw new NotImplementedException()
+            };
+
+            Hide();
+            SuspendLayout();
+
+            // Apply scaling
+            foreach (Control control in originalControlData.Keys)
+            {
+                if (control.Name == "TextBoxConsole")
+                {
+                    continue;
+                }
+
+                Rectangle originalBounds = originalControlData[control].Bounds;
+                Font originalFont = originalControlData[control].StoredFont;
+                Padding originalPadding = originalControlData[control].StoredPadding;
+                Padding originalMargin = originalControlData[control].StoredMargins;
+                int originalWidth = originalControlData[control].StoredWidth;
+                int originalHeight = originalControlData[control].StoredHeight;
+                Size originalTabItemSize = originalControlData[control].StoredItemSize;
+
+                control.Bounds = new Rectangle(
+                    (int)Math.Ceiling(originalBounds.X * scale),
+                    (int)Math.Ceiling(originalBounds.Y * scale),
+                    (int)Math.Ceiling(originalBounds.Width * scale),
+                    (int)Math.Ceiling(originalBounds.Height * scale));
+
+                control.Padding = new Padding(
+                    (int)Math.Ceiling(originalPadding.Left * scale),
+                    (int)Math.Ceiling(originalPadding.Top * scale),
+                    (int)Math.Ceiling(originalPadding.Right * scale),
+                    (int)Math.Ceiling(originalPadding.Bottom * scale));
+
+                control.Margin = new Padding(
+                    (int)Math.Ceiling(originalMargin.Left * scale),
+                    (int)Math.Ceiling(originalMargin.Top * scale),
+                    (int)Math.Ceiling(originalMargin.Right * scale),
+                    (int)Math.Ceiling(originalMargin.Bottom * scale));
+
+                control.Font = new Font(originalFont.FontFamily,
+                                        fontSize,
+                                        originalFont.Style);
+
+                if (control.GetType().Equals(typeof(TabControl)))
+                {
+                    ((TabControl)control).ItemSize = new Size((int)Math.Ceiling(originalTabItemSize.Width * scale),
+                                                              (int)Math.Ceiling(originalTabItemSize.Height * scale));
+                }
+                else if (control.GetType().Equals(typeof(MenuStrip)))
+                {
+                    MenuStrip.Height = (int)Math.Ceiling(originalControlData[control].StoredHeight * scale);
+                }
+                else if (control.GetType().Equals(typeof(StatusStrip)))
+                {
+                    control.Height = (int)Math.Ceiling(originalControlData[control].StoredHeight * scale);
+
+                    foreach (ToolStripItem item in ((StatusStrip)control).Items)
+                    {
+                        if (item is ToolStripStatusLabel label)
+                        {
+                            label.Font = control.Font;
+                        }
+                    }
+                }
             }
-            else if (DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled)
+
+            foreach (var toolStripMenuItem in MenuStrip.Items.OfType<ToolStripMenuItem>())
+            {
+                toolStripMenuItem.AutoSize = true;
+                toolStripMenuItem.Font = new Font(toolStripMenuItem.Font.FontFamily,
+                                                  fontSize,
+                                                  toolStripMenuItem.Font.Style);
+
+                toolStripMenuItem.DropDownItems
+                    .OfType<ToolStripMenuItem>()
+                    .ToList()
+                    .ForEach(subMenuItem =>
+                    {
+                        subMenuItem.AutoSize = true;
+                        subMenuItem.Font = new Font(subMenuItem.Font.FontFamily,
+                                                    fontSize,
+                                                    subMenuItem.Font.Style);
+
+                        subMenuItem.DropDownItems
+                            .OfType<ToolStripDropDownItem>()
+                            .ToList()
+                            .ForEach(ddItem =>
+                            {
+                                ddItem.AutoSize = true;
+                                ddItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                                ddItem.Font = new Font(ddItem.Font.FontFamily,
+                                                       fontSize,
+                                                       ddItem.Font.Style);
+                            });
+                    });
+
+                toolStripMenuItem.DropDownItems
+                    .OfType<ToolStripDropDownItem>()
+                    .ToList()
+                    .ForEach(ddItem =>
+                    {
+                        ddItem.AutoSize = true;
+                        ddItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+                        ddItem.Font = new Font(ddItem.Font.FontFamily,
+                                               fontSize,
+                                               ddItem.Font.Style);
+                    });
+            }
+
+
+            TableLayoutPanel.ColumnStyles[0].Width = originalTabPanelWidth * scale;
+            MinimumSize = new Size((int)((originalTabPanelWidth + TableLayoutPanel.Padding.Horizontal + 13) * scale), (int)(originalFormHeight * scale));
+
+            ResumeLayout(true);
+            Show();
+        }
+
+        private void StoreOriginalData(Control control)
+        {
+            originalControlData[control] = (control.Bounds,
+                                            control.Font,
+                                            control.Padding,
+                                            control.Margin,
+                                            control.Width,
+                                            control.Height,
+                                            (control as TabControl)?.ItemSize ?? new Size(0, 0));
+
+            foreach (Control child in control.Controls)
+            {
+                StoreOriginalData(child);
+            }
+        }
+
+        private async Task StartBoardComms()
+        {
+            if (DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled)
             {
                 //If Rabbit is disabled don't try to start rabbit
+                return;
+            }
+            else if (IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(endpoint => endpoint.Port == LIVE_CHESS_LISTEN_PORT))
+            {
+                //If Live Chess is running don't try to start rabbit 
+                TextBoxConsole.AddLine($"RABBIT : Can't start - Live Chess is running.", timeStamp: true);
+                return;
+            }
+
+            //Set an alternate search path for the DGT DLLs - used to configure alternative board drivers
+            string altDllPath = DgtCherub.Properties.UserSettings.Default.AltDgtDllPath;
+
+            if (!string.IsNullOrEmpty(altDllPath) && Directory.Exists(altDllPath))
+            {
+                TextBoxConsole.AddLine($"RABBIT : Alt board driver search path set to [{altDllPath}]", timeStamp: false);
+                TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.", timeStamp: false);
+                TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.", timeStamp: false);
+
+                _ = SetDllDirectory(altDllPath);
             }
             else
             {
-                try
+                TextBoxConsole.AddLine($"RABBIT : No alt driver path set...using native DGT driver.", timeStamp: false);
+            }
+
+            TextBoxConsole.AddLine("---------------------------------------------------------------------------------------", timeStamp: false);
+
+            try
+            {
+                _ = _dgtEbDllFacade.Init(_dgtEbDllFacade);
+            }
+            catch (DllNotFoundException)
+            {
+                TextBoxConsole.AddLine($"RABBIT : 32-bit Rabbit DLL not found.", timeStamp: false);
+                _dgtEbDllFacade = null;
+                IsUsingRabbit = false;
+                return;
+            }
+
+
+            IsUsingRabbit = true;
+            string trackRunwho = "";
+
+            _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.FEN}"); };
+            _dgtEbDllFacade.OnBClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnBlackMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnBlackMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnNewGame += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnResult += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnStartSetup += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnStopSetupBTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnStopSetupWTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnWClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnWhiteMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+            _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
+
+            _angelHubService.OnClockChange += () =>
+            {
+                if (trackRunwho != _angelHubService.RunWhoString)
                 {
-                    if (_dgtEbDllFacade.Init(_dgtEbDllFacade))
+                    TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
+
+                    trackRunwho = _angelHubService.RunWhoString;
+
+                    // When a desktop client owns the clock, writing times from here as well
+                    // makes the two fight over the same display.
+                    if (_angelHubService.DesktopClientMode)
                     {
-                        IsUsingRabbit = true;
-                        string trackRunwho = "";
+                        return;
+                    }
 
-                        /*
-                        _dgtEbDllFacade.OnStatusMessage += (object sender, StatusMessageEventArgs e) => {TextBoxConsole.AddLine($"RABBIT: {e.Message}");};
-                        _dgtEbDllFacade.OnFenChanged += (object sender, FenChangedEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.FEN}"); };
-                        _dgtEbDllFacade.OnBClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnBlackMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnBlackMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnNewGame += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnResult += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnStartSetup += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnStopSetupBTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnStopSetupWTM += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnWClock += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnWhiteMoveInput += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        _dgtEbDllFacade.OnWhiteMoveNow += (object sender, StatusMessageEventArgs e) => { TextBoxConsole.AddLine($"RABBIT: {e.Message}"); };
-                        */
+                    // Fire and forget - No need to wait for this to complete as there may be no clock connected
+                    Task.Run(() =>
+                    {
+                        _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString, CultureInfo.InvariantCulture));
+                    });
+                }
+            };
 
-                        _angelHubService.OnClockChange += () =>
-                        {
-                            if (trackRunwho != _angelHubService.RunWhoString)
-                            {
-                                TextBoxConsole.AddLine($"DGT3000: [{_angelHubService.WhiteClock}] [{_angelHubService.BlackClock}] [{_angelHubService.RunWhoString}]");
+            fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-                                trackRunwho = _angelHubService.RunWhoString;
-                                _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
-                            }
-                        };
+            // Fire and forget - No need to wait for this to complete as there may be no clock connected
+            await Task.Run(() =>
+            {
+                // A score from the last session is still on the clock: the display holds a message
+                // until it is told to stop, and nothing tells it at shutdown. Clear it before the
+                // times go up, or a session that ended still looks like it is being analysed.
+                _dgtEbDllFacade.StopForeverMessage();
+                TextBoxConsole.AddLine("DGT3000: display cleared", TEXTBOX_MAX_LINES);
 
-                        fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+                _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
+                _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+            });
 
-                        _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
-                        _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
+            fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
 
-                        fakeLiveChessServer.OnLiveChessSrvMessage += (object o, string message) => TextBoxConsole.AddLine($"LiveSRV: {message}");
+            _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
+            {
+                //If on CDC set the drop fix mode
+                fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+                fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC", StringComparison.Ordinal) ?
+                                              LiveChessServer.PlayDropFix.NONE :
+                                              (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                              LiveChessServer.PlayDropFix.FROMBLACK);
+            };
 
-                        _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
-                        {
-                            //If on CDC set the drop fix mode
-                            fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                            fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
-                                                          LiveChessServer.PlayDropFix.NONE :
-                                                          (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
-                                                          LiveChessServer.PlayDropFix.FROMBLACK);
-                        };
+            _angelHubService.OnOrientationFlipped += () =>
+            {
+                //Flip drop fix if the dropfix is applied
+                fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
+                                              LiveChessServer.PlayDropFix.NONE :
+                                              (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
+                                              LiveChessServer.PlayDropFix.FROMBLACK);
+            };
 
-                        _angelHubService.OnOrientationFlipped += () =>
-                        {
-                            //fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                            //Flip drop fix if the dropfix is applied
-                            fakeLiveChessServer.DropFix = fakeLiveChessServer.DropFix == LiveChessServer.PlayDropFix.NONE ?
-                                                          LiveChessServer.PlayDropFix.NONE :
-                                                          (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
-                                                          LiveChessServer.PlayDropFix.FROMBLACK);
-                        };
+            _angelHubService.OnPluginDisconnect += () =>
+            {
+                fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
+            };
 
-                        _angelHubService.OnPluginDisconnect += () =>
-                        {
-                            fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                        };
+            _angelHubService.OnRemoteFenChange += (string _, string toRemoteFen, string _, string _, string _, string _, bool _) =>
+            {
+                fakeLiveChessServer.RemoteFEN = toRemoteFen;
+            };
 
-                        _angelHubService.OnRemoteFenChange += (string _, string toRemoteFen, string _, string _, string _, string _, bool _) =>
-                        {
-                            fakeLiveChessServer.RemoteFEN = toRemoteFen;
-                        };
-
-                            _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
-                        {
-                            if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
-                            {
-                                //Test for "DGT: Connected. Your turn." in the UI
-                                //Language list at the top of this file
-                                if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
-                                {
-                                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "WHITE";
-                                    else fakeLiveChessServer.SideToPlay = "BLACK";
-
-                                    fakeLiveChessServer.BlockSendToRemote = false;
-                                }
-                                else
-                                {
-                                    if (isWhiteOnBottom) fakeLiveChessServer.SideToPlay = "BLACK";
-                                    else fakeLiveChessServer.SideToPlay = "WHITE";
-
-                                    fakeLiveChessServer.BlockSendToRemote = true;
-                                }
-                            }
-                        };
-
-                        ButtonRabbitConfig1.Visible = true;
-                        ButtonRabbitConf2.Visible = true;
-                        GroupBoxClockTest.Visible = true;
-                        ButtonSendTestMsg1.Visible = true;
-                        ButtonSendTestMsg2.Visible = true;
-
-                        //Only do this when rabbit is setup
-                        fakeLiveChessServer.RunLiveChessServer();
+            _angelHubService.OnRemoteBoardStatusChange += (string boardMsg, bool isWhiteOnBottom) =>
+            {
+                if (fakeLiveChessServer.DropFix != LiveChessServer.PlayDropFix.NONE)
+                {
+                    //Test for "DGT: Connected. Your turn." in the UI
+                    //Language list at the top of this file
+                    if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s, StringComparison.Ordinal)))
+                    {
+                        fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "WHITE" : "BLACK";
+                        fakeLiveChessServer.BlockSendToRemote = false;
                     }
                     else
                     {
-                        _dgtEbDllFacade = null;
-                        IsUsingRabbit = false;
+                        fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "BLACK" : "WHITE";
+                        fakeLiveChessServer.BlockSendToRemote = true;
                     }
                 }
-                catch (DllNotFoundException)
-                {
-                    _dgtEbDllFacade = null;
-                    IsUsingRabbit = false;
-                }
+            };
 
-                TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, false);
-                if (IsUsingRabbit)
-                {
-                    TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
-                    TextBoxConsole.AddLine($"         {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
-                }
-                TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
-            }
+            ButtonRabbitConfig1.Visible = true;
+            ButtonRabbitConf2.Visible = true;
+            GroupBoxClockTest.Visible = true;
+            ButtonSendTestMsg1.Visible = true;
+            ButtonSendTestMsg2.Visible = true;
 
-            //Init complete so notify the hub we can
-            //start accepting external connections 
-            Thread.Sleep(500);
-            _angelHubService.NotifyInitComplete();
+            //Only do this when rabbit is setup
+            fakeLiveChessServer.RunLiveChessServer();
         }
-
-        //private void AngelHubService_OnOrientationFlipped()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -343,6 +521,10 @@ namespace DgtCherub
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Not LoadedEngineStop: that sends "stop", which ends the search and leaves the
+            // process running. An engine that outlives Cherub is an engine nothing will ever end.
+            _uciEngineManager?.StopAllEngines();
+
             DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
             DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
             DgtCherub.Properties.UserSettings.Default.VolTime = UpDownVolTime.Value;
@@ -357,7 +539,13 @@ namespace DgtCherub
             DgtCherub.Properties.UserSettings.Default.MatcherLocalDelay = UpDownLocalDelay.Value;
             DgtCherub.Properties.UserSettings.Default.MatcherLocalFromMismatchDelay = UpDownFromMismatchDelay.Value;
             DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled = CheckBoxNeverUseRabbit.Checked;
+            DgtCherub.Properties.UserSettings.Default.DesktopClientMode = _angelHubService.DesktopClientMode;
             DgtCherub.Properties.UserSettings.Default.StartingWidth = Width;
+            DgtCherub.Properties.UserSettings.Default.LastUciExe = lastUciExe;
+            DgtCherub.Properties.UserSettings.Default.UciOptions = uciOptionSettings?.SerializeSettings();
+            DgtCherub.Properties.UserSettings.Default.DebugUciIn = CheckBoxKibitzerShowUciIn.Checked;
+            DgtCherub.Properties.UserSettings.Default.DebugUciOut = CheckBoxKibitzerShowUciOut.Checked;
+            DgtCherub.Properties.UserSettings.Default.GuiScaleIndex = ComboBoxScale.SelectedIndex;
             DgtCherub.Properties.UserSettings.Default.Save();
         }
 
@@ -366,7 +554,16 @@ namespace DgtCherub
         {
             SuspendLayout();
 
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            lastUciExe = DgtCherub.Properties.UserSettings.Default.LastUciExe;
+            uciOptionSettings = UciOptionSettings.DeserializeSettings(DgtCherub.Properties.UserSettings.Default.UciOptions);
+
+            ButtonSetAltDriver.Enabled = string.IsNullOrEmpty(DgtCherub.Properties.UserSettings.Default.AltDgtDllPath);
+            ButtonClearAltDriver.Enabled = !string.IsNullOrEmpty(DgtCherub.Properties.UserSettings.Default.AltDgtDllPath);
+
+            CheckBoxKibitzerShowUciIn.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciIn;
+            CheckBoxKibitzerShowUciOut.Checked = DgtCherub.Properties.UserSettings.Default.DebugUciOut;
+
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 
             //Set Appsettings from the designer values...
             EchoInternallMessagesToConsole = CheckBoxRecieveLog.Checked;
@@ -374,8 +571,6 @@ namespace DgtCherub
 
             ToolStripStatusLabelVersion.Text = $"Ver. {VERSION_NUMBER}";
 
-            //Remove the about tab for now (reserved for new content)
-            TabControlSidePanel.TabPages.RemoveAt(0);
 
             TabControlSidePanel.SelectedTab = TabPageConfig;
 
@@ -386,31 +581,38 @@ namespace DgtCherub
             CheckboxSilentBeep.Checked = DgtCherub.Properties.UserSettings.Default.Silent;
             CheckBoxNeverUseRabbit.Checked = DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled;
 
+            _angelHubService.DesktopClientMode = DgtCherub.Properties.UserSettings.Default.DesktopClientMode;
+
+            CheckBoxDesktopClientMode = new CheckBox
+            {
+                AutoSize = true,
+                MaximumSize = new System.Drawing.Size(180, 0),
+                Text = "Desktop client owns the clock",
+                Location = new System.Drawing.Point(166, 412)
+            };
+            CheckBoxDesktopClientMode.CheckedChanged += (sender, args) =>
+            {
+                _angelHubService.DesktopClientMode = CheckBoxDesktopClientMode.Checked;
+                TextBoxConsole.AddLine($"Clock   : {(CheckBoxDesktopClientMode.Checked ? "desktop client owns the clock" : "Cherub owns the clock")}");
+            };
+
+            // The Rabbit group ends at y=400 and the Console group starts at y=406, so there
+            // is no room inside either; the empty column to the right of the Console group is
+            // the only free space on this tab.
+            TabPageConfig.Controls.Add(CheckBoxDesktopClientMode);
+            CheckBoxDesktopClientMode.BringToFront();
+            CheckBoxDesktopClientMode.Checked = _angelHubService.DesktopClientMode;
+
             CheckBoxOnTop.Checked = DgtCherub.Properties.UserSettings.Default.AlwaysOnTop;
             CheckBoxOnTop_CheckedChanged(this, null);
 
-            LinkLabelAbout1.Text = "GitHub Project Page";
-            LinkLabelAbout1.LinkArea = new LinkArea(0, LinkLabelAbout1.Text.Length);
-            LinkLabelAbout1.Visible = true;
-            LinkLabelAbout1.Click += (object sender, EventArgs e) =>
-            {
-                _ = Process.Start(new ProcessStartInfo
-                {
-                    FileName = $"{PROJECT_URL}",
-                    UseShellExecute = true //required on .Net Core 
-                });
-            };
-
             // Store changeable form params and Dynamically Calculate Size of the Collapsed Form 
             BoredLabelsInitialColor = LabelLocalDgt.BackColor;
-            LastFormWidth = Width;
-            InitialMinSize = MinimumSize;
-            InitialMaxSize = MaximumSize;
             PictureBoxLocalInitialImage = PictureBoxLocal.Image;
             PictureBoxRemoteInitialImage = PictureBoxRemote.Image;
 
             // ItemSize.Height is correct - the tabs are on the side!
-            CollapsedWidth = TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height - TabControlSidePanel.Padding.X;
+            //CollapsedWidth = TabControlSidePanel.Width + TabControlSidePanel.ItemSize.Height - TabControlSidePanel.Padding.X;
 
             //If no rabbit disable rabbit things..
             if (!IsUsingRabbit)
@@ -468,7 +670,22 @@ namespace DgtCherub
             //Make sure this is set
             DoubleBuffered = true;
 
-            Update();
+            // Store the original bounds and font sizes of all controls
+            foreach (Control control in Controls)
+            {
+                StoreOriginalData(control);
+            }
+
+            StoreOriginalData(MenuStrip);
+            StoreOriginalData(StatusStrip);
+
+            originalTabPanelWidth = TableLayoutPanel.ColumnStyles[0].Width;
+            originalFormHeight = MinimumSize.Height;
+
+
+            //This will cause ApplyScale to be called
+            ComboBoxScale.SelectedIndex = DgtCherub.Properties.UserSettings.Default.GuiScaleIndex;
+
             ResumeLayout();
         }
 
@@ -477,6 +694,97 @@ namespace DgtCherub
             ClearConsole();
 
             _angelHubService.OnOrientationFlipped += DisplayBoardImages;
+
+            _uciEngineManager.OnKibitzerActivated += () =>
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Turned ON - RESTART Cherub for online play");
+            };
+
+            _uciEngineManager.OnKibitzerFenChange += (string fen) =>
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Running eval for {fen}");
+            };
+
+            _uciEngineManager.OnKibitzerDeactivated += () =>
+            {
+                TextBoxConsole.AddLine($"KIBITZER:: Turned OFF");
+            };
+
+            _uciEngineManager.OnKibitzerLatchBroken += KibitzerLatchBroken;
+
+            _uciEngineManager.OnUciEngineStartError += (string errorMsg) =>
+            {
+                TextBoxConsole.AddLine($"UCI: Engine Start Error:: {errorMsg}");
+
+                //We still have a loaded engine so enable the buttons
+                ButtonEngineConfig.Enabled = true;
+                SetKibitzerSwitchAvailability(engineReady: true);
+            };
+
+            _uciEngineManager.OnUciEngineReleased += (string engineName) =>
+            {
+                TextBoxConsole.AddLine($"UCI: Released Engine:: {engineName}");
+            };
+
+            _uciEngineManager.OnUciEngineLoaded += (UciChessEngine engine) =>
+            {
+                LabelEngine.Text = _uciEngineManager.LoadedEngineName;
+                lastUciExe = _uciEngineManager.LoadedExecutable.FullName;
+
+                TextBoxConsole.AddLine($"UCI: Loaded Engine:: {_uciEngineManager.LoadedEngineName} [{_uciEngineManager.LoadedEngineAuthor}]");
+
+                if (uciOptionSettings.Options.TryGetValue(_uciEngineManager.LoadedExecutable.FullName, out List<UciOption> existingOptions))
+                {
+                    ApplyUciSettings(existingOptions);
+                }
+
+                ButtonEngineConfig.Enabled = true;
+                SetKibitzerSwitchAvailability(engineReady: true);
+
+                // The position was already on the board when the engine arrived, and nothing is
+                // sent to an engine except on a board change - so ask about it now.
+                _angelHubService.AnalyseCurrentPosition();
+            };
+
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (obj) =>
+            {
+                if (obj.Depth > 20)
+                {
+                    if (lasteval != obj.Eval)
+                    {
+                        lasteval = obj.Eval;
+                        //TextBoxConsole.AddLine($"{eval.GetBestMove()} @{info.Depth} {eval.GetBoardEval() / 100f}");
+                        TextBoxConsole.AddLine($"KIBITZER:: {obj.Eval / 100f}cp at depth {obj.Depth} - Best Move {obj.BestMove}");
+                    }
+                }
+            };
+
+            _uciEngineManager.OnLoadedEngineInputSentRaw += (sender, e) =>
+            {
+                if (CheckBoxKibitzerShowUciIn.Checked)
+                {
+                    TextBoxConsole.AddLine($"UCI__IN :: {_uciEngineManager?.LoadedEngineName} :: {e}");
+                }
+            };
+
+            _uciEngineManager.OnLoadedEngineOutputRecieved += (sender, e) =>
+            {
+                if (e == null) { return; }
+
+                // Currmove lines arrive several times a second and drown everything else.
+                if (e.RawData.Contains("currmove", StringComparison.Ordinal)) { return; }
+
+                if (CheckBoxKibitzerShowUciOut.Checked)
+                {
+                    TextBoxConsole.AddLine($"UCI_OUT :: {_uciEngineManager?.LoadedEngineName} :: {e}");
+                }
+            };
+
+            _uciEngineManager.OnLoadedEngineErrorRecievedRaw += (sender, e) =>
+            {
+                TextBoxConsole.AddLine($"UCI_ERR :: {_uciEngineManager?.LoadedEngineName} :: {e}");
+            };
+
 
             _angelHubService.OnLocalFenChange += (string localFen) =>
             {
@@ -503,9 +811,19 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (uciEngineEval) =>
+            {
+                lastEngineEval = uciEngineEval;
+                UpdateKibitzerReadout(uciEngineEval);
+            };
+
+            // The board can change without an evaluation arriving - no engine loaded, or the
+            // engine still starting - and the position part of the panel is still worth showing.
+            _angelHubService.OnKibitzerPositionChange += (_) => UpdateKibitzerReadout(lastEngineEval);
+
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
             {
-                if (remoteSource.Contains("CDC"))
+                if (remoteSource.Contains("CDC", StringComparison.Ordinal))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
 
@@ -517,7 +835,7 @@ namespace DgtCherub
                         TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
                     }
                 }
-                else if (remoteSource.Contains("Lichess"))
+                else if (remoteSource.Contains("Lichess", StringComparison.Ordinal))
                 {
                     if (IsUsingRabbit)
                     {
@@ -538,11 +856,11 @@ namespace DgtCherub
             _angelHubService.OnRemoteWatchStopped += (remoteSource) =>
             {
 
-                if (remoteSource.Contains("CDC"))
+                if (remoteSource.Contains("CDC", StringComparison.Ordinal))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
                 }
-                else if (remoteSource.Contains("Lichess"))
+                else if (remoteSource.Contains("Lichess", StringComparison.Ordinal))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessStoppedWatching_AP);
                 }
@@ -564,38 +882,31 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak(Assets.Speech_en_01.Match_AP);
             };
 
-            _angelHubService.OnBoardMatch += (_, _) =>
-            {
-                LabelLocalDgt.BackColor = BoredLabelsInitialColor;
-                LabelRemoteBoard.BackColor = BoredLabelsInitialColor;
-            };
-
             _angelHubService.OnRemoteDisconnect += DisplayBoardImages;
 
             _angelHubService.OnPlayWhiteClockAudio += (audioFilename) =>
-            {
+        {
 
-                if ((_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
-                    (_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.WhiteClockMsRemaining > 55 * 1000))
-                {
-                    _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
-                }
-            };
+            if ((_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
+                (_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.WhiteClockMsRemaining > 55 * 1000))
+            {
+                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP", CultureInfo.InvariantCulture));
+            }
+        };
 
             _angelHubService.OnPlayBlackClockAudio += (audioFilename) =>
+        {
+            if ((!_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
+                 (!_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.BlackClockMsRemaining > 55 * 1000))
             {
-                if ((!_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
-                     (!_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.BlackClockMsRemaining > 55 * 1000))
-                {
-                    _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
-                }
-            };
+                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP", CultureInfo.InvariantCulture));
+            }
+        };
 
             _angelHubService.OnClockChange += () =>
             {
                 //TODO: replace the runwho + LabelWhiteClock.IsHandleCreated????
-                //_logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})", TEXTBOX_MAX_LINES);
-                _logger?.LogTrace($">>Recieved Clock Update", TEXTBOX_MAX_LINES);
+                _logger?.LogTrace($">>Recieved Clock Update ({_angelHubService.WhiteClock}) ({_angelHubService.BlackClock}) ({_angelHubService.RunWhoString})");
 
                 if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
                 {
@@ -623,13 +934,13 @@ namespace DgtCherub
 
                     if (!string.IsNullOrEmpty(soundName))
                     {
-                        _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                        _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP", CultureInfo.InvariantCulture));
                     }
                     else
                     {
                         if (!IsSilentBeep)
                         {
-                            _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
+                            _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP", CultureInfo.InvariantCulture));
                         }
                     }
                 }
@@ -648,7 +959,7 @@ namespace DgtCherub
 
                     if (!string.IsNullOrEmpty(soundName))
                     {
-                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP", CultureInfo.InvariantCulture));
                     }
                     else
                     {
@@ -686,7 +997,7 @@ namespace DgtCherub
                                 _ => "Words_Missing",
                             };
 
-                            playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                            playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP", CultureInfo.InvariantCulture));
                         }
 
                         (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(playlist);
@@ -816,7 +1127,20 @@ namespace DgtCherub
             _ = Task.Run(_iHost.Run);
 
             await Task.Delay(500); //Short delay for the form to fully render
-            StartBoardComms();
+            await StartBoardComms();
+
+            //Init complete so notify the hub we can
+            //start accepting external connections 
+            await Task.Delay(500);
+            _angelHubService.NotifyInitComplete();
+
+            TextBoxConsole.AddLine($"Board  : {(IsUsingRabbit ? $"Using {_dgtEbDllFacade.GetRabbitVersionString()} [{(Environment.Is64BitProcess ? "64" : "32")} bit]." : $"Using Live Chess. {(DgtCherub.Properties.UserSettings.Default.IsRabbitDisabled ? "[Rabbit is Always Disabled]" : "")}")}", TEXTBOX_MAX_LINES, true);
+            if (IsUsingRabbit)
+            {
+                TextBoxConsole.AddLine($"                    {(IsUsingRabbit ? $"To use Live Chess you need to start it before running Cherub." : $"DGT Rabbit [{(Environment.Is64BitProcess ? "64" : "32")} bit] is either not installed or Live Chess was running")}", TEXTBOX_MAX_LINES, false);
+                TextBoxConsole.AddLine($"                    {(IsUsingRabbit ? $"Your DGT 3000 must be in mode 25 for time updates (+ press play)" : "No clock updates will be sent to the DGT 3000")}", TEXTBOX_MAX_LINES, false);
+            }
+            TextBoxConsole.AddLine($"---------------------------------------------------------------------------------------", TEXTBOX_MAX_LINES, false);
         }
 
         //*********************************************//
@@ -827,24 +1151,17 @@ namespace DgtCherub
 
             if (CheckBoxShowConsole.Checked)
             {
+                WindowState = FormWindowState.Normal;
                 TextBoxConsole.Visible = true;
-                MinimumSize = InitialMinSize;
-                MaximumSize = InitialMaxSize;
-                Width = LastFormWidth;
-                MaximizeBox = true;
-                MinimizeBox = true;
+                MaximumSize = new Size(0, 0);
+                Width = this.Width + TextBoxConsole.Width;
                 ToolStripStatusLabelVersion.Visible = true;
             }
             else
             {
                 WindowState = FormWindowState.Normal;
-                LastFormWidth = Width;
                 TextBoxConsole.Visible = false;
-                MinimumSize = new Size(CollapsedWidth, MinimumSize.Height);
-                MaximumSize = new Size(CollapsedWidth, Screen.PrimaryScreen.Bounds.Height);
-                Width = CollapsedWidth;
-                MaximizeBox = false;
-                MinimizeBox = false;
+                MaximumSize = new Size(this.MinimumSize.Width, Screen.PrimaryScreen.Bounds.Height);
                 ToolStripStatusLabelVersion.Visible = false;
             }
 
@@ -923,7 +1240,7 @@ namespace DgtCherub
         {
             if (MessageBox.Show("Are you sure you want to exit?", "Cherub", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Application.Exit();
+                System.Windows.Forms.Application.Exit();
             }
         }
         #endregion
@@ -1226,23 +1543,32 @@ namespace DgtCherub
 
         private void DisplayBoardImages()
         {
+
             if (!IsDisposed && IsHandleCreated && !TopLevelControl.IsDisposed)
             {
-                Action updateAction = new(async () =>
-                {
-                    ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
+               _ = BeginInvoke(async Task<bool> () => {
+                    try
+                    {
+                        ToolStripStatusLabelLastUpdate.Text = $"[Updated@{System.DateTime.Now.ToLongTimeString()}]";
 
-                    string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
-                    string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
+                        string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
+                        string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
 
-                    PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
-                                                                                   : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
+                        PictureBoxLocal.Image = _angelHubService.IsLocalBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(local, remote, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
+                                                                                       : PictureBoxLocal.Image = PictureBoxLocalInitialImage;
 
-                    PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
-                                                                                       : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+                        PictureBoxRemote.Image = _angelHubService.IsRemoteBoardAvailable ? (await _boardRenderer.GetPngImageDiffFromFenAsync(remote, local, PictureBoxRemote.Width, _angelHubService.IsWhiteOnBottom)).ConvertPngByteArrayToBitmap()
+                                                                                           : PictureBoxRemote.Image = PictureBoxRemoteInitialImage;
+
+                       return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        TextBoxConsole.AddLine($"ERROR:: Image update failed [{ex.Message}]");
+                       return false;
+                    }
                 });
 
-                _ = BeginInvoke(updateAction);
             }
         }
 
@@ -1345,6 +1671,338 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"WARNING: An attempt will be made to use Rabbit on future restarts.");
                 TextBoxConsole.AddLine($"         To use Rabbit DO NOT run Live Chess or that will take precedence.");
+            }
+        }
+
+
+        /// <summary>
+        /// Something switched the kibitzer off after it had been switched on.
+        /// </summary>
+        /// <remarks>
+        /// There is no legitimate way here. The switch only goes one way and the checkbox is
+        /// disabled, so anything arriving at this point has gone round the latch - with a debugger,
+        /// a patched assembly, or a bug of the kind this is meant to survive. A session with an
+        /// engine watching the board and a means of hiding it again is not one worth carrying on
+        /// with, so it ends here rather than trusting anything that follows.
+        /// </remarks>
+        private void KibitzerLatchBroken()
+        {
+            TextBoxConsole.AddLine("KIBITZER:: LATCH BROKEN - ending this session.");
+
+            if (!IsDisposed && IsHandleCreated)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    _ = MessageBox.Show(this,
+                        "The kibitzer was switched off after it had been switched on.\r\n\r\n" +
+                        "That cannot be done through the interface, so this session is being closed " +
+                        "rather than continue with an engine watching the board.\r\n\r\n" +
+                        "No cheating. Restart Cherub to play online again.",
+                        "Cherub - kibitzer latch broken",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Stop);
+                });
+            }
+
+            // Environment.Exit does not run FormClosing, so the engines are ended here too - a
+            // session that ends this way must not leave the analysis engine running behind it.
+            _uciEngineManager?.StopAllEngines();
+
+            Environment.Exit(1);
+        }
+
+        /// <summary>
+        /// Shows whether the kibitzer switch can still be used.
+        /// </summary>
+        /// <remarks>
+        /// Every path that used to set Enabled on the switch directly comes through here, because
+        /// each of them was a chance to hand it back after the session had already committed to
+        /// being an analysis session. The engine being (re)loaded was the one that did it.
+        /// </remarks>
+        private void SetKibitzerSwitchAvailability(bool engineReady)
+        {
+            CheckBoxKibitzerEnabled.Enabled = KibitzerAvailability.SwitchEnabled(
+                engineReady, _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning);
+        }
+
+        private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            // Setting Checked below would re-enter this handler, so the body runs once only.
+            if (applyingKibitzerState) { return; }
+
+            CheckBox kibitzerSwitch = (CheckBox)sender;
+
+            try
+            {
+                applyingKibitzerState = true;
+
+                // The switch only goes one way. Ticking it is a decision for the rest of the
+                // session: if it could be unticked, a player could use the engine and then hide
+                // it again before making a move, which is exactly what this is stopping.
+                if (!kibitzerSwitch.Checked)
+                {
+                    kibitzerSwitch.Checked = _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning;
+                    SetKibitzerSwitchAvailability(engineReady: true);
+                    return;
+                }
+
+                if (_angelHubService.IsRemoteBoardAvailable)
+                {
+                    TextBoxConsole.AddLine($"KIBITZER:: Can't enable when the remote board is active.");
+                    kibitzerSwitch.Checked = false;
+                    return;
+                }
+
+                if (_uciEngineManager == null)
+                {
+                    TextBoxConsole.AddLine($"KIBITZER:: Can't enable without engine running.");
+                    kibitzerSwitch.Checked = false;
+                    return;
+                }
+
+                _uciEngineManager.SwitchKibitzer(true);
+
+                // No way back this session, and no board for anyone to play a game with.
+                SetKibitzerSwitchAvailability(engineReady: true);
+                StopOnlinePlay();
+
+                TextBoxConsole.AddLine($"KIBITZER:: On for this session - restart Cherub to play online again.");
+
+                // Analyse what is on the board, not wait for the player to move first.
+                //
+                // The engine is already running - the switch cannot be used until one is loaded -
+                // so there is nothing to start here. Starting it by name would not have worked
+                // anyway: the engines are held under slot keys, and LoadedEngineName is the name
+                // the engine reports. It looked like it started one and silently did nothing;
+                // starting an engine always launches a new process, so a version that did resolve
+                // would have left the running engine going and put a second one beside it.
+                _angelHubService.AnalyseCurrentPosition();
+            }
+            finally
+            {
+                applyingKibitzerState = false;
+            }
+        }
+
+        /// <summary>
+        /// Reports that the board is no longer being offered for online play.
+        /// </summary>
+        /// <remarks>
+        /// Nothing is taken away here yet. The board Cherub reads is fed by the same LiveChess
+        /// server an online client reads, so suppressing that feed stops Cherub seeing the board
+        /// at all - it is the intake, not just the output. Blocking online play needs a lever that
+        /// can tell the two apart.
+        /// </remarks>
+        private void StopOnlinePlay()
+        {
+            TextBoxConsole.AddLine("KIBITZER:: Analysis session - do not use this board for a rated game.");
+        }
+
+        /// <summary>
+        /// Draws an engine evaluation in the kibitzer panel.
+        /// </summary>
+        /// <remarks>
+        /// Every evaluation the engine reports is drawn. This used to draw only evaluations at
+        /// depth eighteen or deeper and blank the panel for everything else, which meant a fast
+        /// engine showed nothing at all - it never got past the threshold before the next position
+        /// arrived, and the reset that precedes each position blanked the panel again.
+        /// </remarks>
+        private void UpdateKibitzerReadout(UciEngineEval uciEngineEval)
+        {
+            if (IsDisposed || !IsHandleCreated) { return; }
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                if (uciEngineEval != null)
+                {
+                    if (KibitzerDisplay.IsReset(uciEngineEval))
+                    {
+                        ProgBarKibitzer.Value = 0;
+                        LabelScoreKibitzer.Text = KibitzerDisplay.NoScore;
+                        LabelDepthKibitzer.Text = KibitzerDisplay.NoDepth;
+                    }
+                    else
+                    {
+                        ProgBarKibitzer.Value = KibitzerDisplay.ProgressValue(uciEngineEval.Eval, ProgBarKibitzer.Maximum);
+                        LabelScoreKibitzer.Text = KibitzerDisplay.FormatScore(uciEngineEval);
+                        LabelDepthKibitzer.Text = KibitzerDisplay.FormatDepth(uciEngineEval);
+                    }
+                }
+
+                LabelKibitzerInfo.Text = KibitzerDisplay.FormatInfo(_angelHubService.CurrentKibitzerPosition, uciEngineEval);
+
+                UpdateClockScore(uciEngineEval);
+
+                ProgBarKibitzer.Invalidate();
+                LabelScoreKibitzer.Invalidate();
+                LabelDepthKibitzer.Invalidate();
+                LabelKibitzerInfo.Invalidate();
+                this.Update();
+            });
+        }
+
+        /// <summary>
+        /// Puts the score on the physical DGT clock's display.
+        /// </summary>
+        /// <remarks>
+        /// The clock holds a message until it is told to stop, so this only writes when the score
+        /// has actually changed and not more often than the display can take. Called on the UI
+        /// thread, alongside the other writes to the driver.
+        /// </remarks>
+        private void UpdateClockScore(UciEngineEval uciEngineEval)
+        {
+            if (!IsUsingRabbit || _dgtEbDllFacade == null) { return; }
+
+            string score = KibitzerClockDisplay.Format(uciEngineEval);
+
+            if (kibitzerClockDisplay.ShouldSend(score, DateTime.UtcNow))
+            {
+                _dgtEbDllFacade.DisplayForeverMessage(score);
+                TextBoxConsole.AddLine($"DGT3000: score [{score}]");
+            }
+        }
+
+        private void ButtonEngineConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<UciOption> uciOptions = _uciEngineManager.LoadedEngineOptions.Values.ToList();
+                UciOptionsForm form = new(_uciEngineManager.LoadedEngineName, uciOptions);
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    List<UciOption> modifiedUciOptions = form.GetModifiedUciOptions();
+
+                    _uciEngineManager.LoadedEngineStop();
+
+                    if (!uciOptionSettings.Options.TryAdd(_uciEngineManager.LoadedExecutable.FullName, modifiedUciOptions))
+                    {
+                        uciOptionSettings.Options[_uciEngineManager.LoadedExecutable.FullName] = modifiedUciOptions;
+                    }
+
+                    ApplyUciSettings(modifiedUciOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                TextBoxConsole.AddLine($"UCI: Error setting options {ex.Message}");
+            }
+        }
+
+        private void ApplyUciSettings(List<UciOption> options)
+        {
+            foreach (UciOption option in options)
+            {
+                _uciEngineManager.LoadedEngineSetOption(option.Name, option.VarValue);
+            }
+        }
+
+        private void ButtonEngineSelect_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Executable Files (*.exe)|*.exe"
+            };
+
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                ButtonEngineConfig.Enabled = false;
+                SetKibitzerSwitchAvailability(engineReady: false);
+                _ = _uciEngineManager.LoadEngineAsync(openFileDialog.FileName);
+                //_ = _uciEngineManager.LoadEngineAsync(openFileDialog.FileName);
+            }
+        }
+
+
+        private void LabelEngine_VisibleChanged(object sender, EventArgs e)
+        {
+            //Try and load the last engine when the 'Offline' tab is selected
+            if (isEngineActivationRequired)
+            {
+                isEngineActivationRequired = false;
+                if (!string.IsNullOrEmpty(lastUciExe))
+                {
+                    _ = _uciEngineManager.LoadEngineAsync(lastUciExe);
+                }
+            }
+        }
+
+        private void ButtonSetAltDriver_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "DGT Board Driver (DGTEBDLL.dll)|DGTEBDLL.dll",
+                Multiselect = false,
+                CheckFileExists = true,
+                CheckPathExists = true
+            };
+
+            DialogResult result = openFileDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                ButtonSetAltDriver.Enabled = false;
+                ButtonClearAltDriver.Enabled = true;
+
+                string dir = Path.GetDirectoryName(openFileDialog.FileName);
+                DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = dir;
+                TextBoxConsole.AddLine($"RABBIT:: Alt board driver search path set to [{dir}]");
+                TextBoxConsole.AddLine($"         WARNING:: This is an experimental feature and your results may vary.");
+                TextBoxConsole.AddLine($"                   3rd party drivers are NOT supported - contact the author for support.");
+                TextBoxConsole.AddLine($"         *** RESTART REQUIRED *** to Activte");
+            }
+        }
+
+        private void ButtonClearAltDriver_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to disable the alternative board driver?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                ButtonSetAltDriver.Enabled = true;
+                ButtonClearAltDriver.Enabled = false;
+                DgtCherub.Properties.UserSettings.Default.AltDgtDllPath = "";
+                TextBoxConsole.AddLine($"RABBIT:: Alt board driver cleared *** RESTART REQUIRED ***");
+            }
+        }
+
+        private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CheckBoxShowConsole.Checked = true;
+            float newScale = float.Parse(Convert.ToString((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex], CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
+            ApplyScaling(newScale);
+        }
+
+        private void TabControlSidePanel_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            TabControl tabControl = (TabControl)sender;
+
+            for (int i = 0; i < tabControl.TabPages.Count; i++)
+            {
+                Rectangle rect = tabControl.GetTabRect(i);
+                Brush bkgBrush = new SolidBrush(Color.Silver);
+                Brush fgBrush = Brushes.White;
+
+                // Set the color of the selected tab
+                if (tabControl.SelectedIndex == i)
+                {
+                    bkgBrush = new SolidBrush(Color.FromArgb(40, 40, 40));
+                    fgBrush = new SolidBrush(Color.FromArgb(102, 255, 102));
+                }
+
+                // Draw the tab
+                e.Graphics.FillRectangle(bkgBrush, rect);
+                e.Graphics.DrawString(tabControl.TabPages[i].Text,
+                                      tabControl.Font,
+                                      fgBrush,
+                                      rect,
+                                      new StringFormat
+                                      {
+                                          Alignment = StringAlignment.Center,
+                                          FormatFlags = StringFormatFlags.DirectionVertical | StringFormatFlags.DirectionRightToLeft,
+                                          LineAlignment = StringAlignment.Center
+                                      });
             }
         }
     }

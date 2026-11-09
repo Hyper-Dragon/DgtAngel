@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UciComms;
+
 
 namespace DgtCherub
 {
@@ -29,17 +31,21 @@ namespace DgtCherub
                 options.AddPolicy("DevCorsPolicy", builder =>
                 {
                     _ = builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
                 });
             });
 
+
+            _ = services.AddGrpc();
             _ = services.AddHttpClient();
             _ = services.AddControllers();
             _ = services.AddLogging();
             _ = services.AddTransient(typeof(ISequentialVoicePlayer), typeof(SequentialVoicePlayer));
+            _ = services.AddSingleton(typeof(IUciEngineManager), typeof(UciEngineManager));
             _ = services.AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
             _ = services.AddSingleton(typeof(IAngelHubService), typeof(AngelHubService));
+            _ = services.AddSingleton(typeof(IBoardEventSource), typeof(BoardEventSource));
             _ = services.AddSingleton(typeof(IDgtEbDllFacade), typeof(DgtEbDllFacade));
             _ = services.AddSingleton(typeof(IDgtLiveChess), typeof(DgtLiveChess));
             _ = services.AddSingleton<Form1>();
@@ -50,6 +56,10 @@ namespace DgtCherub
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification = "Take it out and get a different warning!")]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            //var credentials = ServerCredentials.Insecure;
+            //var dgtService = new DgtService();
+
             //_ = app.UseDeveloperExceptionPage()
             _ = app.UseRouting()
                    .UseWebSockets()
@@ -57,6 +67,7 @@ namespace DgtCherub
                    .UseEndpoints(endpoints =>
                    {
                        _ = endpoints.MapControllers();
+                       _ = endpoints.MapGrpcService<DgtService>();
                    });
         }
     }

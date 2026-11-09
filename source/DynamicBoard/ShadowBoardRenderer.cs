@@ -189,14 +189,14 @@ namespace DynamicBoard
                     }
 
                     //...and finallay adding the pieces
-                    if (Pieces.ContainsKey(fenOut[posCount]))
+                    if (Pieces.TryGetValue(fenOut[posCount], out Bitmap pieceImage))
                     {
                         if (shadowOffsetX > 0 || shadowOffsetY > 0)
                         {
                             graphics.DrawImage(Shadows[fenOut[posCount]], (col * squareSize) + shadowOffsetX, (row * squareSize) + shadowOffsetY, squareSize, squareSize);
                         }
 
-                        graphics.DrawImage(Pieces[fenOut[posCount]], col * squareSize, row * squareSize, squareSize, squareSize);
+                        graphics.DrawImage(pieceImage, col * squareSize, row * squareSize, squareSize, squareSize);
                     }
                 }
             }

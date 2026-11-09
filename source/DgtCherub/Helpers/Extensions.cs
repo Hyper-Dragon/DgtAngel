@@ -65,7 +65,11 @@ namespace DgtCherub.Helpers
         //Extension method to sanitise text input for log files
         internal static string SanitiseText(this string text)
         {
-            return text.Replace("\"", ".").Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("\0", "");
+            return text.Replace("\"", ".", StringComparison.Ordinal)
+                       .Replace("\r", "", StringComparison.Ordinal)
+                       .Replace("\n", "", StringComparison.Ordinal)
+                       .Replace("\t", "", StringComparison.Ordinal)
+                       .Replace("\0", "", StringComparison.Ordinal);
         }
 
         internal static void AddLines(this TextBox box, string[] text, int? maxLine = null, bool timeStamp = true)

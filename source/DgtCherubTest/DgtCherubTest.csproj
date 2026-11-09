@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Must match DgtCherub: a net10.0 project cannot reference a net10.0-windows one. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+
+    <!--
+      DgtCherub sets PlatformTarget x86 (it P/Invokes the 32-bit DGTEBDLL.dll), which
+      marks its PE header I386. A 64-bit test host cannot load that at all - discovery
+      fails with "Could not load file or assembly 'DgtCherub'". The test host therefore
+      has to be 32-bit too.
+    -->
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="Moq" Version="4.21.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.5.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.5.2" />
+    <PackageReference Include="coverlet.collector" Version="10.1.0" />
+  </ItemGroup>
+
+  <!--
+    Behaviour tests for the layers behind the UI: DgtDriverGate, LiveChessServer,
+    AngelHubService, DgtService and the controllers.
+
+    Two constraints worth knowing before adding tests here:
+
+    1. DgtCherub is a WinExe whose Program.Main calls Application.Run, so the real
+       host cannot be booted from a test. Construct the services directly - they take
+       framework-free interfaces (e.g. DgtService(IBoardEventSource, IAngelHubService)).
+       Adopting WebApplicationFactory would need a public partial Program and a
+       CreateHostBuilder extracted out of Main.
+
+    2. DgtEbDllImport is a static P/Invoke class, so nothing above it can be faked
+       yet. Until there is an IDgtDriver seam, this suite can only reach DgtDriverGate
+       and the pure parts of LiveChessServer.
+
+    Bitness: left AnyCPU. If a test ever needs to P/Invoke the real 32-bit driver
+    rather than a fake, this needs to become x86 to match DgtCherub.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\DgtRabbitWrapper\DgtRabbitWrapper.csproj" />
+    <ProjectReference Include="..\DgtCherub\DgtCherub.csproj" />
+  </ItemGroup>
+
+</Project>

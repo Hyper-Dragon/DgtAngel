@@ -1,6 +1,8 @@
-﻿namespace ChessHelpers
+﻿using System.Globalization;
+
+namespace ChessHelpers
 {
-    internal class FenInference
+    public class FenInference
     {
         private static readonly char[] colIdx = "abcdefgh".ToCharArray();
         private static readonly char[] rowIdx = "87654321".ToCharArray();
@@ -10,6 +12,9 @@
 
         public static (int diffCount, string squareFrom, string squareTo, string fullFromFen, string promotesTo) SquareDiff(string fromBoardShortFen, string toBoardShortFen)
         {
+            ArgumentNullException.ThrowIfNull(fromBoardShortFen);
+            ArgumentNullException.ThrowIfNull(toBoardShortFen);
+
             //Remove anything after the board position incase it was passed in
             char[] fromBoard = FenInference.FenToCharArray(fromBoardShortFen.Split(' ')[0]);
             char[] toBoard = FenInference.FenToCharArray(toBoardShortFen.Split(' ')[0]);
@@ -38,14 +43,17 @@
                     int colLeftIdx = (moveFromRow * squaresOnBoard) + colLeft;
                     int colRightIdx = (moveFromRow * squaresOnBoard) + colRight;
 
+                    // colLeft is col - 1, so the a-file's left neighbour is -1, not 0.
+                    // Guarding with > 0 therefore discarded the a-file altogether and en
+                    // passant onto the b-file from the a-file was never seen.
                     if (toBoard[toIdx] == movingPiece &&
                         fromBoard[fromIdx] == oppPiece &&
-                        (((colLeft > 0) && fromBoard[colLeftIdx] == movingPiece) ||
+                        (((colLeft >= 0) && fromBoard[colLeftIdx] == movingPiece) ||
                          ((colRight < squaresOnBoard) && fromBoard[colRightIdx] == movingPiece)))
                     {
                         enPass = $"{colIdx[col]}{rowIdx[moveToRow]}";
 
-                        if (colLeft > 0 &&
+                        if (colLeft >= 0 &&
                             fromBoard[colLeftIdx] == movingPiece &&
                             toBoard[colLeftIdx] == '-')
                         {
@@ -92,7 +100,7 @@
                             {
                                 squareTo = square;
                                 isWhiteToPlay = char.IsUpper(toBoard[(row * squaresOnBoard) + col]);
-                                tmpPromotesTo = (isWhiteToPlay && row == 0) || (!isWhiteToPlay && row == 7) ? $"{char.ToUpper(toBoard[(row * squaresOnBoard) + col])}" : "";
+                                tmpPromotesTo = (isWhiteToPlay && row == 0) || (!isWhiteToPlay && row == 7) ? $"{char.ToUpper(toBoard[(row * squaresOnBoard) + col], CultureInfo.InvariantCulture)}" : "";
                             }
                         }
                     }
@@ -143,7 +151,16 @@
 
         public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
+            ArgumentNullException.ThrowIfNull(fen);
+
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
+
+            // Callers pass anything from a bare board field to a whole FEN. Only the board
+            // field describes squares, so take that and nothing else: the castling rights
+            // that follow it ("KQkq") are made of piece letters and were being read as
+            // pieces, and with a flip the last rank was reversed together with the rest of
+            // the FEN.
+            fen = fen.Trim().Split(' ')[0];
 
             if (isFlipRequired)
             {
@@ -162,13 +179,13 @@
             int convIdx = 0;
             foreach (char squareValue in fen)
             {
-                if ("rnbqkpPRNBQK".Contains(squareValue))
+                if ("rnbqkpPRNBQK".Contains(squareValue, StringComparison.Ordinal))
                 {
                     boardArrayOut[convIdx++] = squareValue;
                 }
-                else if ("12345678".Contains(squareValue))
+                else if ("12345678".Contains(squareValue, StringComparison.Ordinal))
                 {
-                    convIdx += int.Parse(squareValue.ToString());
+                    convIdx += int.Parse(squareValue.ToString(), CultureInfo.InvariantCulture);
                 }
             }
 

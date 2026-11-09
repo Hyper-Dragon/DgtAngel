@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Test hook: the engine's parsing surface is internal. -->
+    <InternalsVisibleTo Include="ChessHelpersTest" />
+  </ItemGroup>
+
+</Project>

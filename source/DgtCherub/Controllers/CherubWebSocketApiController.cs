@@ -16,7 +16,7 @@ namespace DgtCherub.Controllers
     {
         private bool isAcceptingConnections = true;
         private const int RECIEVE_BUFFER_SIZE_BYTES = 1024 * 10;
-        private static WebSocket runningSocket = null;
+        private static WebSocket runningSocket;
 
         private readonly ILogger _logger;
         private readonly IAngelHubService _appDataService;
@@ -24,8 +24,8 @@ namespace DgtCherub.Controllers
         private const int MSG_LIMIT_SECONDS = 10;
         private DateTime lastErrorLog = DateTime.MinValue;
 
-        
-        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger, 
+
+        public CherubWebSocketApiController(ILogger<CherubWebSocketApiController> logger,
                                             IAngelHubService appData)
         {
             _logger = logger;
@@ -45,7 +45,10 @@ namespace DgtCherub.Controllers
                 ResponseCode lastErrorSeen = ResponseCode.RUNNING;
 
                 //Only allow one connection 
-                runningSocket?.Abort();
+                if (runningSocket?.State == WebSocketState.Open)
+                {
+                    runningSocket?.Abort();
+                }
 
                 runningSocket = null;
 
@@ -124,7 +127,7 @@ namespace DgtCherub.Controllers
                                                     lastErrorLog = DateTime.UtcNow;
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that the game windows is part visible on the screen.");
                                                     _appDataService.UserMessageArrived("INGEST", $"Make sure that you are not in focus mode.");
-                                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY, messageIn.AngelPluginName);
+                                                    _ = _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED_MOVES_ONLY, messageIn.AngelPluginName);
                                                 }
 
                                                 break;
@@ -181,11 +184,11 @@ namespace DgtCherub.Controllers
                                     _appDataService.UserMessageArrived(messageIn.Source, messageIn.Message);
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STARTED:
-                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.AngelPluginName, messageIn.RemoteBoard);
+                                    await _appDataService.WatchStateChange(MessageTypeCode.WATCH_STARTED, messageIn.AngelPluginName, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"Angel started watching a remote board.");
                                     break;
                                 case CherubApiMessage.MessageTypeCode.WATCH_STOPPED:
-                                    _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.AngelPluginName, messageIn.RemoteBoard);
+                                    await _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, messageIn.AngelPluginName, messageIn.RemoteBoard);
                                     _appDataService.UserMessageArrived(messageIn.Source, $"Angel stopped watching the remote board.");
                                     break;
                                 default:
@@ -207,7 +210,7 @@ namespace DgtCherub.Controllers
                     }
                 }
 
-                _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, "");
+                _ = _appDataService.WatchStateChange(MessageTypeCode.WATCH_STOPPED, "");
                 _appDataService.PluginDisconnect();
                 _appDataService.UserMessageArrived("INTERNAL", "Angel has Disconnected");
             }

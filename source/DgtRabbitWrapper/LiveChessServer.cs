@@ -3,6 +3,7 @@ using DgtRabbitWrapper.DgtEbDll;
 using Fleck;
 using System;
 using System.Collections.Concurrent;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace DgtRabbitWrapper
         private const string CONNECT_02_MSG = "{\"response\":\"call\",\"id\":2,\"param\":null,\"time\":TIMETIME}";
         private const string CONNECT_03_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\",\"clock\":null},\"time\":TIMETIME}";
         private const string NEWPOS_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":false,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
-        private const string NEWPOS__FLIPPED_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":true,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
+        //private const string NEWPOS__FLIPPED_MSG = "{\"response\":\"feed\",\"id\":1,\"param\":{\"serialnr\":\"BOARDNO\",\"flipped\":true,\"board\":\"FENFEN\"},\"time\":TIMETIME}";
 
         public enum PlayDropFix { NONE, FROMWHITE, FROMBLACK };
         public event EventHandler<string> OnLiveChessSrvMessage;
@@ -28,10 +29,10 @@ namespace DgtRabbitWrapper
         public int ComPort { get; init; }
         public int BatteryPct { get; init; }
         public string InitialFEN { get; init; }
-        public string LastFenSeen { get; private set; } = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-        public int WhiteCount { get; private set; } = 0;
-        public int BlackCount { get; private set; } = 0;
-        public int KingCount { get; private set; } = 0;
+        public string LastFenSeen { get; private set; } = "8//8/8/8/8/8/8";//"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+        public int WhiteCount { get; private set; }
+        public int BlackCount { get; private set; }
+        public int KingCount { get; private set; }
         public long LastUpdateTime { get; private set; } = long.MinValue;
 
         private readonly ConcurrentQueue<int> _closedPortQueue = new();
@@ -67,17 +68,27 @@ namespace DgtRabbitWrapper
         }
 
 
-        private void SendToSocket(IWebSocketConnection clientSocket, string message, bool isSendToLog = true)
+        private void SendToSocket(IWebSocketConnection clientSocket, string message)
+            => SendToSocket(new FleckLiveChessSocket(clientSocket), message);
+
+        /// <summary>
+        /// Writes one message to one connected client, and records it.
+        /// </summary>
+        /// <remarks>
+        /// Takes <see cref="ILiveChessSocket"/> rather than Fleck's connection type so the
+        /// transmission path can be asserted without a listener.
+        ///
+        /// There is deliberately no switch. A parameter here used to be called isSendToLog
+        /// and, by the end, also decided whether the message was sent - so asking for a
+        /// quiet log also silenced the wire, with nothing reported. A message that should
+        /// not reach a client is one where the call is not made.
+        /// </remarks>
+        internal void SendToSocket(ILiveChessSocket clientSocket, string message)
         {
             try
             {
-                if (isSendToLog)
-                {
-                    OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
-                    _ = clientSocket.Send(message);
-                }
-                    
-                //_ = clientSocket.Send(message);
+                OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ClientPort}::{message}");
+                _ = clientSocket.Send(message);
             }
             catch (Exception ex)
             {
@@ -90,12 +101,16 @@ namespace DgtRabbitWrapper
             _ = Task.Run(RunLiveChessServerInternal);
         }
 
-        private string FormatMessage(string message, string fen = "")
+        /// <summary>
+        /// Fills the placeholders in one of the message templates above. Internal so the
+        /// wire format can be asserted without starting a websocket.
+        /// </summary>
+        internal string FormatMessage(string message, string fen = "")
         {
-            return message.Replace("BOARDNO", _randomSerialNo.ToString())
-                          .Replace("FENFEN", fen)
+            return message.Replace("BOARDNO", _randomSerialNo.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+                          .Replace("FENFEN", fen, StringComparison.Ordinal)
                           .Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                          .ToString());
+                          .ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
         }
 
         private void RunLiveChessServerInternal()
@@ -106,10 +121,14 @@ namespace DgtRabbitWrapper
             //Setup connection the Rabbit
             _dgtEbDllFacade.OnStableFenChanged += (object sender, FenChangedEventArgs e) =>
             {
-                if (LastFenSeen != e.FEN)
+                //The driver hands us its own run-length board string, so convert it to a
+                //FEN before it goes out as the LiveChess "board" field.
+                string board = e.FEN.NormaliseDgtBoardToFen();
+
+                if (LastFenSeen != board)
                 {
-                    LastFenSeen = e.FEN;
-                    KingCount = e.FEN.Where(c => c is 'k' or 'K').Count();
+                    LastFenSeen = board;
+                    KingCount = LastFenSeen.Where(c => c is 'k' or 'K').Count();
 
                     //Don't send boards with missing kings - always invalid
                     //This fixes castling
@@ -164,14 +183,14 @@ namespace DgtRabbitWrapper
         private void ProcessMessages(IWebSocketConnection socket, string message)
         {
             if (message != null &&
-                message.Contains("call") &&
-                message.Contains("eboards"))
+                message.Contains("call", StringComparison.Ordinal) &&
+                message.Contains("eboards", StringComparison.Ordinal))
             {
                 SendToSocket(socket, FormatMessage(CONNECT_01_MSG, _broadcastFEN));
             }
             else if (message != null &&
-                     message.Contains("call") &&
-                     message.Contains("subscribe"))
+                     message.Contains("call", StringComparison.Ordinal) &&
+                     message.Contains("subscribe", StringComparison.Ordinal))
             {
                 SendToSocket(socket, FormatMessage(CONNECT_02_MSG));
                 SendToSocket(socket, FormatMessage(CONNECT_03_MSG, _broadcastFEN));
@@ -194,32 +213,27 @@ namespace DgtRabbitWrapper
                 }
             }
         }
-        
+
 
         private string SendBoardUpdate(IWebSocketConnection socket, string message, string lastSend)
         {
             //Send the remote board back to CDC to confirm the turn
             //If we don't it will randomly refuse to accept moves
-            //if (!message.ToString().Contains(FROM_INTERNAL_MSG_ID) && DropFix != PlayDropFix.NONE)
-            //{
-            //    SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
-            //}
-//            SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
 
             if (_broadcastFEN != lastSend)
             {
                 lastSend = _broadcastFEN;
 
                 //Dropfix mode so test if this is a valid move before sending...
-                string _currentRemoteFen = this.RemoteFEN;
-                string _currentSideToPlay = this.SideToPlay;
+                string _currentRemoteFen = RemoteFEN;
+                string _currentSideToPlay = SideToPlay;
 
                 //Make sure that the remote FEN is definatly sent
-                SendToSocket(socket, FormatMessage(NEWPOS_MSG, _currentRemoteFen), true);
+                SendToSocket(socket, FormatMessage(NEWPOS_MSG, _currentRemoteFen));
 
                 //Always send the real FEN to Cherub
                 //Always send the real FEN if not in Dropfix mode
-                if (message.ToString().Contains(FROM_INTERNAL_MSG_ID) || DropFix == PlayDropFix.NONE)
+                if (message.ToString().Contains(FROM_INTERNAL_MSG_ID, StringComparison.Ordinal) || DropFix == PlayDropFix.NONE)
                 {
                     //if (_broadcastFenCorrected != _broadcastFEN &&
                     //    !message.ToString().Contains(FROM_INTERNAL_MSG_ID))
@@ -231,9 +245,7 @@ namespace DgtRabbitWrapper
                 }
                 else
                 {
-
-
-                    var (move, ending, turn) = ChessHelpers.PositionDiffCalculator
+                    (string move, string ending, string turn) = ChessHelpers.PositionDiffCalculator
                                                .CalculateSanFromFen(_currentRemoteFen, _broadcastFEN);
 
 
@@ -260,14 +272,12 @@ namespace DgtRabbitWrapper
                         {
                             _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(false);
                             OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
-                            //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
                             SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " w - - 0 1"));
                         }
-                        else if(turn == "BLACK")
+                        else if (turn == "BLACK")
                         {
                             _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(true);
                             OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
-                            //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
                             SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " b - - 0 1"));
                         }
                         else
@@ -278,7 +288,7 @@ namespace DgtRabbitWrapper
                     }
                 }
             }
-            
+
             return lastSend;
         }
     }

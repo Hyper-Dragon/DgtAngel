@@ -34,7 +34,7 @@ namespace DgtRabbitWrapper.DgtEbDll
 
         private static void CallbackStableBoardInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
-        private static void CallbackScanInstanceMethod(string fenString) { NotifyTarget.NotifyOnStableFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
+        private static void CallbackScanInstanceMethod(string fenString) { NotifyTarget.NotifyOnFenChanged(new FenChangedEventArgs() { FEN = fenString, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
         private static void CallbackBClockFuncInstanceMethod(string data) { NotifyTarget.NotifyOnBClock(new StatusMessageEventArgs() { Message = data, TimeChangedTicks = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() }); }
 
@@ -63,19 +63,61 @@ namespace DgtRabbitWrapper.DgtEbDll
         {
             NotifyTarget = notifyTarget;
 
-            Result result0 = (Result)DgtEbDllImport.Init();
-            Result result1 = (Result)RegisterCallbackScanFunc(_callbackSScanInstance, IntPtr.Zero);
-            Result result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
-            Result result3 = (Result)SetGameType(0);
-            Result result4 = (Result)UseSAN(true);
-            Result result5 = (Result)SetAutoRotation(false);
-            Result result6 = (Result)WriteDebug(false);
-            Result result7 = (Result)UseFEN(true);
-            _ = ConfigureAllCallbacks();
+            // Claim initialisation before the first native call, not after it. When a shim
+            // stands in for dgtebdll.dll it answers _DGTDLL_Init by calling back into this
+            // process over gRPC, so a second Init arrives while this one is still inside the
+            // native call - and that nested call blocks on the init mutex this one holds.
+            // The claim is what lets the nested call answer instead of waiting.
+            if (!DgtDriverGate.TryBeginInitialising())
+            {
+                return DgtDriverGate.IsInitialised;
+            }
 
-            return result0 == Result.SUCCESS && result1 == Result.SUCCESS && result2 == Result.SUCCESS &&
-                   result3 == Result.SUCCESS && result4 == Result.SUCCESS && result5 == Result.SUCCESS &&
-                   result6 == Result.SUCCESS && result7 == Result.SUCCESS && result7 == Result.SUCCESS;
+            // The claim is taken before the lock on purpose. A nested Init answers from the
+            // claim without touching the lock, so the lock can be held across the whole of
+            // initialisation without rebuilding the deadlock it was added to prevent.
+            bool ok = DgtDriverGate.Run(() =>
+            {
+                Result result0 = (Result)DgtEbDllImport.Init();
+                Result result1 = (Result)RegisterCallbackScanFunc(_callbackSScanInstance, IntPtr.Zero);
+                Result result2 = (Result)RegisterStatusFunc(_callbackStatusInstance, IntPtr.Zero);
+                Result result3 = (Result)SetGameType(0);
+                // Leave the driver in its DEFAULT move notation (long algebraic, e.g.
+                // "e2e4").  UseSAN(true) makes the driver emit SAN such as "e4", and
+                // because the driver is a single shared instance that setting leaks to
+                // every other consumer.  Hosts that never call _DGTDLL_UseSAN - Fritz
+                // 14 among them - rely on the default and silently reject SAN moves,
+                // so imposing SAN here is a transparency bug, not a preference.
+                // Cherub formats moves for display itself if it wants SAN.
+                Result result4 = (Result)UseSAN(false);
+                Result result5 = (Result)SetAutoRotation(false);
+                Result result6 = (Result)WriteDebug(false);
+
+                // Leave the driver reporting its own position format (run-length, no rank
+                // separators).  UseFEN switches that format on the shared driver, and DGT
+                // clients such as Arena render this format directly - they garble a slash
+                // separated FEN.  Cherub converts to FEN where it is actually needed, in
+                // Extensions.NormaliseDgtBoardToFen, for the LiveChess feed.
+                Result result7 = (Result)UseFEN(false);
+                _ = ConfigureAllCallbacks();
+
+                return result0 == Result.SUCCESS && result1 == Result.SUCCESS && result2 == Result.SUCCESS &&
+                       result3 == Result.SUCCESS && result4 == Result.SUCCESS && result5 == Result.SUCCESS &&
+                       result6 == Result.SUCCESS && result7 == Result.SUCCESS;
+            });
+
+            if (ok)
+            {
+                DgtDriverGate.MarkInitialised();
+            }
+            else
+            {
+                // Hand the claim back so a later attempt can run. Holding it would report
+                // the driver as forever starting up, which hides the failure.
+                DgtDriverGate.MarkInitialisationAbandoned();
+            }
+
+            return ok;
         }
 
         private static Result ConfigureAllCallbacks()

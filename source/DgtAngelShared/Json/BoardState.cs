@@ -48,6 +48,7 @@ namespace DgtAngelShared.Json
         public TurnCode ClockTurn { get; init; }
         public string LastMove { get; set; }
         public string Ending { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TurnCode FenTurn { get; set; }
         public string FenString { get; init; }
         public string LastFenString { get; set; }
@@ -57,7 +58,7 @@ namespace DgtAngelShared.Json
     public sealed record Clocks
     {
         public long CaptureTimeMs { get; init; }
-        public int WhiteClock { get; init; } = 0;
-        public int BlackClock { get; init; } = 0;
+        public int WhiteClock { get; init; }
+        public int BlackClock { get; init; }
     }
 }

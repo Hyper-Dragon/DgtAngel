@@ -12,7 +12,7 @@ namespace DgtCherub.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.6.0.0")]
     internal sealed partial class UserSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static UserSettings defaultInstance = ((UserSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new UserSettings())));
@@ -86,18 +86,6 @@ namespace DgtCherub.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IncludeSeconds {
-            get {
-                return ((bool)(this["IncludeSeconds"]));
-            }
-            set {
-                this["IncludeSeconds"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool PreventSleep {
             get {
                 return ((bool)(this["PreventSleep"]));
@@ -116,18 +104,6 @@ namespace DgtCherub.Properties {
             }
             set {
                 this["AlwaysOnTop"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11")]
-        public decimal FontSize {
-            get {
-                return ((decimal)(this["FontSize"]));
-            }
-            set {
-                this["FontSize"] = value;
             }
         }
         
@@ -169,18 +145,6 @@ namespace DgtCherub.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
-        public decimal MatcherLocalFromMismatchDelay {
-            get {
-                return ((decimal)(this["MatcherLocalFromMismatchDelay"]));
-            }
-            set {
-                this["MatcherLocalFromMismatchDelay"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool IsRabbitDisabled {
             get {
@@ -193,13 +157,133 @@ namespace DgtCherub.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DesktopClientMode {
+            get {
+                return ((bool)(this["DesktopClientMode"]));
+            }
+            set {
+                this["DesktopClientMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IncludeSeconds {
+            get {
+                return ((bool)(this["IncludeSeconds"]));
+            }
+            set {
+                this["IncludeSeconds"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("17")]
+        public decimal FontSize {
+            get {
+                return ((decimal)(this["FontSize"]));
+            }
+            set {
+                this["FontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.7")]
+        public decimal MatcherLocalFromMismatchDelay {
+            get {
+                return ((decimal)(this["MatcherLocalFromMismatchDelay"]));
+            }
+            set {
+                this["MatcherLocalFromMismatchDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1300")]
         public int StartingWidth {
             get {
                 return ((int)(this["StartingWidth"]));
             }
             set {
                 this["StartingWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastUciExe {
+            get {
+                return ((string)(this["LastUciExe"]));
+            }
+            set {
+                this["LastUciExe"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UciOptions {
+            get {
+                return ((string)(this["UciOptions"]));
+            }
+            set {
+                this["UciOptions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DebugUciIn {
+            get {
+                return ((bool)(this["DebugUciIn"]));
+            }
+            set {
+                this["DebugUciIn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DebugUciOut {
+            get {
+                return ((bool)(this["DebugUciOut"]));
+            }
+            set {
+                this["DebugUciOut"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AltDgtDllPath {
+            get {
+                return ((string)(this["AltDgtDllPath"]));
+            }
+            set {
+                this["AltDgtDllPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int GuiScaleIndex {
+            get {
+                return ((int)(this["GuiScaleIndex"]));
+            }
+            set {
+                this["GuiScaleIndex"] = value;
             }
         }
     }
