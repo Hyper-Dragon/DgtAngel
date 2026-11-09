@@ -1,0 +1,16 @@
+<Project>
+
+  <!--
+    .NET analyzers, so the IDE and a command-line build report the same things.
+
+    AnalysisMode Recommended is the middle setting: it keeps the rules Microsoft considers worth
+    acting on and drops the opt-in pedantry (explicit defaults, logging-delegate performance,
+    explicit interface surface). The three rules that this codebase trips by design rather than by
+    accident - CA2007, CA1003 and CA1707 - are switched off in .editorconfig, next to the reasons.
+  -->
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>Recommended</AnalysisMode>
+  </PropertyGroup>
+
+</Project>

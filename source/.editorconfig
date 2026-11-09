@@ -1,0 +1,20 @@
+# Analyzer severities only. No formatting rules, so this file cannot reformat anything.
+root = true
+
+[*.cs]
+# ConfigureAwait(false) would be noise in a WinForms application: continuing on the captured
+# context is exactly what the UI needs, and the app has no library surface to protect.
+dotnet_diagnostic.CA2007.severity = none
+
+# The codebase models events as Action / Action<T> throughout. Rewriting them as EventHandler<T>
+# would be churn that changes no behaviour.
+dotnet_diagnostic.CA1003.severity = none
+
+# Test method names use underscores deliberately so they read as sentences.
+dotnet_diagnostic.CA1707.severity = none
+
+# Switched back on: Recommended does not include either, but both are wanted here. CA1062 asks
+# public methods to check their arguments before dereferencing them; CA1307 asks string
+# comparisons to say which comparison they mean.
+dotnet_diagnostic.CA1062.severity = warning
+dotnet_diagnostic.CA1307.severity = warning
