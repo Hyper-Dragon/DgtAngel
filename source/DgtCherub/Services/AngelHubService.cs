@@ -74,6 +74,60 @@ namespace DgtCherub.Services
         private readonly ILogger _logger;
         private readonly IUciEngineManager _uciEngineManager;
 
+        /// <summary>
+        /// Source of "now" and of delays. Production leaves this at
+        /// <see cref="TimeProvider.System"/>; tests substitute a provider so clock
+        /// arithmetic and the post-event delays are deterministic instead of real waits.
+        /// </summary>
+        internal TimeProvider TimeSource { get; set; } = TimeProvider.System;
+
+        /// <summary>Queue items that are either still waiting or currently being processed.</summary>
+        private int inFlight;
+
+        /// <summary>
+        /// Queues an item and counts it as outstanding until its processor finishes.
+        /// Counting on enqueue rather than on read is what makes <see cref="DrainAsync"/>
+        /// race-free: an item is never simultaneously not-queued and not-in-flight.
+        /// </summary>
+        private void Enqueue<T>(ChannelWriter<T> writer, T item)
+        {
+            _ = System.Threading.Interlocked.Increment(ref inFlight);
+
+            if (!writer.TryWrite(item))
+            {
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
+            }
+        }
+
+        /// <summary>
+        /// Test hook: completes once every processor has finished the item it was holding
+        /// and all queues are empty. Production never calls this. It exists so a test can
+        /// assert on the outcome of a queue instead of sleeping for a guessed period.
+        /// </summary>
+        internal async Task DrainAsync(System.Threading.CancellationToken cancellationToken = default)
+        {
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                if (Volatile.Read(ref inFlight) == 0 &&
+                    localFenProcessChannel.Reader.Count == 0 &&
+                    remoteFenProcessChannel.Reader.Count == 0 &&
+                    clockProcessChannel.Reader.Count == 0 &&
+                    lastMoveProcessChannel.Reader.Count == 0 &&
+                    orientationProcessChannel.Reader.Count == 0 &&
+                    messageProcessChannel.Reader.Count == 0)
+                {
+                    return;
+                }
+
+                await Task.Yield();
+            }
+        }
+
+        /// <summary>Items taken by a processor but not yet finished. Test hook.</summary>
+        internal int InFlightCount => Volatile.Read(ref inFlight);
+
         private readonly SemaphoreSlim startStopSemaphore = new(1, 1);
 
         private readonly Channel<string> localFenProcessChannel;
@@ -186,7 +240,7 @@ namespace DgtCherub.Services
 
         public void LocalBoardUpdate(string fen)
         {
-            _ = localFenProcessChannel.Writer.TryWrite(fen);
+            Enqueue(localFenProcessChannel.Writer, fen);
         }
 
         /// <inheritdoc />
@@ -200,8 +254,8 @@ namespace DgtCherub.Services
             }
 
             //Always send these
-            _ = orientationProcessChannel.Writer.TryWrite(remoteBoardState.Board.IsWhiteOnBottom);
-            _ = clockProcessChannel.Writer.TryWrite(remoteBoardState);
+            Enqueue(orientationProcessChannel.Writer, remoteBoardState.Board.IsWhiteOnBottom);
+            Enqueue(clockProcessChannel.Writer, remoteBoardState);
 
             //...and then ignore if we already have the FEN
             if (RemoteBoardFEN != null && RemoteBoardFEN == remoteBoardState.Board.FenString)
@@ -228,12 +282,12 @@ namespace DgtCherub.Services
                 remoteBoardState.Board.LastMove = "";
             }
 
-            _ = remoteFenProcessChannel.Writer.TryWrite(remoteBoardState);
+            Enqueue(remoteFenProcessChannel.Writer, remoteBoardState);
 
 
             if (!string.IsNullOrWhiteSpace(remoteBoardState.Board.LastMove))
             {
-                _ = lastMoveProcessChannel.Writer.TryWrite(remoteBoardState);
+                Enqueue(lastMoveProcessChannel.Writer, remoteBoardState);
             }
         }
 
@@ -244,7 +298,7 @@ namespace DgtCherub.Services
                 return;
             }
 
-            _ = messageProcessChannel.Writer.TryWrite((source, message));
+            Enqueue(messageProcessChannel.Writer, (source, message));
         }
 
         public void ResetLocalBoardState()
@@ -339,8 +393,10 @@ namespace DgtCherub.Services
                         kibitzLastBlackCount = blackCount;
                     }
 
-                    await Task.Delay(POST_EVENT_DELAY_LOCAL_FEN);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
@@ -356,8 +412,10 @@ namespace DgtCherub.Services
                 if (EchoExternalMessagesToConsole)
                 {
                     OnNotification?.Invoke(message.source, message.message);
-                    await Task.Delay(POST_EVENT_DELAY_MESSAGE);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_MESSAGE), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
@@ -371,8 +429,10 @@ namespace DgtCherub.Services
                 {
                     IsWhiteOnBottom = isWhiteOnBottom;
                     OnOrientationFlipped?.Invoke();
-                    await Task.Delay(POST_EVENT_DELAY_ORIENTATION);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_ORIENTATION), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
@@ -384,7 +444,7 @@ namespace DgtCherub.Services
                 _logger?.LogTrace("Processing a clock recieved @ {CaptureTimeMs}", remoteBoardState.CaptureTimeMs);
 
                 // Account for the actual time captured/now if clock running
-                int captureTimeDiffMs = (int)(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
+                int captureTimeDiffMs = (int)(TimeSource.GetUtcNow().UtcDateTime.Subtract(DateTime.UnixEpoch).TotalMilliseconds - remoteBoardState.Board.Clocks.CaptureTimeMs);
                 TimeSpan whiteTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.WhiteClock - ((remoteBoardState.Board.ClockTurn == TurnCode.WHITE) ? captureTimeDiffMs : 0));
                 TimeSpan blackTimespan = new(0, 0, 0, 0, remoteBoardState.Board.Clocks.BlackClock - ((remoteBoardState.Board.ClockTurn == TurnCode.BLACK) ? captureTimeDiffMs : 0));
 
@@ -403,7 +463,9 @@ namespace DgtCherub.Services
                 CalculateNextClockAudio(WhiteClockMsRemaining, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
                 CalculateNextClockAudio(BlackClockMsRemaining, ref blackNextClockAudioNotBefore, (string audioFile) => OnPlayBlackClockAudio?.Invoke(audioFile));
 
-                await Task.Delay(POST_EVENT_DELAY_CLOCK);
+                await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_CLOCK), TimeSource);
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
@@ -440,8 +502,10 @@ namespace DgtCherub.Services
                         }
                     }
 
-                    await Task.Delay(POST_EVENT_DELAY_LAST_MOVE);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LAST_MOVE), TimeSource);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
@@ -470,7 +534,7 @@ namespace DgtCherub.Services
                     CurrentUpdatetMatch = Guid.NewGuid();
                     _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(), MatcherRemoteTimeDelayMs));
 
-                    await Task.Delay(POST_EVENT_DELAY_REMOTE_FEN);
+                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_REMOTE_FEN), TimeSource);
                 }
 
                 if (RemoteBoardFEN != remoteBoardState.BoardConnection.ConMessage)
@@ -479,6 +543,8 @@ namespace DgtCherub.Services
                     OnRemoteBoardStatusChange?.Invoke(remoteBoardState.BoardConnection.ConMessage,
                                                      remoteBoardState.Board.IsWhiteOnBottom);
                 }
+
+                _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
 
@@ -489,8 +555,8 @@ namespace DgtCherub.Services
                 OnBoardMatcherStarted?.Invoke();
                 //IsBoardInSync = false;
 
-                _logger?.LogTrace("MATCHER", $"PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
-                await Task.Delay(matchDelay);
+                _logger?.LogTrace($"MATCHER PRE IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                await Task.Delay(TimeSpan.FromMilliseconds(matchDelay), TimeSource);
 
                 // The match code was captured when the method was called so compare to the outside value and
                 // if they are not the same we can skip as the local position has changed.
@@ -503,14 +569,14 @@ namespace DgtCherub.Services
                 //}
 
 
-                _logger?.LogTrace("POST IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                _logger?.LogTrace($"MATCHER POST IN:{matchCode} OUT:{CurrentUpdatetMatch}");
 
                 //lock (matcherLockObj)
                 //{
                 if (RemoteBoardFEN != LocalBoardFEN)
                 {
                     IsBoardInSync = false;
-                    OnBoardMissmatch?.Invoke(DateTime.UtcNow.Ticks, FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
+                    OnBoardMissmatch?.Invoke(TimeSource.GetUtcNow().UtcTicks, FenConversion.SquareDiffCount(LocalBoardFEN, RemoteBoardFEN), LastMatchedPosition, LocalBoardFEN);
                 }
                 else
                 {
@@ -520,14 +586,14 @@ namespace DgtCherub.Services
                     if (!IsBoardInSync)
                     {
                         IsBoardInSync = true;
-                        OnBoardMatchFromMissmatch?.Invoke(DateTime.UtcNow.Ticks);
+                        OnBoardMatchFromMissmatch?.Invoke(TimeSource.GetUtcNow().UtcTicks);
                     }
                 }
                 //}
             }
             else
             {
-                _logger?.LogTrace("CANX IN OUT", $"IN:{matchCode} OUT:{CurrentUpdatetMatch}");
+                _logger?.LogTrace($"MATCHER CANX IN:{matchCode} OUT:{CurrentUpdatetMatch}");
             }
 
         }

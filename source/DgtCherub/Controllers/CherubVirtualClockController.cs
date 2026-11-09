@@ -4,6 +4,7 @@ using DynamicBoard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -109,7 +110,7 @@ namespace DgtCherub.Controllers
         public ContentResult GetClock(string clock)
         {
             // http://localhost:37964/CherubVirtualClock/GetClock
-            _logger?.LogTrace("Clock requested", clock.SanitiseText());
+            _logger?.LogTrace($"Clock requested [{clock.SanitiseText()}]");
 
             try
             {
@@ -153,7 +154,13 @@ namespace DgtCherub.Controllers
 
                 //http://127.0.0.1:37964/CherubVirtualClock/GetClock/TemplateData/style.css
 
-                return File(LoadResource($"{RESOURCE_CLOCK_ROOT}.{clock}.{directory}.{filename}"), mimeType);
+                // A clock or asset the build does not carry is a bad URL, not a server fault.
+                if (!TryLoadResource($"{RESOURCE_CLOCK_ROOT}.{clock}.{directory}.{filename}", out byte[] content))
+                {
+                    throw new FileNotFoundException();
+                }
+
+                return File(content, mimeType);
             }
             catch (FileNotFoundException)
             {
@@ -165,7 +172,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}/{localBoard}/{remoteBoard}")]
         public async Task<FileContentResult> BoardImageCompareByFen(string board, string localBoard, string remoteBoard)
         {
-            _logger?.LogTrace("Board image requested", $"{localBoard} :: {remoteBoard}".SanitiseText());
+            _logger?.LogTrace($"Board image requested [{localBoard} :: {remoteBoard}]".SanitiseText());
 
             string local = string.IsNullOrEmpty(localBoard) ? HttpUtility.UrlDecode(remoteBoard) : HttpUtility.UrlDecode(localBoard);
             string remote = string.IsNullOrEmpty(remoteBoard) ? HttpUtility.UrlDecode(localBoard) : HttpUtility.UrlDecode(remoteBoard);
@@ -186,7 +193,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
-            _logger?.LogTrace("Board image requested", board.SanitiseText());
+            _logger?.LogTrace($"Board image requested [{board.SanitiseText()}]");
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -207,7 +214,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImageNoCompare(string board)
         {
-            _logger?.LogTrace("Board image without compare requested", board.SanitiseText());
+            _logger?.LogTrace($"Board image without compare requested [{board.SanitiseText()}]");
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -228,7 +235,7 @@ namespace DgtCherub.Controllers
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
-            _logger?.LogTrace("Image requested", fileName.SanitiseText());
+            _logger?.LogTrace($"Image requested [{fileName.SanitiseText()}]");
 
             try
             {
@@ -250,12 +257,25 @@ namespace DgtCherub.Controllers
         public async Task GetStuff(string clientUtcMs)
         {
             // http://localhost:37964/CherubVirtualClock/GetStuff
-            _logger?.LogTrace("Clock client connected running", clientUtcMs.SanitiseText());
+            _logger?.LogTrace($"Clock client connected running [{clientUtcMs.SanitiseText()}]");
 
+            // The reading is only good for one thing: showing how far the client's clock is
+            // from this machine's. It arrives on a URL, so it is parsed defensively - an
+            // unhandled FormatException here faulted the clock stream for a bad address,
+            // and the stream does not depend on the value at all.
+            if (!double.TryParse(clientUtcMs, NumberStyles.Float, CultureInfo.InvariantCulture, out double clientTimeMs))
+            {
+                _logger?.LogTrace($"Clock client sent a time that is not a number [{clientUtcMs.SanitiseText()}]");
+                Response.StatusCode = StatusCodes.Status400BadRequest;
+                return;
+            }
 
-            int clientServerTimeDiff = (int)(double.Parse(clientUtcMs) - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
+            int clientServerTimeDiff = (int)(clientTimeMs - DateTime.Now.ToUniversalTime().Subtract(unixDateTime).TotalMilliseconds);
+            _logger?.LogTrace($"Clock client skew [{clientServerTimeDiff}] ms against this machine");
 
-            Response.Headers.Add("Content-Type", MIME_EVENT);
+            // Set the header rather than adding one: Add throws when the key is already
+            // present (ASP0019), and the response is not ours alone to guarantee that.
+            Response.ContentType = MIME_EVENT;
 
             _angelHubService.OnBoardMissmatch += async (sentTimeTicks, _, _, _) =>
             {
@@ -436,11 +456,25 @@ namespace DgtCherub.Controllers
                 }));
             };
 
-            //Keep Alive
-            while (true)
+            //Keep Alive, and stop when the client goes away. Without the cancellation this
+            //loop outlives its request: SendEventResponse swallows every failed write, so a
+            //client that disconnected would leave a loop writing to a dead response every
+            //minute for the life of the process - and every reconnection added another.
+            CancellationToken clientGone = HttpContext?.RequestAborted ?? CancellationToken.None;
+
+            while (!clientGone.IsCancellationRequested)
             {
                 await SendEventResponse(Response, ConstructMessageOnly("Keep-Alive"));
-                await Task.Delay(TimeSpan.FromSeconds(KEEP_ALIVE_EVERY_SECONDS));
+
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(KEEP_ALIVE_EVERY_SECONDS), clientGone);
+                }
+                catch (OperationCanceledException)
+                {
+                    //The client has gone; the stream ends here.
+                    break;
+                }
             }
         }
 

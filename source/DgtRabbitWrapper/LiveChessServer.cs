@@ -67,17 +67,27 @@ namespace DgtRabbitWrapper
         }
 
 
-        private void SendToSocket(IWebSocketConnection clientSocket, string message, bool isSendToLog = true)
+        private void SendToSocket(IWebSocketConnection clientSocket, string message)
+            => SendToSocket(new FleckLiveChessSocket(clientSocket), message);
+
+        /// <summary>
+        /// Writes one message to one connected client, and records it.
+        /// </summary>
+        /// <remarks>
+        /// Takes <see cref="ILiveChessSocket"/> rather than Fleck's connection type so the
+        /// transmission path can be asserted without a listener.
+        ///
+        /// There is deliberately no switch. A parameter here used to be called isSendToLog
+        /// and, by the end, also decided whether the message was sent - so asking for a
+        /// quiet log also silenced the wire, with nothing reported. A message that should
+        /// not reach a client is one where the call is not made.
+        /// </remarks>
+        internal void SendToSocket(ILiveChessSocket clientSocket, string message)
         {
             try
             {
-                if (isSendToLog)
-                {
-                    OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ConnectionInfo.ClientPort}::{message}");
-                    _ = clientSocket.Send(message);
-                }
-
-                //_ = clientSocket.Send(message);
+                OnLiveChessSrvMessage?.Invoke(this, $"OUT::{clientSocket.ClientPort}::{message}");
+                _ = clientSocket.Send(message);
             }
             catch (Exception ex)
             {
@@ -90,7 +100,11 @@ namespace DgtRabbitWrapper
             _ = Task.Run(RunLiveChessServerInternal);
         }
 
-        private string FormatMessage(string message, string fen = "")
+        /// <summary>
+        /// Fills the placeholders in one of the message templates above. Internal so the
+        /// wire format can be asserted without starting a websocket.
+        /// </summary>
+        internal string FormatMessage(string message, string fen = "")
         {
             return message.Replace("BOARDNO", _randomSerialNo.ToString())
                           .Replace("FENFEN", fen)
@@ -204,11 +218,6 @@ namespace DgtRabbitWrapper
         {
             //Send the remote board back to CDC to confirm the turn
             //If we don't it will randomly refuse to accept moves
-            //if (!message.ToString().Contains(FROM_INTERNAL_MSG_ID) && DropFix != PlayDropFix.NONE)
-            //{
-            //    SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
-            //}
-            //            SendToSocket(socket, FormatMessage(NEWPOS_MSG, this.RemoteFEN), false);
 
             if (_broadcastFEN != lastSend)
             {
@@ -219,7 +228,7 @@ namespace DgtRabbitWrapper
                 string _currentSideToPlay = SideToPlay;
 
                 //Make sure that the remote FEN is definatly sent
-                SendToSocket(socket, FormatMessage(NEWPOS_MSG, _currentRemoteFen), true);
+                SendToSocket(socket, FormatMessage(NEWPOS_MSG, _currentRemoteFen));
 
                 //Always send the real FEN to Cherub
                 //Always send the real FEN if not in Dropfix mode
@@ -262,14 +271,12 @@ namespace DgtRabbitWrapper
                         {
                             _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(false);
                             OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
-                            //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
                             SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " w - - 0 1"));
                         }
                         else if (turn == "BLACK")
                         {
                             _broadcastFenCorrected = LastFenSeen.GenrateAlwaysValidMovesFEN(true);
                             OnLiveChessSrvMessage?.Invoke(this, $"FIX:: Corrected fen ->  [{_broadcastFenCorrected}] [{move}] [{_currentSideToPlay}] [{turn}]");
-                            //SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected));
                             SendToSocket(socket, FormatMessage(NEWPOS_MSG, _broadcastFenCorrected + " b - - 0 1"));
                         }
                         else

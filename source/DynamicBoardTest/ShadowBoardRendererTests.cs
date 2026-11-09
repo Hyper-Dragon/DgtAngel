@@ -1,125 +1,77 @@
 ﻿using DynamicBoard;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using DynamicBoardTest.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DynamicBoardTest
 {
-    [TestClass()]
+    /// <summary>
+    /// Behaviour specific to the locally drawn renderer. The contract tests cover what
+    /// every renderer must do; these cover its own image cache, which is shared across
+    /// instances and therefore a place where one call can contaminate another.
+    /// </summary>
+    [TestClass]
     public class ShadowBoardRendererTests
     {
-        private static IServiceProvider? provider = null;
-
-
-        [ClassInitialize]
-        public static void TestFixtureSetup(TestContext context)
+        [TestMethod(DisplayName = "The same position renders identically on a repeat call")]
+        public async Task RepeatRenderIsIdentical()
         {
-            ServiceCollection services = new();
+            IBoardRenderer renderer = RendererFactory.CreateShadowRenderer();
+            const string position = "rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R";
 
-            _ = services.AddLogging(logging => logging.AddConsole())
-                    .AddHttpClient()
-                    .AddSingleton(typeof(IBoardRenderer), typeof(ShadowBoardRenderer));
+            byte[] first = await renderer.GetPngImageFromFenAsync(position, 160, true);
+            byte[] second = await renderer.GetPngImageFromFenAsync(position, 160, true);
 
-
-            provider = services.BuildServiceProvider();
+            CollectionAssert.AreEqual(first, second);
         }
 
-        [TestInitialize]
-        public void Setup()
+        [TestMethod(DisplayName = "Each perspective gets its own image for the same position")]
+        public async Task PerspectiveIsNotSharedThroughTheCache()
         {
+            IBoardRenderer renderer = RendererFactory.CreateShadowRenderer();
+            const string position = "rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R";
+
+            byte[] whiteBottom = await renderer.GetPngImageFromFenAsync(position, 160, true);
+            byte[] blackBottom = await renderer.GetPngImageFromFenAsync(position, 160, false);
+
+            CollectionAssert.AreNotEqual(whiteBottom, blackBottom, "a second perspective must not be served the first one's image");
         }
 
-        [TestMethod("Constructor DI test")]
-        public void ShadowBoardRendererTest()
+        [TestMethod(DisplayName = "Requested sizes are not shared through the cache")]
+        public async Task SizeIsNotSharedThroughTheCache()
         {
-            Assert.IsNotNull(provider);
-            IBoardRenderer? boardRenderer = (IBoardRenderer?)provider?.GetService(typeof(IBoardRenderer));
-            Assert.IsNotNull(boardRenderer);
-            Assert.IsInstanceOfType(boardRenderer, typeof(ShadowBoardRenderer));
+            IBoardRenderer renderer = RendererFactory.CreateShadowRenderer();
+            const string position = "rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R";
+
+            byte[] small = await renderer.GetPngImageFromFenAsync(position, 96, true);
+            byte[] large = await renderer.GetPngImageFromFenAsync(position, 320, true);
+
+            using System.Drawing.Bitmap smallBitmap = BoardRendererContractTests.Decode(small);
+            using System.Drawing.Bitmap largeBitmap = BoardRendererContractTests.Decode(large);
+
+            Assert.AreEqual(96, smallBitmap.Width);
+            Assert.AreEqual(320, largeBitmap.Width);
         }
 
-        [TestMethod("Produce image from FEN string")]
-        public async Task GetPngImageFromFenAsyncTest()
+        [TestMethod(DisplayName = "Many distinct positions all render")]
+        public async Task ManyDistinctPositionsRender()
         {
-            Assert.IsNotNull(provider);
-            IBoardRenderer? boardRenderer = (IBoardRenderer?)provider?.GetService(typeof(IBoardRenderer));
-            Assert.IsNotNull(boardRenderer);
+            IBoardRenderer renderer = RendererFactory.CreateShadowRenderer();
 
-            byte[] pngOut = await boardRenderer.GetPngImageFromFenAsync("rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R", 600, true);
+            HashSet<string> fingerprints = new();
 
-            Assert.IsNotNull(pngOut);
-            Assert.IsTrue(pngOut.Length > 100);
-        }
-
-        [TestMethod("Produce the same 'diff' image from identical FEN strings")]
-        public async Task GetPngImageDiffFromFenAsyncTest()
-        {
-            Assert.IsNotNull(provider);
-            IBoardRenderer? boardRenderer = (IBoardRenderer?)provider?.GetService(typeof(IBoardRenderer));
-            Assert.IsNotNull(boardRenderer);
-
-            byte[] pngOut1 = await boardRenderer.GetPngImageFromFenAsync("rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R", 600, true);
-            byte[] pngOut2 = await boardRenderer.GetPngImageDiffFromFenAsync("rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R", "rnbqk1nr/ppp2pbp/4p1p1/3p4/3P1B2/2PBPN2/PP3PPP/RN1QK2R", 600, true);
-
-            Assert.IsNotNull(pngOut1);
-            Assert.IsNotNull(pngOut2);
-            Assert.IsTrue(pngOut1.Length == pngOut2.Length);
-            Assert.AreEqual(pngOut2, pngOut2);
-        }
-
-        [TestMethod("Pass junk Fen String - Returns Dummy Image")]
-        public async Task JunkFenTest()
-        {
-            Assert.IsNotNull(provider);
-            IBoardRenderer? boardRenderer = (IBoardRenderer?)provider?.GetService(typeof(IBoardRenderer));
-            Assert.IsNotNull(boardRenderer);
-
-            byte[] pngOut = await boardRenderer.GetPngImageFromFenAsync("thisfenisjunk!!", 100, false);
-
-            Assert.IsNotNull(pngOut);
-            Assert.IsTrue(pngOut.Length > 100);
-        }
-
-        [TestMethod("Simul calls without error")]
-        public void MultiCallTest()
-        {
-            Assert.IsNotNull(provider);
-            IBoardRenderer? boardRenderer = (IBoardRenderer?)provider?.GetService(typeof(IBoardRenderer));
-            Assert.IsNotNull(boardRenderer);
-
-
-            string[]? fens = new string[]  { "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
-                                       "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
-                                       "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR",
-                                       "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R",
-                                       "rnbqkbnr/pppppppp/8/8/8/8/PPBPPPPP/RNBQKBNR",
-                                       "8/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR",
-                                       "rnbqkbnr/8/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR",
-                                       "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R",
-                                       "rnbqkbnr/pppppppp/8/8/8/8/PPPPPRPP/RNBQKBNR",
-                                       "rnbqkbnr/pppppppp/8/8/8/8/PPPP1PPP/RNBQKBNR",
-                                       "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/8",
-                                       "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/8/RNBQKB1R"};
-
-            List<Task<byte[]>> taskList = new();
-
-            foreach (bool isWhiteBottom in new bool[] { true, false })
+            for (int seed = 1; seed <= 40; seed++)
             {
-                foreach (string? fen in fens)
-                {
-                    taskList.Add(Task.Run(() => boardRenderer.GetPngImageFromFenAsync(fen, 1000, isWhiteBottom)));
-                }
+                string boardFen = FenBoard.Format(FenBoard.RandomBoard(seed, 20));
+
+                byte[] png = await renderer.GetPngImageFromFenAsync(boardFen, 100, true);
+
+                Assert.IsTrue(png.Length > 8, $"seed {seed} produced no image");
+                _ = fingerprints.Add(System.Convert.ToBase64String(png));
             }
 
-            //Wait for them all to complete
-            Task<byte[]>[]? taskListArray = taskList.ToArray();
-            Task.WaitAll(taskListArray);
-
-            foreach (Task<byte[]>? t in taskListArray)
-            {
-                Assert.IsTrue(t.IsCompletedSuccessfully);
-                Assert.IsTrue(t.Result.Length > 100);
-            }
+            Assert.IsTrue(fingerprints.Count > 30, $"40 distinct positions produced only {fingerprints.Count} distinct images");
         }
     }
 }

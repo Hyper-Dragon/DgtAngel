@@ -49,7 +49,7 @@ namespace UciComms
             OnBoardEvalChanged?.Invoke(obj);
         }
 
-        [GeneratedRegex("option name (?<name>\\S+) type (?<type>\\S+)(?: default (?<default>\\S+))?(?: min (?<min>\\S+))?(?: max (?<max>\\S+))?(?: var (?<var>\\S+))?")]
+        [GeneratedRegex("^option name (?<name>.+?) type (?<type>\\S+)(?: default (?<default>\\S+))?(?: min (?<min>\\S+))?(?: max (?<max>\\S+))?(?: var (?<var>\\S+))?")]
         private static partial Regex LineIn();
 
         internal void StartUciEngine()
@@ -231,19 +231,22 @@ namespace UciComms
 
             if (rawData.StartsWith("id"))
             {
-                string[] parts = rawData.Split(' ');
+                string[] parts = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 IdResponse idResponse = new() { RawData = rawData };
 
-                for (int i = 0; i < parts.Length - 1; i++)
+                int nameIndex = Array.IndexOf(parts, "name");
+                int authorIndex = Array.IndexOf(parts, "author");
+
+                if (nameIndex >= 0)
                 {
-                    if (parts[i] == "name")
-                    {
-                        idResponse.Name = string.Join(" ", parts.Skip(i + 1)).Trim();
-                    }
-                    else if (parts[i] == "author")
-                    {
-                        idResponse.Author = string.Join(" ", parts.Skip(i + 1)).Trim();
-                    }
+                    // The name ends where the author section starts, if there is one.
+                    int nameEnd = authorIndex > nameIndex ? authorIndex : parts.Length;
+                    idResponse.Name = string.Join(" ", parts[(nameIndex + 1)..nameEnd]).Trim();
+                }
+
+                if (authorIndex >= 0 && authorIndex + 1 < parts.Length)
+                {
+                    idResponse.Author = string.Join(" ", parts[(authorIndex + 1)..]).Trim();
                 }
 
                 return idResponse;
@@ -282,13 +285,15 @@ namespace UciComms
             }
             else if (rawData.StartsWith("bestmove"))
             {
-                string[] splitStr = rawData.Split(' ');
+                string[] splitStr = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                int ponderIndex = Array.IndexOf(splitStr, "ponder");
 
                 return new BestMoveResponse
                 {
                     RawData = rawData,
-                    BestMove = splitStr[1],
-                    PonderMove = splitStr.Length == 4 ? splitStr[3] : ""
+                    // Engines emit a bare "bestmove" when they have no move to give.
+                    BestMove = splitStr.Length > 1 ? splitStr[1] : "",
+                    PonderMove = (ponderIndex >= 0 && ponderIndex + 1 < splitStr.Length) ? splitStr[ponderIndex + 1] : ""
                 };
             }
             else if (rawData.StartsWith("info"))

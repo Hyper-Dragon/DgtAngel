@@ -7,11 +7,14 @@ namespace UciComms.Data
     internal sealed class Eval
     {
         private const int TOP_LINES_COUNT = 5;
-        private const int BEST_MOVE_LENGTH = 4;
-        private const string SCORE_PREFIX = "cp";
-        private const string MATE_PREFIX = "mate";
-        private const string PV_PREFIX = " pv";
-        private const string DEPTH_PREFIX = "depth";
+
+        // Tokens, not substrings. "cpuload" contains "cp" and "seldepth" contains
+        // "depth", so searching the line for those letters finds the wrong field.
+        private const string SCORE_TOKEN = "score";
+        private const string SCORE_CP = "cp";
+        private const string SCORE_MATE = "mate";
+        private const string PV_TOKEN = "pv";
+        private const string DEPTH_TOKEN = "depth";
 
         private readonly ConcurrentQueue<(string line,string lastSeenFen)> lineQueue = new();
         private readonly List<Tuple<int, int, string>> topLines = new();
@@ -143,62 +146,56 @@ namespace UciComms.Data
             }
         }
 
-        private static (int? cp, int mateIn) GetBoardEvalFromLine(string line)
+        internal static (int? cp, int mateIn) GetBoardEvalFromLine(string line)
         {
-            // Search for the score prefix in the UCI response string.
-            int index = line.IndexOf(SCORE_PREFIX);
-            
-            if (index >= 0)
+            string[] tokens = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            // The score is always "score cp <n>" or "score mate <n>".
+            int scoreIndex = Array.IndexOf(tokens, SCORE_TOKEN);
+            if (scoreIndex < 0 || scoreIndex + 2 >= tokens.Length)
             {
-                // Extract the score from the UCI response.
-                int score = int.Parse(line[(index + SCORE_PREFIX.Length)..].Trim().Split(' ')[0]);
-                
-                // Return the score and an indicator that it is not a mate score.
-                return (score, 0);
+                return (null, 0);
             }
 
-            // If the score prefix wasn't found, search for the mate prefix.
-            index = line.IndexOf(MATE_PREFIX);
-            
-            if (index >= 0)
+            if (!int.TryParse(tokens[scoreIndex + 2], out int value))
             {
-                // Extract the mate-in-x value from the UCI response.
-                int mateInX = int.Parse(line[(index + MATE_PREFIX.Length)..].Trim().Split(' ')[0]);
-                
-                // Calculate the mate score from the mate-in-x value.
-                // Positive values indicate a white win and negative values indicate a black win.
-                int mateScore = mateInX > 0 ? 100000 - (mateInX * 10) : -100000 - (mateInX * 10);
-                
-                // Return the mate score and the mate-in-x value.
-                return (mateScore, mateInX);
+                return (null, 0);
             }
 
-            // If neither prefix was found in the UCI response, return null values.
-            return (null, 0);
+            return tokens[scoreIndex + 1] switch
+            {
+                SCORE_CP => (value, 0),
+                // Positive values indicate a white win, negative a black win.
+                SCORE_MATE => (value > 0 ? 100000 - (value * 10) : -100000 - (value * 10), value),
+                _ => ((int?)null, 0),
+            };
         }
 
-        private static int? GetDepthFromLine(string line)
+        internal static int? GetDepthFromLine(string line)
         {
-            int index = line.IndexOf(DEPTH_PREFIX);
-            if (index < 0)
+            string[] tokens = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            int index = Array.IndexOf(tokens, DEPTH_TOKEN);
+            if (index < 0 || index + 1 >= tokens.Length)
             {
                 return null;
             }
 
-            int depth = int.Parse(line[(index + 6)..].Split()[0]);
-            return depth;
+            return int.TryParse(tokens[index + 1], out int depth) ? depth : null;
         }
 
-        private static string? GetBestMoveFromLine(string line)
+        internal static string? GetBestMoveFromLine(string line)
         {
-            int index = line.IndexOf(PV_PREFIX);
-            if (index < 0)
+            string[] tokens = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+            int index = Array.IndexOf(tokens, PV_TOKEN);
+            if (index < 0 || index + 1 >= tokens.Length)
             {
                 return null;
             }
 
-            string bestMove = line.Substring(index + PV_PREFIX.Length, BEST_MOVE_LENGTH);
-            return bestMove;
+            // The first move after "pv" is the best move, whatever its length.
+            return tokens[index + 1];
         }
     }
 }

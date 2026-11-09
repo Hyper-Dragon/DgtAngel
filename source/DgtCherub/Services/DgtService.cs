@@ -35,7 +35,13 @@ namespace DgtCherub.Services
             // A remote _DGTDLL_Init is asking whether it is ready, so re-running the
             // native Init() would re-register every callback on a live driver and
             // return FAIL - which told every proxied client that init had failed.
-            int value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.IsInitialised
+            //
+            // An initialisation that is still running counts as ready for the same reason it
+            // must not be repeated: it is the shim's own nested call, arriving while the
+            // outer Init holds the init mutex. Running the native Init from here would block
+            // on that mutex and neither call would ever return.
+            int value = DgtRabbitWrapper.DgtEbDll.DgtDriverGate.IsInitialised ||
+                        DgtRabbitWrapper.DgtEbDll.DgtDriverGate.IsInitialising
                 ? 0
                 : DgtRabbitWrapper.DgtEbDll.DgtDriverGate.Run(() => DgtRabbitWrapper.DgtEbDll.DgtEbDllImport.Init());
 

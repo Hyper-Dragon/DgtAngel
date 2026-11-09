@@ -48,6 +48,7 @@ namespace DgtAngelShared.Json
         public TurnCode ClockTurn { get; init; }
         public string LastMove { get; set; }
         public string Ending { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TurnCode FenTurn { get; set; }
         public string FenString { get; init; }
         public string LastFenString { get; set; }

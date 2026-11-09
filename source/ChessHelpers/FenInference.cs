@@ -38,14 +38,17 @@
                     int colLeftIdx = (moveFromRow * squaresOnBoard) + colLeft;
                     int colRightIdx = (moveFromRow * squaresOnBoard) + colRight;
 
+                    // colLeft is col - 1, so the a-file's left neighbour is -1, not 0.
+                    // Guarding with > 0 therefore discarded the a-file altogether and en
+                    // passant onto the b-file from the a-file was never seen.
                     if (toBoard[toIdx] == movingPiece &&
                         fromBoard[fromIdx] == oppPiece &&
-                        (((colLeft > 0) && fromBoard[colLeftIdx] == movingPiece) ||
+                        (((colLeft >= 0) && fromBoard[colLeftIdx] == movingPiece) ||
                          ((colRight < squaresOnBoard) && fromBoard[colRightIdx] == movingPiece)))
                     {
                         enPass = $"{colIdx[col]}{rowIdx[moveToRow]}";
 
-                        if (colLeft > 0 &&
+                        if (colLeft >= 0 &&
                             fromBoard[colLeftIdx] == movingPiece &&
                             toBoard[colLeftIdx] == '-')
                         {
@@ -144,6 +147,13 @@
         public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
+
+            // Callers pass anything from a bare board field to a whole FEN. Only the board
+            // field describes squares, so take that and nothing else: the castling rights
+            // that follow it ("KQkq") are made of piece letters and were being read as
+            // pieces, and with a flip the last rank was reversed together with the rest of
+            // the FEN.
+            fen = fen.Trim().Split(' ')[0];
 
             if (isFlipRequired)
             {

@@ -1,6 +1,5 @@
 ﻿using DgtRabbitWrapper.DgtEbDll;
 using System;
-using System.Runtime.CompilerServices;
 using static DgtRabbitWrapper.DgtEbDll.DgtEbDllAdapter;
 
 namespace DgtRabbitWrapper
@@ -42,59 +41,58 @@ namespace DgtRabbitWrapper
 
 
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetRabbitVersionString()
         {
-            if (string.IsNullOrEmpty(versionString))
+            return DgtDriverGate.Run(() =>
             {
-                versionString = GetVersion().versionTxt;
-            }
+                if (string.IsNullOrEmpty(versionString))
+                {
+                    versionString = GetVersion().versionTxt;
+                }
 
-            return versionString;
+                return versionString;
+            });
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ShowCongigDialog()
         {
-            _ = ShowDialog();
+            DgtDriverGate.Run(() => { _ = ShowDialog(); });
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void HideCongigDialog()
         {
-            _ = HideDialog();
+            DgtDriverGate.Run(() => { _ = HideDialog(); });
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool Init(IDgtEbDllFacade notifyTarget)
         {
+            // The adapter takes the driver lock itself, around the native initialisation.
             return DgtEbDllAdapter.Init(notifyTarget);
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DisplayMessage(string message, int time)
         {
-            _ = DisplayClockMessage($"{message}", int.MaxValue);
-            Thread.Sleep(time);
-            _ = EndDisplay();
+            DgtDriverGate.Run(() =>
+            {
+                _ = DisplayClockMessage($"{message}", int.MaxValue);
+                Thread.Sleep(time);
+                _ = EndDisplay();
+            });
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DisplayForeverMessage(string message)
         {
-            _ = DisplayClockMessage($"{message}", int.MaxValue);
+            DgtDriverGate.Run(() => { _ = DisplayClockMessage($"{message}", int.MaxValue); });
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void StopForeverMessage()
         {
-            _ = EndDisplay();
+            DgtDriverGate.Run(() => { _ = EndDisplay(); });
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DisplayMessageSeries(params string[] messages)
         {
-            new Thread(new ThreadStart(() =>
+            DgtDriverGate.Run(() => new Thread(new ThreadStart(() =>
             {
                 _ = EndDisplay();
                 Thread.Sleep(1000);
@@ -106,13 +104,12 @@ namespace DgtRabbitWrapper
                 }
 
                 _ = EndDisplay();
-            })).Start();
+            })).Start());
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SetClock(string whiteClock, string blackClock, int runwho)
         {
-            _ = SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho);
+            DgtDriverGate.Run(() => { _ = SetNRun($"{whiteClock}", $"{blackClock}", (RunWho)runwho); });
         }
     }
 }
