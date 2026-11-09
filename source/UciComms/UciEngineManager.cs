@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using UciComms.Data;
 
 namespace UciComms
@@ -163,6 +164,30 @@ namespace UciComms
                 await Task.Run(() => value?.StopUciEngine());
                 _ = UciEngines.TryRemove(engineRef, out _);
             }
+        }
+
+        /// <summary>
+        /// Ends every engine process this manager has started.
+        /// </summary>
+        /// <remarks>
+        /// For the way out of the application. Closing the window only stopped the search, so
+        /// every engine ever loaded stayed running for as long as the machine did - a killed
+        /// Cherub used to leave an engine behind, and a user who has just been told to restart
+        /// Cherub to play online again is exactly the user who kills it from the task manager.
+        /// </remarks>
+        public void StopAllEngines()
+        {
+            // ConcurrentDictionary tolerates removal while it is being enumerated.
+            foreach (KeyValuePair<string, UciChessEngine> entry in UciEngines)
+            {
+                if (UciEngines.TryRemove(entry.Key, out UciChessEngine? engine))
+                {
+                    engine?.Shutdown();
+                }
+            }
+
+            currentUciChessEngine = null;
+            CurrentUciEngine = null;
         }
 
 

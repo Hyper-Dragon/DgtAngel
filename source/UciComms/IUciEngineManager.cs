@@ -49,6 +49,11 @@ namespace UciComms
         void SwitchKibitzer(bool turnOn);
 
         void LoadedEngineQuit();
+
+        /// <summary>
+        /// Ends every engine process the manager started, for the way out of the application.
+        /// </summary>
+        void StopAllEngines();
         void LoadedEngineSetDebug(bool debugOn);
         void LoadedEngineSetMoves(string moves);
         void LoadedEngineSetOption(string name, string value);

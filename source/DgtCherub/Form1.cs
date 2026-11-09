@@ -521,7 +521,9 @@ namespace DgtCherub
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _uciEngineManager?.LoadedEngineStop();
+            // Not LoadedEngineStop: that sends "stop", which ends the search and leaves the
+            // process running. An engine that outlives Cherub is an engine nothing will ever end.
+            _uciEngineManager?.StopAllEngines();
 
             DgtCherub.Properties.UserSettings.Default.VolStatus = UpDownVolStatus.Value;
             DgtCherub.Properties.UserSettings.Default.VolMoves = UpDownVolMoves.Value;
@@ -1701,6 +1703,10 @@ namespace DgtCherub
                         MessageBoxIcon.Stop);
                 });
             }
+
+            // Environment.Exit does not run FormClosing, so the engines are ended here too - a
+            // session that ends this way must not leave the analysis engine running behind it.
+            _uciEngineManager?.StopAllEngines();
 
             Environment.Exit(1);
         }

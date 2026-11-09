@@ -22,6 +22,31 @@ namespace UciComms
         private static readonly Regex OptionRegex = LineIn();
 
         internal  Process? RunningProcess { get; set; }
+
+        /// <summary>
+        /// Whether an attached process is still running.
+        /// </summary>
+        /// <remarks>
+        /// <c>Process.HasExited</c> throws for a process object that was never started, so this is
+        /// not a null check with a property read bolted on: a process that has failed to start, or
+        /// has already been reaped, is not running as far as this engine is concerned.
+        /// </remarks>
+        internal bool IsProcessAlive
+        {
+            get
+            {
+                if (RunningProcess == null) { return false; }
+
+                try
+                {
+                    return !RunningProcess.HasExited;
+                }
+                catch (InvalidOperationException)
+                {
+                    return false;
+                }
+            }
+        }
         internal FileInfo Executable { get; init; }
         internal bool IsRunning => RunningProcess != null;
         internal bool IsUciOk { get; private set; }
@@ -72,6 +97,13 @@ namespace UciComms
 
         internal void StartUciEngine()
         {
+            // One engine object owns one process. Starting it again while the first is alive
+            // leaves that process running with nothing holding it: it keeps searching, it keeps
+            // reporting through the handlers below into this same object, and no code path left
+            // can ever stop it. Nothing legitimately needs a restart here - loading a different
+            // engine builds a different object.
+            if (IsProcessAlive) { return; }
+
             RunningProcess = new Process()
             {
                 StartInfo = new ProcessStartInfo()
@@ -181,6 +213,45 @@ namespace UciComms
             if (IsRunning)
             {
                 RunningProcess?.Kill();
+                RunningProcess?.Dispose();
+                RunningProcess = null;
+            }
+        }
+
+        /// <summary>
+        /// Ends the engine process, politely if it will go.
+        /// </summary>
+        /// <remarks>
+        /// Stopping a search is not stopping the engine: <c>stop</c> leaves the process alive for
+        /// as long as the machine stays up, which is how a closed Cherub used to leave an engine
+        /// running behind it. <c>quit</c> is a request, so the wait for it is bounded - this runs
+        /// on the way out of the application, and an engine that has wedged must not be able to
+        /// hold the window open by refusing to exit.
+        /// </remarks>
+        internal void Shutdown()
+        {
+            if (!IsProcessAlive)
+            {
+                RunningProcess?.Dispose();
+                RunningProcess = null;
+                return;
+            }
+
+            try
+            {
+                SendCommand("quit");
+
+                if (!RunningProcess!.WaitForExit(2000))
+                {
+                    RunningProcess.Kill();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                // The process went away underneath us; there is nothing left to end.
+            }
+            finally
+            {
                 RunningProcess?.Dispose();
                 RunningProcess = null;
             }
