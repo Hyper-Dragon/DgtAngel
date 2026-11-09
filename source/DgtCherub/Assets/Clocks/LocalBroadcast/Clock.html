@@ -281,9 +281,13 @@
         isGameInProgress = false;
         isWhiteToPlay = true;
         isTimerSuspended = false;
-        flip = false;
+        // Appended to the board image URL. Starts empty: it used to start as the boolean false,
+        // which was concatenated into the address as the literal text "false" and handed the
+        // server a remote board of "<fen>false". Only an orientation change ever corrected it.
+        flip = "";
         clocksTimer = 0;
         encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
+        hasLocalBoardFen = false;
 
 
         // The header names the engine and says whether the kibitzer is on. Both are kept here so
@@ -358,6 +362,23 @@
             }
         }
 
+        // Ask for the board again. The image request is fired on a board change, so an image
+        // lost while the connection was dropping - which is what a Cherub restart looks like -
+        // was never retried, and the page kept a blank or stale board until the next move.
+        // The cache-buster is what makes the browser ask again rather than serve its copy.
+        function refreshBoardImage() {
+            const image = document.getElementById("local-board-img");
+
+            // Nothing has described the board yet, so there is nothing to ask for. The first
+            // board message will set the image itself.
+            if (!image || !hasLocalBoardFen) { return; }
+
+            const separator = flip ? "&" : "?";
+
+            image.src = "/CherubVirtualClock/BoardImageCompareByFen/local/" + encodedLocalFen +
+                "/" + encodedLocalFen + flip + separator + "t=" + Date.now();
+        }
+
         function timer() {
             if (isGameInProgress) {
                 if (isTimerSuspended == false) {
@@ -414,6 +435,10 @@
                         document.getElementById("con-state").innerHTML = "CONNECTED";
                         timer();
                         clocksTimer = setInterval(timer, 1000);
+
+                        // Re-connected, so anything the page failed to load while it was
+                        // disconnected - the board image in particular - is asked for again.
+                        refreshBoardImage();
                     };
 
                     source.onerror = function (event) {
@@ -461,6 +486,7 @@
                                 document.getElementById("kibitz-depth").textContent = "";
                                 document.getElementById("kibitz-position").textContent = "";
                                 document.getElementById("kibitz-lines").innerHTML = "";
+                                refreshBoardImage();
                                 break;
                             }
                             case "OnUciEngineLoaded":
@@ -489,6 +515,7 @@
                             case "OnLocalFenChange":
                                 document.getElementById("local-fen").textContent = obj.BoardFen;
                                 encodedLocalFen = encodeURIComponent(obj.BoardFen);
+                                hasLocalBoardFen = true;
 
                                 
                                 document.getElementById("local-board-img").src =

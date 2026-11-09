@@ -205,5 +205,61 @@ namespace DgtCherubTest
                 Times.Never,
                 "a scan taken mid-move must not reach the engine");
         }
+
+        [TestMethod(DisplayName = "With the kibitzer off nothing is published for the panel")]
+        public async Task KibitzerOffPublishesNoPosition()
+        {
+            Mock<IUciEngineManager> uci = EngineManager(kibitzerRunning: false);
+            AngelHubService hub = CreateHub(uci, out _);
+
+            int published = 0;
+            hub.OnKibitzerPositionChange += _ => published++;
+
+            hub.LocalBoardUpdate(StartFen);
+            hub.LocalBoardUpdate(AfterE4Fen);
+            await hub.DrainAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            // The panel and the clock pages belong to the kibitzer. Showing the position while it
+            // is off says a session is underway when it is not.
+            Assert.AreEqual(0, published, "nothing about the position may be published while it is off");
+            Assert.IsNotNull(hub.CurrentKibitzerPosition,
+                "it is still inferred, so switching on has something to analyse straight away");
+        }
+
+        [TestMethod(DisplayName = "With the kibitzer on the position is published for the panel")]
+        public async Task KibitzerOnPublishesThePosition()
+        {
+            Mock<IUciEngineManager> uci = EngineManager(kibitzerRunning: true);
+            AngelHubService hub = CreateHub(uci, out _);
+
+            int published = 0;
+            hub.OnKibitzerPositionChange += _ => published++;
+
+            hub.LocalBoardUpdate(StartFen);
+            await hub.DrainAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            Assert.AreEqual(1, published, "the panel must be told what is being analysed");
+        }
+
+        [TestMethod(DisplayName = "Switching the kibitzer on publishes the position it is about to analyse")]
+        public async Task AnalysingOnActivationPublishesThePosition()
+        {
+            Mock<IUciEngineManager> uci = EngineManager(kibitzerRunning: false);
+            AngelHubService hub = CreateHub(uci, out _);
+
+            hub.LocalBoardUpdate(StartFen);
+            await hub.DrainAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            int published = 0;
+            hub.OnKibitzerPositionChange += _ => published++;
+
+            // The player has just ticked the box: no board change is coming until they move, so
+            // activation has to fill the panel itself.
+            uci.SetupGet(m => m.IsKibitzerRunning).Returns(true);
+            hub.AnalyseCurrentPosition();
+
+            Assert.AreEqual(1, published, "activation must publish the position it sends to the engine");
+            uci.Verify(m => m.LoadedEngineSetPosition(It.IsAny<string>()), Times.Once);
+        }
     }
 }

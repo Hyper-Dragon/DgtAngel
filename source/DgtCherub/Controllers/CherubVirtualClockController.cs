@@ -413,7 +413,7 @@ namespace DgtCherub.Controllers
             }
 
             //Send on connect
-            if (_angelHubService.CurrentKibitzerPosition != null)
+            if (_uciEngineManager.IsKibitzerRunning && _angelHubService.CurrentKibitzerPosition != null)
             {                await SendEventResponse(Response, JsonSerializer.Serialize(new
                 {
                     MessageType = "OnKibitzerPosition",

@@ -406,13 +406,17 @@ namespace DgtCherub.Services
                 // switching it on has a position to analyse straight away.
                 KibitzerPosition position = KibitzerPosition.Infer(fen, previousFen);
                 CurrentKibitzerPosition = position;
-                OnKibitzerPositionChange?.Invoke(position);
 
+                // The panel and the clock pages are the kibitzer's, so they say nothing until it
+                // is on. The position is still inferred above and kept, so switching it on has
+                // something to analyse and to show straight away.
+                //
                 // The engine is only ever told about the board once the player has turned the
                 // kibitzer on. A loaded engine that is not being fed positions cannot be used to
                 // cheat, which is the whole point of the switch.
                 if (_uciEngineManager != null && _uciEngineManager.IsKibitzerRunning)
                 {
+                    OnKibitzerPositionChange?.Invoke(position);
                     SendToEngine(position);
                 }
             }
@@ -444,7 +448,12 @@ namespace DgtCherub.Services
 
             KibitzerPosition position = CurrentKibitzerPosition;
 
-            if (position != null) { SendToEngine(position); }
+            if (position == null) { return; }
+
+            // Switching on has to fill the panel as well as the engine, and there will not be a
+            // board change until the player moves - so publish the position being analysed now.
+            OnKibitzerPositionChange?.Invoke(position);
+            SendToEngine(position);
         }
 
         private void SendToEngine(KibitzerPosition position)
