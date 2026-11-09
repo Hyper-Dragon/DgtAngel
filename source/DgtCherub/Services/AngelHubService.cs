@@ -379,6 +379,11 @@ namespace DgtCherub.Services
             LocalBoardFEN = fen;
             OnLocalFenChange?.Invoke(LocalBoardFEN);
 
+            // A scan with a piece in the air is not a position: the board is half way through a
+            // move. It must not be inferred from, sent to the engine, or become the baseline for
+            // the next move - the move is only complete once the piece has been put down again.
+            bool pieceInHand = KibitzerPosition.IsPieceInHand(previousFen, fen);
+
             if (IsLocalBoardAvailable &&
                 IsRemoteBoardAvailable)
             {
@@ -389,8 +394,9 @@ namespace DgtCherub.Services
                 _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
                                    IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
             }
-            else if (IsLocalBoardAvailable &&
-                      !IsRemoteBoardAvailable)
+            else if (!pieceInHand &&
+                     IsLocalBoardAvailable &&
+                     !IsRemoteBoardAvailable)
             {
                 // Whose turn it is, what castling is still available and whether en passant is on
                 // are inferred from the board now and the board before the last move. The board
@@ -411,9 +417,9 @@ namespace DgtCherub.Services
                 }
             }
 
-            // A scan with a piece lifted is not a position to measure the next move from, so the
-            // baseline only advances once the piece has been put down again.
-            if (!KibitzerPosition.IsPieceInHand(previousFen, fen))
+            // The baseline only advances on a settled position, so the next move is measured from
+            // the position before this one rather than from the middle of it.
+            if (!pieceInHand)
             {
                 kibitzerSettledFen = fen;
             }

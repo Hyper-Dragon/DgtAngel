@@ -162,5 +162,48 @@ namespace DgtCherubTest
                 "black's pawn crossed b6, so white may capture en passant there");
             Assert.IsTrue(hub.CurrentKibitzerPosition.IsWhiteToPlay, "black has just moved");
         }
+
+        [TestMethod(DisplayName = "The en passant square is in the FEN the engine is given")]
+        public async Task EngineFenCarriesTheEnPassantSquare()
+        {
+            Mock<IUciEngineManager> uci = EngineManager(kibitzerRunning: true);
+            AngelHubService hub = CreateHub(uci, out _);
+
+            hub.LocalBoardUpdate(StartFen);
+            hub.LocalBoardUpdate("rnbqkbnr/p1pppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+            hub.LocalBoardUpdate("rnbqkbnr/p1pppppp/8/1p6/8/8/PPPPPPPP/RNBQKBNR");
+
+            await hub.DrainAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            // The whole point of remembering the move: the engine cannot see a capture it is not
+            // told about. The fourth field of the FEN is the one that says so.
+            uci.Verify(m => m.LoadedEngineSetPosition(It.Is<string>(fen =>
+                    fen.StartsWith("rnbqkbnr/p1pppppp/8/1p6/8/8/PPPPPPPP/RNBQKBNR w ", StringComparison.Ordinal) &&
+                    fen.Split(' ')[3] == "b6")),
+                Times.Once,
+                "the position sent to the engine must carry the en passant square");
+        }
+
+        [TestMethod(DisplayName = "A board with a piece in the air is never sent to the engine")]
+        public async Task PieceInHandIsNotSentToTheEngine()
+        {
+            Mock<IUciEngineManager> uci = EngineManager(kibitzerRunning: true);
+            AngelHubService hub = CreateHub(uci, out _);
+
+            const string lifted = "rnbqkbnr/p1pppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
+            hub.LocalBoardUpdate(StartFen);
+            hub.LocalBoardUpdate(lifted);
+            hub.LocalBoardUpdate("rnbqkbnr/p1pppppp/8/1p6/8/8/PPPPPPPP/RNBQKBNR");
+
+            await hub.DrainAsync().WaitAsync(TimeSpan.FromSeconds(10));
+
+            // Half a move is not a position. Sending it puts a phantom board with a missing pawn
+            // in front of the engine and blanks the panel for the duration of the drag.
+            uci.Verify(m => m.LoadedEngineSetPosition(It.Is<string>(fen =>
+                    fen.StartsWith(lifted, StringComparison.Ordinal))),
+                Times.Never,
+                "a scan taken mid-move must not reach the engine");
+        }
     }
 }
