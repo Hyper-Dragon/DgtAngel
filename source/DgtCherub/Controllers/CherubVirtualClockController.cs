@@ -407,17 +407,16 @@ namespace DgtCherub.Controllers
                 }));
             };
 
+            // The page reads the kibitzer state when it connects, which is no use to a screen that
+            // was already open when the kibitzer was switched on: it went on saying "kibitzer off"
+            // while scores arrived underneath it. The switch only ever goes on, so activation is
+            // the only change there is to report.
+            _uciEngineManager.OnKibitzerActivated += async () => await SendKibitzerReset();
+
 
             //Send on connect. The page keeps whatever the last session left on it, so it is told
             //to clear itself and what the current state is before anything live arrives.
-            await SendEventResponse(Response, JsonSerializer.Serialize(new
-            {
-                MessageType = "OnKibitzerReset",
-                UciEngineName = _uciEngineManager.LoadedEngineName == "NO ENGINE" ? "" : _uciEngineManager.LoadedEngineName,
-                _uciEngineManager.IsKibitzerRunning,
-                ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
-                ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
-            }));
+            await SendKibitzerReset();
 
             //Send on connect. Without this a clock opened after the engine was loaded never
             //learns which engine is running, because the load happened before it was listening.
@@ -570,6 +569,27 @@ namespace DgtCherub.Controllers
                 ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                 ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
             });
+        }
+
+        /// <summary>
+        /// Tells the page which engine is loaded and whether the kibitzer is running.
+        /// </summary>
+        /// <remarks>
+        /// The page uses this one message for both jobs: it names the engine in the header and
+        /// decides whether to offer the panel's advice or wait for a score. It is sent when a page
+        /// connects and again when the kibitzer is switched on, because the switch only goes one
+        /// way and that is the only change there is to report.
+        /// </remarks>
+        private Task SendKibitzerReset()
+        {
+            return SendEventResponse(Response, JsonSerializer.Serialize(new
+            {
+                MessageType = "OnKibitzerReset",
+                UciEngineName = _uciEngineManager.LoadedEngineName == "NO ENGINE" ? "" : _uciEngineManager.LoadedEngineName,
+                _uciEngineManager.IsKibitzerRunning,
+                ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+            }));
         }
 
 

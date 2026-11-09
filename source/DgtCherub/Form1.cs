@@ -716,7 +716,7 @@ namespace DgtCherub
 
                 //We still have a loaded engine so enable the buttons
                 ButtonEngineConfig.Enabled = true;
-                CheckBoxKibitzerEnabled.Enabled = true;
+                SetKibitzerSwitchAvailability(engineReady: true);
             };
 
             _uciEngineManager.OnUciEngineReleased += (string engineName) =>
@@ -737,7 +737,7 @@ namespace DgtCherub
                 }
 
                 ButtonEngineConfig.Enabled = true;
-                CheckBoxKibitzerEnabled.Enabled = true;
+                SetKibitzerSwitchAvailability(engineReady: true);
 
                 // The position was already on the board when the engine arrived, and nothing is
                 // sent to an engine except on a board change - so ask about it now.
@@ -1705,6 +1705,20 @@ namespace DgtCherub
             Environment.Exit(1);
         }
 
+        /// <summary>
+        /// Shows whether the kibitzer switch can still be used.
+        /// </summary>
+        /// <remarks>
+        /// Every path that used to set Enabled on the switch directly comes through here, because
+        /// each of them was a chance to hand it back after the session had already committed to
+        /// being an analysis session. The engine being (re)loaded was the one that did it.
+        /// </remarks>
+        private void SetKibitzerSwitchAvailability(bool engineReady)
+        {
+            CheckBoxKibitzerEnabled.Enabled = KibitzerAvailability.SwitchEnabled(
+                engineReady, _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning);
+        }
+
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
             // Setting Checked below would re-enter this handler, so the body runs once only.
@@ -1722,6 +1736,7 @@ namespace DgtCherub
                 if (!kibitzerSwitch.Checked)
                 {
                     kibitzerSwitch.Checked = _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning;
+                    SetKibitzerSwitchAvailability(engineReady: true);
                     return;
                 }
 
@@ -1742,15 +1757,20 @@ namespace DgtCherub
                 _uciEngineManager.SwitchKibitzer(true);
 
                 // No way back this session, and no board for anyone to play a game with.
-                kibitzerSwitch.Enabled = false;
+                SetKibitzerSwitchAvailability(engineReady: true);
                 StopOnlinePlay();
 
                 TextBoxConsole.AddLine($"KIBITZER:: On for this session - restart Cherub to play online again.");
 
                 // Analyse what is on the board, not wait for the player to move first.
+                //
+                // The engine is already running - the switch cannot be used until one is loaded -
+                // so there is nothing to start here. Starting it by name would not have worked
+                // anyway: the engines are held under slot keys, and LoadedEngineName is the name
+                // the engine reports. It looked like it started one and silently did nothing;
+                // starting an engine always launches a new process, so a version that did resolve
+                // would have left the running engine going and put a second one beside it.
                 _angelHubService.AnalyseCurrentPosition();
-
-                _uciEngineManager.StartEngineAsync(_uciEngineManager.LoadedEngineName);
             }
             finally
             {
@@ -1882,7 +1902,7 @@ namespace DgtCherub
             if (result == DialogResult.OK)
             {
                 ButtonEngineConfig.Enabled = false;
-                CheckBoxKibitzerEnabled.Enabled = false;
+                SetKibitzerSwitchAvailability(engineReady: false);
                 _ = _uciEngineManager.LoadEngineAsync(openFileDialog.FileName);
                 //_ = _uciEngineManager.LoadEngineAsync(openFileDialog.FileName);
             }
