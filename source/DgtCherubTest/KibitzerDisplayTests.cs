@@ -171,13 +171,37 @@ namespace DgtCherubTest
                            "only the top three lines are wanted");
         }
 
-        [TestMethod(DisplayName = "A line is cut off after a readable number of moves")]
-        public void VariationIsShortened()
+        [TestMethod(DisplayName = "A line is not truncated before repeats are judged")]
+        public void VariationIsNotTruncated()
         {
             string variation = KibitzerDisplay.VariationOf(
                 "info depth 30 score cp 5 pv a2a3 b7b6 c2c3 d7d6 e2e3 f7f6 g2g3 h7h6 i2i3 j7j6");
 
-            Assert.AreEqual("a2a3 b7b6 c2c3 d7d6 e2e3 f7f6 g2g3 h7h6", variation);
+            // Two variations that differ only past the display limit are still different lines,
+            // so the whole move list is kept here and shortened only when it is rendered.
+            Assert.AreEqual("a2a3 b7b6 c2c3 d7d6 e2e3 f7f6 g2g3 h7h6 i2i3 j7j6", variation);
+        }
+
+        [TestMethod(DisplayName = "The panel renders variations as notation, not coordinates")]
+        public void PanelRendersNotation()
+        {
+            KibitzerPosition start = KibitzerPosition.Infer(InitialBoard, "");
+
+            string info = KibitzerDisplay.FormatInfo(start, WithLines(18,
+                "info depth 18 score cp 24 pv e2e4 e7e5 b1c3 g8f6 g1f3 b8c6 f1b5 f8c5"));
+
+            StringAssert.Contains(info, "1. e4 e5 \u2658c3 \u265Ef6 \u2658f3 \u265Ec6 \u2657b5 \u265Dc5",
+                $"the move list must be readable notation, got:{Environment.NewLine}{info}");
+        }
+
+        [TestMethod(DisplayName = "Variations that will not replay fall back to the raw move list")]
+        public void UnplayableVariationFallsBack()
+        {
+            // The moves belong to a different position, so they cannot be replayed here.
+            string info = Info(WithLines(20, "info depth 20 score cp 43 pv f3e5 d8e7 e5f7"));
+
+            StringAssert.Contains(info, "1. f3e5 d8e7 e5f7",
+                "raw moves are better than nothing when the position cannot replay them");
         }
 
         [TestMethod(DisplayName = "A line with no principal variation yields nothing")]

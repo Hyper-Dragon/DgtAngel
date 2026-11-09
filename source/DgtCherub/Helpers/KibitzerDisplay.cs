@@ -99,17 +99,42 @@ namespace DgtCherub.Helpers
                     position.EnPassantSquare == "-" ? "no" : position.EnPassantSquare));
             }
 
-            if (engineEval != null && !IsReset(engineEval))
-            {
-                List<string> variations = DistinctVariations(engineEval, LINES_TO_SHOW);
+            List<string> variations = GetLines(position, engineEval);
 
-                for (int line = 0; line < variations.Count; line++)
-                {
-                    lines.Add(string.Format(CultureInfo.InvariantCulture, "{0}. {1}", line + 1, variations[line]));
-                }
+            for (int line = 0; line < variations.Count; line++)
+            {
+                lines.Add(string.Format(CultureInfo.InvariantCulture, "{0}. {1}", line + 1, variations[line]));
             }
 
             return string.Join(Environment.NewLine, lines);
+        }
+
+        /// <summary>
+        /// The engine's lines as readable notation, ready for the panel or a clock screen.
+        /// </summary>
+        /// <remarks>
+        /// The engine speaks square to square, so each variation is replayed on the position it
+        /// was calculated from and converted to algebraic notation. If the position is unknown, or
+        /// the moves will not play, the raw move list is shown rather than nothing at all.
+        /// </remarks>
+        internal static List<string> GetLines(KibitzerPosition position, UciEngineEval engineEval)
+        {
+            List<string> lines = new();
+
+            if (engineEval == null || IsReset(engineEval)) { return lines; }
+
+            foreach (string variation in DistinctVariations(engineEval, LINES_TO_SHOW))
+            {
+                string notation = position == null
+                    ? ""
+                    : SanFormatter.ToNotation(position.Fen,
+                                              variation.Split(' ', StringSplitOptions.RemoveEmptyEntries),
+                                              MOVES_PER_LINE);
+
+                lines.Add(string.IsNullOrEmpty(notation) ? variation : notation);
+            }
+
+            return lines;
         }
 
         /// <summary>
@@ -142,6 +167,10 @@ namespace DgtCherub.Helpers
         /// <summary>
         /// The move sequence of a UCI info line, or empty when it carries none.
         /// </summary>
+        /// <remarks>
+        /// The whole variation is returned, not a prefix: repeats are judged on the full line so
+        /// that two variations differing only past the display limit are still distinct.
+        /// </remarks>
         internal static string VariationOf(string infoLine)
         {
             if (string.IsNullOrWhiteSpace(infoLine)) { return ""; }
@@ -151,7 +180,7 @@ namespace DgtCherub.Helpers
 
             if (pvIndex < 0 || pvIndex + 1 >= tokens.Length) { return ""; }
 
-            return string.Join(' ', tokens[(pvIndex + 1)..Math.Min(tokens.Length, pvIndex + 1 + MOVES_PER_LINE)]);
+            return string.Join(' ', tokens[(pvIndex + 1)..]);
         }
     }
 }

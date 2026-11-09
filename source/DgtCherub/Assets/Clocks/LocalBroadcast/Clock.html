@@ -115,12 +115,105 @@
         #con-state {
             color: yellow;
         }
+
+        /* Kibitzer analysis panel. Sized like the board it sits beside and taken out of flow,
+           because the board is absolutely positioned too - anything in flow here gives the row a
+           height the board did not previously have, which pushes it down the screen. */
+        .kibitz {
+            position: absolute;
+            /* The board is nudged down by a tenth of its own height, so the panel starts level
+               with it rather than a board-width of text above the top rank. */
+            top: calc(min(60vh, 50vw) * 0.1);
+            left: 0;
+            width: 100%;
+            height: min(60vh, 50vw);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 0 1.5vw;
+            font-size: min(3vh, 2vw);
+            line-height: 1.3;
+        }
+
+        .kibitz-engine {
+            font-weight: bold;
+            opacity: 0.85;
+        }
+
+        /* The score bar: centred on an even game, filling towards whoever is better. */
+        .kibitz-bar {
+            position: relative;
+            width: 100%;
+            height: min(9vh, 5.5vw);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 0.4vh;
+            overflow: hidden;
+        }
+
+        .kibitz-bar-centre {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .kibitz-bar-fill {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: #f2f2f2;
+            transition: width 0.2s linear, left 0.2s linear;
+        }
+
+        .kibitz-bar-fill.is-black {
+            background: #111111;
+        }
+
+        .kibitz-bar-value {
+            position: absolute;
+            top: 50%;
+            right: 1%;
+            transform: translateY(-50%);
+            padding: 0 0.5em;
+            border-radius: 0.3vh;
+            background: rgba(0, 0, 0, 0.55);
+            color: #ffffff;
+            font-size: min(5vh, 3vw);
+            font-weight: bold;
+        }
+
+        .kibitz-depth {
+            font-size: min(2.4vh, 1.7vw);
+            opacity: 0.75;
+        }
+
+        .kibitz-position {
+            white-space: pre-line;
+            opacity: 0.9;
+        }
+
+        .kibitz-lines {
+            margin: 0;
+            padding-left: 1.6em;
+            font-family: monospace;
+        }
+
+        .kibitz-lines li {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
 <body>
     <i id="local-fen" hidden="">-</i>
-    <i id="is-white-to-play" hidden="">No Game</i>
 
     <div class="row">
         <div class="col-6 bkg-clock bkg-white-clock d-flex parent">
@@ -153,19 +246,19 @@
                      src="/CherubVirtualClock/BoardImage/blank" />
             </div>
         </div>
-        <div class="col-6 info-message d-flex parent">
-            <div>
-                <span id="testmsg">Local Board Display - Space reserved for a future release!</span>
-                <br />
-                <span id="uciEval">Local Board Display - Space reserved for a future release!</span>
-                <br />
-                <span id="uciMateIn">Local Board Display - Space reserved for a future release!</span>
-                <br />
-                <span id="uciBestMove">Local Board Display - Space reserved for a future release!</span>
-                <br />
-                <span id="uciDepth">Local Board Display - Space reserved for a future release!</span>
-                <br />
-                <span id="uciFen">Local Board Display - Space reserved for a future release!</span>
+        <div class="col-6 d-flex parent">
+            <div class="kibitz">
+                <div id="testmsg" class="kibitz-engine">No engine loaded</div>
+
+                <div class="kibitz-bar">
+                    <div class="kibitz-bar-centre"></div>
+                    <div id="kibitz-bar-fill" class="kibitz-bar-fill"></div>
+                    <span id="kibitz-bar-value" class="kibitz-bar-value">-</span>
+                </div>
+
+                <div id="kibitz-depth" class="kibitz-depth"></div>
+                <div id="kibitz-position" class="kibitz-position"></div>
+                <ol id="kibitz-lines" class="kibitz-lines"></ol>
             </div>
         </div>
     </div>
@@ -192,6 +285,43 @@
         clocksTimer = 0;
         encodedLocalFen = encodeURIComponent("8/8/8/8/8/8/8/8");
 
+
+        // The bar fills from the centre towards whoever is better, and the value sits inside it
+        // at that end. A mate is not a number of pawns, so it shows its own mark and a full half.
+        function drawScoreBar(evalInfo) {
+            const fill = document.getElementById("kibitz-bar-fill");
+            const value = document.getElementById("kibitz-bar-value");
+
+            if (evalInfo.MateIn !== 0) {
+                const whiteWinning = evalInfo.MateIn > 0;
+
+                fill.classList.toggle("is-black", !whiteWinning);
+                fill.style.width = "50%";
+                fill.style.left = whiteWinning ? "50%" : "0";
+                value.textContent = "M" + Math.abs(evalInfo.MateIn);
+                placeValue(whiteWinning);
+                return;
+            }
+
+            const pawns = evalInfo.Eval / 100;
+            const clamped = Math.max(-10, Math.min(10, pawns));
+            const width = (Math.abs(clamped) / 10) * 50;
+
+            fill.classList.toggle("is-black", pawns < 0);
+            fill.style.width = width.toFixed(2) + "%";
+            fill.style.left = pawns < 0 ? "auto" : "50%";
+            fill.style.right = pawns < 0 ? "50%" : "auto";
+
+            value.textContent = (pawns > 0 ? "+" : "") + pawns.toFixed(2);
+            placeValue(pawns >= 0);
+        }
+
+        function placeValue(atRightEnd) {
+            const value = document.getElementById("kibitz-bar-value");
+
+            value.style.left = atRightEnd ? "auto" : "1%";
+            value.style.right = atRightEnd ? "1%" : "auto";
+        }
 
         function timeRemaining(clockId, diff) {
             display = document.getElementById(clockId);
@@ -286,13 +416,26 @@
 
                         switch (obj.MessageType) {
                             case "OnBoardEvalChanged": {
-                                document.getElementById("uciEval").innerHTML = "Eval " + obj.Eval;
-                                document.getElementById("uciMateIn").innerHTML = "Mate In " + obj.MateIn;
-                                document.getElementById("uciBestMove").innerHTML = "Best Move " + obj.BestMove;
-                                document.getElementById("uciDepth").innerHTML = "Depth " + obj.Depth;
+                                drawScoreBar(obj);
+
+                                document.getElementById("kibitz-depth").textContent =
+                                    obj.Depth > 0 ? "depth " + obj.Depth : "";
+
+                                const lineList = document.getElementById("kibitz-lines");
+                                lineList.innerHTML = "";
+
+                                (obj.Lines || []).forEach(function (line) {
+                                    const item = document.createElement("li");
+                                    item.textContent = line;
+                                    lineList.appendChild(item);
+                                });
+                                break;
                             }
+                            case "OnKibitzerPosition":
+                                document.getElementById("kibitz-position").textContent = obj.Info;
+                                break;
                             case "OnUciEngineLoaded":
-                                document.getElementById("testmsg").innerHTML = "Engine Loaded " + obj.EngineName;
+                                document.getElementById("testmsg").innerHTML = "Engine Loaded " + obj.LoadedEngineName;
                                 break;
                             case "OnUciEngineReleased":
                                 document.getElementById("testmsg").innerHTML = "Engine Released";
@@ -301,7 +444,6 @@
                                 document.getElementById("testmsg").innerHTML = "Engine Start Error";
                                 break;
                             case "OnKibitzerFenChange":
-                                document.getElementById("uciFen").innerHTML = "Analysing FEN " + obj.Fen;
                                 break;
                             case "OnOrientationFlipped":
                                 if (obj.IsWhiteOnBottom) {

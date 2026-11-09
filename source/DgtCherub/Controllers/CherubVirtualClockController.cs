@@ -318,7 +318,25 @@ namespace DgtCherub.Controllers
                     uciEngineEval.MateIn,
                     uciEngineEval.BestMove,
                     uciEngineEval.Depth,
-                    //uciEngineEval.TopLines.ToArray(),
+                    // Ready-to-display values. The clock pages show exactly what the panel in
+                    // Cherub shows, and neither has to re-derive a score or a variation.
+                    Score = KibitzerDisplay.FormatScore(uciEngineEval),
+                    Lines = KibitzerDisplay.GetLines(_angelHubService.CurrentKibitzerPosition, uciEngineEval),
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            };
+
+            _angelHubService.OnKibitzerPositionChange += async (ChessHelpers.KibitzerPosition position) =>
+            {
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnKibitzerPosition",
+                    position.IsWhiteToPlay,
+                    position.CastleField,
+                    position.EnPassantSquare,
+                    position.Fen,
+                    Info = KibitzerDisplay.FormatInfo(position, null),
                     ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
                     ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
                 }));
@@ -369,6 +387,34 @@ namespace DgtCherub.Controllers
                 }));
             };
 
+
+            //Send on connect. Without this a clock opened after the engine was loaded never
+            //learns which engine is running, because the load happened before it was listening.
+            if (_uciEngineManager.LoadedEngineName != "NO ENGINE")
+            {
+                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnUciEngineLoaded",
+                    _uciEngineManager.LoadedEngineName,
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            }
+
+            //Send on connect
+            if (_angelHubService.CurrentKibitzerPosition != null)
+            {                await SendEventResponse(Response, JsonSerializer.Serialize(new
+                {
+                    MessageType = "OnKibitzerPosition",
+                    _angelHubService.CurrentKibitzerPosition.IsWhiteToPlay,
+                    _angelHubService.CurrentKibitzerPosition.CastleField,
+                    _angelHubService.CurrentKibitzerPosition.EnPassantSquare,
+                    _angelHubService.CurrentKibitzerPosition.Fen,
+                    Info = KibitzerDisplay.FormatInfo(_angelHubService.CurrentKibitzerPosition, null),
+                    ResponseAtData = $"{System.DateTime.Now.ToShortDateString()}",
+                    ResponseAtTime = $"{System.DateTime.Now.ToLongTimeString()}",
+                }));
+            }
 
             //Send on connect
             if (_angelHubService.LocalBoardFEN != "")
