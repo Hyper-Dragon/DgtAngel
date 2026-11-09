@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using ChessHelpers;
 using UciComms.Data;
 
 namespace DgtCherub.Helpers
@@ -60,6 +63,95 @@ namespace DgtCherub.Helpers
         {
             int centred = Math.Clamp(centipawns / 100, -10, 10) + (maximum / 2);
             return Math.Clamp(centred, Math.Min(0, maximum), Math.Max(0, maximum));
+        }
+
+        /// <summary>How many principal variations the panel lists, and how many moves of each.</summary>
+        internal const int LINES_TO_SHOW = 3;
+        internal const int MOVES_PER_LINE = 8;
+
+        /// <summary>
+        /// The information panel: what the position is, and what the engine makes of it.
+        /// </summary>
+        /// <remarks>
+        /// The position facts come from the board rather than from the engine, because a DGT board
+        /// reports only where the pieces are - the turn, the castling rights and en passant all
+        /// have to be inferred. The lines are distinct principal variations: with a single-PV
+        /// engine there is only one, and listing the same variation at three depths would be
+        /// three copies of the same answer.
+        /// </remarks>
+        internal static string FormatInfo(KibitzerPosition position, UciEngineEval engineEval)
+        {
+            List<string> lines = new();
+
+            if (position != null)
+            {
+                lines.Add(position.IsWhiteToPlay ? "White to play" : "Black to play");
+
+                bool whiteCanCastle = position.WhiteCanCastleShort || position.WhiteCanCastleLong;
+                bool blackCanCastle = position.BlackCanCastleShort || position.BlackCanCastleLong;
+                lines.Add(string.Format(CultureInfo.InvariantCulture,
+                    "Castling  White: {0}  Black: {1}",
+                    whiteCanCastle ? "yes" : "no",
+                    blackCanCastle ? "yes" : "no"));
+
+                lines.Add(string.Format(CultureInfo.InvariantCulture,
+                    "En passant  {0}",
+                    position.EnPassantSquare == "-" ? "no" : position.EnPassantSquare));
+            }
+
+            if (engineEval != null && !IsReset(engineEval))
+            {
+                List<string> variations = DistinctVariations(engineEval, LINES_TO_SHOW);
+
+                for (int line = 0; line < variations.Count; line++)
+                {
+                    lines.Add(string.Format(CultureInfo.InvariantCulture, "{0}. {1}", line + 1, variations[line]));
+                }
+            }
+
+            return string.Join(Environment.NewLine, lines);
+        }
+
+        /// <summary>
+        /// The engine's principal variations, deepest first, with repeats removed.
+        /// </summary>
+        /// <remarks>
+        /// A single-PV engine reports the same variation at every depth, so the panel would
+        /// otherwise list the same line three times. With MultiPV set, the variations differ and
+        /// all three are shown.
+        /// </remarks>
+        private static List<string> DistinctVariations(UciEngineEval engineEval, int wanted)
+        {
+            List<string> variations = new();
+
+            if (engineEval.TopLines == null) { return variations; }
+
+            foreach (string infoLine in engineEval.TopLines)
+            {
+                string variation = VariationOf(infoLine);
+                if (string.IsNullOrEmpty(variation) || variations.Contains(variation)) { continue; }
+
+                variations.Add(variation);
+
+                if (variations.Count == wanted) { break; }
+            }
+
+            return variations;
+        }
+
+        /// <summary>
+        /// The move sequence of a UCI info line, or empty when it carries none.
+        /// </summary>
+        internal static string VariationOf(string infoLine)
+        {
+            if (string.IsNullOrWhiteSpace(infoLine)) { return ""; }
+
+            string[] tokens = infoLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            int pvIndex = Array.IndexOf(tokens, "pv");
+
+            if (pvIndex < 0 || pvIndex + 1 >= tokens.Length) { return ""; }
+
+            return string.Join(' ', tokens[(pvIndex + 1)..Math.Min(tokens.Length, pvIndex + 1 + MOVES_PER_LINE)]);
         }
     }
 }

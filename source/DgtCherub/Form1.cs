@@ -116,6 +116,7 @@ namespace DgtCherub
 
         private readonly IUciEngineManager _uciEngineManager;
         private string lastUciExe = "";
+        private UciEngineEval lastEngineEval;
         private UciOptionSettings uciOptionSettings = new();
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
@@ -752,13 +753,12 @@ namespace DgtCherub
 
             _uciEngineManager.OnLoadedEngineOutputRecieved += (sender, e) =>
             {
-                if (e == null) { } // DO NOTHING
-                else if (e.RawData.Contains("currmove", StringComparison.Ordinal)) { } // DO NOTHING 
-                else if (e.RawData.Contains("score", StringComparison.Ordinal))
-                {
-                    Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) { LabelKibitzerInfo.Text = e.RawData; } });
-                }
-                else if (CheckBoxKibitzerShowUciOut.Checked)
+                if (e == null) { return; }
+
+                // Currmove lines arrive several times a second and drown everything else.
+                if (e.RawData.Contains("currmove", StringComparison.Ordinal)) { return; }
+
+                if (CheckBoxKibitzerShowUciOut.Checked)
                 {
                     TextBoxConsole.AddLine($"UCI_OUT :: {_uciEngineManager?.LoadedEngineName} :: {e}");
                 }
@@ -795,7 +795,15 @@ namespace DgtCherub
                 _voicePlayeStatus.Speak((diffCount == 2 && lastLocalFenMatch == localFen) ? Assets.Speech_en_01.NotReplayed_AP : Assets.Speech_en_01.Mismatch_AP);
             };
 
-            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (uciEngineEval) => UpdateKibitzerReadout(uciEngineEval);
+            _uciEngineManager.OnLoadedEngineBoardEvalChanged += (uciEngineEval) =>
+            {
+                lastEngineEval = uciEngineEval;
+                UpdateKibitzerReadout(uciEngineEval);
+            };
+
+            // The board can change without an evaluation arriving - no engine loaded, or the
+            // engine still starting - and the position part of the panel is still worth showing.
+            _angelHubService.OnKibitzerPositionChange += (_) => UpdateKibitzerReadout(lastEngineEval);
 
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
             {
@@ -1686,22 +1694,28 @@ namespace DgtCherub
 
             this.Invoke((MethodInvoker)delegate
             {
-                if (KibitzerDisplay.IsReset(uciEngineEval))
+                if (uciEngineEval != null)
                 {
-                    ProgBarKibitzer.Value = 0;
-                    LabelScoreKibitzer.Text = KibitzerDisplay.NoScore;
-                    LabelDepthKibitzer.Text = KibitzerDisplay.NoDepth;
+                    if (KibitzerDisplay.IsReset(uciEngineEval))
+                    {
+                        ProgBarKibitzer.Value = 0;
+                        LabelScoreKibitzer.Text = KibitzerDisplay.NoScore;
+                        LabelDepthKibitzer.Text = KibitzerDisplay.NoDepth;
+                    }
+                    else
+                    {
+                        ProgBarKibitzer.Value = KibitzerDisplay.ProgressValue(uciEngineEval.Eval, ProgBarKibitzer.Maximum);
+                        LabelScoreKibitzer.Text = KibitzerDisplay.FormatScore(uciEngineEval);
+                        LabelDepthKibitzer.Text = KibitzerDisplay.FormatDepth(uciEngineEval);
+                    }
                 }
-                else
-                {
-                    ProgBarKibitzer.Value = KibitzerDisplay.ProgressValue(uciEngineEval.Eval, ProgBarKibitzer.Maximum);
-                    LabelScoreKibitzer.Text = KibitzerDisplay.FormatScore(uciEngineEval);
-                    LabelDepthKibitzer.Text = KibitzerDisplay.FormatDepth(uciEngineEval);
-                }
+
+                LabelKibitzerInfo.Text = KibitzerDisplay.FormatInfo(_angelHubService.CurrentKibitzerPosition, uciEngineEval);
 
                 ProgBarKibitzer.Invalidate();
                 LabelScoreKibitzer.Invalidate();
                 LabelDepthKibitzer.Invalidate();
+                LabelKibitzerInfo.Invalidate();
                 this.Update();
             });
         }

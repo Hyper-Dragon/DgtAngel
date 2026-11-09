@@ -1,4 +1,5 @@
-﻿using DgtAngelShared.Json;
+﻿using ChessHelpers;
+using DgtAngelShared.Json;
 using UciComms;
 using UciComms.Data;
 using static DgtAngelShared.Json.CherubApiMessage;
@@ -18,6 +19,12 @@ namespace DgtCherub.Services
         bool IsMismatchDetected { get; }
         bool IsRemoteBoardAvailable { get; }
         bool IsWhiteOnBottom { get; }
+
+        /// <summary>
+        /// The position last sent to the engine for analysis, or null when there has been none.
+        /// </summary>
+        KibitzerPosition CurrentKibitzerPosition { get; }
+
         string LastMove { get; }
         string LocalBoardFEN { get; }
         string RunWhoString { get; }
@@ -36,6 +43,11 @@ namespace DgtCherub.Services
         event Action OnRemoteDisconnect;
         event Action OnClockChange;
         event Action<string> OnLocalFenChange;
+
+        /// <summary>
+        /// Raised with the inferred position each time the engine is given a new one.
+        /// </summary>
+        event Action<KibitzerPosition> OnKibitzerPositionChange;
         event Action<string> OnRemoteWatchStarted;
         event Action<string> OnRemoteWatchStopped;
         event Action<string, bool> OnNewMoveDetected;

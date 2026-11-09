@@ -1,4 +1,5 @@
-﻿using DgtAngelShared.Json;
+﻿using ChessHelpers;
+using DgtAngelShared.Json;
 using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
@@ -51,6 +52,16 @@ namespace DgtCherub.Services
         public int FromMismatchDelayMs { get; set; } = MATCHER_LOCAL_TIME_DELAY_FROM_MISMATCH_MS;
         public bool IsLocalBoardAvailable => !string.IsNullOrWhiteSpace(LocalBoardFEN);
         public bool IsRemoteBoardAvailable => !string.IsNullOrWhiteSpace(RemoteBoardFEN);
+
+        /// <summary>
+        /// The position last sent to the engine for analysis, or null when there has been none.
+        /// </summary>
+        public KibitzerPosition CurrentKibitzerPosition { get; private set; }
+
+        /// <summary>
+        /// Raised with the inferred position each time the engine is given a new one.
+        /// </summary>
+        public event Action<KibitzerPosition> OnKibitzerPositionChange;
         public bool IsBoardInSync { get; private set; } = true;
         public bool IsRemoteBoardStateActive => (RemoteBoardFEN != "" && WhiteClock != "00:00") || BlackClock != "00:00";
         private static Guid CurrentUpdatetMatch { get; set; } = Guid.NewGuid();
@@ -333,6 +344,11 @@ namespace DgtCherub.Services
 
                 if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
                 {
+                    // The previous board is what the turn and en passant are inferred from, so it
+                    // has to be taken before LocalBoardFEN is replaced - after that the history is
+                    // gone and every position looks like the first one.
+                    string previousFen = LocalBoardFEN;
+
                     LocalBoardFEN = fen;
                     OnLocalFenChange?.Invoke(LocalBoardFEN);
 
@@ -352,51 +368,19 @@ namespace DgtCherub.Services
                         //&&
                         //isKibitzerRunning)
                     {
-
-                        char[] clearedflatFenArray = ChessHelpers.FenInference.FenToCharArray(fen);
-                        int whiteCount = clearedflatFenArray.Count(char.IsUpper);
-                        int blackCount = clearedflatFenArray.Count(char.IsLower);
-
-
-                        string halfMoveClock = "0";
-                        string fullMoveNumber = "1";
-
-
-                        //promotesTo = enPass == "-" && isPawnMove && !string.IsNullOrEmpty(tmpPromotesTo) ? tmpPromotesTo : "";
-
-                        bool isWhiteToPlay = false;
-
-                        if (whiteCount > kibitzLastWhiteCount)
-                        {
-                            isWhiteToPlay = false;
-                        }
-                        else if (blackCount > kibitzLastBlackCount)
-                        {
-                            isWhiteToPlay = true;
-
-                        }
-
-                        string enPass = "-";
-                        string castle = $"{((clearedflatFenArray[63] == 'R' && clearedflatFenArray[60] == 'K') ? "K" : "")}" +
-                                        $"{((clearedflatFenArray[56] == 'R' && clearedflatFenArray[60] == 'K') ? "Q" : "")}" +
-                                        $"{((clearedflatFenArray[7] == 'r' && clearedflatFenArray[4] == 'k') ? "k" : "")}" +
-                                        $"{((clearedflatFenArray[0] == 'r' && clearedflatFenArray[4] == 'k') ? "q" : "")}";
-
-                        string inferredFenTailFromPosition = $" {(isWhiteToPlay ? "w" : "b")} {(string.IsNullOrEmpty(castle) ? "-" : castle)} {enPass} {halfMoveClock} {fullMoveNumber}";
-                        string joinedFen = $"{fen} {inferredFenTailFromPosition}";
-
-                        //CurrentUciEngine?.Stop();
-                        //OnKibitzerFenChange?.Invoke(joinedFen);
+                        // Whose turn it is, what castling is still available and whether en
+                        // passant is on are all inferred from the board now and the board before
+                        // the last move. The board itself knows only where the pieces are.
+                        KibitzerPosition position = KibitzerPosition.Infer(fen, previousFen);
+                        CurrentKibitzerPosition = position;
+                        OnKibitzerPositionChange?.Invoke(position);
 
                         // The specification only allows a position command while the engine is idle,
                         // so end the previous search first. The engine answers stop with bestmove and
                         // the next position can be queued straight behind it.
                         _uciEngineManager?.LoadedEngineStop();
-                        _uciEngineManager?.LoadedEngineSetPosition(joinedFen);
+                        _uciEngineManager?.LoadedEngineSetPosition(position.Fen);
                         _uciEngineManager?.LoadedEngineGoInfinite();
-
-                        kibitzLastWhiteCount = whiteCount;
-                        kibitzLastBlackCount = blackCount;
                     }
 
                     await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
@@ -405,9 +389,6 @@ namespace DgtCherub.Services
                 _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
         }
-
-        private int kibitzLastWhiteCount;
-        private int kibitzLastBlackCount;
 
         private async Task RunMessageProcessor()
         {
