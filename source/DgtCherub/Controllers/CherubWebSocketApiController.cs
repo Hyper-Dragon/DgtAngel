@@ -16,7 +16,7 @@ namespace DgtCherub.Controllers
     {
         private bool isAcceptingConnections = true;
         private const int RECIEVE_BUFFER_SIZE_BYTES = 1024 * 10;
-        private static WebSocket runningSocket = null;
+        private static WebSocket runningSocket;
 
         private readonly ILogger _logger;
         private readonly IAngelHubService _appDataService;

@@ -17,7 +17,7 @@ namespace DgtCherub.Helpers
         private readonly ILogger _logger;
         private Channel<IEnumerable<UnmanagedMemoryStream>> playlistChannel;
         private volatile float volume = 0.7f;
-        private WaveOutEvent outputDevice = null;
+        private WaveOutEvent outputDevice;
 
         public float Volume
         {

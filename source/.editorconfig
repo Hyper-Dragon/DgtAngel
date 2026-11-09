@@ -19,13 +19,55 @@ dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.CA1062.severity = warning
 dotnet_diagnostic.CA1307.severity = warning
 
-# Argument validation on test methods is meaningless: their parameters come from DataRow
-# attributes, not from callers, so there is nobody to hand an ArgumentNullException to.
-[ChessHelpersTest/**/*.cs]
-dotnet_diagnostic.CA1062.severity = none
+#-------------------------------------------------
+# Suppressed with reasons. Each of these could be "fixed", but the fix changes behaviour, changes a
+# public API, or is a performance pattern aimed at a kind of program this is not.
+#
+# These are project-wide and must stay under [*.cs]: any section header below this point narrows the
+# scope for everything that follows it.
+#-------------------------------------------------
 
-[DgtCherubTest/**/*.cs]
-dotnet_diagnostic.CA1062.severity = none
+# LoggerMessage source generators cut allocation on hot logging paths. This is a desktop application
+# whose log is read by a person in the console pane, not a high-throughput service; the refactor
+# would touch every call site for nothing observable.
+dotnet_diagnostic.CA1848.severity = none
 
-[DynamicBoardTest/**/*.cs]
-dotnet_diagnostic.CA1062.severity = none
+# "Avoid potentially expensive arguments when logging" wants each call guarded by IsEnabled. That
+# changes when the argument expression is evaluated, so any argument with a side effect changes
+# behaviour - and nothing logged here is expensive enough to be worth that risk.
+dotnet_diagnostic.CA1873.severity = none
+
+# "Message template should be a static expression" would turn the interpolated messages into
+# {Placeholder} templates. Same text on screen, but a different thing in the log file, and it needs a
+# placeholder naming decision at every call. Worth doing deliberately, not as a lint sweep.
+dotnet_diagnostic.CA2254.severity = none
+
+# CompositeFormat caching is a micro-optimisation for two call sites that run once per connection.
+dotnet_diagnostic.CA1863.severity = none
+
+# Adopting IDisposable changes the public surface of types whose lifetime is the life of the process.
+dotnet_diagnostic.CA1001.severity = none
+
+# Changing which exception type is thrown changes what a caller can catch.
+dotnet_diagnostic.CA2201.severity = none
+
+# Generic assert overloads, in test code only: a style preference with no behaviour behind it.
+dotnet_diagnostic.CA2263.severity = none
+
+#-------------------------------------------------
+# Scoped suppressions
+#-------------------------------------------------
+
+# Test-project suppressions live in Directory.Build.props as NoWarn: .editorconfig path sections
+# using '**' did not match here, and a suppression that silently does nothing is worse than none.
+
+# The DGT P/Invoke surface is a deliberate one-to-one mirror of the vendor DLL's exports, so its
+# signatures and its visibility are dictated by the header file rather than by our preferences.
+# Making it internal would break DgtCherub, which calls it across an assembly boundary.
+[DgtRabbitWrapper/DgtEbDll/DgtEbDllImport.cs]
+dotnet_diagnostic.CA1401.severity = none
+dotnet_diagnostic.CA1838.severity = none
+dotnet_diagnostic.CA2101.severity = none
+
+# The two kibitzer events with no producer are silenced through NoWarn in Directory.Build.props:
+# CS0067 is a compiler warning, which dotnet_diagnostic does not govern.

@@ -150,7 +150,7 @@ namespace UciComms
 
         internal void SetOption(string name, string value)
         {
-            if (Options.TryGetValue(name, out UciOption existing))
+            if (Options.TryGetValue(name, out UciOption? existing) && existing is not null)
             {
                 existing.VarValue = value;
                 SendCommand($"setoption name {name} value {value}");
