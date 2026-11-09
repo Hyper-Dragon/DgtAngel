@@ -51,23 +51,23 @@
 
     public sealed record InfoResponse : UciResponse
     {
-        public int Depth { get; set; } = 0;
-        public int SelDepth { get; set; } = 0;
-        public int Time { get; set; } = 0;
-        public decimal Nodes { get; set; } = 0;
+        public int Depth { get; set; }
+        public int SelDepth { get; set; }
+        public int Time { get; set; }
+        public decimal Nodes { get; set; }
         public string Pv { get; set; } = string.Empty;
-        public int MultiPv { get; set; } = 0;
-        public int ScoreCp { get; set; } = 0;
+        public int MultiPv { get; set; }
+        public int ScoreCp { get; set; }
         public string ScoreBound { get; set; } = string.Empty;
-        public int ScoreMate { get; set; } = 0;
+        public int ScoreMate { get; set; }
         public string CurrMove { get; set; } = string.Empty;
-        public int CurrMoveNumber { get; set; } = 0;
-        public int CurrLineCpuNr { get; set; } = 0;
-        public int HashFull { get; set; } = 0;
-        public int Nps { get; set; } = 0;
-        public int TbHits { get; set; } = 0;
-        public int SbHits { get; set; } = 0;
-        public int CpuLoad { get; set; } = 0;
+        public int CurrMoveNumber { get; set; }
+        public int CurrLineCpuNr { get; set; }
+        public int HashFull { get; set; }
+        public int Nps { get; set; }
+        public int TbHits { get; set; }
+        public int SbHits { get; set; }
+        public int CpuLoad { get; set; }
         public string Refutation { get; set; } = string.Empty;
         public string CurrLine { get; set; } = string.Empty;
         public string StringInfo { get; set; } = string.Empty;

@@ -27,7 +27,7 @@ namespace UciComms
         // Using a ConcurrentDictionary to ensure thread safety when accessing the UciEngines collection
         private readonly ConcurrentDictionary<string, UciChessEngine> UciEngines = new();
 
-        private UciChessEngine? currentUciChessEngine = null;
+        private UciChessEngine? currentUciChessEngine;
 
         /// <summary>
         /// Whether the kibitzer has been switched on through <see cref="SwitchKibitzer"/>.

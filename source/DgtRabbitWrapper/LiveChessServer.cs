@@ -30,9 +30,9 @@ namespace DgtRabbitWrapper
         public int BatteryPct { get; init; }
         public string InitialFEN { get; init; }
         public string LastFenSeen { get; private set; } = "8//8/8/8/8/8/8";//"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-        public int WhiteCount { get; private set; } = 0;
-        public int BlackCount { get; private set; } = 0;
-        public int KingCount { get; private set; } = 0;
+        public int WhiteCount { get; private set; }
+        public int BlackCount { get; private set; }
+        public int KingCount { get; private set; }
         public long LastUpdateTime { get; private set; } = long.MinValue;
 
         private readonly ConcurrentQueue<int> _closedPortQueue = new();

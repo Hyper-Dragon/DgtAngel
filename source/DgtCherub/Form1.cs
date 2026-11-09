@@ -133,16 +133,16 @@ namespace DgtCherub
         private bool EchoInternallMessagesToConsole { get; set; } = true;
         private bool EchoExternalMessagesToConsole { get; set; } = true;
         private bool IncludeSecs { get; set; } = true;
-        private bool PlayerBeepOnly { get; set; } = false;
-        private bool IsSilentBeep { get; set; } = false;
+        private bool PlayerBeepOnly { get; set; }
+        private bool IsSilentBeep { get; set; }
 
-        private bool IsUsingRabbit = false;
+        private bool IsUsingRabbit;
 
         // Get Hostname 
         private readonly string hostName;
         private readonly string[] thisMachineIpV4Addrs;
 
-        private int lasteval = 0;
+        private int lasteval;
 
         [FlagsAttribute]
         public enum EXECUTION_STATE : uint
@@ -720,9 +720,9 @@ namespace DgtCherub
 
                 TextBoxConsole.AddLine($"UCI: Loaded Engine:: {_uciEngineManager.LoadedEngineName} [{_uciEngineManager.LoadedEngineAuthor}]");
 
-                if (uciOptionSettings.Options.ContainsKey(_uciEngineManager.LoadedExecutable.FullName))
+                if (uciOptionSettings.Options.TryGetValue(_uciEngineManager.LoadedExecutable.FullName, out List<UciOption> existingOptions))
                 {
-                    ApplyUciSettings(uciOptionSettings.Options[_uciEngineManager.LoadedExecutable.FullName]);
+                    ApplyUciSettings(existingOptions);
                 }
 
                 ButtonEngineConfig.Enabled = true;
@@ -1717,13 +1717,9 @@ namespace DgtCherub
 
                     _uciEngineManager.LoadedEngineStop();
 
-                    if (uciOptionSettings.Options.ContainsKey(_uciEngineManager.LoadedExecutable.FullName))
+                    if (!uciOptionSettings.Options.TryAdd(_uciEngineManager.LoadedExecutable.FullName, modifiedUciOptions))
                     {
                         uciOptionSettings.Options[_uciEngineManager.LoadedExecutable.FullName] = modifiedUciOptions;
-                    }
-                    else
-                    {
-                        uciOptionSettings.Options.Add(_uciEngineManager.LoadedExecutable.FullName, modifiedUciOptions);
                     }
 
                     ApplyUciSettings(modifiedUciOptions);

@@ -24,8 +24,8 @@ namespace UciComms
         internal  Process? RunningProcess { get; set; }
         internal FileInfo Executable { get; init; }
         internal bool IsRunning => RunningProcess != null;
-        internal bool IsUciOk { get; private set; } = false;
-        internal bool IsReady { get; private set; } = false;
+        internal bool IsUciOk { get; private set; }
+        internal bool IsReady { get; private set; }
         
         internal  Eval evaluation = new();
 
@@ -150,9 +150,9 @@ namespace UciComms
 
         internal void SetOption(string name, string value)
         {
-            if (Options.ContainsKey(name))
+            if (Options.TryGetValue(name, out UciOption existing))
             {
-                Options[name].VarValue = value;
+                existing.VarValue = value;
                 SendCommand($"setoption name {name} value {value}");
             }
         }
@@ -274,13 +274,9 @@ namespace UciComms
 
                     UciOption option = new(name, type, defaultVal ?? "", minVal ?? "", maxVal ?? "", varVal ?? "");
 
-                    if (Options.ContainsKey(name))
+                    if (!Options.TryAdd(name, option))
                     {
                         Options[name] = option;
-                    }
-                    else
-                    {
-                        Options.Add(name, option);
                     }
                 }
             }

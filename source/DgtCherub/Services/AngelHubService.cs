@@ -31,9 +31,9 @@ namespace DgtCherub.Services
         public event Action OnPluginDisconnect;
 
 
-        public bool IsClientInitComplete { get; private set; } = false;
+        public bool IsClientInitComplete { get; private set; }
         public bool IsWhiteOnBottom { get; private set; } = true;
-        public bool IsMismatchDetected { get; private set; } = false;
+        public bool IsMismatchDetected { get; private set; }
         public bool EchoExternalMessagesToConsole { get; private set; } = true;
         public string LocalBoardFEN { get; private set; }
         public string LastMatchedPosition { get; private set; }
@@ -229,7 +229,7 @@ namespace DgtCherub.Services
             finally { _ = startStopSemaphore.Release(); }
         }
 
-        private bool remoteIgnored = false;
+        private bool remoteIgnored;
 
         private void KillRemoteConnections()
         {
@@ -402,8 +402,8 @@ namespace DgtCherub.Services
             }
         }
 
-        private int kibitzLastWhiteCount = 0;
-        private int kibitzLastBlackCount = 0;
+        private int kibitzLastWhiteCount;
+        private int kibitzLastBlackCount;
 
         private async Task RunMessageProcessor()
         {
