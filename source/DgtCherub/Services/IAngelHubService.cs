@@ -21,6 +21,11 @@ namespace DgtCherub.Services
         bool IsWhiteOnBottom { get; }
 
         /// <summary>
+        /// Sends the position on the board to the engine again.
+        /// </summary>
+        void AnalyseCurrentPosition();
+
+        /// <summary>
         /// The position last sent to the engine for analysis, or null when there has been none.
         /// </summary>
         KibitzerPosition CurrentKibitzerPosition { get; }

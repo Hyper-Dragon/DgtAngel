@@ -375,12 +375,7 @@ namespace DgtCherub.Services
                         CurrentKibitzerPosition = position;
                         OnKibitzerPositionChange?.Invoke(position);
 
-                        // The specification only allows a position command while the engine is idle,
-                        // so end the previous search first. The engine answers stop with bestmove and
-                        // the next position can be queued straight behind it.
-                        _uciEngineManager?.LoadedEngineStop();
-                        _uciEngineManager?.LoadedEngineSetPosition(position.Fen);
-                        _uciEngineManager?.LoadedEngineGoInfinite();
+                        SendToEngine(position);
                     }
 
                     await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
@@ -388,6 +383,32 @@ namespace DgtCherub.Services
 
                 _ = System.Threading.Interlocked.Decrement(ref inFlight);
             }
+        }
+
+        /// <summary>
+        /// Sends the position on the board to the engine again.
+        /// </summary>
+        /// <remarks>
+        /// A position is normally sent when the board changes, which means an engine loaded while
+        /// the board is sitting still is never asked about the position in front of it - the
+        /// kibitzer looks dead until the player moves a piece. Switching the kibitzer on, or
+        /// loading an engine, calls this so the analysis starts straight away.
+        /// </remarks>
+        public void AnalyseCurrentPosition()
+        {
+            KibitzerPosition position = CurrentKibitzerPosition;
+
+            if (position != null) { SendToEngine(position); }
+        }
+
+        private void SendToEngine(KibitzerPosition position)
+        {
+            // The specification only allows a position command while the engine is idle, so end
+            // the previous search first. The engine answers stop with bestmove and the next
+            // position can be queued straight behind it.
+            _uciEngineManager?.LoadedEngineStop();
+            _uciEngineManager?.LoadedEngineSetPosition(position.Fen);
+            _uciEngineManager?.LoadedEngineGoInfinite();
         }
 
         private async Task RunMessageProcessor()

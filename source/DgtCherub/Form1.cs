@@ -117,6 +117,7 @@ namespace DgtCherub
         private readonly IUciEngineManager _uciEngineManager;
         private string lastUciExe = "";
         private UciEngineEval lastEngineEval;
+        private readonly KibitzerClockDisplay kibitzerClockDisplay = new();
         private UciOptionSettings uciOptionSettings = new();
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
@@ -728,6 +729,10 @@ namespace DgtCherub
 
                 ButtonEngineConfig.Enabled = true;
                 CheckBoxKibitzerEnabled.Enabled = true;
+
+                // The position was already on the board when the engine arrived, and nothing is
+                // sent to an engine except on a board change - so ask about it now.
+                _angelHubService.AnalyseCurrentPosition();
             };
 
             _uciEngineManager.OnLoadedEngineBoardEvalChanged += (obj) =>
@@ -1675,6 +1680,19 @@ namespace DgtCherub
             {
                 _uciEngineManager.SwitchKibitzer(((CheckBox)sender).Checked);
 
+                // Switching the kibitzer on should analyse what is on the board, not wait for the
+                // player to move first.
+                if (((CheckBox)sender).Checked)
+                {
+                    _angelHubService.AnalyseCurrentPosition();
+                }
+                else
+                {
+                    // Give the clock its own display back.
+                    kibitzerClockDisplay.Reset();
+                    _dgtEbDllFacade?.StopForeverMessage();
+                }
+
                 _uciEngineManager.StartEngineAsync(_uciEngineManager.LoadedEngineName);
             }
         }
@@ -1712,12 +1730,35 @@ namespace DgtCherub
 
                 LabelKibitzerInfo.Text = KibitzerDisplay.FormatInfo(_angelHubService.CurrentKibitzerPosition, uciEngineEval);
 
+                UpdateClockScore(uciEngineEval);
+
                 ProgBarKibitzer.Invalidate();
                 LabelScoreKibitzer.Invalidate();
                 LabelDepthKibitzer.Invalidate();
                 LabelKibitzerInfo.Invalidate();
                 this.Update();
             });
+        }
+
+        /// <summary>
+        /// Puts the score on the physical DGT clock's display.
+        /// </summary>
+        /// <remarks>
+        /// The clock holds a message until it is told to stop, so this only writes when the score
+        /// has actually changed and not more often than the display can take. Called on the UI
+        /// thread, alongside the other writes to the driver.
+        /// </remarks>
+        private void UpdateClockScore(UciEngineEval uciEngineEval)
+        {
+            if (!IsUsingRabbit || _dgtEbDllFacade == null) { return; }
+
+            string score = KibitzerClockDisplay.Format(uciEngineEval);
+
+            if (kibitzerClockDisplay.ShouldSend(score, DateTime.UtcNow))
+            {
+                _dgtEbDllFacade.DisplayForeverMessage(score);
+                TextBoxConsole.AddLine($"DGT3000: score [{score}]");
+            }
         }
 
         private void ButtonEngineConfig_Click(object sender, EventArgs e)
