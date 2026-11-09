@@ -4,9 +4,9 @@ namespace UciComms
 {
     public interface IUciEngineManager
     {
-        event Action OnKibitzerActivated;
-        event Action OnKibitzerDeactivated;
-        event Action<string> OnKibitzerFenChange;
+        event Action? OnKibitzerActivated;
+        event Action? OnKibitzerDeactivated;
+        event Action<string>? OnKibitzerFenChange;
 
         // Subscribe to this events to get the parsed output from the engine
         event EventHandler<UciResponse>? OnLoadedEngineOutputRecieved;

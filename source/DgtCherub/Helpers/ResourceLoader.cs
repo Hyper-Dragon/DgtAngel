@@ -30,7 +30,7 @@ namespace DgtCherub.Helpers
         {
             content = Array.Empty<byte>();
 
-            using Stream? resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            using Stream resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
 
             if (resourceStream is null)
             {
@@ -53,7 +53,7 @@ namespace DgtCherub.Helpers
         private static Stream OpenResource(string resourceName)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream? resourceStream = assembly.GetManifestResourceStream(resourceName);
+            Stream resourceStream = assembly.GetManifestResourceStream(resourceName);
 
             if (resourceStream is null)
             {

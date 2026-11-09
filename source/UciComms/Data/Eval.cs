@@ -42,7 +42,6 @@ namespace UciComms.Data
                     (int? cp, int mateIn) lineVal = GetBoardEvalFromLine(newLine.line);
 
                     //bool? isWhiteTurn = newLine.lastSeenFen.Split(' ')[1] == "w";
-                    bool isWhiteTurn = true;
                     int? score = lineVal.cp;
                     int? mateIn = lineVal.mateIn;
                     int? depth = GetDepthFromLine(newLine.line);

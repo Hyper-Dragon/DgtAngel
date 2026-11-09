@@ -5,9 +5,9 @@ namespace UciComms
 {
     public sealed class UciEngineManager : IUciEngineManager
     {
-        public event Action OnKibitzerActivated;
-        public event Action OnKibitzerDeactivated;
-        public event Action<string> OnKibitzerFenChange;
+        public event Action? OnKibitzerActivated;
+        public event Action? OnKibitzerDeactivated;
+        public event Action<string>? OnKibitzerFenChange;
 
         // Subscribe to this events to get the parsed output from the engine
         public event EventHandler<UciResponse>? OnLoadedEngineOutputRecieved;
@@ -28,8 +28,6 @@ namespace UciComms
         private readonly ConcurrentDictionary<string, UciChessEngine> UciEngines = new();
 
         private UciChessEngine? currentUciChessEngine = null;
-
-        bool isKibitzerRunning = false;
 
         public UciEngineManager() { }
 
@@ -70,17 +68,17 @@ namespace UciComms
         }
 
 
-        private void EngOnOutputRecievedRawIn(object sender, string e)
+        private void EngOnOutputRecievedRawIn(object? sender, string? e)
         {
             OnLoadedEngineInputSentRaw?.Invoke(this, e);
         }
 
-        private void EngOnOutputRecievedRawOut(object sender, string e)
+        private void EngOnOutputRecievedRawOut(object? sender, string? e)
         {
             OnLoadedEngineOutputRecievedRaw?.Invoke(this, e);
         }
 
-        private void EngOnOutputRecievedRawError(object sender, string e)
+        private void EngOnOutputRecievedRawError(object? sender, string? e)
         {
             OnLoadedEngineErrorRecievedRaw?.Invoke(this, e);
         }
@@ -136,16 +134,16 @@ namespace UciComms
         public bool LoadedEngineWaitForUciOk() { return currentUciChessEngine?.WaitForUciOk() ?? false;  }
         public async Task LoadEngineAsync(string exePath)
         {
-            UciChessEngine engSlot1 = GetEngine("KIB_ENG_SLOT_1");
-            UciChessEngine engSlot2 = GetEngine("KIB_ENG_SLOT_2");
+            UciChessEngine? engSlot1 = GetEngine("KIB_ENG_SLOT_1");
 
             string slotKey = engSlot1 == null ? "KIB_ENG_SLOT_1" : "KIB_ENG_SLOT_2";
             string slotRemoveKey = engSlot1 == null ? "KIB_ENG_SLOT_2" : "KIB_ENG_SLOT_1";
 
             await RegisterEngineAsync(slotKey, new FileInfo(exePath));
 
-            UciChessEngine engineNew = GetEngine(slotKey);
-            UciChessEngine engineOld = GetEngine(slotRemoveKey);
+            UciChessEngine engineNew = GetEngine(slotKey)
+                ?? throw new InvalidOperationException($"The engine registered as [{slotKey}] was not found.");
+            UciChessEngine? engineOld = GetEngine(slotRemoveKey);
 
             try
             {
@@ -179,12 +177,10 @@ namespace UciComms
             if (turnOn)
             {
                 //KillRemoteConnections();
-                isKibitzerRunning = true;
                 OnKibitzerActivated?.Invoke();
             }
             else
             {
-                isKibitzerRunning = false;
                 CurrentUciEngine?.Stop();
                 OnKibitzerDeactivated?.Invoke();
             }
