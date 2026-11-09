@@ -1,4 +1,4 @@
-﻿using ChessHelpers;
+using ChessHelpers;
 using DgtAngelShared.Json;
 using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
@@ -342,54 +342,70 @@ namespace DgtCherub.Services
             {
                 string fen = await localFenProcessChannel.Reader.ReadAsync();
 
-                if (!string.IsNullOrWhiteSpace(fen) && LocalBoardFEN != fen)
+                try
                 {
-                    // The previous board is what the turn and en passant are inferred from, so it
-                    // has to be taken before LocalBoardFEN is replaced - after that the history is
-                    // gone and every position looks like the first one.
-                    string previousFen = LocalBoardFEN;
-
-                    LocalBoardFEN = fen;
-                    OnLocalFenChange?.Invoke(LocalBoardFEN);
-
-
-                    if (IsLocalBoardAvailable &&
-                       IsRemoteBoardAvailable)
-                    {
-                        // If the fens match we have caught up to the remote board.
-                        // Run the matcher straight away to clear any outstanding match requests.
-                        // There is no need to match after our moves - issues will be detected by the remote board match
-                        CurrentUpdatetMatch = Guid.NewGuid();
-                        _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
-                                           IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
-                    }
-                    else if (IsLocalBoardAvailable &&
-                              !IsRemoteBoardAvailable)
-                    {
-                        // Whose turn it is, what castling is still available and whether en
-                        // passant is on are inferred from the board now and the board before
-                        // the last move. The board itself knows only where the pieces are.
-                        //
-                        // This is local arithmetic and runs whether or not the kibitzer is on, so
-                        // that switching it on has a position to analyse straight away.
-                        KibitzerPosition position = KibitzerPosition.Infer(fen, previousFen);
-                        CurrentKibitzerPosition = position;
-                        OnKibitzerPositionChange?.Invoke(position);
-
-                        // The engine is only ever told about the board once the player has turned
-                        // the kibitzer on. A loaded engine that is not being fed positions cannot
-                        // be used to cheat, which is the whole point of the switch.
-                        if (_uciEngineManager != null && _uciEngineManager.IsKibitzerRunning)
-                        {
-                            SendToEngine(position);
-                        }
-                    }
-
-                    await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
+                    await ApplyLocalFen(fen);
                 }
-
-                _ = System.Threading.Interlocked.Decrement(ref inFlight);
+                catch (Exception ex)
+                {
+                    // This loop is the only thing moving the local board forward. If it faults,
+                    // LocalBoardFEN stops changing for the rest of the session - the board picture,
+                    // every clock page and the engine all freeze on the last position, and nothing
+                    // says why. One bad position must not be able to do that.
+                    _logger?.LogError(ex, "Local board processor failed on [{Fen}]; continuing with the next position.", fen);
+                }
+                finally
+                {
+                    _ = System.Threading.Interlocked.Decrement(ref inFlight);
+                }
             }
+        }
+
+        private async Task ApplyLocalFen(string fen)
+        {
+            if (string.IsNullOrWhiteSpace(fen) || LocalBoardFEN == fen) { return; }
+
+            // The previous board is what the turn and en passant are inferred from, so it has to
+            // be taken before LocalBoardFEN is replaced - after that the history is gone and every
+            // position looks like the first one.
+            string previousFen = LocalBoardFEN;
+
+            LocalBoardFEN = fen;
+            OnLocalFenChange?.Invoke(LocalBoardFEN);
+
+            if (IsLocalBoardAvailable &&
+                IsRemoteBoardAvailable)
+            {
+                // If the fens match we have caught up to the remote board.
+                // Run the matcher straight away to clear any outstanding match requests.
+                // There is no need to match after our moves - issues will be detected by the remote board match
+                CurrentUpdatetMatch = Guid.NewGuid();
+                _ = Task.Run(() => TestForBoardMatch(CurrentUpdatetMatch.ToString(),
+                                   IsBoardInSync ? MatcherLocalDelayMs : FromMismatchDelayMs));
+            }
+            else if (IsLocalBoardAvailable &&
+                      !IsRemoteBoardAvailable)
+            {
+                // Whose turn it is, what castling is still available and whether en passant is on
+                // are inferred from the board now and the board before the last move. The board
+                // itself knows only where the pieces are.
+                //
+                // This is local arithmetic and runs whether or not the kibitzer is on, so that
+                // switching it on has a position to analyse straight away.
+                KibitzerPosition position = KibitzerPosition.Infer(fen, previousFen);
+                CurrentKibitzerPosition = position;
+                OnKibitzerPositionChange?.Invoke(position);
+
+                // The engine is only ever told about the board once the player has turned the
+                // kibitzer on. A loaded engine that is not being fed positions cannot be used to
+                // cheat, which is the whole point of the switch.
+                if (_uciEngineManager != null && _uciEngineManager.IsKibitzerRunning)
+                {
+                    SendToEngine(position);
+                }
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
         }
 
         /// <summary>

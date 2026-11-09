@@ -58,6 +58,34 @@ namespace ChessHelpersTest
             Assert.IsFalse(manager.IsKibitzerRunning);
         }
 
+        [TestMethod(DisplayName = "Switching off after the latch is reported as a broken latch")]
+        public void SwitchOffAfterOnRaisesLatchBroken()
+        {
+            UciEngineManager manager = new();
+            int broken = 0;
+            manager.OnKibitzerLatchBroken += () => broken++;
+
+            manager.SwitchKibitzer(true);
+            manager.SwitchKibitzer(false);
+
+            // The application ends the session when this fires: a switch-off that got past the
+            // latch means something has gone round the control the kibitzer exists to enforce.
+            Assert.AreEqual(1, broken, "bypassing the latch must be reported, not ignored");
+            Assert.IsTrue(manager.IsKibitzerRunning, "and the kibitzer is still on");
+        }
+
+        [TestMethod(DisplayName = "Switching off a kibitzer that was never on is not a broken latch")]
+        public void SwitchOffBeforeOnDoesNotRaiseLatchBroken()
+        {
+            UciEngineManager manager = new();
+            int broken = 0;
+            manager.OnKibitzerLatchBroken += () => broken++;
+
+            manager.SwitchKibitzer(false);
+
+            Assert.AreEqual(0, broken, "there was no latch to break");
+        }
+
         [TestMethod(DisplayName = "A fresh manager has the kibitzer off")]
         public void KibitzerStartsOff()
         {

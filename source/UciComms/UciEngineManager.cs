@@ -9,6 +9,19 @@ namespace UciComms
         public event Action? OnKibitzerDeactivated;
         public event Action<string>? OnKibitzerFenChange;
 
+        /// <summary>
+        /// Raised when something asks for the kibitzer to be switched off after it has been
+        /// latched on.
+        /// </summary>
+        /// <remarks>
+        /// Nothing legitimate reaches this. The switch only goes one way and the user interface
+        /// disables it, so arriving here means the latch has been bypassed - by a bug, by a
+        /// debugger, or by someone deliberately defeating it. It is reported rather than ignored
+        /// precisely so the application can end the session instead of carrying on with an engine
+        /// watching a board that is being played on.
+        /// </remarks>
+        public event Action? OnKibitzerLatchBroken;
+
         // Subscribe to this events to get the parsed output from the engine
         public event EventHandler<UciResponse>? OnLoadedEngineOutputRecieved;
 
@@ -229,8 +242,13 @@ namespace UciComms
             }
 
             // Refused: the switch only goes one way. Switching it off mid-session would let a
-            // player use the engine and then hide it before moving.
-            if (IsKibitzerRunning) { return; }
+            // player use the engine and then hide it before moving, so reaching here at all means
+            // the latch has been bypassed.
+            if (IsKibitzerRunning)
+            {
+                OnKibitzerLatchBroken?.Invoke();
+                return;
+            }
 
             CurrentUciEngine?.Stop();
             OnKibitzerDeactivated?.Invoke();

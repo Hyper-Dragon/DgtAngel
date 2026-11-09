@@ -8,6 +8,12 @@ namespace UciComms
         event Action? OnKibitzerDeactivated;
         event Action<string>? OnKibitzerFenChange;
 
+        /// <summary>
+        /// Raised when the kibitzer latch is bypassed: something asked to switch it off after it
+        /// had been switched on.
+        /// </summary>
+        event Action? OnKibitzerLatchBroken;
+
         // Subscribe to this events to get the parsed output from the engine
         event EventHandler<UciResponse>? OnLoadedEngineOutputRecieved;
 

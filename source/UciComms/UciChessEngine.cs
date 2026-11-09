@@ -123,11 +123,21 @@ namespace UciComms
             }
         }
 
+        private readonly object commandLock = new();
+
         private void SendCommand(string command)
         {
             OnInputSentRaw?.Invoke(this, command);
-            RunningProcess?.StandardInput?.WriteLine(command);
-            RunningProcess?.StandardInput?.Flush();
+
+            // Process.StandardInput is a StreamWriter and is not thread-safe. Commands arrive
+            // from the board processor, from the UI when the kibitzer is switched on, and from
+            // the engine loading path; two writers interleaving corrupt the stream and can wedge
+            // the engine for the rest of the session.
+            lock (commandLock)
+            {
+                RunningProcess?.StandardInput?.WriteLine(command);
+                RunningProcess?.StandardInput?.Flush();
+            }
         }
 
         /// <summary>

@@ -441,10 +441,6 @@ namespace DgtCherub
 
             fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-            // If the kibitzer was somehow already on, the board must start suppressed rather than
-            // be published for the moment before the switch is handled.
-            fakeLiveChessServer.SuppressBoard = _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning;
-
             // Fire and forget - No need to wait for this to complete as there may be no clock connected
             await Task.Run(() =>
             {
@@ -705,6 +701,8 @@ namespace DgtCherub
             {
                 TextBoxConsole.AddLine($"KIBITZER:: Turned OFF");
             };
+
+            _uciEngineManager.OnKibitzerLatchBroken += KibitzerLatchBroken;
 
             _uciEngineManager.OnUciEngineStartError += (string errorMsg) =>
             {
@@ -1669,6 +1667,38 @@ namespace DgtCherub
         }
 
 
+        /// <summary>
+        /// Something switched the kibitzer off after it had been switched on.
+        /// </summary>
+        /// <remarks>
+        /// There is no legitimate way here. The switch only goes one way and the checkbox is
+        /// disabled, so anything arriving at this point has gone round the latch - with a debugger,
+        /// a patched assembly, or a bug of the kind this is meant to survive. A session with an
+        /// engine watching the board and a means of hiding it again is not one worth carrying on
+        /// with, so it ends here rather than trusting anything that follows.
+        /// </remarks>
+        private void KibitzerLatchBroken()
+        {
+            TextBoxConsole.AddLine("KIBITZER:: LATCH BROKEN - ending this session.");
+
+            if (!IsDisposed && IsHandleCreated)
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    _ = MessageBox.Show(this,
+                        "The kibitzer was switched off after it had been switched on.\r\n\r\n" +
+                        "That cannot be done through the interface, so this session is being closed " +
+                        "rather than continue with an engine watching the board.\r\n\r\n" +
+                        "No cheating. Restart Cherub to play online again.",
+                        "Cherub - kibitzer latch broken",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Stop);
+                });
+            }
+
+            Environment.Exit(1);
+        }
+
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
             // Setting Checked below would re-enter this handler, so the body runs once only.
@@ -1723,22 +1753,17 @@ namespace DgtCherub
         }
 
         /// <summary>
-        /// Withdraws the board from anything that could be playing a game with it.
+        /// Reports that the board is no longer being offered for online play.
         /// </summary>
         /// <remarks>
-        /// Announcing in the console is not a control. A client with no board cannot play, so
-        /// this takes the board away rather than asking the player not to use it.
+        /// Nothing is taken away here yet. The board Cherub reads is fed by the same LiveChess
+        /// server an online client reads, so suppressing that feed stops Cherub seeing the board
+        /// at all - it is the intake, not just the output. Blocking online play needs a lever that
+        /// can tell the two apart.
         /// </remarks>
         private void StopOnlinePlay()
         {
-            if (fakeLiveChessServer == null)
-            {
-                TextBoxConsole.AddLine("KIBITZER:: Board server not running - nothing to withdraw.");
-                return;
-            }
-
-            fakeLiveChessServer.SuppressBoard = true;
-            TextBoxConsole.AddLine("KIBITZER:: Board withdrawn from online play.");
+            TextBoxConsole.AddLine("KIBITZER:: Analysis session - do not use this board for a rated game.");
         }
 
         /// <summary>

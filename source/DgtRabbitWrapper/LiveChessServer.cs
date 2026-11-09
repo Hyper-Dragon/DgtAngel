@@ -25,17 +25,6 @@ namespace DgtRabbitWrapper
         public string RemoteFEN { get; set; }
         public string SideToPlay { get; set; }
         public bool BlockSendToRemote { get; set; }
-
-        /// <summary>
-        /// When set, the board is never published to a connected client.
-        /// </summary>
-        /// <remarks>
-        /// Turning the kibitzer on is the player declaring that the session is for analysis, and
-        /// an engine watching a board that is being played on is exactly what must not happen.
-        /// Withdrawing the feed is what makes that more than a promise: a client with no board
-        /// cannot play a game.
-        /// </remarks>
-        public bool SuppressBoard { get; set; }
         public int BoardSerialNo { get; init; }
         public int ComPort { get; init; }
         public int BatteryPct { get; init; }
@@ -132,14 +121,6 @@ namespace DgtRabbitWrapper
             //Setup connection the Rabbit
             _dgtEbDllFacade.OnStableFenChanged += (object sender, FenChangedEventArgs e) =>
             {
-                // Nothing reaches a client while the board is suppressed - not even a stale
-                // position - so a game in progress cannot be resumed from the last one seen.
-                if (SuppressBoard)
-                {
-                    _broadcastFEN = "";
-                    return;
-                }
-
                 //The driver hands us its own run-length board string, so convert it to a
                 //FEN before it goes out as the LiveChess "board" field.
                 string board = e.FEN.NormaliseDgtBoardToFen();
@@ -238,14 +219,6 @@ namespace DgtRabbitWrapper
         {
             //Send the remote board back to CDC to confirm the turn
             //If we don't it will randomly refuse to accept moves
-
-            // With the board suppressed the client is sent nothing at all, so a game in progress
-            // cannot be continued from the last position it happened to see.
-            if (SuppressBoard)
-            {
-                _broadcastFEN = "";
-                return lastSend;
-            }
 
             if (_broadcastFEN != lastSend)
             {
