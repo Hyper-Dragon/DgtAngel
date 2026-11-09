@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using System.Drawing;
+using System.Globalization;
 using System.Text.Json;
 using System.Windows.Forms;
 using UciComms.Data;
@@ -97,9 +98,9 @@ namespace DgtCherub
                             NumericUpDown numericUpDown = new()
                             {
                                 Font = textFont,
-                                Minimum = int.Parse(option.MinValue),
-                                Maximum = int.Parse(option.MaxValue),
-                                Value = int.Parse(string.IsNullOrEmpty(option.VarValue) ? option.MinValue : option.VarValue),
+                                Minimum = int.Parse(option.MinValue, CultureInfo.InvariantCulture),
+                                Maximum = int.Parse(option.MaxValue, CultureInfo.InvariantCulture),
+                                Value = int.Parse(string.IsNullOrEmpty(option.VarValue) ? option.MinValue : option.VarValue, CultureInfo.InvariantCulture),
                                 Location = new System.Drawing.Point(CONTROL_OFFSET, yOffset)
                             };
                             control = numericUpDown;
@@ -211,7 +212,7 @@ namespace DgtCherub
                 switch (option.Type)
                 {
                     case "spin":
-                        option.VarValue = ((NumericUpDown)control).Value.ToString();
+                        option.VarValue = ((NumericUpDown)control).Value.ToString(CultureInfo.InvariantCulture);
                         break;
                     case "check":
                         option.VarValue = ((CheckBox)control).Checked.ToString();

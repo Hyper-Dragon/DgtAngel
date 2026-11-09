@@ -74,6 +74,8 @@ namespace DgtCherub.Services
             // created lazily on the first call) - the facade then went silent and with it
             // the LiveChess feed and Cherub's own board.
             //
+            ArgumentNullException.ThrowIfNull(facade);
+
             // The facade owns the native registration; we just re-publish its events.
             facade.OnStatusMessage += (_, e) => Status?.Invoke(this, e.Message);
             facade.OnStableFenChanged += (_, e) => StableBoard?.Invoke(this, e.FEN);

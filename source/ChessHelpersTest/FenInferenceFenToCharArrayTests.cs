@@ -92,10 +92,10 @@ namespace ChessHelpersTest
                 $"'{fullFen}' should parse as '{boardOnly}'");
         }
 
-        [TestMethod(DisplayName = "Null input throws rather than returning a board")]
+        [TestMethod(DisplayName = "Null input is rejected as a bad argument")]
         public void NullThrows()
         {
-            _ = Assert.ThrowsExactly<NullReferenceException>(() => FenInference.FenToCharArray(null!));
+            _ = Assert.ThrowsExactly<ArgumentNullException>(() => FenInference.FenToCharArray(null!));
         }
 
         public static IEnumerable<object[]> OverflowCases

@@ -12,6 +12,9 @@ namespace ChessHelpers
 
         public static (int diffCount, string squareFrom, string squareTo, string fullFromFen, string promotesTo) SquareDiff(string fromBoardShortFen, string toBoardShortFen)
         {
+            ArgumentNullException.ThrowIfNull(fromBoardShortFen);
+            ArgumentNullException.ThrowIfNull(toBoardShortFen);
+
             //Remove anything after the board position incase it was passed in
             char[] fromBoard = FenInference.FenToCharArray(fromBoardShortFen.Split(' ')[0]);
             char[] toBoard = FenInference.FenToCharArray(toBoardShortFen.Split(' ')[0]);
@@ -148,6 +151,8 @@ namespace ChessHelpers
 
         public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
+            ArgumentNullException.ThrowIfNull(fen);
+
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
 
             // Callers pass anything from a bare board field to a whole FEN. Only the board

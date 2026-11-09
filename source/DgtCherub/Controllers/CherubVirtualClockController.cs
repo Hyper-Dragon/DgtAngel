@@ -109,6 +109,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{clock}")]
         public ContentResult GetClock(string clock)
         {
+            ArgumentNullException.ThrowIfNull(clock);
+
             // http://localhost:37964/CherubVirtualClock/GetClock
             _logger?.LogTrace($"Clock requested [{clock.SanitiseText()}]");
 
@@ -139,6 +141,8 @@ namespace DgtCherub.Controllers
         [Route("/CherubVirtualClock/{action}/{clock}/{directory}/{filename}")]
         public ActionResult GetFile(string clock, string directory, string filename)
         {
+            ArgumentNullException.ThrowIfNull(filename);
+
             try
             {
                 string mimeType = filename.Split(".").Last() switch
@@ -172,6 +176,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}/{localBoard}/{remoteBoard}")]
         public async Task<FileContentResult> BoardImageCompareByFen(string board, string localBoard, string remoteBoard)
         {
+            ArgumentNullException.ThrowIfNull(board);
+
             _logger?.LogTrace($"Board image requested [{localBoard} :: {remoteBoard}]".SanitiseText());
 
             string local = string.IsNullOrEmpty(localBoard) ? HttpUtility.UrlDecode(remoteBoard) : HttpUtility.UrlDecode(localBoard);
@@ -193,6 +199,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImage(string board)
         {
+            ArgumentNullException.ThrowIfNull(board);
+
             _logger?.LogTrace($"Board image requested [{board.SanitiseText()}]");
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
@@ -214,7 +222,9 @@ namespace DgtCherub.Controllers
         [Route("{action}/{board}")]
         public async Task<FileContentResult> BoardImageNoCompare(string board)
         {
-            _logger?.LogTrace($"Board image without compare requested [{board.SanitiseText()}]");
+            ArgumentNullException.ThrowIfNull(board);
+
+            _logger?.LogTrace($"Board image without compare requested [{board.SanitiseText()}]");;
 
             string local = _angelHubService.IsLocalBoardAvailable ? _angelHubService.LocalBoardFEN : _angelHubService.RemoteBoardFEN;
             string remote = _angelHubService.IsRemoteBoardAvailable ? _angelHubService.RemoteBoardFEN : _angelHubService.LocalBoardFEN;
@@ -235,6 +245,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{fileName}")]
         public ActionResult Images(string fileName)
         {
+            ArgumentNullException.ThrowIfNull(fileName);
+
             _logger?.LogTrace($"Image requested [{fileName.SanitiseText()}]");
 
             try
@@ -244,7 +256,7 @@ namespace DgtCherub.Controllers
                     SVG_LOGO => SvgLogo,
                     FAV_ICON => FavIcon,
                     _ => throw new FileNotFoundException()
-                }, fileName.EndsWith(".svg") ? MIME_SVG : MIME_PNG);
+                }, fileName.EndsWith(".svg", StringComparison.OrdinalIgnoreCase) ? MIME_SVG : MIME_PNG);
             }
             catch (FileNotFoundException)
             {
@@ -256,6 +268,8 @@ namespace DgtCherub.Controllers
         [Route("{action}/{clientUtcMs}")]
         public async Task GetStuff(string clientUtcMs)
         {
+            ArgumentNullException.ThrowIfNull(clientUtcMs);
+
             // http://localhost:37964/CherubVirtualClock/GetStuff
             _logger?.LogTrace($"Clock client connected running [{clientUtcMs.SanitiseText()}]");
 

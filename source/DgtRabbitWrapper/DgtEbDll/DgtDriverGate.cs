@@ -91,6 +91,8 @@ namespace DgtRabbitWrapper.DgtEbDll
         /// </summary>
         public static int Run(Func<int> call)
         {
+            ArgumentNullException.ThrowIfNull(call);
+
             lock (Sync)
             {
                 return call();
@@ -103,6 +105,8 @@ namespace DgtRabbitWrapper.DgtEbDll
         /// </summary>
         public static T Run<T>(Func<T> call)
         {
+            ArgumentNullException.ThrowIfNull(call);
+
             lock (Sync)
             {
                 return call();
@@ -114,6 +118,8 @@ namespace DgtRabbitWrapper.DgtEbDll
         /// </summary>
         public static void Run(Action call)
         {
+            ArgumentNullException.ThrowIfNull(call);
+
             lock (Sync)
             {
                 call();

@@ -9,6 +9,8 @@ namespace DynamicBoard.Helpers
     {
         public static byte[] ConvertToPngByteArray(this Bitmap bmp)
         {
+            ArgumentNullException.ThrowIfNull(bmp);
+
             MemoryStream memoryStream = new();
 
             bmp.Save(memoryStream, ImageFormat.Png);

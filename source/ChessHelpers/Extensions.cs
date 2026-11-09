@@ -60,6 +60,8 @@ namespace ChessHelpers
 
         public static string ConvertFlatArrayToFen(this char[] flatFenArray, string tail = "")
         {
+            ArgumentNullException.ThrowIfNull(flatFenArray);
+
             StringBuilder fenFromArrayBuilder = new();
 
             for (int sq = 0, blankTot = 0, file = 0; sq < flatFenArray.Length; sq++)

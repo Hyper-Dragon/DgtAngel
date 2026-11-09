@@ -2,6 +2,7 @@
 using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 using System.Threading.Channels;
 using UciComms;
 using UciComms.Data;
@@ -252,6 +253,8 @@ namespace DgtCherub.Services
                 return;
             }
 
+            ArgumentNullException.ThrowIfNull(remoteBoardState);
+
             //Always send these
             Enqueue(orientationProcessChannel.Writer, remoteBoardState.Board.IsWhiteOnBottom);
             Enqueue(clockProcessChannel.Writer, remoteBoardState);
@@ -450,13 +453,13 @@ namespace DgtCherub.Services
                 WhiteClockMsRemaining = (int)whiteTimespan.TotalMilliseconds;
                 BlackClockMsRemaining = (int)blackTimespan.TotalMilliseconds;
 
-                string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString().PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString().PadLeft(2, '0')}";
-                string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString().PadLeft(2, '0')}:{blackTimespan.Seconds.ToString().PadLeft(2, '0')}";
+                string whiteClockString = $"{whiteTimespan.Hours}:{whiteTimespan.Minutes.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}:{whiteTimespan.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
+                string blackClockString = $"{blackTimespan.Hours}:{blackTimespan.Minutes.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}:{blackTimespan.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 int runWho = remoteBoardState.Board.ClockTurn == TurnCode.WHITE ? 1 : remoteBoardState.Board.ClockTurn == TurnCode.BLACK ? 2 : 0;
 
                 WhiteClock = whiteClockString;
                 BlackClock = blackClockString;
-                RunWhoString = runWho.ToString();
+                RunWhoString = runWho.ToString(CultureInfo.InvariantCulture);
 
                 OnClockChange?.Invoke();
                 CalculateNextClockAudio(WhiteClockMsRemaining, ref whiteNextClockAudioNotBefore, (string audioFile) => OnPlayWhiteClockAudio?.Invoke(audioFile));
@@ -611,22 +614,22 @@ namespace DgtCherub.Services
                 else if (clockAudioTs.Minutes > 25)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Minutes % 5 * MS_IN_MIN) + (clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Minutes > 0)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"M_{(clockAudioTs.Minutes + ((clockAudioTs.Seconds is > 45 or < 15) ? 1 : 0)).ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 30)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - ((clockAudioTs.Seconds % 5 * MS_IN_SEC) + (clockAudioTs.Milliseconds % MS_IN_SEC));
-                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
                 else if (clockAudioTs.Seconds > 0)
                 {
                     nextAudioNotBefore = clockAudioTs.TotalMilliseconds - (clockAudioTs.Milliseconds % MS_IN_SEC);
-                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString().PadLeft(2, '0')}";
+                    audioFile = isFirstCall ? "" : $"S_{clockAudioTs.Seconds.ToString(CultureInfo.InvariantCulture).PadLeft(2, '0')}";
                 }
 
                 // Play the audio if required

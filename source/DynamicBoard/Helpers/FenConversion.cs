@@ -25,6 +25,7 @@ namespace DynamicBoard.Helpers
 
         public static char[] FenToCharArray(string fen, in bool isFlipRequired = false)
         {
+            ArgumentNullException.ThrowIfNull(fen);
             char[] boardArrayOut = "".PadRight(64, '-').ToCharArray();
             fen = fen.Trim().Split(' ')[0];
 

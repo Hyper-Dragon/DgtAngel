@@ -6,6 +6,7 @@ using DgtRabbitWrapper.DgtEbDll;
 using DynamicBoard;
 using DynamicBoard.Helpers;
 using Microsoft.Extensions.Hosting;
+using System.Globalization;
 using Microsoft.Extensions.Logging;
 using QRCoder;
 using System.Drawing;
@@ -430,7 +431,7 @@ namespace DgtCherub
                     // Fire and forget - No need to wait for this to complete as there may be no clock connected
                     Task.Run(() =>
                     {
-                        _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString));
+                        _dgtEbDllFacade.SetClock(_angelHubService.WhiteClock, _angelHubService.BlackClock, int.Parse(_angelHubService.RunWhoString, CultureInfo.InvariantCulture));
                     });
                 }
             };
@@ -450,7 +451,7 @@ namespace DgtCherub
             {
                 //If on CDC set the drop fix mode
                 fakeLiveChessServer.DropFix = LiveChessServer.PlayDropFix.NONE;
-                fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC") ?
+                fakeLiveChessServer.DropFix = !remoteSource.Contains("CDC", StringComparison.Ordinal) ?
                                               LiveChessServer.PlayDropFix.NONE :
                                               (_angelHubService.IsWhiteOnBottom ? LiveChessServer.PlayDropFix.FROMWHITE :
                                               LiveChessServer.PlayDropFix.FROMBLACK);
@@ -481,7 +482,7 @@ namespace DgtCherub
                 {
                     //Test for "DGT: Connected. Your turn." in the UI
                     //Language list at the top of this file
-                    if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s)))
+                    if (YOUR_TURN_LANG.Any(s => boardMsg.Contains(s, StringComparison.Ordinal)))
                     {
                         fakeLiveChessServer.SideToPlay = isWhiteOnBottom ? "WHITE" : "BLACK";
                         fakeLiveChessServer.BlockSendToRemote = false;
@@ -752,8 +753,8 @@ namespace DgtCherub
             _uciEngineManager.OnLoadedEngineOutputRecieved += (sender, e) =>
             {
                 if (e == null) { } // DO NOTHING
-                else if (e.RawData.Contains("currmove")) { } // DO NOTHING 
-                else if (e.RawData.Contains("score"))
+                else if (e.RawData.Contains("currmove", StringComparison.Ordinal)) { } // DO NOTHING 
+                else if (e.RawData.Contains("score", StringComparison.Ordinal))
                 {
                     Invoke(() => { if (!LabelKibitzerInfo.IsDisposed) { LabelKibitzerInfo.Text = e.RawData; } });
                 }
@@ -831,7 +832,7 @@ namespace DgtCherub
 
             _angelHubService.OnRemoteWatchStarted += (remoteSource) =>
             {
-                if (remoteSource.Contains("CDC"))
+                if (remoteSource.Contains("CDC", StringComparison.Ordinal))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcWatching_AP);
 
@@ -843,7 +844,7 @@ namespace DgtCherub
                         TextBoxConsole.AddLine("         ***********************************************************************", TEXTBOX_MAX_LINES, false);
                     }
                 }
-                else if (remoteSource.Contains("Lichess"))
+                else if (remoteSource.Contains("Lichess", StringComparison.Ordinal))
                 {
                     if (IsUsingRabbit)
                     {
@@ -864,11 +865,11 @@ namespace DgtCherub
             _angelHubService.OnRemoteWatchStopped += (remoteSource) =>
             {
 
-                if (remoteSource.Contains("CDC"))
+                if (remoteSource.Contains("CDC", StringComparison.Ordinal))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.CdcStoppedWatching_AP);
                 }
-                else if (remoteSource.Contains("Lichess"))
+                else if (remoteSource.Contains("Lichess", StringComparison.Ordinal))
                 {
                     _voicePlayeStatus.Speak(Assets.Speech_en_01.LichessStoppedWatching_AP);
                 }
@@ -898,7 +899,7 @@ namespace DgtCherub
             if ((_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
                 (_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.WhiteClockMsRemaining > 55 * 1000))
             {
-                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
+                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP", CultureInfo.InvariantCulture));
             }
         };
 
@@ -907,7 +908,7 @@ namespace DgtCherub
             if ((!_angelHubService.IsWhiteOnBottom && IncludeSecs) ||
                  (!_angelHubService.IsWhiteOnBottom && !IncludeSecs && _angelHubService.BlackClockMsRemaining > 55 * 1000))
             {
-                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP"));
+                _voicePlayerTime.Speak(DgtCherub.Assets.Time_en_01.ResourceManager.GetStream($"{audioFilename}_AP", CultureInfo.InvariantCulture));
             }
         };
 
@@ -942,13 +943,13 @@ namespace DgtCherub
 
                     if (!string.IsNullOrEmpty(soundName))
                     {
-                        _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                        _voicePlayerMovesNoDrop.Speak(VoiceMoveResManager.GetStream($"{soundName}_AP", CultureInfo.InvariantCulture));
                     }
                     else
                     {
                         if (!IsSilentBeep)
                         {
-                            _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP"));
+                            _voicePlayerMovesNoDrop.Speak(DgtCherub.Assets.Speech_en_01.ResourceManager.GetStream("Beep_AP", CultureInfo.InvariantCulture));
                         }
                     }
                 }
@@ -967,7 +968,7 @@ namespace DgtCherub
 
                     if (!string.IsNullOrEmpty(soundName))
                     {
-                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                        (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(VoiceMoveResManager.GetStream($"{soundName}_AP", CultureInfo.InvariantCulture));
                     }
                     else
                     {
@@ -1005,7 +1006,7 @@ namespace DgtCherub
                                 _ => "Words_Missing",
                             };
 
-                            playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP"));
+                            playlist.Add(VoiceMoveResManager.GetStream($"{soundName}_AP", CultureInfo.InvariantCulture));
                         }
 
                         (PlayerBeepOnly ? _voicePlayerMovesNoDrop : _voicePlayerMoves).Speak(playlist);
@@ -1815,7 +1816,7 @@ namespace DgtCherub
         private void ComboBoxScale_SelectedIndexChanged(object sender, EventArgs e)
         {
             CheckBoxShowConsole.Checked = true;
-            float newScale = float.Parse((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex].ToString());
+            float newScale = float.Parse(Convert.ToString((sender as ComboBox).Items[(sender as ComboBox).SelectedIndex], CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
             ApplyScaling(newScale);
         }
 

@@ -18,3 +18,14 @@ dotnet_diagnostic.CA1707.severity = none
 # comparisons to say which comparison they mean.
 dotnet_diagnostic.CA1062.severity = warning
 dotnet_diagnostic.CA1307.severity = warning
+
+# Argument validation on test methods is meaningless: their parameters come from DataRow
+# attributes, not from callers, so there is nobody to hand an ArgumentNullException to.
+[ChessHelpersTest/**/*.cs]
+dotnet_diagnostic.CA1062.severity = none
+
+[DgtCherubTest/**/*.cs]
+dotnet_diagnostic.CA1062.severity = none
+
+[DynamicBoardTest/**/*.cs]
+dotnet_diagnostic.CA1062.severity = none
