@@ -5,7 +5,7 @@ using System.Threading.Channels;
 
 namespace DgtCherub.Services
 {
-    public class DgtService : DGTDLL.DGTDLLBase
+    public partial class DgtService : DGTDLL.DGTDLLBase
     {
         private const int StreamBufferSize = 64;
 

@@ -1,4 +1,6 @@
-﻿namespace ChessHelpers
+﻿using System.Globalization;
+
+namespace ChessHelpers
 {
     public class FenInference
     {
@@ -95,7 +97,7 @@
                             {
                                 squareTo = square;
                                 isWhiteToPlay = char.IsUpper(toBoard[(row * squaresOnBoard) + col]);
-                                tmpPromotesTo = (isWhiteToPlay && row == 0) || (!isWhiteToPlay && row == 7) ? $"{char.ToUpper(toBoard[(row * squaresOnBoard) + col])}" : "";
+                                tmpPromotesTo = (isWhiteToPlay && row == 0) || (!isWhiteToPlay && row == 7) ? $"{char.ToUpper(toBoard[(row * squaresOnBoard) + col], CultureInfo.InvariantCulture)}" : "";
                             }
                         }
                     }
@@ -172,13 +174,13 @@
             int convIdx = 0;
             foreach (char squareValue in fen)
             {
-                if ("rnbqkpPRNBQK".Contains(squareValue))
+                if ("rnbqkpPRNBQK".Contains(squareValue, StringComparison.Ordinal))
                 {
                     boardArrayOut[convIdx++] = squareValue;
                 }
-                else if ("12345678".Contains(squareValue))
+                else if ("12345678".Contains(squareValue, StringComparison.Ordinal))
                 {
-                    convIdx += int.Parse(squareValue.ToString());
+                    convIdx += int.Parse(squareValue.ToString(), CultureInfo.InvariantCulture);
                 }
             }
 

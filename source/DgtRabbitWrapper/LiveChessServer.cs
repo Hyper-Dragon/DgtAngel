@@ -3,6 +3,7 @@ using DgtRabbitWrapper.DgtEbDll;
 using Fleck;
 using System;
 using System.Collections.Concurrent;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -106,10 +107,10 @@ namespace DgtRabbitWrapper
         /// </summary>
         internal string FormatMessage(string message, string fen = "")
         {
-            return message.Replace("BOARDNO", _randomSerialNo.ToString())
-                          .Replace("FENFEN", fen)
+            return message.Replace("BOARDNO", _randomSerialNo.ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal)
+                          .Replace("FENFEN", fen, StringComparison.Ordinal)
                           .Replace("TIMETIME", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                          .ToString());
+                          .ToString(CultureInfo.InvariantCulture), StringComparison.Ordinal);
         }
 
         private void RunLiveChessServerInternal()
@@ -182,14 +183,14 @@ namespace DgtRabbitWrapper
         private void ProcessMessages(IWebSocketConnection socket, string message)
         {
             if (message != null &&
-                message.Contains("call") &&
-                message.Contains("eboards"))
+                message.Contains("call", StringComparison.Ordinal) &&
+                message.Contains("eboards", StringComparison.Ordinal))
             {
                 SendToSocket(socket, FormatMessage(CONNECT_01_MSG, _broadcastFEN));
             }
             else if (message != null &&
-                     message.Contains("call") &&
-                     message.Contains("subscribe"))
+                     message.Contains("call", StringComparison.Ordinal) &&
+                     message.Contains("subscribe", StringComparison.Ordinal))
             {
                 SendToSocket(socket, FormatMessage(CONNECT_02_MSG));
                 SendToSocket(socket, FormatMessage(CONNECT_03_MSG, _broadcastFEN));
@@ -232,7 +233,7 @@ namespace DgtRabbitWrapper
 
                 //Always send the real FEN to Cherub
                 //Always send the real FEN if not in Dropfix mode
-                if (message.ToString().Contains(FROM_INTERNAL_MSG_ID) || DropFix == PlayDropFix.NONE)
+                if (message.ToString().Contains(FROM_INTERNAL_MSG_ID, StringComparison.Ordinal) || DropFix == PlayDropFix.NONE)
                 {
                     //if (_broadcastFenCorrected != _broadcastFEN &&
                     //    !message.ToString().Contains(FROM_INTERNAL_MSG_ID))

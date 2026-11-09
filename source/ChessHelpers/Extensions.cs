@@ -1,4 +1,5 @@
 ﻿using Chess;
+using System.Globalization;
 using System.Text;
 
 namespace ChessHelpers
@@ -70,14 +71,14 @@ namespace ChessHelpers
                 }
                 else
                 {
-                    _ = fenFromArrayBuilder.Append($"{(blankTot > 0 ? blankTot : "")}{flatFenArray[sq]}");
+                    _ = fenFromArrayBuilder.Append(CultureInfo.InvariantCulture, $"{(blankTot > 0 ? blankTot : "")}{flatFenArray[sq]}");
                     blankTot = 0;
 
                 }
 
                 if (++file == 8)
                 {
-                    _ = fenFromArrayBuilder.Append($"{(blankTot > 0 ? blankTot : "")}{(sq < (flatFenArray.Length - 8) ? @"/" : "")}");
+                    _ = fenFromArrayBuilder.Append(CultureInfo.InvariantCulture, $"{(blankTot > 0 ? blankTot : "")}{(sq < (flatFenArray.Length - 8) ? @"/" : "")}");
                     blankTot = 0;
                     file = 0;
                 }
@@ -111,7 +112,7 @@ namespace ChessHelpers
             string board = boardIn.Trim().Split(' ')[0];
 
             //Already a FEN board field - nothing to do.
-            if (board.Contains('/'))
+            if (board.Contains('/', StringComparison.Ordinal))
             {
                 return board;
             }
@@ -144,7 +145,7 @@ namespace ChessHelpers
 
                     index += run;
                 }
-                else if ("rnbqkpRNBQKP".Contains(square))
+                else if ("rnbqkpRNBQKP".Contains(square, StringComparison.Ordinal))
                 {
                     squares[index++] = square;
                 }
@@ -182,7 +183,7 @@ namespace ChessHelpers
                     continue;
                 }
 
-                if (!"rnbqkpRNBQKP".Contains(square))
+                if (!"rnbqkpRNBQKP".Contains(square, StringComparison.Ordinal))
                 {
                     return null;
                 }

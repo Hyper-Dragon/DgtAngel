@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using UciComms.Data;
@@ -229,7 +230,7 @@ namespace UciComms
                 return null;
             }
 
-            if (rawData.StartsWith("id"))
+            if (rawData.StartsWith("id", StringComparison.Ordinal))
             {
                 string[] parts = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 IdResponse idResponse = new() { RawData = rawData };
@@ -259,7 +260,7 @@ namespace UciComms
             {
                 return new ReadyOkResponse { RawData = rawData };
             }
-            else if (rawData.StartsWith("option"))
+            else if (rawData.StartsWith("option", StringComparison.Ordinal))
             {
                 Match match = OptionRegex.Match(rawData);
                 if (match.Success)
@@ -283,7 +284,7 @@ namespace UciComms
                     }
                 }
             }
-            else if (rawData.StartsWith("bestmove"))
+            else if (rawData.StartsWith("bestmove", StringComparison.Ordinal))
             {
                 string[] splitStr = rawData.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 int ponderIndex = Array.IndexOf(splitStr, "ponder");
@@ -296,7 +297,7 @@ namespace UciComms
                     PonderMove = (ponderIndex >= 0 && ponderIndex + 1 < splitStr.Length) ? splitStr[ponderIndex + 1] : ""
                 };
             }
-            else if (rawData.StartsWith("info"))
+            else if (rawData.StartsWith("info", StringComparison.Ordinal))
             {
                 string[] splitStr = rawData.Split(' ');
                 InfoResponse infoResponse = new() { RawData = rawData };
@@ -305,23 +306,23 @@ namespace UciComms
                 {
                     switch (splitStr[i])
                     {
-                        case "depth": infoResponse.Depth = int.Parse(splitStr[++i]); break;
-                        case "seldepth": infoResponse.SelDepth = int.Parse(splitStr[++i]); break;
-                        case "time": infoResponse.Time = int.Parse(splitStr[++i]); break;
-                        case "nodes": infoResponse.Nodes = decimal.Parse(splitStr[++i]); break;
+                        case "depth": infoResponse.Depth = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "seldepth": infoResponse.SelDepth = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "time": infoResponse.Time = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "nodes": infoResponse.Nodes = decimal.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
                         case "pv": infoResponse.Pv = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
-                        case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i]); break;
+                        case "multipv": infoResponse.MultiPv = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
                         case "score":
                             //Send to eval function
                             evaluation.AddLine(rawData, LastSeenFen);
                             break;
                         case "currmove": infoResponse.CurrMove = splitStr[++i]; break;
-                        case "currmovenumber": infoResponse.CurrMoveNumber = int.Parse(splitStr[++i]); break;
-                        case "hashfull": infoResponse.HashFull = int.Parse(splitStr[++i]); break;
-                        case "nps": infoResponse.Nps = int.Parse(splitStr[++i]); break;
-                        case "tbhits": infoResponse.TbHits = int.Parse(splitStr[++i]); break;
-                        case "sbhits": infoResponse.SbHits = int.Parse(splitStr[++i]); break;
-                        case "cpuload": infoResponse.CpuLoad = int.Parse(splitStr[++i]); break;
+                        case "currmovenumber": infoResponse.CurrMoveNumber = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "hashfull": infoResponse.HashFull = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "nps": infoResponse.Nps = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "tbhits": infoResponse.TbHits = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "sbhits": infoResponse.SbHits = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
+                        case "cpuload": infoResponse.CpuLoad = int.Parse(splitStr[++i], CultureInfo.InvariantCulture); break;
                         case "string": infoResponse.StringInfo = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "refutation": infoResponse.Refutation = string.Join(" ", splitStr[++i..]); i = splitStr.Length; break;
                         case "currline":
