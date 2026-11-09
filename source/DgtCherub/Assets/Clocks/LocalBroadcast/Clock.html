@@ -209,6 +209,16 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
+        /* Said in place of the lines while the kibitzer is off, rather than showing nothing
+           where the analysis belongs. */
+        .kibitz-lines li.unavailable {
+            list-style: none;
+            margin-left: -1.2em;
+            font-family: inherit;
+            font-style: italic;
+            opacity: 0.75;
+        }
     </style>
 </head>
 
@@ -362,6 +372,32 @@
             }
         }
 
+        // Fills the lines area. With the kibitzer off there is no analysis to list, and an empty
+        // space reads as a page that has not loaded rather than one that is deliberately idle.
+        function renderLines(lines) {
+            const list = document.getElementById("kibitz-lines");
+
+            if (!list) { return; }
+
+            list.innerHTML = "";
+
+            if (!lines || lines.length === 0) {
+                const item = document.createElement("li");
+                item.className = "unavailable";
+                item.textContent = kibitzerRunning
+                    ? "Waiting for the engine"
+                    : "Kibitzer is unavailable";
+                list.appendChild(item);
+                return;
+            }
+
+            lines.forEach(function (line) {
+                const item = document.createElement("li");
+                item.textContent = line;
+                list.appendChild(item);
+            });
+        }
+
         // Ask for the board again. The image request is fired on a board change, so an image
         // lost while the connection was dropping - which is what a Cherub restart looks like -
         // was never retried, and the page kept a blank or stale board until the next move.
@@ -462,14 +498,7 @@
                                 document.getElementById("kibitz-depth").textContent =
                                     obj.Depth > 0 ? "depth " + obj.Depth : "";
 
-                                const lineList = document.getElementById("kibitz-lines");
-                                lineList.innerHTML = "";
-
-                                (obj.Lines || []).forEach(function (line) {
-                                    const item = document.createElement("li");
-                                    item.textContent = line;
-                                    lineList.appendChild(item);
-                                });
+                                renderLines(obj.Lines);
                                 break;
                             }
                             case "OnKibitzerPosition":
@@ -485,7 +514,7 @@
                                 drawScoreBar({ Eval: 0, MateIn: 0 });
                                 document.getElementById("kibitz-depth").textContent = "";
                                 document.getElementById("kibitz-position").textContent = "";
-                                document.getElementById("kibitz-lines").innerHTML = "";
+                                renderLines([]);
                                 refreshBoardImage();
                                 break;
                             }

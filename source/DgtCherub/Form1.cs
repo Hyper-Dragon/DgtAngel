@@ -444,6 +444,12 @@ namespace DgtCherub
             // Fire and forget - No need to wait for this to complete as there may be no clock connected
             await Task.Run(() =>
             {
+                // A score from the last session is still on the clock: the display holds a message
+                // until it is told to stop, and nothing tells it at shutdown. Clear it before the
+                // times go up, or a session that ended still looks like it is being analysed.
+                _dgtEbDllFacade.StopForeverMessage();
+                TextBoxConsole.AddLine("DGT3000: display cleared", TEXTBOX_MAX_LINES);
+
                 _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 1);
                 _dgtEbDllFacade.SetClock("0:15:00", "0:15:00", 0);
             });
