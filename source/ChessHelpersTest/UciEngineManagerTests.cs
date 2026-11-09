@@ -7,10 +7,10 @@ namespace ChessHelpersTest
     /// The kibitzer switch.
     /// </summary>
     /// <remarks>
-    /// The kibitzer path is unfinished: nothing publishes a kibitzer FEN yet, so OnKibitzerFenChange
-    /// still has no producer. What can be held down today is the switch itself - that it raises the
-    /// events the UI listens for, and that it records the state it was switched to, so the remaining
-    /// work has something stable to build on.
+    /// The kibitzer switch is a one-way control, not a preference. It exists so a player can
+    /// declare that a session is for analysis, and it must not be possible to take that
+    /// declaration back without restarting - otherwise the engine could be used and then hidden
+    /// again before a move was made. These tests hold the switch to that.
     /// </remarks>
     [TestClass]
     public class UciEngineManagerTests
@@ -28,8 +28,8 @@ namespace ChessHelpersTest
             Assert.IsTrue(manager.IsKibitzerRunning, "the manager must record that the kibitzer is on");
         }
 
-        [TestMethod(DisplayName = "Switching the kibitzer off raises Deactivated and clears the state")]
-        public void SwitchOffRaisesDeactivated()
+        [TestMethod(DisplayName = "The kibitzer cannot be switched off once it has been switched on")]
+        public void SwitchOffIsRefusedOnceOn()
         {
             UciEngineManager manager = new();
             int deactivated = 0;
@@ -38,8 +38,24 @@ namespace ChessHelpersTest
             manager.SwitchKibitzer(true);
             manager.SwitchKibitzer(false);
 
-            Assert.AreEqual(1, deactivated, "switching off must raise OnKibitzerDeactivated once");
-            Assert.IsFalse(manager.IsKibitzerRunning, "the manager must record that the kibitzer is off");
+            // This is the anti-cheat latch: an engine that could be hidden again before a move
+            // would be no friction at all. Playing online again means restarting Cherub.
+            Assert.AreEqual(0, deactivated, "switching off must not raise OnKibitzerDeactivated");
+            Assert.IsTrue(manager.IsKibitzerRunning,
+                          "once on, the kibitzer stays on until a new manager is created");
+        }
+
+        [TestMethod(DisplayName = "Switching a kibitzer off that was never on does nothing")]
+        public void SwitchOffBeforeOnIsHarmless()
+        {
+            UciEngineManager manager = new();
+            int deactivated = 0;
+            manager.OnKibitzerDeactivated += () => deactivated++;
+
+            manager.SwitchKibitzer(false);
+
+            Assert.AreEqual(1, deactivated, "there was nothing to latch, so the caller is told it is off");
+            Assert.IsFalse(manager.IsKibitzerRunning);
         }
 
         [TestMethod(DisplayName = "A fresh manager has the kibitzer off")]

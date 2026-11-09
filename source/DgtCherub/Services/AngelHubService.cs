@@ -365,17 +365,24 @@ namespace DgtCherub.Services
                     }
                     else if (IsLocalBoardAvailable &&
                               !IsRemoteBoardAvailable)
-                        //&&
-                        //isKibitzerRunning)
                     {
                         // Whose turn it is, what castling is still available and whether en
-                        // passant is on are all inferred from the board now and the board before
+                        // passant is on are inferred from the board now and the board before
                         // the last move. The board itself knows only where the pieces are.
+                        //
+                        // This is local arithmetic and runs whether or not the kibitzer is on, so
+                        // that switching it on has a position to analyse straight away.
                         KibitzerPosition position = KibitzerPosition.Infer(fen, previousFen);
                         CurrentKibitzerPosition = position;
                         OnKibitzerPositionChange?.Invoke(position);
 
-                        SendToEngine(position);
+                        // The engine is only ever told about the board once the player has turned
+                        // the kibitzer on. A loaded engine that is not being fed positions cannot
+                        // be used to cheat, which is the whole point of the switch.
+                        if (_uciEngineManager != null && _uciEngineManager.IsKibitzerRunning)
+                        {
+                            SendToEngine(position);
+                        }
                     }
 
                     await Task.Delay(TimeSpan.FromMilliseconds(POST_EVENT_DELAY_LOCAL_FEN), TimeSource);
@@ -396,6 +403,10 @@ namespace DgtCherub.Services
         /// </remarks>
         public void AnalyseCurrentPosition()
         {
+            // Refused unless the kibitzer is on: an engine may be loaded, but it is not told
+            // about the board until the player has declared the session is for analysis.
+            if (_uciEngineManager == null || !_uciEngineManager.IsKibitzerRunning) { return; }
+
             KibitzerPosition position = CurrentKibitzerPosition;
 
             if (position != null) { SendToEngine(position); }

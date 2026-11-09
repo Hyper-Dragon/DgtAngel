@@ -33,9 +33,10 @@ namespace UciComms
         /// Whether the kibitzer has been switched on through <see cref="SwitchKibitzer"/>.
         /// </summary>
         /// <remarks>
-        /// State for a feature that is not finished - nothing publishes a kibitzer FEN yet - so it
-        /// is exposed rather than kept as a field. As a field it was written in two places and read
-        /// nowhere, which reads exactly like dead code and is easy to delete by mistake.
+        /// This is a one-way switch. Once it is on it stays on until Cherub is restarted, because
+        /// the whole point is to make it impossible to have an engine watching a board that is
+        /// being played on: if it could be switched off again, switching it off before making a
+        /// move would put the engine back out of sight while still having been used.
         /// </remarks>
         public bool IsKibitzerRunning { get; private set; }
 
@@ -219,19 +220,20 @@ namespace UciComms
         {
             if (turnOn)
             {
-                //KillRemoteConnections();
                 IsKibitzerRunning = true;
                 // A kibitzer starts observing at the start of a game, which is the one point the
                 // specification allows ucinewgame.
                 currentUciChessEngine?.NewGame();
                 OnKibitzerActivated?.Invoke();
+                return;
             }
-            else
-            {
-                IsKibitzerRunning = false;
-                CurrentUciEngine?.Stop();
-                OnKibitzerDeactivated?.Invoke();
-            }
+
+            // Refused: the switch only goes one way. Switching it off mid-session would let a
+            // player use the engine and then hide it before moving.
+            if (IsKibitzerRunning) { return; }
+
+            CurrentUciEngine?.Stop();
+            OnKibitzerDeactivated?.Invoke();
         }
     }
 }

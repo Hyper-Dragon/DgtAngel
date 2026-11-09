@@ -118,6 +118,7 @@ namespace DgtCherub
         private string lastUciExe = "";
         private UciEngineEval lastEngineEval;
         private readonly KibitzerClockDisplay kibitzerClockDisplay = new();
+        private bool applyingKibitzerState;
         private UciOptionSettings uciOptionSettings = new();
 
         private readonly Dictionary<string, Bitmap> qrCodeImageDictionary;
@@ -439,6 +440,10 @@ namespace DgtCherub
             };
 
             fakeLiveChessServer = new LiveChessServer(_dgtEbDllFacade, 23456, 1, 25, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+
+            // If the kibitzer was somehow already on, the board must start suppressed rather than
+            // be published for the moment before the switch is handled.
+            fakeLiveChessServer.SuppressBoard = _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning;
 
             // Fire and forget - No need to wait for this to complete as there may be no clock connected
             await Task.Run(() =>
@@ -1666,35 +1671,74 @@ namespace DgtCherub
 
         private void CheckBoxKibitzerEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            if (_angelHubService.IsRemoteBoardAvailable && ((CheckBox)sender).Checked)
-            {
-                TextBoxConsole.AddLine($"KIBITZER:: Can't enable when the remote board is active.");
-                ((CheckBox)sender).Checked = false;
-            }
-            else if (_uciEngineManager == null)
-            {
-                TextBoxConsole.AddLine($"KIBITZER:: Can't enable without engine running.");
-                ((CheckBox)sender).Checked = false;
-            }
-            else
-            {
-                _uciEngineManager.SwitchKibitzer(((CheckBox)sender).Checked);
+            // Setting Checked below would re-enter this handler, so the body runs once only.
+            if (applyingKibitzerState) { return; }
 
-                // Switching the kibitzer on should analyse what is on the board, not wait for the
-                // player to move first.
-                if (((CheckBox)sender).Checked)
+            CheckBox kibitzerSwitch = (CheckBox)sender;
+
+            try
+            {
+                applyingKibitzerState = true;
+
+                // The switch only goes one way. Ticking it is a decision for the rest of the
+                // session: if it could be unticked, a player could use the engine and then hide
+                // it again before making a move, which is exactly what this is stopping.
+                if (!kibitzerSwitch.Checked)
                 {
-                    _angelHubService.AnalyseCurrentPosition();
+                    kibitzerSwitch.Checked = _uciEngineManager != null && _uciEngineManager.IsKibitzerRunning;
+                    return;
                 }
-                else
+
+                if (_angelHubService.IsRemoteBoardAvailable)
                 {
-                    // Give the clock its own display back.
-                    kibitzerClockDisplay.Reset();
-                    _dgtEbDllFacade?.StopForeverMessage();
+                    TextBoxConsole.AddLine($"KIBITZER:: Can't enable when the remote board is active.");
+                    kibitzerSwitch.Checked = false;
+                    return;
                 }
+
+                if (_uciEngineManager == null)
+                {
+                    TextBoxConsole.AddLine($"KIBITZER:: Can't enable without engine running.");
+                    kibitzerSwitch.Checked = false;
+                    return;
+                }
+
+                _uciEngineManager.SwitchKibitzer(true);
+
+                // No way back this session, and no board for anyone to play a game with.
+                kibitzerSwitch.Enabled = false;
+                StopOnlinePlay();
+
+                TextBoxConsole.AddLine($"KIBITZER:: On for this session - restart Cherub to play online again.");
+
+                // Analyse what is on the board, not wait for the player to move first.
+                _angelHubService.AnalyseCurrentPosition();
 
                 _uciEngineManager.StartEngineAsync(_uciEngineManager.LoadedEngineName);
             }
+            finally
+            {
+                applyingKibitzerState = false;
+            }
+        }
+
+        /// <summary>
+        /// Withdraws the board from anything that could be playing a game with it.
+        /// </summary>
+        /// <remarks>
+        /// Announcing in the console is not a control. A client with no board cannot play, so
+        /// this takes the board away rather than asking the player not to use it.
+        /// </remarks>
+        private void StopOnlinePlay()
+        {
+            if (fakeLiveChessServer == null)
+            {
+                TextBoxConsole.AddLine("KIBITZER:: Board server not running - nothing to withdraw.");
+                return;
+            }
+
+            fakeLiveChessServer.SuppressBoard = true;
+            TextBoxConsole.AddLine("KIBITZER:: Board withdrawn from online play.");
         }
 
         /// <summary>
