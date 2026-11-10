@@ -22,7 +22,11 @@ probe is deliberately additive:
 - a second RFCOMM profile alongside a live BLE link is ordinary traffic; no
   existing connection is disturbed
 
-Set `MAKE_DISCOVERABLE=0` if you want it to touch even less.
+Set `MAKE_DISCOVERABLE=0` if you want it to touch even less, and
+`BE_DEFAULT_AGENT=0` if another container on this box owns the adapter's default
+pairing agent — BlueZ cannot restore the previous holder, so the probe takes it
+only because pairing needs *an* agent and `bleak`-style containers rarely register
+one.
 
 ## Run it
 
@@ -83,6 +87,7 @@ are one character each, upper case for white, `.` for empty, ordered
 | `BOARD_NAME` | `Cherub BT Board` | name reported to the client |
 | `BOARD_FEN` | start position | position reported every 10s |
 | `MAKE_DISCOVERABLE` | `1` | set `0` to leave the adapter alone |
+| `BE_DEFAULT_AGENT` | `1` | set `0` to not take the adapter's default agent |
 | `LOG_HEX` | `1` | set `0` for ascii-only logging |
 
 ## Caveats

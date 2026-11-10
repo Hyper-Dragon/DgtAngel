@@ -46,6 +46,7 @@ FEN = os.environ.get(
     "BOARD_FEN", "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
 MAKE_DISCOVERABLE = os.environ.get("MAKE_DISCOVERABLE", "1") != "0"
+BE_DEFAULT_AGENT = os.environ.get("BE_DEFAULT_AGENT", "1") != "0"
 LOG_HEX = os.environ.get("LOG_HEX", "1") != "0"
 
 SPP_UUID = "00001101-0000-1000-8000-00805F9B34FB"
@@ -304,8 +305,13 @@ def main():
         bus.get_object(BLUEZ, "/org/bluez"), "org.bluez.AgentManager1"
     )
     agent_manager.RegisterAgent(AGENT_PATH, "NoInputNoOutput")
-    agent_manager.RequestDefaultAgent(AGENT_PATH)
-    log("startup", "registered Just-Works pairing agent")
+    if BE_DEFAULT_AGENT:
+        # Only one agent can be the adapter's default. We unregister ours on exit,
+        # but BlueZ does not restore whoever held it before, so this is opt-out.
+        agent_manager.RequestDefaultAgent(AGENT_PATH)
+        log("startup", "registered Just-Works pairing agent (now the adapter default)")
+    else:
+        log("startup", "registered Just-Works pairing agent (left the default alone)")
 
     previous = {}
     if MAKE_DISCOVERABLE:
