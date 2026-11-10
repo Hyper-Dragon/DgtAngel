@@ -46,6 +46,7 @@ FEN = os.environ.get(
     "BOARD_FEN", "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
 MAKE_DISCOVERABLE = os.environ.get("MAKE_DISCOVERABLE", "1") != "0"
+DISCOVERABLE_KEEPALIVE = os.environ.get("DISCOVERABLE_KEEPALIVE", "1") != "0"
 BE_DEFAULT_AGENT = os.environ.get("BE_DEFAULT_AGENT", "1") != "0"
 LOG_HEX = os.environ.get("LOG_HEX", "1") != "0"
 
@@ -63,6 +64,7 @@ AGENT_IFACE = "org.bluez.Agent1"
 INBOUND_LENGTHS = {"v": 7, "w": 7, "s": 67, "r": 7, "x": 1, "l": 165}
 
 _print_lock = threading.Lock()
+stopping = threading.Event()
 
 
 def log(tag, message):
@@ -342,19 +344,43 @@ def main():
 
     previous = {}
     if MAKE_DISCOVERABLE:
-        for name in ("Discoverable", "Pairable"):
-            previous[name] = bool(properties.Get("org.bluez.Adapter1", name))
-            properties.Set("org.bluez.Adapter1", name, dbus.Boolean(True))
-        log("startup", f"adapter discoverable/pairable (was {previous})")
+        for name in ("DiscoverableTimeout", "Discoverable", "Pairable"):
+            previous[name] = properties.Get("org.bluez.Adapter1", name)
+
+        # The timeout is the trap: BlueZ defaults to ~180s and then silently stops
+        # being discoverable, so a scan a few minutes later finds nothing. 0 means
+        # it stays visible until we say otherwise.
+        properties.Set("org.bluez.Adapter1", "DiscoverableTimeout", dbus.UInt32(0))
+        properties.Set("org.bluez.Adapter1", "Discoverable", dbus.Boolean(True))
+        properties.Set("org.bluez.Adapter1", "Pairable", dbus.Boolean(True))
+        log("startup", f"discoverable and pairable, no timeout (was {previous})")
+        log("startup", f"  adapter name: {properties.Get('org.bluez.Adapter1', 'Alias')}")
+
+        if DISCOVERABLE_KEEPALIVE:
+            def keep_discoverable():
+                while not stopping.wait(45):
+                    try:
+                        if not bool(properties.Get("org.bluez.Adapter1", "Discoverable")):
+                            properties.Set("org.bluez.Adapter1", "Discoverable", dbus.Boolean(True))
+                            log("keepalive", "adapter had gone dark - discoverable set again")
+                    except Exception as error:  # noqa: BLE001
+                        log("keepalive", f"could not refresh discoverable: {error}")
+
+            threading.Thread(target=keep_discoverable, daemon=True).start()
+
+    loop = GLib.MainLoop()
 
     def shutdown(*_):
+        if stopping.is_set():
+            return
+        stopping.set()
         log("shutdown", "restoring adapter state and unregistering")
-        try:
-            if MAKE_DISCOVERABLE:
-                for name, value in previous.items():
-                    properties.Set("org.bluez.Adapter1", name, dbus.Boolean(value))
-        except Exception as error:  # noqa: BLE001 - never fail on the way out
-            log("shutdown", f"could not restore adapter state: {error}")
+        if MAKE_DISCOVERABLE:
+            for name, value in previous.items():
+                try:
+                    properties.Set("org.bluez.Adapter1", name, value)
+                except Exception as error:  # noqa: BLE001 - never fail on the way out
+                    log("shutdown", f"could not restore {name}: {error}")
         for unregister in (
             lambda: manager.UnregisterProfile(PROFILE_PATH),
             lambda: agent_manager.UnregisterAgent(AGENT_PATH),
@@ -363,17 +389,19 @@ def main():
                 unregister()
             except Exception as error:  # noqa: BLE001
                 log("shutdown", f"cleanup warning: {error}")
-        GLib.MainLoop().quit()
-        sys.exit(0)
+        loop.quit()
 
-    signal.signal(signal.SIGINT, shutdown)
-    signal.signal(signal.SIGTERM, shutdown)
+    signal.signal(signal.SIGINT, lambda *_: shutdown())
+    signal.signal(signal.SIGTERM, lambda *_: shutdown())
 
     log("startup", "ready - pair with this machine from Windows, then pick")
     log("startup", "  Chessboard: Millennium   Connection method: USB/serial")
     log("startup", "and select the 'Standard Serial over Bluetooth link' COM port")
 
-    GLib.MainLoop().run()
+    try:
+        loop.run()
+    finally:
+        shutdown()
 
 
 if __name__ == "__main__":

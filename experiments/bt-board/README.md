@@ -87,6 +87,7 @@ are one character each, upper case for white, `.` for empty, ordered
 | `BOARD_NAME` | `Cherub BT Board` | name reported to the client |
 | `BOARD_FEN` | start position | position reported every 10s |
 | `MAKE_DISCOVERABLE` | `1` | set `0` to leave the adapter alone |
+| `DISCOVERABLE_KEEPALIVE` | `1` | re-assert discoverable every 45s |
 | `BE_DEFAULT_AGENT` | `1` | set `0` to not take the adapter's default agent |
 | `LOG_HEX` | `1` | set `0` for ascii-only logging |
 
@@ -127,4 +128,19 @@ reached is not the one running BlueZ. In order of likelihood:
 
 The preflight prints the bus address, whether the socket exists, and the names it
 did see, so the answer is usually in the first three lines.
+
+## Troubleshooting: it runs but Windows cannot see it
+
+BlueZ defaults `DiscoverableTimeout` to about 180 seconds and then quietly drops
+discoverability, so a scan a few minutes after startup finds nothing. The probe
+sets the timeout to `0` and re-asserts `Discoverable` every 45 seconds, logging
+`adapter had gone dark` if it ever has to.
+
+Things to check, in order:
+
+1. On the box: `bluetoothctl show | grep -Ei 'powered|discoverable|pairable|alias'`.
+2. In Windows: look in **Settings → Bluetooth & devices → Devices**, not only in
+   **Add device**; a generic Class of Device can land the box under "Other".
+3. Windows caches failed pairings — delete a stale entry before retrying.
+4. Range: a metal case or a rack will eat 2.4 GHz. Try from a metre or two.
 
