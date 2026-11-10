@@ -60,10 +60,11 @@ BLUEZ = "org.bluez"
 PROFILE_IFACE = "org.bluez.Profile1"
 AGENT_IFACE = "org.bluez.Agent1"
 
-# Inbound frame lengths, mirrored from Chessconnect's own parser. 'i' is
-# variable (newline terminated), 'l' is the 165-char LED command, 'x' is the
-# single character "all LEDs off".
-INBOUND_LENGTHS = {"v": 7, "w": 7, "s": 67, "r": 7, "x": 1, "l": 165}
+# Inbound frames are "<command><2 hex parity>", and the command is SHORT: the client
+# sends V (3 chars), I00 (5), W0000 (7), the 165-char LED string (167) and a bare X (3).
+# The lengths in the board's own parser do not apply in this direction, which is why
+# guessing them from the response format desynchronises the stream.
+INBOUND_LENGTHS = {"v": 3, "i": 5, "w": 7, "r": 7, "x": 3, "l": 167}
 
 _print_lock = threading.Lock()
 stopping = threading.Event()
@@ -188,18 +189,12 @@ class MillenniumBoard:
     def _drain(self):
         while self.buffer:
             command = self.buffer[0].lower()
-            if command == "i":
-                newline = self.buffer.find("\n")
-                if newline < 0 or len(self.buffer) < newline + 3:
-                    return
-                length = newline + 3
-            else:
-                length = INBOUND_LENGTHS.get(command, 1)
+            length = INBOUND_LENGTHS.get(command, 1)
             if len(self.buffer) < length:
                 return
             raw = self.buffer[:length]
             self.buffer = self.buffer[length:]
-            self._handle(raw.strip("\r\n"))
+            self._handle(raw)
 
     def _handle(self, raw):
         body = raw[:-2] if len(raw) > 2 else ""
