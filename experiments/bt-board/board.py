@@ -46,7 +46,7 @@ FEN = os.environ.get(
     "BOARD_FEN", "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
 MAKE_DISCOVERABLE = os.environ.get("MAKE_DISCOVERABLE", "1") != "0"
-BOARD_ALIAS = os.environ.get("BOARD_ALIAS", "Cherub Board")
+BOARD_ALIAS = os.environ.get("BOARD_ALIAS", "")
 DISCOVERABLE_KEEPALIVE = os.environ.get("DISCOVERABLE_KEEPALIVE", "1") != "0"
 BE_DEFAULT_AGENT = os.environ.get("BE_DEFAULT_AGENT", "1") != "0"
 LOG_HEX = os.environ.get("LOG_HEX", "1") != "0"
@@ -359,12 +359,15 @@ def main():
         previous[name] = properties.Get("org.bluez.Adapter1", name)
         properties.Set("org.bluez.Adapter1", name, value)
 
-    # A stock adapter calls itself "BlueZ 5.x", which is unfindable in a Windows
-    # device list, so give it a name and put the old one back on the way out.
+    # Renaming is opt-in: a stock adapter calling itself "BlueZ 5.x" is unhelpful in
+    # a device list, but changing the name after a bond exists can confuse the peer,
+    # so leave it alone unless asked.
     if BOARD_ALIAS:
         was = properties.Get("org.bluez.Adapter1", "Alias")
         remember_and_set("Alias", dbus.String(BOARD_ALIAS))
         log("startup", f"adapter renamed {was!r} -> {BOARD_ALIAS!r} for the duration")
+    else:
+        log("startup", f"adapter name left alone: {properties.Get('org.bluez.Adapter1', 'Alias')!r}")
 
     if MAKE_DISCOVERABLE:
         # The timeout is the trap: BlueZ defaults to ~180s and then silently stops
