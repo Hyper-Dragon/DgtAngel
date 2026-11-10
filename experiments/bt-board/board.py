@@ -46,6 +46,7 @@ FEN = os.environ.get(
     "BOARD_FEN", "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
 MAKE_DISCOVERABLE = os.environ.get("MAKE_DISCOVERABLE", "1") != "0"
+BOARD_ALIAS = os.environ.get("BOARD_ALIAS", "Cherub Board")
 DISCOVERABLE_KEEPALIVE = os.environ.get("DISCOVERABLE_KEEPALIVE", "1") != "0"
 BE_DEFAULT_AGENT = os.environ.get("BE_DEFAULT_AGENT", "1") != "0"
 LOG_HEX = os.environ.get("LOG_HEX", "1") != "0"
@@ -353,18 +354,26 @@ def main():
         log("startup", "registered Just-Works pairing agent (left the default alone)")
 
     previous = {}
-    if MAKE_DISCOVERABLE:
-        for name in ("DiscoverableTimeout", "Discoverable", "Pairable"):
-            previous[name] = properties.Get("org.bluez.Adapter1", name)
 
+    def remember_and_set(name, value):
+        previous[name] = properties.Get("org.bluez.Adapter1", name)
+        properties.Set("org.bluez.Adapter1", name, value)
+
+    # A stock adapter calls itself "BlueZ 5.x", which is unfindable in a Windows
+    # device list, so give it a name and put the old one back on the way out.
+    if BOARD_ALIAS:
+        was = properties.Get("org.bluez.Adapter1", "Alias")
+        remember_and_set("Alias", dbus.String(BOARD_ALIAS))
+        log("startup", f"adapter renamed {was!r} -> {BOARD_ALIAS!r} for the duration")
+
+    if MAKE_DISCOVERABLE:
         # The timeout is the trap: BlueZ defaults to ~180s and then silently stops
         # being discoverable, so a scan a few minutes later finds nothing. 0 means
         # it stays visible until we say otherwise.
-        properties.Set("org.bluez.Adapter1", "DiscoverableTimeout", dbus.UInt32(0))
-        properties.Set("org.bluez.Adapter1", "Discoverable", dbus.Boolean(True))
-        properties.Set("org.bluez.Adapter1", "Pairable", dbus.Boolean(True))
+        remember_and_set("DiscoverableTimeout", dbus.UInt32(0))
+        remember_and_set("Discoverable", dbus.Boolean(True))
+        remember_and_set("Pairable", dbus.Boolean(True))
         log("startup", f"discoverable and pairable, no timeout (was {previous})")
-        log("startup", f"  adapter name: {properties.Get('org.bluez.Adapter1', 'Alias')}")
 
         if DISCOVERABLE_KEEPALIVE:
             def keep_discoverable():
@@ -385,12 +394,11 @@ def main():
             return
         stopping.set()
         log("shutdown", "restoring adapter state and unregistering")
-        if MAKE_DISCOVERABLE:
-            for name, value in previous.items():
-                try:
-                    properties.Set("org.bluez.Adapter1", name, value)
-                except Exception as error:  # noqa: BLE001 - never fail on the way out
-                    log("shutdown", f"could not restore {name}: {error}")
+        for name, value in previous.items():
+            try:
+                properties.Set("org.bluez.Adapter1", name, value)
+            except Exception as error:  # noqa: BLE001 - never fail on the way out
+                log("shutdown", f"could not restore {name}: {error}")
         for unregister in (
             lambda: manager.UnregisterProfile(PROFILE_PATH),
             lambda: agent_manager.UnregisterAgent(AGENT_PATH),
