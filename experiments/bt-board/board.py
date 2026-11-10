@@ -42,6 +42,7 @@ from gi.repository import GLib
 ADAPTER = os.environ.get("BLUEZ_ADAPTER", "/org/bluez/hci0")
 CHANNEL = int(os.environ.get("BOARD_CHANNEL", "3"))
 BOARD_NAME = os.environ.get("BOARD_NAME", "Cherub BT Board")
+BOARD_PIN = os.environ.get("BOARD_PIN", "0000")
 FEN = os.environ.get(
     "BOARD_FEN", "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 )
@@ -267,6 +268,19 @@ class Agent(dbus.service.Object):
     @dbus.service.method(AGENT_IFACE, in_signature="os", out_signature="")
     def AuthorizeService(self, device, uuid):
         log("pairing", f"authorised service {uuid} for {device}")
+
+    # Legacy pairing has no Just Works, so the peer asks for a PIN. Without these two
+    # methods BlueZ has nothing to call and the pairing simply fails - which is what a
+    # modern Windows PC will do when it gives up on SSP with an old dongle.
+    @dbus.service.method(AGENT_IFACE, in_signature="o", out_signature="s")
+    def RequestPinCode(self, device):
+        log("pairing", f"legacy PIN requested by {device} - answering {BOARD_PIN!r}")
+        return BOARD_PIN
+
+    @dbus.service.method(AGENT_IFACE, in_signature="o", out_signature="u")
+    def RequestPasskey(self, device):
+        log("pairing", f"passkey requested by {device} - answering 0")
+        return dbus.UInt32(0)
 
     @dbus.service.method(AGENT_IFACE, in_signature="ou", out_signature="")
     def RequestConfirmation(self, device, passkey):
