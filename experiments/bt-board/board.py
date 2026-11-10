@@ -156,8 +156,13 @@ class MillenniumBoard:
 
         try:
             while not self.stopped.is_set():
-                chunk = self.sock.recv(4096)
+                try:
+                    chunk = self.sock.recv(4096)
+                except BlockingIOError:
+                    time.sleep(0.02)
+                    continue
                 if not chunk:
+                    log("connect", "client closed the connection")
                     break
                 self._receive(chunk)
         except OSError as error:
@@ -214,6 +219,8 @@ class MillenniumBoard:
     def _report_positions(self):
         # Give the client a moment to finish its handshake, then keep reporting.
         if not self.ready.wait(timeout=10):
+            if self.stopped.is_set():
+                return
             log("handshake", "no board-name request within 10s - reporting anyway")
         while not self.stopped.wait(timeout=10):
             self.send(position_frame(FEN))
@@ -229,6 +236,9 @@ class Profile(dbus.service.Object):
     @dbus.service.method(PROFILE_IFACE, in_signature="oha{sv}", out_signature="")
     def NewConnection(self, device, fd, properties):
         sock = socket.socket(fileno=fd.take())
+        # BlueZ hands over a non-blocking descriptor, so a plain recv() fails with
+        # EAGAIN the moment the client is a millisecond slow. Force blocking mode.
+        sock.setblocking(True)
         log("accept", f"incoming RFCOMM connection from {device}")
         threading.Thread(
             target=MillenniumBoard(sock, str(device)).run, daemon=True
