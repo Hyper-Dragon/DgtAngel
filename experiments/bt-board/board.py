@@ -290,6 +290,14 @@ class Agent(dbus.service.Object):
     def RequestAuthorization(self, device):
         log("pairing", f"authorised {device}")
 
+    @dbus.service.method(AGENT_IFACE, in_signature="os", out_signature="")
+    def DisplayPinCode(self, device, pincode):
+        log("pairing", f"peer shows PIN {pincode}")
+
+    @dbus.service.method(AGENT_IFACE, in_signature="ouq", out_signature="")
+    def DisplayPasskey(self, device, passkey, entered):
+        log("pairing", f"peer shows passkey {passkey:06d} ({entered} digits so far)")
+
     @dbus.service.method(AGENT_IFACE, in_signature="", out_signature="")
     def Cancel(self):
         pass
@@ -358,7 +366,7 @@ def main():
     agent_manager = dbus.Interface(
         bus.get_object(BLUEZ, "/org/bluez"), "org.bluez.AgentManager1"
     )
-    agent_manager.RegisterAgent(AGENT_PATH, "NoInputNoOutput")
+    agent_manager.RegisterAgent(AGENT_PATH, "DisplayYesNo")
     if BE_DEFAULT_AGENT:
         # Only one agent can be the adapter's default. We unregister ours on exit,
         # but BlueZ does not restore whoever held it before, so this is opt-out.
