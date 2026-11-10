@@ -268,9 +268,36 @@ class Agent(dbus.service.Object):
         pass
 
 
+def preflight(bus):
+    """A bare system bus is the single most likely failure, so name it clearly."""
+    names = [str(name) for name in bus.list_names()]
+    if BLUEZ in names:
+        return
+
+    address = os.environ.get("DBUS_SYSTEM_BUS_ADDRESS", "(default system bus)")
+    socket_path = address.split("path=")[-1] if "path=" in address else None
+    present = os.path.exists(socket_path) if socket_path else "n/a"
+
+    log("startup", "FATAL: connected to D-Bus, but it has no org.bluez")
+    log("startup", f"  bus address : {address}")
+    log("startup", f"  socket      : {socket_path} (exists={present})")
+    log("startup", f"  names seen  : {', '.join(sorted(names)[:12]) or '(none)'}")
+    log("startup", "")
+    log("startup", "Most likely, in order:")
+    log("startup", "  1. BlueZ is not running here:   systemctl status bluetooth")
+    log("startup", "  2. BlueZ lives inside another container, so the host bus is bare:")
+    log("startup", "       docker ps; docker inspect <name> | grep -Ei 'privileged|binds'")
+    log("startup", "     If so, give this probe that container's bus socket, e.g.")
+    log("startup", "       docker inspect -f '{{.State.Pid}}' <name>")
+    log("startup", "       -v /proc/<pid>/root/run/dbus/system_bus_socket:/run/dbus/system_bus_socket")
+    log("startup", "  3. The mounted socket is not this machine's system bus.")
+    sys.exit(2)
+
+
 def main():
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
     bus = dbus.SystemBus()
+    preflight(bus)
 
     adapter = dbus.Interface(
         bus.get_object(BLUEZ, ADAPTER), "org.bluez.Adapter1"

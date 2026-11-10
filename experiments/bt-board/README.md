@@ -96,3 +96,35 @@ are one character each, upper case for white, `.` for empty, ordered
   but no port exists, that is a Windows-side pairing issue, not this container.
 - This impersonates a board for testing on hardware you own. It is not something to
   ship, and it depends on a board protocol that could change in any release.
+
+## Troubleshooting: "it has no org.bluez"
+
+```
+FATAL: connected to D-Bus, but it has no org.bluez
+```
+
+The socket mount worked - that is why we reached a bus at all - but the bus we
+reached is not the one running BlueZ. In order of likelihood:
+
+1. **BlueZ isn't running on the host.** `systemctl status bluetooth`.
+2. **BlueZ lives inside another container** (common for BLE workloads that hold the
+   dongle in a `--privileged` container), so the host system bus is bare. Check with
+   `docker ps` and `docker inspect <name> --format '{{.HostConfig.Privileged}}'`.
+   If so, either run the probe against that container's bus:
+
+   ```sh
+   PID=$(docker inspect -f '{{.State.Pid}}' <name>)
+   docker run --rm --network host \
+     -v /proc/$PID/root/run/dbus/system_bus_socket:/run/dbus/system_bus_socket \
+     -e DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket \
+     ghcr.io/hyper-dragon/dgtangel/bt-board:latest
+   ```
+
+   ...or accept that the adapter belongs to that container and give the probe its
+   own dongle instead.
+3. **The socket you mounted isn't the host's system bus** - check the path in
+   `DBUS_SYSTEM_BUS_ADDRESS`.
+
+The preflight prints the bus address, whether the socket exists, and the names it
+did see, so the answer is usually in the first three lines.
+
